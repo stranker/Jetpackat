@@ -1,0 +1,169 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Sprites/OrbitHole.png" type="Texture" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
+
+var activated : bool = false
+enum ORBIT_TYPE {BLUE, YELLOW, RED}
+export (ORBIT_TYPE) var type
+export var add_time : int = 0
+var player_inside : bool = false
+
+signal activated(add_time)
+
+func _ready():
+	change_color()
+	connect('activated',get_tree().root.get_node('GameScene'),'add_game_time')
+	pass
+
+func change_color():
+	match type:
+		ORBIT_TYPE.BLUE:
+			change_sprite_color('blue')
+			add_time = 2
+		ORBIT_TYPE.YELLOW:
+			change_sprite_color('yellow')
+			add_time = 4
+		ORBIT_TYPE.RED:
+			change_sprite_color('red')
+			add_time = 6
+	pass
+
+func change_sprite_color(color):
+	var modulate_color : Color
+	match color:
+		'blue':
+			modulate_color = Color.blue
+		'yellow':
+			modulate_color = Color.yellow
+		'red':
+			modulate_color = Color.red
+	$Back.modulate = modulate_color
+	$Front.modulate = modulate_color
+	pass
+
+func desactivate():
+	if !activated:
+		activated = !activated
+		$Anim.play('Deactivate')
+		emit_signal('activated',add_time)
+		disconnect('activated',get_tree().root.get_node('GameScene'),'add_game_time')
+
+func _on_EnterArea_body_entered(body):
+	if body.is_in_group('Player') and !player_inside:
+		player_inside = !player_inside
+	pass # Replace with function body.
+
+
+func _on_ExitArea_body_entered(body):
+	if body.is_in_group('Player') and player_inside:
+		desactivate()
+	pass # Replace with function body.
+
+
+func _on_EnterArea_body_exited(body):
+	if body.is_in_group('Player') and player_inside:
+		player_inside = !player_inside
+	pass # Replace with function body.
+"
+
+[sub_resource type="PhysicsMaterial" id=3]
+friction = 0.0
+bounce = 1.0
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 1.1047, 7.60164 )
+
+[sub_resource type="Animation" id=5]
+resource_name = "Deactivate"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Back:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.0784314 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Front:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.0784314 ) ]
+}
+
+[sub_resource type="RectangleShape2D" id=7]
+extents = Vector2( 21.6456, 42.1476 )
+
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 8.19586, 10.5044 )
+
+[node name="OrbitHole" type="Node2D"]
+script = SubResource( 1 )
+type = 2
+
+[node name="Back" type="Sprite" parent="."]
+position = Vector2( 0, -15 )
+scale = Vector2( 1.5, 3 )
+z_index = -2
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 64, 10 )
+
+[node name="Front" type="Sprite" parent="."]
+position = Vector2( 0, 15 )
+scale = Vector2( 1.5, 3 )
+z_index = 2
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 0, 10, 64, 10 )
+region_filter_clip = true
+
+[node name="Collision" type="RigidBody2D" parent="."]
+editor/display_folded = true
+mode = 1
+mass = 0.01
+physics_material_override = SubResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collision"]
+position = Vector2( 45.5525, 1.39859 )
+shape = SubResource( 4 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Collision"]
+position = Vector2( -45.3498, 1.04893 )
+shape = SubResource( 4 )
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+anims/Deactivate = SubResource( 5 )
+
+[node name="EnterArea" type="Area2D" parent="."]
+editor/display_folded = true
+
+[node name="Collision" type="CollisionShape2D" parent="EnterArea"]
+position = Vector2( 0.524465, 1.18394 )
+rotation = -1.57079
+shape = SubResource( 7 )
+
+[node name="ExitArea" type="Area2D" parent="."]
+editor/display_folded = true
+
+[node name="Collision" type="CollisionShape2D" parent="ExitArea"]
+position = Vector2( -0.174838, -29.3521 )
+rotation = -1.57079
+shape = SubResource( 6 )
+
+[connection signal="body_entered" from="EnterArea" to="." method="_on_EnterArea_body_entered"]
+[connection signal="body_exited" from="EnterArea" to="." method="_on_EnterArea_body_exited"]
+[connection signal="body_entered" from="ExitArea" to="." method="_on_ExitArea_body_entered"]
