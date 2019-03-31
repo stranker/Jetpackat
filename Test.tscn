@@ -224,6 +224,7 @@ position = Vector2( 421.216, 906.591 )
 
 [node name="Coin4" parent="." instance=ExtResource( 2 )]
 position = Vector2( 750.378, 700.167 )
+value = 5
 
 [node name="Coin5" parent="." instance=ExtResource( 2 )]
 position = Vector2( 326.373, 479.796 )
@@ -244,6 +245,7 @@ position = Vector2( 568.099, 769.53 )
 type = 1
 
 [node name="UIGame" type="CanvasLayer" parent="."]
+editor/display_folded = true
 script = SubResource( 2 )
 
 [node name="Container" type="Control" parent="UIGame"]
@@ -384,6 +386,7 @@ position = Vector2( 180, 810 )
 
 [node name="Fish2" parent="." instance=ExtResource( 7 )]
 position = Vector2( 430, 640 )
+value = 3
 
 [node name="Fish3" parent="." instance=ExtResource( 7 )]
 position = Vector2( 710, 470 )
