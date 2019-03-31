@@ -14,8 +14,14 @@ var player_inside : bool = false
 signal activated(add_time)
 
 func _ready():
+	randomize()
+	get_random_color()
 	change_color()
 	connect('activated',get_tree().root.get_node('GameScene'),'add_game_time')
+	pass
+
+func get_random_color():
+	type = ORBIT_TYPE.values()[rand_range(0,ORBIT_TYPE.values().size()-1)]
 	pass
 
 func change_color():
@@ -69,14 +75,14 @@ func _on_EnterArea_body_exited(body):
 	pass # Replace with function body.
 "
 
-[sub_resource type="PhysicsMaterial" id=3]
+[sub_resource type="PhysicsMaterial" id=2]
 friction = 0.0
 bounce = 1.0
 
-[sub_resource type="RectangleShape2D" id=4]
+[sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 1.1047, 7.60164 )
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=4]
 resource_name = "Deactivate"
 length = 0.5
 tracks/0/type = "value"
@@ -104,7 +110,7 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.0784314 ) ]
 }
 
-[sub_resource type="RectangleShape2D" id=7]
+[sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 21.6456, 42.1476 )
 
 [sub_resource type="RectangleShape2D" id=6]
@@ -135,18 +141,18 @@ region_filter_clip = true
 editor/display_folded = true
 mode = 1
 mass = 0.01
-physics_material_override = SubResource( 3 )
+physics_material_override = SubResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Collision"]
 position = Vector2( 45.5525, 1.39859 )
-shape = SubResource( 4 )
+shape = SubResource( 3 )
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="Collision"]
 position = Vector2( -45.3498, 1.04893 )
-shape = SubResource( 4 )
+shape = SubResource( 3 )
 
 [node name="Anim" type="AnimationPlayer" parent="."]
-anims/Deactivate = SubResource( 5 )
+anims/Deactivate = SubResource( 4 )
 
 [node name="EnterArea" type="Area2D" parent="."]
 editor/display_folded = true
@@ -154,7 +160,7 @@ editor/display_folded = true
 [node name="Collision" type="CollisionShape2D" parent="EnterArea"]
 position = Vector2( 0.524465, 1.18394 )
 rotation = -1.57079
-shape = SubResource( 7 )
+shape = SubResource( 5 )
 
 [node name="ExitArea" type="Area2D" parent="."]
 editor/display_folded = true
