@@ -65,7 +65,10 @@ func change_jump_direction():
 	jump_direction = -jump_direction
 	$Visible.scale.x = -jump_direction
 	velocity.x = jump_direction * horizontal_speed
-	pass"
+	pass
+
+func take_damage():
+	print('muerto')"
 
 [sub_resource type="CapsuleShape2D" id=2]
 radius = 30.0

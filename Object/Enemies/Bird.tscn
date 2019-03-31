@@ -1,0 +1,60 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Sprites/Enemies/Bird.png" type="Texture" id=1]
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends Area2D
+
+export var max_speed : float
+export var min_speed : float
+export var direction : int = 1
+var speed : float
+var velocity : Vector2
+var time : float
+var size_screen : Vector2
+var size_sprite : Vector2
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	size_screen = get_viewport_rect().size
+	size_sprite = $Sprite.texture.get_size() * $Sprite.scale
+	speed = rand_range(max_speed,min_speed)
+	velocity.x = speed * direction
+	pass # Replace with function body.
+
+func _process(delta):
+	time += delta
+	velocity.y = sin(time * 2) * speed
+	translate(velocity*delta)
+	check_boundaries()
+
+func check_boundaries():
+	if position.x > size_screen.x + size_sprite.x/2 or position.x < -size_sprite.x/2:
+		direction = -direction
+		velocity.x = speed * direction
+		$Sprite.scale.x = $Sprite.scale.x * -1
+
+func _on_Bird_body_entered(body):
+	if body.is_in_group('Player'):
+		body.take_damage()
+	pass # Replace with function body.
+"
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 40.3218
+height = 34.0095
+
+[node name="Bird" type="Area2D"]
+script = SubResource( 2 )
+max_speed = 200.0
+min_speed = 150.0
+
+[node name="Sprite" type="Sprite" parent="."]
+scale = Vector2( 2, 2 )
+texture = ExtResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource( 1 )
+
+[connection signal="body_entered" from="." to="." method="_on_Bird_body_entered"]
