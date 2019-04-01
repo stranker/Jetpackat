@@ -21,20 +21,20 @@ func _ready():
 	pass
 
 func get_random_color():
-	type = ORBIT_TYPE.values()[rand_range(0,ORBIT_TYPE.values().size()-1)]
+	type = ORBIT_TYPE.values()[rand_range(0,ORBIT_TYPE.values().size())]
 	pass
 
 func change_color():
 	match type:
 		ORBIT_TYPE.BLUE:
 			change_sprite_color('blue')
-			add_time = 2
+			add_time = 1
 		ORBIT_TYPE.YELLOW:
 			change_sprite_color('yellow')
-			add_time = 4
+			add_time = 2
 		ORBIT_TYPE.RED:
 			change_sprite_color('red')
-			add_time = 6
+			add_time = 3
 	pass
 
 func change_sprite_color(color):

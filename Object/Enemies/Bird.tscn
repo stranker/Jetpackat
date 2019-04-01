@@ -1,6 +1,6 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://Sprites/Enemies/Bird.png" type="Texture" id=1]
+[ext_resource path="res://Object/Enemies/Bird_32x32_blue_fly_R.png" type="Texture" id=1]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Area2D
@@ -17,8 +17,11 @@ var size_sprite : Vector2
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	size_screen = get_viewport_rect().size
-	size_sprite = $Sprite.texture.get_size() * $Sprite.scale
+	size_sprite = $Sprite.texture.get_size() * $Sprite.scale / $Sprite.hframes
 	speed = rand_range(max_speed,min_speed)
+	if rand_range(0,1) > 0.5:
+		direction = -direction
+		$Sprite.scale.x = $Sprite.scale.x * -1
 	velocity.x = speed * direction
 	pass # Replace with function body.
 
@@ -47,22 +50,45 @@ func _on_VisibilityNotifier2D_screen_exited():
 
 [sub_resource type="CapsuleShape2D" id=2]
 radius = 60.8486
-height = 107.755
+height = 5.6332
+
+[sub_resource type="Animation" id=3]
+resource_name = "Fly"
+length = 0.7
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+}
 
 [node name="Bird" type="Area2D"]
 script = SubResource( 1 )
-max_speed = 200.0
-min_speed = 150.0
+max_speed = 400.0
+min_speed = 250.0
 
 [node name="Sprite" type="Sprite" parent="."]
-scale = Vector2( 4, 4 )
+scale = Vector2( 5, 5 )
 texture = ExtResource( 1 )
+hframes = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( -0.735077, -5.14565 )
 rotation = 1.5708
 shape = SubResource( 2 )
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+autoplay = "Fly"
+anims/Fly = SubResource( 3 )
 
 [connection signal="body_entered" from="." to="." method="_on_Bird_body_entered"]
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

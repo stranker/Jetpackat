@@ -7,6 +7,7 @@
 script/source = "extends Node
 
 export (Array, PackedScene) var item_list
+export (Array, float) var probability
 enum SPAWN_TYPE {COLLECTABLES, ENEMIES, ORBIT}
 export (SPAWN_TYPE) var type 
 export var activated : bool = true
@@ -31,7 +32,19 @@ func _process(delta):
 			spawn_item()
 
 func spawn_item():
-	var item = item_list[rand_range(0,item_list.size())].instance()
+	var item = null
+	if type == SPAWN_TYPE.COLLECTABLES:
+		var item_pos = 0
+		var prob = rand_range(0,1)
+		var spawned = false
+		for i in probability:
+			if prob <= i and !spawned:
+				item = item_list[item_pos].instance()
+				spawned = !spawned
+			else:
+				item_pos += 1
+	else:
+		item = item_list[rand_range(0,item_list.size())].instance()
 	match type:
 		SPAWN_TYPE.COLLECTABLES:
 			get_tree().root.get_node('GameScene/Collectables').call_deferred('add_child',item)
