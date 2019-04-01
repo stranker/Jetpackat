@@ -1,13 +1,17 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=25 format=2]
 
-[ext_resource path="res://Object/Player.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Object/Collectable/Coin.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Object/Obstacles/OrbitHole.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Fonts/overload burn.ttf" type="DynamicFontData" id=4]
-[ext_resource path="res://Sprites/Collectables/Coin.png" type="Texture" id=5]
-[ext_resource path="res://Sprites/Collectables/Fish.png" type="Texture" id=6]
-[ext_resource path="res://Object/Collectable/Fish.tscn" type="PackedScene" id=7]
-[ext_resource path="res://Object/Enemies/Bird.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Sprites/Background/Bg1.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/Background/Bg2.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Background/Star2.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/Background/Bg3.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/Background/Star3.png" type="Texture" id=5]
+[ext_resource path="res://Object/Player.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Fonts/overload burn.ttf" type="DynamicFontData" id=7]
+[ext_resource path="res://Sprites/Collectables/Coin.png" type="Texture" id=8]
+[ext_resource path="res://Sprites/Collectables/Fish.png" type="Texture" id=9]
+[ext_resource path="res://Object/Misc/Spawner.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Object/Enemies/Bird.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Object/Obstacles/OrbitHole.tscn" type="PackedScene" id=12]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node
@@ -16,8 +20,11 @@ var playing : bool = false
 export var game_timer : float = 70
 export var coins : int = 0
 export var fishes : int = 0
+var player_height : float = 0
 
 func _ready():
+	coins = GameManager.coins
+	fishes = GameManager.fishes
 	update_time_label()
 	update_coin_label()
 	update_fish_label()
@@ -71,7 +78,41 @@ func add_fish(val):
 func add_coin(val):
 	coins += val
 	update_coin_label()
-	$UIGame.add_coin(val)"
+	$UIGame.add_coin(val)
+	pass
+
+func update_height(val):
+	if val > player_height:
+		player_height = val
+		GameManager.player_height = player_height
+
+func end_game():
+	GameManager.coins = coins
+	GameManager.fishes = fishes
+	GameManager.player_height = 0
+	get_tree().reload_current_scene()"
+
+[sub_resource type="GDScript" id=12]
+script/source = "extends ParallaxBackground
+
+export var space_height = 20
+var on_space : bool = false
+
+func _process(delta):
+	if GameManager.player_height > space_height and !on_space:
+		change_to_space()
+	pass
+
+func change_to_space():
+	on_space = !on_space
+	$Tween.stop_all()
+	$Tween.interpolate_property($ParallaxLayer/Bg1,'modulate',$ParallaxLayer/Bg1.modulate, Color.black, 2, Tween.TRANS_LINEAR,Tween.EASE_IN)
+	$Tween.interpolate_property($ParallaxLayer2/Cloud1, 'modulate',$ParallaxLayer2/Cloud1.modulate, Color(0,0,0,0), 2, Tween.TRANS_LINEAR,Tween.EASE_IN)
+	$Tween.interpolate_property($ParallaxLayer3/Cloud2, 'modulate',$ParallaxLayer3/Cloud2.modulate, Color(0,0,0,0), 2, Tween.TRANS_LINEAR,Tween.EASE_IN)
+	$Tween.interpolate_property($ParallaxLayer2/Star1, 'modulate',$ParallaxLayer2/Star1.modulate, Color(1,1,1,1), 2, Tween.TRANS_LINEAR,Tween.EASE_IN)
+	$Tween.interpolate_property($ParallaxLayer3/Star2, 'modulate',$ParallaxLayer3/Star2.modulate, Color(1,1,1,1), 2, Tween.TRANS_LINEAR,Tween.EASE_IN)
+	$Tween.start()
+	pass"
 
 [sub_resource type="GDScript" id=2]
 script/source = "extends CanvasLayer
@@ -101,12 +142,12 @@ func update_fishes_label(fishes):
 [sub_resource type="DynamicFont" id=3]
 size = 100
 use_filter = true
-font_data = ExtResource( 4 )
+font_data = ExtResource( 7 )
 
 [sub_resource type="DynamicFont" id=4]
 size = 80
 use_filter = true
-font_data = ExtResource( 4 )
+font_data = ExtResource( 7 )
 
 [sub_resource type="Animation" id=5]
 resource_name = "AddTime"
@@ -138,11 +179,11 @@ tracks/1/keys = {
 
 [sub_resource type="DynamicFont" id=6]
 size = 72
-font_data = ExtResource( 4 )
+font_data = ExtResource( 7 )
 
 [sub_resource type="DynamicFont" id=7]
 size = 60
-font_data = ExtResource( 4 )
+font_data = ExtResource( 7 )
 
 [sub_resource type="Animation" id=8]
 resource_name = "AddCoin"
@@ -174,7 +215,7 @@ tracks/1/keys = {
 
 [sub_resource type="DynamicFont" id=9]
 size = 72
-font_data = ExtResource( 4 )
+font_data = ExtResource( 7 )
 
 [sub_resource type="Animation" id=11]
 resource_name = "AddFish"
@@ -206,44 +247,53 @@ tracks/1/keys = {
 
 [sub_resource type="DynamicFont" id=10]
 size = 60
-font_data = ExtResource( 4 )
+font_data = ExtResource( 7 )
 
 [node name="GameScene" type="Node"]
 script = SubResource( 1 )
 
-[node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( 543.954, 1863.39 )
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+script = SubResource( 12 )
 
-[node name="Coin" parent="." instance=ExtResource( 2 )]
-position = Vector2( 454.69, 1341.75 )
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2( 0, 1920 )
 
-[node name="Coin2" parent="." instance=ExtResource( 2 )]
-position = Vector2( 792.221, 1199.49 )
+[node name="Bg1" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
+self_modulate = Color( 0.960938, 0.630615, 0.960938, 1 )
+texture = ExtResource( 1 )
+centered = false
 
-[node name="Coin3" parent="." instance=ExtResource( 2 )]
-position = Vector2( 421.216, 906.591 )
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 1, 0.1 )
+motion_mirroring = Vector2( 0, 1920 )
 
-[node name="Coin4" parent="." instance=ExtResource( 2 )]
-position = Vector2( 750.378, 700.167 )
-value = 5
+[node name="Cloud1" type="Sprite" parent="ParallaxBackground/ParallaxLayer2"]
+texture = ExtResource( 2 )
+centered = false
 
-[node name="Coin5" parent="." instance=ExtResource( 2 )]
-position = Vector2( 326.373, 479.796 )
+[node name="Star1" type="Sprite" parent="ParallaxBackground/ParallaxLayer2"]
+modulate = Color( 1, 1, 1, 0 )
+texture = ExtResource( 3 )
+centered = false
 
-[node name="OrbitHole" parent="." instance=ExtResource( 3 )]
-position = Vector2( 556.65, 1165.76 )
-type = 0
+[node name="ParallaxLayer3" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 1, 0.4 )
+motion_offset = Vector2( 0, 600 )
+motion_mirroring = Vector2( 0, 1920 )
 
-[node name="OrbitHole2" parent="." instance=ExtResource( 3 )]
-position = Vector2( 348.028, 1015.23 )
-type = 1
+[node name="Cloud2" type="Sprite" parent="ParallaxBackground/ParallaxLayer3"]
+texture = ExtResource( 4 )
+centered = false
 
-[node name="OrbitHole3" parent="." instance=ExtResource( 3 )]
-position = Vector2( 724.863, 951.918 )
+[node name="Star2" type="Sprite" parent="ParallaxBackground/ParallaxLayer3"]
+self_modulate = Color( 1, 1, 1, 0 )
+texture = ExtResource( 5 )
+centered = false
 
-[node name="OrbitHole4" parent="." instance=ExtResource( 3 )]
-position = Vector2( 568.099, 769.53 )
-type = 1
+[node name="Tween" type="Tween" parent="ParallaxBackground"]
+
+[node name="Player" parent="." instance=ExtResource( 6 )]
+position = Vector2( 520, 1560 )
 
 [node name="UIGame" type="CanvasLayer" parent="."]
 editor/display_folded = true
@@ -310,7 +360,7 @@ anchor_bottom = 0.5
 margin_left = -85.0
 margin_top = -32.6981
 margin_bottom = 32.3019
-texture = ExtResource( 5 )
+texture = ExtResource( 8 )
 expand = true
 stretch_mode = 6
 
@@ -334,7 +384,7 @@ margin_left = -55.0
 margin_top = -23.242
 margin_right = -2.0
 margin_bottom = 28.758
-texture = ExtResource( 5 )
+texture = ExtResource( 8 )
 expand = true
 stretch_mode = 6
 
@@ -357,7 +407,7 @@ valign = 1
 margin_left = -90.0
 margin_right = -5.0
 margin_bottom = 80.0
-texture = ExtResource( 6 )
+texture = ExtResource( 9 )
 expand = true
 stretch_mode = 6
 
@@ -378,26 +428,29 @@ margin_left = -70.0
 margin_top = 13.258
 margin_right = -10.0
 margin_bottom = 60.258
-texture = ExtResource( 6 )
+texture = ExtResource( 9 )
 expand = true
 stretch_mode = 6
 
-[node name="Fish" parent="." instance=ExtResource( 7 )]
-position = Vector2( 180, 810 )
+[node name="CollectableSpawner" parent="." instance=ExtResource( 10 )]
+min_height = 1.0
+max_height = 2.0
 
-[node name="Fish2" parent="." instance=ExtResource( 7 )]
-position = Vector2( 430, 640 )
-value = 3
+[node name="EnemySpawner" parent="." instance=ExtResource( 10 )]
+item_list = [ ExtResource( 11 ) ]
+type = 1
+min_height = 7.0
+max_height = 10.0
 
-[node name="Fish3" parent="." instance=ExtResource( 7 )]
-position = Vector2( 710, 470 )
+[node name="OrbitSpawner" parent="." instance=ExtResource( 10 )]
+item_list = [ ExtResource( 12 ) ]
+type = 2
+min_height = 12.0
+max_height = 16.0
 
-[node name="Bird" parent="." instance=ExtResource( 8 )]
-position = Vector2( 10, 540 )
+[node name="Collectables" type="Node2D" parent="."]
 
-[node name="Bird2" parent="." instance=ExtResource( 8 )]
-position = Vector2( 950, 310 )
+[node name="Enemies" type="Node2D" parent="."]
 
-[node name="Bird3" parent="." instance=ExtResource( 8 )]
-position = Vector2( 690, 1290 )
+[node name="Orbits" type="Node2D" parent="."]
 

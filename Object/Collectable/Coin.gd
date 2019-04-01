@@ -14,3 +14,8 @@ func _on_Coin_body_entered(body):
 		emit_signal('taken',value)
 		$Anim.play('Taken')
 	pass # Replace with function body.
+
+
+func _on_VisibilityNotifier2D_screen_exited():
+	queue_free()
+	pass # Replace with function body.
