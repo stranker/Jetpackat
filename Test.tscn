@@ -1,17 +1,18 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=28 format=2]
 
-[ext_resource path="res://Sprites/Background/Bg1.png" type="Texture" id=1]
-[ext_resource path="res://Sprites/Background/Bg2.png" type="Texture" id=2]
-[ext_resource path="res://Sprites/Background/Star2.png" type="Texture" id=3]
-[ext_resource path="res://Sprites/Background/Bg3.png" type="Texture" id=4]
-[ext_resource path="res://Sprites/Background/Star3.png" type="Texture" id=5]
-[ext_resource path="res://Object/Player.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Fonts/overload burn.ttf" type="DynamicFontData" id=7]
-[ext_resource path="res://Sprites/Collectables/Coin.png" type="Texture" id=8]
-[ext_resource path="res://Sprites/Collectables/Fish.png" type="Texture" id=9]
-[ext_resource path="res://Object/Misc/Spawner.tscn" type="PackedScene" id=10]
-[ext_resource path="res://Object/Enemies/Bird.tscn" type="PackedScene" id=11]
-[ext_resource path="res://Object/Obstacles/OrbitHole.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Sprites/Background/House.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/Background/Bg1.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Background/Bg2.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/Background/Star2.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/Background/Bg3.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/Background/Star3.png" type="Texture" id=6]
+[ext_resource path="res://Object/Player.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Fonts/overload burn.ttf" type="DynamicFontData" id=8]
+[ext_resource path="res://Sprites/Collectables/Coin.png" type="Texture" id=9]
+[ext_resource path="res://Sprites/Collectables/Fish.png" type="Texture" id=10]
+[ext_resource path="res://Object/Misc/Spawner.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Object/Enemies/Bird.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Object/Obstacles/OrbitHole.tscn" type="PackedScene" id=13]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node
@@ -28,6 +29,8 @@ func _ready():
 	update_time_label()
 	update_coin_label()
 	update_fish_label()
+	update_meter_label()
+	pass
 
 func _process(delta):
 	if playing:
@@ -85,6 +88,11 @@ func update_height(val):
 	if val > player_height:
 		player_height = val
 		GameManager.player_height = player_height
+		update_meter_label()
+
+func update_meter_label():
+	$UIGame.update_meters_label(player_height)
+	pass
 
 func end_game():
 	GameManager.coins = coins
@@ -92,10 +100,13 @@ func end_game():
 	GameManager.player_height = 0
 	get_tree().reload_current_scene()"
 
-[sub_resource type="GDScript" id=12]
+[sub_resource type="RectangleShape2D" id=13]
+extents = Vector2( 51.2298, 12.5829 )
+
+[sub_resource type="GDScript" id=2]
 script/source = "extends ParallaxBackground
 
-export var space_height = 20
+export var space_height = 100
 var on_space : bool = false
 
 func _process(delta):
@@ -114,7 +125,7 @@ func change_to_space():
 	$Tween.start()
 	pass"
 
-[sub_resource type="GDScript" id=2]
+[sub_resource type="GDScript" id=3]
 script/source = "extends CanvasLayer
 
 func add_time(val):
@@ -135,22 +146,24 @@ func update_time_label(time_text):
 func update_coin_label(coins):
 	$Container/Panel/CoinLabel.text = str(coins)
 
+func update_meters_label(meters):
+	$Container/Panel/MeterLabel.text = str(meters)+'m'
+
 func update_fishes_label(fishes):
 	$Container/Panel/FishLabel.text = str(fishes)
 	pass"
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=4]
 size = 100
 use_filter = true
-font_data = ExtResource( 7 )
+font_data = ExtResource( 8 )
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=5]
 size = 80
 use_filter = true
-font_data = ExtResource( 7 )
+font_data = ExtResource( 8 )
 
-[sub_resource type="Animation" id=5]
-resource_name = "AddTime"
+[sub_resource type="Animation" id=6]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("AddTimeLabel:rect_position")
@@ -177,16 +190,15 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="DynamicFont" id=6]
-size = 72
-font_data = ExtResource( 7 )
-
 [sub_resource type="DynamicFont" id=7]
-size = 60
-font_data = ExtResource( 7 )
+size = 72
+font_data = ExtResource( 8 )
 
-[sub_resource type="Animation" id=8]
-resource_name = "AddCoin"
+[sub_resource type="DynamicFont" id=8]
+size = 60
+font_data = ExtResource( 8 )
+
+[sub_resource type="Animation" id=9]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("AddCoinLabel:rect_position")
@@ -213,9 +225,9 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="DynamicFont" id=9]
+[sub_resource type="DynamicFont" id=10]
 size = 72
-font_data = ExtResource( 7 )
+font_data = ExtResource( 8 )
 
 [sub_resource type="Animation" id=11]
 resource_name = "AddFish"
@@ -245,59 +257,76 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="DynamicFont" id=10]
+[sub_resource type="DynamicFont" id=12]
 size = 60
-font_data = ExtResource( 7 )
+font_data = ExtResource( 8 )
+
+[sub_resource type="DynamicFont" id=14]
+size = 36
+font_data = ExtResource( 8 )
 
 [node name="GameScene" type="Node"]
 script = SubResource( 1 )
 
+[node name="House" type="Sprite" parent="."]
+position = Vector2( 540.76, 208.427 )
+scale = Vector2( 12, 12 )
+texture = ExtResource( 1 )
+
+[node name="StaticBody2D" type="StaticBody2D" parent="House"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="House/StaticBody2D"]
+shape = SubResource( 13 )
+
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
-script = SubResource( 12 )
+editor/display_folded = true
+script = SubResource( 2 )
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+editor/display_folded = true
 motion_mirroring = Vector2( 0, 1920 )
 
 [node name="Bg1" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
 self_modulate = Color( 0.960938, 0.630615, 0.960938, 1 )
-texture = ExtResource( 1 )
+texture = ExtResource( 2 )
 centered = false
 
 [node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
+editor/display_folded = true
 motion_scale = Vector2( 1, 0.1 )
 motion_mirroring = Vector2( 0, 1920 )
 
 [node name="Cloud1" type="Sprite" parent="ParallaxBackground/ParallaxLayer2"]
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 centered = false
 
 [node name="Star1" type="Sprite" parent="ParallaxBackground/ParallaxLayer2"]
 modulate = Color( 1, 1, 1, 0 )
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 centered = false
 
 [node name="ParallaxLayer3" type="ParallaxLayer" parent="ParallaxBackground"]
+editor/display_folded = true
 motion_scale = Vector2( 1, 0.4 )
 motion_offset = Vector2( 0, 600 )
 motion_mirroring = Vector2( 0, 1920 )
 
 [node name="Cloud2" type="Sprite" parent="ParallaxBackground/ParallaxLayer3"]
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 centered = false
 
 [node name="Star2" type="Sprite" parent="ParallaxBackground/ParallaxLayer3"]
 self_modulate = Color( 1, 1, 1, 0 )
-texture = ExtResource( 5 )
+texture = ExtResource( 6 )
 centered = false
 
 [node name="Tween" type="Tween" parent="ParallaxBackground"]
 
-[node name="Player" parent="." instance=ExtResource( 6 )]
+[node name="Player" parent="." instance=ExtResource( 7 )]
 position = Vector2( 520, 1560 )
 
 [node name="UIGame" type="CanvasLayer" parent="."]
-editor/display_folded = true
-script = SubResource( 2 )
+script = SubResource( 3 )
 
 [node name="Container" type="Control" parent="UIGame"]
 anchor_right = 1.0
@@ -310,14 +339,11 @@ margin_bottom = 160.0
 [node name="TimeLabel" type="Label" parent="UIGame/Container/Panel"]
 editor/display_folded = true
 anchor_left = 0.5
-anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 0.5
 margin_left = -244.0
-margin_top = -60.5
 margin_right = 244.0
-margin_bottom = 60.5
-custom_fonts/font = SubResource( 3 )
+margin_bottom = 121.0
+custom_fonts/font = SubResource( 4 )
 text = "1:00"
 align = 1
 valign = 1
@@ -332,13 +358,13 @@ margin_left = -60.0
 margin_top = -40.5
 margin_right = 55.0
 margin_bottom = 56.5
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 5 )
 text = "99"
 align = 1
 valign = 1
 
 [node name="Anim" type="AnimationPlayer" parent="UIGame/Container/Panel/TimeLabel"]
-anims/AddTime = SubResource( 5 )
+anims/AddTime = SubResource( 6 )
 
 [node name="CoinLabel" type="Label" parent="UIGame/Container/Panel"]
 editor/display_folded = true
@@ -351,7 +377,7 @@ margin_top = -43.5
 margin_bottom = 43.5
 grow_horizontal = 0
 grow_vertical = 0
-custom_fonts/font = SubResource( 6 )
+custom_fonts/font = SubResource( 7 )
 text = "0"
 
 [node name="Coin" type="TextureRect" parent="UIGame/Container/Panel/CoinLabel"]
@@ -360,7 +386,7 @@ anchor_bottom = 0.5
 margin_left = -85.0
 margin_top = -32.6981
 margin_bottom = 32.3019
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 expand = true
 stretch_mode = 6
 
@@ -374,7 +400,7 @@ margin_left = -62.5
 margin_top = -80.0
 margin_right = 15.5
 margin_bottom = -7.0
-custom_fonts/font = SubResource( 7 )
+custom_fonts/font = SubResource( 8 )
 text = "99"
 
 [node name="TextureRect" type="TextureRect" parent="UIGame/Container/Panel/CoinLabel/AddCoinLabel"]
@@ -384,12 +410,12 @@ margin_left = -55.0
 margin_top = -23.242
 margin_right = -2.0
 margin_bottom = 28.758
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 expand = true
 stretch_mode = 6
 
 [node name="Anim" type="AnimationPlayer" parent="UIGame/Container/Panel/CoinLabel"]
-anims/AddCoin = SubResource( 8 )
+anims/AddCoin = SubResource( 9 )
 
 [node name="FishLabel" type="Label" parent="UIGame/Container/Panel"]
 editor/display_folded = true
@@ -399,7 +425,7 @@ margin_left = 110.0
 margin_top = -43.5
 margin_right = 320.0
 margin_bottom = 43.5
-custom_fonts/font = SubResource( 9 )
+custom_fonts/font = SubResource( 10 )
 text = "0"
 valign = 1
 
@@ -407,7 +433,7 @@ valign = 1
 margin_left = -90.0
 margin_right = -5.0
 margin_bottom = 80.0
-texture = ExtResource( 9 )
+texture = ExtResource( 10 )
 expand = true
 stretch_mode = 6
 
@@ -420,7 +446,7 @@ margin_left = -5.0
 margin_top = 7.0
 margin_right = 35.0
 margin_bottom = 80.0001
-custom_fonts/font = SubResource( 10 )
+custom_fonts/font = SubResource( 12 )
 text = "1"
 
 [node name="TextureRect" type="TextureRect" parent="UIGame/Container/Panel/FishLabel/AddFishLabel"]
@@ -428,22 +454,35 @@ margin_left = -70.0
 margin_top = 13.258
 margin_right = -10.0
 margin_bottom = 60.258
-texture = ExtResource( 9 )
+texture = ExtResource( 10 )
 expand = true
 stretch_mode = 6
 
-[node name="CollectableSpawner" parent="." instance=ExtResource( 10 )]
+[node name="MeterLabel" type="Label" parent="UIGame/Container/Panel"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -310.5
+margin_top = -56.0
+margin_right = 310.5
+custom_fonts/font = SubResource( 14 )
+text = "Meters: 99"
+align = 1
+valign = 1
+
+[node name="CollectableSpawner" parent="." instance=ExtResource( 11 )]
 min_height = 1.0
 max_height = 2.0
 
-[node name="EnemySpawner" parent="." instance=ExtResource( 10 )]
-item_list = [ ExtResource( 11 ) ]
+[node name="EnemySpawner" parent="." instance=ExtResource( 11 )]
+item_list = [ ExtResource( 12 ) ]
 type = 1
 min_height = 7.0
 max_height = 10.0
 
-[node name="OrbitSpawner" parent="." instance=ExtResource( 10 )]
-item_list = [ ExtResource( 12 ) ]
+[node name="OrbitSpawner" parent="." instance=ExtResource( 11 )]
+item_list = [ ExtResource( 13 ) ]
 type = 2
 min_height = 12.0
 max_height = 16.0

@@ -41,7 +41,7 @@ func spawn_item():
 			get_tree().root.get_node('GameScene/Orbits').call_deferred('add_child',item)
 	var new_pos = Vector2()
 	new_pos.x = rand_range(100,get_viewport().get_visible_rect().size.x - 100)
-	new_pos.y = GameManager.camera.global_position.y - get_viewport().get_viewport().size.y / 2 - 100
+	new_pos.y = GameManager.camera.global_position.y - get_viewport().get_viewport().size.y / 2 - 200
 	item.position = new_pos
 	pos_player_last_spawn = GameManager.player_height
 	get_new_height()
