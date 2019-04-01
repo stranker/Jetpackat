@@ -60,7 +60,6 @@ func check_boundaries():
 func jump():
 	velocity.y = -jump_speed
 	change_jump_direction()
-	$Visible/Jetpack/CPUParticles2D.emitting = true
 	$Visible/Jetpack/Anim.play('Propulsion')
 	emit_signal('current_height',int(abs(position.y) * 0.01))
 	pass
@@ -75,6 +74,10 @@ func check_is_active():
 func change_jump_direction():
 	jump_direction = -jump_direction
 	$Visible.scale.x = -jump_direction
+	if jump_direction == 1:
+		$Visible/Jetpack/CPUParticles2D.emitting = true
+	else:
+		$Visible/Jetpack/CPUParticles2D2.emitting = true
 	velocity.x = jump_direction * horizontal_speed
 	pass
 
@@ -167,16 +170,40 @@ position = Vector2( -0.857376, 7.85791 )
 rotation = 1.5708
 emitting = false
 amount = 200
-lifetime = 0.5
+lifetime = 0.4
 one_shot = true
-preprocess = 0.1
 explosiveness = 0.2
+randomness = 0.5
+fract_delta = false
 local_coords = false
 texture = ExtResource( 3 )
-spread = 50.0
+spread = 30.0
 flatness = 0.5
 gravity = Vector2( 0, 0 )
-initial_velocity = 50.0
+initial_velocity = 60.0
+initial_velocity_random = 0.5
+scale_amount = 2.0
+scale_amount_random = 1.0
+scale_amount_curve = SubResource( 4 )
+color_ramp = SubResource( 5 )
+
+[node name="CPUParticles2D2" type="CPUParticles2D" parent="Visible/Jetpack"]
+show_behind_parent = true
+position = Vector2( -0.857376, 7.85791 )
+rotation = 1.5708
+emitting = false
+amount = 200
+lifetime = 0.4
+one_shot = true
+explosiveness = 0.2
+randomness = 0.5
+fract_delta = false
+local_coords = false
+texture = ExtResource( 3 )
+spread = 30.0
+flatness = 0.5
+gravity = Vector2( 0, 0 )
+initial_velocity = 60.0
 initial_velocity_random = 0.5
 scale_amount = 2.0
 scale_amount_random = 1.0
