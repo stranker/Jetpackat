@@ -64,6 +64,8 @@ func update_fish_label():
 func update_time(delta):
 	if game_timer > 0:
 		game_timer -= delta
+	else:
+		end_game()
 
 func start_game():
 	playing = !playing
