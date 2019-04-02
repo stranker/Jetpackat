@@ -55,8 +55,6 @@ func desactivate():
 		activated = !activated
 		$Anim.play('Deactivate')
 		emit_signal('activated',add_time)
-		$Collision/CollisionShape2D.call_deferred('disabled',true)
-		$Collision/CollisionShape2D2.call_deferred('disabled',true)
 	pass
 
 func _on_EnterArea_body_entered(body):
@@ -115,6 +113,30 @@ tracks/1/keys = {
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.0784314 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Collision/CollisionShape2D:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Collision/CollisionShape2D2:disabled")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
 }
 
 [sub_resource type="RectangleShape2D" id=5]
