@@ -77,6 +77,7 @@ func update_time(delta):
 
 func start_game():
 	playing = !playing
+	GameManager.playing = playing
 
 func add_game_time(val):
 	game_timer += val
@@ -109,8 +110,7 @@ func end_game():
 	GameManager.coins = coins
 	GameManager.fishes = fishes
 	GameManager.player_height = 0
-	get_tree().reload_current_scene()
-"
+	get_tree().reload_current_scene()"
 
 [sub_resource type="GDScript" id=2]
 script/source = "extends Node2D
@@ -184,6 +184,11 @@ func _on_PauseButton_button_down():
 
 func _on_ContinueButton_button_down():
 	_on_PauseButton_button_down()
+	pass # Replace with function body.
+
+
+func _on_HomeButton_button_down():
+	get_tree().change_scene('res://MainMenu.tscn')
 	pass # Replace with function body.
 "
 
@@ -639,5 +644,6 @@ max_height = 16.0
 [node name="Orbits" type="Node2D" parent="."]
 
 [connection signal="screen_exited" from="House/VisibilityNotifier2D" to="House" method="_on_VisibilityNotifier2D_screen_exited"]
+[connection signal="button_down" from="UIGame/Container/PausePanel/HomeButton" to="UIGame" method="_on_HomeButton_button_down"]
 [connection signal="button_down" from="UIGame/Container/PausePanel/ContinueButton" to="UIGame" method="_on_ContinueButton_button_down"]
 [connection signal="button_down" from="UIGame/Container/PauseButton" to="UIGame" method="_on_PauseButton_button_down"]

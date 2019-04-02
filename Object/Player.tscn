@@ -85,7 +85,8 @@ func take_damage():
 	emit_signal('dead')
 
 func _on_VisibilityNotifier2D_screen_exited():
-	take_damage()
+	if !get_tree().paused:
+		take_damage()
 	pass # Replace with function body.
 "
 
