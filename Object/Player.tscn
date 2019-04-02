@@ -138,7 +138,7 @@ radius = 117.38
 [node name="Player" type="KinematicBody2D" groups=[
 "Player",
 ]]
-position = Vector2( 47.8331, -363.532 )
+position = Vector2( 542.043, 893.081 )
 script = SubResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
