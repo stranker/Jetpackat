@@ -6,6 +6,7 @@ export var value : int = 1
 signal taken(val)
 
 func _ready():
+	randomize()
 	connect('taken',get_tree().root.get_node('GameScene'),'add_coin')
 
 func _on_Coin_body_entered(body):
@@ -13,6 +14,7 @@ func _on_Coin_body_entered(body):
 		taked = !taked
 		emit_signal('taken',value)
 		$Anim.play('Taken')
+		$Anim.seek(rand_range(0,1),true)
 	pass # Replace with function body.
 
 

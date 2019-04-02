@@ -13,7 +13,7 @@
 [ext_resource path="res://Sprites/Collectables/Fish.png" type="Texture" id=11]
 [ext_resource path="res://Object/Misc/Spawner.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Object/Collectable/Fish.tscn" type="PackedScene" id=13]
-[ext_resource path="res://Object/Collectable/Coin.tscn" type="PackedScene" id=14]
+[ext_resource path="res://Object/Collectable/CoinCluster.tscn" type="PackedScene" id=14]
 [ext_resource path="res://Object/Enemies/Bird.tscn" type="PackedScene" id=15]
 [ext_resource path="res://Object/Obstacles/OrbitHole.tscn" type="PackedScene" id=16]
 
@@ -522,8 +522,8 @@ valign = 1
 [node name="CollectableSpawner" parent="." instance=ExtResource( 12 )]
 item_list = [ ExtResource( 13 ), ExtResource( 14 ) ]
 probability = [ 0.1, 1.0 ]
-min_height = 1.0
-max_height = 2.0
+min_height = 5.0
+max_height = 10.0
 
 [node name="EnemySpawner" parent="." instance=ExtResource( 12 )]
 item_list = [ ExtResource( 15 ) ]
