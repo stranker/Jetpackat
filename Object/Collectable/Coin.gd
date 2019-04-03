@@ -13,6 +13,7 @@ func _ready():
 
 func _process(delta):
 	if player_magnet:
+		speed += delta * 1000
 		var direction : Vector2 = (player_magnet.global_position - global_position).normalized()
 		translate(direction*speed*delta)
 

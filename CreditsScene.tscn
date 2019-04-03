@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Sprites/Background/Bg1.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Background/Star2.png" type="Texture" id=2]
@@ -8,8 +8,9 @@
 [ext_resource path="res://Sprites/Jetpack.png" type="Texture" id=6]
 [ext_resource path="res://Sprites/Background/SmokeParticle.png" type="Texture" id=7]
 [ext_resource path="res://Sprites/UI/BackButton.png" type="Texture" id=8]
+[ext_resource path="res://Sprites/UI/BackButtonPressed.png" type="Texture" id=9]
 
-[sub_resource type="GDScript" id=7]
+[sub_resource type="GDScript" id=1]
 script/source = "extends Control
 
 func _on_BackButton_button_down():
@@ -28,15 +29,15 @@ func _on_Anim_animation_finished(anim_name):
 	pass # Replace with function body.
 "
 
-[sub_resource type="DynamicFont" id=6]
+[sub_resource type="DynamicFont" id=2]
 size = 300
 font_data = ExtResource( 3 )
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=3]
 size = 62
 font_data = ExtResource( 4 )
 
-[sub_resource type="DynamicFont" id=1]
+[sub_resource type="DynamicFont" id=4]
 size = 62
 font_data = ExtResource( 4 )
 
@@ -44,11 +45,11 @@ font_data = ExtResource( 4 )
 size = 56
 font_data = ExtResource( 4 )
 
-[sub_resource type="Gradient" id=2]
+[sub_resource type="Gradient" id=6]
 offsets = PoolRealArray( 0, 0.592593, 0.802469, 1 )
 colors = PoolColorArray( 1, 1, 1, 1, 1, 0.984375, 0, 1, 1, 0.0543213, 0.0078125, 1, 0, 0, 0, 0 )
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=7]
 resource_name = "FadeOut"
 length = 0.5
 tracks/0/type = "value"
@@ -64,8 +65,7 @@ tracks/0/keys = {
 "values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
 }
 
-[sub_resource type="Animation" id=3]
-resource_name = "Start"
+[sub_resource type="Animation" id=8]
 length = 10.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Cat:rect_position")
@@ -212,60 +212,36 @@ tracks/11/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 1, 1 ) ]
 }
 tracks/12/type = "value"
-tracks/12/path = NodePath("ArtistTitle/ArtistLabel:custom_colors/font_color")
+tracks/12/path = NodePath("FontTitle/Font:percent_visible")
 tracks/12/interp = 1
 tracks/12/loop_wrap = true
 tracks/12/imported = false
 tracks/12/enabled = true
 tracks/12/keys = {
-"times": PoolRealArray( 7.5, 8 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 0.431373, 1, 0, 1 ) ]
-}
-tracks/13/type = "value"
-tracks/13/path = NodePath("FontTitle/Font:percent_visible")
-tracks/13/interp = 1
-tracks/13/loop_wrap = true
-tracks/13/imported = false
-tracks/13/enabled = true
-tracks/13/keys = {
 "times": PoolRealArray( 0, 6, 6.3, 7, 7.5 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ 0.0, 0.0, 0.1, 1.0, 1.0 ]
 }
-tracks/14/type = "value"
-tracks/14/path = NodePath("FontTitle/Font:custom_colors/font_color")
-tracks/14/interp = 1
-tracks/14/loop_wrap = true
-tracks/14/imported = false
-tracks/14/enabled = true
-tracks/14/keys = {
-"times": PoolRealArray( 0, 7.5, 8 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 0.921569, 0, 1, 1 ) ]
-}
-tracks/15/type = "value"
-tracks/15/path = NodePath("BackButton:self_modulate")
-tracks/15/interp = 1
-tracks/15/loop_wrap = true
-tracks/15/imported = false
-tracks/15/enabled = true
-tracks/15/keys = {
+tracks/13/type = "value"
+tracks/13/path = NodePath("BackButton:self_modulate")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/keys = {
 "times": PoolRealArray( 0, 8, 8.5 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
-tracks/16/type = "value"
-tracks/16/path = NodePath("BackButton:disabled")
-tracks/16/interp = 1
-tracks/16/loop_wrap = true
-tracks/16/imported = false
-tracks/16/enabled = true
-tracks/16/keys = {
+tracks/14/type = "value"
+tracks/14/path = NodePath("BackButton:disabled")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/keys = {
 "times": PoolRealArray( 8, 8.5 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
@@ -275,7 +251,7 @@ tracks/16/keys = {
 [node name="CreditsScene" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = SubResource( 7 )
+script = SubResource( 1 )
 
 [node name="Bg" type="TextureRect" parent="."]
 self_modulate = Color( 0.168627, 0.0196078, 0.231373, 1 )
@@ -295,7 +271,7 @@ margin_left = -320.0
 margin_top = -20.0
 margin_right = 316.0
 margin_bottom = 316.0
-custom_fonts/font = SubResource( 6 )
+custom_fonts/font = SubResource( 2 )
 text = "CREDITS"
 align = 1
 valign = 1
@@ -309,7 +285,7 @@ margin_left = -311.995
 margin_top = -570.0
 margin_right = 353.005
 margin_bottom = -494.0
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "Programmer:"
 align = 1
@@ -323,13 +299,11 @@ margin_left = -332.5
 margin_top = 53.6094
 margin_right = 332.5
 margin_bottom = 129.609
-custom_fonts/font = SubResource( 1 )
-custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 1, 0.866667, 0, 1 )
 text = "DANIEL H. NATARELLI"
-percent_visible = 0.0
 
 [node name="ArtistTitle" type="Label" parent="."]
-editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -338,7 +312,7 @@ margin_left = -320.0
 margin_top = -230.0
 margin_right = 345.0
 margin_bottom = -154.0
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "Game Artist:"
 align = 1
@@ -352,11 +326,10 @@ margin_left = -332.5
 margin_top = 60.0
 margin_right = 334.5
 margin_bottom = 136.0
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 0.431373, 1, 0, 1 )
 text = "Daniel H. Natarelli"
 align = 1
-percent_visible = 0.0
 
 [node name="FontTitle" type="Label" parent="."]
 anchor_left = 0.5
@@ -367,7 +340,7 @@ margin_left = -320.0
 margin_top = -850.0
 margin_right = 345.0
 margin_bottom = -774.0
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "Fonts:"
 align = 1
@@ -382,7 +355,7 @@ margin_top = 60.0
 margin_right = 334.5
 margin_bottom = 136.0
 custom_fonts/font = SubResource( 5 )
-custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color = Color( 0.921569, 0, 1, 1 )
 text = "Comic Andy
 by
 Andy Polhill
@@ -391,15 +364,14 @@ Overload
 by
 Ray Larabie"
 align = 1
-percent_visible = 0.0
 
 [node name="Cat" type="TextureRect" parent="."]
 editor/display_folded = true
-margin_left = -359.326
-margin_top = 655.071
-margin_right = -139.327
-margin_bottom = 945.072
-rect_rotation = 9.99773
+margin_left = 2940.0
+margin_top = 1310.0
+margin_right = 5572.0
+margin_bottom = 3336.0
+rect_rotation = 15.0
 rect_scale = Vector2( -1, 1 )
 rect_pivot_offset = Vector2( 115.882, 155.1 )
 texture = ExtResource( 5 )
@@ -408,17 +380,17 @@ stretch_mode = 6
 
 [node name="Jetpack" type="TextureRect" parent="Cat"]
 show_behind_parent = true
-margin_left = 60.0
-margin_top = 140.0
-margin_right = 190.0
-margin_bottom = 300.0
+margin_left = 817.607
+margin_top = 959.012
+margin_right = 1869.61
+margin_bottom = 2136.01
 texture = ExtResource( 6 )
 expand = true
 stretch_mode = 6
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Cat/Jetpack"]
 show_behind_parent = true
-position = Vector2( 69.9997, 110 )
+position = Vector2( 379.076, 584.171 )
 rotation = 1.5708
 amount = 20
 texture = ExtResource( 7 )
@@ -429,25 +401,24 @@ angle = 360.0
 angle_random = 1.0
 scale_amount = 2.0
 scale_amount_random = 1.0
-color_ramp = SubResource( 2 )
+color_ramp = SubResource( 6 )
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Start"
-anims/FadeOut = SubResource( 8 )
-anims/Start = SubResource( 3 )
+anims/FadeOut = SubResource( 7 )
+anims/Start = SubResource( 8 )
 
 [node name="BackButton" type="TextureButton" parent="."]
-self_modulate = Color( 1, 1, 1, 0 )
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -55.0
-margin_top = -180.0
-margin_right = 55.0
-margin_bottom = -50.0
-disabled = true
+margin_left = -70.0
+margin_top = -190.0
+margin_right = 95.0
+margin_bottom = -30.0
 texture_normal = ExtResource( 8 )
+texture_pressed = ExtResource( 9 )
 expand = true
 stretch_mode = 5
 

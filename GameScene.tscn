@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=2]
+[gd_scene load_steps=45 format=2]
 
 [ext_resource path="res://Sprites/Background/House.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Background/SmokeParticle.png" type="Texture" id=2]
@@ -13,15 +13,20 @@
 [ext_resource path="res://Sprites/Collectables/Fish.png" type="Texture" id=11]
 [ext_resource path="res://Sprites/UI/PausePanel.png" type="Texture" id=12]
 [ext_resource path="res://Sprites/UI/HomeButton.png" type="Texture" id=13]
-[ext_resource path="res://Sprites/UI/ContinueButton.png" type="Texture" id=14]
-[ext_resource path="res://Sprites/UI/ConfigButton.png" type="Texture" id=15]
-[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=16]
-[ext_resource path="res://Sprites/UI/PauseButton.png" type="Texture" id=17]
-[ext_resource path="res://Object/Misc/Spawner.tscn" type="PackedScene" id=18]
-[ext_resource path="res://Object/Collectable/Fish.tscn" type="PackedScene" id=19]
-[ext_resource path="res://Object/Collectable/CoinCluster.tscn" type="PackedScene" id=20]
-[ext_resource path="res://Object/Enemies/Bird.tscn" type="PackedScene" id=21]
-[ext_resource path="res://Object/Obstacles/OrbitHole.tscn" type="PackedScene" id=22]
+[ext_resource path="res://Sprites/UI/HomeButtonPressed.png" type="Texture" id=14]
+[ext_resource path="res://Sprites/UI/ContinueButton.png" type="Texture" id=15]
+[ext_resource path="res://Sprites/UI/ContinueButtonPressed.png" type="Texture" id=16]
+[ext_resource path="res://Sprites/UI/ConfigButton.png" type="Texture" id=17]
+[ext_resource path="res://Sprites/UI/ConfigButtonPressed.png" type="Texture" id=18]
+[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=19]
+[ext_resource path="res://ConfigPanel.tscn" type="PackedScene" id=20]
+[ext_resource path="res://Sprites/UI/PauseButton.png" type="Texture" id=21]
+[ext_resource path="res://Sprites/UI/PauseButtonPressed.png" type="Texture" id=22]
+[ext_resource path="res://Object/Misc/Spawner.tscn" type="PackedScene" id=23]
+[ext_resource path="res://Object/Collectable/Fish.tscn" type="PackedScene" id=24]
+[ext_resource path="res://Object/Collectable/CoinCluster.tscn" type="PackedScene" id=25]
+[ext_resource path="res://Object/Enemies/Bird.tscn" type="PackedScene" id=26]
+[ext_resource path="res://Object/Obstacles/OrbitHole.tscn" type="PackedScene" id=27]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node
@@ -151,6 +156,10 @@ func change_to_space():
 [sub_resource type="GDScript" id=6]
 script/source = "extends CanvasLayer
 
+func _ready():
+	$Container/ConfigPanel.hide()
+	$Container/PausePanel.hide()
+
 func add_time(val):
 	$Container/Panel/TimeLabel/AddTimeLabel.text = '+' + str(val)
 	$Container/Panel/TimeLabel/Anim.play('AddTime')
@@ -189,6 +198,11 @@ func _on_ContinueButton_button_down():
 
 func _on_HomeButton_button_down():
 	get_tree().change_scene('res://MainMenu.tscn')
+	pass # Replace with function body.
+
+
+func _on_ConfigButton_button_down():
+	$Container/ConfigPanel.show()
 	pass # Replace with function body.
 "
 
@@ -305,7 +319,7 @@ font_data = ExtResource( 9 )
 
 [sub_resource type="DynamicFont" id=17]
 size = 52
-font_data = ExtResource( 16 )
+font_data = ExtResource( 19 )
 
 [node name="GameScene" type="Node"]
 script = SubResource( 1 )
@@ -548,7 +562,7 @@ valign = 1
 
 [node name="PausePanel" type="NinePatchRect" parent="UIGame/Container"]
 pause_mode = 2
-visible = false
+editor/display_folded = true
 self_modulate = Color( 0, 0.701961, 1, 0.388235 )
 anchor_left = 0.5
 anchor_top = 0.5
@@ -568,6 +582,7 @@ margin_top = -32.0
 margin_right = 155.0
 margin_bottom = 95.0
 texture_normal = ExtResource( 13 )
+texture_pressed = ExtResource( 14 )
 expand = true
 stretch_mode = 5
 
@@ -580,7 +595,8 @@ margin_left = -64.0
 margin_top = -32.0
 margin_right = 64.0
 margin_bottom = 95.0
-texture_normal = ExtResource( 14 )
+texture_normal = ExtResource( 15 )
+texture_pressed = ExtResource( 16 )
 expand = true
 stretch_mode = 5
 
@@ -593,7 +609,8 @@ margin_left = -151.0
 margin_top = -32.0
 margin_right = -23.0
 margin_bottom = 95.0
-texture_normal = ExtResource( 15 )
+texture_normal = ExtResource( 17 )
+texture_pressed = ExtResource( 18 )
 expand = true
 stretch_mode = 5
 
@@ -605,6 +622,16 @@ text = "GAME PAUSED"
 align = 1
 valign = 1
 
+[node name="ConfigPanel" parent="UIGame/Container" instance=ExtResource( 20 )]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -345.0
+margin_top = -270.0
+margin_right = 345.0
+margin_bottom = 270.0
+
 [node name="PauseButton" type="TextureButton" parent="UIGame/Container"]
 pause_mode = 2
 anchor_left = 1.0
@@ -615,24 +642,26 @@ margin_left = -134.0
 margin_top = -129.0
 margin_right = -13.0
 margin_bottom = -11.0
-texture_normal = ExtResource( 17 )
+toggle_mode = true
+texture_normal = ExtResource( 21 )
+texture_pressed = ExtResource( 22 )
 expand = true
 stretch_mode = 5
 
-[node name="CollectableSpawner" parent="." instance=ExtResource( 18 )]
-item_list = [ ExtResource( 19 ), ExtResource( 20 ) ]
+[node name="CollectableSpawner" parent="." instance=ExtResource( 23 )]
+item_list = [ ExtResource( 24 ), ExtResource( 25 ) ]
 probability = [ 0.1, 1.0 ]
 min_height = 5.0
 max_height = 10.0
 
-[node name="EnemySpawner" parent="." instance=ExtResource( 18 )]
-item_list = [ ExtResource( 21 ) ]
+[node name="EnemySpawner" parent="." instance=ExtResource( 23 )]
+item_list = [ ExtResource( 26 ) ]
 type = 1
 min_height = 7.0
 max_height = 10.0
 
-[node name="OrbitSpawner" parent="." instance=ExtResource( 18 )]
-item_list = [ ExtResource( 22 ) ]
+[node name="OrbitSpawner" parent="." instance=ExtResource( 23 )]
+item_list = [ ExtResource( 27 ) ]
 type = 2
 min_height = 12.0
 max_height = 16.0
@@ -646,4 +675,5 @@ max_height = 16.0
 [connection signal="screen_exited" from="House/VisibilityNotifier2D" to="House" method="_on_VisibilityNotifier2D_screen_exited"]
 [connection signal="button_down" from="UIGame/Container/PausePanel/HomeButton" to="UIGame" method="_on_HomeButton_button_down"]
 [connection signal="button_down" from="UIGame/Container/PausePanel/ContinueButton" to="UIGame" method="_on_ContinueButton_button_down"]
+[connection signal="button_down" from="UIGame/Container/PausePanel/ConfigButton" to="UIGame" method="_on_ConfigButton_button_down"]
 [connection signal="button_down" from="UIGame/Container/PauseButton" to="UIGame" method="_on_PauseButton_button_down"]
