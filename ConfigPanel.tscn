@@ -1,0 +1,167 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://Sprites/UI/PausePanel.png" type="Texture" id=1]
+[ext_resource path="res://Fonts/overload burn.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Sprites/UI/PawCatIcon.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=4]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends NinePatchRect
+
+func _on_ConfigPanel_visibility_changed():
+	if visible:
+		set_sliders()
+	pass # Replace with function body.
+
+func set_sliders():
+	$MusicLabel/MusicSlider.value = GameManager.music_volume
+	$SoundLabel/SoundSlider.value = GameManager.sound_volume
+
+
+func _on_CloseConfigButton_button_down():
+	hide()
+	pass # Replace with function body.
+
+
+func _on_MusicSlider_value_changed(value):
+	GameManager.music_volume = int(value)
+	pass # Replace with function body.
+
+
+func _on_SoundSlider_value_changed(value):
+	GameManager.sound_volume = int(value)
+	pass # Replace with function body.
+"
+
+[sub_resource type="DynamicFont" id=2]
+size = 52
+font_data = ExtResource( 2 )
+
+[sub_resource type="StyleBoxFlat" id=6]
+bg_color = Color( 0.0901961, 0.188235, 0.568627, 1 )
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color( 0, 0.368627, 1, 1 )
+border_blend = true
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+expand_margin_left = 20.0
+expand_margin_right = 20.0
+expand_margin_top = 20.0
+expand_margin_bottom = 20.0
+shadow_color = Color( 0, 0, 0, 0.411765 )
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id=7]
+content_margin_left = 1.0
+content_margin_right = 1.0
+content_margin_top = 1.0
+content_margin_bottom = 1.0
+bg_color = Color( 1, 1, 1, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color( 0.0901961, 0.780392, 0.85098, 1 )
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+expand_margin_left = 10.0
+expand_margin_right = 10.0
+expand_margin_top = 10.0
+expand_margin_bottom = 10.0
+shadow_size = 2
+
+[node name="ConfigPanel" type="NinePatchRect"]
+self_modulate = Color( 0.662745, 0, 1, 0.933333 )
+margin_left = 190.0
+margin_top = 580.0
+margin_right = 880.0
+margin_bottom = 1120.0
+texture = ExtResource( 1 )
+script = SubResource( 1 )
+
+[node name="MusicLabel" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -215.0
+margin_top = 50.0
+margin_right = 215.0
+margin_bottom = 114.0
+custom_fonts/font = SubResource( 2 )
+text = "Music VOLUME"
+align = 1
+
+[node name="MusicSlider" type="HSlider" parent="MusicLabel"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -185.0
+margin_top = 38.0
+margin_right = -20.0
+margin_bottom = 108.0
+size_flags_horizontal = 15
+custom_icons/grabber_highlight = ExtResource( 3 )
+custom_icons/grabber = ExtResource( 3 )
+custom_styles/slider = SubResource( 6 )
+custom_styles/grabber_area = SubResource( 7 )
+max_value = 5.0
+value = 3.0
+tick_count = 5
+ticks_on_borders = false
+
+[node name="SoundLabel" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -215.0
+margin_top = -50.0
+margin_right = 215.0
+margin_bottom = 14.0
+custom_fonts/font = SubResource( 2 )
+text = "SOUND VOLUME"
+align = 1
+
+[node name="SoundSlider" type="HSlider" parent="SoundLabel"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -185.0
+margin_top = 16.0
+margin_right = 195.0
+margin_bottom = 46.0
+custom_icons/grabber_highlight = ExtResource( 3 )
+custom_icons/grabber = ExtResource( 3 )
+custom_styles/slider = SubResource( 6 )
+custom_styles/grabber_area = SubResource( 7 )
+max_value = 5.0
+value = 3.0
+tick_count = 5
+ticks_on_borders = false
+
+[node name="CloseConfigButton" type="TextureButton" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -70.0
+margin_top = -140.0
+margin_right = 70.0
+margin_bottom = -20.0
+texture_normal = ExtResource( 4 )
+expand = true
+stretch_mode = 5
+
+[connection signal="visibility_changed" from="." to="." method="_on_ConfigPanel_visibility_changed"]
+[connection signal="value_changed" from="MusicLabel/MusicSlider" to="." method="_on_MusicSlider_value_changed"]
+[connection signal="value_changed" from="SoundLabel/SoundSlider" to="." method="_on_SoundSlider_value_changed"]
+[connection signal="button_down" from="CloseConfigButton" to="." method="_on_CloseConfigButton_button_down"]
