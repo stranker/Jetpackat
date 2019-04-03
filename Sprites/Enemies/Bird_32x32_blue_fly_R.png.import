@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Bird_32x32_blue_fly_R.png-184322f3925c12bb5aab0ec4ef6ba75a.stex"
+path="res://.import/Bird_32x32_blue_fly_R.png-f787fd955b434f9f2b0b0109ca692b72.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Object/Enemies/Bird_32x32_blue_fly_R.png"
-dest_files=[ "res://.import/Bird_32x32_blue_fly_R.png-184322f3925c12bb5aab0ec4ef6ba75a.stex" ]
+source_file="res://Sprites/Enemies/Bird_32x32_blue_fly_R.png"
+dest_files=[ "res://.import/Bird_32x32_blue_fly_R.png-f787fd955b434f9f2b0b0109ca692b72.stex" ]
 
 [params]
 

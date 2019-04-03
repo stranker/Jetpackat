@@ -146,10 +146,10 @@ tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"times": PoolRealArray( 0, 5, 5.7, 6.4, 7 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 2.5, 5, 5.7, 6.4, 7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 60, 140 ), Vector2( 60, 140 ), Vector2( 78.377, 201.887 ), Vector2( 310.013, 419.245 ), Vector2( 817.607, 959.012 ) ]
+"values": [ Vector2( 43.8596, 118.959 ), Vector2( 49.561, 120.5 ), Vector2( 51.2713, 112.233 ), Vector2( 78.377, 201.887 ), Vector2( 272.861, 399.882 ), Vector2( 817.607, 959.012 ) ]
 }
 tracks/7/type = "value"
 tracks/7/path = NodePath("Cat/Jetpack:rect_rotation")
@@ -158,10 +158,10 @@ tracks/7/loop_wrap = true
 tracks/7/imported = false
 tracks/7/enabled = true
 tracks/7/keys = {
-"times": PoolRealArray( 5, 5.7, 6.4, 7 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 2.5, 5, 5.7, 6.4, 7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ 0.0, 0.0, 0.0, 0.0 ]
+"values": [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ]
 }
 tracks/8/type = "value"
 tracks/8/path = NodePath("Cat/Jetpack:rect_size")
@@ -247,6 +247,18 @@ tracks/14/keys = {
 "update": 1,
 "values": [ true, false ]
 }
+tracks/15/type = "value"
+tracks/15/path = NodePath("Cat/Jetpack/CPUParticles2D:scale_amount")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/keys = {
+"times": PoolRealArray( 0, 5, 5.7, 6.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 2.0, 2.0, 4.0, 20.0 ]
+}
 
 [node name="CreditsScene" type="Control"]
 anchor_right = 1.0
@@ -300,8 +312,9 @@ margin_top = 53.6094
 margin_right = 332.5
 margin_bottom = 129.609
 custom_fonts/font = SubResource( 4 )
-custom_colors/font_color = Color( 1, 0.866667, 0, 1 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "DANIEL H. NATARELLI"
+percent_visible = 0.0
 
 [node name="ArtistTitle" type="Label" parent="."]
 anchor_left = 0.5
@@ -330,6 +343,7 @@ custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 0.431373, 1, 0, 1 )
 text = "Daniel H. Natarelli"
 align = 1
+percent_visible = 0.0
 
 [node name="FontTitle" type="Label" parent="."]
 anchor_left = 0.5
@@ -364,14 +378,14 @@ Overload
 by
 Ray Larabie"
 align = 1
+percent_visible = 0.0
 
 [node name="Cat" type="TextureRect" parent="."]
-editor/display_folded = true
-margin_left = 2940.0
-margin_top = 1310.0
-margin_right = 5572.0
-margin_bottom = 3336.0
-rect_rotation = 15.0
+margin_left = -359.326
+margin_top = 655.071
+margin_right = -139.327
+margin_bottom = 945.072
+rect_rotation = 9.99773
 rect_scale = Vector2( -1, 1 )
 rect_pivot_offset = Vector2( 115.882, 155.1 )
 texture = ExtResource( 5 )
@@ -380,17 +394,17 @@ stretch_mode = 6
 
 [node name="Jetpack" type="TextureRect" parent="Cat"]
 show_behind_parent = true
-margin_left = 817.607
-margin_top = 959.012
-margin_right = 1869.61
-margin_bottom = 2136.01
+margin_left = 43.8596
+margin_top = 118.959
+margin_right = 173.86
+margin_bottom = 278.959
 texture = ExtResource( 6 )
 expand = true
 stretch_mode = 6
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Cat/Jetpack"]
 show_behind_parent = true
-position = Vector2( 379.076, 584.171 )
+position = Vector2( 69.9997, 110 )
 rotation = 1.5708
 amount = 20
 texture = ExtResource( 7 )
@@ -409,6 +423,7 @@ anims/FadeOut = SubResource( 7 )
 anims/Start = SubResource( 8 )
 
 [node name="BackButton" type="TextureButton" parent="."]
+self_modulate = Color( 1, 1, 1, 0 )
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -417,6 +432,7 @@ margin_left = -70.0
 margin_top = -190.0
 margin_right = 95.0
 margin_bottom = -30.0
+disabled = true
 texture_normal = ExtResource( 8 )
 texture_pressed = ExtResource( 9 )
 expand = true

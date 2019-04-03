@@ -12,7 +12,7 @@ func _ready():
 	connect('taken',get_tree().root.get_node('GameScene'),'add_coin')
 
 func _process(delta):
-	if player_magnet:
+	if player_magnet and !taked:
 		speed += delta * 1000
 		var direction : Vector2 = (player_magnet.global_position - global_position).normalized()
 		translate(direction*speed*delta)
