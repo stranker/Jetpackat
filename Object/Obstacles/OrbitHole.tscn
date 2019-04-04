@@ -150,20 +150,20 @@ script = SubResource( 1 )
 type = 2
 
 [node name="Back" type="Sprite" parent="."]
-position = Vector2( 0, -15 )
+position = Vector2( 0, -73.359 )
 scale = Vector2( 3, 3 )
 z_index = -2
 texture = ExtResource( 1 )
 region_enabled = true
-region_rect = Rect2( 0, 0, 64, 10 )
+region_rect = Rect2( 0, 0, 82, 52 )
 
 [node name="Front" type="Sprite" parent="."]
-position = Vector2( 0, 15 )
+position = Vector2( -0.0133286, 14.8031 )
 scale = Vector2( 3, 3 )
 z_index = 2
 texture = ExtResource( 1 )
 region_enabled = true
-region_rect = Rect2( 0, 10, 64, 10 )
+region_rect = Rect2( 0, 52, 82, 10 )
 region_filter_clip = true
 
 [node name="Collision" type="RigidBody2D" parent="."]
