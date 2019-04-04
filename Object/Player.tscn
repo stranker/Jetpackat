@@ -45,13 +45,6 @@ func _physics_process(delta):
 		check_boundaries()
 	pass
 
-func _input(event):
-	if event is InputEventScreenTouch:
-		check_is_active()
-		if event.is_pressed() and !event.is_echo():
-			jump()
-	pass
-
 func check_boundaries():
 	if position.x < sizeSprite.x * 0.5:
 		position.x = sizeSprite.x * 0.5
@@ -61,7 +54,7 @@ func check_boundaries():
 
 func jump():
 	velocity.y = -jump_speed
-	change_jump_direction()
+	check_jump_direction()
 	$Visible/Jetpack/Anim.play('Propulsion')
 	emit_signal('current_height',int(abs(position.y) * 0.01))
 	pass
@@ -73,8 +66,7 @@ func check_is_active():
 		set_physics_process(activated)
 	pass
 
-func change_jump_direction():
-	jump_direction = -jump_direction
+func check_jump_direction():
 	$Visible.scale.x = -jump_direction
 	if jump_direction == 1:
 		$Visible/Jetpack/CPUParticles2D.emitting = true
@@ -89,6 +81,19 @@ func take_damage():
 func _on_VisibilityNotifier2D_screen_exited():
 	if !get_tree().paused:
 		take_damage()
+	pass # Replace with function body.
+
+func _on_LeftButton_button_down():
+	check_is_active()
+	jump_direction = -1
+	jump()
+	pass # Replace with function body.
+
+
+func _on_RightButton_button_down():
+	check_is_active()
+	jump_direction = 1
+	jump()
 	pass # Replace with function body.
 "
 
@@ -113,19 +118,19 @@ func _ready():
 #	pass
 "
 
-[sub_resource type="ShaderMaterial" id=10]
+[sub_resource type="ShaderMaterial" id=4]
 shader = ExtResource( 3 )
 shader_param/outline_width = 0.5
 shader_param/outline_color = Color( 0, 0, 0, 1 )
 
-[sub_resource type="Curve" id=6]
+[sub_resource type="Curve" id=5]
 _data = [ Vector2( 0, 0.456 ), 0.0, 0.4158, 0, 1, Vector2( 0.592593, 0.7024 ), 0.6336, 0.6336, 0, 0, Vector2( 1, 1 ), 0.730473, 0.0, 1, 0 ]
 
-[sub_resource type="Gradient" id=7]
+[sub_resource type="Gradient" id=6]
 offsets = PoolRealArray( 0.358025, 0.530864, 0.679012, 0.82716, 1 )
 colors = PoolColorArray( 1, 1, 1, 1, 1, 0.984375, 0, 1, 1, 0.492188, 0, 1, 1, 0.00392157, 0.00392157, 0.345098, 0.423529, 0, 0, 0 )
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=7]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:position")
@@ -140,7 +145,7 @@ tracks/0/keys = {
 "values": [ Vector2( 3.84464, 39.7731 ), Vector2( 7.04977, 38.0137 ), Vector2( -0.644684, 41.9775 ), Vector2( 3.2222, 40.4274 ), Vector2( 5.22339, 44.976 ), Vector2( 3.84464, 39.7731 ) ]
 }
 
-[sub_resource type="CircleShape2D" id=9]
+[sub_resource type="CircleShape2D" id=8]
 radius = 117.38
 
 [node name="Player" type="KinematicBody2D" groups=[
@@ -173,7 +178,7 @@ texture = ExtResource( 2 )
 
 [node name="Jetpack" type="Sprite" parent="Visible"]
 show_behind_parent = true
-material = SubResource( 10 )
+material = SubResource( 4 )
 position = Vector2( 3.84464, 39.7731 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 4 )
@@ -198,8 +203,8 @@ initial_velocity = 60.0
 initial_velocity_random = 0.5
 scale_amount = 2.0
 scale_amount_random = 1.0
-scale_amount_curve = SubResource( 6 )
-color_ramp = SubResource( 7 )
+scale_amount_curve = SubResource( 5 )
+color_ramp = SubResource( 6 )
 
 [node name="CPUParticles2D2" type="CPUParticles2D" parent="Visible/Jetpack"]
 show_behind_parent = true
@@ -221,18 +226,39 @@ initial_velocity = 60.0
 initial_velocity_random = 0.5
 scale_amount = 2.0
 scale_amount_random = 1.0
-scale_amount_curve = SubResource( 6 )
-color_ramp = SubResource( 7 )
+scale_amount_curve = SubResource( 5 )
+color_ramp = SubResource( 6 )
 
 [node name="Anim" type="AnimationPlayer" parent="Visible/Jetpack"]
-anims/Propulsion = SubResource( 8 )
+anims/Propulsion = SubResource( 7 )
 
 [node name="MagnetArea" type="Area2D" parent="Visible"]
 visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Visible/MagnetArea"]
-shape = SubResource( 9 )
+shape = SubResource( 8 )
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HBC" type="HBoxContainer" parent="CanvasLayer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="LeftButton" type="TextureButton" parent="CanvasLayer/HBC"]
+margin_right = 538.0
+margin_bottom = 1920.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="RightButton" type="TextureButton" parent="CanvasLayer/HBC"]
+margin_left = 542.0
+margin_right = 1080.0
+margin_bottom = 1920.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
+[connection signal="button_down" from="CanvasLayer/HBC/LeftButton" to="." method="_on_LeftButton_button_down"]
+[connection signal="button_down" from="CanvasLayer/HBC/RightButton" to="." method="_on_RightButton_button_down"]

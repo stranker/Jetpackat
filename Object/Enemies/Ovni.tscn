@@ -2,11 +2,12 @@
 
 [ext_resource path="res://Sprites/Enemies/Ovni.png" type="Texture" id=1]
 
-[sub_resource type="GDScript" id=4]
+[sub_resource type="GDScript" id=1]
 script/source = "extends Area2D
 
 export var speed : float = 300
 export var increment : float = 50
+export var max_speed : float = 500
 var velocity : Vector2
 var direction = -1
 var sprite_size : Vector2
@@ -22,13 +23,15 @@ func _ready():
 
 func _process(delta):
 	translate(velocity * delta)
-	check_boudaries()
+	check_boundaries()
 	pass
 
-func check_boudaries():
+func check_boundaries():
 	if position.x < -sprite_size.x / 2 or position.x > get_viewport_rect().size.x + sprite_size.x/2:
 		change_direction()
 		speed += increment
+		if speed > max_speed:
+			speed = max_speed
 		velocity.x = direction * speed
 	pass
 
@@ -39,7 +42,7 @@ func change_direction():
 	$CollisionPolygon2D.rotation = -$CollisionPolygon2D.rotation
 	pass"
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=2]
 resource_name = "Run"
 length = 2.0
 loop = true
@@ -57,7 +60,7 @@ tracks/0/keys = {
 }
 
 [node name="Ovni" type="Area2D"]
-script = SubResource( 4 )
+script = SubResource( 1 )
 increment = 200.0
 
 [node name="Sprite" type="Sprite" parent="."]
@@ -76,6 +79,6 @@ one_shot = true
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Run"
-anims/Run = SubResource( 3 )
+anims/Run = SubResource( 2 )
 
 [connection signal="timeout" from="PreparingTimer" to="." method="_on_PreparingTime_timeout"]

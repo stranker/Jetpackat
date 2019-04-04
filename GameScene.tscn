@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=2]
+[gd_scene load_steps=46 format=2]
 
 [ext_resource path="res://Sprites/Background/House.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Background/SmokeParticle.png" type="Texture" id=2]
@@ -22,11 +22,12 @@
 [ext_resource path="res://ConfigPanel.tscn" type="PackedScene" id=20]
 [ext_resource path="res://Sprites/UI/PauseButton.png" type="Texture" id=21]
 [ext_resource path="res://Sprites/UI/PauseButtonPressed.png" type="Texture" id=22]
-[ext_resource path="res://Object/Misc/Spawner.tscn" type="PackedScene" id=23]
+[ext_resource path="res://Object/Misc/CollectableSpawner.tscn" type="PackedScene" id=23]
 [ext_resource path="res://Object/Collectable/Fish.tscn" type="PackedScene" id=24]
-[ext_resource path="res://Object/Collectable/CoinCluster.tscn" type="PackedScene" id=25]
-[ext_resource path="res://Object/Enemies/Bird.tscn" type="PackedScene" id=26]
-[ext_resource path="res://Object/Obstacles/OrbitHole.tscn" type="PackedScene" id=27]
+[ext_resource path="res://Object/Collectable/Coin.tscn" type="PackedScene" id=25]
+[ext_resource path="res://Object/Misc/EnemySpawner.tscn" type="PackedScene" id=26]
+[ext_resource path="res://Object/Misc/OrbitSpawner.tscn" type="PackedScene" id=27]
+[ext_resource path="res://Object/Obstacles/OrbitHole.tscn" type="PackedScene" id=28]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node
@@ -414,11 +415,14 @@ centered = false
 position = Vector2( 538.545, 1547.64 )
 
 [node name="UIGame" type="CanvasLayer" parent="."]
+editor/display_folded = true
 script = SubResource( 6 )
 
 [node name="Container" type="Control" parent="UIGame"]
+editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 
 [node name="Panel" type="Panel" parent="UIGame/Container"]
 editor/display_folded = true
@@ -563,6 +567,7 @@ valign = 1
 [node name="PausePanel" type="NinePatchRect" parent="UIGame/Container"]
 pause_mode = 2
 editor/display_folded = true
+visible = false
 self_modulate = Color( 0, 0.701961, 1, 0.388235 )
 anchor_left = 0.5
 anchor_top = 0.5
@@ -572,6 +577,7 @@ margin_left = -269.0
 margin_top = -128.0
 margin_right = 269.0
 margin_bottom = 128.0
+mouse_filter = 0
 texture = ExtResource( 12 )
 
 [node name="HomeButton" type="TextureButton" parent="UIGame/Container/PausePanel"]
@@ -623,6 +629,8 @@ align = 1
 valign = 1
 
 [node name="ConfigPanel" parent="UIGame/Container" instance=ExtResource( 20 )]
+pause_mode = 2
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -631,6 +639,7 @@ margin_left = -345.0
 margin_top = -270.0
 margin_right = 345.0
 margin_bottom = 270.0
+mouse_filter = 0
 
 [node name="PauseButton" type="TextureButton" parent="UIGame/Container"]
 pause_mode = 2
@@ -650,21 +659,17 @@ stretch_mode = 5
 
 [node name="CollectableSpawner" parent="." instance=ExtResource( 23 )]
 item_list = [ ExtResource( 24 ), ExtResource( 25 ) ]
+min_height = 8.0
+max_height = 10.0
 probability = [ 0.1, 1.0 ]
-min_height = 5.0
-max_height = 10.0
 
-[node name="EnemySpawner" parent="." instance=ExtResource( 23 )]
-item_list = [ ExtResource( 26 ) ]
-type = 1
-min_height = 7.0
-max_height = 10.0
+[node name="EnemySpawner" parent="." instance=ExtResource( 26 )]
 
-[node name="OrbitSpawner" parent="." instance=ExtResource( 23 )]
-item_list = [ ExtResource( 27 ) ]
-type = 2
-min_height = 12.0
-max_height = 16.0
+[node name="OrbitSpawner" parent="." instance=ExtResource( 27 )]
+item_list = [ ExtResource( 28 ) ]
+min_height = 10.0
+max_height = 15.0
+probability = [ 1.0 ]
 
 [node name="Collectables" type="Node2D" parent="."]
 
