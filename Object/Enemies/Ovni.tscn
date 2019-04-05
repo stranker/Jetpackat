@@ -26,13 +26,13 @@ func _ready():
 
 func _process(delta):
 	check_patron(delta)
-	check_boundaries()
 	pass
 
 func check_patron(delta):
 	match current_patron:
 		PATRON.PATROL:
 			translate(velocity * delta)
+			check_boundaries()
 		PATRON.STILL:
 			if $PatrolTimer.is_stopped():
 				$PatrolTimer.start()

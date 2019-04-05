@@ -11,12 +11,11 @@ export var direction : int = 1
 var speed : float
 var velocity : Vector2
 var time : float
-var size_screen : Vector2
 var size_sprite : Vector2
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	size_screen = get_viewport_rect().size
+	randomize()
 	size_sprite = $Sprite.texture.get_size() * $Sprite.scale / $Sprite.hframes
 	speed = rand_range(max_speed,min_speed)
 	if rand_range(0,1) > 0.5:
@@ -32,7 +31,7 @@ func _process(delta):
 	check_boundaries()
 
 func check_boundaries():
-	if position.x > size_screen.x + size_sprite.x/2 or position.x < -size_sprite.x/2:
+	if position.x > get_viewport_rect().size.x + size_sprite.x/2 or position.x < -size_sprite.x/2:
 		direction = -direction
 		velocity.x = speed * direction
 		$Sprite.scale.x = $Sprite.scale.x * -1

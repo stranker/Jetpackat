@@ -418,7 +418,6 @@ position = Vector2( 538.545, 1547.64 )
 script = SubResource( 6 )
 
 [node name="Container" type="Control" parent="UIGame"]
-editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -656,7 +655,12 @@ texture_pressed = ExtResource( 22 )
 expand = true
 stretch_mode = 5
 
+[node name="TextureRect" type="TextureRect" parent="UIGame/Container"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
 [node name="DebugPanel" type="Panel" parent="UIGame"]
+editor/display_folded = true
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_top = -497.0
@@ -679,6 +683,7 @@ max_height = 10.0
 probability = [ 0.1, 1.0 ]
 
 [node name="EnemySpawner" parent="." instance=ExtResource( 26 )]
+height_control_list = [ 600, 100 ]
 
 [node name="OrbitSpawner" parent="." instance=ExtResource( 27 )]
 item_list = [ ExtResource( 28 ) ]
