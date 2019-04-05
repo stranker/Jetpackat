@@ -1,23 +1,24 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://Sprites/Background/Bg1.png" type="Texture" id=1]
-[ext_resource path="res://Sprites/Background/House.png" type="Texture" id=2]
-[ext_resource path="res://Sprites/UI/PawCat.png" type="Texture" id=3]
-[ext_resource path="res://Sprites/UI/ContinueButton.png" type="Texture" id=4]
-[ext_resource path="res://Sprites/UI/ContinueButtonPressed.png" type="Texture" id=5]
-[ext_resource path="res://Sprites/UI/ShopButton.png" type="Texture" id=6]
-[ext_resource path="res://Sprites/UI/ShopButtonPressed.png" type="Texture" id=7]
-[ext_resource path="res://Sprites/UI/ConfigButton.png" type="Texture" id=8]
-[ext_resource path="res://Sprites/UI/ConfigButtonPressed.png" type="Texture" id=9]
-[ext_resource path="res://Sprites/UI/CreditsButton.png" type="Texture" id=10]
-[ext_resource path="res://Sprites/UI/CreditsButtonPressed.png" type="Texture" id=11]
-[ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=12]
-[ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=13]
-[ext_resource path="res://Sprites/Cat.png" type="Texture" id=14]
-[ext_resource path="res://Sprites/Jetpack.png" type="Texture" id=15]
-[ext_resource path="res://Sprites/Background/SmokeParticle.png" type="Texture" id=16]
-[ext_resource path="res://Fonts/comic_andy.ttf" type="DynamicFontData" id=17]
-[ext_resource path="res://ConfigPanel.tscn" type="PackedScene" id=18]
+[ext_resource path="res://Sprites/Background/Star3.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Background/House.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/UI/PawCat.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/UI/ContinueButton.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/UI/ContinueButtonPressed.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/UI/ShopButton.png" type="Texture" id=7]
+[ext_resource path="res://Sprites/UI/ShopButtonPressed.png" type="Texture" id=8]
+[ext_resource path="res://Sprites/UI/ConfigButton.png" type="Texture" id=9]
+[ext_resource path="res://Sprites/UI/ConfigButtonPressed.png" type="Texture" id=10]
+[ext_resource path="res://Sprites/UI/CreditsButton.png" type="Texture" id=11]
+[ext_resource path="res://Sprites/UI/CreditsButtonPressed.png" type="Texture" id=12]
+[ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=13]
+[ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=14]
+[ext_resource path="res://Sprites/Cat.png" type="Texture" id=15]
+[ext_resource path="res://Sprites/Jetpack.png" type="Texture" id=16]
+[ext_resource path="res://Sprites/Background/SmokeParticle.png" type="Texture" id=17]
+[ext_resource path="res://Fonts/comic_andy.ttf" type="DynamicFontData" id=18]
+[ext_resource path="res://ConfigPanel.tscn" type="PackedScene" id=19]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Control
@@ -27,6 +28,10 @@ var next_scene = ''
 func _ready():
 	get_tree().paused = false
 	$ConfigPanel.hide()
+	$Tween.interpolate_property($Background, 'self_modulate', $Background.self_modulate, Color.black, 15, Tween.TRANS_LINEAR,Tween.EASE_IN)
+	$Tween.interpolate_property($Stars, 'self_modulate', Color(0,0,0,0), Color.white, 12, Tween.TRANS_LINEAR,Tween.EASE_IN)
+	$Tween.start()
+	pass
 
 func _on_StartButton_button_down():
 	$Anim.play(\"FadeOut\")
@@ -48,6 +53,8 @@ func _on_CreditsButton_button_down():
 func _on_Anim_animation_finished(anim_name):
 	if anim_name == 'FadeOut':
 		get_tree().change_scene(next_scene)
+	elif anim_name == 'Start':
+		$Anim.play('Idle')
 	pass # Replace with function body.
 
 func _on_ConfigButton_button_down():
@@ -61,7 +68,7 @@ colors = PoolColorArray( 1, 1, 1, 1, 1, 0.914063, 0, 1, 1, 0.521301, 0.0117188, 
 [sub_resource type="DynamicFont" id=3]
 size = 300
 use_filter = true
-font_data = ExtResource( 17 )
+font_data = ExtResource( 18 )
 
 [sub_resource type="Animation" id=4]
 resource_name = "FadeOut"
@@ -79,6 +86,50 @@ tracks/0/keys = {
 "values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
 }
 
+[sub_resource type="Animation" id=6]
+resource_name = "Idle"
+length = 4.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Player:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.8, 1.6, 2.4, 3.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 500, 1180 ), Vector2( 490, 1200 ), Vector2( 500, 1180 ), Vector2( 510, 1210 ), Vector2( 490, 1200 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Player:region_rect")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1.3, 1.6, 3.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Rect2( 2, 2, 36, 68 ), Rect2( 38, 2, 36, 68 ), Rect2( 2, 2, 36, 68 ), Rect2( 38, 2, 36, 68 ) ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "Start"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Player:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 0.5, 1 ),
+"update": 0,
+"values": [ Vector2( 1030, 1960 ), Vector2( 500, 1180 ) ]
+}
+
 [node name="MainMenu" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -91,6 +142,12 @@ margin_right = 1080.0
 margin_bottom = 1920.0
 texture = ExtResource( 1 )
 
+[node name="Stars" type="TextureRect" parent="."]
+self_modulate = Color( 1, 1, 1, 0 )
+margin_right = 1080.0
+margin_bottom = 1920.0
+texture = ExtResource( 2 )
+
 [node name="House" type="TextureRect" parent="."]
 anchor_left = 0.5
 anchor_top = 1.0
@@ -100,7 +157,7 @@ margin_left = -570.0
 margin_top = -1090.0
 margin_right = 580.0
 margin_bottom = 30.0
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 expand = true
 stretch_mode = 6
 
@@ -116,7 +173,7 @@ margin_top = -450.0
 margin_right = 379.0
 margin_bottom = 300.0
 mouse_filter = 2
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 expand = true
 stretch_mode = 6
 
@@ -128,8 +185,8 @@ anchor_bottom = 0.5
 margin_left = -130.0
 margin_right = 120.0
 margin_bottom = 260.0
-texture_normal = ExtResource( 4 )
-texture_pressed = ExtResource( 5 )
+texture_normal = ExtResource( 5 )
+texture_pressed = ExtResource( 6 )
 expand = true
 stretch_mode = 5
 
@@ -143,8 +200,8 @@ margin_top = -135.0
 margin_right = -219.0
 margin_bottom = 13.0
 disabled = true
-texture_normal = ExtResource( 6 )
-texture_pressed = ExtResource( 7 )
+texture_normal = ExtResource( 7 )
+texture_pressed = ExtResource( 8 )
 expand = true
 stretch_mode = 5
 
@@ -157,8 +214,8 @@ margin_left = -170.0
 margin_top = -255.0
 margin_right = -50.0
 margin_bottom = -130.0
-texture_normal = ExtResource( 8 )
-texture_pressed = ExtResource( 9 )
+texture_normal = ExtResource( 9 )
+texture_pressed = ExtResource( 10 )
 expand = true
 stretch_mode = 5
 
@@ -171,8 +228,8 @@ margin_left = 70.0
 margin_top = -255.0
 margin_right = 190.0
 margin_bottom = -130.0
-texture_normal = ExtResource( 10 )
-texture_pressed = ExtResource( 11 )
+texture_normal = ExtResource( 11 )
+texture_pressed = ExtResource( 12 )
 expand = true
 stretch_mode = 5
 
@@ -185,31 +242,30 @@ margin_left = 210.0
 margin_top = -105.0
 margin_right = 330.0
 margin_bottom = 20.0
-texture_normal = ExtResource( 12 )
-texture_pressed = ExtResource( 13 )
+texture_normal = ExtResource( 13 )
+texture_pressed = ExtResource( 14 )
 expand = true
 stretch_mode = 5
 
-[node name="Player" type="TextureRect" parent="."]
-editor/display_folded = true
-margin_left = 480.0
-margin_top = 1230.0
-margin_right = 1024.0
-margin_bottom = 1834.0
+[node name="Player" type="NinePatchRect" parent="."]
+margin_left = 495.564
+margin_top = 1202.78
+margin_right = 839.463
+margin_bottom = 1844.78
 rect_rotation = -15.0
 rect_pivot_offset = Vector2( 205, 225 )
-texture = ExtResource( 14 )
-expand = true
-stretch_mode = 6
+texture = ExtResource( 15 )
+region_rect = Rect2( 2, 2, 36, 68 )
+patch_margin_right = 2
 
 [node name="Player2" type="TextureRect" parent="Player"]
 show_behind_parent = true
-margin_left = 145.404
-margin_top = 234.913
-margin_right = 446.404
-margin_bottom = 641.913
+margin_left = 41.0465
+margin_top = 238.009
+margin_right = 342.046
+margin_bottom = 645.009
 rect_pivot_offset = Vector2( 205, 225 )
-texture = ExtResource( 15 )
+texture = ExtResource( 16 )
 expand = true
 stretch_mode = 6
 
@@ -218,7 +274,7 @@ show_behind_parent = true
 position = Vector2( 201.008, 379.417 )
 rotation = 1.57079
 amount = 100
-texture = ExtResource( 16 )
+texture = ExtResource( 17 )
 emission_shape = 2
 emission_rect_extents = Vector2( 40, 40 )
 spread = 15.0
@@ -244,7 +300,7 @@ text = "Jetpackat"
 align = 1
 valign = 1
 
-[node name="ConfigPanel" parent="." instance=ExtResource( 18 )]
+[node name="ConfigPanel" parent="." instance=ExtResource( 19 )]
 visible = false
 mouse_filter = 0
 
@@ -256,7 +312,12 @@ mouse_filter = 2
 texture = ExtResource( 1 )
 
 [node name="Anim" type="AnimationPlayer" parent="."]
+autoplay = "Start"
 anims/FadeOut = SubResource( 4 )
+anims/Idle = SubResource( 6 )
+anims/Start = SubResource( 5 )
+
+[node name="Tween" type="Tween" parent="."]
 
 [connection signal="button_down" from="PawCat/StartButton" to="." method="_on_StartButton_button_down"]
 [connection signal="button_down" from="PawCat/ConfigButton" to="." method="_on_ConfigButton_button_down"]

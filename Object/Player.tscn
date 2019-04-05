@@ -83,17 +83,13 @@ func _on_VisibilityNotifier2D_screen_exited():
 		take_damage()
 	pass # Replace with function body.
 
-func _on_LeftButton_button_down():
-	check_is_active()
-	jump_direction = -1
-	jump()
-	pass # Replace with function body.
 
-
-func _on_RightButton_button_down():
-	check_is_active()
-	jump_direction = 1
-	jump()
+func _on_Area_gui_input(event):
+	if event is InputEventScreenTouch:
+		if !event.is_echo() and event.pressed:
+			check_is_active()
+			jump_direction = -jump_direction
+			jump()
 	pass # Replace with function body.
 "
 
@@ -175,8 +171,10 @@ material = ExtResource( 1 )
 position = Vector2( 1.57407, -1.25439 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 2 )
+hframes = 3
 
 [node name="Jetpack" type="Sprite" parent="Visible"]
+editor/display_folded = true
 show_behind_parent = true
 material = SubResource( 4 )
 position = Vector2( 3.84464, 39.7731 )
@@ -233,6 +231,7 @@ color_ramp = SubResource( 6 )
 anims/Propulsion = SubResource( 7 )
 
 [node name="MagnetArea" type="Area2D" parent="Visible"]
+editor/display_folded = true
 visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Visible/MagnetArea"]
@@ -240,25 +239,11 @@ shape = SubResource( 8 )
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="ClickArea" type="CanvasLayer" parent="."]
 
-[node name="HBC" type="HBoxContainer" parent="CanvasLayer"]
+[node name="Area" type="Control" parent="ClickArea"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="LeftButton" type="TextureButton" parent="CanvasLayer/HBC"]
-margin_right = 538.0
-margin_bottom = 1920.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="RightButton" type="TextureButton" parent="CanvasLayer/HBC"]
-margin_left = 542.0
-margin_right = 1080.0
-margin_bottom = 1920.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
-[connection signal="button_down" from="CanvasLayer/HBC/LeftButton" to="." method="_on_LeftButton_button_down"]
-[connection signal="button_down" from="CanvasLayer/HBC/RightButton" to="." method="_on_RightButton_button_down"]
+[connection signal="gui_input" from="ClickArea/Area" to="." method="_on_Area_gui_input"]
