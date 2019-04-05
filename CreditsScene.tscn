@@ -74,10 +74,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1, 1.5, 2, 2.5, 2.8, 3.4, 4.2, 5, 5.7, 6.4, 7, 8 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 1, 1.5, 2, 2.5, 2.8, 3.4, 4.2, 5, 5.5, 6, 6.4, 7, 8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( -359.326, 655.071 ), Vector2( 886.783, 463.112 ), Vector2( 584.202, 391.534 ), Vector2( -36.7598, 398.888 ), Vector2( 22.7061, 482.961 ), Vector2( 18.6049, 515.769 ), Vector2( 22.706, 491.163 ), Vector2( 22.706, 507.567 ), Vector2( 22.706, 480.91 ), Vector2( 290, 710 ), Vector2( 940, 850 ), Vector2( 2140, 1130 ), Vector2( 2940, 1310 ) ]
+"values": [ Vector2( -496.386, 425.339 ), Vector2( 886.783, 463.112 ), Vector2( 584.202, 391.534 ), Vector2( -36.7598, 398.888 ), Vector2( -30.7396, 462.919 ), Vector2( -28.1601, 500.737 ), Vector2( -24.059, 456.089 ), Vector2( -20.6411, 484.088 ), Vector2( -28.9684, 470.979 ), Vector2( 481.672, 678.871 ), Vector2( 889.722, 815.785 ), Vector2( 1258, 964.37 ), Vector2( 3183.27, 1043.53 ), Vector2( 4440.65, 1277.68 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Cat:rect_rotation")
@@ -86,10 +86,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 1, 1.5, 2, 2.5, 2.8, 3.4, 4.2, 5, 5.7, 6.4, 7, 8 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 1, 1.5, 2, 2.5, 2.8, 3.4, 4.2, 4.2, 5, 5.5, 6, 6.4, 7, 8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ 9.99773, 9.99773, -60.7586, -60.7586, 0.476952, 0.476952, 0.476952, 0.476952, 0.476952, 15.0, 15.0, 15.0, 15.0 ]
+"values": [ 9.99773, 9.99773, -60.7586, -60.7586, 0.476952, 0.476952, 0.476952, 0.476952, 0.476952, 0.476952, 5.66375, 10.8506, 15.0, 15.0, 15.0 ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("ProgrammerTitle/ProgrammerLabel:percent_visible")
@@ -122,7 +122,7 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0, 5.5, 7.3 ),
+"times": PoolRealArray( 0, 5.5, 7 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ 0.0, 0.0, 1.0 ]
@@ -134,10 +134,10 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0, 5, 5.7, 6.4, 7, 8 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 2.5, 2.8, 3.4, 4.2, 5, 5.5, 6, 6.4, 7, 8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 219.999, 290.001 ), Vector2( 219.999, 290.001 ), Vector2( 349, 436 ), Vector2( 1070, 1068 ), Vector2( 2632, 2026 ), Vector2( 2632, 2026 ) ]
+"values": [ Vector2( 157, 290 ), Vector2( 157, 290 ), Vector2( 157, 290 ), Vector2( 157, 290 ), Vector2( 157, 290 ), Vector2( 157, 290 ), Vector2( 483.071, 866.786 ), Vector2( 809.143, 1443.57 ), Vector2( 1070, 1905 ), Vector2( 2632, 4815 ), Vector2( 2632, 4815 ) ]
 }
 tracks/6/type = "value"
 tracks/6/path = NodePath("Cat/Jetpack:rect_position")
@@ -149,7 +149,7 @@ tracks/6/keys = {
 "times": PoolRealArray( 0, 2.5, 5, 5.7, 6.4, 7 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 43.8596, 118.959 ), Vector2( 49.561, 120.5 ), Vector2( 51.2713, 112.233 ), Vector2( 78.377, 201.887 ), Vector2( 272.861, 399.882 ), Vector2( 817.607, 959.012 ) ]
+"values": [ Vector2( 22.3957, 119.451 ), Vector2( 25.0287, 117.711 ), Vector2( 26.697, 114.484 ), Vector2( 39.1493, 473.199 ), Vector2( 79.366, 681.898 ), Vector2( 817.607, 959.012 ) ]
 }
 tracks/7/type = "value"
 tracks/7/path = NodePath("Cat/Jetpack:rect_rotation")
@@ -158,10 +158,10 @@ tracks/7/loop_wrap = true
 tracks/7/imported = false
 tracks/7/enabled = true
 tracks/7/keys = {
-"times": PoolRealArray( 0, 2.5, 5, 5.7, 6.4, 7 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 2.5, 5, 5.7, 5.7, 6.4, 7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ]
+"values": [ 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 ]
 }
 tracks/8/type = "value"
 tracks/8/path = NodePath("Cat/Jetpack:rect_size")
@@ -170,10 +170,10 @@ tracks/8/loop_wrap = true
 tracks/8/imported = false
 tracks/8/enabled = true
 tracks/8/keys = {
-"times": PoolRealArray( 0, 5, 5.7, 6.4, 7 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 2.5, 5, 5.7, 6.4, 7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 130, 160 ), Vector2( 130, 160 ), Vector2( 222, 257 ), Vector2( 530, 708 ), Vector2( 1052, 1177 ) ]
+"values": [ Vector2( 130, 160 ), Vector2( 130, 160 ), Vector2( 130, 160 ), Vector2( 560, 631 ), Vector2( 965, 1310 ), Vector2( 1052, 1177 ) ]
 }
 tracks/9/type = "value"
 tracks/9/path = NodePath("Cat/Jetpack/CPUParticles2D:rotation_degrees")
@@ -182,10 +182,10 @@ tracks/9/loop_wrap = true
 tracks/9/imported = false
 tracks/9/enabled = true
 tracks/9/keys = {
-"times": PoolRealArray( 0, 5, 5.7, 6.4 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 5, 5.7, 5.7, 6.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ 90.0, 90.0, 90.0, 90.0 ]
+"values": [ 90.0, 90.0, 90.0, 90.0, 90.0 ]
 }
 tracks/10/type = "value"
 tracks/10/path = NodePath("Cat/Jetpack/CPUParticles2D:position")
@@ -197,7 +197,7 @@ tracks/10/keys = {
 "times": PoolRealArray( 0, 5, 5.7, 6.4 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 69.9997, 110 ), Vector2( 69.9997, 110 ), Vector2( 156.861, 204.091 ), Vector2( 379.076, 584.171 ) ]
+"values": [ Vector2( 69.9997, 110 ), Vector2( 69.9997, 110 ), Vector2( 416.38, 541.434 ), Vector2( 688.65, 1088.16 ) ]
 }
 tracks/11/type = "value"
 tracks/11/path = NodePath("Cat/Jetpack/CPUParticles2D:scale")
@@ -206,10 +206,10 @@ tracks/11/loop_wrap = true
 tracks/11/imported = false
 tracks/11/enabled = true
 tracks/11/keys = {
-"times": PoolRealArray( 0, 5, 5.7, 6.4 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 5, 5.7, 5.7, 6.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 1, 1 ) ]
+"values": [ Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 1, 1 ) ]
 }
 tracks/12/type = "value"
 tracks/12/path = NodePath("FontTitle/Font:percent_visible")
@@ -254,10 +254,22 @@ tracks/15/loop_wrap = true
 tracks/15/imported = false
 tracks/15/enabled = true
 tracks/15/keys = {
-"times": PoolRealArray( 0, 5, 5.7, 6.5 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 5, 5.7 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ 2.0, 2.0, 4.0, 20.0 ]
+"values": [ 2.0, 2.0, 20.0 ]
+}
+tracks/16/type = "value"
+tracks/16/path = NodePath("Cat:region_rect")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/keys = {
+"times": PoolRealArray( 0, 2.7, 2.8, 3, 4.7, 4.9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Rect2( 2, 2, 32, 65 ), Rect2( 2, 2, 32, 65 ), Rect2( 38, 2, 32, 65 ), Rect2( 2, 2, 32, 65 ), Rect2( 38, 2, 32, 65 ), Rect2( 2, 2, 32, 65 ) ]
 }
 
 [node name="CreditsScene" type="Control"]
@@ -266,6 +278,7 @@ anchor_bottom = 1.0
 script = SubResource( 1 )
 
 [node name="Bg" type="TextureRect" parent="."]
+editor/display_folded = true
 self_modulate = Color( 0.168627, 0.0196078, 0.231373, 1 )
 margin_right = 40.0
 margin_bottom = 40.0
@@ -289,6 +302,7 @@ align = 1
 valign = 1
 
 [node name="ProgrammerTitle" type="Label" parent="."]
+editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -312,11 +326,11 @@ margin_top = 53.6094
 margin_right = 332.5
 margin_bottom = 129.609
 custom_fonts/font = SubResource( 4 )
-custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color = Color( 1, 0.866667, 0, 1 )
 text = "DANIEL H. NATARELLI"
-percent_visible = 0.0
 
 [node name="ArtistTitle" type="Label" parent="."]
+editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -343,9 +357,9 @@ custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 0.431373, 1, 0, 1 )
 text = "Daniel H. Natarelli"
 align = 1
-percent_visible = 0.0
 
 [node name="FontTitle" type="Label" parent="."]
+editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -378,33 +392,32 @@ Overload
 by
 Ray Larabie"
 align = 1
-percent_visible = 0.0
 
-[node name="Cat" type="TextureRect" parent="."]
-margin_left = -359.326
-margin_top = 655.071
-margin_right = -139.327
-margin_bottom = 945.072
-rect_rotation = 9.99773
+[node name="Cat" type="NinePatchRect" parent="."]
+editor/display_folded = true
+margin_left = 4440.65
+margin_top = 1277.68
+margin_right = 7072.65
+margin_bottom = 6092.68
+rect_rotation = 15.0
 rect_scale = Vector2( -1, 1 )
 rect_pivot_offset = Vector2( 115.882, 155.1 )
 texture = ExtResource( 5 )
-expand = true
-stretch_mode = 6
+region_rect = Rect2( 2, 2, 32, 65 )
 
 [node name="Jetpack" type="TextureRect" parent="Cat"]
 show_behind_parent = true
-margin_left = 43.8596
-margin_top = 118.959
-margin_right = 173.86
-margin_bottom = 278.959
+margin_left = 817.607
+margin_top = 959.012
+margin_right = 1869.61
+margin_bottom = 2136.01
 texture = ExtResource( 6 )
 expand = true
 stretch_mode = 6
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Cat/Jetpack"]
 show_behind_parent = true
-position = Vector2( 69.9997, 110 )
+position = Vector2( 688.65, 1088.16 )
 rotation = 1.5708
 amount = 20
 texture = ExtResource( 7 )
@@ -413,7 +426,7 @@ gravity = Vector2( 0, 0 )
 initial_velocity = 150.0
 angle = 360.0
 angle_random = 1.0
-scale_amount = 2.0
+scale_amount = 20.0
 scale_amount_random = 1.0
 color_ramp = SubResource( 6 )
 
@@ -423,7 +436,7 @@ anims/FadeOut = SubResource( 7 )
 anims/Start = SubResource( 8 )
 
 [node name="BackButton" type="TextureButton" parent="."]
-self_modulate = Color( 1, 1, 1, 0 )
+self_modulate = Color( 1, 1, 1, 0.200001 )
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5

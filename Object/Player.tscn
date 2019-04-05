@@ -17,6 +17,7 @@ var GRAVITY = 1600
 var activated : bool = false 
 var sizeViewport : Vector2
 var sizeSprite : Vector2
+var invencible : bool = false
 
 signal start_playing
 signal dead
@@ -27,7 +28,7 @@ func _ready():
 	$Visible.scale.x = -jump_direction
 	sizeViewport = get_viewport_rect().size
 	position = Vector2(sizeViewport.x/2,0)
-	sizeSprite = $Visible/Skin.texture.get_size() * $Visible/Skin.scale
+	sizeSprite = $Visible/Skin.texture.get_size() * $Visible/Skin.scale / $Visible/Skin.hframes
 	set_physics_process(activated)
 	GameManager.player = self
 	connect('start_playing',get_tree().root.get_node('GameScene'),'start_game')
@@ -76,7 +77,8 @@ func check_jump_direction():
 	pass
 
 func take_damage():
-	emit_signal('dead')
+	if !invencible:
+		emit_signal('dead')
 
 func _on_VisibilityNotifier2D_screen_exited():
 	if !get_tree().paused:
@@ -90,6 +92,11 @@ func _on_Area_gui_input(event):
 			check_is_active()
 			jump_direction = -jump_direction
 			jump()
+	pass # Replace with function body.
+
+
+func _on_Invencible_button_down():
+	invencible = !invencible
 	pass # Replace with function body.
 "
 

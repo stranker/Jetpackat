@@ -415,7 +415,6 @@ centered = false
 position = Vector2( 538.545, 1547.64 )
 
 [node name="UIGame" type="CanvasLayer" parent="."]
-editor/display_folded = true
 script = SubResource( 6 )
 
 [node name="Container" type="Control" parent="UIGame"]
@@ -657,6 +656,22 @@ texture_pressed = ExtResource( 22 )
 expand = true
 stretch_mode = 5
 
+[node name="DebugPanel" type="Panel" parent="UIGame"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -497.0
+margin_right = 296.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UIGame/DebugPanel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Invencible" type="Button" parent="UIGame/DebugPanel/VBoxContainer"]
+margin_right = 296.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 0, 50 )
+text = "Invencible"
+
 [node name="CollectableSpawner" parent="." instance=ExtResource( 23 )]
 item_list = [ ExtResource( 24 ), ExtResource( 25 ) ]
 min_height = 8.0
@@ -682,3 +697,4 @@ probability = [ 1.0 ]
 [connection signal="button_down" from="UIGame/Container/PausePanel/ContinueButton" to="UIGame" method="_on_ContinueButton_button_down"]
 [connection signal="button_down" from="UIGame/Container/PausePanel/ConfigButton" to="UIGame" method="_on_ConfigButton_button_down"]
 [connection signal="button_down" from="UIGame/Container/PauseButton" to="UIGame" method="_on_PauseButton_button_down"]
+[connection signal="button_down" from="UIGame/DebugPanel/VBoxContainer/Invencible" to="Player" method="_on_Invencible_button_down"]

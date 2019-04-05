@@ -248,10 +248,11 @@ expand = true
 stretch_mode = 5
 
 [node name="Player" type="NinePatchRect" parent="."]
-margin_left = 495.564
-margin_top = 1202.78
-margin_right = 839.463
-margin_bottom = 1844.78
+editor/display_folded = true
+margin_left = 494.007
+margin_top = 1191.99
+margin_right = 837.861
+margin_bottom = 1833.99
 rect_rotation = -15.0
 rect_pivot_offset = Vector2( 205, 225 )
 texture = ExtResource( 15 )
@@ -259,6 +260,7 @@ region_rect = Rect2( 2, 2, 36, 68 )
 patch_margin_right = 2
 
 [node name="Player2" type="TextureRect" parent="Player"]
+editor/display_folded = true
 show_behind_parent = true
 margin_left = 41.0465
 margin_top = 238.009

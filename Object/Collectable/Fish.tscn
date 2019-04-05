@@ -1,6 +1,6 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://Shaders/OutlineShaderResource.tres" type="Material" id=1]
+[ext_resource path="res://Shaders/outline.shader" type="Shader" id=1]
 [ext_resource path="res://Sprites/Collectables/Fish.png" type="Texture" id=2]
 
 [sub_resource type="GDScript" id=1]
@@ -26,6 +26,11 @@ func _on_VisibilityNotifier2D_screen_exited():
 	queue_free()
 	pass # Replace with function body.
 "
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = ExtResource( 1 )
+shader_param/outline_width = 0.5
+shader_param/outline_color = Color( 0, 0, 0, 1 )
 
 [sub_resource type="CircleShape2D" id=2]
 radius = 50.4194
@@ -64,7 +69,7 @@ tracks/1/keys = {
 script = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-material = ExtResource( 1 )
+material = SubResource( 4 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 2 )
 
