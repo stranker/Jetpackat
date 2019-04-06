@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=2]
+[gd_scene load_steps=55 format=2]
 
 [ext_resource path="res://Sprites/Background/House.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Background/SmokeParticle.png" type="Texture" id=2]
@@ -29,8 +29,11 @@
 [ext_resource path="res://Object/Collectable/Fish.tscn" type="PackedScene" id=27]
 [ext_resource path="res://Object/Collectable/CoinCluster.tscn" type="PackedScene" id=28]
 [ext_resource path="res://Object/Misc/EnemySpawner.tscn" type="PackedScene" id=29]
-[ext_resource path="res://Object/Misc/OrbitSpawner.tscn" type="PackedScene" id=30]
-[ext_resource path="res://Object/Obstacles/OrbitHole.tscn" type="PackedScene" id=31]
+[ext_resource path="res://Object/Enemies/PaperPlane.tscn" type="PackedScene" id=30]
+[ext_resource path="res://Object/Enemies/Bird.tscn" type="PackedScene" id=31]
+[ext_resource path="res://Object/Enemies/Ovni.tscn" type="PackedScene" id=32]
+[ext_resource path="res://Object/Misc/OrbitSpawner.tscn" type="PackedScene" id=33]
+[ext_resource path="res://Object/Obstacles/OrbitHole.tscn" type="PackedScene" id=34]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node
@@ -88,6 +91,7 @@ func update_time(delta):
 func start_game():
 	playing = !playing
 	GameManager.playing = playing
+	pass
 
 func add_game_time(val):
 	game_timer += val
@@ -120,6 +124,7 @@ func end_game():
 	GameManager.coins = coins
 	GameManager.fishes = fishes
 	GameManager.player_height = 0
+	playing = !playing
 	$UIGame.show_deadpanel()
 
 func restart_game():
@@ -152,7 +157,7 @@ colors = PoolColorArray( 0.730469, 0.730469, 0.730469, 1, 0, 0, 0, 0 )
 [sub_resource type="GDScript" id=5]
 script/source = "extends ParallaxBackground
 
-export var space_height = 100
+export var space_height = 300
 var on_space : bool = false
 
 func _process(delta):
@@ -226,6 +231,7 @@ func _on_ConfigButton_button_down():
 	pass # Replace with function body.
 
 func show_deadpanel():
+	$Container/PauseButton.hide()
 	$Container/DeadPanel.show()
 	pass
 
@@ -493,7 +499,7 @@ script = SubResource( 5 )
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
 editor/display_folded = true
-motion_mirroring = Vector2( 0, 1920 )
+motion_mirroring = Vector2( 1080, 1920 )
 
 [node name="Bg1" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
 self_modulate = Color( 0.960938, 0.630615, 0.960938, 1 )
@@ -502,7 +508,7 @@ centered = false
 
 [node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
 editor/display_folded = true
-motion_scale = Vector2( 1, 0.1 )
+motion_scale = Vector2( 1, 0.2 )
 motion_mirroring = Vector2( 0, 1920 )
 
 [node name="Cloud1" type="Sprite" parent="ParallaxBackground/ParallaxLayer2"]
@@ -516,8 +522,7 @@ centered = false
 
 [node name="ParallaxLayer3" type="ParallaxLayer" parent="ParallaxBackground"]
 editor/display_folded = true
-motion_scale = Vector2( 1, 0.4 )
-motion_offset = Vector2( 0, 600 )
+motion_scale = Vector2( 1, 0.3 )
 motion_mirroring = Vector2( 0, 1920 )
 
 [node name="Cloud2" type="Sprite" parent="ParallaxBackground/ParallaxLayer3"]
@@ -532,7 +537,7 @@ centered = false
 [node name="Tween" type="Tween" parent="ParallaxBackground"]
 
 [node name="Player" parent="." instance=ExtResource( 8 )]
-position = Vector2( 538.545, 1547.64 )
+position = Vector2( 560, 1540 )
 
 [node name="UIGame" type="CanvasLayer" parent="."]
 script = SubResource( 6 )
@@ -881,9 +886,11 @@ max_height = 10.0
 probability = [ 0.1, 1.0 ]
 
 [node name="EnemySpawner" parent="." instance=ExtResource( 29 )]
+item_list = [ ExtResource( 30 ), ExtResource( 31 ), ExtResource( 32 ) ]
+height_control_list = [ 0, 100, 300 ]
 
-[node name="OrbitSpawner" parent="." instance=ExtResource( 30 )]
-item_list = [ ExtResource( 31 ) ]
+[node name="OrbitSpawner" parent="." instance=ExtResource( 33 )]
+item_list = [ ExtResource( 34 ) ]
 min_height = 10.0
 max_height = 15.0
 probability = [ 1.0 ]

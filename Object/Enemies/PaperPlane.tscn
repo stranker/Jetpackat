@@ -1,0 +1,119 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Sprites/Enemies/PaperPlane.png" type="Texture" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Area2D
+
+var direction : int = 1
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	randomize()
+	if rand_range(0,1) > 0.5:
+		change_direction()
+	pass # Replace with function body.
+
+func change_direction():
+	direction = -direction
+	scale.x *= -1
+	if direction == -1:
+		position.x = get_viewport_rect().size.x
+	else:
+		position.x = 0
+	$Anim.play(\"loop\")
+	pass
+
+
+func _on_Anim_animation_finished(anim_name):
+	change_direction()
+	pass # Replace with function body.
+
+
+func _on_PaperPlane_body_entered(body):
+	if body.is_in_group('Player'):
+		body.take_damage()
+	pass # Replace with function body.
+
+func _on_VisibilityNotifier2D_screen_exited():
+	if abs(global_position.y) < abs(GameManager.player.global_position.y) - get_viewport_rect().size.y/2:
+		queue_free()
+	pass # Replace with function body.
+"
+
+[sub_resource type="Animation" id=2]
+resource_name = "loop"
+length = 4.4
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 0.8, 1.1, 1.4, 1.7, 2, 2.3, 2.6, 2.9, 3.2, 3.5, 3.8, 4.1, 4.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -162.837, -6.46176 ), Vector2( 207.618, 3.48251 ), Vector2( 416.951, -27.1055 ), Vector2( 508.349, -112.488 ), Vector2( 478.291, -194.194 ), Vector2( 382.666, -264.685 ), Vector2( 192.639, -194.799 ), Vector2( 156.89, -89.5404 ), Vector2( 183.81, 94.5627 ), Vector2( 310.345, 153.226 ), Vector2( 497.772, 134.076 ), Vector2( 619.174, 60.3974 ), Vector2( 744.868, -22.3264 ), Vector2( 947.395, -3.94427 ), Vector2( 1323.26, 20.3499 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5, 0.8, 1.1, 1.4, 1.7, 2, 2.3, 2.6, 2.9, 3.2, 3.5, 3.8, 4.1, 4.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 10.9709, -12.6035, -55.9099, -100.599, -149.033, -224.461, -254.897, -287.724, -346.129, -362.577, -376.87, -380.777, -357.196, -357.196 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Collision:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5, 0.8, 1.1, 1.4, 1.7, 2, 2.3, 2.6, 2.9, 3.2, 3.5, 3.8, 4.1, 4.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -158.604, -2.51752 ), Vector2( 211.85, 4.90921 ), Vector2( 428.736, -30.7139 ), Vector2( 512.581, -111.062 ), Vector2( 477.488, -197.803 ), Vector2( 389.416, -260.741 ), Vector2( 189.318, -195.889 ), Vector2( 156.087, -85.5961 ), Vector2( 183.008, 98.507 ), Vector2( 307.025, 154.652 ), Vector2( 491.934, 132.985 ), Vector2( 620.889, 61.8241 ), Vector2( 751.618, -23.4172 ), Vector2( 959.18, -2.5175 ), Vector2( 1322.46, 21.7767 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Collision:rotation_degrees")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.5, 0.8, 1.1, 1.4, 1.7, 2, 2.3, 2.6, 2.9, 3.2, 3.5, 3.8, 4.1, 4.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 5.77297, -20.6903, -54.3653, -99.8248, -151.21, -224.112, -255.959, -290.59, -348.57, -362.247, -378.897, -381.267, -355.821, -355.821 ]
+}
+
+[node name="PaperPlane" type="Area2D"]
+position = Vector2( 0, 281.294 )
+script = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 1323.26, 20.3499 )
+rotation = -6.23425
+scale = Vector2( 3, 3 )
+texture = ExtResource( 1 )
+
+[node name="Collision" type="CollisionPolygon2D" parent="."]
+position = Vector2( 1322.46, 21.7767 )
+rotation = -6.21024
+polygon = PoolVector2Array( -61.6072, 8.79681, -51.9376, -19.0744, 60.116, 1.40241, 7.78642, 16.1912 )
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+autoplay = "loop"
+anims/loop = SubResource( 2 )
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+
+[connection signal="body_entered" from="." to="." method="_on_PaperPlane_body_entered"]
+[connection signal="animation_finished" from="Anim" to="." method="_on_Anim_animation_finished"]
+[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
