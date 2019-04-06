@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Shaders/OutlineShaderResource.tres" type="Material" id=1]
 [ext_resource path="res://Sprites/Cat.png" type="Texture" id=2]
@@ -18,6 +18,7 @@ var activated : bool = false
 var sizeViewport : Vector2
 var sizeSprite : Vector2
 var invencible : bool = false
+var dead : bool = false
 
 signal start_playing
 signal dead
@@ -77,8 +78,10 @@ func check_jump_direction():
 	pass
 
 func take_damage():
-	if !invencible:
-		emit_signal('dead')
+	if !invencible and !dead:
+		dead = !dead
+		set_physics_process(false)
+		$Anim.play('Dead')
 
 func _on_VisibilityNotifier2D_screen_exited():
 	if !get_tree().paused:
@@ -151,6 +154,137 @@ tracks/0/keys = {
 [sub_resource type="CircleShape2D" id=8]
 radius = 117.38
 
+[sub_resource type="Animation" id=9]
+resource_name = "Dead"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Visible/Skin:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.8, 1.5, 2 ),
+"transitions": PoolRealArray( 0.5, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1.57407, -1.25439 ), Vector2( 4.15878, -64.5798 ), Vector2( 93.7939, 290.87 ), Vector2( 167.357, 506.654 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Visible/Skin:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.8, 1.5, 2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 45.8974, 89.6869, 128.842 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Visible/Jetpack:rotation_degrees")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.8, 1.5, 2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, -119.966, -204.84, -289.63 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Visible/Jetpack:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.8, 1.5, 2 ),
+"transitions": PoolRealArray( 0.5, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 3.84464, 39.7731 ), Vector2( -142.931, 5.23767 ), Vector2( -250.854, 294.472 ), Vector2( -303.981, 651.181 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Camera2D:zoom")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.8 ),
+"transitions": PoolRealArray( 0.5, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 0.4, 0.4 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Camera2D:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( -13.2781, -219.667 ), Vector2( -21.1586, -121.384 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Visible/Skin:frame")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 2 ]
+}
+tracks/7/type = "method"
+tracks/7/path = NodePath(".")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 2 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [ "dead" ],
+"method": "emit_signal"
+} ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("ClickArea/Area:mouse_filter")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 2 ]
+}
+
+[sub_resource type="Animation" id=10]
+resource_name = "Flying"
+length = 5.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Visible/Skin:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1.3, 1.5, 3.8, 4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 0, 1, 0 ]
+}
+
 [node name="Player" type="KinematicBody2D" groups=[
 "Player",
 ]]
@@ -161,7 +295,7 @@ script = SubResource( 1 )
 shape = SubResource( 2 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2( 0, -600.306 )
+position = Vector2( -13.2781, -219.667 )
 current = true
 limit_smoothed = true
 drag_margin_left = 1.0
@@ -172,6 +306,7 @@ editor_draw_drag_margin = true
 script = SubResource( 3 )
 
 [node name="Visible" type="Node2D" parent="."]
+editor/display_folded = true
 
 [node name="Skin" type="Sprite" parent="Visible"]
 material = ExtResource( 1 )
@@ -179,6 +314,7 @@ position = Vector2( 1.57407, -1.25439 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 2 )
 hframes = 3
+frame = 2
 
 [node name="Jetpack" type="Sprite" parent="Visible"]
 editor/display_folded = true
@@ -245,6 +381,11 @@ visible = false
 shape = SubResource( 8 )
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+autoplay = "Flying"
+anims/Dead = SubResource( 9 )
+anims/Flying = SubResource( 10 )
 
 [node name="ClickArea" type="CanvasLayer" parent="."]
 

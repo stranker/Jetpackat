@@ -5,9 +5,9 @@
 [sub_resource type="GDScript" id=1]
 script/source = "extends Area2D
 
-export var speed : float = 500
-export var increment : float = 50
-export var max_speed : float = 500
+export var speed : float = 600
+export var increment : float = 100
+export var max_speed : float = 900
 enum PATRON {PATROL, STILL}
 export (PATRON) var current_patron
 var velocity : Vector2

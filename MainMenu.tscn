@@ -86,7 +86,7 @@ tracks/0/keys = {
 "values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=5]
 resource_name = "Idle"
 length = 4.0
 loop = true
@@ -115,8 +115,7 @@ tracks/1/keys = {
 "values": [ Rect2( 2, 2, 36, 68 ), Rect2( 38, 2, 36, 68 ), Rect2( 2, 2, 36, 68 ), Rect2( 38, 2, 36, 68 ) ]
 }
 
-[sub_resource type="Animation" id=5]
-resource_name = "Start"
+[sub_resource type="Animation" id=6]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Player:rect_position")
 tracks/0/interp = 1
@@ -316,8 +315,8 @@ texture = ExtResource( 1 )
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Start"
 anims/FadeOut = SubResource( 4 )
-anims/Idle = SubResource( 6 )
-anims/Start = SubResource( 5 )
+anims/Idle = SubResource( 5 )
+anims/Start = SubResource( 6 )
 
 [node name="Tween" type="Tween" parent="."]
 
