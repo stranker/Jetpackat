@@ -835,6 +835,7 @@ expand = true
 stretch_mode = 5
 
 [node name="Transition" type="TextureRect" parent="UIGame/Container"]
+editor/display_folded = true
 self_modulate = Color( 0.109804, 0.0509804, 0.152941, 0 )
 margin_right = 40.0
 margin_bottom = 40.0
@@ -864,6 +865,7 @@ anims/Restart = SubResource( 20 )
 
 [node name="DebugPanel" type="Panel" parent="UIGame"]
 editor/display_folded = true
+visible = false
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_top = -497.0
