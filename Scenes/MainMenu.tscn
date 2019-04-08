@@ -59,7 +59,13 @@ func _on_Anim_animation_finished(anim_name):
 
 func _on_ConfigButton_button_down():
 	$ConfigPanel.show()
-	pass # Replace with function body."
+	pass # Replace with function body.
+
+func _on_ShopButton_button_down():
+	$Anim.play(\"FadeOut\")
+	next_scene = 'res://Scenes/ShopScene.tscn'
+	pass # Replace with function body.
+"
 
 [sub_resource type="Gradient" id=2]
 offsets = PoolRealArray( 0, 0.519553, 0.675978, 0.865922, 1 )
@@ -161,7 +167,6 @@ expand = true
 stretch_mode = 6
 
 [node name="PawCat" type="TextureRect" parent="."]
-editor/display_folded = true
 self_modulate = Color( 0.788235, 0.564706, 0.92549, 1 )
 anchor_left = 0.5
 anchor_top = 0.5
@@ -198,7 +203,6 @@ margin_left = -340.0
 margin_top = -135.0
 margin_right = -219.0
 margin_bottom = 13.0
-disabled = true
 texture_normal = ExtResource( 7 )
 texture_pressed = ExtResource( 8 )
 expand = true
@@ -321,6 +325,7 @@ anims/Start = SubResource( 6 )
 [node name="Tween" type="Tween" parent="."]
 
 [connection signal="button_down" from="PawCat/StartButton" to="." method="_on_StartButton_button_down"]
+[connection signal="button_down" from="PawCat/ShopButton" to="." method="_on_ShopButton_button_down"]
 [connection signal="button_down" from="PawCat/ConfigButton" to="." method="_on_ConfigButton_button_down"]
 [connection signal="button_down" from="PawCat/CreditsButton" to="." method="_on_CreditsButton_button_down"]
 [connection signal="button_down" from="PawCat/CloseButton" to="." method="_on_CloseButton_button_down"]

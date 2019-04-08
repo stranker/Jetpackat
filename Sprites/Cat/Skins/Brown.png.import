@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Copa.png-3ccead42e44cb66cd1505aad2ca8f3c0.stex"
+path="res://.import/Brown.png-e02a3f6a765bb9e10542373566527aac.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Cat/Hats/Copa.png"
-dest_files=[ "res://.import/Copa.png-3ccead42e44cb66cd1505aad2ca8f3c0.stex" ]
+source_file="res://Sprites/Cat/Skins/Brown.png"
+dest_files=[ "res://.import/Brown.png-e02a3f6a765bb9e10542373566527aac.stex" ]
 
 [params]
 

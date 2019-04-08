@@ -1,0 +1,23 @@
+// ITEM SHOP DATA
+// JETPACKAT by Daniel "Stranker" Natarelli
+
+{
+	"Hats": {
+		"TopHat": {
+			"id": 0,
+			"buyed": false,
+			"payment": "Coin",
+			"price": 200,
+			"type": "Hat"
+		}
+	},
+	"Skins": {
+		"Brown": {
+			"id": 0,
+			"buyed": false,
+			"payment": "Coin",
+			"price": 300,
+			"type": "Skin"
+		}
+	}
+}
