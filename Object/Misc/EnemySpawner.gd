@@ -1,4 +1,4 @@
-extends "res://Spawner.gd"
+extends "res://Object/Misc/Spawner.gd"
 
 export (Array, int) var height_control_list
 

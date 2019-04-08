@@ -1,9 +1,9 @@
-extends 'res://Spawner.gd'
+extends 'res://Object/Misc/Spawner.gd'
 
 export (Array, float) var probability
 
 func _ready():
-	type = SPAWN_TYPE.ORBIT
+	type = SPAWN_TYPE.COLLECTABLE
 
 func _process(delta):
 	if activated:

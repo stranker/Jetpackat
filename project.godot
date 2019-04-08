@@ -16,12 +16,12 @@ _global_script_class_icons={
 [application]
 
 config/name="JetCat"
-run/main_scene="res://MainMenu.tscn"
+run/main_scene="res://Scenes/MainMenu.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
-GameManager="*res://GameManager.gd"
+GameManager="*res://Object/Misc/GameManager.gd"
 
 [display]
 

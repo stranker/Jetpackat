@@ -25,7 +25,7 @@ func _input(event):
 
 func _on_Anim_animation_finished(anim_name):
 	if anim_name == 'FadeOut':
-		get_tree().change_scene('res://MainMenu.tscn')
+		get_tree().change_scene('res://Scenes/MainMenu.tscn')
 	pass # Replace with function body.
 "
 

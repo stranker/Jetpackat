@@ -1,8 +1,9 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://EnemySpawner.gd" type="Script" id=1]
+[ext_resource path="res://Object/Misc/EnemySpawner.gd" type="Script" id=1]
 [ext_resource path="res://Object/Enemies/Bird.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Object/Enemies/Ovni.tscn" type="PackedScene" id=3]
+
 
 [node name="EnemySpawner" type="Node"]
 script = ExtResource( 1 )
