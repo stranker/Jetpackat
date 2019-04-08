@@ -15,13 +15,8 @@ script/source = "extends Control
 
 export (PackedScene) var item_shop_panel
 
-var item_data = {}
-var hats_data = {}
-var skins_data = {}
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	load_item_data_file()
 	update_currency()
 	pass # Replace with function body.
 
@@ -31,11 +26,11 @@ func update_currency():
 	pass
 
 func _on_Hat_button_down():
-	create_panels(hats_data)
+	create_panels(GameManager.item_data['Hat'])
 	pass # Replace with function body.
 
 func _on_Skin_button_down():
-	create_panels(skins_data)
+	create_panels(GameManager.item_data['Skin'])
 	pass # Replace with function body.
 
 func clear_item_panels():
@@ -47,32 +42,14 @@ func create_panels(data : Dictionary):
 	clear_item_panels()
 	for i in data.keys():
 		var isp = item_shop_panel.instance()
-		isp.set_item_info(i,data[i],self)
-		$HBC/ShopPanel/PanelItems/Items.call_deferred('add_child',isp)
-	pass
-
-func load_item_data_file():
-	var file = File.new()
-	file.open('Data/ItemShopData.txt',File.READ)
-	var line = file.get_line()
-	var raw_data = \"\"
-	while !file.eof_reached():
-		if !str(line).begins_with('//'):
-			raw_data += line
-		line = file.get_line()
-	item_data = parse_json(raw_data)
-	hats_data = item_data['Hat']
-	skins_data = item_data['Skin']
-	file.close()
+		$HBC/ShopPanel/PanelItems/Items.add_child(isp)
+		isp.set_item_info(i,data[i])
 	pass
 
 func _on_TextureButton_button_down():
 	get_tree().change_scene('Scenes/MainMenu.tscn')
 	pass # Replace with function body.
-
-func buy_item(item_type,item_name):
-	item_data[item_type][item_name]['buyed'] = true
-	pass"
+"
 
 [sub_resource type="DynamicFont" id=2]
 size = 56
@@ -128,6 +105,7 @@ texture_normal = ExtResource( 4 )
 expand = true
 
 [node name="ShopPanel" type="VBoxContainer" parent="HBC"]
+editor/display_folded = true
 margin_left = 264.0
 margin_right = 1080.0
 margin_bottom = 1920.0

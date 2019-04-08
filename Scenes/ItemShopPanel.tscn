@@ -18,15 +18,17 @@ var buyed : bool
 var shop = null
 
 signal item_buy(item_type,item_name)
+signal item_equip(item_type,item_name)
 
-func set_item_info(iname:String,info : Dictionary, shop):
+func set_item_info(iname:String,info : Dictionary):
 	id = int(info['id'])
 	item_name = iname
 	type = info['type']
 	price = int(info['price'])
 	payment = info['payment']
 	buyed = bool(info['buyed'])
-	connect('item_buy',shop,'buy_item')
+	connect('item_buy',GameManager,'buy_item')
+	connect('item_equip',GameManager,'equip_item')
 	configure_panel()
 	pass
 
@@ -66,6 +68,11 @@ func _on_ShopButton_button_down():
 	emit_signal('item_buy',type,item_name)
 	$ShopButton.hide()
 	$UseButton.show()
+	pass # Replace with function body.
+
+
+func _on_UseButton_button_down():
+	emit_signal('item_equip',type,item_name)
 	pass # Replace with function body.
 "
 
@@ -149,3 +156,4 @@ align = 1
 valign = 1
 
 [connection signal="button_down" from="ShopButton" to="." method="_on_ShopButton_button_down"]
+[connection signal="button_down" from="UseButton" to="." method="_on_UseButton_button_down"]

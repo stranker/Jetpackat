@@ -6,18 +6,16 @@
 [ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/Background/SmokeParticle.png" type="Texture" id=5]
 
-
 [sub_resource type="GDScript" id=1]
 script/source = "extends KinematicBody2D
 
 var jump_speed : float = 700
 var horizontal_speed : float = 270
 var velocity : Vector2
-var jump_direction : int
+var jump_direction : int = 1
 var GRAVITY = 1600
 var activated : bool = false 
-var sizeViewport : Vector2
-var sizeSprite : Vector2
+var size_sprite : Vector2
 var invencible : bool = false
 var dead : bool = false
 
@@ -26,18 +24,39 @@ signal dead
 signal current_height(value)
 
 func _ready():
-	jump_direction = 1
+	initialize()
+	pass # Replace with function body.
+
+func initialize():
 	$Visible.scale.x = -jump_direction
-	sizeViewport = get_viewport_rect().size
-	position = Vector2(sizeViewport.x/2,0)
-	sizeSprite = $Visible/Skin.texture.get_size() * $Visible/Skin.scale / $Visible/Skin.hframes
-	set_physics_process(activated)
+	position = Vector2(get_viewport_rect().size.x/2,0)
+	size_sprite = $Visible/Skin.texture.get_size() * $Visible/Skin.scale / $Visible/Skin.hframes
 	GameManager.player = self
+	set_physics_process(activated)
 	connect('start_playing',get_tree().root.get_node('GameScene'),'start_game')
 	connect('dead',get_tree().root.get_node('GameScene'),'end_game')
 	connect('current_height',get_tree().root.get_node('GameScene'),'update_height')
 	emit_signal('current_height',abs(position.y))
-	pass # Replace with function body.
+	check_items_equipped()
+	pass
+
+func check_items_equipped():
+	if !GameManager.items_equipped.keys().empty():
+		for item in GameManager.items_equipped.keys():
+			match item:
+				'Hat':
+					set_hat(GameManager.items_equipped[item])
+				'Skin':
+					set_skin(GameManager.items_equipped[item])
+	pass
+
+func set_hat(item):
+	$Visible/Hat.texture = load('Sprites/Cat/Hat/'+item+'.png')
+	pass
+
+func set_skin(item):
+	$Visible/Skin.texture = load('res://Sprites/Cat/Skin/'+item+'.png')
+	pass
 
 func _physics_process(delta):
 	if activated:
@@ -49,10 +68,10 @@ func _physics_process(delta):
 	pass
 
 func check_boundaries():
-	if position.x < sizeSprite.x * 0.5:
-		position.x = sizeSprite.x * 0.5
-	elif position.x > sizeViewport.x - sizeSprite.x * 0.5:
-		position.x = sizeViewport.x - sizeSprite.x * 0.5
+	if position.x < size_sprite.x * 0.5:
+		position.x = size_sprite.x * 0.5
+	elif position.x > get_viewport_rect().size.x - size_sprite.x * 0.5:
+		position.x = get_viewport_rect().size.x - size_sprite.x * 0.5
 	pass
 
 func jump():
@@ -265,11 +284,11 @@ tracks/0/keys = {
 "values": [ 0, 1, 0, 1, 0 ]
 }
 
-[sub_resource type="Gradient" id=12]
+[sub_resource type="Gradient" id=11]
 offsets = PoolRealArray( 0, 0.162011, 0.318436, 0.480447, 0.659218, 0.843575, 1 )
 colors = PoolColorArray( 0.85098, 0, 1, 0.313726, 0.662745, 0, 1, 0.313726, 0.0666667, 0.0117647, 1, 0.313726, 0.0666667, 1, 0.0117647, 0.313726, 0.92549, 1, 0.0235294, 0.313726, 1, 0.690196, 0.027451, 0.313726, 1, 0, 0, 0.313726 )
 
-[sub_resource type="GDScript" id=11]
+[sub_resource type="GDScript" id=12]
 script/source = "extends Line2D
 
 var target
@@ -312,7 +331,6 @@ editor_draw_drag_margin = true
 script = SubResource( 3 )
 
 [node name="Visible" type="Node2D" parent="."]
-editor/display_folded = true
 
 [node name="Skin" type="Sprite" parent="Visible"]
 material = ExtResource( 1 )
@@ -386,6 +404,10 @@ visible = false
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Visible/MagnetArea"]
 shape = SubResource( 8 )
 
+[node name="Hat" type="Sprite" parent="Visible"]
+position = Vector2( 3.91803, -92.4677 )
+rotation = 0.170339
+
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 
 [node name="Anim" type="AnimationPlayer" parent="."]
@@ -408,13 +430,12 @@ show_behind_parent = true
 position = Vector2( -238.836, -90.1898 )
 width = 50.0
 default_color = Color( 1, 0, 0, 0.466667 )
-gradient = SubResource( 12 )
-texture_mode = 0
+gradient = SubResource( 11 )
 joint_mode = 2
 begin_cap_mode = 2
 end_cap_mode = 2
 sharp_limit = 5.0
-script = SubResource( 11 )
+script = SubResource( 12 )
 target_path = NodePath("../TrailPos")
 
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

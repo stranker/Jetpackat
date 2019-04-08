@@ -167,6 +167,7 @@ expand = true
 stretch_mode = 6
 
 [node name="PawCat" type="TextureRect" parent="."]
+editor/display_folded = true
 self_modulate = Color( 0.788235, 0.564706, 0.92549, 1 )
 anchor_left = 0.5
 anchor_top = 0.5
