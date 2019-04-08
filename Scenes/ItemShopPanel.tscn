@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://Sprites/Cat/Hats/TopHat.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/Cat/Hat/TopHat.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/UI/ItemShopButton.png" type="Texture" id=2]
-[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=3]
-[ext_resource path="res://Sprites/Collectables/Coin.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/UI/ItemShopButtonDisabled.png" type="Texture" id=3]
+[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://Sprites/Collectables/Coin.png" type="Texture" id=5]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Panel
@@ -14,39 +15,64 @@ var type : String
 var price : int
 var payment : String
 var buyed : bool
+var shop = null
 
-func set_item_info(iname:String,info : Dictionary):
+signal item_buy(item_type,item_name)
+
+func set_item_info(iname:String,info : Dictionary, shop):
 	id = int(info['id'])
 	item_name = iname
 	type = info['type']
 	price = int(info['price'])
 	payment = info['payment']
 	buyed = bool(info['buyed'])
+	connect('item_buy',shop,'buy_item')
 	configure_panel()
 	pass
 
 func configure_panel():
+	var image = Image.new()
+	image.load('res://Sprites/Cat/'+type+'/'+item_name+'.png')
+	# If the item is an Skin i need to crop the image (spritesheet)
+	if type == 'Skin':
+		image.crop(36,68)
+	var texture = ImageTexture.new()
+	texture.create_from_image(image)
+	$ItemImage.texture = texture
 	if !buyed:
-		# Load the the image from file with type and item name
-		var image = Image.new()
-		image.load('res://Sprites/Cat/'+type+'s'+'/'+item_name+'.png')
-		# If the item is an Skin i need to crop the image (spritesheet)
-		if type == 'Skin':
-			image.crop(36,68)
-		var texture = ImageTexture.new()
-		texture.create_from_image(image)
-		$ItemImage.texture = texture
 		$ShopButton/PriceTag.text = str(price)
 		$ShopButton/PriceTag/Payment.texture = load('res://Sprites/Collectables/'+payment+'.png')
+		$ShopButton.disabled = check_button_available()
 	else:
 		$ShopButton.hide()
 		$UseButton.show()
-	pass"
+	pass
+
+func check_button_available():
+	var currency : int = 0
+	match payment:
+		\"Coin\":
+			currency = GameManager.coins
+		\"Fish\":
+			currency = GameManager.fishes
+	return price > currency
+
+func _on_ShopButton_button_down():
+	match payment:
+		'Coin':
+			GameManager.coins -= price
+		'Fish':
+			GameManager.fishes -= price
+	emit_signal('item_buy',type,item_name)
+	$ShopButton.hide()
+	$UseButton.show()
+	pass # Replace with function body.
+"
 
 [sub_resource type="DynamicFont" id=2]
 size = 36
 use_filter = true
-font_data = ExtResource( 3 )
+font_data = ExtResource( 4 )
 
 [node name="ItemShopPanel" type="Panel"]
 anchor_right = 1.0
@@ -71,6 +97,7 @@ margin_right = 266.0
 margin_bottom = 398.0
 rect_min_size = Vector2( 266, 64 )
 texture_normal = ExtResource( 2 )
+texture_disabled = ExtResource( 3 )
 
 [node name="PriceTag" type="Label" parent="ShopButton"]
 editor/display_folded = true
@@ -94,7 +121,7 @@ margin_left = -40.5
 margin_top = -20.0
 margin_right = -0.5
 margin_bottom = 20.0
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 expand = true
 stretch_mode = 6
 
@@ -121,3 +148,4 @@ text = "Use"
 align = 1
 valign = 1
 
+[connection signal="button_down" from="ShopButton" to="." method="_on_ShopButton_button_down"]

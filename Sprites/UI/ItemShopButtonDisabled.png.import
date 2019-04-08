@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/TopHat.png-824e72adacf01051872cd2caf1c49707.stex"
+path="res://.import/ItemShopButtonDisabled.png-6452a41d1fa2c0a2661a8c05dc3108c2.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Cat/Hats/TopHat.png"
-dest_files=[ "res://.import/TopHat.png-824e72adacf01051872cd2caf1c49707.stex" ]
+source_file="res://Sprites/UI/ItemShopButtonDisabled.png"
+dest_files=[ "res://.import/ItemShopButtonDisabled.png-6452a41d1fa2c0a2661a8c05dc3108c2.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=false
+flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2

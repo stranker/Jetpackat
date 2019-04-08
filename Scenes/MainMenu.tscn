@@ -35,7 +35,7 @@ func _ready():
 
 func _on_StartButton_button_down():
 	$Anim.play(\"FadeOut\")
-	next_scene = 'res://Scenes/GameScene.tscn'
+	next_scene = 'Scenes/GameScene.tscn'
 	pass # Replace with function body.
 
 
@@ -46,7 +46,7 @@ func _on_CloseButton_button_down():
 
 func _on_CreditsButton_button_down():
 	$Anim.play(\"FadeOut\")
-	next_scene = 'res://Scenes/CreditsScene.tscn'
+	next_scene = 'Scenes/CreditsScene.tscn'
 	pass # Replace with function body.
 
 
@@ -63,7 +63,7 @@ func _on_ConfigButton_button_down():
 
 func _on_ShopButton_button_down():
 	$Anim.play(\"FadeOut\")
-	next_scene = 'res://Scenes/ShopScene.tscn'
+	next_scene = 'Scenes/ShopScene.tscn'
 	pass # Replace with function body.
 "
 

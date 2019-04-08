@@ -22,7 +22,13 @@ var skins_data = {}
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	load_item_data_file()
+	update_currency()
 	pass # Replace with function body.
+
+func update_currency():
+	$HBC/ShopPanel/Currency/Coins/Label.text = str(GameManager.coins)
+	$HBC/ShopPanel/Currency/Fishs/Label.text = str(GameManager.fishes)
+	pass
 
 func _on_Hat_button_down():
 	create_panels(hats_data)
@@ -41,7 +47,7 @@ func create_panels(data : Dictionary):
 	clear_item_panels()
 	for i in data.keys():
 		var isp = item_shop_panel.instance()
-		isp.set_item_info(i,data[i])
+		isp.set_item_info(i,data[i],self)
 		$HBC/ShopPanel/PanelItems/Items.call_deferred('add_child',isp)
 	pass
 
@@ -55,15 +61,18 @@ func load_item_data_file():
 			raw_data += line
 		line = file.get_line()
 	item_data = parse_json(raw_data)
-	hats_data = item_data['Hats']
-	skins_data = item_data['Skins']
+	hats_data = item_data['Hat']
+	skins_data = item_data['Skin']
 	file.close()
 	pass
 
 func _on_TextureButton_button_down():
 	get_tree().change_scene('Scenes/MainMenu.tscn')
 	pass # Replace with function body.
-"
+
+func buy_item(item_type,item_name):
+	item_data[item_type][item_name]['buyed'] = true
+	pass"
 
 [sub_resource type="DynamicFont" id=2]
 size = 56

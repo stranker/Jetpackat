@@ -2,7 +2,7 @@
 // JETPACKAT by Daniel "Stranker" Natarelli
 
 {
-	"Hats": {
+	"Hat": {
 		"TopHat": {
 			"id": 0,
 			"buyed": false,
@@ -11,7 +11,7 @@
 			"type": "Hat"
 		}
 	},
-	"Skins": {
+	"Skin": {
 		"Brown": {
 			"id": 0,
 			"buyed": false,
