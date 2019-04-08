@@ -24,7 +24,7 @@
 [ext_resource path="res://Sprites/UI/HomeButtonPressed.png" type="Texture" id=22]
 [ext_resource path="res://Sprites/UI/ConfigButton.png" type="Texture" id=23]
 [ext_resource path="res://Sprites/UI/ConfigButtonPressed.png" type="Texture" id=24]
-[ext_resource path="res://Sprites/CatHead.png" type="Texture" id=25]
+[ext_resource path="res://Sprites/Cat/CatHead.png" type="Texture" id=25]
 [ext_resource path="res://Object/Misc/CollectableSpawner.tscn" type="PackedScene" id=26]
 [ext_resource path="res://Object/Collectable/Fish.tscn" type="PackedScene" id=27]
 [ext_resource path="res://Object/Collectable/CoinCluster.tscn" type="PackedScene" id=28]
@@ -358,14 +358,14 @@ font_data = ExtResource( 9 )
 size = 36
 font_data = ExtResource( 9 )
 
-[sub_resource type="DynamicFont" id=18]
+[sub_resource type="DynamicFont" id=17]
 size = 90
 outline_size = 6
 outline_color = Color( 1, 0.952941, 0.952941, 1 )
 use_filter = true
 font_data = ExtResource( 16 )
 
-[sub_resource type="DynamicFont" id=17]
+[sub_resource type="DynamicFont" id=18]
 size = 80
 font_data = ExtResource( 16 )
 
@@ -742,7 +742,7 @@ margin_left = -1.29236
 margin_top = 19.3854
 margin_right = -1.29236
 margin_bottom = 80.3854
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 17 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
@@ -834,7 +834,7 @@ stretch_mode = 5
 [node name="PauseLabel" type="Label" parent="UIGame/Container/PausePanel"]
 anchor_right = 1.0
 margin_bottom = 86.0
-custom_fonts/font = SubResource( 17 )
+custom_fonts/font = SubResource( 18 )
 text = "GAME PAUSED"
 align = 1
 valign = 1

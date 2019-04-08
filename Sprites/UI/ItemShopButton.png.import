@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/CatHead.png-6012cc4902584f08c36e34cfae3a3bee.stex"
+path="res://.import/ItemShopButton.png-00f1469d8a53f5829bebe984024a3405.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/CatHead.png"
-dest_files=[ "res://.import/CatHead.png-6012cc4902584f08c36e34cfae3a3bee.stex" ]
+source_file="res://Sprites/UI/ItemShopButton.png"
+dest_files=[ "res://.import/ItemShopButton.png-00f1469d8a53f5829bebe984024a3405.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=false
+flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2

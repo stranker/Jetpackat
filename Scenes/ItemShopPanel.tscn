@@ -1,0 +1,114 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Sprites/Cat/Hats/Copa.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/UI/ItemShopButton.png" type="Texture" id=2]
+[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://Sprites/Collectables/Coin.png" type="Texture" id=4]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Panel
+
+var id : int
+var type : String
+var price : int
+var payment : String
+var buyed : bool
+
+func set_item_info(item_id : int,info : Array):
+	id = item_id
+	type = info[0]
+	price = info[1]
+	payment = info[2]
+	buyed = info[3]
+	configure_panel()
+	pass
+
+func configure_panel():
+	if !buyed:
+		$VBC/ItemImage.texture = load('res://Sprites/Cat/'+type+'/'+str(id)+'.png')
+		$VBC/ShopButton/PriceTag.text = str(price)
+		$VBC/ShopButton/PriceTag/Payment.texture = load('res://Sprites/Collectables/'+payment+'.png')
+	else:
+		$ShopButton.hide()
+		$UseButton.show()
+	pass"
+
+[sub_resource type="DynamicFont" id=2]
+size = 36
+use_filter = true
+font_data = ExtResource( 3 )
+
+[node name="ItemShopPanel" type="Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -814.0
+margin_bottom = -1590.0
+script = SubResource( 1 )
+
+[node name="ItemImage" type="TextureRect" parent="."]
+margin_right = 266.0
+margin_bottom = 330.0
+rect_min_size = Vector2( 266, 262 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource( 1 )
+expand = true
+stretch_mode = 6
+
+[node name="ShopButton" type="TextureButton" parent="."]
+editor/display_folded = true
+margin_top = 334.0
+margin_right = 266.0
+margin_bottom = 398.0
+rect_min_size = Vector2( 266, 64 )
+texture_normal = ExtResource( 2 )
+
+[node name="PriceTag" type="Label" parent="ShopButton"]
+editor/display_folded = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -38.0
+margin_top = -23.0
+margin_right = 38.0
+margin_bottom = 23.0
+custom_fonts/font = SubResource( 2 )
+text = "20000"
+align = 3
+valign = 1
+
+[node name="Payment" type="TextureRect" parent="ShopButton/PriceTag"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = -40.5
+margin_top = -20.0
+margin_right = -0.5
+margin_bottom = 20.0
+texture = ExtResource( 4 )
+expand = true
+stretch_mode = 6
+
+[node name="UseButton" type="TextureButton" parent="."]
+editor/display_folded = true
+visible = false
+margin_top = 334.0
+margin_right = 266.0
+margin_bottom = 398.0
+rect_min_size = Vector2( 266, 64 )
+texture_normal = ExtResource( 2 )
+
+[node name="Text" type="Label" parent="UseButton"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -38.0
+margin_top = -23.0
+margin_right = 38.0
+margin_bottom = 23.0
+custom_fonts/font = SubResource( 2 )
+text = "Use"
+align = 1
+valign = 1
+
