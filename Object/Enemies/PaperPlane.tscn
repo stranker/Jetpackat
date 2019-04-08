@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Shaders/outline.shader" type="Shader" id=1]
 [ext_resource path="res://Sprites/Enemies/PaperPlane.png" type="Texture" id=2]
@@ -7,10 +7,13 @@
 script/source = "extends Area2D
 
 var direction : int = 1
+enum FLY_TYPE {NORMAL,LOOP}
+var type
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	randomize()
+	set_fly_type()
 	if rand_range(0,1) > 0.5:
 		change_direction()
 	pass # Replace with function body.
@@ -22,9 +25,16 @@ func change_direction():
 		position.x = get_viewport_rect().size.x
 	else:
 		position.x = 0
-	$Anim.play(\"loop\")
+	play_animation()
 	pass
 
+func play_animation():
+	match type:
+		FLY_TYPE.NORMAL:
+			$Anim.play('Normal')
+		FLY_TYPE.LOOP:
+			$Anim.play('loop')
+	pass
 
 func _on_Anim_animation_finished(anim_name):
 	change_direction()
@@ -40,15 +50,73 @@ func _on_VisibilityNotifier2D_screen_exited():
 	if abs(global_position.y) < abs(GameManager.player.global_position.y) - get_viewport_rect().size.y/2:
 		queue_free()
 	pass # Replace with function body.
-"
 
-[sub_resource type="ShaderMaterial" id=3]
+func set_fly_type():
+	if GameManager.player_height > 100:
+		type = FLY_TYPE.LOOP
+	else:
+		type = FLY_TYPE.NORMAL
+	play_animation()
+	pass"
+
+[sub_resource type="ShaderMaterial" id=2]
 shader = ExtResource( 1 )
 shader_param/outline_width = 0.6
 shader_param/outline_color = Color( 0.227451, 0.227451, 0.227451, 1 )
 
-[sub_resource type="Animation" id=2]
-resource_name = "loop"
+[sub_resource type="Animation" id=4]
+resource_name = "Normal"
+length = 5.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Collision:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1.4, 2.2, 3, 3.8, 4.5, 5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -158.604, -2.51752 ), Vector2( 104.73, 1.79944 ), Vector2( 441.452, -2.51752 ), Vector2( 627.08, -13.3099 ), Vector2( 827.818, -28.4192 ), Vector2( 985.387, 16.9088 ), Vector2( 1073.88, 42.8105 ), Vector2( 1166.7, 23.3843 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Collision:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5, 1.4, 2.2, 3, 3.8, 4.5, 5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0, 7.56756, -14.4473, -3.52745, 13.2893, -2.46303, -2.46303 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Sprite:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5, 1.4, 2.2, 3, 3.8, 4.5, 5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -162.837, -6.46176 ), Vector2( 100.497, -2.14481 ), Vector2( 437.219, -6.46176 ), Vector2( 622.847, -17.2541 ), Vector2( 823.585, -32.3634 ), Vector2( 981.154, 12.9645 ), Vector2( 1069.65, 38.8663 ), Vector2( 1162.47, 19.44 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Sprite:rotation_degrees")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.5, 1.4, 2.2, 3, 3.8, 4.5, 5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0, 7.56756, -14.4473, -3.52745, 13.2893, -2.46303, -2.46303 ]
+}
+
+[sub_resource type="Animation" id=3]
 length = 4.4
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:position")
@@ -104,20 +172,20 @@ position = Vector2( 0, 281.294 )
 script = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-material = SubResource( 3 )
-position = Vector2( 1323.26, 20.3499 )
-rotation = -6.23425
+material = SubResource( 2 )
+position = Vector2( -162.837, -6.46176 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 2 )
 
 [node name="Collision" type="CollisionPolygon2D" parent="."]
-position = Vector2( 1322.46, 21.7767 )
-rotation = -6.21024
+position = Vector2( -158.604, -2.51752 )
+scale = Vector2( 0.797962, 0.797962 )
 polygon = PoolVector2Array( -61.6072, 8.79681, -51.9376, -19.0744, 60.116, 1.40241, 7.78642, 16.1912 )
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "loop"
-anims/loop = SubResource( 2 )
+anims/Normal = SubResource( 4 )
+anims/loop = SubResource( 3 )
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 
