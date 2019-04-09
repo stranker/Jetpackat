@@ -12,6 +12,7 @@ var item_data : Dictionary = {}
 var items_equipped : Dictionary = {}
 
 func _ready():
+	create_save_directory()
 	try_load_user_data()
 	if item_data.empty():
 		load_item_data_file()
@@ -19,9 +20,16 @@ func _ready():
 		load_equipped_items_file()
 	pass
 
+func create_save_directory():
+	var dir = Directory.new()
+	if !dir.dir_exists("user://Saves"):
+		dir.open("user://")
+		dir.make_dir("user://Saves")
+	pass
+
 func try_load_user_data():
-	item_data = get_json_file_data('user://ItemShopData.dat')
-	items_equipped = get_json_file_data('user://EquippedItemsData.dat')
+	item_data = get_json_file_data('user://Saves/ItemShopData.dat')
+	items_equipped = get_json_file_data('user://Saves/EquippedItemsData.dat')
 	pass
 
 func load_item_data_file():
@@ -37,12 +45,7 @@ func get_json_file_data(file_path):
 	var processed_data : Dictionary = {}
 	file.open(file_path,File.READ)
 	if file.is_open():
-		var line = file.get_line()
-		var raw_data = ""
-		while !file.eof_reached():
-			if !str(line).begins_with('//'):
-				raw_data += line
-			line = file.get_line()
+		var raw_data = file.get_as_text()
 		if typeof(parse_json(raw_data)) == TYPE_DICTIONARY:
 			processed_data = parse_json(raw_data)
 		file.close()
@@ -50,9 +53,7 @@ func get_json_file_data(file_path):
 
 func save_item_data_file():
 	var file = File.new()
-	file.open('user://ItemShopData.dat',File.WRITE)
-	file.store_line("// ITEM SHOP DATA")
-	file.store_line("// JETPACKAT by Daniel 'Stranker' Natarelli")
+	file.open('user://Saves/ItemShopData.dat',File.WRITE)
 	file.store_line(to_json(item_data))
 	file.store_line("")
 	file.close()
@@ -60,9 +61,7 @@ func save_item_data_file():
 
 func save_equipped_item_file():
 	var file = File.new()
-	file.open('user://EquippedItemsData.dat',File.WRITE)
-	file.store_line("// EQUIPPED ITEMS DATA")
-	file.store_line("// JETPACKAT by Daniel 'Stranker' Natarelli")
+	file.open('user://Saves/EquippedItemsData.dat',File.WRITE)
 	file.store_line(to_json(items_equipped))
 	file.store_line("")
 	file.close()
