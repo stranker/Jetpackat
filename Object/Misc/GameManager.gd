@@ -32,9 +32,6 @@ func create_save_directory():
 	if !dir.dir_exists("user://Saves"):
 		dir.open("user://")
 		dir.make_dir("user://Saves")
-		get_tree().root.get_node('MainMenu/Debug').text = 'directorio creado'
-	else:
-		get_tree().root.get_node('MainMenu/Debug').text = 'YA SE CREO'
 	pass
 
 func try_load_user_data():
@@ -58,6 +55,9 @@ func get_json_file_data(file_path):
 		var raw_data = file.get_as_text()
 		if typeof(parse_json(raw_data)) == TYPE_DICTIONARY:
 			processed_data = parse_json(raw_data)
+		file.close()
+	else:
+		file.open(file_path,File.WRITE)
 		file.close()
 	return processed_data
 

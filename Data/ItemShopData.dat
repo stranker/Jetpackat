@@ -1,2 +1,34 @@
-{"Hat":{"Medieval":{"buyed":false,"id":1,"payment":"Coin","price":300,"type":"Hat"},"TopHat":{"buyed":false,"id":0,"payment":"Coin","price":200,"type":"Hat"}},"Skin":{"Brown":{"buyed":false,"id":0,"payment":"Coin","price":300,"type":"Skin"}}}
-
+{  
+   "Hat":{  
+      "TopHat":{  
+         "buyed":false,
+         "id":0,
+         "payment":"Coin",
+         "price":200,
+         "type":"Hat"
+      },
+      "Medieval":{  
+         "buyed":false,
+         "id":1,
+         "payment":"Coin",
+         "price":300,
+         "type":"Hat"
+      }
+   },
+   "Skin":{  
+      "Grey":{  
+         "buyed":true,
+         "id":0,
+         "payment":"Coin",
+         "price":0,
+         "type":"Skin"
+      },
+      "Brown":{  
+         "buyed":false,
+         "id":1,
+         "payment":"Coin",
+         "price":300,
+         "type":"Skin"
+      }
+   }
+}
