@@ -1,7 +1,7 @@
 extends Node
 
-var coins : int = 9999
-var fishes : int = 9999
+var coins : int = 0
+var fishes : int = 0
 var playing : bool = false
 var player_height : int = 0
 var camera : Camera2D = null
@@ -11,22 +11,37 @@ var music_volume : int = 5
 var item_data : Dictionary = {}
 var items_equipped : Dictionary = {}
 var execution : String = ""
+var timer : float = 0
 
 func _ready():
 	create_save_directory()
-	#try_load_user_data()
+	try_load_currency()
+	try_load_user_data()
 	if item_data.keys().empty():
-		execution += "Loading data from file"
+		execution += "Loading data from file /n"
 		load_item_data_file()
 	if items_equipped.keys().empty():
 		load_equipped_items_file()
-	#load_currency()
 	pass
 
-func load_currency():
+func _process(delta):
+	save_info(delta)
+	pass
+
+func save_info(delta):
+	timer += delta
+	if timer > 10:
+		save_current_currency()
+		save_equipped_item_file()
+		save_item_data_file()
+		timer = 0
+	pass
+
+func try_load_currency():
 	var data = get_json_file_data('user://Saves/Currency.dat')
-	coins = data['Coins']
-	fishes = data['Fishes']
+	if data:
+		coins = data['Coins']
+		fishes = data['Fishes']
 	pass
 
 func create_save_directory():
@@ -81,12 +96,25 @@ func save_equipped_item_file():
 	file.close()
 	pass
 
+func save_current_currency():
+	var file = File.new()
+	file.open('user://Saves/Currency.dat',File.WRITE)
+	if file.is_open():
+		var data : Dictionary = {}
+		data['Coins'] = coins
+		data['Fishes'] = fishes
+		file.store_line(to_json(data))
+		file.close()
+	pass
+
 func buy_item(item_type,item_name):
 	item_data[item_type][item_name]['buyed'] = true
 	save_item_data_file()
+	save_current_currency()
 	pass
 
 func equip_item(item_type,item_name):
 	items_equipped[item_type] = item_name
 	save_equipped_item_file()
+	save_current_currency()
 	pass
