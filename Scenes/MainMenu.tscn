@@ -27,11 +27,19 @@ var next_scene = ''
 
 func _ready():
 	get_tree().paused = false
+	set_items_equipped()
 	$ConfigPanel.hide()
 	$Tween.interpolate_property($Background, 'self_modulate', $Background.self_modulate, Color.black, 15, Tween.TRANS_LINEAR,Tween.EASE_IN)
 	$Tween.interpolate_property($Stars, 'self_modulate', Color(0,0,0,0), Color.white, 12, Tween.TRANS_LINEAR,Tween.EASE_IN)
 	$Tween.start()
 	pass
+
+func set_items_equipped():
+	if !GameManager.items_equipped.keys().empty():
+		if GameManager.items_equipped.has('Hat'):
+			$Player/Hat.texture = load('Sprites/Cat/Hat/'+GameManager.items_equipped['Hat']+'.png')
+		if GameManager.items_equipped.has('Skin'):
+			$Player.texture = load('Sprites/Cat/Skin/'+GameManager.items_equipped['Skin']+'.png')
 
 func _on_StartButton_button_down():
 	$Anim.play(\"FadeOut\")
@@ -252,18 +260,17 @@ expand = true
 stretch_mode = 5
 
 [node name="Player" type="NinePatchRect" parent="."]
-editor/display_folded = true
-margin_left = 494.007
-margin_top = 1191.99
-margin_right = 837.861
-margin_bottom = 1833.99
+margin_left = 500.0
+margin_top = 1180.0
+margin_right = 843.854
+margin_bottom = 1822.0
 rect_rotation = -15.0
 rect_pivot_offset = Vector2( 205, 225 )
 texture = ExtResource( 15 )
 region_rect = Rect2( 2, 2, 36, 68 )
 patch_margin_right = 2
 
-[node name="Player2" type="TextureRect" parent="Player"]
+[node name="Jetpack" type="TextureRect" parent="Player"]
 editor/display_folded = true
 show_behind_parent = true
 margin_left = 41.0465
@@ -275,7 +282,7 @@ texture = ExtResource( 16 )
 expand = true
 stretch_mode = 6
 
-[node name="CPUParticles2D" type="CPUParticles2D" parent="Player/Player2"]
+[node name="CPUParticles2D" type="CPUParticles2D" parent="Player/Jetpack"]
 show_behind_parent = true
 position = Vector2( 201.008, 379.417 )
 rotation = 1.57079
@@ -293,6 +300,16 @@ angle_random = 1.0
 scale_amount = 3.0
 scale_amount_random = 0.5
 color_ramp = SubResource( 2 )
+
+[node name="Hat" type="TextureRect" parent="Player"]
+margin_top = -170.0
+margin_right = 311.0
+margin_bottom = 130.0
+rect_min_size = Vector2( 311, 300 )
+rect_clip_content = true
+mouse_filter = 2
+expand = true
+stretch_mode = 6
 
 [node name="Title" type="Label" parent="."]
 anchor_left = 0.5

@@ -26,11 +26,13 @@ func update_currency():
 	pass
 
 func _on_Hat_button_down():
-	create_panels(GameManager.item_data['Hat'])
+	if GameManager.item_data.has('Hat'):
+		create_panels(GameManager.item_data['Hat'])
 	pass # Replace with function body.
 
 func _on_Skin_button_down():
-	create_panels(GameManager.item_data['Skin'])
+	if GameManager.item_data.has('Skin'):
+		create_panels(GameManager.item_data['Skin'])
 	pass # Replace with function body.
 
 func clear_item_panels():
