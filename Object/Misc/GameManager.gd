@@ -10,13 +10,15 @@ var sound_volume : int = 5
 var music_volume : int = 5 
 var item_data : Dictionary = {}
 var items_equipped : Dictionary = {}
+var execution : String = ""
 
 func _ready():
 	create_save_directory()
-	try_load_user_data()
-	if item_data.empty():
+	#try_load_user_data()
+	if item_data.keys().empty():
+		execution += "Loading data from file"
 		load_item_data_file()
-	if items_equipped.empty():
+	if items_equipped.keys().empty():
 		load_equipped_items_file()
 	#load_currency()
 	pass
@@ -50,7 +52,9 @@ func load_equipped_items_file():
 func get_json_file_data(file_path):
 	var file = File.new()
 	var processed_data : Dictionary = {}
-	file.open(file_path,File.READ)
+	var ERR = file.open(file_path,File.READ)
+	if ERR:
+		execution += ", Error to open file "+file_path
 	if file.is_open():
 		var raw_data = file.get_as_text()
 		if typeof(parse_json(raw_data)) == TYPE_DICTIONARY:
