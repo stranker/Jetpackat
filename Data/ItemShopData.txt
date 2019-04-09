@@ -1,3 +1,4 @@
 // ITEM SHOP DATA
 // JETPACKAT by Daniel 'Stranker' Natarelli
-{"Hat":{"TopHat":{"buyed":true,"id":0,"payment":"Coin","price":200,"type":"Hat"}},"Skin":{"Brown":{"buyed":true,"id":0,"payment":"Coin","price":300,"type":"Skin"}}}
+{"Hat":{"Medieval":{"buyed":true,"id":1,"payment":"Coin","price":300,"type":"Hat"},"TopHat":{"buyed":true,"id":0,"payment":"Coin","price":200,"type":"Hat"}},"Skin":{"Brown":{"buyed":true,"id":0,"payment":"Coin","price":300,"type":"Skin"}}}
+

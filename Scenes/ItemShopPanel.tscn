@@ -15,10 +15,13 @@ var type : String
 var price : int
 var payment : String
 var buyed : bool
-var shop = null
 
 signal item_buy(item_type,item_name)
 signal item_equip(item_type,item_name)
+
+func _ready():
+	$UseButton.hide()
+	pass
 
 func set_item_info(iname:String,info : Dictionary):
 	id = int(info['id'])
@@ -29,6 +32,7 @@ func set_item_info(iname:String,info : Dictionary):
 	buyed = bool(info['buyed'])
 	connect('item_buy',GameManager,'buy_item')
 	connect('item_equip',GameManager,'equip_item')
+	connect('item_equip',get_tree().root.get_node('ShopScene'),'enable_last_used_item')
 	configure_panel()
 	pass
 
@@ -41,6 +45,11 @@ func configure_panel():
 	var texture = ImageTexture.new()
 	texture.create_from_image(image)
 	$ItemImage.texture = texture
+	check_item_state()
+
+	pass
+
+func check_item_state():
 	if !buyed:
 		$ShopButton/PriceTag.text = str(price)
 		$ShopButton/PriceTag/Payment.texture = load('res://Sprites/Collectables/'+payment+'.png')
@@ -48,6 +57,9 @@ func configure_panel():
 	else:
 		$ShopButton.hide()
 		$UseButton.show()
+	if GameManager.items_equipped.has(type):
+		if GameManager.items_equipped[type] == item_name:
+			equip_item()
 	pass
 
 func check_button_available():
@@ -73,8 +85,19 @@ func _on_ShopButton_button_down():
 
 func _on_UseButton_button_down():
 	emit_signal('item_equip',type,item_name)
+	equip_item()
 	pass # Replace with function body.
-"
+
+func equip_item():
+	$UseButton/Text.text = \"Equipped\"
+	$UseButton.disabled = true
+	pass
+
+func enable_use_button(val):
+	if buyed:
+		$UseButton/Text.text = \"USE\"
+		$UseButton.disabled = false
+	pass"
 
 [sub_resource type="DynamicFont" id=2]
 size = 36
@@ -104,6 +127,7 @@ margin_right = 266.0
 margin_bottom = 398.0
 rect_min_size = Vector2( 266, 64 )
 texture_normal = ExtResource( 2 )
+texture_pressed = ExtResource( 3 )
 texture_disabled = ExtResource( 3 )
 
 [node name="PriceTag" type="Label" parent="ShopButton"]
@@ -133,27 +157,29 @@ expand = true
 stretch_mode = 6
 
 [node name="UseButton" type="TextureButton" parent="."]
-editor/display_folded = true
 visible = false
 margin_top = 334.0
 margin_right = 266.0
 margin_bottom = 398.0
 rect_min_size = Vector2( 266, 64 )
 texture_normal = ExtResource( 2 )
+texture_pressed = ExtResource( 3 )
+texture_disabled = ExtResource( 3 )
 
 [node name="Text" type="Label" parent="UseButton"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -38.0
+margin_left = -135.5
 margin_top = -23.0
-margin_right = 38.0
+margin_right = 135.5
 margin_bottom = 23.0
 custom_fonts/font = SubResource( 2 )
 text = "Use"
 align = 1
 valign = 1
+autowrap = true
 
 [connection signal="button_down" from="ShopButton" to="." method="_on_ShopButton_button_down"]
 [connection signal="button_down" from="UseButton" to="." method="_on_UseButton_button_down"]

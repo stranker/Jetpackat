@@ -49,7 +49,12 @@ func create_panels(data : Dictionary):
 func _on_TextureButton_button_down():
 	get_tree().change_scene('Scenes/MainMenu.tscn')
 	pass # Replace with function body.
-"
+
+func enable_last_used_item(type,item_name):
+	for i in $HBC/ShopPanel/PanelItems/Items.get_children():
+		if i.item_name != item_name:
+			i.enable_use_button(true)
+	pass"
 
 [sub_resource type="DynamicFont" id=2]
 size = 56
@@ -105,7 +110,6 @@ texture_normal = ExtResource( 4 )
 expand = true
 
 [node name="ShopPanel" type="VBoxContainer" parent="HBC"]
-editor/display_folded = true
 margin_left = 264.0
 margin_right = 1080.0
 margin_bottom = 1920.0

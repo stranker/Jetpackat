@@ -405,8 +405,9 @@ visible = false
 shape = SubResource( 8 )
 
 [node name="Hat" type="Sprite" parent="Visible"]
-position = Vector2( 3.91803, -92.4677 )
-rotation = 0.170339
+position = Vector2( 0.136536, -108.854 )
+rotation = 0.0163139
+scale = Vector2( 1.5, 1.5 )
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 
@@ -416,7 +417,6 @@ anims/Dead = SubResource( 9 )
 anims/Flying = SubResource( 10 )
 
 [node name="ClickArea" type="CanvasLayer" parent="."]
-editor/display_folded = true
 
 [node name="Area" type="Control" parent="ClickArea"]
 anchor_right = 1.0
