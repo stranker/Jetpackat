@@ -4,11 +4,13 @@
 [ext_resource path="res://Sprites/Background/Star2.png" type="Texture" id=2]
 [ext_resource path="res://Fonts/comic_andy.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://Fonts/overload burn.ttf" type="DynamicFontData" id=4]
-[ext_resource path="res://Sprites/Cat/Cat.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/Cat/Skin/Grey.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=6]
 [ext_resource path="res://Sprites/Background/SmokeParticle.png" type="Texture" id=7]
 [ext_resource path="res://Sprites/UI/BackButton.png" type="Texture" id=8]
 [ext_resource path="res://Sprites/UI/BackButtonPressed.png" type="Texture" id=9]
+
+
 
 
 [sub_resource type="GDScript" id=1]

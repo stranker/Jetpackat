@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Cat.png-fe31f3f0bb82ec5f2b764e026d31e5be.stex"
+path="res://.import/Grey.png-5a753e29d99b04999dee0cacdfa31a6c.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Cat/Cat.png"
-dest_files=[ "res://.import/Cat.png-fe31f3f0bb82ec5f2b764e026d31e5be.stex" ]
+source_file="res://Sprites/Cat/Skin/Grey.png"
+dest_files=[ "res://.import/Grey.png-5a753e29d99b04999dee0cacdfa31a6c.stex" ]
 
 [params]
 

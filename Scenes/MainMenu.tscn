@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://Sprites/Background/Bg1.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Background/Star3.png" type="Texture" id=2]
@@ -14,11 +14,12 @@
 [ext_resource path="res://Sprites/UI/CreditsButtonPressed.png" type="Texture" id=12]
 [ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=13]
 [ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=14]
-[ext_resource path="res://Sprites/Cat/Cat.png" type="Texture" id=15]
+[ext_resource path="res://Sprites/Cat/Skin/Grey.png" type="Texture" id=15]
 [ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=16]
 [ext_resource path="res://Sprites/Background/SmokeParticle.png" type="Texture" id=17]
 [ext_resource path="res://Fonts/comic_andy.ttf" type="DynamicFontData" id=18]
 [ext_resource path="res://Scenes/ConfigPanel.tscn" type="PackedScene" id=19]
+[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=20]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Control
@@ -143,6 +144,10 @@ tracks/0/keys = {
 "values": [ Vector2( 1030, 1960 ), Vector2( 500, 1180 ) ]
 }
 
+[sub_resource type="DynamicFont" id=7]
+size = 50
+font_data = ExtResource( 20 )
+
 [node name="MainMenu" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -260,6 +265,7 @@ expand = true
 stretch_mode = 5
 
 [node name="Player" type="NinePatchRect" parent="."]
+editor/display_folded = true
 margin_left = 500.0
 margin_top = 1180.0
 margin_right = 843.854
@@ -341,6 +347,13 @@ anims/Idle = SubResource( 5 )
 anims/Start = SubResource( 6 )
 
 [node name="Tween" type="Tween" parent="."]
+
+[node name="Debug" type="Label" parent="."]
+margin_right = 720.0
+margin_bottom = 170.0
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "dawawd"
 
 [connection signal="button_down" from="PawCat/StartButton" to="." method="_on_StartButton_button_down"]
 [connection signal="button_down" from="PawCat/ShopButton" to="." method="_on_ShopButton_button_down"]

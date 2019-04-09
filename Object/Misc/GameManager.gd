@@ -18,6 +18,13 @@ func _ready():
 		load_item_data_file()
 	if items_equipped.empty():
 		load_equipped_items_file()
+	#load_currency()
+	pass
+
+func load_currency():
+	var data = get_json_file_data('user://Saves/Currency.dat')
+	coins = data['Coins']
+	fishes = data['Fishes']
 	pass
 
 func create_save_directory():
@@ -25,6 +32,9 @@ func create_save_directory():
 	if !dir.dir_exists("user://Saves"):
 		dir.open("user://")
 		dir.make_dir("user://Saves")
+		get_tree().root.get_node('MainMenu/Debug').text = 'directorio creado'
+	else:
+		get_tree().root.get_node('MainMenu/Debug').text = 'YA SE CREO'
 	pass
 
 func try_load_user_data():
