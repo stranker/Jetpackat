@@ -1,39 +1,43 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Scenes/ItemShopPanel.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/UI/PausePanel.png" type="Texture" id=2]
-[ext_resource path="res://Sprites/UI/HatShopButton.png" type="Texture" id=3]
-[ext_resource path="res://icon.png" type="Texture" id=4]
-[ext_resource path="res://Sprites/Collectables/Coin.png" type="Texture" id=5]
-[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=6]
-[ext_resource path="res://Sprites/Collectables/Fish.png" type="Texture" id=7]
+[ext_resource path="res://Sprites/UI/Shop/HatShopButton.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/UI/Shop/SkinShopButton.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/UI/Shop/JetpackShopButton.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/UI/Shop/ThrusterShopButton.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/UI/Shop/ScarfShopButton.png" type="Texture" id=7]
 [ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=8]
 [ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=9]
+[ext_resource path="res://Sprites/Collectables/Coin.png" type="Texture" id=10]
+[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=11]
+[ext_resource path="res://Sprites/Collectables/Fish.png" type="Texture" id=12]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Control
 
 export (PackedScene) var item_shop_panel
 
-# Called when the node enters the scene tree for the first time.
+
 func _ready():
 	update_currency()
-	pass # Replace with function body.
+	_on_Hat_button_down()
+	pass
 
 func update_currency():
-	$HBC/ShopPanel/Currency/Coins/Label.text = str(GameManager.coins)
-	$HBC/ShopPanel/Currency/Fishs/Label.text = str(GameManager.fishes)
+	$HBC/ShopPanel/Currency/CoinPanel/Coins/Label.text = str(GameManager.coins)
+	$HBC/ShopPanel/Currency/FishPanel/Fishes/Label.text = str(GameManager.fishes)
 	pass
 
 func _on_Hat_button_down():
-	#if GameManager.item_data.has('Hat'):
-	create_panels(GameManager.item_data['Hat'])
-	pass # Replace with function body.
+	if GameManager.item_data.has('Hat'):
+		create_panels(GameManager.item_data['Hat'])
+	pass
 
 func _on_Skin_button_down():
-	#if GameManager.item_data.has('Skin'):
-	create_panels(GameManager.item_data['Skin'])
-	pass # Replace with function body.
+	if GameManager.item_data.has('Skin'):
+		create_panels(GameManager.item_data['Skin'])
+	pass
 
 func clear_item_panels():
 	for i in $HBC/ShopPanel/PanelItems/Items.get_children():
@@ -50,7 +54,7 @@ func create_panels(data : Dictionary):
 
 func _on_TextureButton_button_down():
 	get_tree().change_scene('Scenes/MainMenu.tscn')
-	pass # Replace with function body.
+	pass
 
 func enable_last_used_item(type,item_name):
 	for i in $HBC/ShopPanel/PanelItems/Items.get_children():
@@ -60,7 +64,7 @@ func enable_last_used_item(type,item_name):
 
 [sub_resource type="DynamicFont" id=2]
 size = 56
-font_data = ExtResource( 6 )
+font_data = ExtResource( 11 )
 
 [node name="ShopScene" type="Control"]
 anchor_right = 1.0
@@ -75,8 +79,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="PanelButtons" type="NinePatchRect" parent="HBC"]
-editor/display_folded = true
-self_modulate = Color( 0.117647, 0.117647, 0.117647, 0.717647 )
+self_modulate = Color( 0.227451, 0, 0.290196, 1 )
 margin_right = 260.0
 margin_bottom = 1920.0
 rect_min_size = Vector2( 260, 0 )
@@ -84,7 +87,6 @@ size_flags_vertical = 3
 texture = ExtResource( 2 )
 
 [node name="Panel" type="VBoxContainer" parent="HBC/PanelButtons"]
-editor/display_folded = true
 margin_left = 4.0
 margin_right = 264.0
 margin_bottom = 1920.0
@@ -95,7 +97,7 @@ custom_constants/separation = 20
 
 [node name="Hat" type="TextureButton" parent="HBC/PanelButtons/Panel"]
 margin_right = 260.0
-margin_bottom = 950.0
+margin_bottom = 368.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture_normal = ExtResource( 3 )
@@ -103,13 +105,44 @@ expand = true
 stretch_mode = 5
 
 [node name="Skin" type="TextureButton" parent="HBC/PanelButtons/Panel"]
-margin_top = 970.0
+margin_top = 388.0
 margin_right = 260.0
-margin_bottom = 1920.0
+margin_bottom = 756.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture_normal = ExtResource( 4 )
 expand = true
+stretch_mode = 5
+
+[node name="Jetpack" type="TextureButton" parent="HBC/PanelButtons/Panel"]
+margin_top = 776.0
+margin_right = 260.0
+margin_bottom = 1144.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture_normal = ExtResource( 5 )
+expand = true
+stretch_mode = 5
+
+[node name="Thruster" type="TextureButton" parent="HBC/PanelButtons/Panel"]
+margin_top = 1164.0
+margin_right = 260.0
+margin_bottom = 1532.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture_normal = ExtResource( 6 )
+expand = true
+stretch_mode = 5
+
+[node name="Scarf" type="TextureButton" parent="HBC/PanelButtons/Panel"]
+margin_top = 1552.0
+margin_right = 260.0
+margin_bottom = 1920.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture_normal = ExtResource( 7 )
+expand = true
+stretch_mode = 5
 
 [node name="ShopPanel" type="VBoxContainer" parent="HBC"]
 margin_left = 264.0
@@ -119,77 +152,99 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Currency" type="NinePatchRect" parent="HBC/ShopPanel"]
-self_modulate = Color( 0.121569, 0.121569, 0.121569, 0.752941 )
+self_modulate = Color( 0.141176, 0, 0.223529, 0.752941 )
 margin_right = 816.0
 margin_bottom = 160.0
 rect_min_size = Vector2( 0, 160 )
 texture = ExtResource( 2 )
+region_rect = Rect2( 0, 0, 96, 96 )
+patch_margin_left = 80
+patch_margin_right = 84
 
-[node name="Coins" type="TextureRect" parent="HBC/ShopPanel/Currency"]
-editor/display_folded = true
-anchor_top = 0.5
-anchor_bottom = 0.5
-margin_left = 56.0
-margin_top = -40.0
-margin_right = 126.0
-margin_bottom = 40.0
-texture = ExtResource( 5 )
-expand = true
-stretch_mode = 6
-
-[node name="Label" type="Label" parent="HBC/ShopPanel/Currency/Coins"]
+[node name="CloseButton" type="TextureButton" parent="HBC/ShopPanel/Currency"]
 anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-margin_left = 10.0
-margin_top = -30.0
-margin_right = 190.0
-margin_bottom = 38.0
-custom_fonts/font = SubResource( 2 )
-text = "999999"
-
-[node name="Fishs" type="TextureRect" parent="HBC/ShopPanel/Currency"]
-editor/display_folded = true
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -35.0
-margin_top = -40.0
-margin_right = 35.0
-margin_bottom = 40.0
-texture = ExtResource( 7 )
-expand = true
-stretch_mode = 6
-
-[node name="Label" type="Label" parent="HBC/ShopPanel/Currency/Fishs"]
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-margin_left = 10.0
-margin_top = -30.0
-margin_right = 190.0
-margin_bottom = 38.0
-custom_fonts/font = SubResource( 2 )
-text = "999999"
-
-[node name="TextureButton" type="TextureButton" parent="HBC/ShopPanel/Currency"]
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-margin_left = -170.0
-margin_top = -70.0
-margin_bottom = 70.0
+margin_left = -146.0
+margin_top = -60.0
+margin_bottom = 60.0
 texture_normal = ExtResource( 8 )
 texture_pressed = ExtResource( 9 )
 expand = true
 stretch_mode = 5
 
+[node name="CoinPanel" type="NinePatchRect" parent="HBC/ShopPanel/Currency"]
+editor/display_folded = true
+self_modulate = Color( 0.282353, 0.0784314, 0.368627, 1 )
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 26.0
+margin_top = -42.0
+margin_right = 340.0
+margin_bottom = 42.0
+texture = ExtResource( 2 )
+
+[node name="Coins" type="TextureRect" parent="HBC/ShopPanel/Currency/CoinPanel"]
+editor/display_folded = true
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 20.0
+margin_top = -40.0
+margin_right = 90.0
+margin_bottom = 40.0
+texture = ExtResource( 10 )
+expand = true
+stretch_mode = 6
+
+[node name="Label" type="Label" parent="HBC/ShopPanel/Currency/CoinPanel/Coins"]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = 10.0
+margin_top = -30.0
+margin_right = 190.0
+margin_bottom = 38.0
+custom_fonts/font = SubResource( 2 )
+text = "999999"
+
+[node name="FishPanel" type="NinePatchRect" parent="HBC/ShopPanel/Currency"]
+editor/display_folded = true
+self_modulate = Color( 0.282353, 0.0784314, 0.368627, 1 )
+margin_left = 356.0
+margin_top = 38.0
+margin_right = 636.0
+margin_bottom = 118.0
+texture = ExtResource( 2 )
+
+[node name="Fishes" type="TextureRect" parent="HBC/ShopPanel/Currency/FishPanel"]
+editor/display_folded = true
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 20.0
+margin_top = -40.0
+margin_right = 90.0
+margin_bottom = 40.0
+texture = ExtResource( 12 )
+expand = true
+stretch_mode = 6
+
+[node name="Label" type="Label" parent="HBC/ShopPanel/Currency/FishPanel/Fishes"]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = 10.0
+margin_top = -30.0
+margin_right = 190.0
+margin_bottom = 38.0
+custom_fonts/font = SubResource( 2 )
+text = "999999"
+
 [node name="PanelItems" type="NinePatchRect" parent="HBC/ShopPanel"]
-self_modulate = Color( 0.105882, 0.105882, 0.105882, 0.768627 )
+editor/display_folded = true
+self_modulate = Color( 0.137255, 0.00392157, 0.219608, 0.768627 )
 margin_top = 164.0
 margin_right = 816.0
 margin_bottom = 1920.0
@@ -214,4 +269,4 @@ columns = 3
 
 [connection signal="button_down" from="HBC/PanelButtons/Panel/Hat" to="." method="_on_Hat_button_down"]
 [connection signal="button_down" from="HBC/PanelButtons/Panel/Skin" to="." method="_on_Skin_button_down"]
-[connection signal="button_down" from="HBC/ShopPanel/Currency/TextureButton" to="." method="_on_TextureButton_button_down"]
+[connection signal="button_down" from="HBC/ShopPanel/Currency/CloseButton" to="." method="_on_TextureButton_button_down"]

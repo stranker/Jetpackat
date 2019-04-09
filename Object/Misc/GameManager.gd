@@ -55,6 +55,8 @@ func load_item_data_file():
 
 func load_equipped_items_file():
 	items_equipped = get_json_file_data('res://Data/EquippedItemsData.dat')
+	if items_equipped.empty():
+		items_equipped['Skin'] = 'Grey'
 	pass
 
 func get_json_file_data(file_path):

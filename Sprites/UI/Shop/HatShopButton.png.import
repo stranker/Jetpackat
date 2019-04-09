@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/HatShopButton.png-91d2ffdcb431e50190384052ec72d225.stex"
+path="res://.import/HatShopButton.png-2823e2c97b0794552fd8100c605d8c8c.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/UI/HatShopButton.png"
-dest_files=[ "res://.import/HatShopButton.png-91d2ffdcb431e50190384052ec72d225.stex" ]
+source_file="res://Sprites/UI/Shop/HatShopButton.png"
+dest_files=[ "res://.import/HatShopButton.png-2823e2c97b0794552fd8100c605d8c8c.stex" ]
 
 [params]
 

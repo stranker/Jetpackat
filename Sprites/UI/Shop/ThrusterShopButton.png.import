@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/ItemShopButtonDisabled.png-6452a41d1fa2c0a2661a8c05dc3108c2.stex"
+path="res://.import/ThrusterShopButton.png-f0a16d78e3f34142c67d95b558e0176f.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/UI/ItemShopButtonDisabled.png"
-dest_files=[ "res://.import/ItemShopButtonDisabled.png-6452a41d1fa2c0a2661a8c05dc3108c2.stex" ]
+source_file="res://Sprites/UI/Shop/ThrusterShopButton.png"
+dest_files=[ "res://.import/ThrusterShopButton.png-f0a16d78e3f34142c67d95b558e0176f.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=true
+flags/filter=false
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2
