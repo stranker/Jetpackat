@@ -126,8 +126,11 @@ func end_game():
 	GameManager.player_height = 0
 	playing = !playing
 	$UIGame.show_deadpanel()
+	GameManager.save_game_data()
+	pass
 
 func restart_game():
+	GameManager.save_game_data()
 	get_tree().reload_current_scene()
 	pass
 

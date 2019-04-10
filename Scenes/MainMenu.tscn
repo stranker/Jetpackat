@@ -36,6 +36,10 @@ func _ready():
 	$Debug.text = GameManager.execution
 	pass
 
+func _process(delta):
+	$Debug.text = GameManager.execution
+	pass
+
 func set_items_equipped():
 	if !GameManager.items_equipped.keys().empty():
 		if GameManager.items_equipped.has('Hat'):
