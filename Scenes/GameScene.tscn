@@ -86,7 +86,7 @@ func update_time(delta):
 	if game_timer > 0:
 		game_timer -= delta
 	else:
-		end_game()
+		end_game_time()
 
 func start_game():
 	playing = !playing
@@ -127,6 +127,10 @@ func end_game():
 	playing = !playing
 	$UIGame.show_deadpanel()
 	GameManager.save_game_data()
+	pass
+
+func end_game_time():
+	$Player.time_out()
 	pass
 
 func restart_game():

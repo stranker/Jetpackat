@@ -46,6 +46,7 @@ func set_items_equipped():
 			$Player/Hat.texture = load('Sprites/Cat/Hat/'+GameManager.items_equipped['Hat']+'.png')
 		if GameManager.items_equipped.has('Skin'):
 			$Player.texture = load('Sprites/Cat/Skin/'+GameManager.items_equipped['Skin']+'.png')
+	pass
 
 func _on_StartButton_button_down():
 	$Anim.play(\"FadeOut\")
