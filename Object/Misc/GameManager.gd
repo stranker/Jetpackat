@@ -15,8 +15,8 @@ var execution : String = ""
 var timer : float = 0
 
 func _ready():
-	currency['Coins'] = 0
-	currency['Fishes'] = 0
+	currency['Coins'] = coins
+	currency['Fishes'] = fishes
 	load_data()
 	pass
 
@@ -25,15 +25,18 @@ func load_data():
 	items_equipped = try_load_file_data('res://Data/EquippedItemsData.dat')
 	currency = try_load_file_data('res://Data/Currency.dat')
 	coins = currency['Coins']
-	coins = currency['Fishes']
+	fishes = currency['Fishes']
 	pass
 
 func try_load_file_data(res_path):
 	var file = File.new()
 	var output : Dictionary = {}
-	file.open(res_path,File.READ)
-	output = parse_json(file.get_as_text())
-	file.close()
+	if file.file_exists(res_path):
+		file.open(res_path,File.READ)
+		output = parse_json(file.get_as_text())
+		file.close()
+	else:
+		execution += "FILE " + res_path + " DOESNT EXISTS --"
 	return output
 
 func save_game_data():
