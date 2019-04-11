@@ -14,7 +14,7 @@
 [ext_resource path="res://Sprites/UI/CreditsButtonPressed.png" type="Texture" id=12]
 [ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=13]
 [ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=14]
-[ext_resource path="res://Sprites/Cat/Skin/Grey.png" type="Texture" id=15]
+[ext_resource path="res://Sprites/Shop/Cat/Skin/Grey.png" type="Texture" id=15]
 [ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=16]
 [ext_resource path="res://Sprites/Background/SmokeParticle.png" type="Texture" id=17]
 [ext_resource path="res://Fonts/comic_andy.ttf" type="DynamicFontData" id=18]
@@ -43,7 +43,7 @@ func _process(delta):
 func set_items_equipped():
 	if !GameManager.items_equipped.keys().empty():
 		if GameManager.items_equipped.has('Hat'):
-			$Player/Hat.texture = load('Sprites/Cat/Hat/'+GameManager.items_equipped['Hat']+'.png')
+			$Player/Hat.texture = load('Sprites/Shop/Cat/Hat/'+GameManager.items_equipped['Hat']+'.png')
 		if GameManager.items_equipped.has('Skin'):
 			$Player.texture = load('Sprites/Cat/Skin/'+GameManager.items_equipped['Skin']+'.png')
 	pass
@@ -53,17 +53,15 @@ func _on_StartButton_button_down():
 	next_scene = 'Scenes/GameScene.tscn'
 	pass # Replace with function body.
 
-
 func _on_CloseButton_button_down():
+	GameManager.save_game_data()
 	get_tree().quit()
 	pass # Replace with function body.
-
 
 func _on_CreditsButton_button_down():
 	$Anim.play(\"FadeOut\")
 	next_scene = 'Scenes/CreditsScene.tscn'
 	pass # Replace with function body.
-
 
 func _on_Anim_animation_finished(anim_name):
 	if anim_name == 'FadeOut':

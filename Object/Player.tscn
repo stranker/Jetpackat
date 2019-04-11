@@ -51,11 +51,11 @@ func check_items_equipped():
 	pass
 
 func set_hat(item):
-	$Visible/Hat.texture = load('Sprites/Cat/Hat/'+item+'.png')
+	$Visible/Hat.texture = load('Sprites/Shop/Cat/Hat/'+item+'.png')
 	pass
 
 func set_skin(item):
-	$Visible/Skin.texture = load('res://Sprites/Cat/Skin/'+item+'.png')
+	$Visible/Skin.texture = load('Sprites/Cat/Skin/'+item+'.png')
 	pass
 
 func _physics_process(delta):
@@ -493,8 +493,8 @@ show_behind_parent = true
 position = Vector2( -238.836, -90.1898 )
 width = 50.0
 default_color = Color( 1, 0, 0, 0.466667 )
-gradient = SubResource( 12 )
-texture_mode = -1238154014
+gradient = SubResource( 11 )
+texture_mode = 25
 joint_mode = 2
 begin_cap_mode = 2
 end_cap_mode = 2
