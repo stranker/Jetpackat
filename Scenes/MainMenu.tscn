@@ -14,7 +14,7 @@
 [ext_resource path="res://Sprites/UI/CreditsButtonPressed.png" type="Texture" id=12]
 [ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=13]
 [ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=14]
-[ext_resource path="res://Sprites/Shop/Cat/Skin/Grey.png" type="Texture" id=15]
+[ext_resource path="res://Sprites/Cat/Skin/Grey.png" type="Texture" id=15]
 [ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=16]
 [ext_resource path="res://Sprites/Background/SmokeParticle.png" type="Texture" id=17]
 [ext_resource path="res://Fonts/comic_andy.ttf" type="DynamicFontData" id=18]
@@ -270,7 +270,6 @@ expand = true
 stretch_mode = 5
 
 [node name="Player" type="NinePatchRect" parent="."]
-editor/display_folded = true
 margin_left = 500.0
 margin_top = 1180.0
 margin_right = 843.854
