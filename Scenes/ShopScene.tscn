@@ -79,6 +79,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="PanelButtons" type="NinePatchRect" parent="HBC"]
+editor/display_folded = true
 self_modulate = Color( 0.227451, 0, 0.290196, 1 )
 margin_right = 260.0
 margin_bottom = 1920.0
@@ -210,11 +211,10 @@ custom_fonts/font = SubResource( 2 )
 text = "999999"
 
 [node name="FishPanel" type="NinePatchRect" parent="HBC/ShopPanel/Currency"]
-editor/display_folded = true
 self_modulate = Color( 0.282353, 0.0784314, 0.368627, 1 )
 margin_left = 356.0
 margin_top = 38.0
-margin_right = 636.0
+margin_right = 666.0
 margin_bottom = 118.0
 texture = ExtResource( 2 )
 
@@ -247,7 +247,6 @@ self_modulate = Color( 0.137255, 0.00392157, 0.219608, 0.768627 )
 margin_top = 164.0
 margin_right = 816.0
 margin_bottom = 1920.0
-rect_clip_content = true
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource( 2 )
@@ -255,17 +254,10 @@ texture = ExtResource( 2 )
 [node name="Items" type="GridContainer" parent="HBC/ShopPanel/PanelItems"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 50.0
-margin_top = 50.0
-margin_right = -50.0
-margin_bottom = -50.0
-grow_horizontal = 2
-grow_vertical = 2
-rect_clip_content = true
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_constants/vseparation = 0
-custom_constants/hseparation = 25
+margin_left = 20.0
+margin_top = 20.0
+margin_right = -20.0
+margin_bottom = -20.0
 columns = 3
 
 [connection signal="button_down" from="HBC/PanelButtons/Panel/Hat" to="." method="_on_Hat_button_down"]
