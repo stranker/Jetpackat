@@ -546,7 +546,7 @@ centered = false
 [node name="Tween" type="Tween" parent="ParallaxBackground"]
 
 [node name="Player" parent="." instance=ExtResource( 8 )]
-position = Vector2( 560, 1540 )
+position = Vector2( 569.5, 830 )
 
 [node name="UIGame" type="CanvasLayer" parent="."]
 script = SubResource( 6 )

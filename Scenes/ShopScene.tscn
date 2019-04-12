@@ -77,28 +77,34 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+custom_constants/separation = 10
 
 [node name="PanelButtons" type="NinePatchRect" parent="HBC"]
-editor/display_folded = true
 self_modulate = Color( 0.227451, 0, 0.290196, 1 )
-margin_right = 260.0
+margin_right = 200.0
 margin_bottom = 1920.0
-rect_min_size = Vector2( 260, 0 )
+rect_min_size = Vector2( 200, 0 )
 size_flags_vertical = 3
 texture = ExtResource( 2 )
 
 [node name="Panel" type="VBoxContainer" parent="HBC/PanelButtons"]
-margin_left = 4.0
-margin_right = 264.0
-margin_bottom = 1920.0
-rect_min_size = Vector2( 260, 0 )
+editor/display_folded = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -100.0
+margin_top = -620.0
+margin_right = 100.0
+margin_bottom = 620.0
+rect_min_size = Vector2( 200, 0 )
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.3
 custom_constants/separation = 20
 
 [node name="Hat" type="TextureButton" parent="HBC/PanelButtons/Panel"]
-margin_right = 260.0
-margin_bottom = 368.0
+margin_right = 200.0
+margin_bottom = 232.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture_normal = ExtResource( 3 )
@@ -106,9 +112,9 @@ expand = true
 stretch_mode = 5
 
 [node name="Skin" type="TextureButton" parent="HBC/PanelButtons/Panel"]
-margin_top = 388.0
-margin_right = 260.0
-margin_bottom = 756.0
+margin_top = 252.0
+margin_right = 200.0
+margin_bottom = 484.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture_normal = ExtResource( 4 )
@@ -116,9 +122,9 @@ expand = true
 stretch_mode = 5
 
 [node name="Jetpack" type="TextureButton" parent="HBC/PanelButtons/Panel"]
-margin_top = 776.0
-margin_right = 260.0
-margin_bottom = 1144.0
+margin_top = 504.0
+margin_right = 200.0
+margin_bottom = 736.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture_normal = ExtResource( 5 )
@@ -126,9 +132,9 @@ expand = true
 stretch_mode = 5
 
 [node name="Thruster" type="TextureButton" parent="HBC/PanelButtons/Panel"]
-margin_top = 1164.0
-margin_right = 260.0
-margin_bottom = 1532.0
+margin_top = 756.0
+margin_right = 200.0
+margin_bottom = 988.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture_normal = ExtResource( 6 )
@@ -136,9 +142,9 @@ expand = true
 stretch_mode = 5
 
 [node name="Scarf" type="TextureButton" parent="HBC/PanelButtons/Panel"]
-margin_top = 1552.0
-margin_right = 260.0
-margin_bottom = 1920.0
+margin_top = 1008.0
+margin_right = 200.0
+margin_bottom = 1240.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture_normal = ExtResource( 7 )
@@ -146,15 +152,17 @@ expand = true
 stretch_mode = 5
 
 [node name="ShopPanel" type="VBoxContainer" parent="HBC"]
-margin_left = 264.0
+margin_left = 210.0
 margin_right = 1080.0
 margin_bottom = 1920.0
+mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Currency" type="NinePatchRect" parent="HBC/ShopPanel"]
+editor/display_folded = true
 self_modulate = Color( 0.141176, 0, 0.223529, 0.752941 )
-margin_right = 816.0
+margin_right = 870.0
 margin_bottom = 160.0
 rect_min_size = Vector2( 0, 160 )
 texture = ExtResource( 2 )
@@ -245,8 +253,9 @@ text = "999999"
 [node name="PanelItems" type="NinePatchRect" parent="HBC/ShopPanel"]
 self_modulate = Color( 0.137255, 0.00392157, 0.219608, 0.768627 )
 margin_top = 164.0
-margin_right = 816.0
+margin_right = 870.0
 margin_bottom = 1920.0
+mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource( 2 )

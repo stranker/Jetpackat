@@ -77,7 +77,6 @@ func _on_ShopButton_button_down():
 	$UseButton.show()
 	pass # Replace with function body.
 
-
 func _on_UseButton_button_down():
 	emit_signal('item_equip',type,item_name)
 	equip_item()
@@ -94,34 +93,35 @@ func enable_use_button(val):
 		$UseButton.disabled = false
 	pass"
 
-[sub_resource type="ShaderMaterial" id=3]
+[sub_resource type="ShaderMaterial" id=4]
 shader = ExtResource( 4 )
 shader_param/outline_width = 1.2
-shader_param/outline_color = Color( 0.196078, 0.196078, 0.196078, 1 )
+shader_param/outline_color = Color( 0, 0, 0, 1 )
 
-[sub_resource type="DynamicFont" id=2]
-size = 32
-outline_size = 2
+[sub_resource type="DynamicFont" id=3]
+size = 36
+outline_size = 3
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 6 )
 
 [node name="ItemShopPanel" type="NinePatchRect"]
 self_modulate = Color( 0.282353, 0.054902, 0.470588, 1 )
-margin_right = 40.0
-margin_bottom = 40.0
-rect_min_size = Vector2( 266, 330 )
+margin_right = 260.0
+margin_bottom = 360.0
+rect_min_size = Vector2( 260, 360 )
 texture = ExtResource( 1 )
 script = SubResource( 1 )
 
 [node name="ItemPanel" type="NinePatchRect" parent="."]
+editor/display_folded = true
 self_modulate = Color( 0.556863, 0, 0.784314, 0.32549 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
 margin_top = 5.0
 margin_right = -5.0
-margin_bottom = -64.0
+margin_bottom = -70.0
 texture = ExtResource( 1 )
 
 [node name="ItemImage" type="TextureRect" parent="ItemPanel"]
@@ -131,14 +131,15 @@ expand = true
 stretch_mode = 6
 
 [node name="ShopButton" type="TextureButton" parent="."]
+editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -133.0
+margin_left = -130.0
 margin_top = -64.0
-margin_right = 133.0
-rect_min_size = Vector2( 266, 64 )
+margin_right = 130.0
+rect_min_size = Vector2( 260, 64 )
 texture_normal = ExtResource( 2 )
 texture_pressed = ExtResource( 3 )
 texture_disabled = ExtResource( 3 )
@@ -148,27 +149,30 @@ stretch_mode = 5
 [node name="CC" type="CenterContainer" parent="ShopButton"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 
 [node name="HBC" type="HBoxContainer" parent="ShopButton/CC"]
-margin_left = 87.0
-margin_right = 178.0
+margin_left = 78.0
+margin_right = 182.0
 margin_bottom = 64.0
+mouse_filter = 2
 
 [node name="Payment" type="TextureRect" parent="ShopButton/CC/HBC"]
-material = SubResource( 3 )
-margin_right = 36.0
+material = SubResource( 4 )
+margin_right = 40.0
 margin_bottom = 64.0
-rect_min_size = Vector2( 36, 36 )
+rect_min_size = Vector2( 40, 40 )
+mouse_filter = 2
 texture = ExtResource( 5 )
 expand = true
 stretch_mode = 6
 
 [node name="PriceTag" type="Label" parent="ShopButton/CC/HBC"]
-margin_left = 40.0
-margin_right = 91.0
+margin_left = 44.0
+margin_right = 104.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 0, 64 )
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 3 )
 text = "999"
 valign = 1
 
@@ -178,21 +182,22 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -133.0
+margin_left = -130.0
 margin_top = -64.0
-margin_right = 133.0
-rect_min_size = Vector2( 266, 64 )
+margin_right = 130.0
+rect_min_size = Vector2( 260, 64 )
+shortcut_in_tooltip = false
 texture_normal = ExtResource( 7 )
 texture_pressed = ExtResource( 8 )
 texture_disabled = ExtResource( 8 )
 expand = true
-stretch_mode = 6
+stretch_mode = 5
 
 [node name="Text" type="Label" parent="UseButton"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_min_size = Vector2( 0, 64 )
-custom_fonts/font = SubResource( 2 )
+custom_fonts/font = SubResource( 3 )
 text = "USE"
 align = 1
 valign = 1

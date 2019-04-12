@@ -51,6 +51,7 @@ func set_items_equipped():
 func _on_StartButton_button_down():
 	$Anim.play(\"FadeOut\")
 	next_scene = 'Scenes/GameScene.tscn'
+	GameManager.save_game_data()
 	pass # Replace with function body.
 
 func _on_CloseButton_button_down():
@@ -75,6 +76,7 @@ func _on_ConfigButton_button_down():
 	pass # Replace with function body.
 
 func _on_ShopButton_button_down():
+	GameManager.save_game_data()
 	$Anim.play(\"FadeOut\")
 	next_scene = 'Scenes/ShopScene.tscn'
 	pass # Replace with function body.
