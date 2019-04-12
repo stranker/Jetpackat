@@ -23,6 +23,10 @@ func check_can_spawn():
 
 func spawn_item(item,type):
 	if item:
+		var new_pos = Vector2()
+		new_pos.x = rand_range(150,get_viewport().get_visible_rect().size.x - 150)
+		new_pos.y = GameManager.camera.global_position.y - get_viewport().get_viewport().size.y / 2 - 200
+		item.position = new_pos
 		match type:
 			SPAWN_TYPE.COLLECTABLE:
 				get_tree().root.get_node('GameScene/Collectables').call_deferred('add_child',item)
@@ -30,10 +34,6 @@ func spawn_item(item,type):
 				get_tree().root.get_node('GameScene/Enemies').call_deferred('add_child',item)
 			SPAWN_TYPE.ORBIT:
 				get_tree().root.get_node('GameScene/Orbits').call_deferred('add_child',item)
-		var new_pos = Vector2()
-		new_pos.x = rand_range(100,get_viewport().get_visible_rect().size.x - 100)
-		new_pos.y = GameManager.camera.global_position.y - get_viewport().get_viewport().size.y / 2 - 200
-		item.position = new_pos
 		pos_player_last_spawn = GameManager.player_height
 		get_new_height()
 	pass

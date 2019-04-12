@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=2]
+[gd_scene load_steps=58 format=2]
 
 [ext_resource path="res://Sprites/Background/House.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Background/SmokeParticle.png" type="Texture" id=2]
@@ -606,6 +606,19 @@ tracks/4/keys = {
 } ]
 }
 
+[sub_resource type="GDScript" id=22]
+script/source = "extends Node
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta):
+#	pass
+"
+
 [node name="GameScene" type="Node"]
 script = SubResource( 1 )
 
@@ -657,6 +670,7 @@ script = SubResource( 5 )
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
 editor/display_folded = true
+visible = false
 motion_mirroring = Vector2( 1080, 1920 )
 
 [node name="Bg1" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
@@ -666,6 +680,7 @@ centered = false
 
 [node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
 editor/display_folded = true
+visible = false
 motion_scale = Vector2( 1, 0.2 )
 motion_mirroring = Vector2( 0, 1920 )
 
@@ -680,6 +695,7 @@ centered = false
 
 [node name="ParallaxLayer3" type="ParallaxLayer" parent="ParallaxBackground"]
 editor/display_folded = true
+visible = false
 motion_scale = Vector2( 1, 0.3 )
 motion_mirroring = Vector2( 0, 1920 )
 
@@ -698,6 +714,7 @@ centered = false
 position = Vector2( 569.5, 830 )
 
 [node name="UIGame" type="CanvasLayer" parent="."]
+editor/display_folded = true
 script = SubResource( 6 )
 
 [node name="Container" type="Control" parent="UIGame"]
@@ -1091,6 +1108,9 @@ item_list = [ ExtResource( 35 ) ]
 min_height = 10.0
 max_height = 15.0
 probability = [ 1.0 ]
+
+[node name="PoolManager" type="Node" parent="."]
+script = SubResource( 22 )
 
 [node name="Collectables" type="Node2D" parent="."]
 

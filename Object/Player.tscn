@@ -210,7 +210,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.1, 0.5 ),
 "transitions": PoolRealArray( 0.5, 1, 1 ),
 "update": 1,
-"values": [ 200, 400, 20 ]
+"values": [ 200, 400, 200 ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Thruster:lifetime")
@@ -628,7 +628,6 @@ hframes = 7
 frame = 2
 
 [node name="Jetpack" type="Sprite" parent="Visible"]
-editor/display_folded = true
 show_behind_parent = true
 material = SubResource( 4 )
 position = Vector2( 3.84464, 39.7731 )
@@ -640,8 +639,8 @@ show_behind_parent = true
 position = Vector2( -0.857376, 7.85791 )
 rotation = 1.5708
 emitting = false
-amount = 200
-lifetime = 0.4
+amount = 400
+lifetime = 0.8
 one_shot = true
 explosiveness = 0.2
 randomness = 0.5
@@ -663,8 +662,8 @@ show_behind_parent = true
 position = Vector2( -0.857376, 7.85791 )
 rotation = 1.5708
 emitting = false
-amount = 200
-lifetime = 0.4
+amount = 400
+lifetime = 0.8
 one_shot = true
 explosiveness = 0.2
 randomness = 0.5
