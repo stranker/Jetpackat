@@ -33,7 +33,7 @@
 [ext_resource path="res://Object/Enemies/Bird.tscn" type="PackedScene" id=31]
 [ext_resource path="res://Object/Enemies/Ovni.tscn" type="PackedScene" id=32]
 [ext_resource path="res://Object/Misc/OrbitSpawner.tscn" type="PackedScene" id=33]
-[ext_resource path="res://Object/Obstacles/OrbitHole.tscn" type="PackedScene" id=34]
+[ext_resource path="res://Object/Ribbon/Ribbon.tscn" type="PackedScene" id=34]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node
@@ -172,12 +172,23 @@ var on_space : bool = false
 func _process(delta):
 	if GameManager.player_height > space_height and !on_space:
 		change_to_space()
+	if !on_space and GameManager.player_height > 50:
+		set_background_darker()
+	pass
+
+func set_background_darker():
+	if GameManager.player_height % 50 == 0 and !$Tween.is_active():
+		$Tween.stop_all()
+		var actual_color = $ParallaxLayer/Bg1.self_modulate
+		var new_color : Color = Color(actual_color.r - 0.1,actual_color.g - 0.1,actual_color.b - 0.1)
+		$Tween.interpolate_property($ParallaxLayer/Bg1,'self_modulate',$ParallaxLayer/Bg1.self_modulate, new_color, 2, Tween.TRANS_LINEAR,Tween.EASE_IN)
+		$Tween.start()
 	pass
 
 func change_to_space():
 	on_space = !on_space
 	$Tween.stop_all()
-	$Tween.interpolate_property($ParallaxLayer/Bg1,'modulate',$ParallaxLayer/Bg1.modulate, Color.black, 2, Tween.TRANS_LINEAR,Tween.EASE_IN)
+	$Tween.interpolate_property($ParallaxLayer/Bg1,'self_modulate',$ParallaxLayer/Bg1.self_modulate, Color.black, 2, Tween.TRANS_LINEAR,Tween.EASE_IN)
 	$Tween.interpolate_property($ParallaxLayer2/Cloud1, 'modulate',$ParallaxLayer2/Cloud1.modulate, Color(0,0,0,0), 2, Tween.TRANS_LINEAR,Tween.EASE_IN)
 	$Tween.interpolate_property($ParallaxLayer3/Cloud2, 'modulate',$ParallaxLayer3/Cloud2.modulate, Color(0,0,0,0), 2, Tween.TRANS_LINEAR,Tween.EASE_IN)
 	$Tween.interpolate_property($ParallaxLayer2/Star1, 'modulate',$ParallaxLayer2/Star1.modulate, Color(1,1,1,1), 2, Tween.TRANS_LINEAR,Tween.EASE_IN)
@@ -503,15 +514,13 @@ color_ramp = SubResource( 4 )
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="House"]
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
-editor/display_folded = true
 script = SubResource( 5 )
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
-editor/display_folded = true
 motion_mirroring = Vector2( 1080, 1920 )
 
 [node name="Bg1" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
-self_modulate = Color( 0.960938, 0.630615, 0.960938, 1 )
+self_modulate = Color( 0.588837, 0.438385, 0.664063, 1 )
 texture = ExtResource( 3 )
 centered = false
 
@@ -879,7 +888,6 @@ anims/Restart = SubResource( 20 )
 
 [node name="DebugPanel" type="Panel" parent="UIGame"]
 editor/display_folded = true
-visible = false
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_top = -497.0
@@ -905,7 +913,7 @@ probability = [ 0.1, 1.0 ]
 item_list = [ ExtResource( 30 ), ExtResource( 31 ), ExtResource( 32 ) ]
 height_control_list = [ 0, 200, 500 ]
 
-[node name="OrbitSpawner" parent="." instance=ExtResource( 33 )]
+[node name="RibbonSpawner" parent="." instance=ExtResource( 33 )]
 item_list = [ ExtResource( 34 ) ]
 min_height = 10.0
 max_height = 15.0

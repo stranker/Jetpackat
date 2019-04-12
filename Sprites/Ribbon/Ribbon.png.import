@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/OrbitHole.png-a7e693061307a72e2d60d44ab635ebc7.stex"
+path="res://.import/Ribbon.png-28ff9b40d2eb9b2fcd9c27be403793f8.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/OrbitHole.png"
-dest_files=[ "res://.import/OrbitHole.png-a7e693061307a72e2d60d44ab635ebc7.stex" ]
+source_file="res://Sprites/Ribbon/Ribbon.png"
+dest_files=[ "res://.import/Ribbon.png-28ff9b40d2eb9b2fcd9c27be403793f8.stex" ]
 
 [params]
 
