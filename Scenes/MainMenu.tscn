@@ -272,6 +272,7 @@ expand = true
 stretch_mode = 5
 
 [node name="Player" type="NinePatchRect" parent="."]
+editor/display_folded = true
 margin_left = 500.0
 margin_top = 1180.0
 margin_right = 843.854
