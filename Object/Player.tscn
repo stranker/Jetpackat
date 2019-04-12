@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Shaders/OutlineShaderResource.tres" type="Material" id=1]
 [ext_resource path="res://Sprites/Cat/Skin/Grey.png" type="Texture" id=2]
@@ -25,7 +25,7 @@ signal current_height(value)
 
 func _ready():
 	initialize()
-	pass # Replace with function body.
+	pass
 
 func initialize():
 	$Visible.scale.x = -jump_direction
@@ -84,8 +84,16 @@ func check_is_active():
 func take_damage():
 	if !invencible and !dead:
 		dead = !dead
+		check_die_direction()
 		set_physics_process(false)
 		$Anim.play('Dead')
+	pass
+
+func check_die_direction():
+	if global_position.x < get_viewport_rect().size.x/4:
+		$Visible.scale.x = 1
+	elif global_position.x > get_viewport_rect().size.x - get_viewport_rect().size.x/4:
+		$Visible.scale.x = -1
 	pass
 
 func _on_VisibilityNotifier2D_screen_exited():
@@ -111,9 +119,9 @@ func jump(jforce : int):
 func check_jump_direction():
 	$Visible.scale.x = -jump_direction
 	if jump_direction == 1:
-		$Visible/Jetpack/CPUParticles2D.emitting = true
+		$Visible/Jetpack/Thruster.emitting = true
 	else:
-		$Visible/Jetpack/CPUParticles2D2.emitting = true
+		$Visible/Jetpack/Thruster2.emitting = true
 	velocity.x = jump_direction * horizontal_speed
 	pass
 
@@ -135,8 +143,9 @@ func _on_Anim_animation_finished(anim_name):
 
 
 func impulse(force):
-	$ImpulseTimer.start()
-	jump(force)
+	velocity.y = -force
+	$Visible/Jetpack/Anim.play('Impulse')
+	$Camera2D.shake(3,0.5)
 	pass"
 
 [sub_resource type="CapsuleShape2D" id=2]
@@ -146,10 +155,35 @@ height = 80.0
 [sub_resource type="GDScript" id=3]
 script/source = "extends Camera2D
 
+var shake_amount : float
+
+func _process(delta):
+	offset.x = rand_range(-shake_amount,shake_amount)
+	offset.y = rand_range(-shake_amount,shake_amount)
+	pass
+
+func follow_player():
+	var pos_player = get_parent().global_position
+	$Tween.interpolate_property(self,'global_position',global_position,pos_player + Vector2(0,100),0.5,Tween.TRANS_QUAD,Tween.EASE_OUT)
+	$Tween.start()
+	pass
 
 func _ready():
 	GameManager.camera = self
-	pass # Replace with function body."
+	set_process(false)
+	pass # Replace with function body.
+
+func shake(amount, duration):
+	shake_amount = amount
+	$Timer.wait_time = duration
+	$Timer.start()
+	set_process(true)
+	pass
+
+func _on_Timer_timeout():
+	set_process(false)
+	pass # Replace with function body.
+"
 
 [sub_resource type="ShaderMaterial" id=4]
 shader = ExtResource( 3 )
@@ -164,6 +198,82 @@ offsets = PoolRealArray( 0.358025, 0.530864, 0.679012, 0.82716, 1 )
 colors = PoolColorArray( 1, 1, 1, 1, 1, 0.984375, 0, 1, 1, 0.492188, 0, 1, 1, 0.00392157, 0.00392157, 0.345098, 0.423529, 0, 0, 0 )
 
 [sub_resource type="Animation" id=7]
+resource_name = "Impulse"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Thruster:amount")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.5 ),
+"transitions": PoolRealArray( 0.5, 1, 1 ),
+"update": 1,
+"values": [ 200, 400, 20 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Thruster:lifetime")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.5 ),
+"transitions": PoolRealArray( 0.5, 1, 1 ),
+"update": 0,
+"values": [ 0.4, 0.8, 0.4 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Thruster:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Thruster2:amount")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.1, 0.5 ),
+"transitions": PoolRealArray( 0.5, 1, 1 ),
+"update": 1,
+"values": [ 200, 400, 200 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Thruster2:lifetime")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.1, 0.5 ),
+"transitions": PoolRealArray( 0.5, 1, 1 ),
+"update": 0,
+"values": [ 0.4, 0.8, 0.4 ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Thruster2:emitting")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
+[sub_resource type="Animation" id=8]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:position")
@@ -178,11 +288,10 @@ tracks/0/keys = {
 "values": [ Vector2( 3.84464, 39.7731 ), Vector2( 7.04977, 38.0137 ), Vector2( -0.644684, 41.9775 ), Vector2( 3.2222, 40.4274 ), Vector2( 5.22339, 44.976 ), Vector2( 3.84464, 39.7731 ) ]
 }
 
-[sub_resource type="CircleShape2D" id=8]
+[sub_resource type="CircleShape2D" id=9]
 radius = 117.38
 
-[sub_resource type="Animation" id=9]
-resource_name = "Dead"
+[sub_resource type="Animation" id=10]
 length = 2.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Visible/Skin:position")
@@ -318,9 +427,22 @@ tracks/10/keys = {
 "update": 0,
 "values": [ Vector2( -17.937, -546.416 ), Vector2( -27.255, -169.038 ) ]
 }
+tracks/11/type = "method"
+tracks/11/path = NodePath("Camera2D")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "follow_player"
+} ]
+}
 
-[sub_resource type="Animation" id=10]
-resource_name = "Flying"
+[sub_resource type="Animation" id=11]
 length = 5.0
 loop = true
 tracks/0/type = "value"
@@ -336,8 +458,7 @@ tracks/0/keys = {
 "values": [ 0, 1, 0, 1, 0 ]
 }
 
-[sub_resource type="Animation" id=11]
-resource_name = "TimeOut"
+[sub_resource type="Animation" id=12]
 length = 2.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Camera2D:zoom")
@@ -448,7 +569,7 @@ tracks/8/keys = {
 "values": [ Vector2( -17.937, -546.416 ), Vector2( -13.278, -224.945 ) ]
 }
 
-[sub_resource type="GDScript" id=12]
+[sub_resource type="GDScript" id=13]
 script/source = "extends Line2D
 
 var target
@@ -480,7 +601,6 @@ script = SubResource( 1 )
 shape = SubResource( 2 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
-editor/display_folded = true
 position = Vector2( -17.937, -546.416 )
 current = true
 limit_smoothed = true
@@ -492,6 +612,9 @@ editor_draw_drag_margin = true
 script = SubResource( 3 )
 
 [node name="Tween" type="Tween" parent="Camera2D"]
+
+[node name="Timer" type="Timer" parent="Camera2D"]
+one_shot = true
 
 [node name="Visible" type="Node2D" parent="."]
 editor/display_folded = true
@@ -512,7 +635,7 @@ position = Vector2( 3.84464, 39.7731 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 4 )
 
-[node name="CPUParticles2D" type="CPUParticles2D" parent="Visible/Jetpack"]
+[node name="Thruster" type="CPUParticles2D" parent="Visible/Jetpack"]
 show_behind_parent = true
 position = Vector2( -0.857376, 7.85791 )
 rotation = 1.5708
@@ -535,7 +658,7 @@ scale_amount_random = 1.0
 scale_amount_curve = SubResource( 5 )
 color_ramp = SubResource( 6 )
 
-[node name="CPUParticles2D2" type="CPUParticles2D" parent="Visible/Jetpack"]
+[node name="Thruster2" type="CPUParticles2D" parent="Visible/Jetpack"]
 show_behind_parent = true
 position = Vector2( -0.857376, 7.85791 )
 rotation = 1.5708
@@ -559,14 +682,15 @@ scale_amount_curve = SubResource( 5 )
 color_ramp = SubResource( 6 )
 
 [node name="Anim" type="AnimationPlayer" parent="Visible/Jetpack"]
-anims/Propulsion = SubResource( 7 )
+anims/Impulse = SubResource( 7 )
+anims/Propulsion = SubResource( 8 )
 
 [node name="MagnetArea" type="Area2D" parent="Visible"]
 editor/display_folded = true
 visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Visible/MagnetArea"]
-shape = SubResource( 8 )
+shape = SubResource( 9 )
 
 [node name="Hat" type="Sprite" parent="Visible"]
 position = Vector2( 0.136536, -108.854 )
@@ -577,9 +701,9 @@ scale = Vector2( 1.5, 1.5 )
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Flying"
-anims/Dead = SubResource( 9 )
-anims/Flying = SubResource( 10 )
-anims/TimeOut = SubResource( 11 )
+anims/Dead = SubResource( 10 )
+anims/Flying = SubResource( 11 )
+anims/TimeOut = SubResource( 12 )
 
 [node name="ClickArea" type="CanvasLayer" parent="."]
 editor/display_folded = true
@@ -601,13 +725,15 @@ joint_mode = 2
 begin_cap_mode = 2
 end_cap_mode = 2
 sharp_limit = 5.0
-script = SubResource( 12 )
+script = SubResource( 13 )
 target_path = NodePath("../TrailPos")
 
 [node name="ImpulseTimer" type="Timer" parent="."]
-wait_time = 0.2
+wait_time = 0.4
 one_shot = true
 
+[connection signal="timeout" from="Camera2D/Timer" to="Camera2D" method="_on_Timer_timeout"]
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
 [connection signal="animation_finished" from="Anim" to="." method="_on_Anim_animation_finished"]
 [connection signal="gui_input" from="ClickArea/Area" to="." method="_on_Area_gui_input"]
+[connection signal="timeout" from="ImpulseTimer" to="." method="_on_ImpulseTimer_timeout"]
