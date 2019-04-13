@@ -5,7 +5,7 @@
 [ext_resource path="res://Sprites/Ribbon/Ballon.png" type="Texture" id=3]
 
 [sub_resource type="GDScript" id=1]
-script/source = "extends Node2D
+script/source = "extends Area2D
 
 var activated : bool = false
 enum RIBBON_TYPE {BLUE, YELLOW, RED}
@@ -55,22 +55,19 @@ func desactivate():
 	$Tween.start()
 	pass
 
-func _on_EnterArea_body_entered(body):
+func _on_VisibilityNotifier2D_screen_exited():
+	queue_free()
+	pass # Replace with function body.
+
+
+func _on_Ribbon_body_entered(body):
 	if body.is_in_group('Player') and !activated:
 		desactivate()
 		body.impulse(1200)
 	pass # Replace with function body.
-
-
-func _on_VisibilityNotifier2D_screen_exited():
-	queue_free()
-	pass # Replace with function body.
 "
 
-[sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 118.251, 15.3114 )
-
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=2]
 size = 22
 outline_size = 3
 outline_color = Color( 0, 0, 0, 1 )
@@ -78,7 +75,7 @@ use_filter = true
 extra_spacing_char = 8
 font_data = ExtResource( 2 )
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=3]
 length = 3.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("Thread2:default_color")
@@ -141,7 +138,7 @@ tracks/4/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.2 ) ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=4]
 length = 2.0
 loop = true
 tracks/0/type = "value"
@@ -205,24 +202,19 @@ tracks/4/keys = {
 "values": [ PoolVector2Array( 99.299, -163.505, 98.1613, -140.753, 97.5926, -116.864, 96.2128, -103.066, 94.7485, -88.4235, 95.0563, -69.6487, 95.3174, -53.7266, 93.2067, -38.4247, 90.7669, -20.736 ), PoolVector2Array( 91.5907, -151.588, 96.7673, -133.47, 103.238, -106.94, 104.856, -74.9101, 104.856, -53.2333, 103.238, -40.6154, 100.65, -27.674, 96.1202, -17.3209, 90.6201, -6.32076 ) ]
 }
 
-[node name="Ribbon" type="Node2D"]
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 118.251, 16.7189 )
+
+[node name="Ribbon" type="Area2D"]
 script = SubResource( 1 )
 type = 2
 colors = [ Color( 0, 0.0117647, 0.756863, 1 ), Color( 1, 0.796078, 0, 1 ), Color( 0.898039, 0, 0, 1 ) ]
-
-[node name="Area" type="Area2D" parent="."]
-editor/display_folded = true
-
-[node name="Collision" type="CollisionShape2D" parent="Area"]
-shape = SubResource( 2 )
-one_way_collision = true
 
 [node name="Thread" type="Line2D" parent="."]
 position = Vector2( -100, -170 )
 points = PoolVector2Array( -0.265518, 7.98062, 0.88623, 22.809, 0.446106, 45.2555, 0.446106, 68.1422, 0.88623, 85.3072, 2.64674, 101.592, 4.84738, 120.517, 8.36841, 140.323, 10, 160 )
 width = 2.5
 default_color = Color( 0.184314, 0.184314, 0.184314, 1 )
-texture_mode = 0
 
 [node name="Thread2" type="Line2D" parent="."]
 position = Vector2( 0, 0.630253 )
@@ -232,6 +224,7 @@ default_color = Color( 0.184314, 0.184314, 0.184314, 1 )
 texture_mode = 812308576
 
 [node name="Sprite" type="Sprite" parent="."]
+editor/display_folded = true
 scale = Vector2( 3, 4 )
 texture = ExtResource( 1 )
 
@@ -245,31 +238,36 @@ margin_top = -34.0
 margin_right = 8.0
 margin_bottom = 1.0
 rect_scale = Vector2( 0.4, 0.4 )
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 2 )
 text = "III"
 align = 1
 valign = 1
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Idle"
-anims/Deactivate = SubResource( 4 )
-anims/Idle = SubResource( 5 )
+anims/Deactivate = SubResource( 3 )
+anims/Idle = SubResource( 4 )
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 
 [node name="Ballon" type="Sprite" parent="."]
-position = Vector2( -100, -210 )
+position = Vector2( -94.8642, -311.004 )
 scale = Vector2( 2, 2 )
 z_index = 2
 texture = ExtResource( 3 )
 
 [node name="Ballon2" type="Sprite" parent="."]
-position = Vector2( 100, -210 )
+position = Vector2( 101.712, -275.054 )
 scale = Vector2( 2, 2 )
 z_index = 2
 texture = ExtResource( 3 )
 
 [node name="Tween" type="Tween" parent="."]
 
-[connection signal="body_entered" from="Area" to="." method="_on_EnterArea_body_entered"]
+[node name="Collision" type="CollisionShape2D" parent="."]
+position = Vector2( 0.773804, 10.0592 )
+shape = SubResource( 5 )
+one_way_collision = true
+
+[connection signal="body_entered" from="." to="." method="_on_Ribbon_body_entered"]
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

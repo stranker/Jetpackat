@@ -11,7 +11,6 @@ var music_volume : int = 5
 var item_data : Dictionary = {}
 var items_equipped : Dictionary = {}
 var currency : Dictionary = {}
-var execution : String = ""
 var timer : float = 0
 
 func _ready():

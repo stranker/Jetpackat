@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://Sprites/Background/Bg1.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Background/Star3.png" type="Texture" id=2]
@@ -19,7 +19,6 @@
 [ext_resource path="res://Sprites/Background/SmokeParticle.png" type="Texture" id=17]
 [ext_resource path="res://Fonts/comic_andy.ttf" type="DynamicFontData" id=18]
 [ext_resource path="res://Scenes/ConfigPanel.tscn" type="PackedScene" id=19]
-[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=20]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Control
@@ -33,12 +32,8 @@ func _ready():
 	$Tween.interpolate_property($Background, 'self_modulate', $Background.self_modulate, Color.black, 15, Tween.TRANS_LINEAR,Tween.EASE_IN)
 	$Tween.interpolate_property($Stars, 'self_modulate', Color(0,0,0,0), Color.white, 12, Tween.TRANS_LINEAR,Tween.EASE_IN)
 	$Tween.start()
-	$Debug.text = GameManager.execution
 	pass
 
-func _process(delta):
-	$Debug.text = GameManager.execution
-	pass
 
 func set_items_equipped():
 	if !GameManager.items_equipped.keys().empty():
@@ -149,11 +144,6 @@ tracks/0/keys = {
 "update": 0,
 "values": [ Vector2( 1030, 1960 ), Vector2( 500, 1180 ) ]
 }
-
-[sub_resource type="DynamicFont" id=7]
-size = 32
-use_filter = true
-font_data = ExtResource( 20 )
 
 [node name="MainMenu" type="Control"]
 anchor_right = 1.0
@@ -354,17 +344,6 @@ anims/Idle = SubResource( 5 )
 anims/Start = SubResource( 6 )
 
 [node name="Tween" type="Tween" parent="."]
-
-[node name="Debug" type="RichTextLabel" parent="."]
-margin_right = 477.0
-margin_bottom = 1004.0
-mouse_filter = 2
-custom_fonts/normal_font = SubResource( 7 )
-custom_colors/default_color = Color( 0.796078, 0.0705882, 0.0156863, 1 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-custom_constants/shadow_offset_x = 1
-custom_constants/shadow_offset_y = 1
-custom_constants/shadow_as_outline = 1
 
 [connection signal="button_down" from="PawCat/StartButton" to="." method="_on_StartButton_button_down"]
 [connection signal="button_down" from="PawCat/ShopButton" to="." method="_on_ShopButton_button_down"]

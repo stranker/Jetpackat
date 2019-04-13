@@ -1,4 +1,4 @@
-[gd_scene load_steps=58 format=2]
+[gd_scene load_steps=59 format=2]
 
 [ext_resource path="res://Sprites/Background/House.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Background/SmokeParticle.png" type="Texture" id=2]
@@ -40,7 +40,7 @@
 script/source = "extends Node
 
 var playing : bool = false
-export var game_timer : float = 20
+export var game_timer : float = 70
 export var coins : int = 0
 export var fishes : int = 0
 var player_height : int = 0
@@ -157,6 +157,21 @@ func _on_CloseButton_button_down():
 
 func _on_CoinTimer_timeout():
 	coin_increment = 0
+	pass # Replace with function body.
+
+func _on_Currency_button_down():
+	GameManager.coins = 99999
+	GameManager.fishes = 99999
+	pass # Replace with function body.
+
+
+func _on_Button_button_down():
+	$UIGame/DebugPanel.hide()
+	pass # Replace with function body.
+
+
+func _on_DebugButton_button_down():
+	$UIGame/DebugPanel.show()
 	pass # Replace with function body.
 "
 
@@ -606,18 +621,13 @@ tracks/4/keys = {
 } ]
 }
 
-[sub_resource type="GDScript" id=22]
-script/source = "extends Node
+[sub_resource type="DynamicFont" id=22]
+size = 32
+font_data = ExtResource( 16 )
 
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
-"
+[sub_resource type="DynamicFont" id=23]
+size = 32
+font_data = ExtResource( 16 )
 
 [node name="GameScene" type="Node"]
 script = SubResource( 1 )
@@ -670,7 +680,6 @@ script = SubResource( 5 )
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
 editor/display_folded = true
-visible = false
 motion_mirroring = Vector2( 1080, 1920 )
 
 [node name="Bg1" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
@@ -680,7 +689,6 @@ centered = false
 
 [node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
 editor/display_folded = true
-visible = false
 motion_scale = Vector2( 1, 0.2 )
 motion_mirroring = Vector2( 0, 1920 )
 
@@ -695,7 +703,6 @@ centered = false
 
 [node name="ParallaxLayer3" type="ParallaxLayer" parent="ParallaxBackground"]
 editor/display_folded = true
-visible = false
 motion_scale = Vector2( 1, 0.3 )
 motion_mirroring = Vector2( 0, 1920 )
 
@@ -714,7 +721,6 @@ centered = false
 position = Vector2( 569.5, 830 )
 
 [node name="UIGame" type="CanvasLayer" parent="."]
-editor/display_folded = true
 script = SubResource( 6 )
 
 [node name="Container" type="Control" parent="UIGame"]
@@ -971,8 +977,6 @@ stretch_mode = 5
 
 [node name="PausePanel" type="NinePatchRect" parent="UIGame/Container"]
 pause_mode = 2
-editor/display_folded = true
-visible = false
 self_modulate = Color( 0, 0.701961, 1, 0.388235 )
 anchor_left = 0.5
 anchor_top = 0.5
@@ -1033,6 +1037,10 @@ text = "GAME PAUSED"
 align = 1
 valign = 1
 
+[node name="DebugButton" type="TextureButton" parent="UIGame/Container/PausePanel"]
+margin_right = 98.0
+margin_bottom = 104.0
+
 [node name="ConfigPanel" parent="UIGame/Container" instance=ExtResource( 25 )]
 pause_mode = 2
 visible = false
@@ -1077,6 +1085,7 @@ anims/FadeOut = SubResource( 20 )
 anims/Restart = SubResource( 21 )
 
 [node name="DebugPanel" type="Panel" parent="UIGame"]
+editor/display_folded = true
 visible = false
 anchor_top = 1.0
 anchor_bottom = 1.0
@@ -1084,14 +1093,31 @@ margin_top = -497.0
 margin_right = 296.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UIGame/DebugPanel"]
+editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="Invencible" type="Button" parent="UIGame/DebugPanel/VBoxContainer"]
 margin_right = 296.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 0, 50 )
+margin_bottom = 64.0
+rect_min_size = Vector2( 0, 64 )
+custom_fonts/font = SubResource( 22 )
 text = "Invencible"
+
+[node name="Currency" type="Button" parent="UIGame/DebugPanel/VBoxContainer"]
+margin_top = 68.0
+margin_right = 296.0
+margin_bottom = 132.0
+rect_min_size = Vector2( 0, 64 )
+custom_fonts/font = SubResource( 23 )
+text = "Currency"
+
+[node name="Button" type="Button" parent="UIGame/DebugPanel"]
+margin_left = 80.0
+margin_top = 427.0
+margin_right = 200.0
+margin_bottom = 495.0
+text = "X"
 
 [node name="CollectableSpawner" parent="." instance=ExtResource( 27 )]
 item_list = [ ExtResource( 28 ), ExtResource( 29 ) ]
@@ -1110,10 +1136,6 @@ item_list = [ ExtResource( 35 ) ]
 parent_node = NodePath("../Ribbons")
 min_height = 10.0
 max_height = 15.0
-probability = [ 1.0 ]
-
-[node name="PoolManager" type="Node" parent="."]
-script = SubResource( 22 )
 
 [node name="Collectables" type="Node2D" parent="."]
 
@@ -1131,6 +1153,9 @@ one_shot = true
 [connection signal="button_down" from="UIGame/Container/PausePanel/HomeButton" to="UIGame" method="_on_HomeButton_button_down"]
 [connection signal="button_down" from="UIGame/Container/PausePanel/ContinueButton" to="UIGame" method="_on_ContinueButton_button_down"]
 [connection signal="button_down" from="UIGame/Container/PausePanel/ConfigButton" to="UIGame" method="_on_ConfigButton_button_down"]
+[connection signal="button_down" from="UIGame/Container/PausePanel/DebugButton" to="." method="_on_DebugButton_button_down"]
 [connection signal="animation_finished" from="UIGame/Container/Transition/Anim" to="UIGame" method="_on_Anim_animation_finished"]
 [connection signal="button_down" from="UIGame/DebugPanel/VBoxContainer/Invencible" to="Player" method="_on_Invencible_button_down"]
+[connection signal="button_down" from="UIGame/DebugPanel/VBoxContainer/Currency" to="." method="_on_Currency_button_down"]
+[connection signal="button_down" from="UIGame/DebugPanel/Button" to="." method="_on_Button_button_down"]
 [connection signal="timeout" from="CoinTimer" to="." method="_on_CoinTimer_timeout"]
