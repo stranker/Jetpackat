@@ -551,7 +551,6 @@ hframes = 7
 frame = 4
 
 [node name="Jetpack" type="Sprite" parent="Visible"]
-editor/display_folded = true
 show_behind_parent = true
 material = SubResource( 4 )
 position = Vector2( 3.84464, 39.7731 )

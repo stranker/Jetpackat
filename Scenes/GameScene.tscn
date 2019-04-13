@@ -162,6 +162,11 @@ func _on_CoinTimer_timeout():
 func _on_Currency_button_down():
 	GameManager.coins = 99999
 	GameManager.fishes = 99999
+	coins = GameManager.coins
+	fishes = GameManager.fishes
+	update_coin_label()
+	update_fish_label()
+	GameManager.save_game_data()
 	pass # Replace with function body.
 
 
@@ -173,7 +178,11 @@ func _on_Button_button_down():
 func _on_DebugButton_button_down():
 	$UIGame/DebugPanel.show()
 	pass # Replace with function body.
-"
+
+
+func _on_ResetGame_button_down():
+	GameManager.reset_game_state()
+	pass # Replace with function body."
 
 [sub_resource type="GDScript" id=2]
 script/source = "extends Node2D
@@ -977,6 +986,7 @@ stretch_mode = 5
 
 [node name="PausePanel" type="NinePatchRect" parent="UIGame/Container"]
 pause_mode = 2
+editor/display_folded = true
 self_modulate = Color( 0, 0.701961, 1, 0.388235 )
 anchor_left = 0.5
 anchor_top = 0.5
@@ -1085,7 +1095,6 @@ anims/FadeOut = SubResource( 20 )
 anims/Restart = SubResource( 21 )
 
 [node name="DebugPanel" type="Panel" parent="UIGame"]
-editor/display_folded = true
 visible = false
 anchor_top = 1.0
 anchor_bottom = 1.0
@@ -1093,7 +1102,6 @@ margin_top = -497.0
 margin_right = 296.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UIGame/DebugPanel"]
-editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 
@@ -1111,6 +1119,14 @@ margin_bottom = 132.0
 rect_min_size = Vector2( 0, 64 )
 custom_fonts/font = SubResource( 23 )
 text = "Currency"
+
+[node name="ResetGame" type="Button" parent="UIGame/DebugPanel/VBoxContainer"]
+margin_top = 136.0
+margin_right = 296.0
+margin_bottom = 200.0
+rect_min_size = Vector2( 0, 64 )
+custom_fonts/font = SubResource( 23 )
+text = "RESET GAME STATE"
 
 [node name="Button" type="Button" parent="UIGame/DebugPanel"]
 margin_left = 80.0
@@ -1157,5 +1173,6 @@ one_shot = true
 [connection signal="animation_finished" from="UIGame/Container/Transition/Anim" to="UIGame" method="_on_Anim_animation_finished"]
 [connection signal="button_down" from="UIGame/DebugPanel/VBoxContainer/Invencible" to="Player" method="_on_Invencible_button_down"]
 [connection signal="button_down" from="UIGame/DebugPanel/VBoxContainer/Currency" to="." method="_on_Currency_button_down"]
+[connection signal="button_down" from="UIGame/DebugPanel/VBoxContainer/ResetGame" to="." method="_on_ResetGame_button_down"]
 [connection signal="button_down" from="UIGame/DebugPanel/Button" to="." method="_on_Button_button_down"]
 [connection signal="timeout" from="CoinTimer" to="." method="_on_CoinTimer_timeout"]

@@ -60,8 +60,6 @@ func try_load_file_data(res_path):
 		file.open(res_path,File.READ)
 		output = parse_json(file.get_as_text())
 		file.close()
-	else:
-		execution += "FILE " + res_path + " DOESNT EXISTS --"
 	return output
 
 func save_game_data():
@@ -73,16 +71,18 @@ func save_game_data():
 func save_item_data_file():
 	var file = File.new()
 	file.open('user://Saves/ItemShopData.dat',File.WRITE)
-	file.store_line(to_json(item_data))
-	file.store_line("")
+	if !item_data.empty():
+		file.store_line(to_json(item_data))
+		file.store_line("")
 	file.close()
 	pass
 
 func save_equipped_item_file():
 	var file = File.new()
 	file.open('user://Saves/EquippedItemsData.dat',File.WRITE)
-	file.store_line(to_json(items_equipped))
-	file.store_line("")
+	if !items_equipped.empty():
+		file.store_line(to_json(items_equipped))
+		file.store_line("")
 	file.close()
 	pass
 
@@ -91,8 +91,9 @@ func save_current_currency():
 	file.open('user://Saves/Currency.dat',File.WRITE)
 	currency['Coins'] = coins
 	currency['Fishes'] = fishes
-	file.store_line(to_json(currency))
-	file.store_line("")
+	if !currency.empty():
+		file.store_line(to_json(currency))
+		file.store_line("")
 	file.close()
 	pass
 
@@ -104,4 +105,14 @@ func buy_item(item_type,item_name):
 func equip_item(item_type,item_name):
 	items_equipped[item_type] = item_name
 	save_game_data()
+	pass
+
+func reset_game_state():
+	var dir = Directory.new()
+	set_process(false)
+	dir.remove('user://Saves/ItemShopData.dat')
+	dir.remove('user://Saves/EquippedItemsData.dat')
+	dir.remove('user://Saves/Currency.dat')
+	dir.remove('user://Saves')
+	get_tree().quit()
 	pass

@@ -73,6 +73,7 @@ func _on_ShopButton_button_down():
 		'Fish':
 			GameManager.fishes -= price
 	emit_signal('item_buy',type,item_name)
+	get_tree().root.get_node('ShopScene').update_currency()
 	$ShopButton.hide()
 	$UseButton.show()
 	pass # Replace with function body.
@@ -93,7 +94,7 @@ func enable_use_button(val):
 		$UseButton.disabled = false
 	pass"
 
-[sub_resource type="ShaderMaterial" id=4]
+[sub_resource type="ShaderMaterial" id=2]
 shader = ExtResource( 4 )
 shader_param/outline_width = 1.2
 shader_param/outline_color = Color( 0, 0, 0, 1 )
@@ -158,7 +159,7 @@ margin_bottom = 64.0
 mouse_filter = 2
 
 [node name="Payment" type="TextureRect" parent="ShopButton/CC/HBC"]
-material = SubResource( 4 )
+material = SubResource( 2 )
 margin_right = 40.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 40, 40 )
