@@ -4,7 +4,7 @@
 [ext_resource path="res://Sprites/Enemies/PaperPlane.png" type="Texture" id=2]
 
 [sub_resource type="GDScript" id=1]
-script/source = "extends 'res://Object/Misc/Spawnables.gd'
+script/source = "extends Area2D
 
 var direction : int = 1
 enum FLY_TYPE {NORMAL,LOOP}
@@ -64,7 +64,7 @@ shader = ExtResource( 1 )
 shader_param/outline_width = 0.6
 shader_param/outline_color = Color( 0.227451, 0.227451, 0.227451, 1 )
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=4]
 resource_name = "Normal"
 length = 5.0
 tracks/0/type = "value"
@@ -116,7 +116,7 @@ tracks/3/keys = {
 "values": [ 0.0, 0.0, 7.56756, -14.4473, -3.52745, 13.2893, -2.46303, -2.46303 ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=3]
 length = 4.4
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:position")
@@ -184,8 +184,8 @@ polygon = PoolVector2Array( -61.6072, 8.79681, -51.9376, -19.0744, 60.116, 1.402
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "loop"
-anims/Normal = SubResource( 3 )
-anims/loop = SubResource( 4 )
+anims/Normal = SubResource( 4 )
+anims/loop = SubResource( 3 )
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 

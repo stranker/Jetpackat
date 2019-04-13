@@ -19,6 +19,6 @@ func get_new_item():
 	var spawned : bool = false
 	for i in range(height_control_list.size() - 1, -1 ,-1):
 		if !spawned and GameManager.player_height > height_control_list[i]:
-			item = PollManager.get_object(i,PollManager.enemies_list)
+			item = item_list[i].instance()
 			spawned = true
 	return item

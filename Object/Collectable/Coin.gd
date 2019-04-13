@@ -5,7 +5,6 @@ var player_magnet = null
 export var value : int = 1
 export var speed : int = 300
 
-
 signal taken(val)
 
 func _ready():
@@ -25,6 +24,12 @@ func _on_Coin_body_entered(body):
 		$Anim.play('Taken')
 		$Anim.seek(rand_range(0,1),true)
 	pass # Replace with function body.
+
+
+func _on_VisibilityNotifier2D_screen_exited():
+	queue_free()
+	pass # Replace with function body.
+
 
 func _on_Coin_area_entered(area):
 	if area.name == 'MagnetArea':

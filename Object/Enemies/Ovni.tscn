@@ -3,7 +3,7 @@
 [ext_resource path="res://Sprites/Enemies/Ovni.png" type="Texture" id=1]
 
 [sub_resource type="GDScript" id=1]
-script/source = "extends 'res://Object/Misc/Spawnables.gd'
+script/source = "extends Area2D
 
 export var speed : float = 600
 export var increment : float = 100
@@ -88,7 +88,6 @@ tracks/0/keys = {
 
 [node name="Ovni" type="Area2D"]
 script = SubResource( 1 )
-id = 2
 increment = 200.0
 
 [node name="Sprite" type="Sprite" parent="."]

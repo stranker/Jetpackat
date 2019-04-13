@@ -22,7 +22,6 @@ config/icon="res://icon.png"
 [autoload]
 
 GameManager="*res://Object/Misc/GameManager.gd"
-PollManager="*res://Object/Misc/PollManager.gd"
 
 [debug]
 
