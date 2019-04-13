@@ -719,7 +719,6 @@ show_behind_parent = true
 position = Vector2( -238.836, -90.1898 )
 width = 50.0
 default_color = Color( 1, 0, 0, 0.466667 )
-texture_mode = 0
 joint_mode = 2
 begin_cap_mode = 2
 end_cap_mode = 2

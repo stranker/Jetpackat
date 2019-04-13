@@ -1,8 +1,7 @@
 extends Node
 
 export (Array, PackedScene) var item_list
-enum SPAWN_TYPE {COLLECTABLE,ENEMY,ORBIT}
-export (SPAWN_TYPE) var type
+export(NodePath) var parent_node
 export var activated : bool = true
 export var min_height : float
 export var max_height : float
@@ -21,19 +20,13 @@ func get_new_height():
 func check_can_spawn(): 
 	return GameManager.player_height > height_spawn + pos_player_last_spawn
 
-func spawn_item(item,type):
+func spawn_item(item):
 	if item:
 		var new_pos = Vector2()
 		new_pos.x = rand_range(150,get_viewport().get_visible_rect().size.x - 150)
 		new_pos.y = GameManager.camera.global_position.y - get_viewport().get_viewport().size.y / 2 - 200
 		item.position = new_pos
-		match type:
-			SPAWN_TYPE.COLLECTABLE:
-				get_tree().root.get_node('GameScene/Collectables').call_deferred('add_child',item)
-			SPAWN_TYPE.ENEMY:
-				get_tree().root.get_node('GameScene/Enemies').call_deferred('add_child',item)
-			SPAWN_TYPE.ORBIT:
-				get_tree().root.get_node('GameScene/Orbits').call_deferred('add_child',item)
+		get_node(parent_node).call_deferred('add_child',item)
 		pos_player_last_spawn = GameManager.player_height
 		get_new_height()
 	pass

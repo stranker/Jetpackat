@@ -1095,16 +1095,19 @@ text = "Invencible"
 
 [node name="CollectableSpawner" parent="." instance=ExtResource( 27 )]
 item_list = [ ExtResource( 28 ), ExtResource( 29 ) ]
+parent_node = NodePath("../Collectables")
 min_height = 8.0
 max_height = 10.0
 probability = [ 0.1, 1.0 ]
 
 [node name="EnemySpawner" parent="." instance=ExtResource( 30 )]
 item_list = [ ExtResource( 31 ), ExtResource( 32 ), ExtResource( 33 ) ]
+parent_node = NodePath("../Enemies")
 height_control_list = [ 0, 200, 500 ]
 
 [node name="RibbonSpawner" parent="." instance=ExtResource( 34 )]
 item_list = [ ExtResource( 35 ) ]
+parent_node = NodePath("../Ribbons")
 min_height = 10.0
 max_height = 15.0
 probability = [ 1.0 ]
@@ -1116,7 +1119,7 @@ script = SubResource( 22 )
 
 [node name="Enemies" type="Node2D" parent="."]
 
-[node name="Orbits" type="Node2D" parent="."]
+[node name="Ribbons" type="Node2D" parent="."]
 
 [node name="CoinTimer" type="Timer" parent="."]
 one_shot = true

@@ -1,17 +1,12 @@
-extends "res://Object/Misc/Spawner.gd"
+extends 'res://Object/Misc/Spawner.gd'
 
 export (Array, int) var height_control_list
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	type = SPAWN_TYPE.ENEMY
-	pass # Replace with function body.
 
 func _process(delta):
 	if activated:
 		if check_can_spawn():
 			var item = get_new_item()
-			spawn_item(item,type)
+			spawn_item(item)
 	pass
 
 func get_new_item():
