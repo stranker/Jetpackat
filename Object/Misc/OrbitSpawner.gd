@@ -19,7 +19,7 @@ func get_new_item():
 	var spawned = false
 	for i in probability:
 		if prob <= i and !spawned:
-			item = item_list[item_pos].instance()
+			item = PollManager.get_object(item_pos,PollManager.ribbons_list)
 			spawned = !spawned
 		else:
 			item_pos += 1

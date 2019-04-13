@@ -3,7 +3,7 @@
 [ext_resource path="res://Sprites/Enemies/Bird_32x32_blue_fly_R.png" type="Texture" id=1]
 
 [sub_resource type="GDScript" id=1]
-script/source = "extends Area2D
+script/source = "extends 'res://Object/Misc/Spawnables.gd'
 
 export var max_speed : float
 export var min_speed : float
@@ -70,6 +70,7 @@ tracks/0/keys = {
 
 [node name="Bird" type="Area2D"]
 script = SubResource( 1 )
+id = 1
 max_speed = 400.0
 min_speed = 250.0
 

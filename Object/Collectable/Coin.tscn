@@ -150,8 +150,6 @@ autoplay = "Idle"
 anims/Idle = SubResource( 3 )
 anims/Taken = SubResource( 4 )
 
-[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
-
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
 emitting = false
 amount = 20
@@ -174,4 +172,3 @@ color_ramp = SubResource( 6 )
 
 [connection signal="area_entered" from="." to="." method="_on_Coin_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_Coin_body_entered"]
-[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

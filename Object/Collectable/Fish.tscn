@@ -4,7 +4,7 @@
 [ext_resource path="res://Sprites/Collectables/Fish.png" type="Texture" id=2]
 
 [sub_resource type="GDScript" id=1]
-script/source = "extends Area2D
+script/source = "extends 'res://Object/Misc/Spawnables.gd'
 
 var taken = false
 export var value : int = 1
@@ -27,16 +27,15 @@ func _on_VisibilityNotifier2D_screen_exited():
 	pass # Replace with function body.
 "
 
-[sub_resource type="ShaderMaterial" id=4]
+[sub_resource type="ShaderMaterial" id=2]
 shader = ExtResource( 1 )
 shader_param/outline_width = 0.5
 shader_param/outline_color = Color( 0, 0, 0, 1 )
 
-[sub_resource type="CircleShape2D" id=2]
+[sub_resource type="CircleShape2D" id=3]
 radius = 50.4194
 
-[sub_resource type="Animation" id=3]
-resource_name = "Taken"
+[sub_resource type="Animation" id=4]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:self_modulate")
@@ -69,15 +68,15 @@ tracks/1/keys = {
 script = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-material = SubResource( 4 )
+material = SubResource( 2 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 2 )
+shape = SubResource( 3 )
 
 [node name="Anim" type="AnimationPlayer" parent="."]
-anims/Taken = SubResource( 3 )
+anims/Taken = SubResource( 4 )
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 

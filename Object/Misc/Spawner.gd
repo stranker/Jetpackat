@@ -1,6 +1,5 @@
 extends Node
 
-export (Array, PackedScene) var item_list
 enum SPAWN_TYPE {COLLECTABLE,ENEMY,ORBIT}
 export (SPAWN_TYPE) var type
 export var activated : bool = true
@@ -27,13 +26,6 @@ func spawn_item(item,type):
 		new_pos.x = rand_range(150,get_viewport().get_visible_rect().size.x - 150)
 		new_pos.y = GameManager.camera.global_position.y - get_viewport().get_viewport().size.y / 2 - 200
 		item.position = new_pos
-		match type:
-			SPAWN_TYPE.COLLECTABLE:
-				get_tree().root.get_node('GameScene/Collectables').call_deferred('add_child',item)
-			SPAWN_TYPE.ENEMY:
-				get_tree().root.get_node('GameScene/Enemies').call_deferred('add_child',item)
-			SPAWN_TYPE.ORBIT:
-				get_tree().root.get_node('GameScene/Orbits').call_deferred('add_child',item)
 		pos_player_last_spawn = GameManager.player_height
 		get_new_height()
 	pass

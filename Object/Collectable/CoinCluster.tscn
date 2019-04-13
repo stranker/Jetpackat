@@ -3,7 +3,7 @@
 [ext_resource path="res://Object/Collectable/Coin.tscn" type="PackedScene" id=1]
 
 [sub_resource type="GDScript" id=1]
-script/source = "extends Node2D
+script/source = "extends 'res://Object/Misc/Spawnables.gd'
 
 onready var pattern_list = $Patterns.get_children()
 
@@ -28,6 +28,7 @@ func _on_VisibilityNotifier2D_screen_exited():
 
 [node name="CoinCluster" type="Node2D"]
 script = SubResource( 1 )
+id = 1
 
 [node name="Patterns" type="Node2D" parent="."]
 
