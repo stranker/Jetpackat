@@ -10,9 +10,6 @@
 [ext_resource path="res://Sprites/UI/BackButton.png" type="Texture" id=8]
 [ext_resource path="res://Sprites/UI/BackButtonPressed.png" type="Texture" id=9]
 
-
-
-
 [sub_resource type="GDScript" id=1]
 script/source = "extends Control
 
@@ -137,10 +134,10 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0, 2.5, 2.8, 3.4, 4.2, 5, 5.5, 6, 6.4, 7, 8 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 5, 5.5, 6, 6.4, 7, 8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 157, 290 ), Vector2( 157, 290 ), Vector2( 157, 290 ), Vector2( 157, 290 ), Vector2( 157, 290 ), Vector2( 157, 290 ), Vector2( 483.071, 866.786 ), Vector2( 809.143, 1443.57 ), Vector2( 1070, 1905 ), Vector2( 2632, 4815 ), Vector2( 2632, 4815 ) ]
+"values": [ Vector2( 150, 290 ), Vector2( 150, 290 ), Vector2( 420, 866.786 ), Vector2( 750, 1443.57 ), Vector2( 950, 1905 ), Vector2( 2632, 4815 ), Vector2( 2632, 4815 ) ]
 }
 tracks/6/type = "value"
 tracks/6/path = NodePath("Cat/Jetpack:rect_position")
@@ -329,8 +326,9 @@ margin_top = 53.6094
 margin_right = 332.5
 margin_bottom = 129.609
 custom_fonts/font = SubResource( 4 )
-custom_colors/font_color = Color( 1, 0.866667, 0, 1 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "DANIEL H. NATARELLI"
+percent_visible = 0.0
 
 [node name="ArtistTitle" type="Label" parent="."]
 editor/display_folded = true
@@ -360,6 +358,7 @@ custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 0.431373, 1, 0, 1 )
 text = "Daniel H. Natarelli"
 align = 1
+percent_visible = 0.0
 
 [node name="FontTitle" type="Label" parent="."]
 editor/display_folded = true
@@ -395,14 +394,14 @@ Overload
 by
 Ray Larabie"
 align = 1
+percent_visible = 0.0
 
 [node name="Cat" type="NinePatchRect" parent="."]
-editor/display_folded = true
-margin_left = 4440.65
-margin_top = 1277.68
-margin_right = 7072.65
-margin_bottom = 6092.68
-rect_rotation = 15.0
+margin_left = -496.386
+margin_top = 425.339
+margin_right = -346.386
+margin_bottom = 715.339
+rect_rotation = 9.99773
 rect_scale = Vector2( -1, 1 )
 rect_pivot_offset = Vector2( 115.882, 155.1 )
 texture = ExtResource( 5 )
@@ -410,17 +409,17 @@ region_rect = Rect2( 2, 2, 32, 65 )
 
 [node name="Jetpack" type="TextureRect" parent="Cat"]
 show_behind_parent = true
-margin_left = 817.607
-margin_top = 959.012
-margin_right = 1869.61
-margin_bottom = 2136.01
+margin_left = 22.3957
+margin_top = 119.451
+margin_right = 152.396
+margin_bottom = 279.451
 texture = ExtResource( 6 )
 expand = true
 stretch_mode = 6
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="Cat/Jetpack"]
 show_behind_parent = true
-position = Vector2( 688.65, 1088.16 )
+position = Vector2( 69.9997, 110 )
 rotation = 1.5708
 amount = 20
 texture = ExtResource( 7 )
@@ -429,7 +428,7 @@ gravity = Vector2( 0, 0 )
 initial_velocity = 150.0
 angle = 360.0
 angle_random = 1.0
-scale_amount = 20.0
+scale_amount = 2.0
 scale_amount_random = 1.0
 color_ramp = SubResource( 6 )
 
@@ -439,7 +438,7 @@ anims/FadeOut = SubResource( 7 )
 anims/Start = SubResource( 8 )
 
 [node name="BackButton" type="TextureButton" parent="."]
-self_modulate = Color( 1, 1, 1, 0.200001 )
+self_modulate = Color( 1, 1, 1, 0 )
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5

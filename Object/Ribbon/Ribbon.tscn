@@ -1,11 +1,12 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Sprites/Ribbon/Ribbon.png" type="Texture" id=1]
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://Sprites/Ribbon/Ballon.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/Background/StarParticle.png" type="Texture" id=4]
 
 [sub_resource type="GDScript" id=1]
-script/source = "extends Area2D
+script/source = "extends Node2D
 
 var activated : bool = false
 enum RIBBON_TYPE {BLUE, YELLOW, RED}
@@ -59,11 +60,23 @@ func _on_VisibilityNotifier2D_screen_exited():
 	queue_free()
 	pass # Replace with function body.
 
-
-func _on_Ribbon_body_entered(body):
+func _on_ExcellentArea_body_entered(body):
 	if body.is_in_group('Player') and !activated:
 		desactivate()
-		body.impulse(1200)
+		body.impulse(1600)
+		$ExcellentLabel.show()
+		$Particles.emitting = true
+		$Particles2.emitting = true
+		$LabelAnim.play(\"Taken\")
+	pass
+
+
+func _on_GoodArea_body_entered(body):
+	if body.is_in_group('Player') and !activated:
+		desactivate()
+		body.impulse(1000)
+		$GoodLabel.show()
+		$LabelAnim.play(\"Taken\")
 	pass # Replace with function body.
 "
 
@@ -203,9 +216,100 @@ tracks/4/keys = {
 }
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 118.251, 16.7189 )
+extents = Vector2( 30, 16.7189 )
 
-[node name="Ribbon" type="Area2D"]
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 50, 20 )
+
+[sub_resource type="DynamicFont" id=7]
+size = 54
+outline_size = 3
+outline_color = Color( 0, 0.109804, 1, 1 )
+use_filter = true
+extra_spacing_char = 1
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=8]
+size = 54
+outline_size = 3
+outline_color = Color( 1, 0.584314, 0, 1 )
+use_filter = true
+extra_spacing_char = 1
+font_data = ExtResource( 2 )
+
+[sub_resource type="Animation" id=9]
+resource_name = "Taken"
+tracks/0/type = "value"
+tracks/0/path = NodePath("GoodLabel:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 0.5, 1 ),
+"update": 0,
+"values": [ Vector2( -72.5, -33 ), Vector2( -72.5, -200 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("GoodLabel:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 2, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("ExcellentLabel:rect_position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 0.5, 1 ),
+"update": 0,
+"values": [ Vector2( -196.5, -33 ), Vector2( -196.5, -164.519 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("ExcellentLabel:self_modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 2, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("ExcellentLabel:custom_fonts/font:size")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 54, 70 ]
+}
+
+[sub_resource type="Curve" id=10]
+min_value = 5.0
+max_value = 10.0
+_data = [ Vector2( 0, 0 ), 0.0, 1.0, 0, 1, Vector2( 1, 1 ), 1.0, 0.0, 1, 0 ]
+
+[sub_resource type="Gradient" id=11]
+offsets = PoolRealArray( 0, 0.735632, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 0.726205, 0, 0.666667, 1, 0.72549, 0, 0 )
+
+[node name="Ribbon" type="Node2D"]
 script = SubResource( 1 )
 type = 2
 colors = [ Color( 0, 0.0117647, 0.756863, 1 ), Color( 1, 0.796078, 0, 1 ), Color( 0.898039, 0, 0, 1 ) ]
@@ -215,6 +319,7 @@ position = Vector2( -100, -170 )
 points = PoolVector2Array( -0.265518, 7.98062, 0.88623, 22.809, 0.446106, 45.2555, 0.446106, 68.1422, 0.88623, 85.3072, 2.64674, 101.592, 4.84738, 120.517, 8.36841, 140.323, 10, 160 )
 width = 2.5
 default_color = Color( 0.184314, 0.184314, 0.184314, 1 )
+texture_mode = 1064951612
 
 [node name="Thread2" type="Line2D" parent="."]
 position = Vector2( 0, 0.630253 )
@@ -251,23 +356,116 @@ anims/Idle = SubResource( 4 )
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 
 [node name="Ballon" type="Sprite" parent="."]
-position = Vector2( -94.8642, -311.004 )
+position = Vector2( -100, -210 )
 scale = Vector2( 2, 2 )
 z_index = 2
 texture = ExtResource( 3 )
 
 [node name="Ballon2" type="Sprite" parent="."]
-position = Vector2( 101.712, -275.054 )
+position = Vector2( 100, -210 )
 scale = Vector2( 2, 2 )
 z_index = 2
 texture = ExtResource( 3 )
 
 [node name="Tween" type="Tween" parent="."]
 
-[node name="Collision" type="CollisionShape2D" parent="."]
-position = Vector2( 0.773804, 10.0592 )
+[node name="GoodArea" type="Area2D" parent="."]
+editor/display_folded = true
+
+[node name="Collision" type="CollisionShape2D" parent="GoodArea"]
+position = Vector2( -100, 0 )
 shape = SubResource( 5 )
 one_way_collision = true
 
-[connection signal="body_entered" from="." to="." method="_on_Ribbon_body_entered"]
+[node name="Collision2" type="CollisionShape2D" parent="GoodArea"]
+position = Vector2( 100, 0 )
+shape = SubResource( 5 )
+one_way_collision = true
+
+[node name="ExcellentArea" type="Area2D" parent="."]
+editor/display_folded = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExcellentArea"]
+position = Vector2( 0, 20 )
+shape = SubResource( 6 )
+one_way_collision = true
+
+[node name="GoodLabel" type="Label" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -72.5
+margin_top = -33.0
+margin_right = 72.5
+margin_bottom = 33.0
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color = Color( 0.941176, 0.901961, 0.901961, 1 )
+text = "GOOD!"
+
+[node name="ExcellentLabel" type="Label" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -196.5
+margin_top = -33.0
+margin_right = 196.5
+margin_bottom = 52.0
+custom_fonts/font = SubResource( 8 )
+custom_colors/font_color = Color( 0.941176, 0.901961, 0.901961, 1 )
+text = "EXCELLENT!"
+align = 1
+
+[node name="LabelAnim" type="AnimationPlayer" parent="."]
+anims/Taken = SubResource( 9 )
+
+[node name="Particles" type="CPUParticles2D" parent="."]
+position = Vector2( -126, 0 )
+rotation = 3.14159
+emitting = false
+one_shot = true
+preprocess = 0.5
+speed_scale = 1.2
+explosiveness = 1.0
+texture = ExtResource( 4 )
+flag_align_y = true
+spread = 80.0
+flatness = 1.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 100.0
+initial_velocity_random = 0.1
+damping = 60.0
+angle = 360.0
+angle_random = 1.0
+scale_amount = 2.0
+scale_amount_curve = SubResource( 10 )
+color_ramp = SubResource( 11 )
+
+[node name="Particles2" type="CPUParticles2D" parent="."]
+position = Vector2( 126, 0 )
+rotation = -8.88506e-006
+emitting = false
+one_shot = true
+preprocess = 0.5
+speed_scale = 1.2
+explosiveness = 1.0
+texture = ExtResource( 4 )
+flag_align_y = true
+spread = 80.0
+flatness = 1.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 100.0
+initial_velocity_random = 0.1
+damping = 60.0
+angle = 360.0
+angle_random = 1.0
+scale_amount = 2.0
+scale_amount_curve = SubResource( 10 )
+color_ramp = SubResource( 11 )
+
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
+[connection signal="body_entered" from="GoodArea" to="." method="_on_GoodArea_body_entered"]
+[connection signal="body_entered" from="ExcellentArea" to="." method="_on_ExcellentArea_body_entered"]
