@@ -117,7 +117,7 @@ func reset_game_state():
 	set_process(false)
 	dir.remove('user://Saves/ItemShopData.dat')
 	dir.remove('user://Saves/EquippedItemsData.dat')
-	dir.remove('user://Saves/game_info.dat')
+	dir.remove('user://Saves/GameInfo.dat')
 	dir.remove('user://Saves')
 	get_tree().quit()
 	pass
