@@ -5,17 +5,19 @@ var fishes : int = 0
 var playing : bool = false
 var player_height : int = 0
 var camera : Camera2D = null
+var highscore : int = 0
 var player = null
 var sound_volume : int = 5 
 var music_volume : int = 5 
 var item_data : Dictionary = {}
 var items_equipped : Dictionary = {}
-var currency : Dictionary = {}
+var game_info : Dictionary = {}
 var timer : float = 0
 
 func _ready():
-	currency['Coins'] = coins
-	currency['Fishes'] = fishes
+	game_info['Coins'] = coins
+	game_info['Fishes'] = fishes
+	game_info['Highscore'] = highscore
 	load_data()
 	pass
 
@@ -30,17 +32,19 @@ func _process(delta):
 func load_data_from_res():
 	item_data = try_load_file_data('res://Data/ItemShopData.dat')
 	items_equipped = try_load_file_data('res://Data/EquippedItemsData.dat')
-	currency = try_load_file_data('res://Data/Currency.dat')
-	coins = currency['Coins']
-	fishes = currency['Fishes']
+	game_info = try_load_file_data('res://Data/GameInfo.dat')
+	coins = game_info['Coins']
+	fishes = game_info['Fishes']
+	highscore = game_info['Highscore']
 	pass
 
 func load_data_from_user():
 	item_data = try_load_file_data('user://Saves/ItemShopData.dat')
 	items_equipped = try_load_file_data('user://Saves/EquippedItemsData.dat')
-	currency = try_load_file_data('user://Saves/Currency.dat')
-	coins = currency['Coins']
-	fishes = currency['Fishes']
+	game_info = try_load_file_data('user://Saves/GameInfo.dat')
+	coins = game_info['Coins']
+	fishes = game_info['Fishes']
+	highscore = game_info['Highscore']
 	pass
 
 func try_create_directory():
@@ -63,7 +67,7 @@ func try_load_file_data(res_path):
 	return output
 
 func save_game_data():
-	save_current_currency()
+	save_current_game_info()
 	save_equipped_item_file()
 	save_item_data_file()
 	pass
@@ -86,13 +90,14 @@ func save_equipped_item_file():
 	file.close()
 	pass
 
-func save_current_currency():
+func save_current_game_info():
 	var file = File.new()
-	file.open('user://Saves/Currency.dat',File.WRITE)
-	currency['Coins'] = coins
-	currency['Fishes'] = fishes
-	if !currency.empty():
-		file.store_line(to_json(currency))
+	file.open('user://Saves/GameInfo.dat',File.WRITE)
+	game_info['Coins'] = coins
+	game_info['Fishes'] = fishes
+	game_info['Highscore'] = highscore
+	if !game_info.empty():
+		file.store_line(to_json(game_info))
 		file.store_line("")
 	file.close()
 	pass
@@ -112,7 +117,7 @@ func reset_game_state():
 	set_process(false)
 	dir.remove('user://Saves/ItemShopData.dat')
 	dir.remove('user://Saves/EquippedItemsData.dat')
-	dir.remove('user://Saves/Currency.dat')
+	dir.remove('user://Saves/game_info.dat')
 	dir.remove('user://Saves')
 	get_tree().quit()
 	pass

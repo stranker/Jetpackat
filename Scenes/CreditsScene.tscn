@@ -13,6 +13,16 @@
 [sub_resource type="GDScript" id=1]
 script/source = "extends Control
 
+
+func _ready():
+	set_cat_equipment()
+	pass
+
+func set_cat_equipment():
+	$Cat.texture = load('Sprites/Cat/Skin/'+GameManager.items_equipped['Skin']+'.png')
+	$Cat/Hat.texture = load('Sprites/Shop/Cat/Hat/'+GameManager.items_equipped['Hat']+'.png')
+	pass
+
 func _on_BackButton_button_down():
 	$Anim.play('FadeOut')
 	pass # Replace with function body.
@@ -271,6 +281,30 @@ tracks/16/keys = {
 "update": 1,
 "values": [ Rect2( 2, 2, 32, 65 ), Rect2( 2, 2, 32, 65 ), Rect2( 38, 2, 32, 65 ), Rect2( 2, 2, 32, 65 ), Rect2( 38, 2, 32, 65 ), Rect2( 2, 2, 32, 65 ) ]
 }
+tracks/17/type = "value"
+tracks/17/path = NodePath("Cat/Hat:rect_size")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/keys = {
+"times": PoolRealArray( 0, 3, 5, 5.5, 6, 6.4, 7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 138, 163 ), Vector2( 153, 187 ), Vector2( 156, 224 ), Vector2( 433, 587 ), Vector2( 827, 1311 ), Vector2( 1019, 1721 ), Vector2( 2722, 3095 ) ]
+}
+tracks/18/type = "value"
+tracks/18/path = NodePath("Cat/Hat:rect_position")
+tracks/18/interp = 1
+tracks/18/loop_wrap = true
+tracks/18/imported = false
+tracks/18/enabled = true
+tracks/18/keys = {
+"times": PoolRealArray( 0, 3, 5, 5.5, 6, 6.4, 7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 4.9733, -99.1588 ), Vector2( 1, -119 ), Vector2( -3, -131 ), Vector2( -4, -337 ), Vector2( -42, -779 ), Vector2( -42, -1007 ), Vector2( -90, -1984 ) ]
+}
 
 [node name="CreditsScene" type="Control"]
 anchor_right = 1.0
@@ -397,6 +431,7 @@ align = 1
 percent_visible = 0.0
 
 [node name="Cat" type="NinePatchRect" parent="."]
+editor/display_folded = true
 margin_left = -496.386
 margin_top = 425.339
 margin_right = -346.386
@@ -431,6 +466,14 @@ angle_random = 1.0
 scale_amount = 2.0
 scale_amount_random = 1.0
 color_ramp = SubResource( 6 )
+
+[node name="Hat" type="TextureRect" parent="Cat"]
+margin_left = 4.9733
+margin_top = -99.1588
+margin_right = 142.973
+margin_bottom = 63.8412
+expand = true
+stretch_mode = 6
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Start"
