@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://Sprites/Background/Bg1.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Background/Star3.png" type="Texture" id=2]
@@ -41,6 +41,8 @@ func set_items_equipped():
 			$Player/Hat.texture = load('Sprites/Shop/Cat/Hat/'+GameManager.items_equipped['Hat']+'.png')
 		if GameManager.items_equipped.has('Skin'):
 			$Player.texture = load('Sprites/Cat/Skin/'+GameManager.items_equipped['Skin']+'.png')
+		if GameManager.items_equipped.has('Scarf'):
+			$Player/Scarf.texture = load('Sprites/Cat/Scarf/'+GameManager.items_equipped['Scarf']+'.png')
 	pass
 
 func _on_StartButton_button_down():
@@ -80,6 +82,23 @@ func _on_ShopButton_button_down():
 [sub_resource type="Gradient" id=2]
 offsets = PoolRealArray( 0, 0.519553, 0.675978, 0.865922, 1 )
 colors = PoolColorArray( 1, 1, 1, 1, 1, 0.914063, 0, 1, 1, 0.521301, 0.0117188, 1, 1, 0, 0, 0.796078, 0, 0, 0, 0 )
+
+[sub_resource type="Animation" id=7]
+resource_name = "Fly"
+length = 1.6
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Rect2( 0, 0, 26, 27 ), Rect2( 26, 0, 26, 27 ), Rect2( 52, 0, 26, 27 ), Rect2( 78, 0, 26, 27 ), Rect2( 104, 0, 26, 27 ), Rect2( 78, 0, 26, 27 ), Rect2( 52, 0, 26, 27 ), Rect2( 26, 0, 26, 27 ) ]
+}
 
 [sub_resource type="DynamicFont" id=3]
 size = 300
@@ -262,11 +281,10 @@ expand = true
 stretch_mode = 5
 
 [node name="Player" type="NinePatchRect" parent="."]
-editor/display_folded = true
-margin_left = 500.0
-margin_top = 1180.0
-margin_right = 843.854
-margin_bottom = 1822.0
+margin_left = 490.888
+margin_top = 1200.44
+margin_right = 834.795
+margin_bottom = 1842.44
 rect_rotation = -15.0
 rect_pivot_offset = Vector2( 205, 225 )
 texture = ExtResource( 15 )
@@ -313,6 +331,19 @@ rect_clip_content = true
 mouse_filter = 2
 expand = true
 stretch_mode = 6
+
+[node name="Scarf" type="NinePatchRect" parent="Player"]
+editor/display_folded = true
+margin_left = 20.4534
+margin_top = 272.703
+margin_right = 281.453
+margin_bottom = 525.703
+rect_clip_content = true
+region_rect = Rect2( 0, 0, 26, 27 )
+
+[node name="Anim" type="AnimationPlayer" parent="Player/Scarf"]
+autoplay = "Fly"
+anims/Fly = SubResource( 7 )
 
 [node name="Title" type="Label" parent="."]
 anchor_left = 0.5

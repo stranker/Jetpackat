@@ -13,7 +13,21 @@
          "payment":"Coin",
          "price":300,
          "type":"Hat"
-      }
+      },
+      "Bombin":{  
+         "buyed":false,
+         "id":2,
+         "payment":"Coin",
+         "price":500,
+         "type":"Hat"
+      },
+	  "Fedora":{  
+         "buyed":false,
+         "id":3,
+         "payment":"Fish",
+         "price":30,
+         "type":"Hat"
+	  }
    },
    "Skin":{  
       "Grey":{  
@@ -29,6 +43,44 @@
          "payment":"Coin",
          "price":300,
          "type":"Skin"
+      },
+	  "Tiger":{  
+         "buyed":false,
+         "id":2,
+         "payment":"Coin",
+         "price":400,
+         "type":"Skin"
+      },
+	  "SkinInked":{  
+         "buyed":false,
+         "id":3,
+         "payment":"Fish",
+         "price":30,
+         "type":"Skin"
+      },
+	  "Masked":{  
+         "buyed":false,
+         "id":4,
+         "payment":"Coin",
+         "price":500,
+         "type":"Skin"
       }
+   },
+   "Scarf":{
+	"RedCream":{
+         "buyed":false,
+         "id":0,
+         "payment":"Coin",
+         "price":100,
+         "type":"Scarf"
+		},
+	"GoldBlue":{
+         "buyed":false,
+         "id":1,
+         "payment":"Coin",
+         "price":200,
+         "type":"Scarf"
+		}
    }
 }
+

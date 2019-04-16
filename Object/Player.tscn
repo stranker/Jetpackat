@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Shaders/OutlineShaderResource.tres" type="Material" id=1]
 [ext_resource path="res://Sprites/Cat/Skin/Grey.png" type="Texture" id=2]
@@ -37,25 +37,6 @@ func initialize():
 	connect('dead',get_tree().root.get_node('GameScene'),'end_game')
 	connect('current_height',get_tree().root.get_node('GameScene'),'update_height')
 	emit_signal('current_height',abs(position.y))
-	check_items_equipped()
-	pass
-
-func check_items_equipped():
-	if !GameManager.items_equipped.keys().empty():
-		for item in GameManager.items_equipped.keys():
-			match item:
-				'Hat':
-					set_hat(GameManager.items_equipped[item])
-				'Skin':
-					set_skin(GameManager.items_equipped[item])
-	pass
-
-func set_hat(item):
-	$Visible/Hat.texture = load('Sprites/Shop/Cat/Hat/'+item+'.png')
-	pass
-
-func set_skin(item):
-	$Visible/Skin.texture = load('Sprites/Cat/Skin/'+item+'.png')
 	pass
 
 func _physics_process(delta):
@@ -113,6 +94,7 @@ func jump(jforce : int):
 	velocity.y = -jforce
 	check_jump_direction()
 	$Visible/Jetpack/Anim.play('Propulsion')
+	$Visible/Scarf/Anim.play('Flying')
 	emit_signal('current_height',int(abs(position.y) * 0.01))
 	pass
 
@@ -184,6 +166,38 @@ func _on_Timer_timeout():
 	pass # Replace with function body.
 "
 
+[sub_resource type="GDScript" id=15]
+resource_name = "Visible.gd"
+script/source = "extends Node2D
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	check_items_equipped()
+	pass # Replace with function body.
+
+func check_items_equipped():
+	if !GameManager.items_equipped.keys().empty():
+		for item in GameManager.items_equipped.keys():
+			match item:
+				'Hat':
+					set_hat(GameManager.items_equipped[item])
+				'Skin':
+					set_skin(GameManager.items_equipped[item])
+				'Scarf':
+					set_scarf(GameManager.items_equipped[item])
+	pass
+
+func set_hat(item):
+	$Hat.texture = load('Sprites/Shop/Cat/Hat/'+item+'.png')
+	pass
+
+func set_skin(item):
+	$Skin.texture = load('Sprites/Cat/Skin/'+item+'.png')
+	pass
+
+func set_scarf(item):
+	$Scarf.texture = load('Sprites/Cat/Scarf/'+item+'.png')"
+
 [sub_resource type="ShaderMaterial" id=4]
 shader = ExtResource( 3 )
 shader_param/outline_width = 0.5
@@ -196,7 +210,7 @@ _data = [ Vector2( 0, 0.456 ), 0.0, 0.4158, 0, 1, Vector2( 0.592593, 0.7024 ), 0
 offsets = PoolRealArray( 0.358025, 0.530864, 0.679012, 0.82716, 1 )
 colors = PoolColorArray( 1, 1, 1, 1, 1, 0.984375, 0, 1, 1, 0.492188, 0, 1, 1, 0.00392157, 0.00392157, 0.345098, 0.423529, 0, 0, 0 )
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=7]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:position")
@@ -211,8 +225,41 @@ tracks/0/keys = {
 "values": [ Vector2( 3.84464, 39.7731 ), Vector2( 7.04977, 38.0137 ), Vector2( -0.644684, 41.9775 ), Vector2( 3.2222, 40.4274 ), Vector2( 5.22339, 44.976 ), Vector2( 3.84464, 39.7731 ) ]
 }
 
-[sub_resource type="CircleShape2D" id=9]
+[sub_resource type="CircleShape2D" id=8]
 radius = 117.38
+
+[sub_resource type="Animation" id=14]
+resource_name = "Flying"
+length = 0.6
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 2, 1 ]
+}
+
+[sub_resource type="Animation" id=9]
+resource_name = "Idle"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
 
 [sub_resource type="Animation" id=10]
 length = 2.0
@@ -364,6 +411,30 @@ tracks/11/keys = {
 "method": "follow_player"
 } ]
 }
+tracks/12/type = "value"
+tracks/12/path = NodePath("Visible/Scarf:position")
+tracks/12/interp = 1
+tracks/12/loop_wrap = true
+tracks/12/imported = false
+tracks/12/enabled = true
+tracks/12/keys = {
+"times": PoolRealArray( 0, 0.8, 1.5, 2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -1.28699, 31.5151 ), Vector2( 81.6702, -100.299 ), Vector2( 115.153, 160.391 ), Vector2( 146.245, 569.363 ) ]
+}
+tracks/13/type = "value"
+tracks/13/path = NodePath("Visible/Scarf:rotation_degrees")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/keys = {
+"times": PoolRealArray( 0, 0.8, 1.5, 2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 115.739, 298.155, 382.738 ]
+}
 
 [sub_resource type="Animation" id=11]
 length = 5.0
@@ -402,10 +473,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 1, 1.98999, 2 ),
-"transitions": PoolRealArray( 0.5, 1, 1, 1 ),
+"times": PoolRealArray( 0, 1, 1.98999 ),
+"transitions": PoolRealArray( 0.5, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 1.57407, -1.25439 ), Vector2( 7.99997, -178 ), Vector2( 53.1022, 374.015 ), Vector2( 62.8629, 904.201 ) ]
+"values": [ Vector2( 1.57407, -1.25439 ), Vector2( 7.99997, -178 ), Vector2( 53.1022, 374.015 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("Visible/Skin:rotation_degrees")
@@ -429,7 +500,7 @@ tracks/3/keys = {
 "times": PoolRealArray( 0, 1, 1.98999, 2 ),
 "transitions": PoolRealArray( 0.5, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 3.84464, 39.7731 ), Vector2( 7.99997, -138 ), Vector2( -103.742, 354.015 ), Vector2( -93.9814, 884.201 ) ]
+"values": [ Vector2( 3.84464, 39.7731 ), Vector2( 7.99997, -138 ), Vector2( -103.742, 354.015 ), Vector2( -25.3412, 483.8 ) ]
 }
 tracks/4/type = "value"
 tracks/4/path = NodePath("Visible/Jetpack:rotation_degrees")
@@ -491,6 +562,30 @@ tracks/8/keys = {
 "update": 0,
 "values": [ Vector2( -17.937, -546.416 ), Vector2( -13.278, -224.945 ) ]
 }
+tracks/9/type = "value"
+tracks/9/path = NodePath("Visible/Scarf:position")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0, 1, 2 ),
+"transitions": PoolRealArray( 0.5, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -1.28699, 31.5151 ), Vector2( 4.41547, -145.863 ), Vector2( 45.7015, 249.22 ) ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("Visible/Scarf:rotation_degrees")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0, 1, 2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0, 112.892 ]
+}
 
 [sub_resource type="GDScript" id=13]
 script/source = "extends Line2D
@@ -541,6 +636,7 @@ script = SubResource( 3 )
 one_shot = true
 
 [node name="Visible" type="Node2D" parent="."]
+script = SubResource( 15 )
 
 [node name="Skin" type="Sprite" parent="Visible"]
 material = ExtResource( 1 )
@@ -551,6 +647,7 @@ hframes = 7
 frame = 4
 
 [node name="Jetpack" type="Sprite" parent="Visible"]
+editor/display_folded = true
 show_behind_parent = true
 material = SubResource( 4 )
 position = Vector2( 3.84464, 39.7731 )
@@ -604,19 +701,30 @@ scale_amount_curve = SubResource( 5 )
 color_ramp = SubResource( 6 )
 
 [node name="Anim" type="AnimationPlayer" parent="Visible/Jetpack"]
-anims/Propulsion = SubResource( 8 )
+anims/Propulsion = SubResource( 7 )
 
 [node name="MagnetArea" type="Area2D" parent="Visible"]
 editor/display_folded = true
 visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Visible/MagnetArea"]
-shape = SubResource( 9 )
+shape = SubResource( 8 )
 
 [node name="Hat" type="Sprite" parent="Visible"]
 position = Vector2( 0.136536, -108.854 )
 rotation = 0.0163139
 scale = Vector2( 1.5, 1.5 )
+
+[node name="Scarf" type="Sprite" parent="Visible"]
+editor/display_folded = true
+position = Vector2( -1.28699, 31.5151 )
+scale = Vector2( 3, 3 )
+hframes = 5
+
+[node name="Anim" type="AnimationPlayer" parent="Visible/Scarf"]
+autoplay = "Idle"
+anims/Flying = SubResource( 14 )
+anims/Idle = SubResource( 9 )
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 
@@ -641,6 +749,7 @@ show_behind_parent = true
 position = Vector2( -238.836, -90.1898 )
 width = 50.0
 default_color = Color( 1, 0, 0, 0.466667 )
+texture_mode = -1092348830
 joint_mode = 2
 begin_cap_mode = 2
 end_cap_mode = 2

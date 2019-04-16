@@ -239,7 +239,6 @@ func add_coin(val):
 	coin_panel.get_node('CoinLabel/Anim').play('AddCoin')
 
 func add_fish(val):
-	GameManager.fishes += val
 	fish_panel.get_node('FishLabel/AddFishLabel').text = str(val)
 	fish_panel.get_node('FishLabel/Anim').play('AddFish')
 
