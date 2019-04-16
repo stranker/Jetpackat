@@ -41,20 +41,14 @@ script/source = "extends Node
 
 var playing : bool = false
 export var game_timer : float = 70
-export var coins : int = 0
-export var fishes : int = 0
 var player_height : int = 0
 var end_play : bool = false
 var coin_increment = 0
 var highscore_passed : bool = false
 
 func _ready():
-	coins = GameManager.coins
-	fishes = GameManager.fishes
 	update_time_label()
-	update_coin_label()
-	update_fish_label()
-	update_meter_label()
+	$UIGame.update_UI_labels()
 	pass
 
 func _process(delta):
@@ -81,12 +75,6 @@ func update_time_label():
 	$UIGame.update_time_label(int_to_time(game_timer))
 	pass
 
-func update_coin_label():
-	$UIGame.update_coin_label(coins)
-
-func update_fish_label():
-	$UIGame.update_fishes_label(fishes)
-
 func update_time(delta):
 	if game_timer > 0:
 		game_timer -= delta
@@ -105,32 +93,26 @@ func add_game_time(val):
 	pass
 
 func add_fish(val):
-	fishes += val
-	update_fish_label()
+	GameManager.fishes += val
 	$UIGame.add_fish(val)
 	pass
 
 func add_coin(val):
-	coins += val
+	GameManager.coins += val
 	coin_increment += val
 	$CoinTimer.start()
 	$UIGame.add_coin(coin_increment)
-	update_coin_label()
 	pass
 
 func update_height(val):
 	if val > player_height:
 		player_height = val
 		GameManager.player_height = player_height
-		update_meter_label()
-
-func update_meter_label():
-	$UIGame.update_meters_label(player_height)
+		$UIGame.update_meters_label()
 	pass
 
+
 func end_game():
-	GameManager.coins = coins
-	GameManager.fishes = fishes
 	GameManager.player_height = 0
 	if GameManager.highscore < player_height:
 		GameManager.highscore = player_height
@@ -166,10 +148,7 @@ func _on_CoinTimer_timeout():
 func _on_Currency_button_down():
 	GameManager.coins = 99999
 	GameManager.fishes = 99999
-	coins = GameManager.coins
-	fishes = GameManager.fishes
-	update_coin_label()
-	update_fish_label()
+	$UIGame.update_UI_labels()
 	GameManager.save_game_data()
 	pass # Replace with function body.
 
@@ -260,20 +239,27 @@ func add_coin(val):
 	coin_panel.get_node('CoinLabel/Anim').play('AddCoin')
 
 func add_fish(val):
+	GameManager.fishes += val
 	fish_panel.get_node('FishLabel/AddFishLabel').text = str(val)
 	fish_panel.get_node('FishLabel/Anim').play('AddFish')
 
 func update_time_label(time_text):
 	time_panel.get_node('TimeLabel').text = time_text
 
-func update_coin_label(coins):
-	coin_panel.get_node('CoinLabel').text = str(coins)
+func update_coin_label():
+	coin_panel.get_node('CoinLabel').text = str(GameManager.coins)
 
-func update_meters_label(meters):
-	time_panel.get_node('MeterLabel').text = str(meters)+'m'
+func update_meters_label():
+	time_panel.get_node('MeterLabel').text = str(GameManager.player_height)+'m'
 
-func update_fishes_label(fishes):
-	fish_panel.get_node('FishLabel').text = str(fishes)
+func update_fishes_label():
+	fish_panel.get_node('FishLabel').text = str(GameManager.fishes)
+	pass
+
+func update_UI_labels():
+	update_coin_label()
+	update_fishes_label()
+	update_meters_label()
 	pass
 
 func _on_PauseButton_button_down():
@@ -402,6 +388,20 @@ tracks/5/keys = {
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
 "values": [ 72, 72, 90, 72 ]
+}
+tracks/6/type = "method"
+tracks/6/path = NodePath("../../../../../..")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0.6 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "update_fishes_label"
+} ]
 }
 
 [sub_resource type="DynamicFont" id=10]
@@ -552,6 +552,20 @@ tracks/5/keys = {
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
 "values": [ 72, 72, 90, 72 ]
+}
+tracks/6/type = "method"
+tracks/6/path = NodePath("../../../../../..")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0.7 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "update_coin_label"
+} ]
 }
 
 [sub_resource type="DynamicFont" id=18]
@@ -806,6 +820,7 @@ centered = false
 position = Vector2( 569.5, 830 )
 
 [node name="UIGame" type="CanvasLayer" parent="."]
+editor/display_folded = true
 script = SubResource( 6 )
 
 [node name="Container" type="Control" parent="UIGame"]
@@ -820,19 +835,20 @@ anchor_right = 1.0
 margin_bottom = 160.0
 
 [node name="HBC" type="HBoxContainer" parent="UIGame/Container/Panel"]
+editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="FishPanel" type="CenterContainer" parent="UIGame/Container/Panel/HBC"]
-editor/display_folded = true
 margin_right = 400.0
 margin_bottom = 160.0
 rect_min_size = Vector2( 400, 0 )
 size_flags_vertical = 3
 
 [node name="HBC" type="HBoxContainer" parent="UIGame/Container/Panel/HBC/FishPanel"]
+editor/display_folded = true
 margin_left = 56.0
 margin_top = 32.0
 margin_right = 344.0
@@ -880,6 +896,7 @@ expand = true
 stretch_mode = 6
 
 [node name="TimePanel" type="Control" parent="UIGame/Container/Panel/HBC"]
+editor/display_folded = true
 margin_left = 404.0
 margin_right = 676.0
 margin_bottom = 160.0
@@ -935,7 +952,6 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="HBC" type="HBoxContainer" parent="UIGame/Container/Panel/HBC/CoinPanel"]
-editor/display_folded = true
 margin_left = 66.0
 margin_top = 36.0
 margin_right = 334.0
@@ -950,7 +966,6 @@ expand = true
 stretch_mode = 6
 
 [node name="CoinLabel" type="Label" parent="UIGame/Container/Panel/HBC/CoinPanel/HBC"]
-editor/display_folded = true
 margin_left = 80.0
 margin_right = 268.0
 margin_bottom = 87.0
@@ -960,6 +975,7 @@ custom_fonts/font = SubResource( 15 )
 text = "9999"
 
 [node name="AddCoinLabel" type="Label" parent="UIGame/Container/Panel/HBC/CoinPanel/HBC/CoinLabel"]
+editor/display_folded = true
 modulate = Color( 1, 1, 1, 0 )
 anchor_left = 0.5
 anchor_top = 1.0
@@ -1084,6 +1100,7 @@ anims/HighscorePassed = SubResource( 20 )
 
 [node name="PausePanel" type="NinePatchRect" parent="UIGame/Container"]
 pause_mode = 2
+editor/display_folded = true
 visible = false
 self_modulate = Color( 0, 0.701961, 1, 0.388235 )
 anchor_left = 0.5
