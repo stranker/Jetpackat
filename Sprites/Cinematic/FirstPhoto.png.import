@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/CatHead.png-365ff2603f739c07fb1f4c791766c7f6.stex"
+path="res://.import/FirstPhoto.png-a1b573614af20bca94ee89bb69e75126.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Cinematic/CatHead.png"
-dest_files=[ "res://.import/CatHead.png-365ff2603f739c07fb1f4c791766c7f6.stex" ]
+source_file="res://Sprites/Cinematic/FirstPhoto.png"
+dest_files=[ "res://.import/FirstPhoto.png-a1b573614af20bca94ee89bb69e75126.stex" ]
 
 [params]
 
