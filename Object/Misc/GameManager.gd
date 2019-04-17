@@ -42,9 +42,10 @@ func load_data_from_user():
 	item_data = try_load_file_data('user://Saves/ItemShopData.dat')
 	items_equipped = try_load_file_data('user://Saves/EquippedItemsData.dat')
 	game_info = try_load_file_data('user://Saves/GameInfo.dat')
-	coins = game_info['Coins']
-	fishes = game_info['Fishes']
-	highscore = game_info['Highscore']
+	if !game_info.empty():
+		coins = game_info['Coins']
+		fishes = game_info['Fishes']
+		highscore = game_info['Highscore']
 	pass
 
 func try_create_directory():

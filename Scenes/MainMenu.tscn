@@ -83,7 +83,7 @@ func _on_ShopButton_button_down():
 offsets = PoolRealArray( 0, 0.519553, 0.675978, 0.865922, 1 )
 colors = PoolColorArray( 1, 1, 1, 1, 1, 0.914063, 0, 1, 1, 0.521301, 0.0117188, 1, 1, 0, 0, 0.796078, 0, 0, 0, 0 )
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=3]
 resource_name = "Fly"
 length = 1.6
 loop = true
@@ -100,13 +100,12 @@ tracks/0/keys = {
 "values": [ Rect2( 0, 0, 26, 27 ), Rect2( 26, 0, 26, 27 ), Rect2( 52, 0, 26, 27 ), Rect2( 78, 0, 26, 27 ), Rect2( 104, 0, 26, 27 ), Rect2( 78, 0, 26, 27 ), Rect2( 52, 0, 26, 27 ), Rect2( 26, 0, 26, 27 ) ]
 }
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=4]
 size = 300
 use_filter = true
 font_data = ExtResource( 18 )
 
-[sub_resource type="Animation" id=4]
-resource_name = "FadeOut"
+[sub_resource type="Animation" id=5]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("FadeTexture:modulate")
@@ -121,8 +120,7 @@ tracks/0/keys = {
 "values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
 }
 
-[sub_resource type="Animation" id=5]
-resource_name = "Idle"
+[sub_resource type="Animation" id=6]
 length = 4.0
 loop = true
 tracks/0/type = "value"
@@ -150,7 +148,7 @@ tracks/1/keys = {
 "values": [ Rect2( 2, 2, 36, 68 ), Rect2( 38, 2, 36, 68 ), Rect2( 2, 2, 36, 68 ), Rect2( 38, 2, 36, 68 ) ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=7]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Player:rect_position")
 tracks/0/interp = 1
@@ -281,6 +279,7 @@ expand = true
 stretch_mode = 5
 
 [node name="Player" type="NinePatchRect" parent="."]
+editor/display_folded = true
 margin_left = 490.888
 margin_top = 1200.44
 margin_right = 834.795
@@ -343,7 +342,7 @@ region_rect = Rect2( 0, 0, 26, 27 )
 
 [node name="Anim" type="AnimationPlayer" parent="Player/Scarf"]
 autoplay = "Fly"
-anims/Fly = SubResource( 7 )
+anims/Fly = SubResource( 3 )
 
 [node name="Title" type="Label" parent="."]
 anchor_left = 0.5
@@ -352,7 +351,7 @@ margin_left = -450.0
 margin_top = 120.0
 margin_right = 445.0
 margin_bottom = 456.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
 text = "Jetpackat"
 align = 1
 valign = 1
@@ -370,9 +369,9 @@ texture = ExtResource( 1 )
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Start"
-anims/FadeOut = SubResource( 4 )
-anims/Idle = SubResource( 5 )
-anims/Start = SubResource( 6 )
+anims/FadeOut = SubResource( 5 )
+anims/Idle = SubResource( 6 )
+anims/Start = SubResource( 7 )
 
 [node name="Tween" type="Tween" parent="."]
 
