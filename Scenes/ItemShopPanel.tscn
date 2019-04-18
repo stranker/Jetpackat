@@ -34,7 +34,6 @@ func set_item_info(iname:String,info : Dictionary):
 	payment = info['payment']
 	buyed = bool(info['buyed'])
 	connect('item_buy',GameManager,'buy_item')
-	connect('item_buy',get_tree().root.get_node('ShopScene'),'enable_last_used_item')
 	connect('item_equip',GameManager,'equip_item')
 	connect('item_equip',get_tree().root.get_node('ShopScene'),'enable_last_used_item')
 	configure_panel()

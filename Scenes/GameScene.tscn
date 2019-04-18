@@ -819,7 +819,6 @@ centered = false
 position = Vector2( 569.5, 830 )
 
 [node name="UIGame" type="CanvasLayer" parent="."]
-editor/display_folded = true
 script = SubResource( 6 )
 
 [node name="Container" type="Control" parent="UIGame"]
@@ -1179,7 +1178,6 @@ margin_bottom = 270.0
 mouse_filter = 0
 
 [node name="Transition" type="TextureRect" parent="UIGame/Container"]
-editor/display_folded = true
 self_modulate = Color( 0, 0, 0, 0 )
 margin_right = 40.0
 margin_bottom = 40.0

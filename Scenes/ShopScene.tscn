@@ -20,7 +20,6 @@ script/source = "extends Control
 
 export (PackedScene) var item_shop_panel
 
-
 func _ready():
 	update_currency()
 	update_equipment()
