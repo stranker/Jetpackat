@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://Sprites/Background/Bg1.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Background/Star3.png" type="Texture" id=2]
@@ -10,15 +10,17 @@
 [ext_resource path="res://Sprites/UI/ShopButtonPressed.png" type="Texture" id=8]
 [ext_resource path="res://Sprites/UI/ConfigButton.png" type="Texture" id=9]
 [ext_resource path="res://Sprites/UI/ConfigButtonPressed.png" type="Texture" id=10]
-[ext_resource path="res://Sprites/UI/CreditsButton.png" type="Texture" id=11]
-[ext_resource path="res://Sprites/UI/CreditsButtonPressed.png" type="Texture" id=12]
-[ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=13]
-[ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=14]
-[ext_resource path="res://Sprites/Cat/Skin/Grey.png" type="Texture" id=15]
-[ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=16]
-[ext_resource path="res://Sprites/Background/SmokeParticle.png" type="Texture" id=17]
-[ext_resource path="res://Fonts/comic_andy.ttf" type="DynamicFontData" id=18]
-[ext_resource path="res://Scenes/ConfigPanel.tscn" type="PackedScene" id=19]
+[ext_resource path="res://Sprites/UI/LeaderboardButton.png" type="Texture" id=11]
+[ext_resource path="res://Sprites/UI/LeaderboardButtonPressed.png" type="Texture" id=12]
+[ext_resource path="res://Sprites/UI/CreditsButton.png" type="Texture" id=13]
+[ext_resource path="res://Sprites/UI/CreditsButtonPressed.png" type="Texture" id=14]
+[ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=15]
+[ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=16]
+[ext_resource path="res://Sprites/Cat/Skin/Grey.png" type="Texture" id=17]
+[ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=18]
+[ext_resource path="res://Sprites/Background/SmokeParticle.png" type="Texture" id=19]
+[ext_resource path="res://Fonts/comic_andy.ttf" type="DynamicFontData" id=20]
+[ext_resource path="res://Scenes/ConfigPanel.tscn" type="PackedScene" id=21]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Control
@@ -105,7 +107,7 @@ tracks/0/keys = {
 [sub_resource type="DynamicFont" id=4]
 size = 300
 use_filter = true
-font_data = ExtResource( 18 )
+font_data = ExtResource( 20 )
 
 [sub_resource type="Animation" id=5]
 length = 0.5
@@ -196,7 +198,6 @@ expand = true
 stretch_mode = 6
 
 [node name="PawCat" type="TextureRect" parent="."]
-editor/display_folded = true
 self_modulate = Color( 0.788235, 0.564706, 0.92549, 1 )
 anchor_left = 0.5
 anchor_top = 0.5
@@ -252,7 +253,7 @@ texture_pressed = ExtResource( 10 )
 expand = true
 stretch_mode = 5
 
-[node name="CreditsButton" type="TextureButton" parent="PawCat"]
+[node name="LeaderboardButton" type="TextureButton" parent="PawCat"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -266,6 +267,20 @@ texture_pressed = ExtResource( 12 )
 expand = true
 stretch_mode = 5
 
+[node name="CreditsButton" type="TextureButton" parent="PawCat"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -58.4927
+margin_top = 896.08
+margin_right = 61.5073
+margin_bottom = 1021.08
+texture_normal = ExtResource( 13 )
+texture_pressed = ExtResource( 14 )
+expand = true
+stretch_mode = 5
+
 [node name="CloseButton" type="TextureButton" parent="PawCat"]
 anchor_left = 0.5
 anchor_top = 0.5
@@ -275,8 +290,8 @@ margin_left = 210.0
 margin_top = -105.0
 margin_right = 330.0
 margin_bottom = 20.0
-texture_normal = ExtResource( 13 )
-texture_pressed = ExtResource( 14 )
+texture_normal = ExtResource( 15 )
+texture_pressed = ExtResource( 16 )
 expand = true
 stretch_mode = 5
 
@@ -288,7 +303,7 @@ margin_right = 834.795
 margin_bottom = 1842.44
 rect_rotation = -15.0
 rect_pivot_offset = Vector2( 205, 225 )
-texture = ExtResource( 15 )
+texture = ExtResource( 17 )
 region_rect = Rect2( 2, 2, 36, 68 )
 patch_margin_right = 2
 
@@ -300,7 +315,7 @@ margin_top = 238.009
 margin_right = 342.046
 margin_bottom = 645.009
 rect_pivot_offset = Vector2( 205, 225 )
-texture = ExtResource( 16 )
+texture = ExtResource( 18 )
 expand = true
 stretch_mode = 6
 
@@ -309,7 +324,7 @@ show_behind_parent = true
 position = Vector2( 201.008, 379.417 )
 rotation = 1.57079
 amount = 100
-texture = ExtResource( 17 )
+texture = ExtResource( 19 )
 emission_shape = 2
 emission_rect_extents = Vector2( 40, 40 )
 spread = 15.0
@@ -358,7 +373,7 @@ text = "Jetpackat"
 align = 1
 valign = 1
 
-[node name="ConfigPanel" parent="." instance=ExtResource( 19 )]
+[node name="ConfigPanel" parent="." instance=ExtResource( 21 )]
 visible = false
 mouse_filter = 0
 
