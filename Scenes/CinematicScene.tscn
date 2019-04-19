@@ -1,18 +1,50 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Sprites/Background/Bg1.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Cinematic/WoodFence.png" type="Texture" id=2]
-[ext_resource path="res://Sprites/Cinematic/CinematicCat.png" type="Texture" id=3]
-[ext_resource path="res://Sprites/Enemies/Bird.png" type="Texture" id=4]
-[ext_resource path="res://Sprites/Cinematic/Hearth.png" type="Texture" id=5]
-[ext_resource path="res://Sprites/Cinematic/CatHeadAmazed.png" type="Texture" id=6]
-[ext_resource path="res://Sprites/Cinematic/Amazed.png" type="Texture" id=7]
-[ext_resource path="res://Sprites/Cinematic/FirstPhoto.png" type="Texture" id=8]
-[ext_resource path="res://Sprites/Cinematic/SecondPhoto.png" type="Texture" id=9]
+[ext_resource path="res://Sprites/Cinematic/Cloud1.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/Cinematic/Cloud2.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/Cinematic/CinematicCat.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/Enemies/Bird.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/Cinematic/Hearth.png" type="Texture" id=7]
+[ext_resource path="res://Sprites/Cinematic/CatHeadAmazed.png" type="Texture" id=8]
+[ext_resource path="res://Sprites/Cinematic/Amazed.png" type="Texture" id=9]
+[ext_resource path="res://Sprites/Cinematic/CatDream.png" type="Texture" id=10]
+[ext_resource path="res://Sprites/Cinematic/FirstPhoto.png" type="Texture" id=11]
+[ext_resource path="res://Sprites/Cinematic/SecondPhoto.png" type="Texture" id=12]
+[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=13]
+[ext_resource path="res://Sprites/UI/SkipButton.png" type="Texture" id=14]
+[ext_resource path="res://Sprites/UI/SkipButtonPressed.png" type="Texture" id=15]
+[ext_resource path="res://Sprites/Cinematic/Jetpack.png" type="Texture" id=16]
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends Control
+
+var next_scene = \"Scenes/GameScene.tscn\"
+
+
+func _on_CloseButton_button_down():
+	if !$FadeOut/FadeOut.is_playing():
+		$FadeOut/FadeOut.play('Start')
+	pass # Replace with function body.
+
+
+func _on_FadeOut_animation_finished(anim_name):
+	if anim_name == 'Start':
+		GameManager.intro_watched = !GameManager.intro_watched
+		get_tree().change_scene(next_scene)
+	pass # Replace with function body.
+
+
+func _on_Anim_animation_finished(anim_name):
+	if anim_name == 'Walking':
+		$FadeOut/FadeOut.play('Start')
+	pass # Replace with function body.
+"
 
 [sub_resource type="Animation" id=1]
 resource_name = "Walking"
-length = 12.0
+length = 16.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Cat:frame")
 tracks/0/interp = 1
@@ -68,10 +100,10 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0, 6.3, 6.6, 6.9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 5.9, 6.1, 6.5, 6.9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 tracks/5/type = "value"
 tracks/5/path = NodePath("Hearth:position")
@@ -80,10 +112,10 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 6.3, 6.6 ),
+"times": PoolRealArray( 5.9, 6.4 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 513.375, 1050 ), Vector2( 513.374, 985 ) ]
+"values": [ Vector2( 513.375, 1050 ), Vector2( 513.374, 920 ) ]
 }
 tracks/6/type = "value"
 tracks/6/path = NodePath("CatHeadAmazed:visible")
@@ -92,7 +124,7 @@ tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"times": PoolRealArray( 0, 7.3, 9.1 ),
+"times": PoolRealArray( 0, 8, 10.7 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ false, true, false ]
@@ -104,7 +136,7 @@ tracks/7/loop_wrap = true
 tracks/7/imported = false
 tracks/7/enabled = true
 tracks/7/keys = {
-"times": PoolRealArray( 0, 7.3 ),
+"times": PoolRealArray( 0, 8 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
@@ -116,7 +148,7 @@ tracks/8/loop_wrap = true
 tracks/8/imported = false
 tracks/8/enabled = true
 tracks/8/keys = {
-"times": PoolRealArray( 0, 7.3 ),
+"times": PoolRealArray( 0, 8 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
@@ -128,10 +160,10 @@ tracks/9/loop_wrap = true
 tracks/9/imported = false
 tracks/9/enabled = true
 tracks/9/keys = {
-"times": PoolRealArray( 7.3, 7.6, 7.9, 8.2, 8.5, 8.8 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 8, 8.3, 8.6, 8.9, 9.2, 9.5, 9.8, 10.1, 10.4, 10.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 0, 1, 0, 1, 0, 1 ]
+"values": [ 0, 1, 0, 1, 0, 1, 0, 1, 0, 1 ]
 }
 tracks/10/type = "value"
 tracks/10/path = NodePath("TextureRect:visible")
@@ -140,7 +172,7 @@ tracks/10/loop_wrap = true
 tracks/10/imported = false
 tracks/10/enabled = true
 tracks/10/keys = {
-"times": PoolRealArray( 0, 9.1 ),
+"times": PoolRealArray( 0, 10.7 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ false, true ]
@@ -152,7 +184,7 @@ tracks/11/loop_wrap = true
 tracks/11/imported = false
 tracks/11/enabled = true
 tracks/11/keys = {
-"times": PoolRealArray( 9.1, 9.5 ),
+"times": PoolRealArray( 10.7, 11.2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Vector2( 549.166, 538.413 ), Vector2( 549.166, 538.413 ) ]
@@ -164,7 +196,7 @@ tracks/12/loop_wrap = true
 tracks/12/imported = false
 tracks/12/enabled = true
 tracks/12/keys = {
-"times": PoolRealArray( 9.1, 9.5 ),
+"times": PoolRealArray( 10.7, 11.2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Vector2( 22.9853, 22.9853 ), Vector2( 6.88958, 6.88958 ) ]
@@ -176,7 +208,7 @@ tracks/13/loop_wrap = true
 tracks/13/imported = false
 tracks/13/enabled = true
 tracks/13/keys = {
-"times": PoolRealArray( 0, 9.1 ),
+"times": PoolRealArray( 0, 10.7 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ false, true ]
@@ -188,7 +220,7 @@ tracks/14/loop_wrap = true
 tracks/14/imported = false
 tracks/14/enabled = true
 tracks/14/keys = {
-"times": PoolRealArray( 9.9, 10.4 ),
+"times": PoolRealArray( 11.9, 12.4 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Vector2( 587.009, 1354.13 ), Vector2( 587.009, 1354.13 ) ]
@@ -200,7 +232,7 @@ tracks/15/loop_wrap = true
 tracks/15/imported = false
 tracks/15/enabled = true
 tracks/15/keys = {
-"times": PoolRealArray( 9.9, 10.4 ),
+"times": PoolRealArray( 11.9, 12.4 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Vector2( 18.4646, 18.4646 ), Vector2( 7.76622, 7.76622 ) ]
@@ -212,7 +244,7 @@ tracks/16/loop_wrap = true
 tracks/16/imported = false
 tracks/16/enabled = true
 tracks/16/keys = {
-"times": PoolRealArray( 0, 9.9 ),
+"times": PoolRealArray( 0, 11.9 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ false, true ]
@@ -224,10 +256,10 @@ tracks/17/loop_wrap = true
 tracks/17/imported = false
 tracks/17/enabled = true
 tracks/17/keys = {
-"times": PoolRealArray( 10.4, 10.8, 11.2, 11.6, 11.9929 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 11.9, 12.8, 13.2, 13.6, 14, 14.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 0, 1, 0, 1, 0 ]
+"values": [ 0, 1, 0, 1, 0, 1 ]
 }
 tracks/18/type = "value"
 tracks/18/path = NodePath("Camera:zoom")
@@ -236,8 +268,8 @@ tracks/18/loop_wrap = true
 tracks/18/imported = false
 tracks/18/enabled = true
 tracks/18/keys = {
-"times": PoolRealArray( 0, 3, 5, 7.2, 7.3, 9, 9.1 ),
-"transitions": PoolRealArray( 1, 1, 1, 0, 1, 1, 1 ),
+"times": PoolRealArray( 0, 3, 5, 7.9, 8, 10.6, 10.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 0, 1, 0, 1 ),
 "update": 0,
 "values": [ Vector2( 0.5, 0.5 ), Vector2( 0.5, 0.5 ), Vector2( 0.7, 0.7 ), Vector2( 0.7, 0.7 ), Vector2( 0.6, 0.6 ), Vector2( 0.6, 0.6 ), Vector2( 1, 1 ) ]
 }
@@ -248,15 +280,75 @@ tracks/19/loop_wrap = true
 tracks/19/imported = false
 tracks/19/enabled = true
 tracks/19/keys = {
-"times": PoolRealArray( 0, 3, 7.2, 7.3, 9.1 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 3, 7.9, 8, 10.7 ),
+"transitions": PoolRealArray( 1, 1, 0, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 269.441, 1144.94 ), Vector2( 581.097, 956.575 ), Vector2( 581.097, 956.575 ), Vector2( 540, 960 ), Vector2( 540, 960 ) ]
+}
+tracks/20/type = "value"
+tracks/20/path = NodePath("CatHeadAmazed/Dream:frame")
+tracks/20/interp = 1
+tracks/20/loop_wrap = true
+tracks/20/imported = false
+tracks/20/enabled = true
+tracks/20/keys = {
+"times": PoolRealArray( 8, 8.4, 8.8, 9.2, 9.6, 10, 10.4, 10.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 0, 1, 0, 1, 0, 1 ]
+}
+tracks/21/type = "value"
+tracks/21/path = NodePath("CatHeadAmazed/Sprite:position")
+tracks/21/interp = 1
+tracks/21/loop_wrap = true
+tracks/21/imported = false
+tracks/21/enabled = true
+tracks/21/keys = {
+"times": PoolRealArray( 8, 10.6 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( -18.0632, -6.13119 ), Vector2( 20.1133, -6.54168 ) ]
+}
+tracks/22/type = "value"
+tracks/22/path = NodePath("Sprite12:frame")
+tracks/22/interp = 1
+tracks/22/loop_wrap = true
+tracks/22/imported = false
+tracks/22/enabled = true
+tracks/22/keys = {
+"times": PoolRealArray( 14.7, 14.9, 15.1, 15.3, 15.5, 15.7, 15.9, 16.1, 16.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 0, 1, 2, 0, 1, 2 ]
+}
+tracks/23/type = "value"
+tracks/23/path = NodePath("Sprite12:visible")
+tracks/23/interp = 1
+tracks/23/loop_wrap = true
+tracks/23/imported = false
+tracks/23/enabled = true
+tracks/23/keys = {
+"times": PoolRealArray( 0, 14.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/24/type = "value"
+tracks/24/path = NodePath("Hearth:scale")
+tracks/24/interp = 1
+tracks/24/loop_wrap = true
+tracks/24/imported = false
+tracks/24/enabled = true
+tracks/24/keys = {
+"times": PoolRealArray( 5.9, 6.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1.2, 1.2 ), Vector2( 2.14408, 2.14408 ) ]
 }
 
 [sub_resource type="Animation" id=2]
 resource_name = "Start"
-length = 0.5
+length = 1.5
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:modulate")
 tracks/0/interp = 1
@@ -269,10 +361,55 @@ tracks/0/keys = {
 "update": 0,
 "values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("../Sprite12:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("../CanvasLayer/CloseButton:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0.439216 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("../CanvasLayer/SkipLabel:custom_colors/font_color")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0.788235, 0.788235, 0.788235, 0.913725 ), Color( 0.788235, 0.788235, 0.788235, 0 ) ]
+}
+
+[sub_resource type="DynamicFont" id=4]
+size = 36
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+use_filter = true
+extra_spacing_char = 1
+font_data = ExtResource( 13 )
 
 [node name="CinematicScene" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+script = SubResource( 3 )
 
 [node name="Sky" type="TextureRect" parent="."]
 self_modulate = Color( 0.972549, 0.639216, 1, 1 )
@@ -282,6 +419,7 @@ texture = ExtResource( 1 )
 expand = true
 
 [node name="Fence" type="TextureRect" parent="."]
+visible = false
 margin_left = -208.52
 margin_top = 1141.63
 margin_right = 722.48
@@ -291,6 +429,7 @@ expand = true
 stretch_mode = 6
 
 [node name="Fence2" type="TextureRect" parent="."]
+visible = false
 margin_left = 511.48
 margin_top = 1141.63
 margin_right = 1442.48
@@ -299,46 +438,115 @@ texture = ExtResource( 2 )
 expand = true
 stretch_mode = 6
 
-[node name="Cat" type="Sprite" parent="."]
-position = Vector2( -81.0542, 1125.71 )
-scale = Vector2( 3, 3 )
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 96.2997, 347.938 )
+scale = Vector2( 3.77219, 3.77219 )
+texture = ExtResource( 3 )
+
+[node name="Sprite4" type="Sprite" parent="."]
+position = Vector2( 559.264, 279.632 )
+scale = Vector2( 3.77219, 3.77219 )
+texture = ExtResource( 3 )
+
+[node name="Sprite10" type="Sprite" parent="."]
+position = Vector2( 470.653, 702.239 )
+scale = Vector2( 0.790088, 0.790088 )
+texture = ExtResource( 3 )
+
+[node name="Sprite11" type="Sprite" parent="."]
+position = Vector2( 318.423, 647.709 )
+scale = Vector2( 1.78412, 1.78412 )
+texture = ExtResource( 3 )
+
+[node name="Sprite5" type="Sprite" parent="."]
+position = Vector2( 821.104, 503.524 )
+scale = Vector2( 3.77219, 3.77219 )
 texture = ExtResource( 3 )
 flip_h = true
+
+[node name="Sprite6" type="Sprite" parent="."]
+position = Vector2( 107.575, 560.783 )
+scale = Vector2( 2.21226, 2.21226 )
+texture = ExtResource( 3 )
+flip_h = true
+
+[node name="Sprite2" type="Sprite" parent="."]
+position = Vector2( 910.749, 138.51 )
+scale = Vector2( 4.20185, 4.20185 )
+texture = ExtResource( 4 )
+
+[node name="Sprite7" type="Sprite" parent="."]
+position = Vector2( 711.078, 617.132 )
+scale = Vector2( 2.36664, 2.36664 )
+texture = ExtResource( 4 )
+
+[node name="Sprite8" type="Sprite" parent="."]
+position = Vector2( 388.081, 435.079 )
+scale = Vector2( 2.36664, 2.36664 )
+texture = ExtResource( 4 )
+flip_h = true
+
+[node name="Sprite9" type="Sprite" parent="."]
+position = Vector2( 110.888, 703.184 )
+scale = Vector2( 0.946594, 0.946594 )
+texture = ExtResource( 4 )
+flip_h = true
+
+[node name="Sprite3" type="Sprite" parent="."]
+position = Vector2( 204.918, 127.125 )
+scale = Vector2( 4.20185, 4.20185 )
+texture = ExtResource( 4 )
+flip_h = true
+
+[node name="Cat" type="Sprite" parent="."]
+position = Vector2( 508.193, 1118.15 )
+scale = Vector2( 3, 3 )
+texture = ExtResource( 5 )
+flip_h = true
 hframes = 7
+frame = 5
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Walking"
 anims/Walking = SubResource( 1 )
 
 [node name="Bird" type="Sprite" parent="."]
-position = Vector2( -81.4713, 750.768 )
+position = Vector2( 1139.67, 449.492 )
 scale = Vector2( 3, 3 )
-texture = ExtResource( 4 )
+texture = ExtResource( 6 )
 hframes = 5
+frame = 2
 
 [node name="Hearth" type="Sprite" parent="."]
 self_modulate = Color( 1, 1, 1, 0 )
-position = Vector2( 513.375, 1050 )
-scale = Vector2( 1.2, 1.2 )
-texture = ExtResource( 5 )
+position = Vector2( 513.374, 920 )
+scale = Vector2( 2.14408, 2.14408 )
+texture = ExtResource( 7 )
 
 [node name="CatHeadAmazed" type="Sprite" parent="."]
 editor/display_folded = true
 visible = false
-position = Vector2( 555.37, 991.106 )
-scale = Vector2( 17, 17 )
-texture = ExtResource( 6 )
+position = Vector2( 522.834, 1085.46 )
+scale = Vector2( 15.8517, 15.8517 )
+texture = ExtResource( 8 )
 flip_h = true
 hframes = 2
+frame = 1
 
 [node name="Sprite" type="Sprite" parent="CatHeadAmazed"]
 show_behind_parent = true
-position = Vector2( -0.450554, 0.825296 )
+position = Vector2( 20.1133, -6.54168 )
 scale = Vector2( 0.8, 0.8 )
-texture = ExtResource( 7 )
+texture = ExtResource( 9 )
+
+[node name="Dream" type="Sprite" parent="CatHeadAmazed"]
+position = Vector2( 4.70836, -21.233 )
+scale = Vector2( -0.496917, 0.496917 )
+texture = ExtResource( 10 )
+hframes = 2
+frame = 1
 
 [node name="TextureRect" type="TextureRect" parent="."]
-visible = false
 modulate = Color( 0, 0, 0, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -351,24 +559,22 @@ expand = true
 stretch_mode = 6
 
 [node name="FirstPhoto" type="Sprite" parent="."]
-visible = false
 position = Vector2( 549.166, 538.413 )
 rotation = 6.4263
 scale = Vector2( 6.88958, 6.88958 )
-texture = ExtResource( 8 )
+texture = ExtResource( 11 )
 
 [node name="SecondPhoto" type="Sprite" parent="."]
-visible = false
 position = Vector2( 587.009, 1354.13 )
 rotation = 5.99964
-scale = Vector2( 14.1852, 14.1852 )
-texture = ExtResource( 9 )
+scale = Vector2( 7.76622, 7.76622 )
+texture = ExtResource( 12 )
 hframes = 2
+frame = 1
 
 [node name="Camera" type="Camera2D" parent="."]
-position = Vector2( 269.441, 1144.94 )
+position = Vector2( 540, 960 )
 current = true
-zoom = Vector2( 0.5, 0.5 )
 
 [node name="FadeOut" type="TextureRect" parent="."]
 modulate = Color( 0, 0, 0, 0 )
@@ -385,3 +591,44 @@ stretch_mode = 6
 [node name="FadeOut" type="AnimationPlayer" parent="FadeOut"]
 anims/Start = SubResource( 2 )
 
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="SkipLabel" type="Label" parent="CanvasLayer"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -239.084
+margin_top = -169.026
+margin_right = 39.916
+margin_bottom = -122.026
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 0.788235, 0.788235, 0.788235, 0.913725 )
+text = "SKIP INTRO"
+align = 1
+
+[node name="CloseButton" type="TextureButton" parent="CanvasLayer"]
+modulate = Color( 1, 1, 1, 0.439216 )
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -175.0
+margin_top = -160.0
+margin_right = -11.9999
+margin_bottom = -7.0
+texture_normal = ExtResource( 14 )
+texture_pressed = ExtResource( 15 )
+texture_disabled = ExtResource( 15 )
+expand = true
+stretch_mode = 5
+
+[node name="Sprite12" type="Sprite" parent="."]
+position = Vector2( 558.782, 825.556 )
+scale = Vector2( 20, 20 )
+texture = ExtResource( 16 )
+hframes = 3
+
+[connection signal="animation_finished" from="Anim" to="." method="_on_Anim_animation_finished"]
+[connection signal="animation_finished" from="FadeOut/FadeOut" to="." method="_on_FadeOut_animation_finished"]
+[connection signal="button_down" from="CanvasLayer/CloseButton" to="." method="_on_CloseButton_button_down"]

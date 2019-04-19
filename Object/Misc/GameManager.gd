@@ -13,11 +13,9 @@ var item_data : Dictionary = {}
 var items_equipped : Dictionary = {}
 var game_info : Dictionary = {}
 var timer : float = 0
+var intro_watched : bool = false
 
 func _ready():
-	game_info['Coins'] = coins
-	game_info['Fishes'] = fishes
-	game_info['Highscore'] = highscore
 	load_data()
 	pass
 
@@ -33,9 +31,11 @@ func load_data_from_res():
 	item_data = try_load_file_data('res://Data/ItemShopData.dat')
 	items_equipped = try_load_file_data('res://Data/EquippedItemsData.dat')
 	game_info = try_load_file_data('res://Data/GameInfo.dat')
-	coins = game_info['Coins']
-	fishes = game_info['Fishes']
-	highscore = game_info['Highscore']
+	if !game_info.empty():
+		coins = game_info['Coins']
+		fishes = game_info['Fishes']
+		highscore = game_info['Highscore']
+		intro_watched = game_info['IntroWatched']
 	pass
 
 func load_data_from_user():
@@ -46,6 +46,7 @@ func load_data_from_user():
 		coins = game_info['Coins']
 		fishes = game_info['Fishes']
 		highscore = game_info['Highscore']
+		game_info['IntroWatched'] = intro_watched
 	pass
 
 func try_create_directory():
@@ -97,6 +98,7 @@ func save_current_game_info():
 	game_info['Coins'] = coins
 	game_info['Fishes'] = fishes
 	game_info['Highscore'] = highscore
+	game_info['IntroWatched'] = intro_watched
 	if !game_info.empty():
 		file.store_line(to_json(game_info))
 		file.store_line("")

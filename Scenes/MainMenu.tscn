@@ -48,6 +48,8 @@ func set_items_equipped():
 func _on_StartButton_button_down():
 	$Anim.play(\"FadeOut\")
 	next_scene = 'Scenes/GameScene.tscn'
+	if !GameManager.intro_watched:
+		next_scene = 'Scenes/CinematicScene.tscn'
 	GameManager.save_game_data()
 	pass # Replace with function body.
 

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/CatHeadDreaming.png-ba19b354a726971ff4ab1de19b0e86b5.stex"
+path="res://.import/SkipButtonPressed.png-0146f7df464292c6d0268cb7ec57b58f.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Cinematic/CatHeadDreaming.png"
-dest_files=[ "res://.import/CatHeadDreaming.png-ba19b354a726971ff4ab1de19b0e86b5.stex" ]
+source_file="res://Sprites/UI/SkipButtonPressed.png"
+dest_files=[ "res://.import/SkipButtonPressed.png-0146f7df464292c6d0268cb7ec57b58f.stex" ]
 
 [params]
 
