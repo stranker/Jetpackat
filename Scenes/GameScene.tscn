@@ -46,6 +46,7 @@ var end_play : bool = false
 var coin_increment = 0
 var highscore_passed : bool = false
 
+
 func _ready():
 	update_time_label()
 	$UIGame.update_UI_labels()
@@ -220,6 +221,7 @@ script/source = "extends CanvasLayer
 onready var fish_panel = $Container/Panel/HBC/FishPanel/HBC
 onready var time_panel = $Container/Panel/HBC/TimePanel
 onready var coin_panel = $Container/Panel/HBC/CoinPanel/HBC
+var private_url = 'A_qF1JJVd0iy5GKQGTuHjAXVoYJ4ml3kq7N2E5W0B16g'
 
 func _ready():
 	$Container/ConfigPanel.hide()
@@ -286,6 +288,11 @@ func show_deadpanel():
 	$Container/PauseButton.hide()
 	check_highscore()
 	$Container/DeadPanel.show()
+	var http_test = HTTPClient.new()
+	http_test.connect_to_host('http://dreamlo.com',80)
+	while http_test.get_status() == HTTPClient.STATUS_CONNECTING or http_test.get_status() == HTTPClient.STATUS_RESOLVING:
+		http_test.poll()
+	http_test.request(HTTPClient.METHOD_GET,'/lb/'+private_url+'/add/Indi/9999',[])
 	pass
 
 func check_highscore():
