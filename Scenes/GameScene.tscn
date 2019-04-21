@@ -292,7 +292,7 @@ func show_deadpanel():
 	http_test.connect_to_host('http://dreamlo.com',80)
 	while http_test.get_status() == HTTPClient.STATUS_CONNECTING or http_test.get_status() == HTTPClient.STATUS_RESOLVING:
 		http_test.poll()
-	http_test.request(HTTPClient.METHOD_GET,'/lb/'+private_url+'/add/Indi/9999',[])
+	http_test.request(HTTPClient.METHOD_GET,'/lb/'+private_url+'/add/'+GameManager.nickname+'/'+str(GameManager.player_height),[])
 	pass
 
 func check_highscore():
@@ -826,6 +826,7 @@ centered = false
 position = Vector2( 569.5, 830 )
 
 [node name="UIGame" type="CanvasLayer" parent="."]
+editor/display_folded = true
 script = SubResource( 6 )
 
 [node name="Container" type="Control" parent="UIGame"]

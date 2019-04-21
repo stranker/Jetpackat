@@ -17,13 +17,13 @@
 [ext_resource path="res://Sprites/UI/SkipButtonPressed.png" type="Texture" id=15]
 [ext_resource path="res://Sprites/Cinematic/Jetpack.png" type="Texture" id=16]
 
-[sub_resource type="GDScript" id=3]
+[sub_resource type="GDScript" id=1]
 script/source = "extends Control
 
 var next_scene = \"Scenes/GameScene.tscn\"
 
-
 func _on_CloseButton_button_down():
+	GameManager.intro_watched = true
 	if !$FadeOut/FadeOut.is_playing():
 		$FadeOut/FadeOut.play('Start')
 	pass # Replace with function body.
@@ -31,7 +31,7 @@ func _on_CloseButton_button_down():
 
 func _on_FadeOut_animation_finished(anim_name):
 	if anim_name == 'Start':
-		GameManager.intro_watched = !GameManager.intro_watched
+		GameManager.intro_watched = true
 		get_tree().change_scene(next_scene)
 	pass # Replace with function body.
 
@@ -42,8 +42,7 @@ func _on_Anim_animation_finished(anim_name):
 	pass # Replace with function body.
 "
 
-[sub_resource type="Animation" id=1]
-resource_name = "Walking"
+[sub_resource type="Animation" id=2]
 length = 16.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Cat:frame")
@@ -346,8 +345,7 @@ tracks/24/keys = {
 "values": [ Vector2( 1.2, 1.2 ), Vector2( 2.14408, 2.14408 ) ]
 }
 
-[sub_resource type="Animation" id=2]
-resource_name = "Start"
+[sub_resource type="Animation" id=3]
 length = 1.5
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:modulate")
@@ -409,7 +407,7 @@ font_data = ExtResource( 13 )
 [node name="CinematicScene" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = SubResource( 3 )
+script = SubResource( 1 )
 
 [node name="Sky" type="TextureRect" parent="."]
 self_modulate = Color( 0.972549, 0.639216, 1, 1 )
@@ -508,7 +506,7 @@ frame = 5
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Walking"
-anims/Walking = SubResource( 1 )
+anims/Walking = SubResource( 2 )
 
 [node name="Bird" type="Sprite" parent="."]
 position = Vector2( 1139.67, 449.492 )
@@ -589,7 +587,7 @@ expand = true
 stretch_mode = 6
 
 [node name="FadeOut" type="AnimationPlayer" parent="FadeOut"]
-anims/Start = SubResource( 2 )
+anims/Start = SubResource( 3 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

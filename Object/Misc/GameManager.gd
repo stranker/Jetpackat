@@ -1,5 +1,6 @@
 extends Node
 
+var nickname : String = ''
 var coins : int = 0
 var fishes : int = 0
 var playing : bool = false
@@ -35,7 +36,6 @@ func load_data_from_res():
 		coins = game_info['Coins']
 		fishes = game_info['Fishes']
 		highscore = game_info['Highscore']
-		intro_watched = game_info['IntroWatched']
 	pass
 
 func load_data_from_user():
@@ -43,6 +43,7 @@ func load_data_from_user():
 	items_equipped = try_load_file_data('user://Saves/EquippedItemsData.dat')
 	game_info = try_load_file_data('user://Saves/GameInfo.dat')
 	if !game_info.empty():
+		nickname = game_info['Nickname']
 		coins = game_info['Coins']
 		fishes = game_info['Fishes']
 		highscore = game_info['Highscore']
@@ -95,6 +96,7 @@ func save_equipped_item_file():
 func save_current_game_info():
 	var file = File.new()
 	file.open('user://Saves/GameInfo.dat',File.WRITE)
+	game_info['Nickname'] = nickname
 	game_info['Coins'] = coins
 	game_info['Fishes'] = fishes
 	game_info['Highscore'] = highscore
