@@ -15,6 +15,7 @@ var items_equipped : Dictionary = {}
 var game_info : Dictionary = {}
 var timer : float = 0
 var intro_watched : bool = false
+var private_url = 'A_qF1JJVd0iy5GKQGTuHjAXVoYJ4ml3kq7N2E5W0B16g'
 
 func _ready():
 	load_data()
@@ -126,3 +127,11 @@ func reset_game_state():
 	dir.remove('user://Saves')
 	get_tree().quit()
 	pass
+
+func upload_highscore():
+	var http_client = HTTPClient.new()
+	http_client.connect_to_host('http://dreamlo.com',80)
+	while http_client.get_status() == HTTPClient.STATUS_CONNECTING or http_client.get_status() == HTTPClient.STATUS_RESOLVING:
+		http_client.poll()
+	var err = http_client.request(HTTPClient.METHOD_GET,'/lb/'+private_url+'/add/'+nickname+'/'+str(highscore),[])
+	return err
