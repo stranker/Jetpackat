@@ -37,6 +37,7 @@ func load_data_from_res():
 		coins = game_info['Coins']
 		fishes = game_info['Fishes']
 		highscore = game_info['Highscore']
+	save_game_data()
 	pass
 
 func load_data_from_user():
@@ -49,6 +50,7 @@ func load_data_from_user():
 		fishes = game_info['Fishes']
 		highscore = game_info['Highscore']
 		game_info['IntroWatched'] = intro_watched
+	save_game_data()
 	pass
 
 func try_create_directory():

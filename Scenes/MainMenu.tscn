@@ -146,7 +146,7 @@ func _on_SC_gui_input(event):
 	pass # Replace with function body.
 "
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=2]
 size = 200
 outline_size = 15
 outline_color = Color( 0.407843, 0, 1, 1 )
@@ -154,12 +154,11 @@ use_filter = true
 extra_spacing_bottom = 20
 font_data = ExtResource( 5 )
 
-[sub_resource type="Gradient" id=2]
+[sub_resource type="Gradient" id=3]
 offsets = PoolRealArray( 0, 0.519553, 0.675978, 0.865922, 1 )
 colors = PoolColorArray( 1, 1, 1, 1, 1, 0.914063, 0, 1, 1, 0.521301, 0.0117188, 1, 1, 0, 0, 0.796078, 0, 0, 0, 0 )
 
-[sub_resource type="Animation" id=3]
-resource_name = "Fly"
+[sub_resource type="Animation" id=4]
 length = 1.6
 loop = true
 tracks/0/type = "value"
@@ -363,7 +362,7 @@ margin_left = -535.0
 margin_top = 70.0
 margin_right = 536.0
 margin_bottom = 605.0
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_x = 25
@@ -513,7 +512,7 @@ angle = 360.0
 angle_random = 1.0
 scale_amount = 3.0
 scale_amount_random = 0.5
-color_ramp = SubResource( 2 )
+color_ramp = SubResource( 3 )
 
 [node name="Hat" type="TextureRect" parent="Player"]
 margin_top = -170.0
@@ -536,7 +535,7 @@ region_rect = Rect2( 0, 0, 26, 27 )
 
 [node name="Anim" type="AnimationPlayer" parent="Player/Scarf"]
 autoplay = "Fly"
-anims/Fly = SubResource( 3 )
+anims/Fly = SubResource( 4 )
 
 [node name="ConfigPanel" parent="." instance=ExtResource( 22 )]
 visible = false
