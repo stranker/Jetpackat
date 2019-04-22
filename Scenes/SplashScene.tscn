@@ -1,0 +1,187 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Sprites/Cinematic/CatSplash.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/Background/SmokeParticle.png" type="Texture" id=2]
+[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=3]
+
+[sub_resource type="GDScript" id=4]
+script/source = "extends Control
+
+func _on_Anim_animation_finished(anim_name):
+	get_tree().change_scene('res://Scenes/MainMenu.tscn')
+	pass # Replace with function body.
+"
+
+[sub_resource type="Gradient" id=3]
+offsets = PoolRealArray( 0, 0.318681, 0.67033, 0.78022, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 0.992188, 0.908254, 0.0155029, 0.956863, 0.956863, 0.717647, 0, 0.913725, 0.85098, 0, 0, 0.866667, 0, 0, 0, 0.698039 )
+
+[sub_resource type="DynamicFont" id=1]
+size = 200
+outline_size = 4
+outline_color = Color( 0.494118, 0, 0.901961, 1 )
+use_filter = true
+extra_spacing_char = 2
+font_data = ExtResource( 3 )
+
+[sub_resource type="Animation" id=2]
+resource_name = "Enter"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Fade:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Panel/Title:custom_fonts/font:size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.2, 1 ),
+"transitions": PoolRealArray( 0.5, 1 ),
+"update": 0,
+"values": [ 200, 56 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Panel/Title:rect_position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.2, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( -620, 1202 ), Vector2( -620, 1152 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Camera:offset")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 2, 5 ), Vector2( -5, -15 ), Vector2( 15, 30 ), Vector2( 0, 16 ), Vector2( 9, -9 ), Vector2( 0, 0 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Panel/TextureRect:rect_position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 1.6, 1.7, 1.8, 1.9, 3.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 440, 902 ), Vector2( 440, 902 ), Vector2( 420, 900 ), Vector2( 410, 905 ), Vector2( 430, 906 ), Vector2( 460, -328 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Panel/TextureRect/Particles:emitting")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 1.6 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Panel/Title:custom_fonts/font:outline_color")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 1.9, 2.4, 3.1, 3.9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0.494118, 0, 0.901961, 1 ), Color( 0.494118, 0, 0.901961, 1 ), Color( 1, 0.74902, 0.00392157, 1 ), Color( 1, 0.027451, 0.00392157, 1 ), Color( 1, 0.74902, 0.00392157, 0 ) ]
+}
+
+[node name="SplashScene" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = SubResource( 4 )
+
+[node name="Panel" type="Panel" parent="."]
+self_modulate = Color( 0, 0, 0, 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -80.0
+margin_top = -142.0
+margin_right = 80.0
+margin_bottom = 143.0
+
+[node name="TextureRect" type="TextureRect" parent="Panel"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -180.0
+margin_top = -200.5
+margin_right = 179.999
+margin_bottom = 159.5
+texture = ExtResource( 1 )
+expand = true
+stretch_mode = 6
+
+[node name="Particles" type="CPUParticles2D" parent="Panel/TextureRect"]
+show_behind_parent = true
+position = Vector2( 170, 270 )
+rotation = 1.57079
+emitting = false
+amount = 100
+preprocess = 0.5
+texture = ExtResource( 2 )
+spread = 20.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 200.0
+angle = 360.0
+angle_random = 1.0
+scale_amount = 3.0
+scale_amount_random = 1.0
+color_ramp = SubResource( 3 )
+
+[node name="Title" type="Label" parent="Panel"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -1240.0
+margin_top = 99.5
+margin_right = 1261.0
+margin_bottom = 339.5
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "POWERED BY GODOT ENGINE"
+align = 1
+valign = 1
+
+[node name="Fade" type="Panel" parent="."]
+modulate = Color( 0, 0, 0, 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Camera" type="Camera2D" parent="."]
+position = Vector2( 540, 960 )
+current = true
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+autoplay = "Enter"
+anims/Enter = SubResource( 2 )
+
+[connection signal="animation_finished" from="Anim" to="." method="_on_Anim_animation_finished"]
