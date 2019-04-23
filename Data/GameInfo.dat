@@ -2,6 +2,8 @@
 	"Coins":350,
 	"Fishes":50,
 	"Highscore":0,
-	"IntroWatched":false
+	"IntroWatched":false,
+	"MusicVolume":5,
+	"SoundVolume":5
 }
 

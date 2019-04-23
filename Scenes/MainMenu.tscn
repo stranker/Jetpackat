@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=2]
+[gd_scene load_steps=47 format=2]
 
 [ext_resource path="res://Scenes/LeaderTest.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Background/Bg1.png" type="Texture" id=2]
@@ -23,7 +23,6 @@
 [ext_resource path="res://Sprites/Background/SmokeParticle.png" type="Texture" id=21]
 [ext_resource path="res://Scenes/ConfigPanel.tscn" type="PackedScene" id=22]
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=23]
-[ext_resource path="res://Sprites/UI/PausePanel.png" type="Texture" id=24]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Control
@@ -39,6 +38,8 @@ func _ready():
 	$Tween.interpolate_property($Stars, 'self_modulate', Color(0,0,0,0), Color.white, 12, Tween.TRANS_LINEAR,Tween.EASE_IN)
 	$Tween.start()
 	check_first_game()
+	if GameManager.upload_highscore() != 0:
+		$UIGame.failed_to_upload_highscore()
 	pass
 
 func check_first_game():
@@ -253,13 +254,6 @@ outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 23 )
 
-[sub_resource type="DynamicFont" id=10]
-size = 80
-outline_size = 5
-outline_color = Color( 0, 0, 0, 1 )
-use_filter = true
-font_data = ExtResource( 23 )
-
 [sub_resource type="StyleBoxFlat" id=11]
 bg_color = Color( 0.803922, 0.623529, 0.00392157, 1 )
 border_width_left = 10
@@ -334,14 +328,49 @@ VScrollBar/styles/grabber_highlight = SubResource( 14 )
 VScrollBar/styles/grabber_pressed = SubResource( 14 )
 VScrollBar/styles/scroll = SubResource( 15 )
 
+[sub_resource type="DynamicFont" id=10]
+size = 80
+outline_size = 5
+outline_color = Color( 0, 0, 0, 1 )
+use_filter = true
+font_data = ExtResource( 23 )
+
+[sub_resource type="StyleBoxFlat" id=22]
+bg_color = Color( 0.615686, 0, 1, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color( 0.509804, 0, 0.886275, 1 )
+corner_radius_top_left = 40
+corner_radius_top_right = 40
+corner_radius_bottom_right = 40
+corner_radius_bottom_left = 40
+
 [sub_resource type="DynamicFont" id=17]
 size = 60
-outline_size = 3
+outline_size = 7
 outline_color = Color( 0, 0, 0, 1 )
+use_filter = true
 font_data = ExtResource( 23 )
+
+[sub_resource type="StyleBoxFlat" id=23]
+bg_color = Color( 0.333333, 0, 0.568627, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color( 0.235294, 0, 0.368627, 1 )
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
 
 [sub_resource type="DynamicFont" id=18]
 size = 50
+outline_size = 8
+outline_color = Color( 0, 0, 0, 1 )
+extra_spacing_char = 1
 font_data = ExtResource( 23 )
 
 [sub_resource type="Animation" id=19]
@@ -617,9 +646,9 @@ anims/Fly = SubResource( 4 )
 
 [node name="ConfigPanel" parent="." instance=ExtResource( 22 )]
 visible = false
-mouse_filter = 0
 
 [node name="Leaderboard" type="Panel" parent="."]
+editor/display_folded = true
 visible = false
 anchor_left = 0.5
 anchor_top = 0.5
@@ -655,19 +684,8 @@ custom_fonts/font = SubResource( 9 )
 text = "  POS  NAME                      SCORE"
 valign = 1
 
-[node name="State" type="Label" parent="Leaderboard"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -440.0
-margin_top = -50.5
-margin_right = 440.0
-margin_bottom = 50.5
-custom_fonts/font = SubResource( 10 )
-align = 1
-
 [node name="Leaders" type="Panel" parent="Leaderboard"]
+editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.76
@@ -700,6 +718,18 @@ mouse_filter = 2
 custom_constants/vseparation = 10
 custom_constants/hseparation = 0
 
+[node name="State" type="Label" parent="Leaderboard"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -440.0
+margin_top = -50.5
+margin_right = 440.0
+margin_bottom = 50.5
+custom_fonts/font = SubResource( 10 )
+align = 1
+
 [node name="CloseLeaderButton" type="TextureButton" parent="Leaderboard"]
 anchor_left = 0.5
 anchor_top = 1.0
@@ -715,10 +745,8 @@ texture_disabled = ExtResource( 18 )
 expand = true
 stretch_mode = 5
 
-[node name="NicknamePanel" type="NinePatchRect" parent="."]
-editor/display_folded = true
+[node name="NicknamePanel" type="Panel" parent="."]
 visible = false
-self_modulate = Color( 0.254902, 0.25098, 0.976471, 1 )
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -727,14 +755,15 @@ margin_left = -400.0
 margin_top = -137.0
 margin_right = 400.0
 margin_bottom = 241.0
-texture = ExtResource( 24 )
+custom_styles/panel = SubResource( 22 )
 
 [node name="Label" type="Label" parent="NicknamePanel"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -389.5
-margin_right = 389.5
-margin_bottom = 85.0
+margin_left = -390.0
+margin_top = 17.0
+margin_right = 389.0
+margin_bottom = 102.0
 custom_fonts/font = SubResource( 17 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "CREATE YOUR NICKNAME"
@@ -751,13 +780,14 @@ margin_top = -62.0
 margin_right = 375.0
 margin_bottom = 56.0
 custom_icons/clear = ExtResource( 17 )
+custom_styles/normal = SubResource( 23 )
 custom_fonts/font = SubResource( 18 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 align = 1
 max_length = 30
 clear_button_enabled = true
 placeholder_text = "YOUR NICKNAME"
-placeholder_alpha = 0.376
+placeholder_alpha = 0.387
 
 [node name="AcceptButton" type="TextureButton" parent="NicknamePanel"]
 visible = false
@@ -765,9 +795,9 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -60.0
+margin_left = -70.0
 margin_top = -121.0
-margin_right = 60.0
+margin_right = 70.0
 margin_bottom = -14.0
 texture_normal = ExtResource( 7 )
 texture_pressed = ExtResource( 8 )

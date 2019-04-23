@@ -8,8 +8,8 @@ var player_height : int = 0
 var camera : Camera2D = null
 var highscore : int = 0
 var player = null
-var sound_volume : int = 5 
-var music_volume : int = 5 
+var sound_volume : int = 0 
+var music_volume : int = 0 
 var item_data : Dictionary = {}
 var items_equipped : Dictionary = {}
 var game_info : Dictionary = {}
@@ -37,6 +37,8 @@ func load_data_from_res():
 		coins = game_info['Coins']
 		fishes = game_info['Fishes']
 		highscore = game_info['Highscore']
+		music_volume = game_info['MusicVolume']
+		sound_volume = game_info['SoundVolume']
 	save_game_data()
 	pass
 
@@ -49,7 +51,9 @@ func load_data_from_user():
 		coins = game_info['Coins']
 		fishes = game_info['Fishes']
 		highscore = game_info['Highscore']
-		game_info['IntroWatched'] = intro_watched
+		intro_watched = game_info['IntroWatched']
+		music_volume = game_info['MusicVolume']
+		sound_volume = game_info['SoundVolume']
 	save_game_data()
 	pass
 
@@ -104,6 +108,8 @@ func save_current_game_info():
 	game_info['Fishes'] = fishes
 	game_info['Highscore'] = highscore
 	game_info['IntroWatched'] = intro_watched
+	game_info['MusicVolume'] = music_volume
+	game_info['SoundVolume'] = sound_volume
 	if !game_info.empty():
 		file.store_line(to_json(game_info))
 		file.store_line("")
