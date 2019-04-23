@@ -1030,6 +1030,8 @@ stretch_mode = 5
 
 [node name="DeadPanel" type="TextureRect" parent="UIGame/Container"]
 pause_mode = 2
+editor/display_folded = true
+visible = false
 self_modulate = Color( 0.466667, 0.768627, 0.698039, 0.807843 )
 anchor_left = 0.5
 anchor_top = 0.5
