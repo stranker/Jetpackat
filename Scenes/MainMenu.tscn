@@ -38,8 +38,7 @@ func _ready():
 	$Tween.interpolate_property($Stars, 'self_modulate', Color(0,0,0,0), Color.white, 12, Tween.TRANS_LINEAR,Tween.EASE_IN)
 	$Tween.start()
 	check_first_game()
-	if GameManager.upload_highscore() != 0:
-		$UIGame.failed_to_upload_highscore()
+	GameManager.upload_highscore()
 	pass
 
 func check_first_game():
@@ -254,7 +253,7 @@ outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 23 )
 
-[sub_resource type="StyleBoxFlat" id=11]
+[sub_resource type="StyleBoxFlat" id=10]
 bg_color = Color( 0.803922, 0.623529, 0.00392157, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -267,7 +266,7 @@ corner_radius_bottom_right = 50
 corner_radius_bottom_left = 50
 expand_margin_bottom = 5.0
 
-[sub_resource type="StyleBoxFlat" id=12]
+[sub_resource type="StyleBoxFlat" id=11]
 bg_color = Color( 0.0470588, 0, 0.462745, 1 )
 border_width_left = 5
 border_width_top = 5
@@ -279,7 +278,7 @@ corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
-[sub_resource type="StyleBoxFlat" id=13]
+[sub_resource type="StyleBoxFlat" id=12]
 bg_color = Color( 0, 0.623529, 1, 1 )
 border_width_left = 2
 border_width_top = 2
@@ -293,7 +292,7 @@ corner_radius_bottom_left = 30
 expand_margin_left = 20.0
 expand_margin_right = 20.0
 
-[sub_resource type="StyleBoxFlat" id=14]
+[sub_resource type="StyleBoxFlat" id=13]
 bg_color = Color( 0, 0.419608, 0.670588, 1 )
 border_width_left = 2
 border_width_top = 2
@@ -307,7 +306,7 @@ corner_radius_bottom_left = 30
 expand_margin_left = 20.0
 expand_margin_right = 20.0
 
-[sub_resource type="StyleBoxFlat" id=15]
+[sub_resource type="StyleBoxFlat" id=14]
 bg_color = Color( 0.447059, 0, 0.85098, 1 )
 border_width_left = 5
 border_width_top = 5
@@ -321,21 +320,21 @@ corner_radius_bottom_left = 20
 expand_margin_left = 15.0
 expand_margin_right = 15.0
 
-[sub_resource type="Theme" id=16]
-VScrollBar/styles/ = SubResource( 12 )
-VScrollBar/styles/grabber = SubResource( 13 )
-VScrollBar/styles/grabber_highlight = SubResource( 14 )
-VScrollBar/styles/grabber_pressed = SubResource( 14 )
-VScrollBar/styles/scroll = SubResource( 15 )
+[sub_resource type="Theme" id=15]
+VScrollBar/styles/ = SubResource( 11 )
+VScrollBar/styles/grabber = SubResource( 12 )
+VScrollBar/styles/grabber_highlight = SubResource( 13 )
+VScrollBar/styles/grabber_pressed = SubResource( 13 )
+VScrollBar/styles/scroll = SubResource( 14 )
 
-[sub_resource type="DynamicFont" id=10]
+[sub_resource type="DynamicFont" id=16]
 size = 80
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 23 )
 
-[sub_resource type="StyleBoxFlat" id=22]
+[sub_resource type="StyleBoxFlat" id=17]
 bg_color = Color( 0.615686, 0, 1, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -347,14 +346,14 @@ corner_radius_top_right = 40
 corner_radius_bottom_right = 40
 corner_radius_bottom_left = 40
 
-[sub_resource type="DynamicFont" id=17]
+[sub_resource type="DynamicFont" id=18]
 size = 60
 outline_size = 7
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 23 )
 
-[sub_resource type="StyleBoxFlat" id=23]
+[sub_resource type="StyleBoxFlat" id=19]
 bg_color = Color( 0.333333, 0, 0.568627, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -366,14 +365,14 @@ corner_radius_top_right = 30
 corner_radius_bottom_right = 30
 corner_radius_bottom_left = 30
 
-[sub_resource type="DynamicFont" id=18]
+[sub_resource type="DynamicFont" id=20]
 size = 50
 outline_size = 8
 outline_color = Color( 0, 0, 0, 1 )
 extra_spacing_char = 1
 font_data = ExtResource( 23 )
 
-[sub_resource type="Animation" id=19]
+[sub_resource type="Animation" id=21]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("FadeTexture:modulate")
@@ -388,7 +387,7 @@ tracks/0/keys = {
 "values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
 }
 
-[sub_resource type="Animation" id=20]
+[sub_resource type="Animation" id=22]
 length = 4.0
 loop = true
 tracks/0/type = "value"
@@ -416,7 +415,7 @@ tracks/1/keys = {
 "values": [ Rect2( 2, 2, 36, 68 ), Rect2( 38, 2, 36, 68 ), Rect2( 2, 2, 36, 68 ), Rect2( 38, 2, 36, 68 ) ]
 }
 
-[sub_resource type="Animation" id=21]
+[sub_resource type="Animation" id=23]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Player:rect_position")
 tracks/0/interp = 1
@@ -696,7 +695,7 @@ margin_right = 204.8
 margin_bottom = 735.5
 rect_clip_content = true
 mouse_filter = 1
-custom_styles/panel = SubResource( 11 )
+custom_styles/panel = SubResource( 10 )
 
 [node name="SC" type="ScrollContainer" parent="Leaderboard/Leaders"]
 anchor_left = 0.5
@@ -709,7 +708,7 @@ margin_right = 427.5
 margin_bottom = 630.5
 rect_clip_content = false
 mouse_filter = 1
-theme = SubResource( 16 )
+theme = SubResource( 15 )
 scroll_horizontal_enabled = false
 
 [node name="ItemList" type="GridContainer" parent="Leaderboard/Leaders/SC"]
@@ -727,7 +726,7 @@ margin_left = -440.0
 margin_top = -50.5
 margin_right = 440.0
 margin_bottom = 50.5
-custom_fonts/font = SubResource( 10 )
+custom_fonts/font = SubResource( 16 )
 align = 1
 
 [node name="CloseLeaderButton" type="TextureButton" parent="Leaderboard"]
@@ -746,6 +745,7 @@ expand = true
 stretch_mode = 5
 
 [node name="NicknamePanel" type="Panel" parent="."]
+editor/display_folded = true
 visible = false
 anchor_left = 0.5
 anchor_top = 0.5
@@ -755,7 +755,7 @@ margin_left = -400.0
 margin_top = -137.0
 margin_right = 400.0
 margin_bottom = 241.0
-custom_styles/panel = SubResource( 22 )
+custom_styles/panel = SubResource( 17 )
 
 [node name="Label" type="Label" parent="NicknamePanel"]
 anchor_left = 0.5
@@ -764,7 +764,7 @@ margin_left = -390.0
 margin_top = 17.0
 margin_right = 389.0
 margin_bottom = 102.0
-custom_fonts/font = SubResource( 17 )
+custom_fonts/font = SubResource( 18 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "CREATE YOUR NICKNAME"
 align = 1
@@ -780,8 +780,8 @@ margin_top = -62.0
 margin_right = 375.0
 margin_bottom = 56.0
 custom_icons/clear = ExtResource( 17 )
-custom_styles/normal = SubResource( 23 )
-custom_fonts/font = SubResource( 18 )
+custom_styles/normal = SubResource( 19 )
+custom_fonts/font = SubResource( 20 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 align = 1
 max_length = 30
@@ -814,9 +814,9 @@ texture = ExtResource( 2 )
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Start"
-anims/FadeOut = SubResource( 19 )
-anims/Idle = SubResource( 20 )
-anims/Start = SubResource( 21 )
+anims/FadeOut = SubResource( 21 )
+anims/Idle = SubResource( 22 )
+anims/Start = SubResource( 23 )
 
 [node name="Tween" type="Tween" parent="."]
 

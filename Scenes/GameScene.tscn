@@ -1,4 +1,4 @@
-[gd_scene load_steps=62 format=2]
+[gd_scene load_steps=69 format=2]
 
 [ext_resource path="res://Sprites/Background/House.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Background/SmokeParticle.png" type="Texture" id=2]
@@ -10,31 +10,32 @@
 [ext_resource path="res://Object/Player.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Shaders/outline.shader" type="Shader" id=9]
 [ext_resource path="res://Sprites/Collectables/Fish.png" type="Texture" id=10]
-[ext_resource path="res://Fonts/overload burn.ttf" type="DynamicFontData" id=11]
-[ext_resource path="res://Sprites/Collectables/Coin.png" type="Texture" id=12]
-[ext_resource path="res://Sprites/UI/PauseButton.png" type="Texture" id=13]
-[ext_resource path="res://Sprites/UI/PauseButtonPressed.png" type="Texture" id=14]
-[ext_resource path="res://Sprites/UI/PausePanel.png" type="Texture" id=15]
-[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=16]
-[ext_resource path="res://Sprites/UI/ContinueButton.png" type="Texture" id=17]
-[ext_resource path="res://Sprites/UI/ContinueButtonPressed.png" type="Texture" id=18]
-[ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=19]
-[ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=20]
+[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=11]
+[ext_resource path="res://Fonts/overload burn.ttf" type="DynamicFontData" id=12]
+[ext_resource path="res://Sprites/Collectables/Coin.png" type="Texture" id=13]
+[ext_resource path="res://Sprites/UI/PauseButton.png" type="Texture" id=14]
+[ext_resource path="res://Sprites/UI/PauseButtonPressed.png" type="Texture" id=15]
+[ext_resource path="res://Sprites/UI/ContinueButton.png" type="Texture" id=16]
+[ext_resource path="res://Sprites/UI/ContinueButtonPressed.png" type="Texture" id=17]
+[ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=18]
+[ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=19]
+[ext_resource path="res://Sprites/UI/PausePanel.png" type="Texture" id=20]
 [ext_resource path="res://Sprites/UI/HomeButton.png" type="Texture" id=21]
 [ext_resource path="res://Sprites/UI/HomeButtonPressed.png" type="Texture" id=22]
 [ext_resource path="res://Sprites/UI/ConfigButton.png" type="Texture" id=23]
 [ext_resource path="res://Sprites/UI/ConfigButtonPressed.png" type="Texture" id=24]
 [ext_resource path="res://Scenes/ConfigPanel.tscn" type="PackedScene" id=25]
 [ext_resource path="res://Sprites/Cat/CatHead.png" type="Texture" id=26]
-[ext_resource path="res://Object/Misc/CollectableSpawner.tscn" type="PackedScene" id=27]
-[ext_resource path="res://Object/Collectable/Fish.tscn" type="PackedScene" id=28]
-[ext_resource path="res://Object/Collectable/CoinCluster.tscn" type="PackedScene" id=29]
-[ext_resource path="res://Object/Misc/EnemySpawner.tscn" type="PackedScene" id=30]
-[ext_resource path="res://Object/Enemies/PaperPlane.tscn" type="PackedScene" id=31]
-[ext_resource path="res://Object/Enemies/Bird.tscn" type="PackedScene" id=32]
-[ext_resource path="res://Object/Enemies/Ovni.tscn" type="PackedScene" id=33]
-[ext_resource path="res://Object/Misc/OrbitSpawner.tscn" type="PackedScene" id=34]
-[ext_resource path="res://Object/Ribbon/Ribbon.tscn" type="PackedScene" id=35]
+[ext_resource path="res://Sprites/Tutorial/PawTutorial.png" type="Texture" id=27]
+[ext_resource path="res://Object/Misc/CollectableSpawner.tscn" type="PackedScene" id=28]
+[ext_resource path="res://Object/Collectable/Fish.tscn" type="PackedScene" id=29]
+[ext_resource path="res://Object/Collectable/CoinCluster.tscn" type="PackedScene" id=30]
+[ext_resource path="res://Object/Misc/EnemySpawner.tscn" type="PackedScene" id=31]
+[ext_resource path="res://Object/Enemies/PaperPlane.tscn" type="PackedScene" id=32]
+[ext_resource path="res://Object/Enemies/Bird.tscn" type="PackedScene" id=33]
+[ext_resource path="res://Object/Enemies/Ovni.tscn" type="PackedScene" id=34]
+[ext_resource path="res://Object/Misc/OrbitSpawner.tscn" type="PackedScene" id=35]
+[ext_resource path="res://Object/Ribbon/Ribbon.tscn" type="PackedScene" id=36]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node
@@ -45,6 +46,8 @@ var player_height : int = 0
 var end_play : bool = false
 var coin_increment = 0
 var highscore_passed : bool = false
+
+var tutorial_done : bool = false
 
 func _ready():
 	update_time_label()
@@ -120,8 +123,7 @@ func end_game():
 	playing = !playing
 	$UIGame.show_deadpanel()
 	GameManager.save_game_data()
-	if GameManager.upload_highscore() != 0:
-		$UIGame.failed_to_upload_highscore()
+	GameManager.upload_highscore()
 	pass
 
 func end_game_time():
@@ -230,6 +232,11 @@ func _ready():
 	$Container/Transition/Anim.play('FadeOut')
 	pass
 
+func _process(delta):
+	if GameManager.player_height >= get_parent().get_node(\"EnemySpawner\").min_height_tutorial:
+		$Container/PawTutorial/Anim.play('End')
+		set_process(false)
+
 func add_time(val):
 	time_panel.get_node('TimeLabel/AddTimeLabel').text = '+' + str(val)
 	time_panel.get_node('TimeLabel/Anim').play('AddTime')
@@ -311,6 +318,18 @@ func failed_to_upload_highscore():
 	$Container/DeadPanel/Error.show()
 	pass"
 
+[sub_resource type="StyleBoxFlat" id=31]
+bg_color = Color( 0.454902, 0, 0.705882, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color( 0.317647, 0, 0.556863, 1 )
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+
+[sub_resource type="Theme" id=34]
+
 [sub_resource type="ShaderMaterial" id=7]
 shader = ExtResource( 9 )
 shader_param/outline_width = 0.0
@@ -318,6 +337,10 @@ shader_param/outline_color = Color( 1, 0.819608, 0, 0 )
 
 [sub_resource type="DynamicFont" id=8]
 size = 72
+outline_size = 4
+outline_color = Color( 0, 0, 0, 1 )
+use_filter = true
+extra_spacing_char = 2
 font_data = ExtResource( 11 )
 
 [sub_resource type="Animation" id=9]
@@ -410,17 +433,32 @@ tracks/6/keys = {
 
 [sub_resource type="DynamicFont" id=10]
 size = 120
-font_data = ExtResource( 11 )
+font_data = ExtResource( 12 )
 
-[sub_resource type="DynamicFont" id=11]
-size = 100
+[sub_resource type="StyleBoxFlat" id=35]
+bg_color = Color( 0.4, 0.00392157, 0.580392, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color( 0.266667, 0, 0.403922, 1 )
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 150
+
+[sub_resource type="DynamicFont" id=32]
+size = 90
+outline_size = 5
+outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
+extra_spacing_char = 2
 font_data = ExtResource( 11 )
 
 [sub_resource type="DynamicFont" id=12]
 size = 80
 use_filter = true
-font_data = ExtResource( 11 )
+font_data = ExtResource( 12 )
 
 [sub_resource type="Animation" id=13]
 tracks/0/type = "value"
@@ -472,17 +510,17 @@ tracks/3/keys = {
 "values": [ 100, 100, 110, 100 ]
 }
 
-[sub_resource type="DynamicFont" id=14]
-size = 36
-font_data = ExtResource( 11 )
-
-[sub_resource type="DynamicFont" id=15]
-size = 72
+[sub_resource type="DynamicFont" id=33]
+size = 40
+outline_size = 4
+outline_color = Color( 0, 0, 0, 1 )
+use_filter = true
+extra_spacing_char = 2
 font_data = ExtResource( 11 )
 
 [sub_resource type="DynamicFont" id=16]
 size = 60
-font_data = ExtResource( 11 )
+font_data = ExtResource( 12 )
 
 [sub_resource type="Animation" id=17]
 tracks/0/type = "value"
@@ -572,27 +610,58 @@ tracks/6/keys = {
 } ]
 }
 
+[sub_resource type="StyleBoxFlat" id=36]
+bg_color = Color( 0.4, 0.00392157, 0.580392, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color( 0.266667, 0, 0.403922, 1 )
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 150
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id=29]
+bg_color = Color( 0.639216, 0, 1, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color( 0.403922, 0, 0.584314, 1 )
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+shadow_color = Color( 0, 0, 0, 0.219608 )
+shadow_size = 5
+
 [sub_resource type="DynamicFont" id=18]
 size = 60
 outline_size = 6
 outline_color = Color( 0, 0, 0, 1 )
 use_mipmaps = true
 use_filter = true
-font_data = ExtResource( 16 )
+font_data = ExtResource( 11 )
+
+[sub_resource type="StyleBoxFlat" id=30]
+bg_color = Color( 0.533333, 0, 0.74902, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color( 0.454902, 0, 0.6, 1 )
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
 
 [sub_resource type="DynamicFont" id=19]
 size = 80
 outline_size = 6
 outline_color = Color( 1, 0.952941, 0.952941, 1 )
 use_filter = true
-font_data = ExtResource( 16 )
-
-[sub_resource type="DynamicFont" id=20]
-size = 26
-outline_size = 4
-outline_color = Color( 1, 0.952941, 0.952941, 1 )
-use_filter = true
-font_data = ExtResource( 16 )
+font_data = ExtResource( 11 )
 
 [sub_resource type="Animation" id=21]
 length = 2.0
@@ -648,7 +717,7 @@ tracks/3/keys = {
 
 [sub_resource type="DynamicFont" id=22]
 size = 80
-font_data = ExtResource( 16 )
+font_data = ExtResource( 11 )
 
 [sub_resource type="Animation" id=23]
 length = 0.5
@@ -730,13 +799,69 @@ tracks/4/keys = {
 } ]
 }
 
-[sub_resource type="DynamicFont" id=25]
-size = 32
-font_data = ExtResource( 16 )
+[sub_resource type="Animation" id=28]
+resource_name = "End"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0.729412 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=25]
+resource_name = "Start"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ -30.0, -39.6617 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 5, 5 ), Vector2( 4, 4 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.4, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 0 ]
+}
 
 [sub_resource type="DynamicFont" id=26]
 size = 32
-font_data = ExtResource( 16 )
+font_data = ExtResource( 11 )
+
+[sub_resource type="DynamicFont" id=27]
+size = 32
+font_data = ExtResource( 11 )
 
 [node name="GameScene" type="Node"]
 script = SubResource( 1 )
@@ -747,7 +872,7 @@ script = SubResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="House"]
 position = Vector2( 540.76, 208.427 )
-scale = Vector2( 12, 12 )
+scale = Vector2( 11.1798, 11.1798 )
 texture = ExtResource( 1 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="House"]
@@ -759,7 +884,7 @@ shape = SubResource( 3 )
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="House"]
 show_behind_parent = true
-position = Vector2( 1115.51, -184.203 )
+position = Vector2( 1065.87, -186.361 )
 rotation = -1.4071
 scale = Vector2( 12, 12 )
 amount = 50
@@ -839,29 +964,29 @@ anchor_bottom = 1.0
 mouse_filter = 2
 
 [node name="Panel" type="Panel" parent="UIGame/Container"]
-editor/display_folded = true
 anchor_right = 1.0
 margin_bottom = 160.0
+custom_styles/panel = SubResource( 31 )
 
 [node name="HBC" type="HBoxContainer" parent="UIGame/Container/Panel"]
-editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="FishPanel" type="CenterContainer" parent="UIGame/Container/Panel/HBC"]
+[node name="FishPanel" type="Control" parent="UIGame/Container/Panel/HBC"]
 margin_right = 400.0
 margin_bottom = 160.0
 rect_min_size = Vector2( 400, 0 )
 size_flags_vertical = 3
 
 [node name="HBC" type="HBoxContainer" parent="UIGame/Container/Panel/HBC/FishPanel"]
-editor/display_folded = true
-margin_left = 56.0
-margin_top = 32.0
-margin_right = 344.0
-margin_bottom = 128.0
+margin_left = 68.75
+margin_top = 25.6787
+margin_right = 330.75
+margin_bottom = 121.679
+theme = SubResource( 34 )
+alignment = 1
 
 [node name="Fish" type="TextureRect" parent="UIGame/Container/Panel/HBC/FishPanel/HBC"]
 material = SubResource( 7 )
@@ -876,8 +1001,8 @@ stretch_mode = 6
 editor/display_folded = true
 margin_left = 100.0
 margin_top = 4.0
-margin_right = 288.0
-margin_bottom = 91.0
+margin_right = 262.0
+margin_bottom = 92.0
 custom_fonts/font = SubResource( 8 )
 text = "9999"
 valign = 1
@@ -904,6 +1029,18 @@ texture = ExtResource( 10 )
 expand = true
 stretch_mode = 6
 
+[node name="Panel" type="Panel" parent="UIGame/Container/Panel/HBC/FishPanel"]
+show_behind_parent = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -150.0
+margin_top = -54.0
+margin_right = 159.0
+margin_bottom = 48.0
+custom_styles/panel = SubResource( 35 )
+
 [node name="TimePanel" type="Control" parent="UIGame/Container/Panel/HBC"]
 editor/display_folded = true
 margin_left = 404.0
@@ -915,8 +1052,8 @@ size_flags_vertical = 3
 [node name="TimeLabel" type="Label" parent="UIGame/Container/Panel/HBC/TimePanel"]
 editor/display_folded = true
 anchor_right = 1.0
-margin_bottom = 121.0
-custom_fonts/font = SubResource( 11 )
+margin_bottom = 110.0
+custom_fonts/font = SubResource( 32 )
 text = "1:00"
 align = 1
 valign = 1
@@ -941,18 +1078,20 @@ valign = 1
 anims/AddTime = SubResource( 13 )
 
 [node name="MeterLabel" type="Label" parent="UIGame/Container/Panel/HBC/TimePanel"]
+anchor_left = 0.5
 anchor_top = 1.0
-anchor_right = 1.0
+anchor_right = 0.5
 anchor_bottom = 1.0
-margin_top = -44.0
-custom_fonts/font = SubResource( 14 )
+margin_left = -154.5
+margin_top = -60.0
+margin_right = 154.5
+custom_fonts/font = SubResource( 33 )
 text = "Meters: 9999"
 align = 1
 valign = 1
 uppercase = true
 
-[node name="CoinPanel" type="CenterContainer" parent="UIGame/Container/Panel/HBC"]
-editor/display_folded = true
+[node name="CoinPanel" type="Control" parent="UIGame/Container/Panel/HBC"]
 margin_left = 680.0
 margin_right = 1080.0
 margin_bottom = 160.0
@@ -961,30 +1100,30 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="HBC" type="HBoxContainer" parent="UIGame/Container/Panel/HBC/CoinPanel"]
-margin_left = 66.0
-margin_top = 36.0
-margin_right = 334.0
+margin_left = 64.5872
+margin_top = 35.0
+margin_right = 306.587
 margin_bottom = 123.0
 
 [node name="Coin" type="TextureRect" parent="UIGame/Container/Panel/HBC/CoinPanel/HBC"]
 margin_right = 76.0
-margin_bottom = 87.0
+margin_bottom = 88.0
 rect_min_size = Vector2( 76, 76 )
-texture = ExtResource( 12 )
+texture = ExtResource( 13 )
 expand = true
 stretch_mode = 6
 
 [node name="CoinLabel" type="Label" parent="UIGame/Container/Panel/HBC/CoinPanel/HBC"]
+editor/display_folded = true
 margin_left = 80.0
-margin_right = 268.0
-margin_bottom = 87.0
+margin_right = 242.0
+margin_bottom = 88.0
 grow_horizontal = 0
 grow_vertical = 0
-custom_fonts/font = SubResource( 15 )
+custom_fonts/font = SubResource( 8 )
 text = "9999"
 
 [node name="AddCoinLabel" type="Label" parent="UIGame/Container/Panel/HBC/CoinPanel/HBC/CoinLabel"]
-editor/display_folded = true
 modulate = Color( 1, 1, 1, 0 )
 anchor_left = 0.5
 anchor_top = 1.0
@@ -1005,12 +1144,24 @@ margin_left = -57.0
 margin_top = -28.0
 margin_right = -1.0
 margin_bottom = 28.0
-texture = ExtResource( 12 )
+texture = ExtResource( 13 )
 expand = true
 stretch_mode = 6
 
 [node name="Anim" type="AnimationPlayer" parent="UIGame/Container/Panel/HBC/CoinPanel/HBC/CoinLabel"]
 anims/AddCoin = SubResource( 17 )
+
+[node name="Panel" type="Panel" parent="UIGame/Container/Panel/HBC/CoinPanel"]
+show_behind_parent = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -154.5
+margin_top = -51.0
+margin_right = 154.5
+margin_bottom = 51.0
+custom_styles/panel = SubResource( 36 )
 
 [node name="PauseButton" type="TextureButton" parent="UIGame/Container"]
 pause_mode = 2
@@ -1023,16 +1174,15 @@ margin_top = -129.0
 margin_right = -13.0
 margin_bottom = -11.0
 toggle_mode = true
-texture_normal = ExtResource( 13 )
-texture_pressed = ExtResource( 14 )
+texture_normal = ExtResource( 14 )
+texture_pressed = ExtResource( 15 )
 expand = true
 stretch_mode = 5
 
-[node name="DeadPanel" type="TextureRect" parent="UIGame/Container"]
+[node name="DeadPanel" type="Panel" parent="UIGame/Container"]
 pause_mode = 2
 editor/display_folded = true
 visible = false
-self_modulate = Color( 0.466667, 0.768627, 0.698039, 0.807843 )
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1040,11 +1190,8 @@ anchor_bottom = 0.5
 margin_left = -332.0
 margin_top = -291.0
 margin_right = 332.0
-margin_bottom = 291.0
-mouse_filter = 0
-texture = ExtResource( 15 )
-expand = true
-stretch_mode = 1
+margin_bottom = 250.0
+custom_styles/panel = SubResource( 29 )
 
 [node name="Highscore" type="Label" parent="UIGame/Container/DeadPanel"]
 anchor_left = 0.5
@@ -1068,10 +1215,11 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -350.0
-margin_top = -70.0
-margin_right = 345.0
-margin_bottom = 39.0
+margin_left = -207.5
+margin_top = -89.5
+margin_right = 207.5
+margin_bottom = 27.5
+custom_styles/normal = SubResource( 30 )
 custom_fonts/font = SubResource( 19 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
@@ -1083,12 +1231,12 @@ align = 1
 [node name="RestartButton" type="TextureButton" parent="UIGame/Container/DeadPanel"]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_left = 30.0
-margin_top = -251.0
-margin_right = 272.0
-margin_bottom = -62.0
-texture_normal = ExtResource( 17 )
-texture_pressed = ExtResource( 18 )
+margin_left = 22.0
+margin_top = -236.0
+margin_right = 274.0
+margin_bottom = -23.0
+texture_normal = ExtResource( 16 )
+texture_pressed = ExtResource( 17 )
 expand = true
 stretch_mode = 5
 
@@ -1097,29 +1245,14 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -246.926
-margin_top = -271.0
-margin_right = -56.9259
-margin_bottom = -41.0
-texture_normal = ExtResource( 19 )
-texture_pressed = ExtResource( 20 )
+margin_left = -257.0
+margin_top = -270.0
+margin_right = -47.0
+margin_bottom = 1.0
+texture_normal = ExtResource( 18 )
+texture_pressed = ExtResource( 19 )
 expand = true
 stretch_mode = 5
-
-[node name="Error" type="Label" parent="UIGame/Container/DeadPanel"]
-visible = false
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = -61.0
-custom_fonts/font = SubResource( 20 )
-custom_colors/font_color = Color( 1, 0, 0, 1 )
-custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-custom_constants/shadow_as_outline = 1
-text = "CONNECT TO A NETWORK TO UPLOAD HIGHSCORE"
-align = 1
-valign = 1
 
 [node name="Anim" type="AnimationPlayer" parent="UIGame/Container/DeadPanel"]
 anims/HighscorePassed = SubResource( 21 )
@@ -1138,7 +1271,7 @@ margin_top = -230.0
 margin_right = 357.5
 margin_bottom = 230.0
 mouse_filter = 0
-texture = ExtResource( 15 )
+texture = ExtResource( 20 )
 
 [node name="HomeButton" type="TextureButton" parent="UIGame/Container/PausePanel"]
 anchor_top = 1.0
@@ -1161,8 +1294,8 @@ margin_left = -142.0
 margin_top = -126.0
 margin_right = 142.0
 margin_bottom = 126.0
-texture_normal = ExtResource( 17 )
-texture_pressed = ExtResource( 18 )
+texture_normal = ExtResource( 16 )
+texture_pressed = ExtResource( 17 )
 expand = true
 stretch_mode = 5
 
@@ -1211,6 +1344,9 @@ margin_right = 40.0
 margin_bottom = 40.0
 mouse_filter = 2
 texture = ExtResource( 3 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="CatHead" type="TextureRect" parent="UIGame/Container/Transition"]
 modulate = Color( 1, 1, 1, 0 )
@@ -1234,6 +1370,21 @@ autoplay = "FadeOut"
 anims/FadeOut = SubResource( 23 )
 anims/Restart = SubResource( 24 )
 
+[node name="PawTutorial" type="Sprite" parent="UIGame/Container"]
+editor/display_folded = true
+modulate = Color( 1, 1, 1, 0.729412 )
+position = Vector2( 897.824, 1457.23 )
+rotation = -0.523598
+scale = Vector2( 5, 5 )
+texture = ExtResource( 27 )
+offset = Vector2( 0.792252, -29.756 )
+hframes = 2
+
+[node name="Anim" type="AnimationPlayer" parent="UIGame/Container/PawTutorial"]
+autoplay = "Start"
+anims/End = SubResource( 28 )
+anims/Start = SubResource( 25 )
+
 [node name="DebugPanel" type="Panel" parent="UIGame"]
 editor/display_folded = true
 visible = false
@@ -1243,6 +1394,7 @@ margin_top = -497.0
 margin_right = 296.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UIGame/DebugPanel"]
+editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 
@@ -1250,7 +1402,7 @@ anchor_bottom = 1.0
 margin_right = 296.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 0, 64 )
-custom_fonts/font = SubResource( 25 )
+custom_fonts/font = SubResource( 26 )
 text = "Invencible"
 
 [node name="Currency" type="Button" parent="UIGame/DebugPanel/VBoxContainer"]
@@ -1258,7 +1410,7 @@ margin_top = 68.0
 margin_right = 296.0
 margin_bottom = 132.0
 rect_min_size = Vector2( 0, 64 )
-custom_fonts/font = SubResource( 26 )
+custom_fonts/font = SubResource( 27 )
 text = "Currency"
 
 [node name="ResetGame" type="Button" parent="UIGame/DebugPanel/VBoxContainer"]
@@ -1266,7 +1418,7 @@ margin_top = 136.0
 margin_right = 296.0
 margin_bottom = 200.0
 rect_min_size = Vector2( 0, 64 )
-custom_fonts/font = SubResource( 26 )
+custom_fonts/font = SubResource( 27 )
 text = "RESET GAME STATE"
 
 [node name="Button" type="Button" parent="UIGame/DebugPanel"]
@@ -1276,21 +1428,21 @@ margin_right = 200.0
 margin_bottom = 495.0
 text = "X"
 
-[node name="CollectableSpawner" parent="." instance=ExtResource( 27 )]
-item_list = [ ExtResource( 28 ), ExtResource( 29 ) ]
+[node name="CollectableSpawner" parent="." instance=ExtResource( 28 )]
+item_list = [ ExtResource( 29 ), ExtResource( 30 ) ]
 parent_node = NodePath("../Collectables")
 min_height = 6.0
 max_height = 9.0
 probability = [ 0.1, 1.0 ]
 
-[node name="EnemySpawner" parent="." instance=ExtResource( 30 )]
-item_list = [ ExtResource( 31 ), ExtResource( 32 ), ExtResource( 33 ) ]
+[node name="EnemySpawner" parent="." instance=ExtResource( 31 )]
+item_list = [ ExtResource( 32 ), ExtResource( 33 ), ExtResource( 34 ) ]
 parent_node = NodePath("../Enemies")
 min_height = 9.0
 height_control_list = [ 0, 200, 500 ]
 
-[node name="RibbonSpawner" parent="." instance=ExtResource( 34 )]
-item_list = [ ExtResource( 35 ) ]
+[node name="RibbonSpawner" parent="." instance=ExtResource( 35 )]
+item_list = [ ExtResource( 36 ) ]
 parent_node = NodePath("../Ribbons")
 min_height = 10.0
 max_height = 15.0

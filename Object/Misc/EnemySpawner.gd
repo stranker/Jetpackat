@@ -1,12 +1,14 @@
 extends 'res://Object/Misc/Spawner.gd'
 
 export (Array, int) var height_control_list
+export var min_height_tutorial : int = 10
 
 func _process(delta):
 	if activated:
-		if check_can_spawn():
-			var item = get_new_item()
-			spawn_item(item)
+		if GameManager.player_height >= min_height_tutorial:
+			if check_can_spawn():
+				var item = get_new_item()
+				spawn_item(item)
 	pass
 
 func get_new_item():
