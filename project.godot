@@ -13,14 +13,13 @@ _global_script_class_icons={
 
 }
 
-[android]
-
-modules="org/godotengine/godot/GodotPaymentV3"
-
 [application]
 
 config/name="CatsCanFly"
 run/main_scene="res://Scenes/SplashScene.tscn"
+boot_splash/image="res://Sprites/Cinematic/TowerCodeLogo.png"
+boot_splash/fullsize=false
+boot_splash/bg_color=Color( 0.0705882, 0.0705882, 0.0705882, 1 )
 config/icon="res://Sprites/Icons/CatIcon.png"
 
 [autoload]

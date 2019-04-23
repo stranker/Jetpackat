@@ -19,10 +19,11 @@ script/source = "extends Panel
 
 export (Array, Texture) var cup_textures
 
-func set_info(pos,info):
+func set_info(pos:int,info:Dictionary):
 	$MC/HBC/Position.text = str(pos)+'.'
-	$MC/HBC/Name.text = info['name']
-	$MC/HBC/Score.text = info['score']
+	if info:
+		$MC/HBC/Name.text = info['name']
+		$MC/HBC/Score.text = info['score']
 	if pos <= 3:
 		$MC/HBC/Position/Cup.texture = cup_textures[pos-1]"
 
@@ -49,9 +50,11 @@ font_data = ExtResource( 4 )
 [node name="LeaderTest" type="Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = -250.0
-margin_bottom = -1820.0
-rect_min_size = Vector2( 830, 100 )
+margin_left = 9.04401
+margin_top = 1.50734
+margin_right = -320.956
+margin_bottom = -1828.49
+rect_min_size = Vector2( 800, 90 )
 mouse_filter = 2
 custom_styles/panel = SubResource( 1 )
 script = SubResource( 2 )
@@ -60,20 +63,18 @@ cup_textures = [ ExtResource( 1 ), ExtResource( 2 ), ExtResource( 3 ) ]
 [node name="MC" type="MarginContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 10.0
-margin_right = -10.0
 mouse_filter = 2
 
 [node name="HBC" type="HBoxContainer" parent="MC"]
-margin_right = 810.0
-margin_bottom = 100.0
+margin_right = 800.0
+margin_bottom = 90.0
 mouse_filter = 2
 custom_constants/separation = 15
 
 [node name="Position" type="Label" parent="MC/HBC"]
-margin_top = 15.0
+margin_top = 10.0
 margin_right = 120.0
-margin_bottom = 85.0
+margin_bottom = 80.0
 rect_min_size = Vector2( 120, 70 )
 custom_styles/normal = SubResource( 3 )
 custom_fonts/font = SubResource( 4 )
@@ -95,10 +96,10 @@ stretch_mode = 6
 
 [node name="Name" type="Label" parent="MC/HBC"]
 margin_left = 135.0
-margin_top = 15.0
-margin_right = 675.0
-margin_bottom = 85.0
-rect_min_size = Vector2( 520, 70 )
+margin_top = 10.0
+margin_right = 665.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 450, 70 )
 size_flags_horizontal = 3
 custom_styles/normal = SubResource( 3 )
 custom_fonts/font = SubResource( 4 )
@@ -107,10 +108,10 @@ valign = 1
 uppercase = true
 
 [node name="Score" type="Label" parent="MC/HBC"]
-margin_left = 690.0
-margin_top = 15.0
-margin_right = 810.0
-margin_bottom = 85.0
+margin_left = 680.0
+margin_top = 10.0
+margin_right = 800.0
+margin_bottom = 80.0
 rect_min_size = Vector2( 120, 70 )
 custom_styles/normal = SubResource( 3 )
 custom_fonts/font = SubResource( 4 )
