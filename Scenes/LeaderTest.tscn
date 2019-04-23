@@ -21,7 +21,7 @@ export (Array, Texture) var cup_textures
 
 func set_info(pos:int,info:Dictionary):
 	$MC/HBC/Position.text = str(pos)+'.'
-	if info:
+	if !info.empty():
 		$MC/HBC/Name.text = info['name']
 		$MC/HBC/Score.text = info['score']
 	if pos <= 3:
