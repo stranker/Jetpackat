@@ -18,6 +18,10 @@ var intro_watched : bool = false
 var private_url = 'A_qF1JJVd0iy5GKQGTuHjAXVoYJ4ml3kq7N2E5W0B16g'
 
 func _ready():
+	var gdads = Engine.get_singleton("GodotAds")
+	var sqlbridge = Engine.get_singleton("SQLBridge")
+	var google = Engine.get_singleton("GooglePlay");
+	print(gdads)
 	load_data()
 	pass
 

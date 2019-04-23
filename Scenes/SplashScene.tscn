@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Sprites/Cinematic/CatSplash.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Background/SmokeParticle.png" type="Texture" id=2]
@@ -25,16 +25,11 @@ use_filter = true
 extra_spacing_char = 2
 font_data = ExtResource( 3 )
 
-[sub_resource type="Curve" id=4]
-min_value = 0.99
-max_value = 4.0
-_data = [ Vector2( 0, 0 ), 0.0, 4.0, 0, 1, Vector2( 1, 4 ), 9.04641, 0.0, 0, 0 ]
-
-[sub_resource type="Gradient" id=5]
+[sub_resource type="Gradient" id=4]
 offsets = PoolRealArray( 0, 0.850932 )
 colors = PoolColorArray( 0.692871, 0.692871, 0.692871, 1, 1, 1, 1, 0 )
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=5]
 length = 5.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Fade:modulate")
@@ -246,8 +241,6 @@ gravity = Vector2( 0, 0 )
 initial_velocity = 200.0
 angle = 360.0
 angle_random = 1.0
-scale_amount = 3.0
-scale_amount_random = 1.0
 color_ramp = SubResource( 2 )
 
 [node name="Title" type="Label" parent="Panel"]
@@ -281,14 +274,12 @@ flatness = 1.0
 gravity = Vector2( 0, 0 )
 initial_velocity = 120.0
 initial_velocity_random = 0.5
+angular_velocity = 2.86706e-042
 damping = 10.0
 damping_random = 0.5
 angle = 360.0
 angle_random = 1.0
-scale_amount = 2.0
-scale_amount_random = 1.0
-scale_amount_curve = SubResource( 4 )
-color_ramp = SubResource( 5 )
+color_ramp = SubResource( 4 )
 
 [node name="GodotLogo" type="TextureRect" parent="."]
 anchor_left = 0.5
@@ -314,6 +305,6 @@ current = true
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Enter"
-anims/Enter = SubResource( 6 )
+anims/Enter = SubResource( 5 )
 
 [connection signal="animation_finished" from="Anim" to="." method="_on_Anim_animation_finished"]
