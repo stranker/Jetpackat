@@ -143,7 +143,7 @@ func upload_highscore():
 	while http_client.get_status() == HTTPClient.STATUS_CONNECTING or http_client.get_status() == HTTPClient.STATUS_RESOLVING:
 		try += 1
 		http_client.poll()
-		if try >= 20:
+		if try >= 15:
 			return
 	var err = http_client.request(HTTPClient.METHOD_GET,'/lb/'+private_url+'/add/'+nickname+'/'+str(highscore),[])
 	return err
