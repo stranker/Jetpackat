@@ -82,7 +82,7 @@ func update_equipment():
 					set_scarf(GameManager.items_equipped[item])
 	pass
 
-func update_buttons_states():
+func update_buttons_states(type,item):
 	for i in $HBC/ShopPanel/PanelItems/Items.get_children():
 		i.check_item_state()
 

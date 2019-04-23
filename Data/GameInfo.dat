@@ -1,6 +1,6 @@
 {
-	"Coins":0,
-	"Fishes":0,
+	"Coins":350,
+	"Fishes":50,
 	"Highscore":0,
 	"IntroWatched":false
 }
