@@ -1,16 +1,18 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=14 format=2]
 
-[ext_resource path="res://Sprites/UI/PausePanel.png" type="Texture" id=1]
-[ext_resource path="res://Sprites/UI/Shop/BuyShopButton.png" type="Texture" id=2]
-[ext_resource path="res://Sprites/UI/Shop/BuyShopButtonPressed.png" type="Texture" id=3]
-[ext_resource path="res://Shaders/outline.shader" type="Shader" id=4]
-[ext_resource path="res://Sprites/Collectables/Coin.png" type="Texture" id=5]
-[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=6]
-[ext_resource path="res://Sprites/UI/Shop/UseShopButton.png" type="Texture" id=7]
-[ext_resource path="res://Sprites/UI/Shop/UseShopButtonPressed.png" type="Texture" id=8]
+[ext_resource path="res://Shaders/outline.shader" type="Shader" id=1]
+[ext_resource path="res://Sprites/Collectables/Coin.png" type="Texture" id=2]
+[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=3]
 
-[sub_resource type="GDScript" id=1]
-script/source = "extends NinePatchRect
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.329412, 0, 0.462745, 1 )
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends Panel
 
 var id : int
 var item_name : String
@@ -96,36 +98,90 @@ func enable_use_button(val):
 		$UseButton.disabled = !val
 	pass"
 
-[sub_resource type="ShaderMaterial" id=2]
-shader = ExtResource( 4 )
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.403922, 0, 0.627451, 1 )
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id=6]
+bg_color = Color( 0.00784314, 0.392157, 0, 1 )
+border_width_bottom = 10
+border_color = Color( 0.0823529, 0.380392, 0, 1 )
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color( 0.156863, 0.439216, 0, 0.6 )
+
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 0.00784314, 0.392157, 0, 1 )
+border_width_bottom = 10
+border_color = Color( 0.0823529, 0.380392, 0, 1 )
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color( 0.156863, 0.439216, 0, 0.6 )
+
+[sub_resource type="StyleBoxFlat" id=8]
+bg_color = Color( 0.14902, 0.682353, 0, 1 )
+border_width_bottom = 10
+border_color = Color( 0.0823529, 0.380392, 0, 1 )
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color( 0.156863, 0.439216, 0, 0.6 )
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = ExtResource( 1 )
 shader_param/outline_width = 1.2
 shader_param/outline_color = Color( 0, 0, 0, 1 )
 
-[sub_resource type="DynamicFont" id=3]
-size = 36
+[sub_resource type="DynamicFont" id=5]
+size = 50
 outline_size = 3
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
-font_data = ExtResource( 6 )
+font_data = ExtResource( 3 )
 
-[node name="ItemShopPanel" type="NinePatchRect"]
-self_modulate = Color( 0.282353, 0.054902, 0.470588, 1 )
+[sub_resource type="StyleBoxFlat" id=9]
+bg_color = Color( 0.854902, 0.619608, 0, 1 )
+border_width_bottom = 10
+border_color = Color( 0.815686, 0.611765, 0, 1 )
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color( 0.156863, 0.439216, 0, 0.6 )
+
+[sub_resource type="StyleBoxFlat" id=10]
+bg_color = Color( 1, 0.745098, 0, 1 )
+border_width_bottom = 10
+border_color = Color( 0.737255, 0.556863, 0.00784314, 1 )
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color( 0.156863, 0.439216, 0, 0.6 )
+
+[node name="ItemShopPanel" type="Panel"]
 margin_right = 260.0
-margin_bottom = 360.0
+margin_bottom = 390.0
 rect_min_size = Vector2( 260, 360 )
-texture = ExtResource( 1 )
-script = SubResource( 1 )
+custom_styles/panel = SubResource( 1 )
+script = SubResource( 2 )
 
-[node name="ItemPanel" type="NinePatchRect" parent="."]
-editor/display_folded = true
-self_modulate = Color( 0.556863, 0, 0.784314, 0.32549 )
+[node name="ItemPanel" type="Panel" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
 margin_top = 5.0
 margin_right = -5.0
-margin_bottom = -70.0
-texture = ExtResource( 1 )
+margin_bottom = -80.0
+custom_styles/panel = SubResource( 3 )
 
 [node name="ItemImage" type="TextureRect" parent="ItemPanel"]
 anchor_right = 1.0
@@ -133,21 +189,18 @@ anchor_bottom = 1.0
 expand = true
 stretch_mode = 6
 
-[node name="ShopButton" type="TextureButton" parent="."]
-editor/display_folded = true
+[node name="ShopButton" type="Button" parent="."]
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 margin_left = -130.0
-margin_top = -64.0
+margin_top = -75.0
 margin_right = 130.0
 rect_min_size = Vector2( 260, 64 )
-texture_normal = ExtResource( 2 )
-texture_pressed = ExtResource( 3 )
-texture_disabled = ExtResource( 3 )
-expand = true
-stretch_mode = 5
+custom_styles/pressed = SubResource( 6 )
+custom_styles/disabled = SubResource( 7 )
+custom_styles/normal = SubResource( 8 )
 
 [node name="CC" type="CenterContainer" parent="ShopButton"]
 anchor_right = 1.0
@@ -155,52 +208,52 @@ anchor_bottom = 1.0
 mouse_filter = 2
 
 [node name="HBC" type="HBoxContainer" parent="ShopButton/CC"]
-margin_left = 78.0
-margin_right = 182.0
-margin_bottom = 64.0
+margin_left = 62.0
+margin_top = 5.0
+margin_right = 197.0
+margin_bottom = 69.0
 mouse_filter = 2
 
 [node name="Payment" type="TextureRect" parent="ShopButton/CC/HBC"]
-material = SubResource( 2 )
-margin_right = 40.0
+material = SubResource( 4 )
+margin_right = 50.0
 margin_bottom = 64.0
-rect_min_size = Vector2( 40, 40 )
+rect_min_size = Vector2( 50, 64 )
 mouse_filter = 2
-texture = ExtResource( 5 )
+texture = ExtResource( 2 )
 expand = true
 stretch_mode = 6
 
 [node name="PriceTag" type="Label" parent="ShopButton/CC/HBC"]
-margin_left = 44.0
-margin_right = 104.0
+margin_left = 54.0
+margin_right = 135.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 0, 64 )
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 5 )
 text = "999"
 valign = 1
 
-[node name="UseButton" type="TextureButton" parent="."]
+[node name="UseButton" type="Button" parent="."]
+editor/display_folded = true
 visible = false
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 margin_left = -130.0
-margin_top = -64.0
+margin_top = -75.0
 margin_right = 130.0
 rect_min_size = Vector2( 260, 64 )
+custom_styles/pressed = SubResource( 9 )
+custom_styles/disabled = SubResource( 9 )
+custom_styles/normal = SubResource( 10 )
 shortcut_in_tooltip = false
-texture_normal = ExtResource( 7 )
-texture_pressed = ExtResource( 8 )
-texture_disabled = ExtResource( 8 )
-expand = true
-stretch_mode = 5
 
 [node name="Text" type="Label" parent="UseButton"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_min_size = Vector2( 0, 64 )
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 5 )
 text = "USE"
 align = 1
 valign = 1

@@ -206,7 +206,6 @@ anchor_bottom = 1.0
 script = SubResource( 1 )
 
 [node name="Panel" type="Panel" parent="."]
-editor/display_folded = true
 self_modulate = Color( 0, 0, 0, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -246,6 +245,7 @@ angle_random = 1.0
 color_ramp = SubResource( 2 )
 
 [node name="Title" type="Label" parent="Panel"]
+editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -281,6 +281,8 @@ damping = 10.0
 damping_random = 0.5
 angle = 360.0
 angle_random = 1.0
+scale_amount = 3.0
+scale_amount_random = 1.0
 color_ramp = SubResource( 4 )
 
 [node name="GodotLogo" type="TextureRect" parent="."]
@@ -303,6 +305,7 @@ anchor_bottom = 1.0
 
 [node name="Camera" type="Camera2D" parent="."]
 position = Vector2( 540, 960 )
+offset = Vector2( 2, 5 )
 current = true
 
 [node name="Anim" type="AnimationPlayer" parent="."]

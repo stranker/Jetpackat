@@ -292,7 +292,6 @@ custom_fonts/font = SubResource( 2 )
 text = "999999"
 
 [node name="PanelItems" type="NinePatchRect" parent="HBC/ShopPanel"]
-editor/display_folded = true
 self_modulate = Color( 0.137255, 0.00392157, 0.219608, 0.768627 )
 margin_top = 164.0
 margin_right = 870.0
@@ -309,9 +308,11 @@ margin_left = 20.0
 margin_top = 20.0
 margin_right = -20.0
 margin_bottom = -20.0
+custom_constants/hseparation = 25
 columns = 3
 
 [node name="PlayerPanel" type="NinePatchRect" parent="HBC/ShopPanel"]
+editor/display_folded = true
 self_modulate = Color( 0.137255, 0.00392157, 0.219608, 0.768627 )
 margin_top = 1320.0
 margin_right = 870.0

@@ -139,7 +139,12 @@ func reset_game_state():
 func upload_highscore():
 	var http_client = HTTPClient.new()
 	http_client.connect_to_host('http://dreamlo.com',80)
+	var count = 0
 	while http_client.get_status() == HTTPClient.STATUS_CONNECTING or http_client.get_status() == HTTPClient.STATUS_RESOLVING:
 		http_client.poll()
+		OS.delay_msec(500)
+		count += 1
+		if count >= 4:
+			return
 	var err = http_client.request(HTTPClient.METHOD_GET,'/lb/'+private_url+'/add/'+nickname+'/'+str(highscore),[])
 	return err
