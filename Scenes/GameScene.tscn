@@ -201,7 +201,7 @@ func set_background_darker():
 	if GameManager.player_height % 50 == 0 and !$Tween.is_active():
 		$Tween.stop_all()
 		var actual_color = $ParallaxLayer/Bg1.self_modulate
-		var new_color : Color = Color(actual_color.r - 0.1,actual_color.g - 0.1,actual_color.b - 0.1)
+		var new_color : Color = Color(actual_color.r - 0.05,actual_color.g - 0.05,actual_color.b - 0.05)
 		$Tween.interpolate_property($ParallaxLayer/Bg1,'self_modulate',$ParallaxLayer/Bg1.self_modulate, new_color, 2, Tween.TRANS_LINEAR,Tween.EASE_IN)
 		$Tween.start()
 	pass
@@ -334,7 +334,7 @@ shader = ExtResource( 9 )
 shader_param/outline_width = 0.0
 shader_param/outline_color = Color( 1, 0.819608, 0, 0 )
 
-[sub_resource type="DynamicFont" id=33]
+[sub_resource type="DynamicFont" id=10]
 size = 72
 outline_size = 4
 outline_color = Color( 0, 0, 0, 1 )
@@ -449,7 +449,7 @@ corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 150
 
-[sub_resource type="DynamicFont" id=17]
+[sub_resource type="DynamicFont" id=14]
 size = 38
 outline_size = 4
 outline_color = Color( 0, 0, 0, 1 )
@@ -457,7 +457,7 @@ use_filter = true
 extra_spacing_char = 2
 font_data = ExtResource( 11 )
 
-[sub_resource type="DynamicFont" id=14]
+[sub_resource type="DynamicFont" id=15]
 size = 100
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
@@ -465,14 +465,14 @@ use_filter = true
 extra_spacing_char = 2
 font_data = ExtResource( 11 )
 
-[sub_resource type="DynamicFont" id=15]
+[sub_resource type="DynamicFont" id=16]
 size = 80
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 11 )
 
-[sub_resource type="Animation" id=16]
+[sub_resource type="Animation" id=17]
 tracks/0/type = "value"
 tracks/0/path = NodePath("AddTimeLabel:rect_position")
 tracks/0/interp = 1
@@ -510,7 +510,7 @@ tracks/2/keys = {
 "values": [ 100, 100, 110, 100 ]
 }
 
-[sub_resource type="DynamicFont" id=10]
+[sub_resource type="DynamicFont" id=18]
 size = 72
 outline_size = 4
 outline_color = Color( 0, 0, 0, 1 )
@@ -950,7 +950,7 @@ theme = SubResource( 8 )
 [node name="Fish" type="TextureRect" parent="UIGame/Container/Panel/HBC/FishPanel/HBC"]
 material = SubResource( 9 )
 margin_right = 96.0
-margin_bottom = 108.0
+margin_bottom = 107.0
 rect_min_size = Vector2( 96, 96 )
 texture = ExtResource( 10 )
 expand = true
@@ -958,10 +958,10 @@ stretch_mode = 6
 
 [node name="FishLabel" type="Label" parent="UIGame/Container/Panel/HBC/FishPanel/HBC"]
 margin_left = 100.0
-margin_top = 10.0
+margin_top = 9.0
 margin_right = 303.0
-margin_bottom = 98.0
-custom_fonts/font = SubResource( 33 )
+margin_bottom = 97.0
+custom_fonts/font = SubResource( 10 )
 text = "99999"
 valign = 1
 
@@ -1015,7 +1015,7 @@ margin_left = -154.0
 margin_top = -57.0
 margin_right = 155.0
 margin_bottom = -4.0
-custom_fonts/font = SubResource( 17 )
+custom_fonts/font = SubResource( 14 )
 text = "Meters: 9999"
 align = 1
 valign = 1
@@ -1028,7 +1028,7 @@ margin_left = -29.0
 margin_top = -10.0
 margin_right = 30.0
 margin_bottom = 136.0
-custom_fonts/font = SubResource( 14 )
+custom_fonts/font = SubResource( 15 )
 text = "1:00"
 align = 1
 valign = 1
@@ -1044,13 +1044,13 @@ margin_top = -166.0
 margin_right = 4.49988
 margin_bottom = -69.0
 rect_scale = Vector2( 2, 2 )
-custom_fonts/font = SubResource( 15 )
+custom_fonts/font = SubResource( 16 )
 text = "99"
 align = 1
 valign = 1
 
 [node name="Anim" type="AnimationPlayer" parent="UIGame/Container/Panel/HBC/TimePanel/TimeLabel"]
-anims/AddTime = SubResource( 16 )
+anims/AddTime = SubResource( 17 )
 
 [node name="CoinPanel" type="Control" parent="UIGame/Container/Panel/HBC"]
 editor/display_folded = true
@@ -1087,7 +1087,7 @@ margin_right = 283.0
 margin_bottom = 98.0
 grow_horizontal = 0
 grow_vertical = 0
-custom_fonts/font = SubResource( 10 )
+custom_fonts/font = SubResource( 18 )
 text = "99999"
 
 [node name="AddCoinLabel" type="Label" parent="UIGame/Container/Panel/HBC/CoinPanel/HBC/CoinLabel"]

@@ -57,7 +57,8 @@ func desactivate():
 	pass
 
 func _on_VisibilityNotifier2D_screen_exited():
-	queue_free()
+	if $Anim.current_animation != 'Deactivate':
+		queue_free()
 	pass # Replace with function body.
 
 func _on_ExcellentArea_body_entered(body):
@@ -149,6 +150,20 @@ tracks/4/keys = {
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.2 ) ]
+}
+tracks/5/type = "method"
+tracks/5/path = NodePath(".")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 3.5 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
 }
 
 [sub_resource type="Animation" id=4]
@@ -301,7 +316,7 @@ tracks/4/keys = {
 }
 
 [sub_resource type="Curve" id=10]
-min_value = 5.0
+min_value = 0.99
 max_value = 10.0
 _data = [ Vector2( 0, 0 ), 0.0, 1.0, 0, 1, Vector2( 1, 1 ), 1.0, 0.0, 1, 0 ]
 
