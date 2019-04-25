@@ -43,6 +43,7 @@ func _ready():
 	pass
 
 func check_first_game():
+	$NicknamePanel.hide()
 	if GameManager.nickname == '':
 		$NicknamePanel.show()
 		for i in $PawCat.get_children():
@@ -401,7 +402,14 @@ outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 23 )
 
-[sub_resource type="Animation" id=25]
+[sub_resource type="DynamicFont" id=25]
+size = 28
+outline_size = 3
+outline_color = Color( 0, 0, 0, 1 )
+use_filter = true
+font_data = ExtResource( 23 )
+
+[sub_resource type="Animation" id=26]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("FadeTexture:modulate")
@@ -416,7 +424,7 @@ tracks/0/keys = {
 "values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
 }
 
-[sub_resource type="Animation" id=26]
+[sub_resource type="Animation" id=27]
 length = 4.0
 loop = true
 tracks/0/type = "value"
@@ -444,7 +452,7 @@ tracks/1/keys = {
 "values": [ Rect2( 2, 2, 36, 68 ), Rect2( 38, 2, 36, 68 ), Rect2( 2, 2, 36, 68 ), Rect2( 38, 2, 36, 68 ) ]
 }
 
-[sub_resource type="Animation" id=27]
+[sub_resource type="Animation" id=28]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Player:rect_position")
 tracks/0/interp = 1
@@ -457,13 +465,6 @@ tracks/0/keys = {
 "update": 0,
 "values": [ Vector2( 1030, 1960 ), Vector2( 500, 1180 ) ]
 }
-
-[sub_resource type="DynamicFont" id=28]
-size = 28
-outline_size = 3
-outline_color = Color( 0, 0, 0, 1 )
-use_filter = true
-font_data = ExtResource( 23 )
 
 [node name="MainMenu" type="Control"]
 anchor_right = 1.0
@@ -850,6 +851,7 @@ placeholder_alpha = 0.387
 caret_blink = true
 
 [node name="AcceptButton" type="Button" parent="NicknamePanel"]
+visible = false
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -864,31 +866,33 @@ custom_fonts/font = SubResource( 24 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "NEXT"
 
-[node name="FadeTexture" type="TextureRect" parent="."]
-modulate = Color( 0, 0, 0, 0 )
-margin_right = 40.0
-margin_bottom = 40.0
-mouse_filter = 2
-texture = ExtResource( 2 )
+[node name="VersionLabel" type="Label" parent="."]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = -60.0
+margin_right = 395.0
+margin_bottom = -26.0
+custom_fonts/font = SubResource( 25 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "Version"
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Start"
-anims/FadeOut = SubResource( 25 )
-anims/Idle = SubResource( 26 )
-anims/Start = SubResource( 27 )
+anims/FadeOut = SubResource( 26 )
+anims/Idle = SubResource( 27 )
+anims/Start = SubResource( 28 )
 
 [node name="Tween" type="Tween" parent="."]
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 
-[node name="VersionLabel" type="Label" parent="."]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_top = -30.0
-margin_right = 390.0
-custom_fonts/font = SubResource( 28 )
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "Version"
+[node name="FadeTexture" type="TextureRect" parent="."]
+modulate = Color( 0, 0, 0, 0 )
+margin_right = 1080.0
+margin_bottom = 1920.0
+mouse_filter = 2
+texture = ExtResource( 2 )
 
 [connection signal="button_down" from="PawCat/StartButton" to="." method="_on_StartButton_button_down"]
 [connection signal="button_down" from="PawCat/ShopButton" to="." method="_on_ShopButton_button_down"]
