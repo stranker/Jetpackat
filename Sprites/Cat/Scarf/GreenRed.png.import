@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/UseShopButton.png-7300aa9e1cfd3123976741401ca20e56.stex"
+path="res://.import/GreenRed.png-fe91ec3f20281a1b9794cd5c06fcb3d9.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/UI/Shop/UseShopButton.png"
-dest_files=[ "res://.import/UseShopButton.png-7300aa9e1cfd3123976741401ca20e56.stex" ]
+source_file="res://Sprites/Cat/Scarf/GreenRed.png"
+dest_files=[ "res://.import/GreenRed.png-fe91ec3f20281a1b9794cd5c06fcb3d9.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=false
+flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2

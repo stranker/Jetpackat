@@ -71,14 +71,42 @@
          "buyed":false,
          "id":0,
          "payment":"Coin",
-         "price":100,
+         "price":350,
          "type":"Scarf"
       },
       "GoldBlue":{  
          "buyed":false,
          "id":1,
          "payment":"Coin",
-         "price":200,
+         "price":350,
+         "type":"Scarf"
+      },
+	  "GoldPurple":{  
+         "buyed":false,
+         "id":2,
+         "payment":"Coin",
+         "price":350,
+         "type":"Scarf"
+      },
+      "GreenRed":{  
+         "buyed":false,
+         "id":3,
+         "payment":"Coin",
+         "price":350,
+         "type":"Scarf"
+      },
+	   "OrangeBlue":{  
+         "buyed":false,
+         "id":4,
+         "payment":"Coin",
+         "price":350,
+         "type":"Scarf"
+      },
+      "BlackWhite":{  
+         "buyed":false,
+         "id":5,
+         "payment":"Coin",
+         "price":350,
          "type":"Scarf"
       }
    }

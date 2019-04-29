@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/BuyShopButtonPressed.png-399c6fb2814c40f726110e3b56d866bc.stex"
+path="res://.import/OrangeBlue.png-49bf5a58a67044515dbd24ceff1fa536.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/UI/Shop/BuyShopButtonPressed.png"
-dest_files=[ "res://.import/BuyShopButtonPressed.png-399c6fb2814c40f726110e3b56d866bc.stex" ]
+source_file="res://Sprites/Cat/Scarf/OrangeBlue.png"
+dest_files=[ "res://.import/OrangeBlue.png-49bf5a58a67044515dbd24ceff1fa536.stex" ]
 
 [params]
 
