@@ -105,27 +105,27 @@ corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.00784314, 0.392157, 0, 1 )
+border_width_bottom = 10
+border_color = Color( 0.0823529, 0.380392, 0, 1 )
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color( 0.156863, 0.439216, 0, 0.6 )
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0.00784314, 0.392157, 0, 1 )
+border_width_bottom = 10
+border_color = Color( 0.0823529, 0.380392, 0, 1 )
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color( 0.156863, 0.439216, 0, 0.6 )
+
 [sub_resource type="StyleBoxFlat" id=6]
-bg_color = Color( 0.00784314, 0.392157, 0, 1 )
-border_width_bottom = 10
-border_color = Color( 0.0823529, 0.380392, 0, 1 )
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-shadow_color = Color( 0.156863, 0.439216, 0, 0.6 )
-
-[sub_resource type="StyleBoxFlat" id=7]
-bg_color = Color( 0.00784314, 0.392157, 0, 1 )
-border_width_bottom = 10
-border_color = Color( 0.0823529, 0.380392, 0, 1 )
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-shadow_color = Color( 0.156863, 0.439216, 0, 0.6 )
-
-[sub_resource type="StyleBoxFlat" id=8]
 bg_color = Color( 0.14902, 0.682353, 0, 1 )
 border_width_bottom = 10
 border_color = Color( 0.0823529, 0.380392, 0, 1 )
@@ -135,12 +135,12 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 shadow_color = Color( 0.156863, 0.439216, 0, 0.6 )
 
-[sub_resource type="ShaderMaterial" id=4]
+[sub_resource type="ShaderMaterial" id=7]
 shader = ExtResource( 1 )
 shader_param/outline_width = 1.2
 shader_param/outline_color = Color( 0, 0, 0, 1 )
 
-[sub_resource type="DynamicFont" id=5]
+[sub_resource type="DynamicFont" id=8]
 size = 50
 outline_size = 3
 outline_color = Color( 0, 0, 0, 1 )
@@ -198,9 +198,9 @@ margin_left = -130.0
 margin_top = -75.0
 margin_right = 130.0
 rect_min_size = Vector2( 260, 64 )
-custom_styles/pressed = SubResource( 6 )
-custom_styles/disabled = SubResource( 7 )
-custom_styles/normal = SubResource( 8 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/disabled = SubResource( 5 )
+custom_styles/normal = SubResource( 6 )
 
 [node name="CC" type="CenterContainer" parent="ShopButton"]
 anchor_right = 1.0
@@ -215,7 +215,7 @@ margin_bottom = 69.0
 mouse_filter = 2
 
 [node name="Payment" type="TextureRect" parent="ShopButton/CC/HBC"]
-material = SubResource( 4 )
+material = SubResource( 7 )
 margin_right = 50.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 50, 64 )
@@ -229,7 +229,7 @@ margin_left = 54.0
 margin_right = 135.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 0, 64 )
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 8 )
 text = "999"
 valign = 1
 
@@ -253,7 +253,7 @@ shortcut_in_tooltip = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_min_size = Vector2( 0, 64 )
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 8 )
 text = "USE"
 align = 1
 valign = 1

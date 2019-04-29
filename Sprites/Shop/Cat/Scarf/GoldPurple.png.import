@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/OrangeBlue.png-49bf5a58a67044515dbd24ceff1fa536.stex"
+path="res://.import/GoldPurple.png-c9051e8985c897edd6b22ee345d600fb.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Cat/Scarf/OrangeBlue.png"
-dest_files=[ "res://.import/OrangeBlue.png-49bf5a58a67044515dbd24ceff1fa536.stex" ]
+source_file="res://Sprites/Shop/Cat/Scarf/GoldPurple.png"
+dest_files=[ "res://.import/GoldPurple.png-c9051e8985c897edd6b22ee345d600fb.stex" ]
 
 [params]
 

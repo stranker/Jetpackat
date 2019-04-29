@@ -146,5 +146,5 @@ func upload_highscore():
 		count += 1
 		if count >= 4:
 			return
-	var err = http_client.request(HTTPClient.METHOD_GET,'/lb/'+private_url+'/add/'+nickname+'/'+str(highscore),[])
+	var err = http_client.request(HTTPClient.METHOD_GET,'/lb/'+private_url+'/add-pipe/'+nickname+'/'+str(highscore),[])
 	return err

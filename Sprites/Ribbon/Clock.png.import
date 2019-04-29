@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/OrangeBlue.png-49bf5a58a67044515dbd24ceff1fa536.stex"
+path="res://.import/Clock.png-9cb8830d024b6f8e7f55432df0e3b916.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Cat/Scarf/OrangeBlue.png"
-dest_files=[ "res://.import/OrangeBlue.png-49bf5a58a67044515dbd24ceff1fa536.stex" ]
+source_file="res://Sprites/Ribbon/Clock.png"
+dest_files=[ "res://.import/Clock.png-9cb8830d024b6f8e7f55432df0e3b916.stex" ]
 
 [params]
 
