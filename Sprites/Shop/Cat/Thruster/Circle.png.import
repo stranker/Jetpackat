@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/WhiteHearth.png-690d0203e01595168b409700d6de0e4d.stex"
+path="res://.import/Circle.png-f247442e62536271de9db706eec776d9.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Shop/Cat/Jetpack/WhiteHearth.png"
-dest_files=[ "res://.import/WhiteHearth.png-690d0203e01595168b409700d6de0e4d.stex" ]
+source_file="res://Sprites/Shop/Cat/Thruster/Circle.png"
+dest_files=[ "res://.import/Circle.png-f247442e62536271de9db706eec776d9.stex" ]
 
 [params]
 

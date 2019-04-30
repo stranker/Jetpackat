@@ -1,10 +1,10 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Shaders/OutlineShaderResource.tres" type="Material" id=1]
 [ext_resource path="res://Sprites/Cat/Skin/Grey.png" type="Texture" id=2]
 [ext_resource path="res://Shaders/outline.shader" type="Shader" id=3]
 [ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=4]
-[ext_resource path="res://Sprites/Background/SmokeParticle.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/Shop/Cat/Thruster/Smoke.png" type="Texture" id=5]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends KinematicBody2D
@@ -170,10 +170,8 @@ func _on_Timer_timeout():
 resource_name = "Visible.gd"
 script/source = "extends Node2D
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	check_items_equipped()
-	pass # Replace with function body.
 
 func check_items_equipped():
 	if !GameManager.items_equipped.keys().empty():
@@ -185,18 +183,21 @@ func check_items_equipped():
 					set_skin(GameManager.items_equipped[item])
 				'Scarf':
 					set_scarf(GameManager.items_equipped[item])
+				'Jetpack':
+					set_jetpack(GameManager.items_equipped[item])
 	pass
 
 func set_hat(item):
 	$Hat.texture = load('Sprites/Shop/Cat/Hat/'+item+'.png')
-	pass
 
 func set_skin(item):
 	$Skin.texture = load('Sprites/Cat/Skin/'+item+'.png')
-	pass
 
 func set_scarf(item):
-	$Scarf.texture = load('Sprites/Cat/Scarf/'+item+'.png')"
+	$Scarf.texture = load('Sprites/Cat/Scarf/'+item+'.png')
+
+func set_jetpack(item):
+	$Jetpack.texture = load('Sprites/Shop/Cat/Jetpack/'+item+'.png')"
 
 [sub_resource type="ShaderMaterial" id=5]
 shader = ExtResource( 3 )
@@ -209,6 +210,16 @@ _data = [ Vector2( 0, 0.456 ), 0.0, 0.4158, 0, 1, Vector2( 0.592593, 0.7024 ), 0
 [sub_resource type="Gradient" id=7]
 offsets = PoolRealArray( 0.358025, 0.530864, 0.679012, 0.82716, 1 )
 colors = PoolColorArray( 1, 1, 1, 1, 1, 0.984375, 0, 1, 1, 0.492188, 0, 1, 1, 0.00392157, 0.00392157, 0.345098, 0.423529, 0, 0, 0 )
+
+[sub_resource type="GDScript" id=16]
+script/source = "extends CPUParticles2D
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	if GameManager.items_equipped.has('Thruster'):
+		modulate = Color(GameManager.item_data['Thruster'][GameManager.items_equipped['Thruster']]['color'])
+		texture = load('Sprites/Shop/Cat/Thruster/'+GameManager.items_equipped['Thruster']+'.png')
+	pass # Replace with function body."
 
 [sub_resource type="Animation" id=8]
 length = 0.5
@@ -646,7 +657,6 @@ hframes = 7
 frame = 4
 
 [node name="Jetpack" type="Sprite" parent="Visible"]
-editor/display_folded = true
 show_behind_parent = true
 material = SubResource( 5 )
 position = Vector2( 3.84464, 39.7731 )
@@ -658,46 +668,56 @@ show_behind_parent = true
 position = Vector2( -0.857376, 7.85791 )
 rotation = 1.5708
 emitting = false
-amount = 200
-lifetime = 0.4
+amount = 70
 one_shot = true
 explosiveness = 0.2
 randomness = 0.5
 fract_delta = false
 local_coords = false
 texture = ExtResource( 5 )
+emission_shape = 1
+emission_sphere_radius = 5.0
+flag_align_y = true
 spread = 30.0
-flatness = 0.5
+flatness = 1.0
 gravity = Vector2( 0, 0 )
 initial_velocity = 60.0
 initial_velocity_random = 0.5
-scale_amount = 2.0
+angle = 360.0
+angle_random = 1.0
+scale_amount = 2.5
 scale_amount_random = 1.0
 scale_amount_curve = SubResource( 6 )
 color_ramp = SubResource( 7 )
+script = SubResource( 16 )
 
 [node name="Thruster2" type="CPUParticles2D" parent="Visible/Jetpack"]
 show_behind_parent = true
 position = Vector2( -0.857376, 7.85791 )
 rotation = 1.5708
 emitting = false
-amount = 200
-lifetime = 0.4
+amount = 70
 one_shot = true
 explosiveness = 0.2
 randomness = 0.5
 fract_delta = false
 local_coords = false
 texture = ExtResource( 5 )
+emission_shape = 1
+emission_sphere_radius = 5.0
+flag_align_y = true
 spread = 30.0
-flatness = 0.5
+flatness = 1.0
 gravity = Vector2( 0, 0 )
 initial_velocity = 60.0
 initial_velocity_random = 0.5
-scale_amount = 2.0
+angle = 360.0
+angle_random = 1.0
+scale_amount = 2.5
 scale_amount_random = 1.0
 scale_amount_curve = SubResource( 6 )
 color_ramp = SubResource( 7 )
+script = SubResource( 16 )
 
 [node name="Anim" type="AnimationPlayer" parent="Visible/Jetpack"]
 anims/Propulsion = SubResource( 8 )
@@ -748,6 +768,7 @@ show_behind_parent = true
 position = Vector2( -238.836, -90.1898 )
 width = 50.0
 default_color = Color( 1, 0, 0, 0.466667 )
+texture_mode = -1092348830
 joint_mode = 2
 begin_cap_mode = 2
 end_cap_mode = 2

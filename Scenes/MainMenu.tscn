@@ -32,7 +32,7 @@ var next_scene = ''
 export (PackedScene) var leader
 
 func _ready():
-	$VersionLabel.text = \"VERSION 0.5\"
+	$VersionLabel.text = \"VERSION 0.6\"
 	get_tree().paused = false
 	set_items_equipped()
 	$Tween.interpolate_property($Background, 'self_modulate', $Background.self_modulate, Color.black, 15, Tween.TRANS_LINEAR,Tween.EASE_IN)
@@ -58,6 +58,8 @@ func set_items_equipped():
 			$Player.texture = load('Sprites/Cat/Skin/'+GameManager.items_equipped['Skin']+'.png')
 		if GameManager.items_equipped.has('Scarf'):
 			$Player/Scarf.texture = load('Sprites/Cat/Scarf/'+GameManager.items_equipped['Scarf']+'.png')
+		if GameManager.items_equipped.has('Jetpack'):
+			$Player/Jetpack.texture = load('Sprites/Shop/Cat/Jetpack/'+GameManager.items_equipped['Jetpack']+'.png')
 	pass
 
 func _on_StartButton_button_down():
@@ -637,7 +639,6 @@ expand = true
 stretch_mode = 5
 
 [node name="Player" type="NinePatchRect" parent="."]
-editor/display_folded = true
 margin_left = 490.888
 margin_top = 1200.44
 margin_right = 834.795

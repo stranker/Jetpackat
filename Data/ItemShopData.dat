@@ -1,114 +1,208 @@
-{  
-   "Hat":{  
-      "TopHat":{  
-         "buyed":false,
-         "id":0,
-         "payment":"Coin",
-         "price":200,
-         "type":"Hat"
-      },
-      "Medieval":{  
-         "buyed":false,
-         "id":1,
-         "payment":"Coin",
-         "price":300,
-         "type":"Hat"
-      },
-      "Bombin":{  
-         "buyed":false,
-         "id":2,
-         "payment":"Coin",
-         "price":500,
-         "type":"Hat"
-      },
-      "Fedora":{  
-         "buyed":false,
-         "id":3,
-         "payment":"Fish",
-         "price":30,
-         "type":"Hat"
-      }
-   },
-   "Skin":{  
-      "Grey":{  
-         "buyed":true,
-         "id":0,
-         "payment":"Coin",
-         "price":0,
-         "type":"Skin"
-      },
-      "Brown":{  
-         "buyed":false,
-         "id":1,
-         "payment":"Coin",
-         "price":300,
-         "type":"Skin"
-      },
-      "Tiger":{  
-         "buyed":false,
-         "id":2,
-         "payment":"Coin",
-         "price":400,
-         "type":"Skin"
-      },
-      "SkinInked":{  
-         "buyed":false,
-         "id":3,
-         "payment":"Fish",
-         "price":30,
-         "type":"Skin"
-      },
-      "Masked":{  
-         "buyed":false,
-         "id":4,
-         "payment":"Coin",
-         "price":500,
-         "type":"Skin"
-      }
-   },
-   "Scarf":{  
-      "RedCream":{  
-         "buyed":false,
-         "id":0,
-         "payment":"Coin",
-         "price":350,
-         "type":"Scarf"
-      },
-      "GoldBlue":{  
-         "buyed":false,
-         "id":1,
-         "payment":"Coin",
-         "price":350,
-         "type":"Scarf"
-      },
-	  "GoldPurple":{  
-         "buyed":false,
-         "id":2,
-         "payment":"Coin",
-         "price":350,
-         "type":"Scarf"
-      },
-      "GreenRed":{  
-         "buyed":false,
-         "id":3,
-         "payment":"Coin",
-         "price":350,
-         "type":"Scarf"
-      },
-	   "OrangeBlue":{  
-         "buyed":false,
-         "id":4,
-         "payment":"Coin",
-         "price":350,
-         "type":"Scarf"
-      },
-      "BlackWhite":{  
-         "buyed":false,
-         "id":5,
-         "payment":"Coin",
-         "price":350,
-         "type":"Scarf"
-      }
-   }
+{
+  "Hat": {
+    "TopHat": {
+      "buyed": false,
+      "id": 0,
+      "payment": "Coin",
+      "price": 200,
+      "type": "Hat"
+    },
+    "Medieval": {
+      "buyed": false,
+      "id": 1,
+      "payment": "Coin",
+      "price": 300,
+      "type": "Hat"
+    },
+    "Bombin": {
+      "buyed": false,
+      "id": 2,
+      "payment": "Coin",
+      "price": 500,
+      "type": "Hat"
+    },
+    "Fedora": {
+      "buyed": false,
+      "id": 3,
+      "payment": "Fish",
+      "price": 30,
+      "type": "Hat"
+    }
+  },
+  "Skin": {
+    "Grey": {
+      "buyed": true,
+      "id": 0,
+      "payment": "Coin",
+      "price": 0,
+      "type": "Skin"
+    },
+    "Brown": {
+      "buyed": false,
+      "id": 1,
+      "payment": "Coin",
+      "price": 300,
+      "type": "Skin"
+    },
+    "Tiger": {
+      "buyed": false,
+      "id": 2,
+      "payment": "Coin",
+      "price": 400,
+      "type": "Skin"
+    },
+    "SkinInked": {
+      "buyed": false,
+      "id": 3,
+      "payment": "Fish",
+      "price": 30,
+      "type": "Skin"
+    },
+    "Masked": {
+      "buyed": false,
+      "id": 4,
+      "payment": "Coin",
+      "price": 500,
+      "type": "Skin"
+    }
+  },
+  "Scarf": {
+    "RedCream": {
+      "buyed": false,
+      "id": 0,
+      "payment": "Coin",
+      "price": 350,
+      "type": "Scarf"
+    },
+    "GoldBlue": {
+      "buyed": false,
+      "id": 1,
+      "payment": "Coin",
+      "price": 350,
+      "type": "Scarf"
+    },
+    "GoldPurple": {
+      "buyed": false,
+      "id": 2,
+      "payment": "Coin",
+      "price": 350,
+      "type": "Scarf"
+    },
+    "GreenRed": {
+      "buyed": false,
+      "id": 3,
+      "payment": "Coin",
+      "price": 350,
+      "type": "Scarf"
+    },
+    "OrangeBlue": {
+      "buyed": false,
+      "id": 4,
+      "payment": "Coin",
+      "price": 350,
+      "type": "Scarf"
+    },
+    "BlackWhite": {
+      "buyed": false,
+      "id": 5,
+      "payment": "Coin",
+      "price": 350,
+      "type": "Scarf"
+    }
+  },
+  "Jetpack": {
+    "Green": {
+      "buyed": true,
+      "id": 0,
+      "payment": "Coin",
+      "price": 500,
+      "type": "Jetpack"
+    },
+    "GreenRed": {
+      "buyed": false,
+      "id": 1,
+      "payment": "Coin",
+      "price": 500,
+      "type": "Jetpack"
+    },
+    "OrangeBlue": {
+      "buyed": false,
+      "id": 2,
+      "payment": "Coin",
+      "price": 500,
+      "type": "Jetpack"
+    },
+    "Purple": {
+      "buyed": false,
+      "id": 3,
+      "payment": "Coin",
+      "price": 500,
+      "type": "Jetpack"
+    },
+    "Yellow": {
+      "buyed": false,
+      "id": 4,
+      "payment": "Coin",
+      "price": 500,
+      "type": "Jetpack"
+    },
+    "WhiteHearth": {
+      "buyed": false,
+      "id": 5,
+      "payment": "Fish",
+      "price": 50,
+      "type": "Jetpack"
+    }
+  },
+  "Thruster": {
+    "Smoke": {
+      "buyed": true,
+      "id": 0,
+      "payment": "Coin",
+      "price": 0,
+      "color": "#ffffff",
+      "type": "Thruster"
+    },
+    "Star": {
+      "buyed": false,
+      "id": 1,
+      "payment": "Fish",
+      "price": 25,
+      "color": "#fffd00",
+      "type": "Thruster"
+    },
+    "Ribbon": {
+      "buyed": false,
+      "id": 2,
+      "payment": "Fish",
+      "price": 25,
+      "color": "#b600ff",
+      "type": "Thruster"
+    },
+	"Circle": {
+      "buyed": false,
+      "id": 3,
+      "payment": "Fish",
+      "price": 25,
+      "color": "#6cf4ff",
+      "type": "Thruster"
+    },
+    "Digital": {
+      "buyed": false,
+      "id": 4,
+      "payment": "Fish",
+      "price": 25,
+      "color": "#6cf4ff",
+      "type": "Thruster"
+    },
+    "Money": {
+      "buyed": false,
+      "id": 5,
+      "payment": "Fish",
+      "price": 25,
+      "color": "#0bd800",
+      "type": "Thruster"
+    }
+  }
 }
 

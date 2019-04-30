@@ -1,4 +1,6 @@
 {  
-	"Skin":"Grey"
+	"Skin":"Grey",
+	"Jetpack":"Green",
+	"Thruster":"Smoke"
 }
 
