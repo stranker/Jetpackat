@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/ScarfShopButton.png-a83d10f604fc8bad9cba1bfd548dbb23.stex"
+path="res://.import/SkinButton.png-f850f544984bf25067431ce8399f88db.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/UI/Shop/ScarfShopButton.png"
-dest_files=[ "res://.import/ScarfShopButton.png-a83d10f604fc8bad9cba1bfd548dbb23.stex" ]
+source_file="res://Sprites/UI/Shop/SkinButton.png"
+dest_files=[ "res://.import/SkinButton.png-f850f544984bf25067431ce8399f88db.stex" ]
 
 [params]
 

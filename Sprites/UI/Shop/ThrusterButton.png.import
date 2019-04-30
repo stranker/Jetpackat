@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/ThrusterShopButton.png-f0a16d78e3f34142c67d95b558e0176f.stex"
+path="res://.import/ThrusterButton.png-4e017a2b335135ce442f5d173bc1cb12.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/UI/Shop/ThrusterShopButton.png"
-dest_files=[ "res://.import/ThrusterShopButton.png-f0a16d78e3f34142c67d95b558e0176f.stex" ]
+source_file="res://Sprites/UI/Shop/ThrusterButton.png"
+dest_files=[ "res://.import/ThrusterButton.png-4e017a2b335135ce442f5d173bc1cb12.stex" ]
 
 [params]
 

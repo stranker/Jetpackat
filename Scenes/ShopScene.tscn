@@ -1,23 +1,18 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://Scenes/ItemShopPanel.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Collectables/Coin.png" type="Texture" id=2]
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://Sprites/Collectables/Fish.png" type="Texture" id=4]
-[ext_resource path="res://Sprites/UI/Shop/HatShopButton.png" type="Texture" id=5]
-[ext_resource path="res://Sprites/UI/Shop/HatShopButtonPressed.png" type="Texture" id=6]
-[ext_resource path="res://Sprites/UI/Shop/SkinShopButton.png" type="Texture" id=7]
-[ext_resource path="res://Sprites/UI/Shop/SkinShopButtonPressed.png" type="Texture" id=8]
-[ext_resource path="res://Sprites/UI/Shop/ScarfShopButton.png" type="Texture" id=9]
-[ext_resource path="res://Sprites/UI/Shop/ScarfShopButtonPressed.png" type="Texture" id=10]
-[ext_resource path="res://Sprites/UI/Shop/JetpackShopButton.png" type="Texture" id=11]
-[ext_resource path="res://Sprites/UI/Shop/JetpackShopButtonPressed.png" type="Texture" id=12]
-[ext_resource path="res://Sprites/UI/Shop/ThrusterShopButton.png" type="Texture" id=13]
-[ext_resource path="res://Sprites/UI/Shop/ThrusterShopButtonPressed.png" type="Texture" id=14]
-[ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=15]
-[ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=16]
-[ext_resource path="res://Sprites/Shop/Cat/Skin/Grey.png" type="Texture" id=17]
-[ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=18]
+[ext_resource path="res://Scenes/BaseButtonShop.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Sprites/UI/Shop/SkinButton.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/UI/Shop/ScarfButton.png" type="Texture" id=7]
+[ext_resource path="res://Sprites/UI/Shop/JetpackButton.png" type="Texture" id=8]
+[ext_resource path="res://Sprites/UI/Shop/ThrusterButton.png" type="Texture" id=9]
+[ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=10]
+[ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=11]
+[ext_resource path="res://Sprites/Shop/Cat/Skin/Grey.png" type="Texture" id=12]
+[ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=13]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Control
@@ -100,7 +95,15 @@ func set_skin(item):
 
 func set_scarf(item):
 	
-	$VBC/PlayerPanel/HBC/Player/Skin/Scarf.texture = load('Sprites/Shop/Cat/Scarf/'+item+'.png')"
+	$VBC/PlayerPanel/HBC/Player/Skin/Scarf.texture = load('Sprites/Shop/Cat/Scarf/'+item+'.png')
+
+func _on_Jetpack_button_down():
+	pass # Replace with function body.
+
+
+func _on_Thruster_button_down():
+	pass # Replace with function body.
+"
 
 [sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.247059, 0, 0.388235, 1 )
@@ -336,74 +339,63 @@ size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.3
 custom_constants/separation = 20
 
-[node name="Hat" type="TextureButton" parent="VBC/HBC/PanelButtons/Panel"]
+[node name="Hat" parent="VBC/HBC/PanelButtons/Panel" instance=ExtResource( 5 )]
 margin_right = 170.0
 margin_bottom = 168.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-texture_normal = ExtResource( 5 )
-texture_pressed = ExtResource( 6 )
-texture_disabled = ExtResource( 6 )
-expand = true
-stretch_mode = 5
 
-[node name="Skin" type="TextureButton" parent="VBC/HBC/PanelButtons/Panel"]
+[node name="Skin" parent="VBC/HBC/PanelButtons/Panel" instance=ExtResource( 5 )]
+editor/display_folded = true
 margin_top = 188.0
 margin_right = 170.0
 margin_bottom = 356.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-texture_normal = ExtResource( 7 )
-texture_pressed = ExtResource( 8 )
-texture_disabled = ExtResource( 8 )
-expand = true
-stretch_mode = 5
 
-[node name="Scarf" type="TextureButton" parent="VBC/HBC/PanelButtons/Panel"]
+[node name="Type" parent="VBC/HBC/PanelButtons/Panel/Skin" index="0"]
+texture = ExtResource( 6 )
+
+[node name="Scarf" parent="VBC/HBC/PanelButtons/Panel" instance=ExtResource( 5 )]
+editor/display_folded = true
 margin_top = 376.0
 margin_right = 170.0
 margin_bottom = 544.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-texture_normal = ExtResource( 9 )
-texture_pressed = ExtResource( 10 )
-texture_disabled = ExtResource( 10 )
-expand = true
-stretch_mode = 5
 
-[node name="Jetpack" type="TextureButton" parent="VBC/HBC/PanelButtons/Panel"]
+[node name="Type" parent="VBC/HBC/PanelButtons/Panel/Scarf" index="0"]
+texture = ExtResource( 7 )
+
+[node name="Jetpack" parent="VBC/HBC/PanelButtons/Panel" instance=ExtResource( 5 )]
+editor/display_folded = true
 margin_top = 564.0
 margin_right = 170.0
 margin_bottom = 732.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-texture_normal = ExtResource( 11 )
-texture_pressed = ExtResource( 12 )
-texture_disabled = ExtResource( 12 )
-expand = true
-stretch_mode = 5
 
-[node name="Thruster" type="TextureButton" parent="VBC/HBC/PanelButtons/Panel"]
+[node name="Type" parent="VBC/HBC/PanelButtons/Panel/Jetpack" index="0"]
+texture = ExtResource( 8 )
+
+[node name="Thruster" parent="VBC/HBC/PanelButtons/Panel" instance=ExtResource( 5 )]
+editor/display_folded = true
 margin_top = 752.0
 margin_right = 170.0
 margin_bottom = 920.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-texture_normal = ExtResource( 13 )
-texture_pressed = ExtResource( 14 )
-texture_disabled = ExtResource( 14 )
-expand = true
-stretch_mode = 5
+
+[node name="Type" parent="VBC/HBC/PanelButtons/Panel/Thruster" index="0"]
+texture = ExtResource( 9 )
 
 [node name="CloseButton" type="TextureButton" parent="VBC/HBC/PanelButtons"]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -190.0
-margin_top = 30.0
-margin_right = -5.0
-margin_bottom = 170.0
-texture_normal = ExtResource( 15 )
-texture_pressed = ExtResource( 16 )
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 190.0
+margin_bottom = 177.0
+texture_normal = ExtResource( 10 )
+texture_pressed = ExtResource( 11 )
 expand = true
 stretch_mode = 5
 
@@ -448,7 +440,7 @@ margin_bottom = -34.0
 rect_min_size = Vector2( 300, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-texture = ExtResource( 17 )
+texture = ExtResource( 12 )
 expand = true
 stretch_mode = 6
 
@@ -480,7 +472,7 @@ margin_left = 49.5
 margin_top = 180.0
 margin_right = 272.5
 margin_bottom = 403.0
-texture = ExtResource( 18 )
+texture = ExtResource( 13 )
 expand = true
 stretch_mode = 6
 
@@ -507,4 +499,14 @@ align = 1
 [connection signal="button_down" from="VBC/HBC/PanelButtons/Panel/Hat" to="." method="_on_Hat_button_down"]
 [connection signal="button_down" from="VBC/HBC/PanelButtons/Panel/Skin" to="." method="_on_Skin_button_down"]
 [connection signal="button_down" from="VBC/HBC/PanelButtons/Panel/Scarf" to="." method="_on_Scarf_button_down"]
+[connection signal="button_down" from="VBC/HBC/PanelButtons/Panel/Jetpack" to="." method="_on_Jetpack_button_down"]
+[connection signal="button_down" from="VBC/HBC/PanelButtons/Panel/Thruster" to="." method="_on_Thruster_button_down"]
 [connection signal="button_down" from="VBC/HBC/PanelButtons/CloseButton" to="." method="_on_TextureButton_button_down"]
+
+[editable path="VBC/HBC/PanelButtons/Panel/Skin"]
+
+[editable path="VBC/HBC/PanelButtons/Panel/Scarf"]
+
+[editable path="VBC/HBC/PanelButtons/Panel/Jetpack"]
+
+[editable path="VBC/HBC/PanelButtons/Panel/Thruster"]

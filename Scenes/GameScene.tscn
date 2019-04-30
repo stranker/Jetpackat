@@ -252,6 +252,8 @@ func update_time_label(time_text):
 	time_panel.get_node('TimeLabel').text = time_text
 	if int(time_text) <= 10:
 		$Container/Panel/HBC/TimePanel/TimeLabel.self_modulate = Color.red
+	else:
+		$Container/Panel/HBC/TimePanel/TimeLabel.self_modulate = Color.white
 
 func update_coin_label():
 	coin_panel.get_node('CoinLabel').text = str(GameManager.coins)
@@ -749,14 +751,14 @@ tracks/2/keys = {
 "values": [ 0, 1, 0 ]
 }
 
-[sub_resource type="DynamicFont" id=34]
+[sub_resource type="DynamicFont" id=30]
 size = 18
 outline_size = 2
 outline_color = Color( 0.0901961, 0.0901961, 0.0901961, 1 )
 use_filter = true
 font_data = ExtResource( 11 )
 
-[sub_resource type="Animation" id=30]
+[sub_resource type="Animation" id=31]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:self_modulate")
@@ -771,7 +773,7 @@ tracks/0/keys = {
 "values": [ Color( 0, 0, 0, 1 ), Color( 0.109804, 0.0509804, 0.152941, 0 ) ]
 }
 
-[sub_resource type="Animation" id=31]
+[sub_resource type="Animation" id=32]
 length = 1.5
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:self_modulate")
@@ -836,11 +838,11 @@ tracks/4/keys = {
 } ]
 }
 
-[sub_resource type="DynamicFont" id=32]
+[sub_resource type="DynamicFont" id=33]
 size = 32
 font_data = ExtResource( 11 )
 
-[sub_resource type="DynamicFont" id=33]
+[sub_resource type="DynamicFont" id=34]
 size = 32
 font_data = ExtResource( 11 )
 
@@ -938,6 +940,7 @@ centered = false
 position = Vector2( 569.5, 830 )
 
 [node name="UIGame" type="CanvasLayer" parent="."]
+editor/display_folded = true
 script = SubResource( 6 )
 
 [node name="Container" type="Control" parent="UIGame"]
@@ -1349,7 +1352,7 @@ margin_top = -97.4819
 margin_right = 55.7767
 margin_bottom = -65.4819
 rect_rotation = 30.0
-custom_fonts/font = SubResource( 34 )
+custom_fonts/font = SubResource( 30 )
 text = "TAP!"
 align = 1
 valign = 1
@@ -1384,8 +1387,8 @@ stretch_mode = 6
 
 [node name="Anim" type="AnimationPlayer" parent="UIGame/Container/Transition"]
 autoplay = "FadeOut"
-anims/FadeOut = SubResource( 30 )
-anims/Restart = SubResource( 31 )
+anims/FadeOut = SubResource( 31 )
+anims/Restart = SubResource( 32 )
 
 [node name="DebugPanel" type="Panel" parent="UIGame"]
 editor/display_folded = true
@@ -1404,7 +1407,7 @@ anchor_bottom = 1.0
 margin_right = 296.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 0, 64 )
-custom_fonts/font = SubResource( 32 )
+custom_fonts/font = SubResource( 33 )
 text = "Invencible"
 
 [node name="Currency" type="Button" parent="UIGame/DebugPanel/VBoxContainer"]
@@ -1412,7 +1415,7 @@ margin_top = 68.0
 margin_right = 296.0
 margin_bottom = 132.0
 rect_min_size = Vector2( 0, 64 )
-custom_fonts/font = SubResource( 33 )
+custom_fonts/font = SubResource( 34 )
 text = "Currency"
 
 [node name="ResetGame" type="Button" parent="UIGame/DebugPanel/VBoxContainer"]
@@ -1420,7 +1423,7 @@ margin_top = 136.0
 margin_right = 296.0
 margin_bottom = 200.0
 rect_min_size = Vector2( 0, 64 )
-custom_fonts/font = SubResource( 33 )
+custom_fonts/font = SubResource( 34 )
 text = "RESET GAME STATE"
 
 [node name="Button" type="Button" parent="UIGame/DebugPanel"]
@@ -1448,7 +1451,7 @@ item_list = [ ExtResource( 34 ) ]
 parent_node = NodePath("../Ribbons")
 min_height = 10.0
 max_height = 15.0
-min_height_tutorial = 15
+min_height_tutorial = 12
 
 [node name="Collectables" type="Node2D" parent="."]
 

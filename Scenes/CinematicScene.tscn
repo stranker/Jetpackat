@@ -51,10 +51,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5.5, 5.6, 5.8, 5.9, 6.2, 6.6, 7 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 5.6, 5.8, 5.9, 6.2, 6.6, 7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 0, 1, 0, 1, 0, 1, 2, 3, 2, 3, 4, 6, 6, 4, 5, 4, 5 ]
+"values": [ 0, 1, 0, 1, 0, 1, 2, 3, 2, 3, 2, 4, 6, 6, 4, 5, 4, 5 ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Cat:position")
@@ -159,22 +159,22 @@ tracks/9/loop_wrap = true
 tracks/9/imported = false
 tracks/9/enabled = true
 tracks/9/keys = {
-"times": PoolRealArray( 8, 8.3, 8.6, 8.9, 9.2, 9.5, 9.8, 10.1, 10.4, 10.7 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 8, 8.4, 8.8, 9.2, 9.6, 10, 10.4, 10.8, 11.2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 0, 1, 0, 1, 0, 1, 0, 1, 0, 1 ]
+"values": [ 0, 1, 0, 1, 0, 1, 0, 1, 0 ]
 }
 tracks/10/type = "value"
-tracks/10/path = NodePath("TextureRect:visible")
+tracks/10/path = NodePath("CatHeadAmazed/Dream:frame")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/imported = false
 tracks/10/enabled = true
 tracks/10/keys = {
-"times": PoolRealArray( 0, 10.7 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 8, 8.4, 8.8, 9.2, 9.6, 10, 10.4, 10.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ false, true ]
+"values": [ 0, 1, 0, 1, 0, 1, 0, 1 ]
 }
 tracks/11/type = "value"
 tracks/11/path = NodePath("FirstPhoto:position")
@@ -285,16 +285,16 @@ tracks/19/keys = {
 "values": [ Vector2( 269.441, 1144.94 ), Vector2( 581.097, 956.575 ), Vector2( 581.097, 956.575 ), Vector2( 540, 960 ), Vector2( 540, 960 ) ]
 }
 tracks/20/type = "value"
-tracks/20/path = NodePath("CatHeadAmazed/Dream:frame")
+tracks/20/path = NodePath("TextureRect:visible")
 tracks/20/interp = 1
 tracks/20/loop_wrap = true
 tracks/20/imported = false
 tracks/20/enabled = true
 tracks/20/keys = {
-"times": PoolRealArray( 8, 8.4, 8.8, 9.2, 9.6, 10, 10.4, 10.8 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 10.7 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ 0, 1, 0, 1, 0, 1, 0, 1 ]
+"values": [ false, true ]
 }
 tracks/21/type = "value"
 tracks/21/path = NodePath("CatHeadAmazed/Sprite:position")
@@ -417,7 +417,6 @@ texture = ExtResource( 1 )
 expand = true
 
 [node name="Fence" type="TextureRect" parent="."]
-visible = false
 margin_left = -208.52
 margin_top = 1141.63
 margin_right = 722.48
@@ -427,7 +426,6 @@ expand = true
 stretch_mode = 6
 
 [node name="Fence2" type="TextureRect" parent="."]
-visible = false
 margin_left = 511.48
 margin_top = 1141.63
 margin_right = 1442.48
@@ -497,19 +495,18 @@ texture = ExtResource( 4 )
 flip_h = true
 
 [node name="Cat" type="Sprite" parent="."]
-position = Vector2( 508.193, 1118.15 )
+position = Vector2( -81.0542, 1125.71 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 5 )
 flip_h = true
 hframes = 7
-frame = 5
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Walking"
 anims/Walking = SubResource( 2 )
 
 [node name="Bird" type="Sprite" parent="."]
-position = Vector2( 1139.67, 449.492 )
+position = Vector2( -81.4713, 750.768 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 6 )
 hframes = 5
@@ -533,7 +530,7 @@ frame = 1
 
 [node name="Sprite" type="Sprite" parent="CatHeadAmazed"]
 show_behind_parent = true
-position = Vector2( 20.1133, -6.54168 )
+position = Vector2( 12.7717, -6.46274 )
 scale = Vector2( 0.8, 0.8 )
 texture = ExtResource( 9 )
 
@@ -545,6 +542,7 @@ hframes = 2
 frame = 1
 
 [node name="TextureRect" type="TextureRect" parent="."]
+visible = false
 modulate = Color( 0, 0, 0, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -557,22 +555,24 @@ expand = true
 stretch_mode = 6
 
 [node name="FirstPhoto" type="Sprite" parent="."]
+visible = false
 position = Vector2( 549.166, 538.413 )
 rotation = 6.4263
 scale = Vector2( 6.88958, 6.88958 )
 texture = ExtResource( 11 )
 
 [node name="SecondPhoto" type="Sprite" parent="."]
+visible = false
 position = Vector2( 587.009, 1354.13 )
 rotation = 5.99964
 scale = Vector2( 7.76622, 7.76622 )
 texture = ExtResource( 12 )
 hframes = 2
-frame = 1
 
 [node name="Camera" type="Camera2D" parent="."]
-position = Vector2( 540, 960 )
+position = Vector2( 269.441, 1144.94 )
 current = true
+zoom = Vector2( 0.5, 0.5 )
 
 [node name="FadeOut" type="TextureRect" parent="."]
 modulate = Color( 0, 0, 0, 0 )
@@ -622,6 +622,7 @@ expand = true
 stretch_mode = 5
 
 [node name="Sprite12" type="Sprite" parent="."]
+visible = false
 position = Vector2( 558.782, 825.556 )
 scale = Vector2( 20, 20 )
 texture = ExtResource( 16 )

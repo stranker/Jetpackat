@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/HatShopButtonPressed.png-5a2c38c1e772a27ab0573887f7d91089.stex"
+path="res://.import/ScarfButton.png-585d28327ff006d3a0eee5e53cfa13d6.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/UI/Shop/HatShopButtonPressed.png"
-dest_files=[ "res://.import/HatShopButtonPressed.png-5a2c38c1e772a27ab0573887f7d91089.stex" ]
+source_file="res://Sprites/UI/Shop/ScarfButton.png"
+dest_files=[ "res://.import/ScarfButton.png-585d28327ff006d3a0eee5e53cfa13d6.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=true
+flags/filter=false
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2

@@ -173,10 +173,10 @@ tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"times": PoolRealArray( 0, 0.2, 0.5, 1.3 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.4, 1.3 ),
+"transitions": PoolRealArray( 0.5, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 2.4, 2.4 ), Vector2( 2.4, 2.4 ), Vector2( 3.75, 3.75 ), Vector2( 0, 0 ) ]
+"values": [ Vector2( 2.4, 2.4 ), Vector2( 3.75, 3.75 ), Vector2( 0, 0 ) ]
 }
 tracks/7/type = "value"
 tracks/7/path = NodePath("Clock:self_modulate")
@@ -368,21 +368,20 @@ colors = [ Color( 0, 0.0117647, 0.756863, 1 ), Color( 1, 0.796078, 0, 1 ), Color
 
 [node name="Thread" type="Line2D" parent="."]
 position = Vector2( -100, -170 )
-points = PoolVector2Array( 1.38443, 13.402, 2.42748, 28.1636, 2.11331, 48.2599, 0.122348, 69.4028, 0.554892, 86.9923, 1.27676, 103.573, 3.43949, 125.341, 6.46773, 143.941, 10.4182, 163.178 )
+points = PoolVector2Array( -0.265518, 7.98062, 0.88623, 22.809, 0.446106, 45.2555, 0.446106, 68.1422, 0.88623, 85.3072, 2.64674, 101.592, 4.84738, 120.517, 8.36841, 140.323, 10, 160 )
 width = 2.5
 default_color = Color( 0.184314, 0.184314, 0.184314, 1 )
 texture_mode = 1064951612
 
 [node name="Thread2" type="Line2D" parent="."]
 position = Vector2( 0, 0.630253 )
-points = PoolVector2Array( 96.6434, -159.4, 97.6811, -138.244, 99.5375, -113.445, 99.1904, -93.3661, 98.2306, -76.3003, 97.8749, -59.6465, 97.1545, -44.7513, 94.2104, -31.1543, 90.7163, -15.7699 )
+points = PoolVector2Array( 99.299, -163.505, 98.1613, -140.753, 97.5926, -116.864, 96.2128, -103.066, 94.7485, -88.4235, 95.0563, -69.6487, 95.3174, -53.7266, 93.2067, -38.4247, 90.7669, -20.736 )
 width = 2.5
 default_color = Color( 0.184314, 0.184314, 0.184314, 1 )
 texture_mode = 812308576
 
 [node name="Ribbon" type="Sprite" parent="."]
 editor/display_folded = true
-position = Vector2( 0, 11.4066 )
 scale = Vector2( 3, 4 )
 texture = ExtResource( 1 )
 
@@ -409,19 +408,19 @@ anims/Idle = SubResource( 4 )
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 
 [node name="Ballon" type="Sprite" parent="."]
-position = Vector2( -98.2278, -203.502 )
+position = Vector2( -100, -210 )
 scale = Vector2( 2, 2 )
 z_index = 2
 texture = ExtResource( 3 )
 
 [node name="Ballon2" type="Sprite" parent="."]
-position = Vector2( 97.0463, -205.569 )
+position = Vector2( 100, -210 )
 scale = Vector2( 2, 2 )
 z_index = 2
 texture = ExtResource( 3 )
 
 [node name="Clock" type="Sprite" parent="."]
-position = Vector2( 0, -45.1329 )
+position = Vector2( 0, -40 )
 scale = Vector2( 2.4, 2.4 )
 texture = ExtResource( 4 )
 
