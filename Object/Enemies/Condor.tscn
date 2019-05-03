@@ -1,0 +1,142 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Sprites/Enemies/Condor.png" type="Texture" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Area2D
+
+var direction : int = 1
+
+func _ready():
+	randomize()
+	if rand_range(0,1) > 0.5:
+		change_direction()
+	pass # Replace with function body.
+
+func change_direction():
+	direction = -direction
+	scale.x *= -1
+	if direction == -1:
+		position.x = get_viewport_rect().size.x
+	else:
+		position.x = 0
+	$Anim.play('Attack')
+	pass
+
+
+func _on_VisibilityNotifier2D_screen_exited():
+	if abs(global_position.y) < abs(GameManager.player.global_position.y) - get_viewport_rect().size.y/2:
+		queue_free()
+	pass # Replace with function body.
+
+
+func _on_Condor_body_entered(body):
+	if body.is_in_group('Player'):
+		body.take_damage()
+	pass # Replace with function body.
+
+
+func _on_Anim_animation_finished(anim_name):
+	change_direction()
+	pass # Replace with function body.
+"
+
+[sub_resource type="Animation" id=2]
+length = 3.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 1.5, 2.8, 3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -125, 28 ), Vector2( 245, -282 ), Vector2( 215.179, -302 ), Vector2( 1100, 141 ), Vector2( 1195, 188 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1, 1.5, 2.8, 3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0, 0.0, 30.0, 0.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Collision:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1, 1.5, 2.8, 3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -125, 28 ), Vector2( 245, -282 ), Vector2( 231.012, -294.167 ), Vector2( 1100, 141 ), Vector2( 1195, 188 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Collision:rotation_degrees")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 1, 1.5, 2.8, 3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0, 4.99999, 30.0, 0.0 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Sprite:frame")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.5, 2.8, 2.9, 3, 3.1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 3, 2, 1, 0, 1, 2, 0, 2, 2, 0, 1, 2 ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("VisibilityNotifier2D:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 1180, 200 ) ]
+}
+
+[node name="Condor" type="Area2D"]
+script = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 1195, 188 )
+scale = Vector2( 5.5, 5.5 )
+texture = ExtResource( 1 )
+hframes = 5
+frame = 1
+
+[node name="Collision" type="CollisionPolygon2D" parent="."]
+position = Vector2( 1195, 188 )
+polygon = PoolVector2Array( -70, 10, 10, 50, 80, 0, 40, -30 )
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+autoplay = "Attack"
+anims/Attack = SubResource( 2 )
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+position = Vector2( 1180, 200 )
+rotation = -1.309
+[connection signal="body_entered" from="." to="." method="_on_Condor_body_entered"]
+[connection signal="animation_finished" from="Anim" to="." method="_on_Anim_animation_finished"]
+[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

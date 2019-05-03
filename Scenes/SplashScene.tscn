@@ -9,8 +9,7 @@ script/source = "extends Control
 
 func _on_Anim_animation_finished(anim_name):
 	get_tree().change_scene('res://Scenes/MainMenu.tscn')
-	pass # Replace with function body.
-"
+	pass"
 
 [sub_resource type="DynamicFont" id=2]
 size = 60
@@ -262,5 +261,4 @@ current = true
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Enter"
 anims/Enter = SubResource( 5 )
-
 [connection signal="animation_finished" from="Anim" to="." method="_on_Anim_animation_finished"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=69 format=2]
+[gd_scene load_steps=70 format=2]
 
 [ext_resource path="res://Sprites/Background/House.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Background/SmokeParticle.png" type="Texture" id=2]
@@ -31,9 +31,10 @@
 [ext_resource path="res://Object/Misc/EnemySpawner.tscn" type="PackedScene" id=29]
 [ext_resource path="res://Object/Enemies/PaperPlane.tscn" type="PackedScene" id=30]
 [ext_resource path="res://Object/Enemies/Bird.tscn" type="PackedScene" id=31]
-[ext_resource path="res://Object/Enemies/Ovni.tscn" type="PackedScene" id=32]
-[ext_resource path="res://Object/Misc/OrbitSpawner.tscn" type="PackedScene" id=33]
-[ext_resource path="res://Object/Ribbon/Ribbon.tscn" type="PackedScene" id=34]
+[ext_resource path="res://Object/Enemies/Condor.tscn" type="PackedScene" id=32]
+[ext_resource path="res://Object/Enemies/Ovni.tscn" type="PackedScene" id=33]
+[ext_resource path="res://Object/Misc/OrbitSpawner.tscn" type="PackedScene" id=34]
+[ext_resource path="res://Object/Ribbon/Ribbon.tscn" type="PackedScene" id=35]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node
@@ -166,7 +167,18 @@ func _on_DebugButton_button_down():
 
 func _on_ResetGame_button_down():
 	GameManager.reset_game_state()
-	pass # Replace with function body."
+	pass # Replace with function body.
+
+
+func _on_Height_gui_input(event):
+	if event is InputEventKey:
+		if event.scancode == KEY_ENTER:
+			if $UIGame/DebugPanel/VBoxContainer/Height.text != '':
+				var height = int($UIGame/DebugPanel/VBoxContainer/Height.text)
+				$Player.global_position =Vector2($Player.position.x,-height * 100)
+				$Player._on_Invencible_button_down()
+	pass # Replace with function body.
+"
 
 [sub_resource type="GDScript" id=2]
 script/source = "extends Node2D
@@ -940,7 +952,6 @@ centered = false
 position = Vector2( 569.5, 830 )
 
 [node name="UIGame" type="CanvasLayer" parent="."]
-editor/display_folded = true
 script = SubResource( 6 )
 
 [node name="Container" type="Control" parent="UIGame"]
@@ -1391,15 +1402,13 @@ anims/FadeOut = SubResource( 31 )
 anims/Restart = SubResource( 32 )
 
 [node name="DebugPanel" type="Panel" parent="UIGame"]
-editor/display_folded = true
-visible = false
+pause_mode = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_top = -497.0
 margin_right = 296.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UIGame/DebugPanel"]
-editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 
@@ -1426,6 +1435,12 @@ rect_min_size = Vector2( 0, 64 )
 custom_fonts/font = SubResource( 34 )
 text = "RESET GAME STATE"
 
+[node name="Height" type="LineEdit" parent="UIGame/DebugPanel/VBoxContainer"]
+margin_top = 204.0
+margin_right = 296.0
+margin_bottom = 254.0
+rect_min_size = Vector2( 0, 50 )
+
 [node name="Button" type="Button" parent="UIGame/DebugPanel"]
 margin_left = 80.0
 margin_top = 427.0
@@ -1436,18 +1451,19 @@ text = "X"
 [node name="CollectableSpawner" parent="." instance=ExtResource( 26 )]
 item_list = [ ExtResource( 27 ), ExtResource( 28 ) ]
 parent_node = NodePath("../Collectables")
-min_height = 6.0
-max_height = 9.0
+min_height = 10.0
+max_height = 18.0
 probability = [ 0.1, 1.0 ]
 
 [node name="EnemySpawner" parent="." instance=ExtResource( 29 )]
-item_list = [ ExtResource( 30 ), ExtResource( 31 ), ExtResource( 32 ) ]
+item_list = [ ExtResource( 30 ), ExtResource( 31 ), ExtResource( 32 ), ExtResource( 33 ) ]
 parent_node = NodePath("../Enemies")
-min_height = 9.0
-height_control_list = [ 0, 200, 500 ]
+min_height = 10.0
+max_height = 20.0
+height_control_list = [ 0, 200, 350, 500 ]
 
-[node name="RibbonSpawner" parent="." instance=ExtResource( 33 )]
-item_list = [ ExtResource( 34 ) ]
+[node name="RibbonSpawner" parent="." instance=ExtResource( 34 )]
+item_list = [ ExtResource( 35 ) ]
 parent_node = NodePath("../Ribbons")
 min_height = 10.0
 max_height = 15.0
@@ -1461,7 +1477,6 @@ min_height_tutorial = 12
 
 [node name="CoinTimer" type="Timer" parent="."]
 one_shot = true
-
 [connection signal="screen_exited" from="House/VisibilityNotifier2D" to="House" method="_on_VisibilityNotifier2D_screen_exited"]
 [connection signal="button_down" from="UIGame/Container/PauseButton" to="UIGame" method="_on_PauseButton_button_down"]
 [connection signal="button_down" from="UIGame/Container/DeadPanel/RestartButton" to="." method="_on_RestartButton_button_down"]
@@ -1474,5 +1489,6 @@ one_shot = true
 [connection signal="button_down" from="UIGame/DebugPanel/VBoxContainer/Invencible" to="Player" method="_on_Invencible_button_down"]
 [connection signal="button_down" from="UIGame/DebugPanel/VBoxContainer/Currency" to="." method="_on_Currency_button_down"]
 [connection signal="button_down" from="UIGame/DebugPanel/VBoxContainer/ResetGame" to="." method="_on_ResetGame_button_down"]
+[connection signal="gui_input" from="UIGame/DebugPanel/VBoxContainer/Height" to="." method="_on_Height_gui_input"]
 [connection signal="button_down" from="UIGame/DebugPanel/Button" to="." method="_on_Button_button_down"]
 [connection signal="timeout" from="CoinTimer" to="." method="_on_CoinTimer_timeout"]
