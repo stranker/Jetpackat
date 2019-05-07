@@ -22,6 +22,7 @@ var dead : bool = false
 signal start_playing
 signal dead
 signal current_height(value)
+signal invencible(val)
 
 func _ready():
 	initialize()
@@ -36,6 +37,7 @@ func initialize():
 	connect('start_playing',get_tree().root.get_node('GameScene'),'start_game')
 	connect('dead',get_tree().root.get_node('GameScene'),'end_game')
 	connect('current_height',get_tree().root.get_node('GameScene'),'update_height')
+	connect('invencible',get_tree().root.get_node('GameScene'),'on_player_invencible')
 	emit_signal('current_height',abs(position.y))
 	pass
 
@@ -84,7 +86,7 @@ func _on_VisibilityNotifier2D_screen_exited():
 
 func _on_Area_gui_input(event):
 	if event is InputEventScreenTouch:
-		if !event.is_echo() and event.pressed and !dead and $ImpulseTimer.is_stopped():
+		if !event.is_echo() and event.pressed and !dead :
 			check_is_active()
 			jump_direction = -jump_direction
 			jump(jump_speed)
@@ -123,11 +125,20 @@ func _on_Anim_animation_finished(anim_name):
 		get_tree().root.get_node('GameScene').end_game()
 	pass # Replace with function body.
 
-
 func impulse(force):
 	velocity.y = -force
 	$Camera2D.shake(3,0.5)
-	pass"
+	pass
+
+func _on_InvencibleTimer_timeout():
+	set_invencible(false)
+	pass # Replace with function body.
+
+func set_invencible(val):
+	invencible = val
+	if invencible:
+		$InvencibleTimer.start()
+	emit_signal('invencible',invencible)"
 
 [sub_resource type="CapsuleShape2D" id=2]
 radius = 53.4669
@@ -645,6 +656,7 @@ script = SubResource( 3 )
 one_shot = true
 
 [node name="Visible" type="Node2D" parent="."]
+editor/display_folded = true
 script = SubResource( 4 )
 
 [node name="Skin" type="Sprite" parent="Visible"]
@@ -775,11 +787,12 @@ sharp_limit = 5.0
 script = SubResource( 16 )
 target_path = NodePath("../TrailPos")
 
-[node name="ImpulseTimer" type="Timer" parent="."]
-wait_time = 0.4
+[node name="InvencibleTimer" type="Timer" parent="."]
+wait_time = 4.0
 one_shot = true
+
 [connection signal="timeout" from="Camera2D/Timer" to="Camera2D" method="_on_Timer_timeout"]
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
 [connection signal="animation_finished" from="Anim" to="." method="_on_Anim_animation_finished"]
 [connection signal="gui_input" from="ClickArea/Area" to="." method="_on_Area_gui_input"]
-[connection signal="timeout" from="ImpulseTimer" to="." method="_on_ImpulseTimer_timeout"]
+[connection signal="timeout" from="InvencibleTimer" to="." method="_on_InvencibleTimer_timeout"]

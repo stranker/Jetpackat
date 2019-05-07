@@ -34,4 +34,4 @@ func _on_VisibilityNotifier2D_screen_exited():
 func _on_Coin_area_entered(area):
 	if area.name == 'MagnetArea':
 		player_magnet = area
-	pass # Replace with function body.
+	pass
