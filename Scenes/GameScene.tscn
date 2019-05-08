@@ -60,7 +60,6 @@ func _process(delta):
 		update_time_label()
 	pass
 
-
 func int_to_time(number):
 	var time_number : String = ''
 	var second_to_minutes = number / 60.0
@@ -114,7 +113,6 @@ func update_height(val):
 		$UIGame.update_meters_label()
 	pass
 
-
 func end_game():
 	GameManager.player_height = 0
 	if GameManager.highscore < player_height:
@@ -155,21 +153,17 @@ func _on_Currency_button_down():
 	GameManager.save_game_data()
 	pass # Replace with function body.
 
-
 func _on_Button_button_down():
 	$UIGame/DebugPanel.hide()
 	pass # Replace with function body.
-
 
 func _on_DebugButton_button_down():
 	$UIGame/DebugPanel.show()
 	pass # Replace with function body.
 
-
 func _on_ResetGame_button_down():
 	GameManager.reset_game_state()
 	pass # Replace with function body.
-
 
 func _on_Height_gui_input(event):
 	if event is InputEventKey:
@@ -181,12 +175,8 @@ func _on_Height_gui_input(event):
 	pass # Replace with function body.
 
 func on_player_invencible(val):
-	if val:
-		$EnemySpawner.set_active(!val)
-		$RibbonSpawner.set_active(!val)
-	else:
-		$EnemySpawner.set_active(val)
-		$RibbonSpawner.set_active(val)
+	$EnemySpawner.set_active(!val)
+	$RibbonSpawner.set_active(!val)
 	pass"
 
 [sub_resource type="GDScript" id=2]
@@ -1464,7 +1454,7 @@ item_list = [ ExtResource( 27 ), ExtResource( 28 ), ExtResource( 29 ) ]
 parent_node = NodePath("../Collectables")
 min_height = 10.0
 max_height = 18.0
-probability = [ 0.05, 0.1, 1.0 ]
+probability = [ 0.5, 0.6, 1.0 ]
 
 [node name="EnemySpawner" parent="." instance=ExtResource( 30 )]
 item_list = [ ExtResource( 31 ), ExtResource( 32 ), ExtResource( 33 ), ExtResource( 34 ) ]
