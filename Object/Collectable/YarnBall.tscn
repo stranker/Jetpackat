@@ -14,7 +14,8 @@ func _on_VisibilityNotifier2D_screen_exited():
 func _on_YarnBall_body_entered(body):
 	if body.is_in_group('Player') and !taken:
 		taken = !taken
-		body.set_invencible(taken)
+		if !body.invencible:
+			body.set_invencible(taken)
 		$Anim.play('Taken')
 	pass # Replace with function body.
 "

@@ -1,6 +1,7 @@
 extends 'res://Object/Misc/Spawner.gd'
 
 export (Array, float) var probability
+export var decrease_on_invencible : int = 10
 
 func _process(delta):
 	if activated:
@@ -21,3 +22,11 @@ func get_new_item():
 		else:
 			item_pos += 1
 	return item
+
+func set_height_if_invencible(val):
+	if val:
+		min_height -= decrease_on_invencible
+		max_height -= decrease_on_invencible
+	else:
+		max_height += decrease_on_invencible
+		min_height += decrease_on_invencible

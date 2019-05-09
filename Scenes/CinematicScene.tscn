@@ -20,7 +20,7 @@
 [sub_resource type="GDScript" id=1]
 script/source = "extends Control
 
-var next_scene = \"Scenes/GameScene.tscn\"
+var next_scene = \"Scenes/MainMenu.tscn\"
 
 func _on_CloseButton_button_down():
 	GameManager.intro_watched = true

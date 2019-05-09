@@ -8,7 +8,10 @@
 script/source = "extends Control
 
 func _on_Anim_animation_finished(anim_name):
-	get_tree().change_scene('res://Scenes/MainMenu.tscn')
+	var next_scene = 'Scenes/CinematicScene.tscn' 
+	if GameManager.intro_watched:
+		next_scene = 'Scenes/MainMenu.tscn'
+	get_tree().change_scene(next_scene)
 	pass"
 
 [sub_resource type="DynamicFont" id=2]
