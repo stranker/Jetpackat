@@ -3,7 +3,8 @@ extends Area2D
 var taked : bool = false
 var player_magnet = null
 export var value : int = 1
-export var speed : int = 300
+export var speed : int = 1000
+var on_magnet_area : bool = false
 
 signal taken(val)
 
@@ -25,13 +26,8 @@ func _on_Coin_body_entered(body):
 		$Anim.seek(rand_range(0,1),true)
 	pass # Replace with function body.
 
-
-func _on_VisibilityNotifier2D_screen_exited():
-	queue_free()
-	pass # Replace with function body.
-
-
 func _on_Coin_area_entered(area):
-	if area.name == 'MagnetArea':
+	if area.name == 'MagnetArea' and !on_magnet_area:
 		player_magnet = area
+		on_magnet_area = !on_magnet_area
 	pass

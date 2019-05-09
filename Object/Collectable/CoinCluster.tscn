@@ -22,6 +22,10 @@ func choose_pattern():
 	$Patterns.queue_free()
 
 func _on_VisibilityNotifier2D_screen_exited():
+	$Timer.start()
+	pass # Replace with function body.
+
+func _on_Timer_timeout():
 	queue_free()
 	pass # Replace with function body.
 "
@@ -122,4 +126,8 @@ position = Vector2( -120, -40 )
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
