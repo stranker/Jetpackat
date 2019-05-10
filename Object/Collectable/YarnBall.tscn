@@ -126,6 +126,7 @@ position = Vector2( 0, 12 )
 shape = SubResource( 2 )
 
 [node name="Anim" type="AnimationPlayer" parent="."]
+autoplay = "Idle"
 anims/Idle = SubResource( 3 )
 anims/Taken = SubResource( 4 )
 

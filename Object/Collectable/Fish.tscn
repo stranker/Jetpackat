@@ -1,43 +1,73 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Shaders/outline.shader" type="Shader" id=1]
 [ext_resource path="res://Sprites/Collectables/Fish.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Shop/Cat/Thruster/Star.png" type="Texture" id=3]
 
 [sub_resource type="GDScript" id=1]
-script/source = "extends Area2D
-
-var taken = false
-export var value : int = 1
-
-signal taken(val)
+script/source = "extends 'res://Object/Collectable/Collectable.gd'
 
 func _ready():
 	connect('taken',get_tree().root.get_node('GameScene'),'add_fish')
 
 func _on_Fish_body_entered(body):
-	if body.is_in_group('Player') and !taken:
-		taken != taken
+	if body.is_in_group('Player') and !taked:
+		taked = !taked
 		$Anim.play('Taken')
 		emit_signal('taken',value)
 	pass # Replace with function body.
 
-
 func _on_VisibilityNotifier2D_screen_exited():
 	queue_free()
 	pass # Replace with function body.
+
+
+func _on_Fish_area_entered(area):
+	if area.name == 'MagnetArea' and !on_magnet_area:
+		player_magnet = area
+		on_magnet_area = !on_magnet_area
+	pass # Replace with function body.
 "
 
-[sub_resource type="ShaderMaterial" id=4]
+[sub_resource type="ShaderMaterial" id=2]
 shader = ExtResource( 1 )
 shader_param/outline_width = 0.5
 shader_param/outline_color = Color( 0, 0, 0, 1 )
 
-[sub_resource type="CircleShape2D" id=2]
+[sub_resource type="CircleShape2D" id=3]
 radius = 50.4194
 
-[sub_resource type="Animation" id=3]
-resource_name = "Taken"
-length = 0.5
+[sub_resource type="Animation" id=7]
+resource_name = "Idle"
+length = 2.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 0.5, 1 ),
+"update": 0,
+"values": [ Vector2( 1.19748, 1.52588e-005 ), Vector2( 2.39496, -10.7773 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 0.5, 1 ),
+"update": 0,
+"values": [ 0.0, -25.0094 ]
+}
+
+[sub_resource type="Animation" id=4]
+length = 2.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:self_modulate")
 tracks/0/interp = 1
@@ -45,7 +75,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5 ),
+"times": PoolRealArray( 0, 1 ),
 "transitions": PoolRealArray( 0.5, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
@@ -57,29 +87,70 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0.5 ),
+"times": PoolRealArray( 2 ),
 "transitions": PoolRealArray( 1 ),
 "values": [ {
 "args": [  ],
 "method": "queue_free"
 } ]
 }
+tracks/2/type = "value"
+tracks/2/path = NodePath("Particles2D:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="Curve" id=5]
+_data = [ Vector2( 0, 1 ), 0.0, -1.00659, 0, 0, Vector2( 1, 0.3152 ), -0.222942, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=6]
+offsets = PoolRealArray( 0, 0.715232, 1 )
+colors = PoolColorArray( 0.207184, 0.726563, 0.337029, 1, 0.163277, 0.78451, 0.278902, 0.78808, 0, 1, 0.0627451, 0 )
 
 [node name="Fish" type="Area2D"]
 script = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-material = SubResource( 4 )
+self_modulate = Color( 1, 1, 1, 0 )
+material = SubResource( 2 )
+position = Vector2( 1.87582, -6.10505 )
+rotation = -0.247265
 scale = Vector2( 2, 2 )
 texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 2 )
+shape = SubResource( 3 )
 
 [node name="Anim" type="AnimationPlayer" parent="."]
-anims/Taken = SubResource( 3 )
+autoplay = "Idle"
+anims/Idle = SubResource( 7 )
+anims/Taken = SubResource( 4 )
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 
+[node name="Particles2D" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 20
+one_shot = true
+explosiveness = 0.9
+texture = ExtResource( 3 )
+spread = 180.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 100.0
+angular_velocity = 200.0
+angle = 360.0
+angle_random = 1.0
+scale_amount = 2.0
+scale_amount_curve = SubResource( 5 )
+color_ramp = SubResource( 6 )
+
+[connection signal="area_entered" from="." to="." method="_on_Fish_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_Fish_body_entered"]
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
