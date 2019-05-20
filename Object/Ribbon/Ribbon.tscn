@@ -15,8 +15,9 @@ export (RIBBON_TYPE) var type
 export (Array, Color) var colors
 export var add_time : int = 0
 export var impulseForce = 1600
+var excellent_area = false
 
-signal activated(add_time)
+signal activated(add_time,excellent)
 
 func _ready():
 	randomize()
@@ -47,10 +48,10 @@ func set_add_time():
 			$Ribbon/Label.text = 'III'
 	pass
 
-func desactivate():
+func deactivate():
 	activated = !activated
 	$Anim.play('Deactivate')
-	emit_signal('activated',add_time)
+	emit_signal('activated',add_time,excellent_area)
 	var new_color = Color($Ribbon.self_modulate.r,$Ribbon.self_modulate.g,$Ribbon.self_modulate.b,0.2)
 	$Tween.interpolate_property($Ribbon,'self_modulate',$Ribbon.self_modulate,new_color,0.5,Tween.TRANS_QUAD,Tween.EASE_OUT)
 	$Tween.interpolate_property($Ballon,'modulate',$Ballon.modulate, Color($Ballon.modulate.r,$Ballon.modulate.g,$Ballon.modulate.b,0),1,Tween.TRANS_LINEAR,Tween.EASE_OUT,0.5)
@@ -65,7 +66,8 @@ func _on_VisibilityNotifier2D_screen_exited():
 
 func _on_ExcellentArea_body_entered(body):
 	if body.is_in_group('Player') and !activated:
-		desactivate()
+		excellent_area = !excellent_area
+		deactivate()
 		if !body.invencible:
 			body.impulse(impulseForce)
 		$ExcellentLabel.show()
@@ -77,8 +79,9 @@ func _on_ExcellentArea_body_entered(body):
 
 func _on_GoodArea_body_entered(body):
 	if body.is_in_group('Player') and !activated:
-		desactivate()
-		body.impulse(1000)
+		deactivate()
+		if !body.invencible:
+			body.impulse(impulseForce/2)
 		$GoodLabel.show()
 		$LabelAnim.play(\"Taken\")
 	pass # Replace with function body.
@@ -410,13 +413,13 @@ anims/Idle = SubResource( 4 )
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 
 [node name="Ballon" type="Sprite" parent="."]
-position = Vector2( -100, -210 )
+position = Vector2( -98.2881, -243.668 )
 scale = Vector2( 2, 2 )
 z_index = 2
 texture = ExtResource( 3 )
 
 [node name="Ballon2" type="Sprite" parent="."]
-position = Vector2( 100, -210 )
+position = Vector2( 100.571, -231.685 )
 scale = Vector2( 2, 2 )
 z_index = 2
 texture = ExtResource( 3 )

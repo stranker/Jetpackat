@@ -3,6 +3,7 @@
 	"Fishes":50,
 	"Highscore":0,
 	"IntroWatched":false,
+	"Combo":0,
 	"MusicVolume":5,
 	"SoundVolume":5
 }

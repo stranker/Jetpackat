@@ -5,6 +5,7 @@ var coins : int = 0
 var fishes : int = 0
 var playing : bool = false
 var player_height : int = 0
+var combos : int = 0
 var camera : Camera2D = null
 var highscore : int = 0
 var player = null
@@ -37,6 +38,7 @@ func load_data_from_res():
 		coins = game_info['Coins']
 		fishes = game_info['Fishes']
 		highscore = game_info['Highscore']
+		combos = game_info['Combo']
 		music_volume = game_info['MusicVolume']
 		sound_volume = game_info['SoundVolume']
 	save_game_data()
@@ -51,6 +53,7 @@ func load_data_from_user():
 		coins = game_info['Coins']
 		fishes = game_info['Fishes']
 		highscore = game_info['Highscore']
+		combos = game_info['Combo']
 		intro_watched = game_info['IntroWatched']
 		music_volume = game_info['MusicVolume']
 		sound_volume = game_info['SoundVolume']
@@ -107,6 +110,7 @@ func save_current_game_info():
 	game_info['Coins'] = coins
 	game_info['Fishes'] = fishes
 	game_info['Highscore'] = highscore
+	game_info['Combo'] = combos
 	game_info['IntroWatched'] = intro_watched
 	game_info['MusicVolume'] = music_volume
 	game_info['SoundVolume'] = sound_volume
@@ -146,5 +150,5 @@ func upload_highscore():
 		count += 1
 		if count >= 4:
 			return
-	var err = http_client.request(HTTPClient.METHOD_GET,'/lb/'+private_url+'/add-pipe/'+nickname+'/'+str(highscore),[])
+	var err = http_client.request(HTTPClient.METHOD_GET,'/lb/'+private_url+'/add-pipe/'+nickname+'/'+str(highscore)+'/'+str(combos),[])
 	return err
