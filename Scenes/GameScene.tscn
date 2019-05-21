@@ -97,7 +97,9 @@ func add_game_time(val,excellent):
 		combos += 1
 		$UIGame.play_combo(combos)
 	else:
-		combos = 0
+		if GameManager.combos < combos:
+			GameManager.combos = combos
+			combos = 0
 	pass
 
 func add_fish(val):

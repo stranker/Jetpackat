@@ -68,8 +68,6 @@ func _on_ExcellentArea_body_entered(body):
 	if body.is_in_group('Player') and !activated:
 		excellent_area = !excellent_area
 		deactivate()
-		if !body.invencible:
-			body.impulse(impulseForce)
 		$ExcellentLabel.show()
 		$Particles.emitting = true
 		$Particles2.emitting = true
@@ -80,8 +78,6 @@ func _on_ExcellentArea_body_entered(body):
 func _on_GoodArea_body_entered(body):
 	if body.is_in_group('Player') and !activated:
 		deactivate()
-		if !body.invencible:
-			body.impulse(impulseForce/2)
 		$GoodLabel.show()
 		$LabelAnim.play(\"Taken\")
 	pass # Replace with function body.
