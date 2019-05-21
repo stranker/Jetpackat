@@ -20,7 +20,8 @@ func _ready():
 
 func set_cat_equipment():
 	$Cat.texture = load('Sprites/Cat/Skin/'+GameManager.items_equipped['Skin']+'.png')
-	$Cat/Hat.texture = load('Sprites/Shop/Cat/Hat/'+GameManager.items_equipped['Hat']+'.png')
+	if GameManager.items_equipped.has('Hat'):
+		$Cat/Hat.texture = load('Sprites/Shop/Cat/Hat/'+GameManager.items_equipped['Hat']+'.png')
 	pass
 
 func _on_BackButton_button_down():
