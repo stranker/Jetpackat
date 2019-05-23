@@ -1,4 +1,4 @@
-[gd_scene load_steps=73 format=2]
+[gd_scene load_steps=72 format=2]
 
 [ext_resource path="res://Sprites/Background/House.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Background/SmokeParticle.png" type="Texture" id=2]
@@ -622,28 +622,40 @@ font_data = ExtResource( 11 )
 [sub_resource type="Animation" id=22]
 resource_name = "Combo"
 tracks/0/type = "value"
-tracks/0/path = NodePath(".:custom_fonts/font:size")
+tracks/0/path = NodePath(".:self_modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.6, 0.9 ),
-"transitions": PoolRealArray( 0.5, 1, 1 ),
+"times": PoolRealArray( 0, 0.1, 0.6, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ 72, 90, 72 ]
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 0.772549, 0, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath(".:self_modulate")
+tracks/1/path = NodePath(".:rect_scale")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.1, 0.6, 1 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.3, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 0.772549, 0, 1 ), Color( 1, 1, 1, 0 ) ]
+"values": [ Vector2( 1, 1 ), Vector2( 2, 2 ), Vector2( 2, 2 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:rect_position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 44.298, 240 ), Vector2( -40, 240 ) ]
 }
 
 [sub_resource type="StyleBoxFlat" id=23]
@@ -659,18 +671,6 @@ corner_radius_bottom_right = 50
 corner_radius_bottom_left = 50
 shadow_color = Color( 0, 0, 0, 0.219608 )
 shadow_size = 5
-
-[sub_resource type="StyleBoxFlat" id=24]
-bg_color = Color( 0.533333, 0, 0.74902, 1 )
-border_width_left = 10
-border_width_top = 10
-border_width_right = 10
-border_width_bottom = 10
-border_color = Color( 0.454902, 0, 0.6, 1 )
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 50
-corner_radius_bottom_left = 50
 
 [sub_resource type="DynamicFont" id=25]
 size = 80
@@ -1223,13 +1223,15 @@ margin_bottom = 51.0
 custom_styles/panel = SubResource( 20 )
 
 [node name="ComboLabel" type="Label" parent="UIGame/Container"]
+editor/display_folded = true
 self_modulate = Color( 1, 1, 1, 0 )
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -289.0
-margin_top = 169.0
-margin_right = 300.0
-margin_bottom = 326.0
+margin_left = -580.0
+margin_top = 240.0
+margin_right = 9.0
+margin_bottom = 419.0
+rect_scale = Vector2( 2, 2 )
 custom_fonts/font = SubResource( 21 )
 text = "COMBO 
 X1"
@@ -1278,7 +1280,6 @@ margin_left = -304.0
 margin_top = -89.5
 margin_right = 304.0
 margin_bottom = 255.5
-custom_styles/normal = SubResource( 24 )
 custom_fonts/font = SubResource( 25 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )

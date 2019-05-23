@@ -47,6 +47,7 @@ func _physics_process(delta):
 			velocity.y += GRAVITY * delta
 		if is_on_floor():
 			velocity.x = 0
+			$Visible/Jetpack/Thruster.emitting = false
 		move_and_slide(velocity,Vector2(0,-1))
 	pass
 
@@ -697,7 +698,6 @@ script = SubResource( 3 )
 one_shot = true
 
 [node name="Visible" type="Node2D" parent="."]
-editor/display_folded = true
 script = SubResource( 4 )
 
 [node name="Skin" type="Sprite" parent="Visible"]
@@ -709,7 +709,6 @@ hframes = 7
 frame = 4
 
 [node name="Jetpack" type="Sprite" parent="Visible"]
-editor/display_folded = true
 show_behind_parent = true
 material = SubResource( 5 )
 position = Vector2( 3.84464, 39.7731 )
@@ -720,6 +719,7 @@ texture = ExtResource( 4 )
 show_behind_parent = true
 position = Vector2( -0.857376, 7.85791 )
 rotation = 1.5708
+emitting = false
 amount = 100
 lifetime = 0.5
 preprocess = 0.5

@@ -37,7 +37,7 @@ shader_param/outline_color = Color( 0, 0, 0, 1 )
 [sub_resource type="CircleShape2D" id=3]
 radius = 50.4194
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=4]
 resource_name = "Idle"
 length = 2.0
 loop = true
@@ -66,7 +66,7 @@ tracks/1/keys = {
 "values": [ 0.0, -25.0094 ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=5]
 length = 2.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:self_modulate")
@@ -107,10 +107,10 @@ tracks/2/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Curve" id=5]
+[sub_resource type="Curve" id=6]
 _data = [ Vector2( 0, 1 ), 0.0, -1.00659, 0, 0, Vector2( 1, 0.3152 ), -0.222942, 0.0, 0, 0 ]
 
-[sub_resource type="Gradient" id=6]
+[sub_resource type="Gradient" id=7]
 offsets = PoolRealArray( 0, 0.715232, 1 )
 colors = PoolColorArray( 0.207184, 0.726563, 0.337029, 1, 0.163277, 0.78451, 0.278902, 0.78808, 0, 1, 0.0627451, 0 )
 
@@ -118,10 +118,9 @@ colors = PoolColorArray( 0.207184, 0.726563, 0.337029, 1, 0.163277, 0.78451, 0.2
 script = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-self_modulate = Color( 1, 1, 1, 0 )
 material = SubResource( 2 )
-position = Vector2( 1.87582, -6.10505 )
-rotation = -0.247265
+position = Vector2( 2.09726, -8.09802 )
+rotation = -0.327982
 scale = Vector2( 2, 2 )
 texture = ExtResource( 2 )
 
@@ -130,8 +129,8 @@ shape = SubResource( 3 )
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Idle"
-anims/Idle = SubResource( 7 )
-anims/Taken = SubResource( 4 )
+anims/Idle = SubResource( 4 )
+anims/Taken = SubResource( 5 )
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 
@@ -148,8 +147,8 @@ angular_velocity = 200.0
 angle = 360.0
 angle_random = 1.0
 scale_amount = 2.0
-scale_amount_curve = SubResource( 5 )
-color_ramp = SubResource( 6 )
+scale_amount_curve = SubResource( 6 )
+color_ramp = SubResource( 7 )
 
 [connection signal="area_entered" from="." to="." method="_on_Fish_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_Fish_body_entered"]
