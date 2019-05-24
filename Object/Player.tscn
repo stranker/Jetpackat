@@ -116,13 +116,6 @@ func _on_Invencible_button_down():
 	invencible = !invencible
 	pass # Replace with function body.
 
-func time_out():
-	if !dead:
-		dead = !dead
-		set_physics_process(false)
-		$Anim.play('TimeOut')
-	pass
-
 func _on_Anim_animation_finished(anim_name):
 	if anim_name == 'TimeOut':
 		get_tree().root.get_node('GameScene').end_game()

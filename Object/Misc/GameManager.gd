@@ -152,3 +152,16 @@ func upload_highscore():
 			return
 	var err = http_client.request(HTTPClient.METHOD_GET,'/lb/'+private_url+'/add-pipe/'+nickname+'/'+str(highscore)+'/'+str(combos),[])
 	return err
+
+func int_to_time(number):
+	var time_number : String = ''
+	var second_to_minutes = number / 60.0
+	var minute = floor(second_to_minutes)
+	var seconds = floor((second_to_minutes - minute) * 60.0)
+	if seconds <= 0.01:
+		seconds = 0
+	if minute > 0:
+		time_number = str(minute) + ':' + str(seconds).pad_zeros(2)
+	else:
+		time_number = str(seconds)
+	return time_number

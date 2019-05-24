@@ -1,4 +1,4 @@
-[gd_scene load_steps=72 format=2]
+[gd_scene load_steps=68 format=2]
 
 [ext_resource path="res://Sprites/Background/House.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Background/SmokeParticle.png" type="Texture" id=2]
@@ -41,7 +41,6 @@
 script/source = "extends Node
 
 var playing : bool = false
-export var game_timer : float = 70
 var player_height : int = 0
 var combos : int = 0
 var end_play : bool = false
@@ -51,51 +50,17 @@ var highscore_passed : bool = false
 var tutorial_done : bool = false
 
 func _ready():
-	update_time_label()
 	$UIGame.update_UI_labels()
 	pass
-
-func _process(delta):
-	if playing:
-		update_time(delta)
-		update_time_label()
-	pass
-
-func int_to_time(number):
-	var time_number : String = ''
-	var second_to_minutes = number / 60.0
-	var minute = floor(second_to_minutes)
-	var seconds = floor((second_to_minutes - minute) * 60.0)
-	if seconds <= 0.01:
-		seconds = 0
-	if minute > 0:
-		time_number = str(minute) + ':' + str(seconds).pad_zeros(2)
-	else:
-		time_number = str(seconds)
-	return time_number
-
-func update_time_label():
-	$UIGame.update_time_label(int_to_time(game_timer))
-	pass
-
-func update_time(delta):
-	if game_timer > 0:
-		game_timer -= delta
-	else:
-		game_timer = 0
-		end_game_time()
 
 func start_game():
 	playing = !playing
 	GameManager.playing = playing
 	pass
 
-func add_game_time(val,excellent):
-	game_timer += val
-	$UIGame.add_time(val)
-	if excellent:
+func add_combo(activated):
+	if activated:
 		combos += 1
-		$UIGame.play_combo(combos)
 	else:
 		if GameManager.combos < combos:
 			GameManager.combos = combos
@@ -131,10 +96,6 @@ func end_game():
 	playing = !playing
 	$UIGame.show_deadpanel()
 	GameManager.save_game_data()
-	pass
-
-func end_game_time():
-	$Player.time_out()
 	pass
 
 func restart_game():
@@ -241,7 +202,7 @@ func change_to_space():
 script/source = "extends CanvasLayer
 
 onready var fish_panel = $Container/Panel/HBC/FishPanel/HBC
-onready var time_panel = $Container/Panel/HBC/TimePanel
+onready var meter_panel = $Container/Panel/HBC/MeterPanel
 onready var coin_panel = $Container/Panel/HBC/CoinPanel/HBC
 
 func _ready():
@@ -256,10 +217,6 @@ func _process(delta):
 		$Container/PawTutorial/Anim.play('End')
 		set_process(false)
 
-func add_time(val):
-	time_panel.get_node('TimeLabel/AddTimeLabel').text = '+' + str(val)
-	time_panel.get_node('TimeLabel/Anim').play('AddTime')
-
 func add_coin(val):
 	coin_panel.get_node('CoinLabel/AddCoinLabel').text = str(val)
 	if coin_panel.get_node('CoinLabel/Anim').is_playing():
@@ -270,18 +227,11 @@ func add_fish(val):
 	fish_panel.get_node('FishLabel/AddFishLabel').text = str(val)
 	fish_panel.get_node('FishLabel/Anim').play('AddFish')
 
-func update_time_label(time_text):
-	time_panel.get_node('TimeLabel').text = time_text
-	if int(time_text) <= 10:
-		$Container/Panel/HBC/TimePanel/TimeLabel.self_modulate = Color.red
-	else:
-		$Container/Panel/HBC/TimePanel/TimeLabel.self_modulate = Color.white
-
 func update_coin_label():
 	coin_panel.get_node('CoinLabel').text = str(GameManager.coins)
 
 func update_meters_label():
-	time_panel.get_node('MeterLabel').text = str(GameManager.player_height)+'m'
+	meter_panel.get_node('MeterLabel').text = str(GameManager.player_height)+'m'
 
 func update_fishes_label():
 	fish_panel.get_node('FishLabel').text = str(GameManager.fishes)
@@ -339,11 +289,6 @@ func _on_Anim_animation_finished(anim_name):
 
 func failed_to_upload_highscore():
 	$Container/DeadPanel/Error.show()
-	pass
-
-func play_combo(cant):
-	$Container/ComboLabel.text = 'COMBO\\nX'+str(cant)
-	$Container/ComboLabel/Anim.play('Combo')
 	pass"
 
 [sub_resource type="StyleBoxFlat" id=7]
@@ -478,66 +423,25 @@ corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 50
 
+[sub_resource type="StyleBoxFlat" id=36]
+bg_color = Color( 0.243137, 0.835294, 0, 1 )
+border_width_left = 15
+border_width_top = 15
+border_width_right = 15
+border_width_bottom = 15
+border_color = Color( 0.00392157, 0.643137, 0, 1 )
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+
 [sub_resource type="DynamicFont" id=14]
-size = 38
-outline_size = 4
+size = 86
+outline_size = 6
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 extra_spacing_char = 2
 font_data = ExtResource( 11 )
-
-[sub_resource type="DynamicFont" id=15]
-size = 100
-outline_size = 5
-outline_color = Color( 0, 0, 0, 1 )
-use_filter = true
-extra_spacing_char = 2
-font_data = ExtResource( 11 )
-
-[sub_resource type="DynamicFont" id=16]
-size = 80
-outline_size = 2
-outline_color = Color( 0, 0, 0, 1 )
-use_filter = true
-font_data = ExtResource( 11 )
-
-[sub_resource type="Animation" id=17]
-tracks/0/type = "value"
-tracks/0/path = NodePath("AddTimeLabel:rect_position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.3, 1 ),
-"transitions": PoolRealArray( 1, 0.5, 1 ),
-"update": 0,
-"values": [ Vector2( -55, 210 ), Vector2( -55, 210 ), Vector2( -55, -20 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("AddTimeLabel:self_modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.2, 0.5, 1 ),
-"transitions": PoolRealArray( 1, 2.2974, 2.2974, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath(".:custom_fonts/font:size")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.6, 0.7, 1 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 0,
-"values": [ 100, 100, 110, 100 ]
-}
 
 [sub_resource type="DynamicFont" id=18]
 size = 72
@@ -611,53 +515,6 @@ corner_radius_top_right = 20
 corner_radius_bottom_right = 50
 corner_radius_bottom_left = 20
 
-[sub_resource type="DynamicFont" id=21]
-size = 72
-outline_size = 5
-outline_color = Color( 0, 0, 0, 1 )
-use_filter = true
-extra_spacing_char = 2
-font_data = ExtResource( 11 )
-
-[sub_resource type="Animation" id=22]
-resource_name = "Combo"
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:self_modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.6, 1 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 0.772549, 0, 1 ), Color( 1, 1, 1, 0 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath(".:rect_scale")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.3, 1 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 1, 1 ), Vector2( 2, 2 ), Vector2( 2, 2 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath(".:rect_position")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 44.298, 240 ), Vector2( -40, 240 ) ]
-}
-
 [sub_resource type="StyleBoxFlat" id=23]
 bg_color = Color( 0.545098, 0, 0.854902, 1 )
 border_width_left = 10
@@ -672,14 +529,14 @@ corner_radius_bottom_left = 50
 shadow_color = Color( 0, 0, 0, 0.219608 )
 shadow_size = 5
 
-[sub_resource type="DynamicFont" id=25]
+[sub_resource type="DynamicFont" id=24]
 size = 80
 outline_size = 6
 outline_color = Color( 1, 0.952941, 0.952941, 1 )
 use_filter = true
 font_data = ExtResource( 11 )
 
-[sub_resource type="DynamicFont" id=26]
+[sub_resource type="DynamicFont" id=25]
 size = 60
 outline_size = 6
 outline_color = Color( 0, 0, 0, 1 )
@@ -687,7 +544,7 @@ use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 11 )
 
-[sub_resource type="Animation" id=27]
+[sub_resource type="Animation" id=26]
 length = 2.0
 loop = true
 tracks/0/type = "value"
@@ -739,7 +596,7 @@ tracks/3/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 1.5, 1.5 ), Vector2( 1, 1 ), Vector2( 1.5, 1.5 ) ]
 }
 
-[sub_resource type="StyleBoxFlat" id=28]
+[sub_resource type="StyleBoxFlat" id=27]
 bg_color = Color( 0.482353, 0, 0.67451, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -751,14 +608,14 @@ corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
-[sub_resource type="DynamicFont" id=29]
+[sub_resource type="DynamicFont" id=28]
 size = 80
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 11 )
 
-[sub_resource type="Animation" id=30]
+[sub_resource type="Animation" id=29]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:modulate")
@@ -773,7 +630,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 0.729412 ), Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="Animation" id=31]
+[sub_resource type="Animation" id=30]
 length = 0.6
 loop = true
 tracks/0/type = "value"
@@ -813,14 +670,14 @@ tracks/2/keys = {
 "values": [ 0, 1, 0 ]
 }
 
-[sub_resource type="DynamicFont" id=32]
+[sub_resource type="DynamicFont" id=31]
 size = 18
 outline_size = 2
 outline_color = Color( 0.0901961, 0.0901961, 0.0901961, 1 )
 use_filter = true
 font_data = ExtResource( 11 )
 
-[sub_resource type="Animation" id=33]
+[sub_resource type="Animation" id=32]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:self_modulate")
@@ -835,7 +692,7 @@ tracks/0/keys = {
 "values": [ Color( 0, 0, 0, 1 ), Color( 0.109804, 0.0509804, 0.152941, 0 ) ]
 }
 
-[sub_resource type="Animation" id=34]
+[sub_resource type="Animation" id=33]
 length = 1.5
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:self_modulate")
@@ -900,11 +757,11 @@ tracks/4/keys = {
 } ]
 }
 
-[sub_resource type="DynamicFont" id=35]
+[sub_resource type="DynamicFont" id=34]
 size = 32
 font_data = ExtResource( 11 )
 
-[sub_resource type="DynamicFont" id=36]
+[sub_resource type="DynamicFont" id=35]
 size = 32
 font_data = ExtResource( 11 )
 
@@ -1002,7 +859,6 @@ centered = false
 position = Vector2( 569.5, 830 )
 
 [node name="UIGame" type="CanvasLayer" parent="."]
-editor/display_folded = true
 script = SubResource( 6 )
 
 [node name="Container" type="Control" parent="UIGame"]
@@ -1018,13 +874,13 @@ margin_bottom = 160.0
 custom_styles/panel = SubResource( 7 )
 
 [node name="HBC" type="HBoxContainer" parent="UIGame/Container/Panel"]
-editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="FishPanel" type="Control" parent="UIGame/Container/Panel/HBC"]
+editor/display_folded = true
 margin_right = 400.0
 margin_bottom = 160.0
 rect_min_size = Vector2( 400, 0 )
@@ -1032,10 +888,14 @@ size_flags_vertical = 3
 
 [node name="HBC" type="HBoxContainer" parent="UIGame/Container/Panel/HBC/FishPanel"]
 editor/display_folded = true
-margin_left = 58.3222
-margin_top = 23.1855
-margin_right = 404.322
-margin_bottom = 131.185
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -160.0
+margin_top = -53.9997
+margin_right = 186.0
+margin_bottom = 53.9998
 theme = SubResource( 8 )
 
 [node name="Fish" type="TextureRect" parent="UIGame/Container/Panel/HBC/FishPanel/HBC"]
@@ -1085,64 +945,33 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -155.702
-margin_top = -54.0
-margin_right = 176.298
-margin_bottom = 48.0
+margin_left = -166.0
+margin_top = -51.0
+margin_right = 166.0
+margin_bottom = 51.0
 custom_styles/panel = SubResource( 13 )
 
-[node name="TimePanel" type="Control" parent="UIGame/Container/Panel/HBC"]
-editor/display_folded = true
+[node name="MeterPanel" type="Control" parent="UIGame/Container/Panel/HBC"]
 margin_left = 404.0
 margin_right = 676.0
 margin_bottom = 160.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="MeterLabel" type="Label" parent="UIGame/Container/Panel/HBC/TimePanel"]
+[node name="MeterLabel" type="Label" parent="UIGame/Container/Panel/HBC/MeterPanel"]
 anchor_left = 0.5
-anchor_top = 1.0
+anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -154.0
-margin_top = -57.0
-margin_right = 155.0
-margin_bottom = -4.0
+anchor_bottom = 0.5
+margin_left = -159.0
+margin_top = -67.5
+margin_right = 159.0
+margin_bottom = 67.5
+custom_styles/normal = SubResource( 36 )
 custom_fonts/font = SubResource( 14 )
-text = "Meters: 9999"
+text = "9999m"
 align = 1
-valign = 1
-uppercase = true
-
-[node name="TimeLabel" type="Label" parent="UIGame/Container/Panel/HBC/TimePanel"]
-anchor_right = 1.0
-margin_left = -29.0
-margin_top = -10.0
-margin_right = 30.0
-margin_bottom = 136.0
-custom_fonts/font = SubResource( 15 )
-text = "1:00"
-align = 1
-valign = 1
-
-[node name="AddTimeLabel" type="Label" parent="UIGame/Container/Panel/HBC/TimePanel/TimeLabel"]
-self_modulate = Color( 1, 1, 1, 0 )
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -220.5
-margin_top = -166.0
-margin_right = 4.49988
-margin_bottom = -69.0
-rect_scale = Vector2( 2, 2 )
-custom_fonts/font = SubResource( 16 )
-text = "99"
-align = 1
-valign = 1
-
-[node name="Anim" type="AnimationPlayer" parent="UIGame/Container/Panel/HBC/TimePanel/TimeLabel"]
-anims/AddTime = SubResource( 17 )
+valign = 3
 
 [node name="CoinPanel" type="Control" parent="UIGame/Container/Panel/HBC"]
 editor/display_folded = true
@@ -1154,15 +983,14 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="HBC" type="HBoxContainer" parent="UIGame/Container/Panel/HBC/CoinPanel"]
-editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -164.0
-margin_top = -54.0
-margin_right = 160.0
-margin_bottom = 55.0
+margin_left = -150.0
+margin_top = -54.5
+margin_right = 174.0
+margin_bottom = 54.5
 
 [node name="Coin" type="TextureRect" parent="UIGame/Container/Panel/HBC/CoinPanel/HBC"]
 margin_right = 76.0
@@ -1216,30 +1044,11 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -173.0
+margin_left = -166.0
 margin_top = -51.0
-margin_right = 159.0
+margin_right = 166.0
 margin_bottom = 51.0
 custom_styles/panel = SubResource( 20 )
-
-[node name="ComboLabel" type="Label" parent="UIGame/Container"]
-editor/display_folded = true
-self_modulate = Color( 1, 1, 1, 0 )
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -580.0
-margin_top = 240.0
-margin_right = 9.0
-margin_bottom = 419.0
-rect_scale = Vector2( 2, 2 )
-custom_fonts/font = SubResource( 21 )
-text = "COMBO 
-X1"
-align = 1
-valign = 1
-
-[node name="Anim" type="AnimationPlayer" parent="UIGame/Container/ComboLabel"]
-anims/Combo = SubResource( 22 )
 
 [node name="PauseButton" type="TextureButton" parent="UIGame/Container"]
 pause_mode = 2
@@ -1280,7 +1089,7 @@ margin_left = -304.0
 margin_top = -89.5
 margin_right = 304.0
 margin_bottom = 255.5
-custom_fonts/font = SubResource( 25 )
+custom_fonts/font = SubResource( 24 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
@@ -1296,7 +1105,7 @@ margin_top = 31.0
 margin_right = 384.0
 margin_bottom = 240.0
 rect_pivot_offset = Vector2( 357.5, 50 )
-custom_fonts/font = SubResource( 26 )
+custom_fonts/font = SubResource( 25 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
@@ -1332,7 +1141,7 @@ expand = true
 stretch_mode = 5
 
 [node name="Anim" type="AnimationPlayer" parent="UIGame/Container/DeadPanel"]
-anims/HighscorePassed = SubResource( 27 )
+anims/HighscorePassed = SubResource( 26 )
 
 [node name="PausePanel" type="Panel" parent="UIGame/Container"]
 pause_mode = 2
@@ -1347,12 +1156,12 @@ margin_left = -357.5
 margin_top = -230.0
 margin_right = 357.5
 margin_bottom = 230.0
-custom_styles/panel = SubResource( 28 )
+custom_styles/panel = SubResource( 27 )
 
 [node name="PauseLabel" type="Label" parent="UIGame/Container/PausePanel"]
 anchor_right = 1.0
 margin_bottom = 104.0
-custom_fonts/font = SubResource( 29 )
+custom_fonts/font = SubResource( 28 )
 text = "GAME PAUSED"
 align = 1
 valign = 1
@@ -1426,8 +1235,8 @@ hframes = 2
 
 [node name="Anim" type="AnimationPlayer" parent="UIGame/Container/PawTutorial"]
 autoplay = "Start"
-anims/End = SubResource( 30 )
-anims/Start = SubResource( 31 )
+anims/End = SubResource( 29 )
+anims/Start = SubResource( 30 )
 
 [node name="Label" type="Label" parent="UIGame/Container/PawTutorial"]
 margin_left = 6.7767
@@ -1435,7 +1244,7 @@ margin_top = -97.4819
 margin_right = 55.7767
 margin_bottom = -65.4819
 rect_rotation = 30.0
-custom_fonts/font = SubResource( 32 )
+custom_fonts/font = SubResource( 31 )
 text = "TAP!"
 align = 1
 valign = 1
@@ -1470,8 +1279,8 @@ stretch_mode = 6
 
 [node name="Anim" type="AnimationPlayer" parent="UIGame/Container/Transition"]
 autoplay = "FadeOut"
-anims/FadeOut = SubResource( 33 )
-anims/Restart = SubResource( 34 )
+anims/FadeOut = SubResource( 32 )
+anims/Restart = SubResource( 33 )
 
 [node name="DebugPanel" type="Panel" parent="UIGame"]
 pause_mode = 2
@@ -1490,7 +1299,7 @@ anchor_bottom = 1.0
 margin_right = 296.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 0, 64 )
-custom_fonts/font = SubResource( 35 )
+custom_fonts/font = SubResource( 34 )
 text = "Invencible"
 
 [node name="Currency" type="Button" parent="UIGame/DebugPanel/VBoxContainer"]
@@ -1498,7 +1307,7 @@ margin_top = 68.0
 margin_right = 296.0
 margin_bottom = 132.0
 rect_min_size = Vector2( 0, 64 )
-custom_fonts/font = SubResource( 36 )
+custom_fonts/font = SubResource( 35 )
 text = "Currency"
 
 [node name="ResetGame" type="Button" parent="UIGame/DebugPanel/VBoxContainer"]
@@ -1506,7 +1315,7 @@ margin_top = 136.0
 margin_right = 296.0
 margin_bottom = 200.0
 rect_min_size = Vector2( 0, 64 )
-custom_fonts/font = SubResource( 36 )
+custom_fonts/font = SubResource( 35 )
 text = "RESET GAME STATE"
 
 [node name="Height" type="LineEdit" parent="UIGame/DebugPanel/VBoxContainer"]
