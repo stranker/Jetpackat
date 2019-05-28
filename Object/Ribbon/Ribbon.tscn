@@ -34,10 +34,9 @@ func deactivate():
 	pass
 
 func _on_VisibilityNotifier2D_screen_exited():
-	if activated:
-		queue_free()
-	else:
+	if $Anim.current_animation != 'Deactivate':
 		emit_signal(\"activated\",activated)
+		queue_free()
 	pass # Replace with function body.
 
 func _on_TakeArea_body_entered(body):
@@ -300,7 +299,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.5 ),
 "transitions": PoolRealArray( 0.5, 1 ),
 "update": 0,
-"values": [ Vector2( -196.5, -33 ), Vector2( -196.5, -164.519 ) ]
+"values": [ Vector2( -196.5, -33 ), Vector2( -390, -170 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("ComboLabel:self_modulate")
@@ -315,16 +314,16 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("ComboLabel:custom_fonts/font:size")
+tracks/2/path = NodePath("ComboLabel:rect_scale")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
 "times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
+"transitions": PoolRealArray( 0.5, 1 ),
 "update": 0,
-"values": [ 54, 70 ]
+"values": [ Vector2( 1, 1 ), Vector2( 2, 2 ) ]
 }
 
 [node name="Ribbon" type="Node2D"]
@@ -356,13 +355,13 @@ anims/Deactivate = SubResource( 2 )
 anims/Idle = SubResource( 3 )
 
 [node name="Ballon" type="Sprite" parent="."]
-position = Vector2( -96.937, -198.769 )
+position = Vector2( -96.5761, -277.336 )
 scale = Vector2( 2, 2 )
 z_index = 2
 texture = ExtResource( 2 )
 
 [node name="Ballon2" type="Sprite" parent="."]
-position = Vector2( 94.895, -202.342 )
+position = Vector2( 101.141, -253.369 )
 scale = Vector2( 2, 2 )
 z_index = 2
 texture = ExtResource( 2 )
@@ -387,7 +386,7 @@ margin_right = 196.5
 margin_bottom = 52.0
 custom_fonts/font = SubResource( 5 )
 custom_colors/font_color = Color( 0.941176, 0.901961, 0.901961, 1 )
-text = "COMBO X 1"
+text = "COMBO"
 align = 1
 
 [node name="LabelAnim" type="AnimationPlayer" parent="."]
