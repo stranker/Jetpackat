@@ -30,17 +30,17 @@ func deactivate():
 	$LabelAnim.play('Taken')
 	$Anim.play('Deactivate')
 	emit_signal('activated',activated)
-	$ComboLabel.text = \"Combo x\"+str(get_tree().root.get_node('GameScene').combos)
+	$ComboLabel.text = \"Combo\\nx\"+str(get_tree().root.get_node('GameScene').combos)
 	pass
 
 func _on_VisibilityNotifier2D_screen_exited():
-	if $Anim.current_animation != 'Deactivate':
+	if !activated:
 		emit_signal(\"activated\",activated)
 		queue_free()
 	pass # Replace with function body.
 
 func _on_TakeArea_body_entered(body):
-	if body.is_in_group(\"Player\"):
+	if body.is_in_group(\"Player\") and !activated:
 		deactivate()
 	pass # Replace with function body.
 "
@@ -308,10 +308,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.1, 0.7 ),
-"transitions": PoolRealArray( 1, 2, 1 ),
+"times": PoolRealArray( 0, 0.1, 0.6, 0.9 ),
+"transitions": PoolRealArray( 1, 2, 2, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("ComboLabel:rect_scale")
@@ -355,13 +355,13 @@ anims/Deactivate = SubResource( 2 )
 anims/Idle = SubResource( 3 )
 
 [node name="Ballon" type="Sprite" parent="."]
-position = Vector2( -96.5761, -277.336 )
+position = Vector2( -93.1523, -344.672 )
 scale = Vector2( 2, 2 )
 z_index = 2
 texture = ExtResource( 2 )
 
 [node name="Ballon2" type="Sprite" parent="."]
-position = Vector2( 101.141, -253.369 )
+position = Vector2( 102.283, -296.738 )
 scale = Vector2( 2, 2 )
 z_index = 2
 texture = ExtResource( 2 )
