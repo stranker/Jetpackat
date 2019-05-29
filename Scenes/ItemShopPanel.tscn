@@ -105,7 +105,7 @@ corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
-[sub_resource type="StyleBoxFlat" id=6]
+[sub_resource type="StyleBoxFlat" id=4]
 bg_color = Color( 0.14902, 0.682353, 0, 1 )
 border_width_bottom = 10
 border_color = Color( 0.0823529, 0.380392, 0, 1 )
@@ -115,7 +115,7 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 shadow_color = Color( 0.156863, 0.439216, 0, 0.6 )
 
-[sub_resource type="StyleBoxFlat" id=4]
+[sub_resource type="StyleBoxFlat" id=5]
 bg_color = Color( 0.00784314, 0.392157, 0, 1 )
 border_width_bottom = 10
 border_color = Color( 0.0823529, 0.380392, 0, 1 )
@@ -125,7 +125,7 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 shadow_color = Color( 0.156863, 0.439216, 0, 0.6 )
 
-[sub_resource type="StyleBoxFlat" id=5]
+[sub_resource type="StyleBoxFlat" id=6]
 bg_color = Color( 0.00784314, 0.392157, 0, 1 )
 border_width_bottom = 10
 border_color = Color( 0.0823529, 0.380392, 0, 1 )
@@ -198,11 +198,11 @@ margin_left = -130.0
 margin_top = -75.0
 margin_right = 130.0
 rect_min_size = Vector2( 260, 64 )
-custom_styles/hover = SubResource( 6 )
-custom_styles/pressed = SubResource( 4 )
-custom_styles/focus = SubResource( 6 )
-custom_styles/disabled = SubResource( 5 )
-custom_styles/normal = SubResource( 6 )
+custom_styles/hover = SubResource( 4 )
+custom_styles/pressed = SubResource( 5 )
+custom_styles/focus = SubResource( 4 )
+custom_styles/disabled = SubResource( 6 )
+custom_styles/normal = SubResource( 4 )
 
 [node name="CC" type="CenterContainer" parent="ShopButton"]
 anchor_right = 1.0
@@ -260,6 +260,5 @@ custom_fonts/font = SubResource( 8 )
 text = "USE"
 align = 1
 valign = 1
-
 [connection signal="button_down" from="ShopButton" to="." method="_on_ShopButton_button_down"]
 [connection signal="button_down" from="UseButton" to="." method="_on_UseButton_button_down"]
