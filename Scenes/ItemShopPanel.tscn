@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Shaders/outline.shader" type="Shader" id=1]
 [ext_resource path="res://Sprites/Collectables/Coin.png" type="Texture" id=2]
@@ -23,6 +23,7 @@ var buyed : bool
 
 signal item_buy(item_type,item_name)
 signal item_equip(item_type,item_name)
+signal on_color_button_pressed(item_panel)
 
 func _ready():
 	$UseButton.hide()
@@ -35,11 +36,25 @@ func set_item_info(iname:String,info : Dictionary):
 	price = int(info['price'])
 	payment = info['payment']
 	buyed = bool(info['buyed'])
+	if info.has('color'):
+		$ItemPanel/ColorButton.show()
+		update_color_button(info['color'])
 	connect('item_buy',GameManager,'buy_item')
 	connect('item_buy',get_tree().root.get_node('ShopScene'),'update_buttons_states')
 	connect('item_equip',GameManager,'equip_item')
 	connect('item_equip',get_tree().root.get_node('ShopScene'),'enable_last_used_item')
+	connect('on_color_button_pressed',get_tree().root.get_node('ShopScene'),'open_color_picker')
 	configure_panel()
+	pass
+
+func update_color_button(color : Color):
+	var style_box = $ItemPanel/ColorButton.get('custom_styles/normal').duplicate()
+	style_box.set_bg_color(color)
+	$ItemPanel/ColorButton.set('custom_styles/hover', style_box)
+	$ItemPanel/ColorButton.set('custom_styles/pressed', style_box)
+	$ItemPanel/ColorButton.set('custom_styles/focus', style_box)
+	$ItemPanel/ColorButton.set('custom_styles/disabled', style_box)
+	$ItemPanel/ColorButton.set('custom_styles/normal', style_box)
 	pass
 
 func configure_panel():
@@ -96,6 +111,15 @@ func enable_use_button(val):
 	if buyed:
 		$UseButton/Text.text = \"USE\"
 		$UseButton.disabled = !val
+	pass
+
+func _on_ColorButton_button_down():
+	emit_signal('on_color_button_pressed',self)
+	pass # Replace with function body.
+
+func set_item_color(color : Color):
+	$ItemPanel/ItemImage.self_modulate = color
+	update_color_button(color)
 	pass"
 
 [sub_resource type="StyleBoxFlat" id=3]
@@ -106,17 +130,13 @@ corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
 [sub_resource type="StyleBoxFlat" id=4]
-bg_color = Color( 0.14902, 0.682353, 0, 1 )
-border_width_bottom = 10
-border_color = Color( 0.0823529, 0.380392, 0, 1 )
 corner_radius_top_left = 10
 corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
-shadow_color = Color( 0.156863, 0.439216, 0, 0.6 )
 
 [sub_resource type="StyleBoxFlat" id=5]
-bg_color = Color( 0.00784314, 0.392157, 0, 1 )
+bg_color = Color( 0.14902, 0.682353, 0, 1 )
 border_width_bottom = 10
 border_color = Color( 0.0823529, 0.380392, 0, 1 )
 corner_radius_top_left = 10
@@ -135,19 +155,29 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 shadow_color = Color( 0.156863, 0.439216, 0, 0.6 )
 
-[sub_resource type="ShaderMaterial" id=7]
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 0.00784314, 0.392157, 0, 1 )
+border_width_bottom = 10
+border_color = Color( 0.0823529, 0.380392, 0, 1 )
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color( 0.156863, 0.439216, 0, 0.6 )
+
+[sub_resource type="ShaderMaterial" id=8]
 shader = ExtResource( 1 )
 shader_param/outline_width = 1.2
 shader_param/outline_color = Color( 0, 0, 0, 1 )
 
-[sub_resource type="DynamicFont" id=8]
+[sub_resource type="DynamicFont" id=9]
 size = 50
 outline_size = 3
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 3 )
 
-[sub_resource type="StyleBoxFlat" id=9]
+[sub_resource type="StyleBoxFlat" id=10]
 bg_color = Color( 1, 0.745098, 0, 1 )
 border_width_bottom = 10
 border_color = Color( 0.737255, 0.556863, 0.00784314, 1 )
@@ -157,7 +187,7 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 shadow_color = Color( 0.156863, 0.439216, 0, 0.6 )
 
-[sub_resource type="StyleBoxFlat" id=10]
+[sub_resource type="StyleBoxFlat" id=11]
 bg_color = Color( 0.854902, 0.619608, 0, 1 )
 border_width_bottom = 10
 border_color = Color( 0.815686, 0.611765, 0, 1 )
@@ -175,7 +205,6 @@ custom_styles/panel = SubResource( 1 )
 script = SubResource( 2 )
 
 [node name="ItemPanel" type="Panel" parent="."]
-editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
@@ -190,6 +219,19 @@ anchor_bottom = 1.0
 expand = true
 stretch_mode = 6
 
+[node name="ColorButton" type="Button" parent="ItemPanel"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -74.0174
+margin_top = 4.18121
+margin_right = -5.01743
+margin_bottom = 34.1812
+custom_styles/hover = SubResource( 4 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/focus = SubResource( 4 )
+custom_styles/disabled = SubResource( 4 )
+custom_styles/normal = SubResource( 4 )
+
 [node name="ShopButton" type="Button" parent="."]
 editor/display_folded = true
 anchor_left = 0.5
@@ -200,11 +242,11 @@ margin_left = -130.0
 margin_top = -75.0
 margin_right = 130.0
 rect_min_size = Vector2( 260, 64 )
-custom_styles/hover = SubResource( 4 )
-custom_styles/pressed = SubResource( 5 )
-custom_styles/focus = SubResource( 4 )
-custom_styles/disabled = SubResource( 6 )
-custom_styles/normal = SubResource( 4 )
+custom_styles/hover = SubResource( 5 )
+custom_styles/pressed = SubResource( 6 )
+custom_styles/focus = SubResource( 5 )
+custom_styles/disabled = SubResource( 7 )
+custom_styles/normal = SubResource( 5 )
 
 [node name="CC" type="CenterContainer" parent="ShopButton"]
 anchor_right = 1.0
@@ -219,7 +261,7 @@ margin_bottom = 69.0
 mouse_filter = 2
 
 [node name="Payment" type="TextureRect" parent="ShopButton/CC/HBC"]
-material = SubResource( 7 )
+material = SubResource( 8 )
 margin_right = 50.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 50, 64 )
@@ -233,7 +275,7 @@ margin_left = 54.0
 margin_right = 135.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 0, 64 )
-custom_fonts/font = SubResource( 8 )
+custom_fonts/font = SubResource( 9 )
 text = "999"
 valign = 1
 
@@ -247,21 +289,22 @@ margin_left = -130.0
 margin_top = -75.0
 margin_right = 130.0
 rect_min_size = Vector2( 260, 64 )
-custom_styles/hover = SubResource( 9 )
-custom_styles/pressed = SubResource( 10 )
-custom_styles/focus = SubResource( 9 )
-custom_styles/disabled = SubResource( 10 )
-custom_styles/normal = SubResource( 9 )
+custom_styles/hover = SubResource( 10 )
+custom_styles/pressed = SubResource( 11 )
+custom_styles/focus = SubResource( 10 )
+custom_styles/disabled = SubResource( 11 )
+custom_styles/normal = SubResource( 10 )
 shortcut_in_tooltip = false
 
 [node name="Text" type="Label" parent="UseButton"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_min_size = Vector2( 0, 64 )
-custom_fonts/font = SubResource( 8 )
+custom_fonts/font = SubResource( 9 )
 text = "USE"
 align = 1
 valign = 1
 
+[connection signal="button_down" from="ItemPanel/ColorButton" to="." method="_on_ColorButton_button_down"]
 [connection signal="button_down" from="ShopButton" to="." method="_on_ShopButton_button_down"]
 [connection signal="button_down" from="UseButton" to="." method="_on_UseButton_button_down"]
