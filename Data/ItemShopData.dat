@@ -5,7 +5,8 @@
       "id": 0,
       "payment": "Coin",
       "price": 200,
-      "type": "Hat"
+      "type": "Hat",
+	  "color": "#ffffff"
     },
     "Medieval": {
       "buyed": false,

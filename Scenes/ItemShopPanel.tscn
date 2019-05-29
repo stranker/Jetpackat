@@ -55,6 +55,7 @@ func update_color_button(color : Color):
 	$ItemPanel/ColorButton.set('custom_styles/focus', style_box)
 	$ItemPanel/ColorButton.set('custom_styles/disabled', style_box)
 	$ItemPanel/ColorButton.set('custom_styles/normal', style_box)
+	GameManager.item_data[type][item_name]['color'] = color
 	pass
 
 func configure_panel():
@@ -220,6 +221,7 @@ expand = true
 stretch_mode = 6
 
 [node name="ColorButton" type="Button" parent="ItemPanel"]
+visible = false
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -74.0174
