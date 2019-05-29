@@ -30,6 +30,7 @@ func _ready():
 
 func initialize():
 	$Visible.scale.x = -jump_direction
+	$Visible/Jetpack/Thruster.emitting = false
 	position = Vector2(get_viewport_rect().size.x/2,0)
 	size_sprite = $Visible/Skin.texture.get_size() * $Visible/Skin.scale / $Visible/Skin.hframes
 	GameManager.player = self
@@ -47,15 +48,14 @@ func _physics_process(delta):
 			velocity.y += GRAVITY * delta
 		if is_on_floor():
 			velocity.x = 0
-			$Visible/Jetpack/Thruster.emitting = false
 		move_and_slide(velocity,Vector2(0,-1))
 	pass
 
 func _process(delta):
 	check_boundaries()
-	$Visible/Jetpack/Thruster.emitting = !is_on_floor() and !dead
 	if !is_on_floor():
 		emit_signal('current_height',int(abs(position.y) * 0.01))
+	$Visible/Jetpack/Thruster.emitting = velocity.x != 0
 	pass
 
 func check_boundaries():
@@ -700,7 +700,6 @@ script = SubResource( 3 )
 one_shot = true
 
 [node name="Visible" type="Node2D" parent="."]
-editor/display_folded = true
 script = SubResource( 4 )
 
 [node name="Skin" type="Sprite" parent="Visible"]
@@ -811,7 +810,6 @@ one_shot = true
 
 [node name="NoColliderTimer" type="Timer" parent="."]
 one_shot = true
-
 [connection signal="timeout" from="Camera2D/Timer" to="Camera2D" method="_on_Timer_timeout"]
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
 [connection signal="animation_finished" from="Anim" to="." method="_on_Anim_animation_finished"]
