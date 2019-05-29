@@ -298,7 +298,8 @@ func failed_to_upload_highscore():
 	pass
 
 func combo_fuel(val):
-	$Container/FuelBar.value = val % 10"
+	$Container/FuelBar/Tween.interpolate_property($Container/FuelBar, 'value', $Container/FuelBar.value, val % 10, 1,Tween.TRANS_EXPO,Tween.EASE_OUT)
+	$Container/FuelBar/Tween.start()"
 
 [sub_resource type="StyleBoxFlat" id=7]
 bg_color = Color( 0.454902, 0, 0.705882, 1 )
@@ -1087,12 +1088,15 @@ margin_top = 100.0
 margin_right = 540.0
 margin_bottom = 230.0
 max_value = 10.0
+step = 0.0
 texture_progress = ExtResource( 13 )
 nine_patch_stretch = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="UIGame/Container/FuelBar"]
 autoplay = "Fuel"
 anims/Fuel = SubResource( 19 )
+
+[node name="Tween" type="Tween" parent="UIGame/Container/FuelBar"]
 
 [node name="PauseButton" type="TextureButton" parent="UIGame/Container"]
 pause_mode = 2
