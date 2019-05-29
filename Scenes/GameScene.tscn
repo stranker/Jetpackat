@@ -886,6 +886,7 @@ centered = false
 position = Vector2( 569.5, 830 )
 
 [node name="UIGame" type="CanvasLayer" parent="."]
+editor/display_folded = true
 script = SubResource( 6 )
 
 [node name="Container" type="Control" parent="UIGame"]
@@ -1408,6 +1409,7 @@ min_height_tutorial = 12
 
 [node name="CoinTimer" type="Timer" parent="."]
 one_shot = true
+
 [connection signal="screen_exited" from="House/VisibilityNotifier2D" to="House" method="_on_VisibilityNotifier2D_screen_exited"]
 [connection signal="button_down" from="UIGame/Container/PauseButton" to="UIGame" method="_on_PauseButton_button_down"]
 [connection signal="button_down" from="UIGame/Container/DeadPanel/RestartButton" to="." method="_on_RestartButton_button_down"]

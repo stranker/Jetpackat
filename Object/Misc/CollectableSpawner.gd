@@ -1,7 +1,7 @@
 extends 'res://Object/Misc/Spawner.gd'
 
 export (Array, float) var probability
-export var decrease_on_invencible : int = 10
+export var decrease_on_invencible : int = 5
 
 func _process(delta):
 	if activated:

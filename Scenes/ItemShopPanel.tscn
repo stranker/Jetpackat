@@ -175,6 +175,7 @@ custom_styles/panel = SubResource( 1 )
 script = SubResource( 2 )
 
 [node name="ItemPanel" type="Panel" parent="."]
+editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
@@ -190,6 +191,7 @@ expand = true
 stretch_mode = 6
 
 [node name="ShopButton" type="Button" parent="."]
+editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -260,5 +262,6 @@ custom_fonts/font = SubResource( 8 )
 text = "USE"
 align = 1
 valign = 1
+
 [connection signal="button_down" from="ShopButton" to="." method="_on_ShopButton_button_down"]
 [connection signal="button_down" from="UseButton" to="." method="_on_UseButton_button_down"]

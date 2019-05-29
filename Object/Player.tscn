@@ -1,10 +1,11 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://Shaders/OutlineShaderResource.tres" type="Material" id=1]
-[ext_resource path="res://Sprites/Cat/Skin/Grey.png" type="Texture" id=2]
-[ext_resource path="res://Shaders/outline.shader" type="Shader" id=3]
-[ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=4]
-[ext_resource path="res://Sprites/Shop/Cat/Thruster/Smoke.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/Cat/Skin/Skin.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Cat/Eyes.png" type="Texture" id=3]
+[ext_resource path="res://Shaders/outline.shader" type="Shader" id=4]
+[ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/Shop/Cat/Thruster/Smoke.png" type="Texture" id=6]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends KinematicBody2D
@@ -224,7 +225,7 @@ func set_jetpack(item):
 	$Jetpack.texture = load('Sprites/Shop/Cat/Jetpack/'+item+'.png')"
 
 [sub_resource type="ShaderMaterial" id=5]
-shader = ExtResource( 3 )
+shader = ExtResource( 4 )
 shader_param/outline_width = 0.5
 shader_param/outline_color = Color( 0, 0, 0, 1 )
 
@@ -363,10 +364,10 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0, 0.7 ),
+"times": PoolRealArray( 0, 0.3 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ 2, 3 ]
+"values": [ 0, 1 ]
 }
 tracks/6/type = "method"
 tracks/6/path = NodePath(".")
@@ -395,7 +396,7 @@ tracks/7/keys = {
 "values": [ 0, 2 ]
 }
 tracks/8/type = "value"
-tracks/8/path = NodePath("Visible/Hat:position")
+tracks/8/path = NodePath("Visible/Skin/Hat:position")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/imported = false
@@ -404,10 +405,10 @@ tracks/8/keys = {
 "times": PoolRealArray( 0, 0.8, 1.5, 2 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0.136536, -108.854 ), Vector2( 13.7026, -236.978 ), Vector2( -10.4149, 252.907 ), Vector2( -35.297, 600.555 ) ]
+"values": [ Vector2( 2.66292, -18.9571 ), Vector2( -29.6566, -34.9257 ), Vector2( -44.9386, 37.6524 ), Vector2( 29.338, 68.346 ) ]
 }
 tracks/9/type = "value"
-tracks/9/path = NodePath("Visible/Hat:rotation_degrees")
+tracks/9/path = NodePath("Visible/Skin/Hat:rotation_degrees")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/imported = false
@@ -416,7 +417,7 @@ tracks/9/keys = {
 "times": PoolRealArray( 0, 0.8, 1.5, 2 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ 0.934718, -61.3267, -270.823, -360.0 ]
+"values": [ 1.28432, -81.9483, -246.581, -376.676 ]
 }
 tracks/10/type = "value"
 tracks/10/path = NodePath("Camera2D:position")
@@ -468,6 +469,18 @@ tracks/13/keys = {
 "update": 0,
 "values": [ 0.0, 115.739, 298.155, 382.738 ]
 }
+tracks/14/type = "value"
+tracks/14/path = NodePath("Visible/Skin/Eyes:frame")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/keys = {
+"times": PoolRealArray( 0, 0.1, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 2, 2 ]
+}
 
 [sub_resource type="Animation" id=14]
 length = 5.0
@@ -479,10 +492,34 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1.3, 1.5, 3.8, 4 ),
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Visible/Skin/Eyes:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1.1, 1.8, 3.5, 4.4 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 0, 1, 0, 1, 0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Visible/Skin:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
 }
 
 [sub_resource type="Animation" id=15]
@@ -507,10 +544,34 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.4, 0.8, 1.5, 2.4, 3.4 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.2, 3.8 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ 4, 6, 0, 1, 0, 1 ]
+"values": [ 0, 1, 0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Visible/Skin/Eyes:texture")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ ExtResource( 3 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Visible/Skin/Eyes:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.1, 0.6, 1.1, 1.6, 2.5, 3.1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 4, 5, 6, 1, 0 ]
 }
 
 [sub_resource type="Animation" id=16]
@@ -535,9 +596,9 @@ tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
 "times": PoolRealArray( 0, 1, 1.98999 ),
-"transitions": PoolRealArray( 0.5, 1, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 1.57407, -1.25439 ), Vector2( 7.99997, -178 ), Vector2( 53.1022, 374.015 ) ]
+"values": [ Vector2( 0, 0 ), Vector2( 7.99997, -178 ), Vector2( 53.1022, 374.015 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("Visible/Skin:rotation_degrees")
@@ -576,7 +637,7 @@ tracks/4/keys = {
 "values": [ 0.0, 0.0, -74.9999, -74.9999 ]
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("Visible/Hat:position")
+tracks/5/path = NodePath("Visible/Skin/Hat:position")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -588,7 +649,7 @@ tracks/5/keys = {
 "values": [ Vector2( 0.136536, -108.854 ), Vector2( -15.2687, -292.161 ), Vector2( -28.6948, -75.441 ), Vector2( -14.7025, 612.913 ) ]
 }
 tracks/6/type = "value"
-tracks/6/path = NodePath("Visible/Hat:rotation_degrees")
+tracks/6/path = NodePath("Visible/Skin/Hat:rotation_degrees")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/imported = false
@@ -606,10 +667,10 @@ tracks/7/loop_wrap = true
 tracks/7/imported = false
 tracks/7/enabled = true
 tracks/7/keys = {
-"times": PoolRealArray( 0, 0.5, 1, 1.2, 1.4, 1.6, 1.8 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ 4, 5, 5, 6, 5, 6, 5 ]
+"values": [ 0, 1 ]
 }
 tracks/8/type = "value"
 tracks/8/path = NodePath("Camera2D:position")
@@ -646,6 +707,18 @@ tracks/10/keys = {
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ 0.0, 0.0, 112.892 ]
+}
+tracks/11/type = "value"
+tracks/11/path = NodePath("Visible/Skin/Eyes:frame")
+tracks/11/interp = 1
+tracks/11/loop_wrap = true
+tracks/11/imported = false
+tracks/11/enabled = true
+tracks/11/keys = {
+"times": PoolRealArray( 0, 0.2, 0.6, 1.1, 1.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 4, 5, 2, 3 ]
 }
 
 [sub_resource type="Gradient" id=17]
@@ -700,22 +773,34 @@ script = SubResource( 3 )
 one_shot = true
 
 [node name="Visible" type="Node2D" parent="."]
+editor/display_folded = true
 script = SubResource( 4 )
 
 [node name="Skin" type="Sprite" parent="Visible"]
+editor/display_folded = true
 material = ExtResource( 1 )
-position = Vector2( 1.57407, -1.25439 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 2 )
+hframes = 2
+
+[node name="Eyes" type="Sprite" parent="Visible/Skin"]
+position = Vector2( -0.524704, -14.9432 )
+texture = ExtResource( 3 )
 hframes = 7
-frame = 4
+
+[node name="Hat" type="Sprite" parent="Visible/Skin"]
+position = Vector2( 0.136536, -108.854 )
+rotation = 0.0163139
+scale = Vector2( 0.6, 0.6 )
+offset = Vector2( -3.49275, -23.7578 )
 
 [node name="Jetpack" type="Sprite" parent="Visible"]
+editor/display_folded = true
 show_behind_parent = true
 material = SubResource( 5 )
 position = Vector2( 3.84464, 39.7731 )
 scale = Vector2( 3, 3 )
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 
 [node name="Thruster" type="CPUParticles2D" parent="Visible/Jetpack"]
 show_behind_parent = true
@@ -729,7 +814,7 @@ explosiveness = 0.2
 randomness = 0.5
 fract_delta = false
 local_coords = false
-texture = ExtResource( 5 )
+texture = ExtResource( 6 )
 emission_shape = 1
 emission_sphere_radius = 5.0
 flag_align_y = true
@@ -754,11 +839,6 @@ editor/display_folded = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Visible/MagnetArea"]
 shape = SubResource( 10 )
-
-[node name="Hat" type="Sprite" parent="Visible"]
-position = Vector2( 0.136536, -108.854 )
-rotation = 0.0163139
-scale = Vector2( 1.5, 1.5 )
 
 [node name="Scarf" type="Sprite" parent="Visible"]
 editor/display_folded = true
@@ -810,6 +890,7 @@ one_shot = true
 
 [node name="NoColliderTimer" type="Timer" parent="."]
 one_shot = true
+
 [connection signal="timeout" from="Camera2D/Timer" to="Camera2D" method="_on_Timer_timeout"]
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
 [connection signal="animation_finished" from="Anim" to="." method="_on_Anim_animation_finished"]
