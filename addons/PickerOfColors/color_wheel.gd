@@ -39,6 +39,7 @@ func _input(event):
 	if(is_visible_in_tree() and (event is InputEventMouseButton or event is InputEventScreenTouch)):
 		if(event.pressed and event.position.distance_to(rect_global_position) <= _radius * _ring_width):
 			_wheel_pressed = true
+			print(1)
 		else:
 			_wheel_pressed = false
 	if is_visible_in_tree() and (event is InputEventMouseMotion or event is InputEventScreenDrag) and _wheel_pressed:

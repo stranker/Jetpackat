@@ -22,6 +22,7 @@ script/source = "extends Control
 
 export (PackedScene) var item_shop_panel
 var current_item_panel
+onready var player = get_node('VBC/PlayerPanel/HBC/Player/Skin')
 
 func _ready():
 	update_currency()
@@ -98,6 +99,7 @@ func update_equipment():
 					set_jetpack(GameManager.items_equipped[item])
 				'Thruster':
 					set_thruster(GameManager.items_equipped[item])
+		update_items_equiped_color()
 	pass
 
 func open_color_picker(item_panel):
@@ -110,26 +112,38 @@ func update_buttons_states(type,item):
 		i.check_item_state()
 
 func set_hat(item):
-	$VBC/PlayerPanel/HBC/Player/Skin/Hat.texture = load('Sprites/Shop/Cat/Hat/'+item+'.png')
+	player.get_node('Hat').texture = load('Sprites/Shop/Cat/Hat/'+item+'.png')
 
 func set_skin(item):
-	$VBC/PlayerPanel/HBC/Player/Skin/.texture = load('Sprites/Shop/Cat/Skin/'+item+'.png')
+	player.texture = load('Sprites/Shop/Cat/Skin/'+item+'.png')
 
 func set_scarf(item):
-	$VBC/PlayerPanel/HBC/Player/Skin/Scarf.texture = load('Sprites/Shop/Cat/Scarf/'+item+'.png')
+	player.get_node('Scarf').texture = load('Sprites/Shop/Cat/Scarf/'+item+'.png')
 
 func set_jetpack(item):
-	$VBC/PlayerPanel/HBC/Player/Skin/Jetpack.texture = load('Sprites/Shop/Cat/Jetpack/'+item+'.png')
+	player.get_node('Jetpack').texture = load('Sprites/Shop/Cat/Jetpack/'+item+'.png')
 
 func set_thruster(item):
-	#$VBC/PlayerPanel/HBC/Player/Skin/Jetpack.texture = load('Sprites/Shop/Cat/Jetpack/'+item+'.png')
 	pass
 
 func _on_CustomColor_value_changed(c):
 	if current_item_panel:
 		current_item_panel.set_item_color(c)
+		update_item_color(current_item_panel.type,c)
 	pass # Replace with function body.
-"
+
+func update_item_color(item,color):
+	if item != 'Skin':
+		player.get_node(item).self_modulate = color
+	else:
+		player.self_modulate = color
+	pass
+
+func update_items_equiped_color():
+	for item in GameManager.items_equipped.keys():
+		if item != 'Thruster' and GameManager.item_data[item][GameManager.items_equipped[item]].has('color'):
+			update_item_color(item,GameManager.item_data[item][GameManager.items_equipped[item]]['color'])
+	pass"
 
 [sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.247059, 0, 0.388235, 1 )
@@ -547,7 +561,6 @@ margin_bottom = 118.0
 custom_fonts/font = SubResource( 12 )
 text = "BONUS"
 align = 1
-
 [connection signal="value_changed" from="VBC/HBC/ShopPanel/PanelItems/CustomColor" to="." method="_on_CustomColor_value_changed"]
 [connection signal="button_down" from="VBC/HBC/VBB/CloseButton" to="." method="_on_TextureButton_button_down"]
 [connection signal="button_down" from="VBC/HBC/VBB/PanelButtons/Panel/Hat" to="." method="_on_Hat_button_down"]

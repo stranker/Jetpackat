@@ -38,7 +38,7 @@ func set_item_info(iname:String,info : Dictionary):
 	buyed = bool(info['buyed'])
 	if info.has('color'):
 		$ItemPanel/ColorButton.show()
-		update_color_button(info['color'])
+		set_item_color(info['color'])
 	connect('item_buy',GameManager,'buy_item')
 	connect('item_buy',get_tree().root.get_node('ShopScene'),'update_buttons_states')
 	connect('item_equip',GameManager,'equip_item')
@@ -55,7 +55,7 @@ func update_color_button(color : Color):
 	$ItemPanel/ColorButton.set('custom_styles/focus', style_box)
 	$ItemPanel/ColorButton.set('custom_styles/disabled', style_box)
 	$ItemPanel/ColorButton.set('custom_styles/normal', style_box)
-	GameManager.item_data[type][item_name]['color'] = color
+	GameManager.item_data[type][item_name]['color'] = color.to_html(false)
 	pass
 
 func configure_panel():
@@ -115,12 +115,14 @@ func enable_use_button(val):
 	pass
 
 func _on_ColorButton_button_down():
+	print(1)
 	emit_signal('on_color_button_pressed',self)
 	pass # Replace with function body.
 
 func set_item_color(color : Color):
 	$ItemPanel/ItemImage.self_modulate = color
 	update_color_button(color)
+	
 	pass"
 
 [sub_resource type="StyleBoxFlat" id=3]
@@ -306,7 +308,6 @@ custom_fonts/font = SubResource( 9 )
 text = "USE"
 align = 1
 valign = 1
-
 [connection signal="button_down" from="ItemPanel/ColorButton" to="." method="_on_ColorButton_button_down"]
 [connection signal="button_down" from="ShopButton" to="." method="_on_ShopButton_button_down"]
 [connection signal="button_down" from="UseButton" to="." method="_on_UseButton_button_down"]
