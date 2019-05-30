@@ -37,3 +37,7 @@ func get_selected_color():
 func _on_SelectButton_button_down():
 	hide()
 	pass # Replace with function body.
+
+func _on_VSlider_value_changed(value):
+	_color_wheel.set_value(value)
+	pass # Replace with function body.
