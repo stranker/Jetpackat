@@ -141,8 +141,11 @@ func update_item_color(item,color):
 
 func update_items_equiped_color():
 	for item in GameManager.items_equipped.keys():
-		if item != 'Thruster' and GameManager.item_data[item][GameManager.items_equipped[item]].has('color'):
-			update_item_color(item,GameManager.item_data[item][GameManager.items_equipped[item]]['color'])
+		if item != 'Thruster':
+			if GameManager.item_data[item][GameManager.items_equipped[item]].has('color'):
+				update_item_color(item,GameManager.item_data[item][GameManager.items_equipped[item]]['color'])
+			else:
+				update_item_color(item,Color(1,1,1))
 	pass"
 
 [sub_resource type="StyleBoxFlat" id=3]
@@ -376,11 +379,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -250.0
-margin_top = -317.5
-margin_right = 250.0
-margin_bottom = 272.5
-size = 500
+margin_left = -280.0
+margin_top = -315.0
+margin_right = 280.0
+margin_bottom = 315.0
 
 [node name="VBB" type="VBoxContainer" parent="VBC/HBC"]
 editor/display_folded = true
@@ -561,6 +563,7 @@ margin_bottom = 118.0
 custom_fonts/font = SubResource( 12 )
 text = "BONUS"
 align = 1
+
 [connection signal="value_changed" from="VBC/HBC/ShopPanel/PanelItems/CustomColor" to="." method="_on_CustomColor_value_changed"]
 [connection signal="button_down" from="VBC/HBC/VBB/CloseButton" to="." method="_on_TextureButton_button_down"]
 [connection signal="button_down" from="VBC/HBC/VBB/PanelButtons/Panel/Hat" to="." method="_on_Hat_button_down"]

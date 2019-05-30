@@ -20,6 +20,7 @@ var type : String
 var price : int
 var payment : String
 var buyed : bool
+var has_color = false
 
 signal item_buy(item_type,item_name)
 signal item_equip(item_type,item_name)
@@ -37,7 +38,7 @@ func set_item_info(iname:String,info : Dictionary):
 	payment = info['payment']
 	buyed = bool(info['buyed'])
 	if info.has('color'):
-		$ItemPanel/ColorButton.show()
+		has_color = true
 		set_item_color(info['color'])
 	connect('item_buy',GameManager,'buy_item')
 	connect('item_buy',get_tree().root.get_node('ShopScene'),'update_buttons_states')
@@ -76,6 +77,11 @@ func check_item_state():
 			equip_item()
 	pass
 
+func check_button_color():
+	if has_color:
+		$ItemPanel/ColorButton.show()
+	pass
+
 func check_button_available():
 	var currency : int = 0
 	match payment:
@@ -99,6 +105,7 @@ func _on_ShopButton_button_down():
 	pass # Replace with function body.
 
 func _on_UseButton_button_down():
+	check_button_color()
 	equip_item()
 	pass # Replace with function body.
 
@@ -106,23 +113,24 @@ func equip_item():
 	emit_signal('item_equip',type,item_name)
 	$UseButton/Text.text = \"EQUIPPED\"
 	$UseButton.disabled = true
+	if has_color:
+		$ItemPanel/ColorButton.show()
 	pass
 
 func enable_use_button(val):
 	if buyed:
 		$UseButton/Text.text = \"USE\"
 		$UseButton.disabled = !val
+		$ItemPanel/ColorButton.hide()
 	pass
 
 func _on_ColorButton_button_down():
-	print(1)
 	emit_signal('on_color_button_pressed',self)
 	pass # Replace with function body.
 
 func set_item_color(color : Color):
 	$ItemPanel/ItemImage.self_modulate = color
 	update_color_button(color)
-	
 	pass"
 
 [sub_resource type="StyleBoxFlat" id=3]
@@ -138,16 +146,6 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
-[sub_resource type="StyleBoxFlat" id=5]
-bg_color = Color( 0.14902, 0.682353, 0, 1 )
-border_width_bottom = 10
-border_color = Color( 0.0823529, 0.380392, 0, 1 )
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-shadow_color = Color( 0.156863, 0.439216, 0, 0.6 )
-
 [sub_resource type="StyleBoxFlat" id=6]
 bg_color = Color( 0.00784314, 0.392157, 0, 1 )
 border_width_bottom = 10
@@ -160,6 +158,16 @@ shadow_color = Color( 0.156863, 0.439216, 0, 0.6 )
 
 [sub_resource type="StyleBoxFlat" id=7]
 bg_color = Color( 0.00784314, 0.392157, 0, 1 )
+border_width_bottom = 10
+border_color = Color( 0.0823529, 0.380392, 0, 1 )
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color( 0.156863, 0.439216, 0, 0.6 )
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0.14902, 0.682353, 0, 1 )
 border_width_bottom = 10
 border_color = Color( 0.0823529, 0.380392, 0, 1 )
 corner_radius_top_left = 10
@@ -246,11 +254,11 @@ margin_left = -130.0
 margin_top = -75.0
 margin_right = 130.0
 rect_min_size = Vector2( 260, 64 )
-custom_styles/hover = SubResource( 5 )
+focus_mode = 0
 custom_styles/pressed = SubResource( 6 )
-custom_styles/focus = SubResource( 5 )
 custom_styles/disabled = SubResource( 7 )
 custom_styles/normal = SubResource( 5 )
+enabled_focus_mode = 0
 
 [node name="CC" type="CenterContainer" parent="ShopButton"]
 anchor_right = 1.0
@@ -293,12 +301,14 @@ margin_left = -130.0
 margin_top = -75.0
 margin_right = 130.0
 rect_min_size = Vector2( 260, 64 )
+focus_mode = 0
 custom_styles/hover = SubResource( 10 )
 custom_styles/pressed = SubResource( 11 )
 custom_styles/focus = SubResource( 10 )
 custom_styles/disabled = SubResource( 11 )
 custom_styles/normal = SubResource( 10 )
 shortcut_in_tooltip = false
+enabled_focus_mode = 0
 
 [node name="Text" type="Label" parent="UseButton"]
 anchor_right = 1.0
@@ -308,6 +318,7 @@ custom_fonts/font = SubResource( 9 )
 text = "USE"
 align = 1
 valign = 1
+
 [connection signal="button_down" from="ItemPanel/ColorButton" to="." method="_on_ColorButton_button_down"]
 [connection signal="button_down" from="ShopButton" to="." method="_on_ShopButton_button_down"]
 [connection signal="button_down" from="UseButton" to="." method="_on_UseButton_button_down"]

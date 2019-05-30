@@ -31,20 +31,14 @@ var _points = []
 var _value = 1
 var _ring_width = 5
 var _selected_index = -1
-var _wheel_pressed = false
 
 signal selected
 
 func _input(event):
 	if(is_visible_in_tree() and (event is InputEventMouseButton or event is InputEventScreenTouch)):
 		if(event.pressed and event.position.distance_to(rect_global_position) <= _radius * _ring_width):
-			_wheel_pressed = true
-			print(1)
-		else:
-			_wheel_pressed = false
-	if is_visible_in_tree() and (event is InputEventMouseMotion or event is InputEventScreenDrag) and _wheel_pressed:
-		_select_color_at(event.position - rect_global_position)
-		get_tree().set_input_as_handled()
+			_select_color_at(event.position - rect_global_position)
+			get_tree().set_input_as_handled()
 
 func _select_color_at(pos):
 	var found = false
@@ -88,7 +82,7 @@ func _draw():
 	if(_selected_index != -1 and _selected_index != null):
 		_draw_pixel(_selected_index, true)
 
-	draw_circle_arc(Vector2(_ring_width -2, _ring_width -2), _radius * _ring_width + 1, 0, 360, Color(0, 0, 0))
+	#draw_circle_arc(Vector2(_ring_width -2, _ring_width -2), _radius * _ring_width + 1, 0, 360, Color(0, 0, 0))
 
 func _set_value(val):
 	for i in range(_points.size()):
