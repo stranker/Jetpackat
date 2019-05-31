@@ -48,12 +48,15 @@ func _input(event):
 		get_tree().set_input_as_handled()
 
 func _select_color_at(pos):
-	for i in range(_points.size()):
+	var i = 0
+	while i < _points.size():
 		var rect = Rect2(_points[i].get_position(),  _pixel_size())
 		if(rect.has_point(pos)):
 			emit_signal('selected', _points[i].color)
 			_selected_index = i
 			break
+		else:
+			i += 1
 	update()
 
 func _pixel_size():

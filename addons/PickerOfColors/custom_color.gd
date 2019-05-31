@@ -14,7 +14,7 @@ func _ready():
 	_color_wheel = ColorWheel.new(size, width)
 	set_selected_color(Color(.5, .5, .5))
 
-	_color_wheel.set_position(Vector2(rect_size.x,rect_size.y)*0.5 - Vector2(width*0.5,width*2))
+	_color_wheel.set_position(Vector2(rect_size.x,rect_size.y)*0.5 - Vector2(width*0.5,width*2 + 20))
 	add_child(_color_wheel)
 	_color_wheel.connect('selected', self, '_on_wheel_selected')
 	_color_wheel.set_index(0)
@@ -38,6 +38,6 @@ func _on_SelectButton_button_down():
 	hide()
 	pass # Replace with function body.
 
-func _on_VSlider_value_changed(value):
+func _on_HSlider_value_changed(value):
 	_color_wheel.set_value(value)
 	pass # Replace with function body.
