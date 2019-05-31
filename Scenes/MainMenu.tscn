@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=2]
+[gd_scene load_steps=56 format=2]
 
 [ext_resource path="res://Scenes/LeaderTest.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Background/Bg1.png" type="Texture" id=2]
@@ -19,17 +19,21 @@
 [ext_resource path="res://Sprites/UI/CreditsButtonPressed.png" type="Texture" id=17]
 [ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=18]
 [ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=19]
-[ext_resource path="res://Sprites/Cat/Skin/Grey.png" type="Texture" id=20]
-[ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=21]
-[ext_resource path="res://Scenes/ConfigPanel.tscn" type="PackedScene" id=22]
-[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=23]
+[ext_resource path="res://Sprites/Cat/Skin/Skin.png" type="Texture" id=20]
+[ext_resource path="res://Sprites/Cat/Scarf/BlackWhite.png" type="Texture" id=21]
+[ext_resource path="res://Sprites/Cat/Eyes.png" type="Texture" id=22]
+[ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=23]
+[ext_resource path="res://Sprites/Shop/Cat/Thruster/Smoke.png" type="Texture" id=24]
+[ext_resource path="res://Sprites/Shop/Cat/Hat/TopHat.png" type="Texture" id=25]
+[ext_resource path="res://Scenes/ConfigPanel.tscn" type="PackedScene" id=26]
+[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=27]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Control
 
 var next_scene = ''
-
 export (PackedScene) var leader
+var easter_cont : int = 0
 
 func _ready():
 	$VersionLabel.text = \"VERSION 0.7\"
@@ -54,12 +58,10 @@ func set_items_equipped():
 	if !GameManager.items_equipped.keys().empty():
 		if GameManager.items_equipped.has('Hat'):
 			$Player/Hat.texture = load('Sprites/Shop/Cat/Hat/'+GameManager.items_equipped['Hat']+'.png')
-		if GameManager.items_equipped.has('Skin'):
-			$Player.texture = load('Sprites/Cat/Skin/'+GameManager.items_equipped['Skin']+'.png')
 		if GameManager.items_equipped.has('Scarf'):
-			$Player/Scarf.texture = load('Sprites/Cat/Scarf/'+GameManager.items_equipped['Scarf']+'.png')
+			$Player/Skin/Scarf.texture = load('Sprites/Cat/Scarf/'+GameManager.items_equipped['Scarf']+'.png')
 		if GameManager.items_equipped.has('Jetpack'):
-			$Player/Jetpack.texture = load('Sprites/Shop/Cat/Jetpack/'+GameManager.items_equipped['Jetpack']+'.png')
+			$Player/Skin/Jetpack.texture = load('Sprites/Shop/Cat/Jetpack/'+GameManager.items_equipped['Jetpack']+'.png')
 	pass
 
 func _on_StartButton_button_down():
@@ -81,8 +83,11 @@ func _on_CreditsButton_button_down():
 func _on_Anim_animation_finished(anim_name):
 	if anim_name == 'FadeOut':
 		get_tree().change_scene(next_scene)
-	elif anim_name == 'Start':
+	if anim_name == 'Start':
 		$Anim.play('Idle')
+	if anim_name == 'Easter':
+		$Anim.play('Start')
+		easter_cont = 0
 	pass # Replace with function body.
 
 func _on_ConfigButton_button_down():
@@ -163,13 +168,27 @@ func _on_AcceptButton_button_down():
 		i.disabled = false
 	pass # Replace with function body.
 
-
 func _on_SC_gui_input(event):
 	if event is InputEventScreenDrag:
 		if event.is_pressed():
 			$Leaderboard/Leaders/SC.scroll_vertical = event.relative.y
 	pass # Replace with function body.
-"
+
+
+func _on_TouchArea_input_event(viewport, event, shape_idx):
+	print(event)
+	if event is InputEventScreenTouch:
+		if event.pressed and event.is_echo() and easter_cont < 5:
+			easter_cont += 1
+			if easter_cont > 4:
+				$Anim.play('Easter')
+	pass # Replace with function body.
+
+func _on_PlayerEasterButton_button_down():
+	easter_cont += 1
+	if easter_cont > 4:
+		$Anim.play('Easter')
+	pass # Replace with function body."
 
 [sub_resource type="Gradient" id=2]
 colors = PoolColorArray( 0.726563, 0.726563, 0.726563, 1, 0, 0, 0, 0 )
@@ -182,25 +201,12 @@ use_filter = true
 extra_spacing_bottom = 20
 font_data = ExtResource( 6 )
 
-[sub_resource type="Gradient" id=4]
-offsets = PoolRealArray( 0, 0.519553, 0.675978, 0.865922, 1 )
-colors = PoolColorArray( 1, 1, 1, 1, 1, 0.914063, 0, 1, 1, 0.521301, 0.0117188, 1, 1, 0, 0, 0.796078, 0, 0, 0, 0 )
+[sub_resource type="Curve" id=28]
+_data = [ Vector2( 0, 0.6144 ), 0.0, -0.624124, 0, 0, Vector2( 1, 0.4032 ), -0.069118, 0.0, 0, 0 ]
 
-[sub_resource type="Animation" id=5]
-length = 1.6
-loop = true
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:region_rect")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ Rect2( 0, 0, 26, 27 ), Rect2( 26, 0, 26, 27 ), Rect2( 52, 0, 26, 27 ), Rect2( 78, 0, 26, 27 ), Rect2( 104, 0, 26, 27 ), Rect2( 78, 0, 26, 27 ), Rect2( 52, 0, 26, 27 ), Rect2( 26, 0, 26, 27 ) ]
-}
+[sub_resource type="Gradient" id=29]
+offsets = PoolRealArray( 0, 0.41358, 0.641975, 0.808642, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 0.960938, 0, 1, 1, 0.773438, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0 )
 
 [sub_resource type="StyleBoxFlat" id=6]
 bg_color = Color( 1, 0.772549, 0, 1 )
@@ -235,14 +241,14 @@ size = 100
 outline_size = 10
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
-font_data = ExtResource( 23 )
+font_data = ExtResource( 27 )
 
 [sub_resource type="DynamicFont" id=9]
 size = 40
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
-font_data = ExtResource( 23 )
+font_data = ExtResource( 27 )
 
 [sub_resource type="StyleBoxFlat" id=10]
 bg_color = Color( 0.803922, 0.623529, 0.00392157, 1 )
@@ -323,7 +329,7 @@ size = 80
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
-font_data = ExtResource( 23 )
+font_data = ExtResource( 27 )
 
 [sub_resource type="StyleBoxFlat" id=17]
 bg_color = Color( 0.615686, 0, 1, 1 )
@@ -342,7 +348,7 @@ size = 60
 outline_size = 7
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
-font_data = ExtResource( 23 )
+font_data = ExtResource( 27 )
 
 [sub_resource type="StyleBoxFlat" id=19]
 bg_color = Color( 0.333333, 0, 0.568627, 1 )
@@ -361,7 +367,7 @@ size = 50
 outline_size = 8
 outline_color = Color( 0, 0, 0, 1 )
 extra_spacing_char = 1
-font_data = ExtResource( 23 )
+font_data = ExtResource( 27 )
 
 [sub_resource type="StyleBoxFlat" id=21]
 bg_color = Color( 0.00392157, 0.552941, 0.109804, 1 )
@@ -386,14 +392,54 @@ size = 46
 outline_size = 4
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
-font_data = ExtResource( 23 )
+font_data = ExtResource( 27 )
 
 [sub_resource type="DynamicFont" id=24]
 size = 28
 outline_size = 3
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
-font_data = ExtResource( 23 )
+font_data = ExtResource( 27 )
+
+[sub_resource type="Animation" id=31]
+resource_name = "Easter"
+length = 8.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Player:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3, 1.4, 2, 3.5, 4, 4.1, 5.5, 6.2, 6.8, 7, 8.1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 0.5, 1 ),
+"update": 0,
+"values": [ Vector2( 781.834, 1559.8 ), Vector2( 839.372, 1666.03 ), Vector2( -510.57, 254.118 ), Vector2( -510.57, 254.118 ), Vector2( 1671.47, 329.361 ), Vector2( 1671.47, 329.361 ), Vector2( 857.076, -812.558 ), Vector2( 640.2, 1090.64 ), Vector2( 560.531, 926.876 ), Vector2( 330.377, 1232.27 ), Vector2( 330.377, 1232.27 ), Vector2( 1907.15, 956.67 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Player:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.3, 1.4, 2, 3.5, 4, 4.1, 5.5, 6.2, 6.8, 7, 8.1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ -16.5552, -23.0016, -23.0016, 29.8746, 29.8746, -7.67741, -160.153, -160.153, -202.399, -259.075, -259.075, -293.221 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Player:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1.4, 2, 3.5, 4.1, 5.5, 6.2, 6.8, 7, 8.1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 1, 1 ), Vector2( -1, 1 ), Vector2( -0.6, 0.6 ), Vector2( 1, 1 ), Vector2( 0.5, 0.5 ), Vector2( 0.5, 0.5 ), Vector2( 0.5, 0.5 ), Vector2( 0.5, 0.5 ), Vector2( 0.5, 0.5 ), Vector2( 1, 1 ) ]
+}
 
 [sub_resource type="Animation" id=25]
 length = 0.5
@@ -411,45 +457,45 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=26]
-length = 4.0
+length = 4.5
 loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("Player:rect_position")
+tracks/0/path = NodePath("Player:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.8, 1.6, 2.4, 3.3 ),
+"times": PoolRealArray( 0, 0.8, 1.9, 2.9, 3.7 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 500, 1180 ), Vector2( 490, 1200 ), Vector2( 500, 1180 ), Vector2( 510, 1210 ), Vector2( 490, 1200 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Player:region_rect")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 1.3, 1.6, 3.8 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 1,
-"values": [ Rect2( 2, 2, 36, 68 ), Rect2( 38, 2, 36, 68 ), Rect2( 2, 2, 36, 68 ), Rect2( 38, 2, 36, 68 ) ]
+"values": [ Vector2( 781.834, 1559.8 ), Vector2( 776.255, 1584.91 ), Vector2( 805.279, 1579.59 ), Vector2( 783.161, 1551.62 ), Vector2( 794.875, 1541.85 ) ]
 }
 
 [sub_resource type="Animation" id=27]
 tracks/0/type = "value"
-tracks/0/path = NodePath("Player:rect_position")
+tracks/0/path = NodePath("Player:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 0.5, 1 ),
+"transitions": PoolRealArray( 0.594604, 1 ),
 "update": 0,
-"values": [ Vector2( 1030, 1960 ), Vector2( 500, 1180 ) ]
+"values": [ Vector2( 1536.47, 2238.09 ), Vector2( 781.834, 1559.8 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Player:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.993296 ),
+"transitions": PoolRealArray( -2, 1 ),
+"update": 0,
+"values": [ -36.1838, -16.5552 ]
 }
 
 [node name="MainMenu" type="Control"]
@@ -623,73 +669,60 @@ texture_pressed = ExtResource( 19 )
 expand = true
 stretch_mode = 5
 
-[node name="Player" type="NinePatchRect" parent="."]
+[node name="Player" type="Node2D" parent="."]
 editor/display_folded = true
-margin_left = 490.888
-margin_top = 1200.44
-margin_right = 834.795
-margin_bottom = 1842.44
-rect_rotation = -15.0
-rect_pivot_offset = Vector2( 205, 225 )
+position = Vector2( 781.834, 1559.8 )
+rotation = -0.288943
+
+[node name="Skin" type="Sprite" parent="Player"]
+scale = Vector2( 10, 10 )
 texture = ExtResource( 20 )
-region_rect = Rect2( 2, 2, 36, 68 )
-patch_margin_right = 2
+hframes = 2
 
-[node name="Jetpack" type="TextureRect" parent="Player"]
-editor/display_folded = true
-show_behind_parent = true
-margin_left = 41.0465
-margin_top = 238.009
-margin_right = 342.046
-margin_bottom = 645.009
-rect_pivot_offset = Vector2( 205, 225 )
+[node name="Scarf" type="Sprite" parent="Player/Skin"]
+position = Vector2( 0, 11 )
 texture = ExtResource( 21 )
-expand = true
-stretch_mode = 6
+hframes = 5
 
-[node name="CPUParticles2D" type="CPUParticles2D" parent="Player/Jetpack"]
+[node name="Eyes" type="Sprite" parent="Player/Skin"]
+position = Vector2( 0, -15 )
+texture = ExtResource( 22 )
+hframes = 7
+
+[node name="Jetpack" type="Sprite" parent="Player/Skin"]
 show_behind_parent = true
-position = Vector2( 201.008, 379.417 )
-rotation = 1.57079
-amount = 100
-texture = ExtResource( 5 )
-emission_shape = 2
-emission_rect_extents = Vector2( 40, 40 )
-spread = 15.0
-flatness = 1.0
+position = Vector2( 1.51094, 12.3033 )
+scale = Vector2( 1, 1 )
+texture = ExtResource( 23 )
+
+[node name="Particles" type="CPUParticles2D" parent="Player/Skin/Jetpack"]
+position = Vector2( 0.197189, 12.9721 )
+rotation = 1.37589
+amount = 50
+lifetime = 0.6
+explosiveness = 0.1
+local_coords = false
+texture = ExtResource( 24 )
 gravity = Vector2( 0, 0 )
-initial_velocity = 500.0
-initial_velocity_random = 0.2
-angle = 360.0
-angle_random = 1.0
-scale_amount = 3.0
-scale_amount_random = 0.5
-color_ramp = SubResource( 4 )
+initial_velocity = 30.0
+damping = 20.0
+scale_amount = 10.0
+scale_amount_curve = SubResource( 28 )
+color_ramp = SubResource( 29 )
 
-[node name="Hat" type="TextureRect" parent="Player"]
-margin_top = -170.0
-margin_right = 311.0
-margin_bottom = 130.0
-rect_min_size = Vector2( 311, 300 )
-rect_clip_content = true
-mouse_filter = 2
-expand = true
-stretch_mode = 6
+[node name="Hat" type="Sprite" parent="Player"]
+position = Vector2( 0, -345.355 )
+scale = Vector2( 6, 6 )
+texture = ExtResource( 25 )
 
-[node name="Scarf" type="NinePatchRect" parent="Player"]
-editor/display_folded = true
-margin_left = 20.4534
-margin_top = 272.703
-margin_right = 281.453
-margin_bottom = 525.703
-rect_clip_content = true
-region_rect = Rect2( 0, 0, 26, 27 )
+[node name="PlayerEasterButton" type="TextureButton" parent="."]
+margin_left = 530.449
+margin_top = 1340.95
+margin_right = 886.449
+margin_bottom = 1889.95
+rect_rotation = -19.284
 
-[node name="Anim" type="AnimationPlayer" parent="Player/Scarf"]
-autoplay = "Fly"
-anims/Fly = SubResource( 5 )
-
-[node name="ConfigPanel" parent="." instance=ExtResource( 22 )]
+[node name="ConfigPanel" parent="." instance=ExtResource( 26 )]
 visible = false
 
 [node name="Leaderboard" type="Panel" parent="."]
@@ -864,6 +897,7 @@ text = "Version"
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Start"
+anims/Easter = SubResource( 31 )
 anims/FadeOut = SubResource( 25 )
 anims/Idle = SubResource( 26 )
 anims/Start = SubResource( 27 )
@@ -885,6 +919,7 @@ texture = ExtResource( 2 )
 [connection signal="button_down" from="PawCat/ConfigButton" to="." method="_on_ConfigButton_button_down"]
 [connection signal="button_down" from="PawCat/CreditsButton" to="." method="_on_CreditsButton_button_down"]
 [connection signal="button_down" from="PawCat/CloseButton" to="." method="_on_CloseButton_button_down"]
+[connection signal="button_down" from="PlayerEasterButton" to="." method="_on_PlayerEasterButton_button_down"]
 [connection signal="gui_input" from="Leaderboard/Leaders/SC" to="." method="_on_SC_gui_input"]
 [connection signal="button_down" from="Leaderboard/CloseLeaderButton" to="." method="_on_CloseLeaderButton_button_down"]
 [connection signal="text_changed" from="NicknamePanel/Nickname" to="." method="_on_LineEdit_text_changed"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://Scenes/ItemShopPanel.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Collectables/Coin.png" type="Texture" id=2]
@@ -11,8 +11,9 @@
 [ext_resource path="res://Sprites/UI/Shop/SkinButton.png" type="Texture" id=9]
 [ext_resource path="res://Sprites/UI/Shop/ScarfButton.png" type="Texture" id=10]
 [ext_resource path="res://Sprites/UI/Shop/JetpackButton.png" type="Texture" id=11]
-[ext_resource path="res://Sprites/Shop/Cat/Skin/Grey.png" type="Texture" id=12]
-[ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=13]
+[ext_resource path="res://Sprites/Shop/Cat/Skin/Skin.png" type="Texture" id=12]
+[ext_resource path="res://Sprites/Cat/Eyes.png" type="Texture" id=13]
+[ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=14]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.247059, 0, 0.388235, 1 )
@@ -91,8 +92,6 @@ func update_equipment():
 			match item:
 				'Hat':
 					set_hat(GameManager.items_equipped[item])
-				'Skin':
-					set_skin(GameManager.items_equipped[item])
 				'Scarf':
 					set_scarf(GameManager.items_equipped[item])
 				'Jetpack':
@@ -113,9 +112,6 @@ func update_buttons_states(type,item):
 
 func set_hat(item):
 	player.get_node('Hat').texture = load('Sprites/Shop/Cat/Hat/'+item+'.png')
-
-func set_skin(item):
-	player.texture = load('Sprites/Shop/Cat/Skin/'+item+'.png')
 
 func set_scarf(item):
 	player.get_node('Scarf').texture = load('Sprites/Shop/Cat/Scarf/'+item+'.png')
@@ -467,7 +463,6 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="PlayerPanel" type="Panel" parent="VBC"]
-editor/display_folded = true
 margin_top = 1320.0
 margin_right = 1080.0
 margin_bottom = 1920.0
@@ -488,7 +483,6 @@ size_flags_vertical = 3
 custom_constants/separation = 10
 
 [node name="Player" type="Panel" parent="VBC/PlayerPanel/HBC"]
-editor/display_folded = true
 margin_right = 455.0
 margin_bottom = 560.0
 size_flags_horizontal = 3
@@ -496,7 +490,6 @@ size_flags_vertical = 3
 custom_styles/panel = SubResource( 10 )
 
 [node name="Skin" type="TextureRect" parent="VBC/PlayerPanel/HBC/Player"]
-editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -511,6 +504,16 @@ size_flags_vertical = 3
 texture = ExtResource( 12 )
 expand = true
 stretch_mode = 6
+
+[node name="Eyes" type="NinePatchRect" parent="VBC/PlayerPanel/HBC/Player/Skin"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -112.0
+margin_top = 24.0
+margin_right = 111.0
+margin_bottom = 244.0
+texture = ExtResource( 13 )
+region_rect = Rect2( 0, 0, 36, 36 )
 
 [node name="Hat" type="TextureRect" parent="VBC/PlayerPanel/HBC/Player/Skin"]
 anchor_left = 0.5
@@ -540,7 +543,7 @@ margin_left = 49.5
 margin_top = 180.0
 margin_right = 272.5
 margin_bottom = 403.0
-texture = ExtResource( 13 )
+texture = ExtResource( 14 )
 expand = true
 stretch_mode = 6
 

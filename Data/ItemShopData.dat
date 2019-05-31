@@ -31,12 +31,13 @@
     }
   },
   "Skin": {
-    "Grey": {
+    "Skin": {
       "buyed": true,
       "id": 0,
       "payment": "Coin",
       "price": 0,
-      "type": "Skin"
+      "type": "Skin",
+	  "color": "#ffffff"
     },
     "Brown": {
       "buyed": false,
