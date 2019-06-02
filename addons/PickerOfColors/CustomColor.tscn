@@ -62,6 +62,7 @@ use_filter = true
 font_data = ExtResource( 3 )
 
 [node name="CustomColor" type="Panel"]
+pause_mode = 2
 margin_right = 570.0
 margin_bottom = 710.0
 mouse_filter = 2
@@ -90,6 +91,7 @@ custom_styles/focus = SubResource( 3 )
 max_value = 1.0
 step = 0.1
 value = 1.0
+ticks_on_borders = true
 
 [node name="SelectButton" type="Button" parent="."]
 anchor_left = 0.5

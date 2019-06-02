@@ -21,6 +21,10 @@ func _ready():
 	_color_wheel.set_value(1)
 	update()
 
+func _process(delta):
+	get_tree().paused = visible
+	pass
+
 func _on_wheel_selected(color):
 	set_selected_color(color)
 	update()

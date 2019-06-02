@@ -121,7 +121,6 @@ func equip_item():
 	$UseButton.disabled = true
 	if color:
 		$ItemPanel/ColorButton.show()
-		set_item_color(GameManager.items_equipped[type][1])
 	pass
 
 func enable_use_button(val):
@@ -135,8 +134,11 @@ func _on_ColorButton_button_down():
 	emit_signal('on_color_button_pressed',self)
 	pass # Replace with function body.
 
-func set_item_color(_color : Color):
-	color = _color.to_html(false)
+func set_item_color(_color):
+	if typeof(_color) != TYPE_STRING:
+		color = _color.to_html(false)
+	else:
+		color = _color
 	$ItemPanel/ItemImage.self_modulate = color
 	update_color_button()
 	pass"

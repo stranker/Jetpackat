@@ -416,12 +416,12 @@ margin_right = 280.0
 margin_bottom = 355.0
 
 [node name="VBB" type="VBoxContainer" parent="VBC/HBC"]
-editor/display_folded = true
 margin_left = 880.0
 margin_right = 1080.0
 margin_bottom = 1315.0
 
 [node name="CloseButton" type="TextureButton" parent="VBC/HBC/VBB"]
+pause_mode = 1
 margin_right = 200.0
 margin_bottom = 160.0
 rect_min_size = Vector2( 0, 160 )
@@ -431,6 +431,7 @@ expand = true
 stretch_mode = 5
 
 [node name="PanelButtons" type="Panel" parent="VBC/HBC/VBB"]
+pause_mode = 1
 margin_top = 164.0
 margin_right = 200.0
 margin_bottom = 1315.0
@@ -439,6 +440,7 @@ size_flags_vertical = 3
 custom_styles/panel = SubResource( 8 )
 
 [node name="Panel" type="VBoxContainer" parent="VBC/HBC/VBB/PanelButtons"]
+editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
