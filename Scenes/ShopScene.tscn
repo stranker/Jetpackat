@@ -248,7 +248,7 @@ corner_radius_top_right = 50
 corner_radius_bottom_right = 50
 corner_radius_bottom_left = 50
 
-[sub_resource type="StyleBoxFlat" id=13]
+[sub_resource type="StyleBoxFlat" id=11]
 bg_color = Color( 1, 1, 1, 1 )
 border_width_left = 5
 border_width_top = 5
@@ -260,7 +260,7 @@ corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
-[sub_resource type="StyleBoxFlat" id=11]
+[sub_resource type="StyleBoxFlat" id=12]
 bg_color = Color( 0.933333, 0.721569, 0, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -272,7 +272,7 @@ corner_radius_top_right = 50
 corner_radius_bottom_right = 50
 corner_radius_bottom_left = 50
 
-[sub_resource type="DynamicFont" id=12]
+[sub_resource type="DynamicFont" id=13]
 size = 56
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
@@ -590,11 +590,11 @@ margin_left = -131.772
 margin_top = 26.5446
 margin_right = -25.7723
 margin_bottom = 80.5446
-custom_styles/hover = SubResource( 13 )
-custom_styles/pressed = SubResource( 13 )
-custom_styles/focus = SubResource( 13 )
-custom_styles/disabled = SubResource( 13 )
-custom_styles/normal = SubResource( 13 )
+custom_styles/hover = SubResource( 11 )
+custom_styles/pressed = SubResource( 11 )
+custom_styles/focus = SubResource( 11 )
+custom_styles/disabled = SubResource( 11 )
+custom_styles/normal = SubResource( 11 )
 
 [node name="Stats" type="Panel" parent="VBC/PlayerPanel/HBC"]
 editor/display_folded = true
@@ -603,7 +603,7 @@ margin_right = 920.0
 margin_bottom = 560.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/panel = SubResource( 11 )
+custom_styles/panel = SubResource( 12 )
 
 [node name="Title" type="Label" parent="VBC/PlayerPanel/HBC/Stats"]
 anchor_left = 0.5
@@ -612,7 +612,7 @@ margin_left = -114.0
 margin_top = 50.0
 margin_right = 114.0
 margin_bottom = 118.0
-custom_fonts/font = SubResource( 12 )
+custom_fonts/font = SubResource( 13 )
 text = "BONUS"
 align = 1
 

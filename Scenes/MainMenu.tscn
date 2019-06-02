@@ -217,10 +217,10 @@ use_filter = true
 extra_spacing_bottom = 20
 font_data = ExtResource( 6 )
 
-[sub_resource type="Curve" id=28]
+[sub_resource type="Curve" id=4]
 _data = [ Vector2( 0, 0.6144 ), 0.0, -0.624124, 0, 0, Vector2( 1, 0.4032 ), -0.069118, 0.0, 0, 0 ]
 
-[sub_resource type="Gradient" id=29]
+[sub_resource type="Gradient" id=5]
 offsets = PoolRealArray( 0, 0.41358, 0.641975, 0.808642, 1 )
 colors = PoolColorArray( 1, 1, 1, 1, 1, 0.960938, 0, 1, 1, 0.773438, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0 )
 
@@ -417,7 +417,7 @@ outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 25 )
 
-[sub_resource type="Animation" id=31]
+[sub_resource type="Animation" id=25]
 resource_name = "Easter"
 length = 8.8
 tracks/0/type = "value"
@@ -457,7 +457,7 @@ tracks/2/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( -1, 1 ), Vector2( -0.6, 0.6 ), Vector2( 1, 1 ), Vector2( 0.5, 0.5 ), Vector2( 0.5, 0.5 ), Vector2( 0.5, 0.5 ), Vector2( 0.5, 0.5 ), Vector2( 0.5, 0.5 ), Vector2( 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=25]
+[sub_resource type="Animation" id=26]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("FadeTexture:modulate")
@@ -472,7 +472,7 @@ tracks/0/keys = {
 "values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
 }
 
-[sub_resource type="Animation" id=26]
+[sub_resource type="Animation" id=27]
 length = 4.5
 loop = true
 tracks/0/type = "value"
@@ -488,7 +488,7 @@ tracks/0/keys = {
 "values": [ Vector2( 781.834, 1559.8 ), Vector2( 776.255, 1584.91 ), Vector2( 805.279, 1579.59 ), Vector2( 783.161, 1551.62 ), Vector2( 794.875, 1541.85 ) ]
 }
 
-[sub_resource type="Animation" id=27]
+[sub_resource type="Animation" id=28]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Player:position")
 tracks/0/interp = 1
@@ -707,7 +707,6 @@ hframes = 7
 [node name="Jetpack" type="Sprite" parent="Player/Skin"]
 show_behind_parent = true
 position = Vector2( 1.51094, 12.3033 )
-scale = Vector2( 1, 1 )
 texture = ExtResource( 22 )
 
 [node name="Particles" type="CPUParticles2D" parent="Player/Skin/Jetpack"]
@@ -722,8 +721,8 @@ gravity = Vector2( 0, 0 )
 initial_velocity = 30.0
 damping = 20.0
 scale_amount = 10.0
-scale_amount_curve = SubResource( 28 )
-color_ramp = SubResource( 29 )
+scale_amount_curve = SubResource( 4 )
+color_ramp = SubResource( 5 )
 
 [node name="Hat" type="Sprite" parent="Player"]
 position = Vector2( 0, -345.355 )
@@ -911,10 +910,10 @@ text = "Version"
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Start"
-anims/Easter = SubResource( 31 )
-anims/FadeOut = SubResource( 25 )
-anims/Idle = SubResource( 26 )
-anims/Start = SubResource( 27 )
+anims/Easter = SubResource( 25 )
+anims/FadeOut = SubResource( 26 )
+anims/Idle = SubResource( 27 )
+anims/Start = SubResource( 28 )
 
 [node name="Tween" type="Tween" parent="."]
 

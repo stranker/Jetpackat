@@ -121,6 +121,7 @@ func equip_item():
 	$UseButton.disabled = true
 	if color:
 		$ItemPanel/ColorButton.show()
+		set_item_color(GameManager.items_equipped[type][1])
 	pass
 
 func enable_use_button(val):
