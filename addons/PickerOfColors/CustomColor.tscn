@@ -27,7 +27,7 @@ expand_margin_right = 5.0
 expand_margin_top = 20.0
 expand_margin_bottom = 20.0
 
-[sub_resource type="StyleBoxFlat" id=7]
+[sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.721569, 0.278431, 1, 1 )
 corner_radius_top_left = 5
 corner_radius_top_right = 5
@@ -63,7 +63,7 @@ font_data = ExtResource( 3 )
 
 [node name="CustomColor" type="Panel"]
 margin_right = 570.0
-margin_bottom = 680.0
+margin_bottom = 710.0
 mouse_filter = 2
 custom_styles/panel = SubResource( 1 )
 script = ExtResource( 1 )
@@ -76,21 +76,20 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -255.0
-margin_top = 155.0
+margin_top = 165.0
 margin_right = 245.0
-margin_bottom = 205.0
+margin_bottom = 215.0
 custom_icons/grabber_disabled = ExtResource( 2 )
 custom_icons/grabber_highlight = ExtResource( 2 )
 custom_icons/grabber = ExtResource( 2 )
 custom_styles/slider = SubResource( 2 )
-custom_styles/grabber_disabled = SubResource( 7 )
-custom_styles/grabber_highlight = SubResource( 7 )
-custom_styles/grabber_area = SubResource( 7 )
-custom_styles/focus = SubResource( 7 )
+custom_styles/grabber_disabled = SubResource( 3 )
+custom_styles/grabber_highlight = SubResource( 3 )
+custom_styles/grabber_area = SubResource( 3 )
+custom_styles/focus = SubResource( 3 )
 max_value = 1.0
 step = 0.1
 value = 1.0
-ticks_on_borders = false
 
 [node name="SelectButton" type="Button" parent="."]
 anchor_left = 0.5

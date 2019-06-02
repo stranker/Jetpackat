@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://Scenes/ItemShopPanel.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Collectables/Coin.png" type="Texture" id=2]
@@ -79,7 +79,7 @@ func _on_TextureButton_button_down():
 	get_tree().change_scene('Scenes/MainMenu.tscn')
 	pass
 
-func enable_last_used_item(type,item_name):
+func enable_last_used_item(type,item_name,color):
 	update_equipment()
 	for i in $VBC/HBC/ShopPanel/PanelItems/Items.get_children():
 		if i.item_name != item_name:
@@ -111,21 +111,33 @@ func update_buttons_states(type,item):
 		i.check_item_state()
 
 func set_hat(item):
-	player.get_node('Hat').texture = load('Sprites/Shop/Cat/Hat/'+item+'.png')
+	if typeof(item) != TYPE_ARRAY:
+		player.get_node('Hat').texture = load('Sprites/Shop/Cat/Hat/'+item+'.png')
+	else:
+		player.get_node('Hat').texture = load('Sprites/Shop/Cat/Hat/'+item[0]+'.png')
 
 func set_scarf(item):
-	player.get_node('Scarf').texture = load('Sprites/Shop/Cat/Scarf/'+item+'.png')
+	if typeof(item) != TYPE_ARRAY:
+		player.get_node('Scarf').texture = load('Sprites/Shop/Cat/Scarf/'+item+'.png')
+	else:
+		player.get_node('Scarf').texture = load('Sprites/Shop/Cat/Scarf/'+item[0]+'.png')
 
 func set_jetpack(item):
-	player.get_node('Jetpack').texture = load('Sprites/Shop/Cat/Jetpack/'+item+'.png')
+	if typeof(item) != TYPE_ARRAY:
+		player.get_node('Jetpack').texture = load('Sprites/Shop/Cat/Jetpack/'+item+'.png')
+	else:
+		player.get_node('Jetpack').texture = load('Sprites/Shop/Cat/Jetpack/'+item[0]+'.png')
 
 func set_thruster(item):
 	pass
 
 func _on_CustomColor_value_changed(c):
-	if current_item_panel:
+	if current_item_panel and typeof(current_item_panel) != TYPE_STRING:
 		current_item_panel.set_item_color(c)
 		update_item_color(current_item_panel.type,c)
+	else:
+		if player:
+			update_item_color('Skin',c)
 	pass # Replace with function body.
 
 func update_item_color(item,color):
@@ -133,16 +145,27 @@ func update_item_color(item,color):
 		player.get_node(item).self_modulate = color
 	else:
 		player.self_modulate = color
+		$VBC/PlayerPanel/HBC/Player/SkinColorButton.self_modulate = color
+		if typeof(color) == TYPE_STRING:
+			GameManager.items_equipped[item][1] = color
+		else:
+			GameManager.items_equipped[item][1] = color.to_html(false)
 	pass
 
 func update_items_equiped_color():
 	for item in GameManager.items_equipped.keys():
 		if item != 'Thruster':
-			if GameManager.item_data[item][GameManager.items_equipped[item]].has('color'):
-				update_item_color(item,GameManager.item_data[item][GameManager.items_equipped[item]]['color'])
+			if typeof(GameManager.items_equipped[item]) == TYPE_ARRAY:
+				update_item_color(item,GameManager.items_equipped[item][1]) # 0 item_name, 1 item_color
 			else:
 				update_item_color(item,Color(1,1,1))
-	pass"
+	pass
+
+func _on_SkinColorButton_button_down():
+	$VBC/HBC/ShopPanel/PanelItems/CustomColor.show()
+	current_item_panel = 'Skin'
+	pass # Replace with function body.
+"
 
 [sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.247059, 0, 0.388235, 1 )
@@ -224,6 +247,18 @@ corner_radius_top_left = 50
 corner_radius_top_right = 50
 corner_radius_bottom_right = 50
 corner_radius_bottom_left = 50
+
+[sub_resource type="StyleBoxFlat" id=13]
+bg_color = Color( 1, 1, 1, 1 )
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color( 0, 0, 0, 1 )
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
 
 [sub_resource type="StyleBoxFlat" id=11]
 bg_color = Color( 0.933333, 0.721569, 0, 1 )
@@ -376,9 +411,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -280.0
-margin_top = -315.0
+margin_top = -355.0
 margin_right = 280.0
-margin_bottom = 315.0
+margin_bottom = 355.0
 
 [node name="VBB" type="VBoxContainer" parent="VBC/HBC"]
 editor/display_folded = true
@@ -483,6 +518,7 @@ size_flags_vertical = 3
 custom_constants/separation = 10
 
 [node name="Player" type="Panel" parent="VBC/PlayerPanel/HBC"]
+editor/display_folded = true
 margin_right = 455.0
 margin_bottom = 560.0
 size_flags_horizontal = 3
@@ -547,6 +583,19 @@ texture = ExtResource( 14 )
 expand = true
 stretch_mode = 6
 
+[node name="SkinColorButton" type="Button" parent="VBC/PlayerPanel/HBC/Player"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -131.772
+margin_top = 26.5446
+margin_right = -25.7723
+margin_bottom = 80.5446
+custom_styles/hover = SubResource( 13 )
+custom_styles/pressed = SubResource( 13 )
+custom_styles/focus = SubResource( 13 )
+custom_styles/disabled = SubResource( 13 )
+custom_styles/normal = SubResource( 13 )
+
 [node name="Stats" type="Panel" parent="VBC/PlayerPanel/HBC"]
 editor/display_folded = true
 margin_left = 465.0
@@ -574,6 +623,7 @@ align = 1
 [connection signal="button_down" from="VBC/HBC/VBB/PanelButtons/Panel/Scarf" to="." method="_on_Scarf_button_down"]
 [connection signal="button_down" from="VBC/HBC/VBB/PanelButtons/Panel/Jetpack" to="." method="_on_Jetpack_button_down"]
 [connection signal="button_down" from="VBC/HBC/VBB/PanelButtons/Panel/Thruster" to="." method="_on_Thruster_button_down"]
+[connection signal="button_down" from="VBC/PlayerPanel/HBC/Player/SkinColorButton" to="." method="_on_SkinColorButton_button_down"]
 
 [editable path="VBC/HBC/VBB/PanelButtons/Panel/Hat"]
 

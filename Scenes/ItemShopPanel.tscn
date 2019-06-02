@@ -20,10 +20,10 @@ var type : String
 var price : int
 var payment : String
 var buyed : bool
-var has_color = false
+var color : Color
 
 signal item_buy(item_type,item_name)
-signal item_equip(item_type,item_name)
+signal item_equip(item_type,item_name,item_color)
 signal on_color_button_pressed(item_panel)
 
 func _ready():
@@ -38,7 +38,6 @@ func set_item_info(iname:String,info : Dictionary):
 	payment = info['payment']
 	buyed = bool(info['buyed'])
 	if info.has('color'):
-		has_color = true
 		set_item_color(info['color'])
 	connect('item_buy',GameManager,'buy_item')
 	connect('item_buy',get_tree().root.get_node('ShopScene'),'update_buttons_states')
@@ -48,7 +47,7 @@ func set_item_info(iname:String,info : Dictionary):
 	configure_panel()
 	pass
 
-func update_color_button(color : Color):
+func update_color_button():
 	var style_box = $ItemPanel/ColorButton.get('custom_styles/normal').duplicate()
 	style_box.set_bg_color(color)
 	$ItemPanel/ColorButton.set('custom_styles/hover', style_box)
@@ -57,6 +56,9 @@ func update_color_button(color : Color):
 	$ItemPanel/ColorButton.set('custom_styles/disabled', style_box)
 	$ItemPanel/ColorButton.set('custom_styles/normal', style_box)
 	GameManager.item_data[type][item_name]['color'] = color.to_html(false)
+	if GameManager.items_equipped.has(type):
+		if GameManager.items_equipped[type][0] == item_name:
+			GameManager.items_equipped[type][1] = color.to_html(false)
 	pass
 
 func configure_panel():
@@ -73,12 +75,16 @@ func check_item_state():
 		$ShopButton.hide()
 		$UseButton.show()
 	if GameManager.items_equipped.has(type):
-		if GameManager.items_equipped[type] == item_name:
-			equip_item()
+		if typeof(GameManager.items_equipped[type]) != TYPE_ARRAY:
+			if GameManager.items_equipped[type] == item_name:
+				equip_item()
+		else:
+			if GameManager.items_equipped[type][0] == item_name:
+				equip_item()
 	pass
 
 func check_button_color():
-	if has_color:
+	if color:
 		$ItemPanel/ColorButton.show()
 	pass
 
@@ -110,10 +116,10 @@ func _on_UseButton_button_down():
 	pass # Replace with function body.
 
 func equip_item():
-	emit_signal('item_equip',type,item_name)
+	emit_signal('item_equip',type,item_name,color)
 	$UseButton/Text.text = \"EQUIPPED\"
 	$UseButton.disabled = true
-	if has_color:
+	if color:
 		$ItemPanel/ColorButton.show()
 	pass
 
@@ -128,9 +134,10 @@ func _on_ColorButton_button_down():
 	emit_signal('on_color_button_pressed',self)
 	pass # Replace with function body.
 
-func set_item_color(color : Color):
+func set_item_color(_color : Color):
+	color = _color.to_html(false)
 	$ItemPanel/ItemImage.self_modulate = color
-	update_color_button(color)
+	update_color_button()
 	pass"
 
 [sub_resource type="StyleBoxFlat" id=3]
@@ -141,6 +148,11 @@ corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
 [sub_resource type="StyleBoxFlat" id=4]
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color( 0, 0, 0, 1 )
 corner_radius_top_left = 10
 corner_radius_top_right = 10
 corner_radius_bottom_right = 10
@@ -234,10 +246,10 @@ stretch_mode = 6
 visible = false
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -74.0174
-margin_top = 4.18121
-margin_right = -5.01743
-margin_bottom = 34.1812
+margin_left = -74.0
+margin_top = 4.0
+margin_right = -5.0
+margin_bottom = 42.0
 custom_styles/hover = SubResource( 4 )
 custom_styles/pressed = SubResource( 4 )
 custom_styles/focus = SubResource( 4 )

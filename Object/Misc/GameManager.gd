@@ -125,8 +125,10 @@ func buy_item(item_type,item_name):
 	save_game_data()
 	pass
 
-func equip_item(item_type,item_name):
+func equip_item(item_type,item_name,color):
 	items_equipped[item_type] = item_name
+	if color:
+		items_equipped[item_type] = [item_name,color]
 	save_game_data()
 	pass
 

@@ -213,16 +213,28 @@ func check_items_equipped():
 	pass
 
 func set_hat(item):
-	$Hat.texture = load('Sprites/Shop/Cat/Hat/'+item+'.png')
+	if typeof(item) != TYPE_ARRAY:
+		$Skin/Hat.texture = load('Sprites/Shop/Cat/Hat/'+item+'.png')
+	else:
+		$Skin/Hat.texture = load('Sprites/Shop/Cat/Hat/'+item[0]+'.png')
+		$Skin/Hat.self_modulate = GameManager.items_equipped['Hat'][1]
 
 func set_skin(item):
-	$Skin.texture = load('Sprites/Cat/Skin/'+item+'.png')
+	$Skin.self_modulate = GameManager.items_equipped['Skin'][1]
 
 func set_scarf(item):
-	$Scarf.texture = load('Sprites/Cat/Scarf/'+item+'.png')
+	if typeof(item) != TYPE_ARRAY:
+		$Scarf.texture = load('Sprites/Cat/Scarf/'+item+'.png')
+	else:
+		$Scarf.texture = load('Sprites/Cat/Scarf/'+item[0]+'.png')
+		$Scarf.self_modulate = GameManager.items_equipped['Scarf'][1]
 
 func set_jetpack(item):
-	$Jetpack.texture = load('Sprites/Shop/Cat/Jetpack/'+item+'.png')"
+	if typeof(item) != TYPE_ARRAY:
+		$Jetpack.texture = load('Sprites/Shop/Cat/Jetpack/'+item+'.png')
+	else:
+		$Jetpack.texture = load('Sprites/Shop/Cat/Jetpack/'+item[0]+'.png')
+		$Jetpack.self_modulate = GameManager.items_equipped['Jetpack'][1]"
 
 [sub_resource type="ShaderMaterial" id=5]
 shader = ExtResource( 4 )
@@ -521,6 +533,18 @@ tracks/2/keys = {
 "update": 0,
 "values": [ Vector2( 0, 0 ) ]
 }
+tracks/3/type = "value"
+tracks/3/path = NodePath("Visible/Skin/Hat:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 2.66666, -22.13 ) ]
+}
 
 [sub_resource type="Animation" id=15]
 resource_name = "Invencible"
@@ -773,11 +797,9 @@ script = SubResource( 3 )
 one_shot = true
 
 [node name="Visible" type="Node2D" parent="."]
-editor/display_folded = true
 script = SubResource( 4 )
 
 [node name="Skin" type="Sprite" parent="Visible"]
-editor/display_folded = true
 material = ExtResource( 1 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 2 )
@@ -789,8 +811,8 @@ texture = ExtResource( 3 )
 hframes = 7
 
 [node name="Hat" type="Sprite" parent="Visible/Skin"]
-position = Vector2( 0.136536, -108.854 )
-rotation = 0.0163139
+position = Vector2( 2.66666, -22.13 )
+rotation = 0.0224156
 scale = Vector2( 0.6, 0.6 )
 offset = Vector2( -3.49275, -23.7578 )
 
