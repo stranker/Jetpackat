@@ -55,45 +55,27 @@ func check_first_game():
 
 func set_items_equipped():
 	$Player/Skin.self_modulate = 'ffffff'
-	$Player/Hat.self_modulate = 'ffffff'
+	$Player/Skin/Hat.self_modulate = 'ffffff'
 	$Player/Skin/Scarf.self_modulate = 'ffffff'
 	$Player/Skin/Jetpack.self_modulate = 'ffffff'
 	if !GameManager.items_equipped.keys().empty():
 		for i in GameManager.items_equipped.keys():
 			set_player_menu_item(i)
-			match i:
-				'Skin':
-					$Player/Skin.self_modulate = GameManager.items_equipped['Skin'][1]
-				'Hat':
-					if typeof(GameManager.items_equipped[i]) != TYPE_ARRAY:
-						$Player/Hat.texture = load('Sprites/Shop/Cat/Hat/'+GameManager.items_equipped['Hat']+'.png')
-					else:
-						$Player/Hat.texture = load('Sprites/Shop/Cat/Hat/'+GameManager.items_equipped['Hat'][0]+'.png')
-						$Player/Hat.self_modulate = GameManager.items_equipped['Hat'][1]
-				'Scarf':
-					if typeof(GameManager.items_equipped[i]) != TYPE_ARRAY:
-						$Player/Skin/Scarf.texture = load('Sprites/Cat/Scarf/'+GameManager.items_equipped['Scarf']+'.png')
-					else:
-						$Player/Skin/Scarf.texture = load('Sprites/Cat/Scarf/'+GameManager.items_equipped['Scarf'][0]+'.png')
-						$Player/Hat.self_modulate = GameManager.items_equipped['Scarf'][1]
-				'Jetpack':
-					if typeof(GameManager.items_equipped[i]) != TYPE_ARRAY:
-						$Player/Skin/Jetpack.texture = load('Sprites/Shop/Cat/Jetpack/'+GameManager.items_equipped['Jetpack']+'.png')
-					else:
-						$Player/Skin/Jetpack.texture = load('Sprites/Shop/Cat/Jetpack/'+GameManager.items_equipped['Jetpack'][0]+'.png')
-						$Player/Hat.self_modulate = GameManager.items_equipped['Jetpack'][1]
 	pass
 
 func set_player_menu_item(item_type):
 	var item_info = GameManager.items_equipped[item_type]
 	var texture_route = 'Sprites/Cat/'
 	if item_type != 'Skin' or item_type != 'Scarf':
-		texture_route = 'Sprites/Shop/'
-	if typeof(item_info) != TYPE_ARRAY:
-		$Player.get_node(item_type).texture = load(texture_route + item_type + item_info + '.png')
+		texture_route = 'Sprites/Shop/Cat/'
+	if item_type == 'Skin':
+		$Player/Skin.self_modulate = item_info[1]
 	else:
-		$Player.get_node(item_type).texture = load(texture_route + item_type + item_info[0] + '.png')
-		$Player.get_node(item_type).self_modulate = item_info[1]
+		if typeof(item_info) != TYPE_ARRAY:
+			$Player/Skin.get_node(item_type).texture = load(texture_route + item_type + '/' + item_info + '.png')
+		else:
+			$Player/Skin.get_node(item_type).texture = load(texture_route + item_type + '/' + item_info[0] + '.png')
+			$Player/Skin.get_node(item_type).self_modulate = item_info[1]
 	pass
 
 func _on_StartButton_button_down():
@@ -741,9 +723,10 @@ scale_amount = 10.0
 scale_amount_curve = SubResource( 4 )
 color_ramp = SubResource( 5 )
 
-[node name="Hat" type="Sprite" parent="Player"]
-position = Vector2( 0, -345.355 )
-scale = Vector2( 6, 6 )
+[node name="Hat" type="Sprite" parent="Player/Skin"]
+position = Vector2( 0, -34.5355 )
+rotation = -2.48353e-008
+scale = Vector2( 0.6, 0.6 )
 
 [node name="PlayerEasterButton" type="TextureButton" parent="."]
 margin_left = 530.449
@@ -942,7 +925,6 @@ margin_right = 1080.0
 margin_bottom = 1920.0
 mouse_filter = 2
 texture = ExtResource( 2 )
-
 [connection signal="button_down" from="PawCat/StartButton" to="." method="_on_StartButton_button_down"]
 [connection signal="button_down" from="PawCat/ShopButton" to="." method="_on_ShopButton_button_down"]
 [connection signal="button_down" from="PawCat/LeaderboardButton" to="." method="_on_LeaderboardButton_button_down"]
