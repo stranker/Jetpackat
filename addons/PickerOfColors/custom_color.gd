@@ -28,7 +28,7 @@ func _process(delta):
 func _on_wheel_selected(color):
 	set_selected_color(color)
 	update()
-	emit_signal("value_changed", color)
+	emit_signal("value_changed", color.to_html())
 
 func set_selected_color(color):
 	_color = color

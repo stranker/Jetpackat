@@ -20,10 +20,13 @@ var type : String
 var price : int
 var payment : String
 var buyed : bool
-var color : Color
+var color
+var using = false
+var has_color = false
 
 signal item_buy(item_type,item_name)
 signal item_equip(item_type,item_name,item_color)
+signal item_unequip(item_type)
 signal on_color_button_pressed(item_panel)
 
 func _ready():
@@ -38,9 +41,11 @@ func set_item_info(iname:String,info : Dictionary):
 	payment = info['payment']
 	buyed = bool(info['buyed'])
 	if info.has('color'):
+		has_color = true
 		set_item_color(info['color'])
 	connect('item_buy',GameManager,'buy_item')
 	connect('item_buy',get_tree().root.get_node('ShopScene'),'update_buttons_states')
+	connect('item_unequip',get_tree().root.get_node('ShopScene'),'unequip_item')
 	connect('item_equip',GameManager,'equip_item')
 	connect('item_equip',get_tree().root.get_node('ShopScene'),'enable_last_used_item')
 	connect('on_color_button_pressed',get_tree().root.get_node('ShopScene'),'open_color_picker')
@@ -55,10 +60,10 @@ func update_color_button():
 	$ItemPanel/ColorButton.set('custom_styles/focus', style_box)
 	$ItemPanel/ColorButton.set('custom_styles/disabled', style_box)
 	$ItemPanel/ColorButton.set('custom_styles/normal', style_box)
-	GameManager.item_data[type][item_name]['color'] = color.to_html(false)
+	GameManager.item_data[type][item_name]['color'] = color
 	if GameManager.items_equipped.has(type):
 		if GameManager.items_equipped[type][0] == item_name:
-			GameManager.items_equipped[type][1] = color.to_html(false)
+			GameManager.items_equipped[type][1] = color
 	pass
 
 func configure_panel():
@@ -84,7 +89,7 @@ func check_item_state():
 	pass
 
 func check_button_color():
-	if color:
+	if has_color:
 		$ItemPanel/ColorButton.show()
 	pass
 
@@ -111,23 +116,33 @@ func _on_ShopButton_button_down():
 	pass # Replace with function body.
 
 func _on_UseButton_button_down():
+	using = !using
 	check_button_color()
-	equip_item()
+	if using:
+		equip_item()
+	else:
+		unequip_item()
 	pass # Replace with function body.
 
 func equip_item():
 	emit_signal('item_equip',type,item_name,color)
-	$UseButton/Text.text = \"EQUIPPED\"
-	$UseButton.disabled = true
-	if color:
-		$ItemPanel/ColorButton.show()
+	check_button_color()
+	$UseButton/Text.text = \"UNEQUIP\"
+	using = true
+	pass
+
+func unequip_item():
+	$UseButton/Text.text = \"USE\"
+	$ItemPanel/ColorButton.hide()
+	GameManager.items_equipped.erase(type)
+	emit_signal('item_unequip',type)
 	pass
 
 func enable_use_button(val):
 	if buyed:
-		$UseButton/Text.text = \"USE\"
-		$UseButton.disabled = !val
-		$ItemPanel/ColorButton.hide()
+		using = val
+		if !using:
+			unequip_item()
 	pass
 
 func _on_ColorButton_button_down():
@@ -135,10 +150,7 @@ func _on_ColorButton_button_down():
 	pass # Replace with function body.
 
 func set_item_color(_color):
-	if typeof(_color) != TYPE_STRING:
-		color = _color.to_html(false)
-	else:
-		color = _color
+	color = _color
 	$ItemPanel/ItemImage.self_modulate = color
 	update_color_button()
 	pass"
@@ -307,6 +319,7 @@ text = "999"
 valign = 1
 
 [node name="UseButton" type="Button" parent="."]
+editor/display_folded = true
 visible = false
 anchor_left = 0.5
 anchor_top = 1.0

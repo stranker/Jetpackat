@@ -6,7 +6,7 @@
       "payment": "Coin",
       "price": 200,
       "type": "Hat",
-	  "color": "#ffffff"
+	  "color": "ffffff"
     },
     "Medieval": {
       "buyed": false,
@@ -37,35 +37,7 @@
       "payment": "Coin",
       "price": 0,
       "type": "Skin",
-	  "color": "#ffffff"
-    },
-    "Brown": {
-      "buyed": false,
-      "id": 1,
-      "payment": "Coin",
-      "price": 300,
-      "type": "Skin"
-    },
-    "Tiger": {
-      "buyed": false,
-      "id": 2,
-      "payment": "Coin",
-      "price": 400,
-      "type": "Skin"
-    },
-    "SkinInked": {
-      "buyed": false,
-      "id": 3,
-      "payment": "Fish",
-      "price": 30,
-      "type": "Skin"
-    },
-    "Masked": {
-      "buyed": false,
-      "id": 4,
-      "payment": "Coin",
-      "price": 500,
-      "type": "Skin"
+	  "color": "ffffff"
     }
   },
   "Scarf": {
