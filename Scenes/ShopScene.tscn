@@ -497,6 +497,7 @@ size_flags_vertical = 3
 custom_constants/separation = 10
 
 [node name="Player" type="Panel" parent="VBC/PlayerPanel/HBC"]
+editor/display_folded = true
 margin_right = 455.0
 margin_bottom = 560.0
 size_flags_horizontal = 3

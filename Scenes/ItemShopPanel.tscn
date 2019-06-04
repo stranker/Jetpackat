@@ -125,13 +125,14 @@ func _on_UseButton_button_down():
 	pass # Replace with function body.
 
 func equip_item():
+	using = true
 	emit_signal('item_equip',type,item_name,color)
 	check_button_color()
 	$UseButton/Text.text = \"UNEQUIP\"
-	using = true
 	pass
 
 func unequip_item():
+	using = false
 	$UseButton/Text.text = \"USE\"
 	$ItemPanel/ColorButton.hide()
 	GameManager.items_equipped.erase(type)
@@ -140,9 +141,10 @@ func unequip_item():
 
 func enable_use_button(val):
 	if buyed:
-		using = val
-		if !using:
-			unequip_item()
+		if val:
+			using = false
+			$UseButton/Text.text = \"USE\"
+			$ItemPanel/ColorButton.hide()
 	pass
 
 func _on_ColorButton_button_down():
@@ -346,7 +348,6 @@ custom_fonts/font = SubResource( 9 )
 text = "USE"
 align = 1
 valign = 1
-
 [connection signal="button_down" from="ItemPanel/ColorButton" to="." method="_on_ColorButton_button_down"]
 [connection signal="button_down" from="ShopButton" to="." method="_on_ShopButton_button_down"]
 [connection signal="button_down" from="UseButton" to="." method="_on_UseButton_button_down"]
