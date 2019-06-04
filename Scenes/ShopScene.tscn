@@ -477,7 +477,6 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="PlayerPanel" type="Panel" parent="VBC"]
-editor/display_folded = true
 margin_top = 1320.0
 margin_right = 1080.0
 margin_bottom = 1920.0
@@ -530,13 +529,16 @@ margin_bottom = 244.0
 texture = ExtResource( 13 )
 region_rect = Rect2( 0, 0, 36, 36 )
 
-[node name="Hat" type="TextureRect" parent="VBC/PlayerPanel/HBC/Player/Skin"]
+[node name="Pattern" type="TextureRect" parent="VBC/PlayerPanel/HBC/Player/Skin"]
 anchor_left = 0.5
+anchor_top = 0.5
 anchor_right = 0.5
-margin_left = -148.0
-margin_top = -113.0
-margin_right = 150.0
-margin_bottom = 92.0
+anchor_bottom = 0.5
+margin_left = -130.0
+margin_top = -208.0
+margin_right = 130.0
+margin_bottom = 208.0
+rect_min_size = Vector2( 260, 416 )
 expand = true
 stretch_mode = 6
 
@@ -552,6 +554,16 @@ margin_bottom = 140.0
 expand = true
 stretch_mode = 6
 
+[node name="Hat" type="TextureRect" parent="VBC/PlayerPanel/HBC/Player/Skin"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -148.0
+margin_top = -113.0
+margin_right = 150.0
+margin_bottom = 92.0
+expand = true
+stretch_mode = 6
+
 [node name="Jetpack" type="TextureRect" parent="VBC/PlayerPanel/HBC/Player/Skin"]
 show_behind_parent = true
 margin_left = 49.5
@@ -559,19 +571,6 @@ margin_top = 180.0
 margin_right = 272.5
 margin_bottom = 403.0
 texture = ExtResource( 14 )
-expand = true
-stretch_mode = 6
-
-[node name="Pattern" type="TextureRect" parent="VBC/PlayerPanel/HBC/Player/Skin"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -130.0
-margin_top = -208.0
-margin_right = 130.0
-margin_bottom = 208.0
-rect_min_size = Vector2( 260, 416 )
 expand = true
 stretch_mode = 6
 
@@ -607,7 +606,6 @@ margin_bottom = 118.0
 custom_fonts/font = SubResource( 13 )
 text = "BONUS"
 align = 1
-
 [connection signal="value_changed" from="VBC/HBC/ShopPanel/PanelItems/CustomColor" to="." method="_on_CustomColor_value_changed"]
 [connection signal="button_down" from="VBC/HBC/VBB/CloseButton" to="." method="_on_TextureButton_button_down"]
 [connection signal="button_down" from="VBC/HBC/VBB/PanelButtons/Panel/Hat" to="." method="_on_Hat_button_down"]

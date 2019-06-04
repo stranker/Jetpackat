@@ -213,7 +213,7 @@ extra_spacing_bottom = 20
 font_data = ExtResource( 6 )
 
 [sub_resource type="Curve" id=4]
-_data = [ Vector2( 0, 0.6144 ), 0.0, -0.624124, 0, 0, Vector2( 1, 0.4032 ), -0.069118, 0.0, 0, 0 ]
+_data = [ Vector2( 0, 0.412 ), 0.0, 0.138585, 0, 0, Vector2( 1, 0.7728 ), 1.51742, 0.0, 0, 0 ]
 
 [sub_resource type="Gradient" id=5]
 offsets = PoolRealArray( 0, 0.41358, 0.641975, 0.808642, 1 )
@@ -706,7 +706,7 @@ texture = ExtResource( 22 )
 gravity = Vector2( 0, 0 )
 initial_velocity = 30.0
 damping = 20.0
-scale_amount = 10.0
+scale_amount = 4.0
 scale_amount_curve = SubResource( 4 )
 color_ramp = SubResource( 5 )
 

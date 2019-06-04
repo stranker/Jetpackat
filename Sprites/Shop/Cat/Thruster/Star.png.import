@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/GreenRed.png-c401e20a8f7257cf826b962cb0d4f22c.stex"
+path="res://.import/Star.png-d44ff11228696ac108d5c91325cd6b5a.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Shop/Cat/Scarf/GreenRed.png"
-dest_files=[ "res://.import/GreenRed.png-c401e20a8f7257cf826b962cb0d4f22c.stex" ]
+source_file="res://Sprites/Shop/Cat/Thruster/Star.png"
+dest_files=[ "res://.import/Star.png-d44ff11228696ac108d5c91325cd6b5a.stex" ]
 
 [params]
 
