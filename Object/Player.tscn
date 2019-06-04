@@ -1039,25 +1039,25 @@ default_length = 8.0
 
 [node name="Bone2D2" type="Bone2D" parent="Visible/Scarf/Skeleton/Bone2D"]
 position = Vector2( 4.45781, 2.98849 )
-rotation = 0.96372
+rotation = 0.963576
 rest = Transform2D( 0.586103, 0.810236, -0.810236, 0.586103, 4.45781, 2.98849 )
 default_length = 8.0
 
 [node name="Bone2D3" type="Bone2D" parent="Visible/Scarf/Skeleton/Bone2D/Bone2D2"]
 position = Vector2( 4.18018, -4.86688 )
-rotation = 1.21933
+rotation = 1.21785
 rest = Transform2D( 0.67061, 0.74181, -0.74181, 0.67061, 3.57852, -4.91684 )
 default_length = 8.0
 
 [node name="Bone2D4" type="Bone2D" parent="Visible/Scarf/Skeleton/Bone2D/Bone2D2/Bone2D3"]
 position = Vector2( 4.56931, -0.234917 )
-rotation = -1.0588
+rotation = -1.06743
 rest = Transform2D( 0.998688, 0.0512074, -0.0512074, 0.998688, 4.56931, -0.234917 )
 default_length = 6.0
 
 [node name="Bone2D5" type="Bone2D" parent="Visible/Scarf/Skeleton/Bone2D/Bone2D2/Bone2D3/Bone2D4"]
 position = Vector2( 6.20966, 0.0968933 )
-rotation = 0.888981
+rotation = 0.918733
 rest = Transform2D( 1, 0, 0, 1, 6.20966, 0.0968933 )
 default_length = 6.0
 

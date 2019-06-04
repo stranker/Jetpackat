@@ -1,0 +1,52 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Sprites/UI/FuelChimi.png" type="Texture" id=1]
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends Sprite
+
+func _ready():
+	$Tween.start()
+	pass # Replace with function body.
+
+func _process(delta):
+	rotation += delta * 10
+	pass
+
+
+func _on_Tween_tween_completed(object, key):
+	queue_free()
+	pass # Replace with function body.
+"
+
+[sub_resource type="Curve" id=1]
+max_value = 2.0
+_data = [ Vector2( 0, 0.8344 ), 0.0, 0.110031, 0, 0, Vector2( 1, 2 ), 2.86879, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=2]
+offsets = PoolRealArray( 0.119205, 0.443709, 0.675497, 1 )
+colors = PoolColorArray( 0.988281, 0.926514, 0, 1, 0.972656, 0.341949, 0, 1, 1, 0.09375, 0, 1, 0, 0, 0, 0 )
+
+[node name="FuelChimi" type="Sprite"]
+self_modulate = Color( 0.929412, 0.564706, 0, 1 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 1 )
+script = SubResource( 3 )
+
+[node name="Particles" type="CPUParticles2D" parent="."]
+rotation = 1.59007
+amount = 16
+local_coords = false
+texture = ExtResource( 1 )
+spread = 10.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 20.0
+angular_velocity = 100.0
+damping = 10.0
+angle = 360.0
+angle_random = 1.0
+scale_amount_curve = SubResource( 1 )
+color_ramp = SubResource( 2 )
+
+[node name="Tween" type="Tween" parent="."]
+[connection signal="tween_completed" from="Tween" to="." method="_on_Tween_tween_completed"]

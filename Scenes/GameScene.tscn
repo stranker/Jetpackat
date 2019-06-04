@@ -216,6 +216,7 @@ func _ready():
 	$Container/PausePanel.hide()
 	$Container/DeadPanel.hide()
 	$Container/Transition/Anim.play('FadeOut')
+	GameManager.fuelbar_position = $Container/FuelBar.rect_global_position
 	pass
 
 func _process(delta):
@@ -886,7 +887,6 @@ centered = false
 position = Vector2( 569.5, 830 )
 
 [node name="UIGame" type="CanvasLayer" parent="."]
-editor/display_folded = true
 script = SubResource( 6 )
 
 [node name="Container" type="Control" parent="UIGame"]
@@ -1081,6 +1081,7 @@ margin_bottom = 51.0
 custom_styles/panel = SubResource( 18 )
 
 [node name="FuelBar" type="TextureProgress" parent="UIGame/Container"]
+editor/display_folded = true
 show_behind_parent = true
 anchor_left = 0.5
 anchor_right = 0.5
@@ -1409,7 +1410,6 @@ min_height_tutorial = 12
 
 [node name="CoinTimer" type="Timer" parent="."]
 one_shot = true
-
 [connection signal="screen_exited" from="House/VisibilityNotifier2D" to="House" method="_on_VisibilityNotifier2D_screen_exited"]
 [connection signal="button_down" from="UIGame/Container/PauseButton" to="UIGame" method="_on_PauseButton_button_down"]
 [connection signal="button_down" from="UIGame/Container/DeadPanel/RestartButton" to="." method="_on_RestartButton_button_down"]
