@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://Shaders/OutlineShaderResource.tres" type="Material" id=1]
 [ext_resource path="res://Sprites/Cat/Skin/Skin.png" type="Texture" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Shaders/outline.shader" type="Shader" id=4]
 [ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/Shop/Cat/Thruster/Smoke.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/Shop/Cat/Scarf/TwoColor.png" type="Texture" id=7]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends KinematicBody2D
@@ -53,10 +54,17 @@ func _physics_process(delta):
 	pass
 
 func _process(delta):
-	check_boundaries()
-	if !is_on_floor():
-		emit_signal('current_height',int(abs(position.y) * 0.01))
-	$Visible/Jetpack/Thruster.emitting = velocity.x != 0
+	if activated:
+		check_boundaries()
+		if !is_on_floor():
+			emit_signal('current_height',int(abs(position.y) * 0.01))
+			if velocity.y < 450:
+				$Visible/Scarf/Anim.play('Flying')
+			else:
+				$Visible/Scarf/Anim.play('Falling')
+		else:
+			$Visible/Scarf/Anim.play('Idle')
+		$Visible/Jetpack/Thruster.emitting = velocity.x != 0
 	pass
 
 func check_boundaries():
@@ -71,6 +79,7 @@ func check_is_active():
 		activated = !activated
 		emit_signal('start_playing')
 		set_physics_process(activated)
+		$Visible/Scarf/Anim.play('Flying')
 	pass
 
 func take_damage():
@@ -105,7 +114,6 @@ func jump(jforce : int):
 	velocity.y = -jforce
 	check_jump_direction()
 	$Visible/Jetpack/Anim.play('Propulsion')
-	$Visible/Scarf/Anim.play('Flying')
 	pass
 
 func check_jump_direction():
@@ -245,7 +253,8 @@ func set_jetpack(item):
 		$Jetpack.texture = load('Sprites/Shop/Cat/Jetpack/'+item+'.png')
 	else:
 		$Jetpack.texture = load('Sprites/Shop/Cat/Jetpack/'+item[0]+'.png')
-		$Jetpack.self_modulate = GameManager.items_equipped['Jetpack'][1]"
+		$Jetpack.self_modulate = GameManager.items_equipped['Jetpack'][1]
+"
 
 [sub_resource type="ShaderMaterial" id=5]
 shader = ExtResource( 4 )
@@ -287,8 +296,47 @@ tracks/0/keys = {
 [sub_resource type="CircleShape2D" id=10]
 radius = 117.38
 
+[sub_resource type="Animation" id=19]
+resource_name = "Falling"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Skeleton/Bone2D/Bone2D2/Bone2D3:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 48.0949, -104.739, -95.0432, -93.6581, -87.1755, -95.0432, -93.6581, -87.1755, -93.6581 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Skeleton/Bone2D/Bone2D2/Bone2D3/Bone2D4:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ -1.47717, -26.3669, -59.2276, -92.2896, -19.8421, -59.2276, -92.2896, -19.8421, -92.2896 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Skeleton/Bone2D/Bone2D2/Bone2D3/Bone2D4/Bone2D5:rotation_degrees")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 6.06401, -20.8268, 32.9491, 86.1725, -73.9872, 32.9491, 86.1725, -73.9872, 86.1725 ]
+}
+
 [sub_resource type="Animation" id=11]
-length = 1.1
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Skeleton/Bone2D/Bone2D2:rotation_degrees")
@@ -297,10 +345,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.4, 0.8 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ 55.6518, 55.3809, 54.9756 ]
+"values": [ 55.6518, 55.3809, 54.9756, 55.201, 55.4264 ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Skeleton/Bone2D/Bone2D2/Bone2D3:rotation_degrees")
@@ -309,10 +357,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.4, 0.8 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ 48.0949, 44.7141, 51.049 ]
+"values": [ 48.0949, 72.8037, 52.2292, 69.6968, 72.0195 ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("Skeleton/Bone2D/Bone2D2/Bone2D3/Bone2D4:rotation_degrees")
@@ -321,10 +369,10 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.4, 0.8 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ -1.47717, 31.0151, 1.76757 ]
+"values": [ -1.47717, 14.7402, -25.1026, -61.6306, -48.0755 ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("Skeleton/Bone2D/Bone2D2/Bone2D3/Bone2D4/Bone2D5:rotation_degrees")
@@ -333,10 +381,10 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 0.4, 0.8 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.4, 0.6, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ 6.06401, -42.0548, -60.0584 ]
+"values": [ 6.06401, -70.6719, 54.2652, 7.53509 ]
 }
 
 [sub_resource type="Animation" id=12]
@@ -963,7 +1011,7 @@ shape = SubResource( 10 )
 [node name="Scarf" type="Polygon2D" parent="Visible"]
 position = Vector2( -39.8734, -10.5546 )
 scale = Vector2( 3, 3 )
-color = Color( 1, 1, 1, 0 )
+texture = ExtResource( 7 )
 skeleton = NodePath("Skeleton")
 polygon = PoolVector2Array( 9.25, 24.25, 11.75, 19.75, 13.5, 16, 15, 11.75, 2.75, 11, 0.75, 6.75, 2.5, 1.25, 7.5, 0, 12.25, 1.75, 22.75, 0.5, 26.25, 4, 25, 8.75, 22.75, 12.5, 21.25, 16.5, 20, 21.25, 17.75, 27.25 )
 uv = PoolVector2Array( 9.25, 24.25, 11.75, 19.75, 13.5, 16, 15, 11.75, 2.75, 11, 0.75, 6.75, 2.5, 1.25, 7.5, 0, 12.25, 1.75, 22.75, 0.5, 26.25, 4, 25, 8.75, 22.75, 12.5, 21.25, 16.5, 20, 21.25, 17.75, 27.25 )
@@ -972,11 +1020,11 @@ bones = [ NodePath("Bone2D"), PoolRealArray( 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0,
 
 [node name="Anim" type="AnimationPlayer" parent="Visible/Scarf"]
 autoplay = "Idle"
+anims/Falling = SubResource( 19 )
 anims/Flying = SubResource( 11 )
 anims/Idle = SubResource( 12 )
 
 [node name="Skeleton" type="Skeleton2D" parent="Visible/Scarf"]
-editor/display_folded = true
 position = Vector2( 3.53373, 2.46481 )
 rotation = 0.146013
 __meta__ = {
@@ -991,25 +1039,25 @@ default_length = 8.0
 
 [node name="Bone2D2" type="Bone2D" parent="Visible/Scarf/Skeleton/Bone2D"]
 position = Vector2( 4.45781, 2.98849 )
-rotation = 0.97001
+rotation = 0.96372
 rest = Transform2D( 0.586103, 0.810236, -0.810236, 0.586103, 4.45781, 2.98849 )
 default_length = 8.0
 
 [node name="Bone2D3" type="Bone2D" parent="Visible/Scarf/Skeleton/Bone2D/Bone2D2"]
-position = Vector2( 3.57852, -4.91684 )
-rotation = 0.823218
+position = Vector2( 4.18018, -4.86688 )
+rotation = 1.21933
 rest = Transform2D( 0.67061, 0.74181, -0.74181, 0.67061, 3.57852, -4.91684 )
 default_length = 8.0
 
 [node name="Bone2D4" type="Bone2D" parent="Visible/Scarf/Skeleton/Bone2D/Bone2D2/Bone2D3"]
 position = Vector2( 4.56931, -0.234917 )
-rotation = 0.129879
+rotation = -1.0588
 rest = Transform2D( 0.998688, 0.0512074, -0.0512074, 0.998688, 4.56931, -0.234917 )
 default_length = 6.0
 
 [node name="Bone2D5" type="Bone2D" parent="Visible/Scarf/Skeleton/Bone2D/Bone2D2/Bone2D3/Bone2D4"]
 position = Vector2( 6.20966, 0.0968933 )
-rotation = -0.124686
+rotation = 0.888981
 rest = Transform2D( 1, 0, 0, 1, 6.20966, 0.0968933 )
 default_length = 6.0
 
