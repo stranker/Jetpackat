@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=2]
+[gd_scene load_steps=54 format=2]
 
 [ext_resource path="res://Scenes/LeaderTest.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Background/Bg1.png" type="Texture" id=2]
@@ -20,12 +20,11 @@
 [ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=18]
 [ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=19]
 [ext_resource path="res://Sprites/Cat/Skin/Skin.png" type="Texture" id=20]
-[ext_resource path="res://Sprites/Shop/Cat/Pattern/Tigger.png" type="Texture" id=21]
-[ext_resource path="res://Sprites/Cat/Eyes.png" type="Texture" id=22]
-[ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=23]
-[ext_resource path="res://Sprites/Shop/Cat/Thruster/Smoke.png" type="Texture" id=24]
-[ext_resource path="res://Scenes/ConfigPanel.tscn" type="PackedScene" id=25]
-[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=26]
+[ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=21]
+[ext_resource path="res://Sprites/Shop/Cat/Thruster/Smoke.png" type="Texture" id=22]
+[ext_resource path="res://Sprites/Cat/Eyes.png" type="Texture" id=23]
+[ext_resource path="res://Scenes/ConfigPanel.tscn" type="PackedScene" id=24]
+[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=25]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Control
@@ -253,14 +252,14 @@ size = 100
 outline_size = 10
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
-font_data = ExtResource( 26 )
+font_data = ExtResource( 25 )
 
 [sub_resource type="DynamicFont" id=9]
 size = 40
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
-font_data = ExtResource( 26 )
+font_data = ExtResource( 25 )
 
 [sub_resource type="StyleBoxFlat" id=10]
 bg_color = Color( 0.803922, 0.623529, 0.00392157, 1 )
@@ -341,7 +340,7 @@ size = 80
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
-font_data = ExtResource( 26 )
+font_data = ExtResource( 25 )
 
 [sub_resource type="StyleBoxFlat" id=17]
 bg_color = Color( 0.615686, 0, 1, 1 )
@@ -360,7 +359,7 @@ size = 60
 outline_size = 7
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
-font_data = ExtResource( 26 )
+font_data = ExtResource( 25 )
 
 [sub_resource type="StyleBoxFlat" id=19]
 bg_color = Color( 0.333333, 0, 0.568627, 1 )
@@ -379,7 +378,7 @@ size = 50
 outline_size = 8
 outline_color = Color( 0, 0, 0, 1 )
 extra_spacing_char = 1
-font_data = ExtResource( 26 )
+font_data = ExtResource( 25 )
 
 [sub_resource type="StyleBoxFlat" id=21]
 bg_color = Color( 0.00392157, 0.552941, 0.109804, 1 )
@@ -404,14 +403,14 @@ size = 46
 outline_size = 4
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
-font_data = ExtResource( 26 )
+font_data = ExtResource( 25 )
 
 [sub_resource type="DynamicFont" id=24]
 size = 28
 outline_size = 3
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
-font_data = ExtResource( 26 )
+font_data = ExtResource( 25 )
 
 [sub_resource type="Animation" id=25]
 resource_name = "Easter"
@@ -690,23 +689,11 @@ scale = Vector2( 10, 10 )
 texture = ExtResource( 20 )
 hframes = 2
 
-[node name="Scarf" type="Sprite" parent="Player/Skin"]
-position = Vector2( 0, 11 )
-hframes = 5
-
-[node name="Pattern" type="Sprite" parent="Player/Skin"]
-texture = ExtResource( 21 )
-
-[node name="Eyes" type="Sprite" parent="Player/Skin"]
-position = Vector2( 0, -15 )
-texture = ExtResource( 22 )
-hframes = 7
-
 [node name="Jetpack" type="Sprite" parent="Player/Skin"]
 editor/display_folded = true
 show_behind_parent = true
 position = Vector2( 1.51094, 12.3033 )
-texture = ExtResource( 23 )
+texture = ExtResource( 21 )
 
 [node name="Particles" type="CPUParticles2D" parent="Player/Skin/Jetpack"]
 position = Vector2( 0.197189, 12.9721 )
@@ -715,13 +702,23 @@ amount = 50
 lifetime = 0.6
 explosiveness = 0.1
 local_coords = false
-texture = ExtResource( 24 )
+texture = ExtResource( 22 )
 gravity = Vector2( 0, 0 )
 initial_velocity = 30.0
 damping = 20.0
 scale_amount = 10.0
 scale_amount_curve = SubResource( 4 )
 color_ramp = SubResource( 5 )
+
+[node name="Pattern" type="Sprite" parent="Player/Skin"]
+
+[node name="Scarf" type="Sprite" parent="Player/Skin"]
+position = Vector2( -1, 9.00002 )
+
+[node name="Eyes" type="Sprite" parent="Player/Skin"]
+position = Vector2( 0, -15 )
+texture = ExtResource( 23 )
+hframes = 7
 
 [node name="Hat" type="Sprite" parent="Player/Skin"]
 position = Vector2( 0, -34.5355 )
@@ -735,7 +732,7 @@ margin_right = 886.449
 margin_bottom = 1889.95
 rect_rotation = -19.284
 
-[node name="ConfigPanel" parent="." instance=ExtResource( 25 )]
+[node name="ConfigPanel" parent="." instance=ExtResource( 24 )]
 visible = false
 
 [node name="Leaderboard" type="Panel" parent="."]

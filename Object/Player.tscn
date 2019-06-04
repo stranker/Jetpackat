@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://Shaders/OutlineShaderResource.tres" type="Material" id=1]
 [ext_resource path="res://Sprites/Cat/Skin/Skin.png" type="Texture" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Shaders/outline.shader" type="Shader" id=4]
 [ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/Shop/Cat/Thruster/Smoke.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/Shop/Cat/Scarf/ColorScarf.png" type="Texture" id=7]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends KinematicBody2D
@@ -279,18 +280,6 @@ radius = 117.38
 [sub_resource type="Animation" id=11]
 length = 0.6
 loop = true
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ 0, 1, 2, 3, 2, 1 ]
-}
 
 [sub_resource type="Animation" id=12]
 length = 0.1
@@ -458,7 +447,7 @@ tracks/11/keys = {
 } ]
 }
 tracks/12/type = "value"
-tracks/12/path = NodePath("Visible/Scarf:position")
+tracks/12/path = NodePath("Visible/w:position")
 tracks/12/interp = 1
 tracks/12/loop_wrap = true
 tracks/12/imported = false
@@ -470,7 +459,7 @@ tracks/12/keys = {
 "values": [ Vector2( -1.28699, 31.5151 ), Vector2( 81.6702, -100.299 ), Vector2( 115.153, 160.391 ), Vector2( 146.245, 569.363 ) ]
 }
 tracks/13/type = "value"
-tracks/13/path = NodePath("Visible/Scarf:rotation_degrees")
+tracks/13/path = NodePath("Visible/w:rotation_degrees")
 tracks/13/interp = 1
 tracks/13/loop_wrap = true
 tracks/13/imported = false
@@ -709,7 +698,7 @@ tracks/8/keys = {
 "values": [ Vector2( -17.937, -546.416 ), Vector2( -13.278, -224.945 ) ]
 }
 tracks/9/type = "value"
-tracks/9/path = NodePath("Visible/Scarf:position")
+tracks/9/path = NodePath("Visible/w:position")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/imported = false
@@ -721,7 +710,7 @@ tracks/9/keys = {
 "values": [ Vector2( -1.28699, 31.5151 ), Vector2( 4.41547, -145.863 ), Vector2( 45.7015, 249.22 ) ]
 }
 tracks/10/type = "value"
-tracks/10/path = NodePath("Visible/Scarf:rotation_degrees")
+tracks/10/path = NodePath("Visible/w:rotation_degrees")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/imported = false
@@ -800,6 +789,7 @@ one_shot = true
 script = SubResource( 4 )
 
 [node name="Skin" type="Sprite" parent="Visible"]
+editor/display_folded = true
 material = ExtResource( 1 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 2 )
@@ -862,16 +852,53 @@ editor/display_folded = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Visible/MagnetArea"]
 shape = SubResource( 10 )
 
-[node name="Scarf" type="Sprite" parent="Visible"]
+[node name="w" type="Polygon2D" parent="Visible"]
 editor/display_folded = true
-position = Vector2( -1.28699, 31.5151 )
+position = Vector2( -50.8617, -21.3584 )
 scale = Vector2( 3, 3 )
-hframes = 5
+texture = ExtResource( 7 )
+skeleton = NodePath("Skeleton2D")
+polygon = PoolVector2Array( 12.75, 29, 19, 30.75, 23, 28.25, 24.25, 21.75, 25.75, 16, 29, 12.25, 28.75, 6.25, 21.25, 5, 13, 5.25, 6, 4, 1.75, 8.75, 5.25, 14.75, 13.75, 15, 18.25, 14.75, 16.5, 20.75 )
+uv = PoolVector2Array( 12.5, 29, 18, 31.75, 23, 28.25, 24.25, 21.75, 25.75, 16, 29, 12.25, 28.75, 6.25, 21.25, 5, 13, 5.25, 6, 4, 1.75, 8.75, 5.25, 14.75, 13.75, 15, 18.25, 14.75, 16.5, 20.75 )
+polygons = [ PoolIntArray( 10, 9, 8, 7, 6, 5 ), PoolIntArray( 10, 11, 12, 13, 4, 5 ), PoolIntArray( 13, 14, 3, 4 ), PoolIntArray( 14, 2, 3 ), PoolIntArray( 14, 0, 1, 2 ) ]
+bones = [ NodePath("Bone2D"), PoolRealArray( 0, 0, 0, 0, 0, 0.65, 0.65, 0.65, 0.65, 0.65, 0.65, 0, 0, 0, 0 ), NodePath("Bone2D/Bone2D2"), PoolRealArray( 0, 0, 0, 0, 1, 0.87, 0, 0, 0, 0, 0, 1, 1, 1, 0 ), NodePath("Bone2D/Bone2D2/Bone2D3"), PoolRealArray( 0, 0, 0, 1, 0.29, 0, 0, 0, 0, 0, 0, 0, 0, 0.58, 1 ), NodePath("Bone2D/Bone2D2/Bone2D3/Bone2D4"), PoolRealArray( 0.87, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ) ]
 
-[node name="Anim" type="AnimationPlayer" parent="Visible/Scarf"]
+[node name="Anim" type="AnimationPlayer" parent="Visible/w"]
 autoplay = "Idle"
 anims/Flying = SubResource( 11 )
 anims/Idle = SubResource( 12 )
+
+[node name="Skeleton" type="Skeleton2D" parent="Visible/w"]
+editor/display_folded = true
+position = Vector2( 10.9896, 7.81195 )
+rotation = 0.146013
+__meta__ = {
+"_edit_bone_": true
+}
+
+[node name="Bone2D" type="Bone2D" parent="Visible/w/Skeleton"]
+rotation = -0.0238459
+rest = Transform2D( 1, 0, 0, 1, 0, 0 )
+default_length = 8.0
+
+[node name="Bone2D2" type="Bone2D" parent="Visible/w/Skeleton/Bone2D"]
+position = Vector2( 9.79793, 0.132416 )
+rotation = 0.944555
+rest = Transform2D( 0.586103, 0.810236, -0.810236, 0.586103, 9.79793, 0.132416 )
+default_length = 8.0
+
+[node name="Bone2D3" type="Bone2D" parent="Visible/w/Skeleton/Bone2D/Bone2D2"]
+position = Vector2( 6.60095, 0.362762 )
+rotation = 0.835766
+rest = Transform2D( 0.703267, 0.710926, -0.710926, 0.703267, 6.60095, 0.362762 )
+default_length = 8.0
+
+[node name="Bone2D4" type="Bone2D" parent="Visible/w/Skeleton/Bone2D/Bone2D2/Bone2D3"]
+position = Vector2( 7.92227, 1.63712 )
+rotation = 0.421353
+scale = Vector2( 1, 1 )
+rest = Transform2D( 0.970051, 0.242901, -0.242901, 0.970051, 7.92227, 1.63712 )
+default_length = 8.0
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 
@@ -883,7 +910,6 @@ anims/Invencible = SubResource( 15 )
 anims/TimeOut = SubResource( 16 )
 
 [node name="ClickArea" type="CanvasLayer" parent="."]
-editor/display_folded = true
 
 [node name="Area" type="Control" parent="ClickArea"]
 anchor_right = 1.0
@@ -912,7 +938,6 @@ one_shot = true
 
 [node name="NoColliderTimer" type="Timer" parent="."]
 one_shot = true
-
 [connection signal="timeout" from="Camera2D/Timer" to="Camera2D" method="_on_Timer_timeout"]
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
 [connection signal="animation_finished" from="Anim" to="." method="_on_Anim_animation_finished"]
