@@ -57,6 +57,7 @@ func set_items_equipped():
 	$Player/Skin/Hat.self_modulate = 'ffffff'
 	$Player/Skin/Scarf.self_modulate = 'ffffff'
 	$Player/Skin/Jetpack.self_modulate = 'ffffff'
+	$Player/Skin/Pattern.self_modulate = 'ffffff'
 	if !GameManager.items_equipped.keys().empty():
 		for i in GameManager.items_equipped.keys():
 			set_player_menu_item(i)
@@ -693,12 +694,10 @@ expand = true
 stretch_mode = 5
 
 [node name="Player" type="Node2D" parent="."]
-editor/display_folded = true
 position = Vector2( 781.834, 1559.8 )
 rotation = -0.288943
 
 [node name="Skin" type="Sprite" parent="Player"]
-editor/display_folded = true
 scale = Vector2( 10, 10 )
 texture = ExtResource( 20 )
 hframes = 2

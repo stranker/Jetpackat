@@ -497,7 +497,6 @@ size_flags_vertical = 3
 custom_constants/separation = 10
 
 [node name="Player" type="Panel" parent="VBC/PlayerPanel/HBC"]
-editor/display_folded = true
 margin_right = 455.0
 margin_bottom = 560.0
 size_flags_horizontal = 3
@@ -510,10 +509,10 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 margin_left = -150.0
-margin_top = -450.0
+margin_top = -427.0
 margin_right = 150.0
-margin_bottom = -34.0
-rect_min_size = Vector2( 300, 0 )
+margin_bottom = -17.0
+rect_min_size = Vector2( 300, 410 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource( 12 )
@@ -523,10 +522,11 @@ stretch_mode = 6
 [node name="Eyes" type="NinePatchRect" parent="VBC/PlayerPanel/HBC/Player/Skin"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -112.0
-margin_top = 24.0
-margin_right = 111.0
-margin_bottom = 244.0
+margin_left = -115.0
+margin_top = 22.8906
+margin_right = 109.0
+margin_bottom = 244.891
+rect_min_size = Vector2( 220, 0 )
 texture = ExtResource( 13 )
 region_rect = Rect2( 0, 0, 36, 36 )
 
