@@ -10,4 +10,4 @@ func _process(delta):
 	pass
 
 func get_new_item():
-	return item_list[0].instance()
+	return item_list[0]

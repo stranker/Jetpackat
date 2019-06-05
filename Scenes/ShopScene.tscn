@@ -477,6 +477,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="PlayerPanel" type="Panel" parent="VBC"]
+editor/display_folded = true
 margin_top = 1320.0
 margin_right = 1080.0
 margin_bottom = 1920.0

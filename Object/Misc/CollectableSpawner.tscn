@@ -7,4 +7,3 @@
 [node name="CollectableSpawner" type="Node"]
 script = ExtResource( 1 )
 item_list = [ ExtResource( 2 ), ExtResource( 3 ) ]
-

@@ -887,22 +887,22 @@ centered = false
 position = Vector2( 569.5, 830 )
 
 [node name="UIGame" type="CanvasLayer" parent="."]
+editor/display_folded = true
 script = SubResource( 6 )
 
 [node name="Container" type="Control" parent="UIGame"]
 pause_mode = 2
+editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 
 [node name="Panel" type="Panel" parent="UIGame/Container"]
-editor/display_folded = true
 anchor_right = 1.0
 margin_bottom = 160.0
 custom_styles/panel = SubResource( 7 )
 
 [node name="HBC" type="HBoxContainer" parent="UIGame/Container/Panel"]
-editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
@@ -1004,7 +1004,6 @@ align = 1
 valign = 3
 
 [node name="CoinPanel" type="Control" parent="UIGame/Container/Panel/HBC"]
-editor/display_folded = true
 margin_left = 680.0
 margin_right = 1080.0
 margin_bottom = 160.0
@@ -1017,10 +1016,11 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -150.0
-margin_top = -54.5
-margin_right = 174.0
-margin_bottom = 54.5
+margin_left = -151.271
+margin_top = -54.9877
+margin_right = 172.729
+margin_bottom = 54.0123
+custom_constants/separation = 10
 
 [node name="Coin" type="TextureRect" parent="UIGame/Container/Panel/HBC/CoinPanel/HBC"]
 margin_right = 76.0
@@ -1031,10 +1031,9 @@ expand = true
 stretch_mode = 6
 
 [node name="CoinLabel" type="Label" parent="UIGame/Container/Panel/HBC/CoinPanel/HBC"]
-editor/display_folded = true
-margin_left = 80.0
+margin_left = 86.0
 margin_top = 10.0
-margin_right = 283.0
+margin_right = 289.0
 margin_bottom = 98.0
 grow_horizontal = 0
 grow_vertical = 0
@@ -1048,9 +1047,9 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 margin_left = -71.5
-margin_top = -81.0
+margin_top = 106.0
 margin_right = 58.5
-margin_bottom = 64.0002
+margin_bottom = 251.0
 custom_fonts/font = SubResource( 12 )
 text = "99"
 
@@ -1386,11 +1385,12 @@ item_list = [ ExtResource( 31 ), ExtResource( 32 ) ]
 parent_node = NodePath("../Collectables")
 min_height = 10.0
 max_height = 18.0
-probability = [ 0.2, 1.0 ]
+probability = [ 0.1, 1.0 ]
 
 [node name="EnemySpawner" parent="." instance=ExtResource( 33 )]
 item_list = [ ExtResource( 34 ), ExtResource( 35 ), ExtResource( 36 ), ExtResource( 37 ) ]
 parent_node = NodePath("../Enemies")
+activated = false
 min_height = 10.0
 max_height = 20.0
 height_control_list = [ 0, 200, 350, 500 ]
@@ -1398,6 +1398,7 @@ height_control_list = [ 0, 200, 350, 500 ]
 [node name="RibbonSpawner" parent="." instance=ExtResource( 38 )]
 item_list = [ ExtResource( 39 ) ]
 parent_node = NodePath("../Ribbons")
+activated = false
 min_height = 15.0
 max_height = 20.0
 min_height_tutorial = 12

@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://Shaders/OutlineShaderResource.tres" type="Material" id=1]
 [ext_resource path="res://Sprites/Cat/Skin/Skin.png" type="Texture" id=2]
@@ -6,7 +6,6 @@
 [ext_resource path="res://Shaders/outline.shader" type="Shader" id=4]
 [ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/Shop/Cat/Thruster/Smoke.png" type="Texture" id=6]
-[ext_resource path="res://Sprites/Shop/Cat/Scarf/TwoColor.png" type="Texture" id=7]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends KinematicBody2D
@@ -64,7 +63,7 @@ func _process(delta):
 				$Visible/Scarf/Anim.play('Falling')
 		else:
 			$Visible/Scarf/Anim.play('Idle')
-		$Visible/Jetpack/Thruster.emitting = velocity.x != 0
+		$Visible/Jetpack/Thruster.emitting = velocity.x != 0 or invencible
 	pass
 
 func check_boundaries():
@@ -296,7 +295,7 @@ tracks/0/keys = {
 [sub_resource type="CircleShape2D" id=10]
 radius = 117.38
 
-[sub_resource type="Animation" id=19]
+[sub_resource type="Animation" id=11]
 resource_name = "Falling"
 length = 1.5
 tracks/0/type = "value"
@@ -336,7 +335,7 @@ tracks/2/keys = {
 "values": [ 6.06401, -20.8268, 32.9491, 86.1725, -73.9872, 32.9491, 86.1725, -73.9872, 86.1725 ]
 }
 
-[sub_resource type="Animation" id=11]
+[sub_resource type="Animation" id=12]
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Skeleton/Bone2D/Bone2D2:rotation_degrees")
@@ -387,7 +386,7 @@ tracks/3/keys = {
 "values": [ 6.06401, -70.6719, 54.2652, 7.53509 ]
 }
 
-[sub_resource type="Animation" id=12]
+[sub_resource type="Animation" id=13]
 length = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("Skeleton/Bone2D/Bone2D2:rotation_degrees")
@@ -438,7 +437,7 @@ tracks/3/keys = {
 "values": [ 6.06401 ]
 }
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=14]
 length = 2.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Visible/Skin:position")
@@ -625,7 +624,7 @@ tracks/14/keys = {
 "values": [ 0, 2, 2 ]
 }
 
-[sub_resource type="Animation" id=14]
+[sub_resource type="Animation" id=15]
 length = 5.0
 loop = true
 tracks/0/type = "value"
@@ -689,8 +688,7 @@ tracks/4/keys = {
 "values": [ Vector2( -42.0043, -9.19867 ) ]
 }
 
-[sub_resource type="Animation" id=15]
-resource_name = "Invencible"
+[sub_resource type="Animation" id=16]
 length = 4.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Visible/MagnetArea/CollisionShape2D:shape:radius")
@@ -741,7 +739,7 @@ tracks/3/keys = {
 "values": [ 0, 1, 4, 5, 6, 1, 0 ]
 }
 
-[sub_resource type="Animation" id=16]
+[sub_resource type="Animation" id=17]
 length = 2.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Camera2D:zoom")
@@ -888,10 +886,10 @@ tracks/11/keys = {
 "values": [ 0, 4, 5, 2, 3 ]
 }
 
-[sub_resource type="Gradient" id=17]
+[sub_resource type="Gradient" id=18]
 colors = PoolColorArray( 0.662745, 0.301961, 0.960784, 1, 0.662745, 0.301961, 0.960784, 0.376471 )
 
-[sub_resource type="GDScript" id=18]
+[sub_resource type="GDScript" id=19]
 script/source = "extends Line2D
 
 var target
@@ -940,6 +938,7 @@ script = SubResource( 3 )
 one_shot = true
 
 [node name="Visible" type="Node2D" parent="."]
+editor/display_folded = true
 script = SubResource( 4 )
 
 [node name="Skin" type="Sprite" parent="Visible"]
@@ -1009,9 +1008,10 @@ editor/display_folded = true
 shape = SubResource( 10 )
 
 [node name="Scarf" type="Polygon2D" parent="Visible"]
+editor/display_folded = true
 position = Vector2( -39.8734, -10.5546 )
 scale = Vector2( 3, 3 )
-texture = ExtResource( 7 )
+color = Color( 1, 1, 1, 0 )
 skeleton = NodePath("Skeleton")
 polygon = PoolVector2Array( 9.25, 24.25, 11.75, 19.75, 13.5, 16, 15, 11.75, 2.75, 11, 0.75, 6.75, 2.5, 1.25, 7.5, 0, 12.25, 1.75, 22.75, 0.5, 26.25, 4, 25, 8.75, 22.75, 12.5, 21.25, 16.5, 20, 21.25, 17.75, 27.25 )
 uv = PoolVector2Array( 9.25, 24.25, 11.75, 19.75, 13.5, 16, 15, 11.75, 2.75, 11, 0.75, 6.75, 2.5, 1.25, 7.5, 0, 12.25, 1.75, 22.75, 0.5, 26.25, 4, 25, 8.75, 22.75, 12.5, 21.25, 16.5, 20, 21.25, 17.75, 27.25 )
@@ -1020,11 +1020,12 @@ bones = [ NodePath("Bone2D"), PoolRealArray( 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0,
 
 [node name="Anim" type="AnimationPlayer" parent="Visible/Scarf"]
 autoplay = "Idle"
-anims/Falling = SubResource( 19 )
-anims/Flying = SubResource( 11 )
-anims/Idle = SubResource( 12 )
+anims/Falling = SubResource( 11 )
+anims/Flying = SubResource( 12 )
+anims/Idle = SubResource( 13 )
 
 [node name="Skeleton" type="Skeleton2D" parent="Visible/Scarf"]
+editor/display_folded = true
 position = Vector2( 3.53373, 2.46481 )
 rotation = 0.146013
 __meta__ = {
@@ -1061,14 +1062,12 @@ rotation = 0.918733
 rest = Transform2D( 1, 0, 0, 1, 6.20966, 0.0968933 )
 default_length = 6.0
 
-[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
-
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Flying"
-anims/Dead = SubResource( 13 )
-anims/Flying = SubResource( 14 )
-anims/Invencible = SubResource( 15 )
-anims/TimeOut = SubResource( 16 )
+anims/Dead = SubResource( 14 )
+anims/Flying = SubResource( 15 )
+anims/Invencible = SubResource( 16 )
+anims/TimeOut = SubResource( 17 )
 
 [node name="ClickArea" type="CanvasLayer" parent="."]
 editor/display_folded = true
@@ -1085,12 +1084,13 @@ show_behind_parent = true
 position = Vector2( -238.836, -90.1898 )
 width = 50.0
 default_color = Color( 0.576471, 0.117647, 0.741176, 0.466667 )
-gradient = SubResource( 17 )
+gradient = SubResource( 18 )
+texture_mode = 16777215
 joint_mode = 2
 begin_cap_mode = 2
 end_cap_mode = 2
 sharp_limit = 5.0
-script = SubResource( 18 )
+script = SubResource( 19 )
 target_path = NodePath("../TrailPos")
 
 [node name="InvencibleTimer" type="Timer" parent="."]
@@ -1099,9 +1099,11 @@ one_shot = true
 
 [node name="NoColliderTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 [connection signal="timeout" from="Camera2D/Timer" to="Camera2D" method="_on_Timer_timeout"]
-[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
 [connection signal="animation_finished" from="Anim" to="." method="_on_Anim_animation_finished"]
 [connection signal="gui_input" from="ClickArea/Area" to="." method="_on_Area_gui_input"]
 [connection signal="timeout" from="InvencibleTimer" to="." method="_on_InvencibleTimer_timeout"]
 [connection signal="timeout" from="NoColliderTimer" to="." method="_on_NoColliderTimer_timeout"]
+[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

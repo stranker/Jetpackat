@@ -17,7 +17,7 @@ func get_new_item():
 	var spawned = false
 	for i in probability:
 		if prob <= i and !spawned:
-			item = item_list[item_pos].instance()
+			item = item_list[item_pos]
 			spawned = !spawned
 		else:
 			item_pos += 1
