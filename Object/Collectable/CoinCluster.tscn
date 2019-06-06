@@ -14,12 +14,11 @@ func _ready():
 	pass # Replace with function body.
 
 func choose_pattern():
-	var num = randi() % pattern_list.size()
-	var pattern = pattern_list[num]
-	pattern.get_parent().remove_child(pattern)
-	pattern.show()
-	add_child(pattern)
-	$Patterns.queue_free()
+	pattern_list.shuffle()
+	for i in range(pattern_list.size()):
+		if i != 0:
+			pattern_list[i].call_deferred('queue_free')
+	pattern_list[0].show()
 
 func _on_VisibilityNotifier2D_screen_exited():
 	$Timer.start()
@@ -128,6 +127,5 @@ position = Vector2( -120, -40 )
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 5.0
-
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

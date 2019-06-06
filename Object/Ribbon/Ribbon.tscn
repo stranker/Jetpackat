@@ -12,7 +12,7 @@ script/source = "extends Node2D
 var activated : bool = false
 enum RIBBON_TYPE {BLUE, YELLOW, RED}
 export var color : Color
-export (PackedScene) var fuel
+export (PackedScene) var fuel_scene
 
 signal activated(val)
 
@@ -28,9 +28,9 @@ func change_color():
 	pass
 
 func deactivate():
-	var f = fuel.instance()
-	get_tree().root.call_deferred('add_child',f)
-	f.global_position = global_position
+	var fuel = fuel_scene.instance()
+	get_parent().add_child(fuel)
+	fuel.global_position = global_position
 	activated = !activated
 	$LabelAnim.play('Taken')
 	$Anim.play('Deactivate')
@@ -304,7 +304,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.5 ),
 "transitions": PoolRealArray( 0.5, 1 ),
 "update": 0,
-"values": [ Vector2( -196.5, -33 ), Vector2( -390, -170 ) ]
+"values": [ Vector2( -196.5, -33 ), Vector2( -353.814, -185.508 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("ComboLabel:self_modulate")
@@ -313,7 +313,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.1, 0.6, 0.9 ),
+"times": PoolRealArray( 0, 0.1, 0.7, 0.9 ),
 "transitions": PoolRealArray( 1, 2, 2, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
@@ -328,13 +328,14 @@ tracks/2/keys = {
 "times": PoolRealArray( 0, 0.5 ),
 "transitions": PoolRealArray( 0.5, 1 ),
 "update": 0,
-"values": [ Vector2( 1, 1 ), Vector2( 2, 2 ) ]
+"values": [ Vector2( 1, 1 ), Vector2( 1.8, 1.8 ) ]
 }
 
 [node name="Ribbon" type="Node2D"]
+z_index = 10
 script = SubResource( 1 )
 color = Color( 1, 0.772549, 0, 1 )
-fuel = ExtResource( 1 )
+fuel_scene = ExtResource( 1 )
 
 [node name="Thread" type="Line2D" parent="."]
 position = Vector2( -100, -170 )
@@ -386,10 +387,11 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -196.5
-margin_top = -33.0
-margin_right = 196.5
-margin_bottom = 52.0
+margin_left = -353.814
+margin_top = -185.508
+margin_right = 39.1859
+margin_bottom = -100.508
+rect_scale = Vector2( 1.8, 1.8 )
 custom_fonts/font = SubResource( 5 )
 custom_colors/font_color = Color( 0.941176, 0.901961, 0.901961, 1 )
 text = "COMBO"

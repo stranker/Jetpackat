@@ -1,11 +1,11 @@
 [gd_scene load_steps=26 format=2]
 
-[ext_resource path="res://Shaders/OutlineShaderResource.tres" type="Material" id=1]
-[ext_resource path="res://Sprites/Cat/Skin/Skin.png" type="Texture" id=2]
-[ext_resource path="res://Sprites/Cat/Eyes.png" type="Texture" id=3]
-[ext_resource path="res://Shaders/outline.shader" type="Shader" id=4]
-[ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=5]
-[ext_resource path="res://Sprites/Shop/Cat/Thruster/Smoke.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/Cat/Skin/Skin.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/Cat/Eyes.png" type="Texture" id=2]
+[ext_resource path="res://Shaders/outline.shader" type="Shader" id=3]
+[ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/Shop/Cat/Thruster/Smoke.png" type="Texture" id=5]
+[ext_resource path="res://Sounds/Sfx/Jump.wav" type="AudioStream" id=6]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends KinematicBody2D
@@ -112,6 +112,8 @@ func _on_Area_gui_input(event):
 func jump(jforce : int):
 	velocity.y = -jforce
 	check_jump_direction()
+	$Sample.play()
+	$Camera2D.shake(jforce*0.0001,0.5)
 	$Visible/Jetpack/Anim.play('Propulsion')
 	pass
 
@@ -148,9 +150,13 @@ func set_invencible(val):
 		velocity.x = 0
 		$Anim.play('Invencible')
 		$Trail.trail_lenght = 20
+		$Visible/Jetpack/Thruster.amount = 200
+		$Visible/Jetpack/Thruster.spread = 100
 		impulse(1500)
 	else:
 		$Trail.trail_lenght = 0
+		$Visible/Jetpack/Thruster.amount = 100
+		$Visible/Jetpack/Thruster.spread = 30
 	emit_signal('invencible',invencible)
 
 func _on_NoColliderTimer_timeout():
@@ -256,7 +262,7 @@ func set_jetpack(item):
 "
 
 [sub_resource type="ShaderMaterial" id=5]
-shader = ExtResource( 4 )
+shader = ExtResource( 3 )
 shader_param/outline_width = 0.5
 shader_param/outline_color = Color( 0, 0, 0, 1 )
 
@@ -724,7 +730,7 @@ tracks/2/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ ExtResource( 3 ) ]
+"values": [ ExtResource( 2 ) ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("Visible/Skin/Eyes:frame")
@@ -915,6 +921,7 @@ func _process(delta):
 "Player",
 ]]
 position = Vector2( 552, 1180 )
+z_index = 8
 script = SubResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -938,21 +945,20 @@ script = SubResource( 3 )
 one_shot = true
 
 [node name="Visible" type="Node2D" parent="."]
-editor/display_folded = true
 script = SubResource( 4 )
 
 [node name="Skin" type="Sprite" parent="Visible"]
-material = ExtResource( 1 )
+editor/display_folded = true
 position = Vector2( 1.57407, -1.25439 )
 scale = Vector2( 3, 3 )
-texture = ExtResource( 2 )
+texture = ExtResource( 1 )
 hframes = 2
 
 [node name="Pattern" type="Sprite" parent="Visible/Skin"]
 
 [node name="Eyes" type="Sprite" parent="Visible/Skin"]
-position = Vector2( -0.524704, -14.9432 )
-texture = ExtResource( 3 )
+position = Vector2( 0, -15 )
+texture = ExtResource( 2 )
 hframes = 7
 
 [node name="Hat" type="Sprite" parent="Visible/Skin"]
@@ -967,7 +973,7 @@ show_behind_parent = true
 material = SubResource( 5 )
 position = Vector2( 3.84464, 39.7731 )
 scale = Vector2( 3, 3 )
-texture = ExtResource( 5 )
+texture = ExtResource( 4 )
 
 [node name="Thruster" type="CPUParticles2D" parent="Visible/Jetpack"]
 show_behind_parent = true
@@ -981,7 +987,7 @@ explosiveness = 0.2
 randomness = 0.5
 fract_delta = false
 local_coords = false
-texture = ExtResource( 6 )
+texture = ExtResource( 5 )
 emission_shape = 1
 emission_sphere_radius = 5.0
 flag_align_y = true
@@ -1101,6 +1107,11 @@ one_shot = true
 one_shot = true
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+
+[node name="Sample" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 6 )
+volume_db = -17.165
+pitch_scale = 2.0
 [connection signal="timeout" from="Camera2D/Timer" to="Camera2D" method="_on_Timer_timeout"]
 [connection signal="animation_finished" from="Anim" to="." method="_on_Anim_animation_finished"]
 [connection signal="gui_input" from="ClickArea/Area" to="." method="_on_Area_gui_input"]

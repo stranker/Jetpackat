@@ -1,8 +1,8 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=10 format=2]
 
-[ext_resource path="res://Shaders/outline.shader" type="Shader" id=1]
-[ext_resource path="res://Sprites/Collectables/Fish.png" type="Texture" id=2]
-[ext_resource path="res://Sprites/Shop/Cat/Thruster/Star.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/Collectables/Fish.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/Shop/Cat/Thruster/Star.png" type="Texture" id=2]
+[ext_resource path="res://Sounds/Sfx/Fish.wav" type="AudioStream" id=3]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends 'res://Object/Collectable/Collectable.gd'
@@ -29,11 +29,6 @@ func _on_Fish_area_entered(area):
 		on_magnet_area = !on_magnet_area
 	pass # Replace with function body.
 "
-
-[sub_resource type="ShaderMaterial" id=2]
-shader = ExtResource( 1 )
-shader_param/outline_width = 0.5
-shader_param/outline_color = Color( 0, 0, 0, 1 )
 
 [sub_resource type="CircleShape2D" id=3]
 radius = 50.4194
@@ -107,6 +102,18 @@ tracks/2/keys = {
 "update": 1,
 "values": [ true ]
 }
+tracks/3/type = "value"
+tracks/3/path = NodePath("Sample:playing")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
 
 [sub_resource type="Curve" id=6]
 _data = [ Vector2( 0, 1 ), 0.0, -1.00659, 0, 0, Vector2( 1, 0.3152 ), -0.222942, 0.0, 0, 0 ]
@@ -119,11 +126,10 @@ colors = PoolColorArray( 0.207184, 0.726563, 0.337029, 1, 0.163277, 0.78451, 0.2
 script = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-material = SubResource( 2 )
 position = Vector2( 2.09726, -8.09802 )
 rotation = -0.327982
 scale = Vector2( 2, 2 )
-texture = ExtResource( 2 )
+texture = ExtResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 3 )
@@ -140,7 +146,7 @@ emitting = false
 amount = 20
 one_shot = true
 explosiveness = 0.9
-texture = ExtResource( 3 )
+texture = ExtResource( 2 )
 spread = 180.0
 gravity = Vector2( 0, 0 )
 initial_velocity = 100.0
@@ -151,6 +157,8 @@ scale_amount = 2.0
 scale_amount_curve = SubResource( 6 )
 color_ramp = SubResource( 7 )
 
+[node name="Sample" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 3 )
 [connection signal="area_entered" from="." to="." method="_on_Fish_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_Fish_body_entered"]
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
