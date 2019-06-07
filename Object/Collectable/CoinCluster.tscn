@@ -1,31 +1,42 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Object/Collectable/Coin.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Object/Collectable/NewCoin.tscn" type="PackedScene" id=1]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node2D
 
 onready var pattern_list = $Patterns.get_children()
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	randomize()
-	choose_pattern()
+	create_coins()
 	pass # Replace with function body.
 
 func choose_pattern():
 	pattern_list.shuffle()
-	for i in range(pattern_list.size()):
-		if i != 0:
-			pattern_list[i].call_deferred('queue_free')
 	pattern_list[0].show()
 
-func _on_VisibilityNotifier2D_screen_exited():
-	$Timer.start()
-	pass # Replace with function body.
+
+func set_new_pos():
+	var new_pos : Vector2
+	var position_list = $Positions.get_children()
+	position_list.shuffle()
+	new_pos.x = position_list[0].global_position.x
+	new_pos.y = GameManager.player.global_position.y - get_viewport_rect().size.y
+	position = new_pos
+
+func create_coins():
+	set_new_pos()
+	choose_pattern()
+	pass
 
 func _on_Timer_timeout():
 	queue_free()
+	pass # Replace with function body.
+
+
+func _on_VisibilityNotifier2D_screen_exited():
+	$Timer.start()
 	pass # Replace with function body.
 "
 
@@ -33,99 +44,90 @@ func _on_Timer_timeout():
 script = SubResource( 1 )
 
 [node name="Patterns" type="Node2D" parent="."]
+editor/display_folded = true
 
 [node name="Pattern1" type="Node2D" parent="Patterns"]
 editor/display_folded = true
 visible = false
-position = Vector2( 40, 0 )
 
-[node name="Coin" parent="Patterns/Pattern1" instance=ExtResource( 1 )]
-position = Vector2( 40, -40 )
+[node name="NewCoin" parent="Patterns/Pattern1" instance=ExtResource( 1 )]
 
-[node name="Coin2" parent="Patterns/Pattern1" instance=ExtResource( 1 )]
-position = Vector2( -40, -40 )
+[node name="NewCoin2" parent="Patterns/Pattern1" instance=ExtResource( 1 )]
+position = Vector2( 80, 0 )
 
-[node name="Coin3" parent="Patterns/Pattern1" instance=ExtResource( 1 )]
-position = Vector2( -120, -40 )
-
-[node name="Coin4" parent="Patterns/Pattern1" instance=ExtResource( 1 )]
-position = Vector2( -40, 40 )
-
-[node name="Coin5" parent="Patterns/Pattern1" instance=ExtResource( 1 )]
-position = Vector2( 40, 40 )
-
-[node name="Coin6" parent="Patterns/Pattern1" instance=ExtResource( 1 )]
-position = Vector2( -120, 40 )
+[node name="NewCoin3" parent="Patterns/Pattern1" instance=ExtResource( 1 )]
+position = Vector2( -80, 0 )
 
 [node name="Pattern2" type="Node2D" parent="Patterns"]
 editor/display_folded = true
 visible = false
-position = Vector2( 40, 40 )
 
-[node name="Coin" parent="Patterns/Pattern2" instance=ExtResource( 1 )]
-position = Vector2( 40, -40 )
+[node name="NewCoin" parent="Patterns/Pattern2" instance=ExtResource( 1 )]
 
-[node name="Coin8" parent="Patterns/Pattern2" instance=ExtResource( 1 )]
-position = Vector2( 40, -120 )
+[node name="NewCoin2" parent="Patterns/Pattern2" instance=ExtResource( 1 )]
+position = Vector2( 80, 0 )
 
-[node name="Coin2" parent="Patterns/Pattern2" instance=ExtResource( 1 )]
-position = Vector2( -40, -40 )
+[node name="NewCoin3" parent="Patterns/Pattern2" instance=ExtResource( 1 )]
+position = Vector2( -80, 0 )
 
-[node name="Coin9" parent="Patterns/Pattern2" instance=ExtResource( 1 )]
-position = Vector2( -40, -120 )
+[node name="NewCoin4" parent="Patterns/Pattern2" instance=ExtResource( 1 )]
+position = Vector2( 0, -80 )
 
-[node name="Coin3" parent="Patterns/Pattern2" instance=ExtResource( 1 )]
-position = Vector2( -120, -40 )
-
-[node name="Coin7" parent="Patterns/Pattern2" instance=ExtResource( 1 )]
-position = Vector2( -120, -120 )
-
-[node name="Coin4" parent="Patterns/Pattern2" instance=ExtResource( 1 )]
-position = Vector2( -40, 40 )
-
-[node name="Coin5" parent="Patterns/Pattern2" instance=ExtResource( 1 )]
-position = Vector2( 40, 40 )
-
-[node name="Coin6" parent="Patterns/Pattern2" instance=ExtResource( 1 )]
-position = Vector2( -120, 40 )
+[node name="NewCoin5" parent="Patterns/Pattern2" instance=ExtResource( 1 )]
+position = Vector2( 0, 80 )
 
 [node name="Pattern3" type="Node2D" parent="Patterns"]
 editor/display_folded = true
 visible = false
-position = Vector2( 40, 40 )
 
-[node name="Coin8" parent="Patterns/Pattern3" instance=ExtResource( 1 )]
-position = Vector2( -40, 40 )
+[node name="NewCoin" parent="Patterns/Pattern3" instance=ExtResource( 1 )]
 
-[node name="Coin2" parent="Patterns/Pattern3" instance=ExtResource( 1 )]
-position = Vector2( -40, -40 )
+[node name="NewCoin2" parent="Patterns/Pattern3" instance=ExtResource( 1 )]
+position = Vector2( 80, 0 )
 
-[node name="Coin9" parent="Patterns/Pattern3" instance=ExtResource( 1 )]
-position = Vector2( -40, -120 )
+[node name="NewCoin3" parent="Patterns/Pattern3" instance=ExtResource( 1 )]
+position = Vector2( -80, 0 )
 
-[node name="Pattern4" type="Node2D" parent="Patterns"]
+[node name="NewCoin4" parent="Patterns/Pattern3" instance=ExtResource( 1 )]
+position = Vector2( 0, -80 )
+
+[node name="NewCoin5" parent="Patterns/Pattern3" instance=ExtResource( 1 )]
+position = Vector2( 0, 80 )
+
+[node name="NewCoin6" parent="Patterns/Pattern3" instance=ExtResource( 1 )]
+position = Vector2( -80, 80 )
+
+[node name="NewCoin7" parent="Patterns/Pattern3" instance=ExtResource( 1 )]
+position = Vector2( -80, -80 )
+
+[node name="NewCoin8" parent="Patterns/Pattern3" instance=ExtResource( 1 )]
+position = Vector2( 80, -80 )
+
+[node name="NewCoin9" parent="Patterns/Pattern3" instance=ExtResource( 1 )]
+position = Vector2( 80, 80 )
+
+[node name="Positions" type="Node2D" parent="."]
 editor/display_folded = true
-visible = false
-position = Vector2( 40, 40 )
 
-[node name="Coin8" parent="Patterns/Pattern4" instance=ExtResource( 1 )]
-position = Vector2( -40, 40 )
+[node name="Position2D" type="Position2D" parent="Positions"]
+position = Vector2( 240, 0 )
 
-[node name="Coin2" parent="Patterns/Pattern4" instance=ExtResource( 1 )]
-position = Vector2( -40, -40 )
+[node name="Position2D3" type="Position2D" parent="Positions"]
+position = Vector2( 360, 0 )
 
-[node name="Coin9" parent="Patterns/Pattern4" instance=ExtResource( 1 )]
-position = Vector2( -40, -120 )
+[node name="Position2D4" type="Position2D" parent="Positions"]
+position = Vector2( 690, 0 )
 
-[node name="Coin10" parent="Patterns/Pattern4" instance=ExtResource( 1 )]
-position = Vector2( 40, -40 )
+[node name="Position2D2" type="Position2D" parent="Positions"]
+position = Vector2( 820, 0 )
 
-[node name="Coin11" parent="Patterns/Pattern4" instance=ExtResource( 1 )]
-position = Vector2( -120, -40 )
+[node name="Position2D5" type="Position2D" parent="Positions"]
+position = Vector2( 530, 0 )
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+position = Vector2( 530, 0 )
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 5.0
+wait_time = 3.0
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

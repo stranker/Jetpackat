@@ -34,7 +34,7 @@ func initialize():
 	$Visible.scale.x = -jump_direction
 	$Visible/Jetpack/Thruster.emitting = false
 	position = Vector2(get_viewport_rect().size.x/2,0)
-	size_sprite = $Visible/Skin.texture.get_size() * $Visible/Skin.scale / $Visible/Skin.hframes
+	size_sprite = $Visible/Skin.texture.get_size() * $Visible/Skin.scale/ $Visible/Skin.hframes
 	GameManager.player = self
 	set_physics_process(activated)
 	connect('start_playing',get_tree().root.get_node('GameScene'),'start_game')
@@ -71,8 +71,8 @@ func _process(delta):
 func check_boundaries():
 	if position.x < size_sprite.x * 0.5:
 		position.x = size_sprite.x * 0.5
-	elif position.x > get_viewport_rect().size.x - size_sprite.x * 0.5:
-		position.x = get_viewport_rect().size.x - size_sprite.x * 0.5
+	elif position.x > get_viewport_rect().size.x - size_sprite.x:
+		position.x = get_viewport_rect().size.x - size_sprite.x
 	pass
 
 func check_is_active():
@@ -762,10 +762,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.2, 0.4, 0.7, 1, 1.2, 1.5 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.4, 0.8, 1.2, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 0, 1, 0, 1, 0, 1, 0 ]
+"values": [ 0, 1, 0, 1, 0 ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Visible/Skin/Eyes:frame")
@@ -980,7 +980,6 @@ script = SubResource( 3 )
 one_shot = true
 
 [node name="Visible" type="Node2D" parent="."]
-editor/display_folded = true
 script = SubResource( 4 )
 
 [node name="Skin" type="Sprite" parent="Visible"]
