@@ -1,4 +1,4 @@
-[gd_scene load_steps=74 format=2]
+[gd_scene load_steps=73 format=2]
 
 [ext_resource path="res://Sprites/Background/House.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Background/SmokeParticle.png" type="Texture" id=2]
@@ -12,9 +12,9 @@
 [ext_resource path="res://Sprites/Collectables/Fish.png" type="Texture" id=10]
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=11]
 [ext_resource path="res://Sprites/Collectables/Coin.png" type="Texture" id=12]
-[ext_resource path="res://Sprites/UI/Fuelbar3.png" type="Texture" id=13]
-[ext_resource path="res://Sprites/UI/Fuelbar1.png" type="Texture" id=14]
-[ext_resource path="res://Sprites/UI/Fuelbar2.png" type="Texture" id=15]
+[ext_resource path="res://Sprites/UI/Fuelbar1.png" type="Texture" id=13]
+[ext_resource path="res://Sprites/UI/Fuelbar2.png" type="Texture" id=14]
+[ext_resource path="res://Sprites/UI/Fuelbar3.png" type="Texture" id=15]
 [ext_resource path="res://Sprites/UI/Fuelbar4.png" type="Texture" id=16]
 [ext_resource path="res://Sprites/UI/PauseButton.png" type="Texture" id=17]
 [ext_resource path="res://Sprites/UI/PauseButtonPressed.png" type="Texture" id=18]
@@ -31,16 +31,14 @@
 [ext_resource path="res://Sprites/Cat/CatHead.png" type="Texture" id=29]
 [ext_resource path="res://Object/Misc/CollectableSpawner.tscn" type="PackedScene" id=30]
 [ext_resource path="res://Object/Collectable/Fish.tscn" type="PackedScene" id=31]
-[ext_resource path="res://Object/Collectable/CoinCluster.tscn" type="PackedScene" id=32]
-[ext_resource path="res://Object/Misc/EnemySpawner.tscn" type="PackedScene" id=33]
-[ext_resource path="res://Object/Enemies/PaperPlane.tscn" type="PackedScene" id=34]
-[ext_resource path="res://Object/Enemies/Bird.tscn" type="PackedScene" id=35]
-[ext_resource path="res://Object/Enemies/Condor.tscn" type="PackedScene" id=36]
-[ext_resource path="res://Object/Enemies/Ovni.tscn" type="PackedScene" id=37]
-[ext_resource path="res://Object/Misc/OrbitSpawner.tscn" type="PackedScene" id=38]
-[ext_resource path="res://Object/Ribbon/Ribbon.tscn" type="PackedScene" id=39]
-[ext_resource path="res://Sounds/Music/Game.ogg" type="AudioStream" id=40]
-[ext_resource path="res://Object/Misc/SpawnerTimer.tscn" type="PackedScene" id=41]
+[ext_resource path="res://Object/Misc/EnemySpawner.tscn" type="PackedScene" id=32]
+[ext_resource path="res://Object/Enemies/PaperPlane.tscn" type="PackedScene" id=33]
+[ext_resource path="res://Object/Enemies/Bird.tscn" type="PackedScene" id=34]
+[ext_resource path="res://Object/Enemies/Condor.tscn" type="PackedScene" id=35]
+[ext_resource path="res://Object/Enemies/Ovni.tscn" type="PackedScene" id=36]
+[ext_resource path="res://Object/Misc/OrbitSpawner.tscn" type="PackedScene" id=37]
+[ext_resource path="res://Object/Ribbon/Ribbon.tscn" type="PackedScene" id=38]
+[ext_resource path="res://Sounds/Music/Game.ogg" type="AudioStream" id=39]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node
@@ -236,6 +234,7 @@ func _ready():
 	$Container/DeadPanel.hide()
 	$Container/Transition/Anim.play('FadeOut')
 	GameManager.fuelbar_position = $Container/FuelBar.rect_global_position
+	$Container/FuelBar.value = get_parent().combos
 	pass
 
 func _process(delta):
@@ -318,8 +317,14 @@ func failed_to_upload_highscore():
 	pass
 
 func combo_fuel(val):
-	$Container/FuelBar/Tween.interpolate_property($Container/FuelBar, 'value', $Container/FuelBar.value, val % 10, 1,Tween.TRANS_EXPO,Tween.EASE_OUT)
-	$Container/FuelBar/Tween.start()"
+	if val % 10 == 0:
+		$Container/FuelBar/Tween.interpolate_property($Container/FuelBar, 'value', $Container/FuelBar.value, $Container/FuelBar.max_value, 1,Tween.TRANS_EXPO,Tween.EASE_OUT)
+		$Container/FuelBar/Tween.interpolate_property($Container/FuelBar, 'value', $Container/FuelBar.max_value, $Container/FuelBar.min_value, get_parent().get_node('Player').invencible_time -1,Tween.TRANS_LINEAR,Tween.EASE_IN,1)
+	else:
+		$Container/FuelBar/Tween.interpolate_property($Container/FuelBar, 'value', $Container/FuelBar.value, val % int($Container/FuelBar.max_value), 1,Tween.TRANS_EXPO,Tween.EASE_OUT)
+	$Container/FuelBar/Tween.start()
+	$Container/FuelBar/Anim.play('Combo')
+	$Container/FuelBar/Anim.queue('Fuel')"
 
 [sub_resource type="StyleBoxFlat" id=7]
 bg_color = Color( 0.454902, 0, 0.705882, 1 )
@@ -545,6 +550,57 @@ corner_radius_top_right = 20
 corner_radius_bottom_right = 50
 corner_radius_bottom_left = 20
 
+[sub_resource type="Animation" id=33]
+resource_name = "Combo"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4, 1 ),
+"transitions": PoolRealArray( 0.5, 2, 0.5 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.2, 1.2 ), Vector2( 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.4, 1 ),
+"transitions": PoolRealArray( 0.5, 2, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 120 ), Vector2( -90, 120 ), Vector2( 0, 120 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:texture_progress")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6, 0.8, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ ExtResource( 13 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 14 ), ExtResource( 13 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath(".:self_modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.4, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 0.470588, 0, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+
 [sub_resource type="Animation" id=19]
 resource_name = "Fuel"
 length = 1.2
@@ -559,7 +615,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.2, 0.4, 0.6, 0.8, 1 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ ExtResource( 14 ), ExtResource( 15 ), ExtResource( 13 ), ExtResource( 16 ), ExtResource( 15 ), ExtResource( 13 ) ]
+"values": [ ExtResource( 13 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 14 ), ExtResource( 15 ) ]
 }
 
 [sub_resource type="StyleBoxFlat" id=20]
@@ -1102,13 +1158,14 @@ margin_bottom = 51.0
 custom_styles/panel = SubResource( 18 )
 
 [node name="FuelBar" type="TextureProgress" parent="UIGame/Container"]
+editor/display_folded = true
 show_behind_parent = true
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -540.0
-margin_top = 100.0
+margin_top = 120.0
 margin_right = 540.0
-margin_bottom = 230.0
+margin_bottom = 250.0
 max_value = 10.0
 step = 0.0
 texture_progress = ExtResource( 13 )
@@ -1116,6 +1173,7 @@ nine_patch_stretch = true
 
 [node name="Anim" type="AnimationPlayer" parent="UIGame/Container/FuelBar"]
 autoplay = "Fuel"
+anims/Combo = SubResource( 33 )
 anims/Fuel = SubResource( 19 )
 
 [node name="Tween" type="Tween" parent="UIGame/Container/FuelBar"]
@@ -1449,25 +1507,22 @@ margin_bottom = 36.4966
 text = "X"
 
 [node name="CollectableSpawner" parent="." instance=ExtResource( 30 )]
-item_list = [ ExtResource( 31 ), ExtResource( 32 ) ]
+item_list = [ ExtResource( 31 ), ExtResource( 31 ) ]
 parent_node = NodePath("../Collectables")
-activated = false
 min_height = 10.0
 max_height = 18.0
-probability = [ 0.2, 1.0 ]
+probability = [ 0.5, 1.0 ]
 
-[node name="EnemySpawner" parent="." instance=ExtResource( 33 )]
-item_list = [ ExtResource( 34 ), ExtResource( 35 ), ExtResource( 36 ), ExtResource( 37 ) ]
+[node name="EnemySpawner" parent="." instance=ExtResource( 32 )]
+item_list = [ ExtResource( 33 ), ExtResource( 34 ), ExtResource( 35 ), ExtResource( 36 ) ]
 parent_node = NodePath("../Enemies")
-activated = false
 min_height = 10.0
 max_height = 20.0
 height_control_list = [ 0, 200, 350, 500 ]
 
-[node name="RibbonSpawner" parent="." instance=ExtResource( 38 )]
-item_list = [ ExtResource( 39 ) ]
+[node name="RibbonSpawner" parent="." instance=ExtResource( 37 )]
+item_list = [ ExtResource( 38 ) ]
 parent_node = NodePath("../Ribbons")
-activated = false
 min_height = 15.0
 max_height = 20.0
 min_height_tutorial = 12
@@ -1481,17 +1536,10 @@ min_height_tutorial = 12
 [node name="CoinTimer" type="Timer" parent="."]
 one_shot = true
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 40 )
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 39 )
 volume_db = -2.0
 autoplay = true
-
-[node name="SpawnerTimer" parent="." instance=ExtResource( 41 )]
-activated = false
-item = ExtResource( 31 )
-item_parent = NodePath("../Collectables")
-minTime = 1
-maxTime = 3
 [connection signal="screen_exited" from="House/VisibilityNotifier2D" to="House" method="_on_VisibilityNotifier2D_screen_exited"]
 [connection signal="button_down" from="UIGame/Container/PauseButton" to="UIGame" method="_on_PauseButton_button_down"]
 [connection signal="button_down" from="UIGame/Container/DeadPanel/RestartButton" to="." method="_on_RestartButton_button_down"]

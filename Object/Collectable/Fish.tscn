@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
-[ext_resource path="res://Sprites/Collectables/Fish.png" type="Texture" id=1]
-[ext_resource path="res://Sprites/Shop/Cat/Thruster/Star.png" type="Texture" id=2]
-[ext_resource path="res://Sounds/Sfx/Fish.wav" type="AudioStream" id=3]
+[ext_resource path="res://Shaders/OutlineShaderResource.tres" type="Material" id=1]
+[ext_resource path="res://Sprites/Collectables/Fish.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Shop/Cat/Thruster/Star.png" type="Texture" id=3]
+[ext_resource path="res://Sounds/Sfx/Fish.wav" type="AudioStream" id=4]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends 'res://Object/Collectable/Collectable.gd'
@@ -30,10 +31,10 @@ func _on_Fish_area_entered(area):
 	pass # Replace with function body.
 "
 
-[sub_resource type="CircleShape2D" id=3]
+[sub_resource type="CircleShape2D" id=2]
 radius = 50.4194
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=3]
 resource_name = "Idle"
 length = 2.0
 loop = true
@@ -62,7 +63,7 @@ tracks/1/keys = {
 "values": [ 0.0, -25.0094 ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=4]
 length = 2.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:self_modulate")
@@ -115,10 +116,10 @@ tracks/3/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Curve" id=6]
+[sub_resource type="Curve" id=5]
 _data = [ Vector2( 0, 1 ), 0.0, -1.00659, 0, 0, Vector2( 1, 0.3152 ), -0.222942, 0.0, 0, 0 ]
 
-[sub_resource type="Gradient" id=7]
+[sub_resource type="Gradient" id=6]
 offsets = PoolRealArray( 0, 0.715232, 1 )
 colors = PoolColorArray( 0.207184, 0.726563, 0.337029, 1, 0.163277, 0.78451, 0.278902, 0.78808, 0, 1, 0.0627451, 0 )
 
@@ -126,27 +127,31 @@ colors = PoolColorArray( 0.207184, 0.726563, 0.337029, 1, 0.163277, 0.78451, 0.2
 script = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
+material = ExtResource( 1 )
 position = Vector2( 2.09726, -8.09802 )
 rotation = -0.327982
 scale = Vector2( 2, 2 )
-texture = ExtResource( 1 )
+texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 3 )
+shape = SubResource( 2 )
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Idle"
-anims/Idle = SubResource( 4 )
-anims/Taken = SubResource( 5 )
+anims/Idle = SubResource( 3 )
+anims/Taken = SubResource( 4 )
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 
 [node name="Particles2D" type="CPUParticles2D" parent="."]
+z_index = 12
 emitting = false
 amount = 20
+lifetime = 1.5
 one_shot = true
+speed_scale = 3.0
 explosiveness = 0.9
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 spread = 180.0
 gravity = Vector2( 0, 0 )
 initial_velocity = 100.0
@@ -154,11 +159,12 @@ angular_velocity = 200.0
 angle = 360.0
 angle_random = 1.0
 scale_amount = 2.0
-scale_amount_curve = SubResource( 6 )
-color_ramp = SubResource( 7 )
+scale_amount_random = 0.2
+scale_amount_curve = SubResource( 5 )
+color_ramp = SubResource( 6 )
 
 [node name="Sample" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 3 )
+stream = ExtResource( 4 )
 [connection signal="area_entered" from="." to="." method="_on_Fish_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_Fish_body_entered"]
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

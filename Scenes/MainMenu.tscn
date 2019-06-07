@@ -54,11 +54,6 @@ func check_first_game():
 	pass
 
 func set_items_equipped():
-	$Player/Skin.self_modulate = 'ffffff'
-	$Player/Skin/Hat.self_modulate = 'ffffff'
-	$Player/Skin/Scarf.self_modulate = 'ffffff'
-	$Player/Skin/Jetpack.self_modulate = 'ffffff'
-	$Player/Skin/Pattern.self_modulate = 'ffffff'
 	if !GameManager.items_equipped.keys().empty():
 		for i in GameManager.items_equipped.keys():
 			set_player_menu_item(i)
@@ -938,7 +933,7 @@ margin_bottom = 1920.0
 mouse_filter = 2
 texture = ExtResource( 2 )
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 26 )
 autoplay = true
 [connection signal="button_down" from="PawCat/StartButton" to="." method="_on_StartButton_button_down"]
