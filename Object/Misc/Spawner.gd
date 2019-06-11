@@ -2,9 +2,11 @@ extends Node
 
 export (Array, PackedScene) var item_list
 export(NodePath) var parent_node
+export(NodePath) var spawn_points_node
 export var activated : bool = true
 export var min_height : float
 export var max_height : float
+onready var spawn_points = get_node(spawn_points_node).get_children()
 var height_spawn : float
 var pos_player_last_spawn : int
 
@@ -25,7 +27,8 @@ func spawn_item(item_scene : PackedScene):
 		return
 	var item = item_scene.instance()
 	var new_pos = Vector2()
-	new_pos.x = rand_range(150,get_viewport().get_visible_rect().size.x - 150)
+	spawn_points.shuffle()
+	new_pos.x = spawn_points[0].position.x
 	new_pos.y = GameManager.camera.global_position.y - get_viewport().get_viewport().size.y / 2 - 200
 	get_node(parent_node).call_deferred('add_child',item)
 	item.position = new_pos

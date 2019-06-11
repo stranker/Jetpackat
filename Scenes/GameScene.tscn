@@ -57,6 +57,11 @@ func _ready():
 	$UIGame.update_UI_labels()
 	pass
 
+func _input(event):
+	if event is InputEventKey and !event.is_echo() and event.is_pressed():
+		if event.scancode == KEY_1:
+			add_combo(true)
+
 func start_game():
 	playing = !playing
 	GameManager.playing = playing
@@ -1030,6 +1035,7 @@ margin_bottom = 160.0
 custom_styles/panel = SubResource( 7 )
 
 [node name="HBC" type="HBoxContainer" parent="UIGame/Container/Panel"]
+editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
@@ -1164,6 +1170,7 @@ margin_bottom = 51.0
 custom_styles/panel = SubResource( 18 )
 
 [node name="HBC" type="HBoxContainer" parent="UIGame/Container/Panel/HBC/CoinPanel"]
+editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1183,6 +1190,7 @@ expand = true
 stretch_mode = 6
 
 [node name="CoinLabel" type="Label" parent="UIGame/Container/Panel/HBC/CoinPanel/HBC"]
+editor/display_folded = true
 margin_left = 86.0
 margin_top = 10.0
 margin_right = 289.0
@@ -1193,6 +1201,7 @@ custom_fonts/font = SubResource( 16 )
 text = "99999"
 
 [node name="AddCoinLabel" type="Label" parent="UIGame/Container/Panel/HBC/CoinPanel/HBC/CoinLabel"]
+editor/display_folded = true
 modulate = Color( 1, 1, 1, 0 )
 anchor_left = 0.5
 anchor_top = 1.0
@@ -1220,6 +1229,7 @@ stretch_mode = 6
 anims/AddCoin = SubResource( 17 )
 
 [node name="FuelBar" type="TextureProgress" parent="UIGame/Container"]
+editor/display_folded = true
 show_behind_parent = true
 anchor_left = 0.5
 anchor_right = 0.5
@@ -1569,9 +1579,28 @@ margin_right = 20.0476
 margin_bottom = 36.4966
 text = "X"
 
+[node name="SpawnPoints" type="Node2D" parent="."]
+editor/display_folded = true
+
+[node name="Position2D" type="Position2D" parent="SpawnPoints"]
+position = Vector2( 540, -330 )
+
+[node name="Position2D2" type="Position2D" parent="SpawnPoints"]
+position = Vector2( 340, -330 )
+
+[node name="Position2D3" type="Position2D" parent="SpawnPoints"]
+position = Vector2( 160, -330 )
+
+[node name="Position2D4" type="Position2D" parent="SpawnPoints"]
+position = Vector2( 748.729, -330 )
+
+[node name="Position2D5" type="Position2D" parent="SpawnPoints"]
+position = Vector2( 924, -330 )
+
 [node name="CollectableSpawner" parent="." instance=ExtResource( 30 )]
 item_list = [ ExtResource( 31 ), ExtResource( 32 ) ]
 parent_node = NodePath("../Collectables")
+spawn_points_node = NodePath("../SpawnPoints")
 min_height = 8.0
 max_height = 12.0
 probability = [ 0.1, 2.0 ]
@@ -1579,6 +1608,7 @@ probability = [ 0.1, 2.0 ]
 [node name="EnemySpawner" parent="." instance=ExtResource( 33 )]
 item_list = [ ExtResource( 34 ), ExtResource( 35 ), ExtResource( 36 ), ExtResource( 37 ) ]
 parent_node = NodePath("../Enemies")
+spawn_points_node = NodePath("../SpawnPoints")
 min_height = 10.0
 max_height = 20.0
 height_control_list = [ 0, 200, 350, 500 ]
@@ -1586,6 +1616,7 @@ height_control_list = [ 0, 200, 350, 500 ]
 [node name="RibbonSpawner" parent="." instance=ExtResource( 38 )]
 item_list = [ ExtResource( 39 ) ]
 parent_node = NodePath("../Ribbons")
+spawn_points_node = NodePath("../SpawnPoints")
 min_height = 15.0
 max_height = 20.0
 min_height_tutorial = 12

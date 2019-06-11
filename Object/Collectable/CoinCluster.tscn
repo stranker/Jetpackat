@@ -9,7 +9,6 @@ onready var pattern_list = $Patterns.get_children()
 
 func _ready():
 	randomize()
-	position.x = 0
 	create_coins()
 	pass # Replace with function body.
 
@@ -20,17 +19,7 @@ func choose_pattern():
 		if i != 0:
 			pattern_list[i].queue_free()
 
-
-func set_new_pos():
-	var new_pos : Vector2
-	var position_list = $Positions.get_children()
-	position_list.shuffle()
-	new_pos.x = position_list[0].global_position.x
-	new_pos.y = GameManager.player.global_position.y - get_viewport_rect().size.y
-	position = new_pos
-
 func create_coins():
-	set_new_pos()
 	choose_pattern()
 	pass
 
@@ -110,29 +99,9 @@ position = Vector2( 0, 70 )
 [node name="Coin17" parent="Patterns/Pattern3" instance=ExtResource( 1 )]
 position = Vector2( -70, 70 )
 
-[node name="Positions" type="Node2D" parent="."]
-editor/display_folded = true
-
-[node name="Position2D" type="Position2D" parent="Positions"]
-position = Vector2( 240, 0 )
-
-[node name="Position2D3" type="Position2D" parent="Positions"]
-position = Vector2( 360, 0 )
-
-[node name="Position2D4" type="Position2D" parent="Positions"]
-position = Vector2( 690, 0 )
-
-[node name="Position2D2" type="Position2D" parent="Positions"]
-position = Vector2( 820, 0 )
-
-[node name="Position2D5" type="Position2D" parent="Positions"]
-position = Vector2( 530, 0 )
-
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
-position = Vector2( 530, 0 )
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 3.0
-
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
