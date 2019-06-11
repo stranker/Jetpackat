@@ -366,10 +366,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 1.4 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 0.5, 1.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("../CanvasLayer/CloseButton:modulate")
@@ -417,6 +417,7 @@ texture = ExtResource( 1 )
 expand = true
 
 [node name="Fence" type="TextureRect" parent="."]
+visible = false
 margin_left = -208.52
 margin_top = 1141.63
 margin_right = 722.48
@@ -426,6 +427,7 @@ expand = true
 stretch_mode = 6
 
 [node name="Fence2" type="TextureRect" parent="."]
+visible = false
 margin_left = 511.48
 margin_top = 1141.63
 margin_right = 1442.48
@@ -495,18 +497,19 @@ texture = ExtResource( 4 )
 flip_h = true
 
 [node name="Cat" type="Sprite" parent="."]
-position = Vector2( -81.0542, 1125.71 )
+position = Vector2( 508.193, 1118.15 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 5 )
 flip_h = true
 hframes = 7
+frame = 5
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Walking"
 anims/Walking = SubResource( 2 )
 
 [node name="Bird" type="Sprite" parent="."]
-position = Vector2( -81.4713, 750.768 )
+position = Vector2( 1139.67, 449.492 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 6 )
 hframes = 5
@@ -526,12 +529,11 @@ scale = Vector2( 15.8517, 15.8517 )
 texture = ExtResource( 8 )
 flip_h = true
 hframes = 2
-frame = 1
 
 [node name="Sprite" type="Sprite" parent="CatHeadAmazed"]
 show_behind_parent = true
-position = Vector2( 12.7717, -6.46274 )
-scale = Vector2( 0.8, 0.8 )
+position = Vector2( 20.1133, -6.54168 )
+scale = Vector2( 0.9, 0.9 )
 texture = ExtResource( 9 )
 
 [node name="Dream" type="Sprite" parent="CatHeadAmazed"]
@@ -542,7 +544,6 @@ hframes = 2
 frame = 1
 
 [node name="TextureRect" type="TextureRect" parent="."]
-visible = false
 modulate = Color( 0, 0, 0, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -555,24 +556,22 @@ expand = true
 stretch_mode = 6
 
 [node name="FirstPhoto" type="Sprite" parent="."]
-visible = false
 position = Vector2( 549.166, 538.413 )
 rotation = 6.4263
 scale = Vector2( 6.88958, 6.88958 )
 texture = ExtResource( 11 )
 
 [node name="SecondPhoto" type="Sprite" parent="."]
-visible = false
 position = Vector2( 587.009, 1354.13 )
 rotation = 5.99964
 scale = Vector2( 7.76622, 7.76622 )
 texture = ExtResource( 12 )
 hframes = 2
+frame = 1
 
 [node name="Camera" type="Camera2D" parent="."]
-position = Vector2( 269.441, 1144.94 )
+position = Vector2( 540, 960 )
 current = true
-zoom = Vector2( 0.5, 0.5 )
 
 [node name="FadeOut" type="TextureRect" parent="."]
 modulate = Color( 0, 0, 0, 0 )
@@ -622,12 +621,10 @@ expand = true
 stretch_mode = 5
 
 [node name="Sprite12" type="Sprite" parent="."]
-visible = false
 position = Vector2( 558.782, 825.556 )
 scale = Vector2( 20, 20 )
 texture = ExtResource( 16 )
 hframes = 3
-
 [connection signal="animation_finished" from="Anim" to="." method="_on_Anim_animation_finished"]
 [connection signal="animation_finished" from="FadeOut/FadeOut" to="." method="_on_FadeOut_animation_finished"]
 [connection signal="button_down" from="CanvasLayer/CloseButton" to="." method="_on_CloseButton_button_down"]
