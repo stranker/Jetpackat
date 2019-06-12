@@ -10,4 +10,3 @@ item_list = [ ExtResource( 2 ), ExtResource( 3 ) ]
 min_height = 7.0
 max_height = 12.0
 height_control_list = [ 0, 100 ]
-

@@ -8,8 +8,14 @@
 [sub_resource type="GDScript" id=1]
 script/source = "extends 'res://Object/Collectable/Collectable.gd'
 
+var initial_pos : Vector2
+
 func _ready():
 	connect('taken',get_tree().root.get_node('GameScene'),'add_coin')
+	initialize()
+
+func initialize():
+	initial_pos = position
 
 func _on_Coin_body_entered(body):
 	if body.is_in_group('Player') and !taked:
@@ -22,6 +28,24 @@ func _on_Coin_area_entered(area):
 	if area.name == 'MagnetArea' and !on_magnet_area:
 		player_magnet = area
 		on_magnet_area = !on_magnet_area
+		$Timer.start()
+	pass
+
+func _on_Timer_timeout():
+	if !taked:
+		taked = !taked
+		$Anim.play('Taken')
+		emit_signal('taken',value)
+	pass # Replace with function body.
+
+func reset():
+	speed = 1000
+	position = initial_pos
+	$Timer.stop()
+	player_magnet = null
+	on_magnet_area = false
+	taked = false
+	$Anim.play('Idle')
 	pass"
 
 [sub_resource type="CircleShape2D" id=2]
@@ -62,6 +86,18 @@ tracks/1/keys = {
 "update": 1,
 "values": [ false, true ]
 }
+tracks/2/type = "value"
+tracks/2/path = NodePath("Sprite:self_modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
 
 [sub_resource type="Animation" id=6]
 length = 2.5
@@ -84,12 +120,9 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 2.5 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "queue_free"
-} ]
+"times": PoolRealArray(  ),
+"transitions": PoolRealArray(  ),
+"values": [  ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("CPUParticles2D:emitting")
@@ -135,6 +168,7 @@ emitting = false
 amount = 20
 lifetime = 1.5
 one_shot = true
+preprocess = 0.2
 speed_scale = 3.0
 explosiveness = 0.8
 texture = ExtResource( 3 )
@@ -160,5 +194,8 @@ autoplay = "Idle"
 anims/Idle = SubResource( 5 )
 anims/Taken = SubResource( 6 )
 
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
 [connection signal="area_entered" from="." to="." method="_on_Coin_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_Coin_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

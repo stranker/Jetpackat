@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Fuelbar2.png-5cbea3690b715a207d8d9ab45eb903b1.stex"
+path="res://.import/Shield.png-41129bc5f14f8c8cc591e9b3f99fb6ab.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/UI/Fuelbar2.png"
-dest_files=[ "res://.import/Fuelbar2.png-5cbea3690b715a207d8d9ab45eb903b1.stex" ]
+source_file="res://Sprites/Cat/Shield.png"
+dest_files=[ "res://.import/Shield.png-41129bc5f14f8c8cc591e9b3f99fb6ab.stex" ]
 
 [params]
 

@@ -1,8 +1,8 @@
 [gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Sprites/Ribbon/Ribbon.png" type="Texture" id=1]
-[ext_resource path="res://Sprites/Ribbon/Ballon.png" type="Texture" id=2]
-[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Sprites/Ribbon/Ballon.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/Ribbon/ExcellentEmerald.png" type="Texture" id=4]
 
 [sub_resource type="GDScript" id=1]
@@ -30,11 +30,10 @@ func deactivate():
 	$LabelAnim.play('Taken')
 	$Anim.play('Deactivate')
 	emit_signal('activated',activated)
-	$ComboLabel.text = \"Combo\\nx\"+str(get_tree().root.get_node('GameScene').combos)
 	pass
 
 func _on_VisibilityNotifier2D_screen_exited():
-	if !activated:
+	if !activated and !GameManager.player.invencible:
 		emit_signal(\"activated\",activated)
 		queue_free()
 	pass # Replace with function body.
@@ -43,6 +42,11 @@ func _on_TakeArea_body_entered(body):
 	if body.is_in_group(\"Player\") and !activated:
 		body.ribbon_passed()
 		deactivate()
+	pass # Replace with function body.
+
+func _on_VisibilityNotifier2D_screen_entered():
+	if GameManager.player.invencible:
+		queue_free()
 	pass # Replace with function body.
 "
 
@@ -117,7 +121,7 @@ tracks/5/loop_wrap = true
 tracks/5/imported = false
 tracks/5/enabled = true
 tracks/5/keys = {
-"times": PoolRealArray( 0, 0.8 ),
+"times": PoolRealArray( 0, 0.5 ),
 "transitions": PoolRealArray( 0.5, 1 ),
 "update": 0,
 "values": [ Vector2( -112.262, -6.10079 ), Vector2( -185.036, -3.83158 ) ]
@@ -129,10 +133,10 @@ tracks/6/loop_wrap = true
 tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
-"times": PoolRealArray( 0, 0.8 ),
+"times": PoolRealArray( 0, 0.5 ),
 "transitions": PoolRealArray( 0.5, 1 ),
 "update": 0,
-"values": [ Vector2( 0.456672, 0.456672 ), Vector2( 1.35156, 1.35156 ) ]
+"values": [ Vector2( 0.456672, 0.456672 ), Vector2( 1, 1 ) ]
 }
 tracks/7/type = "value"
 tracks/7/path = NodePath("EmeraldR:position")
@@ -141,7 +145,7 @@ tracks/7/loop_wrap = true
 tracks/7/imported = false
 tracks/7/enabled = true
 tracks/7/keys = {
-"times": PoolRealArray( 0, 0.8 ),
+"times": PoolRealArray( 0, 0.5 ),
 "transitions": PoolRealArray( 0.5, 1 ),
 "update": 0,
 "values": [ Vector2( 111.895, -5.52552 ), Vector2( 189.079, -2.30812 ) ]
@@ -153,10 +157,10 @@ tracks/8/loop_wrap = true
 tracks/8/imported = false
 tracks/8/enabled = true
 tracks/8/keys = {
-"times": PoolRealArray( 0, 0.8 ),
+"times": PoolRealArray( 0, 0.5 ),
 "transitions": PoolRealArray( 0.5, 1 ),
 "update": 0,
-"values": [ Vector2( 0.424712, 0.424712 ), Vector2( 1.36222, 1.36222 ) ]
+"values": [ Vector2( 0.424712, 0.424712 ), Vector2( 1, 1 ) ]
 }
 tracks/9/type = "value"
 tracks/9/path = NodePath("EmeraldR:self_modulate")
@@ -165,7 +169,7 @@ tracks/9/loop_wrap = true
 tracks/9/imported = false
 tracks/9/enabled = true
 tracks/9/keys = {
-"times": PoolRealArray( 0, 0.4, 0.8, 1.2 ),
+"times": PoolRealArray( 0, 0.2, 0.5, 1 ),
 "transitions": PoolRealArray( 1, 1, 0.5, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
@@ -177,7 +181,7 @@ tracks/10/loop_wrap = true
 tracks/10/imported = false
 tracks/10/enabled = true
 tracks/10/keys = {
-"times": PoolRealArray( 0, 0.4, 0.8, 1.2 ),
+"times": PoolRealArray( 0, 0.2, 0.5, 1 ),
 "transitions": PoolRealArray( 1, 1, 0.5, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
@@ -210,7 +214,7 @@ tracks/13/imported = false
 tracks/13/enabled = true
 tracks/13/keys = {
 "points": PoolRealArray( 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
-"times": PoolRealArray( 0, 0.6, 1.7 )
+"times": PoolRealArray( 0, 0.6, 1.5 )
 }
 
 [sub_resource type="Animation" id=3]
@@ -277,16 +281,15 @@ tracks/4/keys = {
 "values": [ PoolVector2Array( 99.299, -163.505, 98.1613, -140.753, 97.5926, -116.864, 96.2128, -103.066, 94.7485, -88.4235, 95.0563, -69.6487, 95.3174, -53.7266, 93.2067, -38.4247, 90.7669, -20.736 ), PoolVector2Array( 91.5907, -151.588, 96.7673, -133.47, 103.238, -106.94, 104.856, -74.9101, 104.856, -53.2333, 103.238, -40.6154, 100.65, -27.674, 96.1202, -17.3209, 90.6201, -6.32076 ) ]
 }
 
-[sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 120, 20 )
-
 [sub_resource type="DynamicFont" id=5]
 size = 54
 outline_size = 3
-outline_color = Color( 1, 0.584314, 0, 1 )
 use_filter = true
 extra_spacing_char = 1
-font_data = ExtResource( 3 )
+font_data = ExtResource( 2 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 120, 20 )
 
 [sub_resource type="Animation" id=6]
 resource_name = "Taken"
@@ -326,6 +329,18 @@ tracks/2/keys = {
 "update": 0,
 "values": [ Vector2( 1, 1 ), Vector2( 1.8, 1.8 ) ]
 }
+tracks/3/type = "value"
+tracks/3/path = NodePath("ComboLabel:custom_colors/font_outline_modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0.968627, 1, 0, 1 ), Color( 1, 0.164706, 0, 1 ) ]
+}
 
 [node name="Ribbon" type="Node2D"]
 z_index = 10
@@ -355,17 +370,33 @@ autoplay = "Idle"
 anims/Deactivate = SubResource( 2 )
 anims/Idle = SubResource( 3 )
 
+[node name="ComboLabel" type="Label" parent="."]
+self_modulate = Color( 1, 1, 1, 0 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -196.5
+margin_top = -33.0
+margin_right = 196.5
+margin_bottom = 52.0
+custom_fonts/font = SubResource( 5 )
+custom_colors/font_color = Color( 0.980392, 0.980392, 0.980392, 1 )
+custom_colors/font_outline_modulate = Color( 0.968627, 1, 0, 1 )
+text = "FUEL UP!"
+align = 1
+
 [node name="Ballon" type="Sprite" parent="."]
 position = Vector2( -100, -210 )
 scale = Vector2( 2, 2 )
 z_index = 2
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 
 [node name="Ballon2" type="Sprite" parent="."]
 position = Vector2( 100, -210 )
 scale = Vector2( 2, 2 )
 z_index = 2
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 
 [node name="TakeArea" type="Area2D" parent="."]
 editor/display_folded = true
@@ -374,22 +405,6 @@ editor/display_folded = true
 position = Vector2( 0, 20 )
 shape = SubResource( 4 )
 one_way_collision = true
-
-[node name="ComboLabel" type="Label" parent="."]
-self_modulate = Color( 1, 1, 1, 0 )
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -353.814
-margin_top = -185.508
-margin_right = 39.1859
-margin_bottom = -100.508
-rect_scale = Vector2( 1.8, 1.8 )
-custom_fonts/font = SubResource( 5 )
-custom_colors/font_color = Color( 0.941176, 0.901961, 0.901961, 1 )
-text = "COMBO"
-align = 1
 
 [node name="LabelAnim" type="AnimationPlayer" parent="."]
 anims/Taken = SubResource( 6 )
@@ -411,4 +426,5 @@ flip_h = true
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 [connection signal="body_entered" from="TakeArea" to="." method="_on_TakeArea_body_entered"]
+[connection signal="screen_entered" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_entered"]
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

@@ -15,7 +15,7 @@ func _ready():
 func choose_pattern():
 	pattern_list.shuffle()
 	pattern_list[0].show()
-	for i in range(pattern_list.size()):
+	for i in range(pattern_list.size()-1,0,-1):
 		if i != 0:
 			pattern_list[i].queue_free()
 
@@ -27,7 +27,6 @@ func _on_Timer_timeout():
 	queue_free()
 	pass # Replace with function body.
 
-
 func _on_VisibilityNotifier2D_screen_exited():
 	$Timer.start()
 	pass # Replace with function body.
@@ -37,7 +36,6 @@ func _on_VisibilityNotifier2D_screen_exited():
 script = SubResource( 1 )
 
 [node name="Patterns" type="Node2D" parent="."]
-editor/display_folded = true
 
 [node name="Pattern1" type="Node2D" parent="Patterns"]
 editor/display_folded = true
