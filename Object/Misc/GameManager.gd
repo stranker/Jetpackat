@@ -17,7 +17,10 @@ var game_info : Dictionary = {}
 var timer : float = 0
 var intro_watched : bool = false
 var private_url = 'A_qF1JJVd0iy5GKQGTuHjAXVoYJ4ml3kq7N2E5W0B16g'
-var fuelbar_position : Vector2
+
+func reset_stats():
+	player_height = 0
+	pass
 
 func _ready():
 	load_data()

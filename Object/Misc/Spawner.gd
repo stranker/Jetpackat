@@ -28,10 +28,10 @@ func spawn_item(item_scene : PackedScene):
 	var item = item_scene.instance()
 	var new_pos = Vector2()
 	spawn_points.shuffle()
+	get_node(parent_node).call_deferred('add_child',item)
 	new_pos.x = spawn_points[0].position.x
 	new_pos.y = GameManager.camera.global_position.y - get_viewport().get_viewport().size.y / 2 - 200
-	get_node(parent_node).call_deferred('add_child',item)
-	item.position = new_pos
+	item.global_position = new_pos
 	pos_player_last_spawn = GameManager.player_height
 	get_new_height()
 	pass

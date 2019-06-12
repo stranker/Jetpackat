@@ -1,11 +1,12 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://Sprites/Cat/Skin/Skin.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Cat/Eyes.png" type="Texture" id=2]
 [ext_resource path="res://Shaders/outline.shader" type="Shader" id=3]
 [ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/Shop/Cat/Thruster/Smoke.png" type="Texture" id=5]
-[ext_resource path="res://Sounds/Sfx/Jump.wav" type="AudioStream" id=6]
+[ext_resource path="res://Sprites/Tutorial/JumpArrow.png" type="Texture" id=6]
+[ext_resource path="res://Sounds/Sfx/Jump.wav" type="AudioStream" id=7]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends KinematicBody2D
@@ -57,15 +58,21 @@ func _physics_process(delta):
 func _process(delta):
 	if activated:
 		check_boundaries()
+		process_animation()
 		if !is_on_floor():
 			emit_signal('current_height',int(abs(position.y) * 0.01))
-			if velocity.y < 450:
-				$Visible/Scarf/Anim.play('Flying')
-			else:
-				$Visible/Scarf/Anim.play('Falling')
+		#$Visible/Jetpack/Thruster.emitting = velocity.x != 0 or invencible
+		$Visible/Jetpack/Thruster.emitting = velocity.y < 0
+	pass
+
+func process_animation():
+	if !is_on_floor():
+		if velocity.y < 450:
+			$Visible/Scarf/Anim.play('Flying')
 		else:
-			$Visible/Scarf/Anim.play('Idle')
-		$Visible/Jetpack/Thruster.emitting = velocity.x != 0 or invencible
+			$Visible/Scarf/Anim.play('Falling')
+	else:
+		$Visible/Scarf/Anim.play('Idle')
 	pass
 
 func check_boundaries():
@@ -107,19 +114,18 @@ func _on_Area_gui_input(event):
 	if event is InputEventScreenTouch:
 		if !event.is_echo() and event.pressed and !dead and !invencible:
 			check_is_active()
-			jump_direction = -jump_direction
 			jump(jump_speed)
 	pass
 
 func jump(jforce : int):
+	jump_direction = -jump_direction
+	check_scale_direction()
 	velocity.y = -jforce
-	check_jump_direction()
 	$Sample.play()
-	$Camera2D.shake(jforce*0.0001,0.5)
 	$Visible/Jetpack/Anim.play('Propulsion')
 	pass
 
-func check_jump_direction():
+func check_scale_direction():
 	$Visible.scale.x = -jump_direction
 	velocity.x = jump_direction * horizontal_speed
 	pass
@@ -170,6 +176,10 @@ func combo_master():
 func ribbon_passed():
 	$Anim.play('Ribbon')
 	$Anim.queue('Flying')
+	pass
+
+func hide_tutorial_arrow():
+	$Visible/Arrow/Anim.play('Hide')
 	pass"
 
 [sub_resource type="CapsuleShape2D" id=2]
@@ -446,6 +456,22 @@ tracks/3/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ 6.06401 ]
+}
+
+[sub_resource type="Animation" id=19]
+resource_name = "Hide"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0.34902 ), Color( 1, 1, 1, 0 ) ]
 }
 
 [sub_resource type="Animation" id=14]
@@ -989,7 +1015,6 @@ script = SubResource( 3 )
 one_shot = true
 
 [node name="Visible" type="Node2D" parent="."]
-editor/display_folded = true
 script = SubResource( 4 )
 
 [node name="Skin" type="Sprite" parent="Visible"]
@@ -1112,6 +1137,16 @@ rotation = 0.918733
 rest = Transform2D( 1, 0, 0, 1, 6.20966, 0.0968933 )
 default_length = 6.0
 
+[node name="Arrow" type="Sprite" parent="Visible"]
+self_modulate = Color( 1, 1, 1, 0.34902 )
+position = Vector2( -94.798, 28.9252 )
+scale = Vector2( 3, 3 )
+texture = ExtResource( 6 )
+flip_h = true
+
+[node name="Anim" type="AnimationPlayer" parent="Visible/Arrow"]
+anims/Hide = SubResource( 19 )
+
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Flying"
 anims/Dead = SubResource( 14 )
@@ -1121,7 +1156,6 @@ anims/Ribbon = SubResource( 17 )
 anims/TimeOut = SubResource( 18 )
 
 [node name="ClickArea" type="CanvasLayer" parent="."]
-editor/display_folded = true
 
 [node name="Area" type="Control" parent="ClickArea"]
 anchor_right = 1.0
@@ -1137,7 +1171,7 @@ one_shot = true
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 
 [node name="Sample" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 6 )
+stream = ExtResource( 7 )
 volume_db = -17.165
 pitch_scale = 2.0
 [connection signal="timeout" from="Camera2D/Timer" to="Camera2D" method="_on_Timer_timeout"]

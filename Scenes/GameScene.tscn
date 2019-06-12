@@ -1,4 +1,4 @@
-[gd_scene load_steps=77 format=2]
+[gd_scene load_steps=76 format=2]
 
 [ext_resource path="res://Sprites/Background/House.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Background/SmokeParticle.png" type="Texture" id=2]
@@ -54,6 +54,7 @@ var highscore_passed : bool = false
 var tutorial_done : bool = false
 
 func _ready():
+	GameManager.reset_stats()
 	$UIGame.update_UI_labels()
 	pass
 
@@ -240,13 +241,13 @@ func _ready():
 	$Container/PausePanel.hide()
 	$Container/DeadPanel.hide()
 	$Container/Transition/Anim.play('FadeOut')
-	GameManager.fuelbar_position = $Container/FuelBar.rect_global_position
 	$Container/FuelBar.value = get_parent().combos
 	pass
 
 func _process(delta):
 	if GameManager.player_height >= get_parent().get_node(\"EnemySpawner\").min_height_tutorial:
 		$Container/PawTutorial/Anim.play('End')
+		get_parent().get_node('Player').hide_tutorial_arrow()
 		set_process(false)
 
 func add_coin(val):
@@ -478,19 +479,6 @@ outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 11 )
 
-[sub_resource type="StyleBoxFlat" id=14]
-bg_color = Color( 0.2, 0.807843, 0.00392157, 1 )
-border_width_left = 10
-border_width_top = 10
-border_width_right = 10
-border_width_bottom = 10
-border_color = Color( 0, 0.6, 0.00784314, 1 )
-corner_radius_top_left = 25
-corner_radius_top_right = 25
-corner_radius_bottom_right = 25
-corner_radius_bottom_left = 25
-shadow_size = 6
-
 [sub_resource type="DynamicFont" id=15]
 size = 86
 outline_size = 6
@@ -678,7 +666,7 @@ tracks/0/keys = {
 "values": [ ExtResource( 13 ), ExtResource( 14 ), ExtResource( 15 ), ExtResource( 16 ), ExtResource( 14 ), ExtResource( 15 ) ]
 }
 
-[sub_resource type="Animation" id=28]
+[sub_resource type="Animation" id=22]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:modulate")
@@ -693,7 +681,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 0.729412 ), Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="Animation" id=29]
+[sub_resource type="Animation" id=23]
 length = 0.6
 loop = true
 tracks/0/type = "value"
@@ -733,14 +721,14 @@ tracks/2/keys = {
 "values": [ 0, 1, 0 ]
 }
 
-[sub_resource type="DynamicFont" id=30]
+[sub_resource type="DynamicFont" id=24]
 size = 18
 outline_size = 2
 outline_color = Color( 0.0901961, 0.0901961, 0.0901961, 1 )
 use_filter = true
 font_data = ExtResource( 11 )
 
-[sub_resource type="StyleBoxFlat" id=26]
+[sub_resource type="StyleBoxFlat" id=25]
 bg_color = Color( 0.482353, 0, 0.67451, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -752,21 +740,21 @@ corner_radius_top_right = 75
 corner_radius_bottom_right = 75
 corner_radius_bottom_left = 75
 
-[sub_resource type="DynamicFont" id=27]
+[sub_resource type="DynamicFont" id=26]
 size = 80
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 11 )
 
-[sub_resource type="DynamicFont" id=31]
+[sub_resource type="DynamicFont" id=27]
 size = 400
 outline_size = 20
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 11 )
 
-[sub_resource type="Animation" id=32]
+[sub_resource type="Animation" id=28]
 resource_name = "Countdown"
 length = 3.5
 tracks/0/type = "value"
@@ -844,7 +832,7 @@ tracks/5/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="StyleBoxFlat" id=22]
+[sub_resource type="StyleBoxFlat" id=29]
 bg_color = Color( 0.545098, 0, 0.854902, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -858,14 +846,14 @@ corner_radius_bottom_left = 50
 shadow_color = Color( 0, 0, 0, 0.219608 )
 shadow_size = 5
 
-[sub_resource type="DynamicFont" id=23]
+[sub_resource type="DynamicFont" id=30]
 size = 80
 outline_size = 6
 outline_color = Color( 1, 0.952941, 0.952941, 1 )
 use_filter = true
 font_data = ExtResource( 11 )
 
-[sub_resource type="DynamicFont" id=24]
+[sub_resource type="DynamicFont" id=31]
 size = 60
 outline_size = 6
 outline_color = Color( 0, 0, 0, 1 )
@@ -873,7 +861,7 @@ use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 11 )
 
-[sub_resource type="Animation" id=25]
+[sub_resource type="Animation" id=32]
 length = 2.0
 loop = true
 tracks/0/type = "value"
@@ -1112,6 +1100,7 @@ script = SubResource( 6 )
 
 [node name="Container" type="Control" parent="UIGame"]
 pause_mode = 2
+editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -1208,17 +1197,6 @@ margin_right = 676.0
 margin_bottom = 160.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-
-[node name="Panel" type="Panel" parent="UIGame/Container/Panel/HBC/MeterPanel"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -149.5
-margin_top = -69.0
-margin_right = 149.5
-margin_bottom = 69.0
-custom_styles/panel = SubResource( 14 )
 
 [node name="MeterLabel" type="Label" parent="UIGame/Container/Panel/HBC/MeterPanel"]
 anchor_left = 0.5
@@ -1382,8 +1360,8 @@ hframes = 2
 
 [node name="Anim" type="AnimationPlayer" parent="UIGame/Container/PawTutorial"]
 autoplay = "Start"
-anims/End = SubResource( 28 )
-anims/Start = SubResource( 29 )
+anims/End = SubResource( 22 )
+anims/Start = SubResource( 23 )
 
 [node name="Label" type="Label" parent="UIGame/Container/PawTutorial"]
 margin_left = 6.65128
@@ -1391,7 +1369,7 @@ margin_top = -96.9099
 margin_right = 55.6513
 margin_bottom = -64.9099
 rect_rotation = 30.0
-custom_fonts/font = SubResource( 30 )
+custom_fonts/font = SubResource( 24 )
 text = "TAP!"
 align = 1
 valign = 1
@@ -1409,13 +1387,13 @@ margin_left = -374.0
 margin_top = -320.5
 margin_right = 374.0
 margin_bottom = 320.5
-custom_styles/panel = SubResource( 26 )
+custom_styles/panel = SubResource( 25 )
 
 [node name="PauseLabel" type="Label" parent="UIGame/Container/PausePanel"]
 anchor_right = 1.0
 margin_top = 10.5
 margin_bottom = 114.5
-custom_fonts/font = SubResource( 27 )
+custom_fonts/font = SubResource( 26 )
 text = "GAME PAUSED"
 align = 1
 valign = 1
@@ -1477,12 +1455,12 @@ margin_top = -180.0
 margin_right = 262.258
 margin_bottom = 300.0
 rect_scale = Vector2( 0.2, 0.2 )
-custom_fonts/font = SubResource( 31 )
+custom_fonts/font = SubResource( 27 )
 text = "3"
 align = 1
 
 [node name="Anim" type="AnimationPlayer" parent="UIGame/Container/PauseTimer"]
-anims/Countdown = SubResource( 32 )
+anims/Countdown = SubResource( 28 )
 
 [node name="DeadPanel" type="Panel" parent="UIGame/Container"]
 pause_mode = 2
@@ -1496,7 +1474,7 @@ margin_left = -332.0
 margin_top = -270.5
 margin_right = 332.0
 margin_bottom = 270.5
-custom_styles/panel = SubResource( 22 )
+custom_styles/panel = SubResource( 29 )
 
 [node name="TryAgain" type="Label" parent="UIGame/Container/DeadPanel"]
 anchor_left = 0.5
@@ -1507,7 +1485,7 @@ margin_left = -304.0
 margin_top = -89.5
 margin_right = 304.0
 margin_bottom = 255.5
-custom_fonts/font = SubResource( 23 )
+custom_fonts/font = SubResource( 30 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
@@ -1523,7 +1501,7 @@ margin_top = 31.0
 margin_right = 384.0
 margin_bottom = 240.0
 rect_pivot_offset = Vector2( 357.5, 50 )
-custom_fonts/font = SubResource( 24 )
+custom_fonts/font = SubResource( 31 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
@@ -1559,7 +1537,7 @@ expand = true
 stretch_mode = 5
 
 [node name="Anim" type="AnimationPlayer" parent="UIGame/Container/DeadPanel"]
-anims/HighscorePassed = SubResource( 25 )
+anims/HighscorePassed = SubResource( 32 )
 
 [node name="Transition" type="TextureRect" parent="UIGame/Container"]
 editor/display_folded = true
