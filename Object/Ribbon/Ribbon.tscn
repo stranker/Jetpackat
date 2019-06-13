@@ -40,7 +40,8 @@ func _on_VisibilityNotifier2D_screen_exited():
 
 func _on_TakeArea_body_entered(body):
 	if body.is_in_group(\"Player\") and !activated:
-		body.ribbon_passed()
+		if !body.invencible:
+			body.ribbon_passed()
 		deactivate()
 	pass # Replace with function body.
 
@@ -281,14 +282,14 @@ tracks/4/keys = {
 "values": [ PoolVector2Array( 99.299, -163.505, 98.1613, -140.753, 97.5926, -116.864, 96.2128, -103.066, 94.7485, -88.4235, 95.0563, -69.6487, 95.3174, -53.7266, 93.2067, -38.4247, 90.7669, -20.736 ), PoolVector2Array( 91.5907, -151.588, 96.7673, -133.47, 103.238, -106.94, 104.856, -74.9101, 104.856, -53.2333, 103.238, -40.6154, 100.65, -27.674, 96.1202, -17.3209, 90.6201, -6.32076 ) ]
 }
 
-[sub_resource type="DynamicFont" id=5]
+[sub_resource type="DynamicFont" id=4]
 size = 54
 outline_size = 3
 use_filter = true
 extra_spacing_char = 1
 font_data = ExtResource( 2 )
 
-[sub_resource type="RectangleShape2D" id=4]
+[sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 120, 20 )
 
 [sub_resource type="Animation" id=6]
@@ -380,7 +381,7 @@ margin_left = -196.5
 margin_top = -33.0
 margin_right = 196.5
 margin_bottom = 52.0
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 0.980392, 0.980392, 0.980392, 1 )
 custom_colors/font_outline_modulate = Color( 0.968627, 1, 0, 1 )
 text = "FUEL UP!"
@@ -403,7 +404,7 @@ editor/display_folded = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TakeArea"]
 position = Vector2( 0, 20 )
-shape = SubResource( 4 )
+shape = SubResource( 5 )
 one_way_collision = true
 
 [node name="LabelAnim" type="AnimationPlayer" parent="."]

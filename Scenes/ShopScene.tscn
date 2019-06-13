@@ -73,8 +73,12 @@ func _on_TextureButton_button_down():
 	get_tree().change_scene('Scenes/MainMenu.tscn')
 	pass
 
-func enable_last_used_item(type,item_name,color):
+func equip_item(type,item_name,color):
 	update_equipment()
+	enable_used_items(item_name)
+	pass
+
+func enable_used_items(item_name):
 	for i in $VBC/HBC/ShopPanel/PanelItems/Items.get_children():
 		if i.item_name != item_name:
 			i.enable_use_button(true)
@@ -137,10 +141,13 @@ func _on_SkinColorButton_button_down():
 	pass # Replace with function body.
 
 func unequip_item(item_type):
-	if item_type == 'Skin':
-		player.hide()
-	else:
-		player.get_node(item_type).hide()
+	player.get_node(item_type).texture = null
+	pass
+
+func item_preview(item_type,item_texture):
+	for i in $VBC/HBC/ShopPanel/PanelItems/Items.get_children():
+		i.unequip_item()
+	player.get_node(item_type).texture = item_texture
 	pass"
 
 [sub_resource type="StyleBoxFlat" id=3]
@@ -268,7 +275,6 @@ anchor_bottom = 1.0
 custom_constants/separation = 5
 
 [node name="HBC" type="HBoxContainer" parent="VBC"]
-editor/display_folded = true
 margin_right = 1080.0
 margin_bottom = 1315.0
 size_flags_horizontal = 3
@@ -363,6 +369,7 @@ text = "99999"
 valign = 1
 
 [node name="PanelItems" type="Panel" parent="VBC/HBC/ShopPanel"]
+editor/display_folded = true
 margin_top = 160.0
 margin_right = 880.0
 margin_bottom = 1315.0
@@ -393,6 +400,7 @@ margin_right = 280.0
 margin_bottom = 355.0
 
 [node name="VBB" type="VBoxContainer" parent="VBC/HBC"]
+editor/display_folded = true
 margin_left = 880.0
 margin_right = 1080.0
 margin_bottom = 1315.0
@@ -409,6 +417,7 @@ stretch_mode = 5
 
 [node name="PanelButtons" type="Panel" parent="VBC/HBC/VBB"]
 pause_mode = 1
+editor/display_folded = true
 margin_top = 164.0
 margin_right = 200.0
 margin_bottom = 1315.0
@@ -477,7 +486,6 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="PlayerPanel" type="Panel" parent="VBC"]
-editor/display_folded = true
 margin_top = 1320.0
 margin_right = 1080.0
 margin_bottom = 1920.0
@@ -509,9 +517,9 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -150.0
+margin_left = -149.5
 margin_top = -427.0
-margin_right = 150.0
+margin_right = 150.5
 margin_bottom = -17.0
 rect_min_size = Vector2( 300, 410 )
 size_flags_horizontal = 3
@@ -523,13 +531,12 @@ stretch_mode = 6
 [node name="Eyes" type="NinePatchRect" parent="VBC/PlayerPanel/HBC/Player/Skin"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -115.0
-margin_top = 22.8906
-margin_right = 109.0
-margin_bottom = 244.891
-rect_min_size = Vector2( 220, 0 )
+margin_left = -116.0
+margin_top = 24.0
+margin_right = 85.0
+margin_bottom = 219.0
 texture = ExtResource( 13 )
-region_rect = Rect2( 0, 0, 36, 36 )
+region_rect = Rect2( 0, 0, 32, 32 )
 
 [node name="Pattern" type="TextureRect" parent="VBC/PlayerPanel/HBC/Player/Skin"]
 anchor_left = 0.5
@@ -559,10 +566,11 @@ stretch_mode = 6
 [node name="Hat" type="TextureRect" parent="VBC/PlayerPanel/HBC/Player/Skin"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -148.0
-margin_top = -113.0
-margin_right = 150.0
-margin_bottom = 92.0
+margin_left = -127.105
+margin_top = -127.263
+margin_right = 132.895
+margin_bottom = 106.737
+rect_rotation = 0.927213
 expand = true
 stretch_mode = 6
 

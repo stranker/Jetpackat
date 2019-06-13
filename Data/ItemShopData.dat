@@ -73,6 +73,22 @@
       "price": 350,
       "type": "Scarf"
     }
+	},
+  "Jetpack": {
+    "Green": {
+      "buyed": true,
+      "id": 0,
+      "payment": "Coin",
+      "price": 0,
+      "type": "Jetpack"
+    },
+    "WhiteHearth": {
+      "buyed": false,
+      "id": 1,
+      "payment": "Fish",
+      "price": 100,
+      "type": "Jetpack"
+    }
   }
 }
 

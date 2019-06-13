@@ -324,14 +324,14 @@ func failed_combo(val):
 	$UI/FuelBar/Anim.queue('Idle')
 	pass"
 
-[sub_resource type="DynamicFont" id=14]
+[sub_resource type="DynamicFont" id=7]
 size = 86
 outline_size = 6
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 9 )
 
-[sub_resource type="StyleBoxFlat" id=36]
+[sub_resource type="StyleBoxFlat" id=8]
 bg_color = Color( 0.4, 0.00392157, 0.580392, 1 )
 border_width_top = 10
 border_width_right = 10
@@ -343,21 +343,21 @@ expand_margin_left = 30.0
 expand_margin_right = 110.0
 shadow_size = 6
 
-[sub_resource type="DynamicFont" id=45]
+[sub_resource type="DynamicFont" id=9]
 size = 42
 outline_size = 6
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 9 )
 
-[sub_resource type="DynamicFont" id=47]
+[sub_resource type="DynamicFont" id=10]
 size = 42
 outline_size = 6
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 9 )
 
-[sub_resource type="Animation" id=49]
+[sub_resource type="Animation" id=11]
 resource_name = "AddCombo"
 length = 0.5
 tracks/0/type = "value"
@@ -385,7 +385,7 @@ tracks/1/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 1.5, 1.5 ), Vector2( 1, 1 ) ]
 }
 
-[sub_resource type="StyleBoxFlat" id=8]
+[sub_resource type="StyleBoxFlat" id=12]
 bg_color = Color( 0.4, 0.00392157, 0.580392, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -399,7 +399,7 @@ expand_margin_top = 6.0
 expand_margin_bottom = 6.0
 shadow_size = 6
 
-[sub_resource type="StyleBoxFlat" id=46]
+[sub_resource type="StyleBoxFlat" id=13]
 bg_color = Color( 0.4, 0.00392157, 0.580392, 1 )
 border_width_top = 10
 border_width_right = 10
@@ -411,7 +411,7 @@ expand_margin_left = 30.0
 expand_margin_right = 115.0
 shadow_size = 6
 
-[sub_resource type="DynamicFont" id=16]
+[sub_resource type="DynamicFont" id=14]
 size = 72
 outline_size = 4
 outline_color = Color( 0, 0, 0, 1 )
@@ -419,7 +419,7 @@ use_filter = true
 extra_spacing_char = 2
 font_data = ExtResource( 9 )
 
-[sub_resource type="Animation" id=48]
+[sub_resource type="Animation" id=15]
 resource_name = "AddCoin"
 length = 0.5
 tracks/0/type = "value"
@@ -435,7 +435,7 @@ tracks/0/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 1.5, 1.5 ), Vector2( 1, 1 ) ]
 }
 
-[sub_resource type="DynamicFont" id=11]
+[sub_resource type="DynamicFont" id=16]
 size = 72
 outline_size = 4
 outline_color = Color( 0, 0, 0, 1 )
@@ -443,7 +443,7 @@ use_filter = true
 extra_spacing_char = 2
 font_data = ExtResource( 9 )
 
-[sub_resource type="Animation" id=12]
+[sub_resource type="Animation" id=17]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("Fish:rect_scale")
@@ -458,7 +458,7 @@ tracks/0/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 1.5, 1.5 ), Vector2( 1, 1 ) ]
 }
 
-[sub_resource type="StyleBoxFlat" id=38]
+[sub_resource type="StyleBoxFlat" id=18]
 bg_color = Color( 1, 0.678431, 0, 1 )
 border_width_left = 5
 border_width_top = 2
@@ -471,7 +471,7 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 50
 
-[sub_resource type="StyleBoxFlat" id=37]
+[sub_resource type="StyleBoxFlat" id=19]
 bg_color = Color( 0.392157, 0.392157, 0.392157, 0.337255 )
 border_width_left = 5
 border_width_top = 5
@@ -488,7 +488,7 @@ expand_margin_right = 7.0
 expand_margin_top = 7.0
 expand_margin_bottom = 7.0
 
-[sub_resource type="Animation" id=40]
+[sub_resource type="Animation" id=20]
 resource_name = "AddCombo"
 length = 0.5
 tracks/0/type = "value"
@@ -528,7 +528,7 @@ tracks/2/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 0.305882, 0, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=39]
+[sub_resource type="Animation" id=21]
 resource_name = "Failed"
 length = 1.5
 tracks/0/type = "value"
@@ -580,7 +580,7 @@ tracks/3/keys = {
 "values": [ Vector2( 401.743, -23.269 ), Vector2( 393, -9 ), Vector2( 401.743, -23.269 ) ]
 }
 
-[sub_resource type="Animation" id=44]
+[sub_resource type="Animation" id=22]
 resource_name = "Idle"
 length = 0.001
 tracks/0/type = "value"
@@ -608,7 +608,7 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=41]
+[sub_resource type="Animation" id=23]
 resource_name = "Pump"
 length = 4.0
 tracks/0/type = "value"
@@ -636,12 +636,12 @@ tracks/1/keys = {
 "values": [ Vector2( 401.743, -23.269 ), Vector2( 414, -36 ), Vector2( 388.066, -14.2302 ), Vector2( 401.743, -23.269 ), Vector2( 399.247, -27.4298 ), Vector2( 396.195, -19.3857 ), Vector2( 396.75, -17.7213 ), Vector2( 403.685, -14.3926 ), Vector2( 402.298, -17.1664 ), Vector2( 402.298, -17.1664 ), Vector2( 404.517, -20.4951 ), Vector2( 404.24, -24.3786 ), Vector2( 395.918, -24.1013 ), Vector2( 396.195, -19.3857 ), Vector2( 396.75, -17.7213 ), Vector2( 404.24, -24.3786 ), Vector2( 399.247, -27.4298 ), Vector2( 403.685, -14.3926 ), Vector2( 396.75, -17.7213 ), Vector2( 402.298, -17.1664 ), Vector2( 396.195, -19.3857 ), Vector2( 395.918, -24.1013 ), Vector2( 404.517, -20.4951 ), Vector2( 404.24, -24.3786 ), Vector2( 403.685, -14.3926 ), Vector2( 399.247, -27.4298 ), Vector2( 401.743, -23.269 ) ]
 }
 
-[sub_resource type="ShaderMaterial" id=42]
+[sub_resource type="ShaderMaterial" id=24]
 shader = ExtResource( 12 )
 shader_param/outline_width = 0.5
 shader_param/outline_color = Color( 0, 0, 0, 1 )
 
-[sub_resource type="Animation" id=21]
+[sub_resource type="Animation" id=25]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:modulate")
@@ -656,7 +656,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 0.729412 ), Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="Animation" id=22]
+[sub_resource type="Animation" id=26]
 length = 0.6
 loop = true
 tracks/0/type = "value"
@@ -696,14 +696,14 @@ tracks/2/keys = {
 "values": [ 0, 1, 0 ]
 }
 
-[sub_resource type="DynamicFont" id=23]
+[sub_resource type="DynamicFont" id=27]
 size = 18
 outline_size = 2
 outline_color = Color( 0.0901961, 0.0901961, 0.0901961, 1 )
 use_filter = true
 font_data = ExtResource( 9 )
 
-[sub_resource type="StyleBoxFlat" id=24]
+[sub_resource type="StyleBoxFlat" id=28]
 bg_color = Color( 0.482353, 0, 0.67451, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -715,22 +715,21 @@ corner_radius_top_right = 75
 corner_radius_bottom_right = 75
 corner_radius_bottom_left = 75
 
-[sub_resource type="DynamicFont" id=25]
+[sub_resource type="DynamicFont" id=29]
 size = 80
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 9 )
 
-[sub_resource type="DynamicFont" id=26]
+[sub_resource type="DynamicFont" id=30]
 size = 400
 outline_size = 20
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 9 )
 
-[sub_resource type="Animation" id=27]
-resource_name = "Countdown"
+[sub_resource type="Animation" id=31]
 length = 3.5
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:text")
@@ -807,7 +806,7 @@ tracks/5/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="StyleBoxFlat" id=28]
+[sub_resource type="StyleBoxFlat" id=32]
 bg_color = Color( 0.545098, 0, 0.854902, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -821,14 +820,14 @@ corner_radius_bottom_left = 50
 shadow_color = Color( 0, 0, 0, 0.219608 )
 shadow_size = 5
 
-[sub_resource type="DynamicFont" id=29]
+[sub_resource type="DynamicFont" id=33]
 size = 80
 outline_size = 6
 outline_color = Color( 1, 0.952941, 0.952941, 1 )
 use_filter = true
 font_data = ExtResource( 9 )
 
-[sub_resource type="DynamicFont" id=30]
+[sub_resource type="DynamicFont" id=34]
 size = 60
 outline_size = 6
 outline_color = Color( 0, 0, 0, 1 )
@@ -836,7 +835,7 @@ use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 9 )
 
-[sub_resource type="Animation" id=31]
+[sub_resource type="Animation" id=35]
 length = 2.0
 loop = true
 tracks/0/type = "value"
@@ -888,7 +887,7 @@ tracks/3/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 1.5, 1.5 ), Vector2( 1, 1 ), Vector2( 1.5, 1.5 ) ]
 }
 
-[sub_resource type="Animation" id=32]
+[sub_resource type="Animation" id=36]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:self_modulate")
@@ -903,7 +902,7 @@ tracks/0/keys = {
 "values": [ Color( 0, 0, 0, 1 ), Color( 0.109804, 0.0509804, 0.152941, 0 ) ]
 }
 
-[sub_resource type="Animation" id=33]
+[sub_resource type="Animation" id=37]
 length = 1.5
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:self_modulate")
@@ -968,11 +967,11 @@ tracks/4/keys = {
 } ]
 }
 
-[sub_resource type="DynamicFont" id=34]
+[sub_resource type="DynamicFont" id=38]
 size = 32
 font_data = ExtResource( 9 )
 
-[sub_resource type="DynamicFont" id=35]
+[sub_resource type="DynamicFont" id=39]
 size = 32
 font_data = ExtResource( 9 )
 
@@ -1071,6 +1070,7 @@ centered = false
 position = Vector2( 569.5, 830 )
 
 [node name="UIGame" type="CanvasLayer" parent="."]
+editor/display_folded = true
 script = SubResource( 6 )
 
 [node name="UI" type="Control" parent="UIGame"]
@@ -1102,7 +1102,7 @@ margin_right = 70.0
 margin_bottom = 59.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 14 )
+custom_fonts/font = SubResource( 7 )
 text = "0"
 valign = 1
 
@@ -1118,7 +1118,7 @@ margin_right = 78.0
 margin_bottom = 67.5
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 14 )
+custom_fonts/font = SubResource( 7 )
 text = "M"
 valign = 1
 
@@ -1128,9 +1128,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 0
 grow_vertical = 0
-custom_styles/panelf = SubResource( 36 )
-custom_styles/panel = SubResource( 36 )
-custom_styles/panelnc = SubResource( 36 )
+custom_styles/panelf = SubResource( 8 )
+custom_styles/panel = SubResource( 8 )
+custom_styles/panelnc = SubResource( 8 )
 
 [node name="ComboPanel" type="Control" parent="UIGame/UI/UpperPanel"]
 anchor_top = 1.0
@@ -1151,7 +1151,7 @@ margin_right = 146.0
 margin_bottom = 31.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 45 )
+custom_fonts/font = SubResource( 9 )
 text = "COMBO"
 valign = 1
 
@@ -1167,13 +1167,13 @@ grow_horizontal = 0
 grow_vertical = 0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 47 )
+custom_fonts/font = SubResource( 10 )
 text = "0"
 align = 2
 valign = 1
 
 [node name="Anim" type="AnimationPlayer" parent="UIGame/UI/UpperPanel/ComboPanel/ComboLabel"]
-anims/AddCombo = SubResource( 49 )
+anims/AddCombo = SubResource( 11 )
 
 [node name="ComboPanel" type="Panel" parent="UIGame/UI/UpperPanel/ComboPanel/ComboLabel"]
 show_behind_parent = true
@@ -1181,9 +1181,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 0
 grow_vertical = 0
-custom_styles/panelf = SubResource( 8 )
-custom_styles/panel = SubResource( 46 )
-custom_styles/panelnc = SubResource( 8 )
+custom_styles/panelf = SubResource( 12 )
+custom_styles/panel = SubResource( 13 )
+custom_styles/panelnc = SubResource( 12 )
 
 [node name="CoinPanel" type="Control" parent="UIGame/UI/UpperPanel"]
 editor/display_folded = true
@@ -1205,7 +1205,7 @@ margin_right = -11.0
 margin_bottom = 44.0
 grow_horizontal = 0
 grow_vertical = 0
-custom_fonts/font = SubResource( 16 )
+custom_fonts/font = SubResource( 14 )
 text = "9"
 align = 2
 valign = 1
@@ -1236,7 +1236,7 @@ expand = true
 stretch_mode = 6
 
 [node name="Anim" type="AnimationPlayer" parent="UIGame/UI/UpperPanel/CoinPanel/CoinLabel/CoinControl"]
-anims/AddCoin = SubResource( 48 )
+anims/AddCoin = SubResource( 15 )
 
 [node name="CoinPanel" type="Panel" parent="UIGame/UI/UpperPanel/CoinPanel/CoinLabel"]
 show_behind_parent = true
@@ -1244,9 +1244,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 0
 grow_vertical = 0
-custom_styles/panelf = SubResource( 8 )
-custom_styles/panel = SubResource( 8 )
-custom_styles/panelnc = SubResource( 8 )
+custom_styles/panelf = SubResource( 12 )
+custom_styles/panel = SubResource( 12 )
+custom_styles/panelnc = SubResource( 12 )
 
 [node name="FishPanel" type="Control" parent="UIGame/UI/UpperPanel"]
 editor/display_folded = true
@@ -1269,7 +1269,7 @@ margin_right = -10.0
 margin_bottom = 38.5
 grow_horizontal = 0
 size_flags_vertical = 1
-custom_fonts/font = SubResource( 11 )
+custom_fonts/font = SubResource( 16 )
 text = "9"
 align = 2
 valign = 1
@@ -1300,7 +1300,7 @@ expand = true
 stretch_mode = 6
 
 [node name="Anim" type="AnimationPlayer" parent="UIGame/UI/UpperPanel/FishPanel/FishLabel/FishControl"]
-anims/AddFish = SubResource( 12 )
+anims/AddFish = SubResource( 17 )
 
 [node name="FishPanel" type="Panel" parent="UIGame/UI/UpperPanel/FishPanel/FishLabel"]
 show_behind_parent = true
@@ -1308,9 +1308,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 0
 grow_vertical = 0
-custom_styles/panelf = SubResource( 8 )
-custom_styles/panel = SubResource( 8 )
-custom_styles/panelnc = SubResource( 8 )
+custom_styles/panelf = SubResource( 12 )
+custom_styles/panel = SubResource( 12 )
+custom_styles/panelnc = SubResource( 12 )
 
 [node name="FuelBar" type="ProgressBar" parent="UIGame/UI"]
 editor/display_folded = true
@@ -1323,8 +1323,8 @@ margin_right = 258.0
 margin_bottom = 22.0
 rect_rotation = 270.0
 rect_pivot_offset = Vector2( 231.425, 21 )
-custom_styles/fg = SubResource( 38 )
-custom_styles/bg = SubResource( 37 )
+custom_styles/fg = SubResource( 18 )
+custom_styles/bg = SubResource( 19 )
 max_value = 10.0
 step = 0.0
 value = 1.0
@@ -1333,13 +1333,13 @@ percent_visible = false
 [node name="Tween" type="Tween" parent="UIGame/UI/FuelBar"]
 
 [node name="Anim" type="AnimationPlayer" parent="UIGame/UI/FuelBar"]
-anims/AddCombo = SubResource( 40 )
-anims/Failed = SubResource( 39 )
-anims/Idle = SubResource( 44 )
-anims/Pump = SubResource( 41 )
+anims/AddCombo = SubResource( 20 )
+anims/Failed = SubResource( 21 )
+anims/Idle = SubResource( 22 )
+anims/Pump = SubResource( 23 )
 
 [node name="TextureRect" type="TextureRect" parent="UIGame/UI/FuelBar"]
-material = SubResource( 42 )
+material = SubResource( 24 )
 anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
@@ -1397,8 +1397,8 @@ hframes = 2
 
 [node name="Anim" type="AnimationPlayer" parent="UIGame/UI/PawTutorial"]
 autoplay = "Start"
-anims/End = SubResource( 21 )
-anims/Start = SubResource( 22 )
+anims/End = SubResource( 25 )
+anims/Start = SubResource( 26 )
 
 [node name="Label" type="Label" parent="UIGame/UI/PawTutorial"]
 margin_left = 6.65128
@@ -1406,7 +1406,7 @@ margin_top = -96.9099
 margin_right = 55.6513
 margin_bottom = -64.9099
 rect_rotation = 30.0
-custom_fonts/font = SubResource( 23 )
+custom_fonts/font = SubResource( 27 )
 text = "TAP!"
 align = 1
 valign = 1
@@ -1424,13 +1424,13 @@ margin_left = -374.0
 margin_top = -320.5
 margin_right = 374.0
 margin_bottom = 320.5
-custom_styles/panel = SubResource( 24 )
+custom_styles/panel = SubResource( 28 )
 
 [node name="PauseLabel" type="Label" parent="UIGame/UI/PausePanel"]
 anchor_right = 1.0
 margin_top = 10.5
 margin_bottom = 114.5
-custom_fonts/font = SubResource( 25 )
+custom_fonts/font = SubResource( 29 )
 text = "GAME PAUSED"
 align = 1
 valign = 1
@@ -1492,12 +1492,12 @@ margin_top = -180.0
 margin_right = 262.258
 margin_bottom = 300.0
 rect_scale = Vector2( 0.2, 0.2 )
-custom_fonts/font = SubResource( 26 )
+custom_fonts/font = SubResource( 30 )
 text = "3"
 align = 1
 
 [node name="Anim" type="AnimationPlayer" parent="UIGame/UI/PauseTimer"]
-anims/Countdown = SubResource( 27 )
+anims/Countdown = SubResource( 31 )
 
 [node name="DeadPanel" type="Panel" parent="UIGame/UI"]
 pause_mode = 2
@@ -1511,7 +1511,7 @@ margin_left = -332.0
 margin_top = -270.5
 margin_right = 332.0
 margin_bottom = 270.5
-custom_styles/panel = SubResource( 28 )
+custom_styles/panel = SubResource( 32 )
 
 [node name="TryAgain" type="Label" parent="UIGame/UI/DeadPanel"]
 anchor_left = 0.5
@@ -1522,7 +1522,7 @@ margin_left = -304.0
 margin_top = -89.5
 margin_right = 304.0
 margin_bottom = 255.5
-custom_fonts/font = SubResource( 29 )
+custom_fonts/font = SubResource( 33 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
@@ -1538,7 +1538,7 @@ margin_top = 31.0
 margin_right = 384.0
 margin_bottom = 240.0
 rect_pivot_offset = Vector2( 357.5, 50 )
-custom_fonts/font = SubResource( 30 )
+custom_fonts/font = SubResource( 34 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
@@ -1574,7 +1574,7 @@ expand = true
 stretch_mode = 5
 
 [node name="Anim" type="AnimationPlayer" parent="UIGame/UI/DeadPanel"]
-anims/HighscorePassed = SubResource( 31 )
+anims/HighscorePassed = SubResource( 35 )
 
 [node name="Transition" type="TextureRect" parent="UIGame/UI"]
 editor/display_folded = true
@@ -1606,8 +1606,8 @@ stretch_mode = 6
 
 [node name="Anim" type="AnimationPlayer" parent="UIGame/UI/Transition"]
 autoplay = "FadeOut"
-anims/FadeOut = SubResource( 32 )
-anims/Restart = SubResource( 33 )
+anims/FadeOut = SubResource( 36 )
+anims/Restart = SubResource( 37 )
 
 [node name="DebugPanel" type="Panel" parent="UIGame"]
 pause_mode = 2
@@ -1629,7 +1629,7 @@ margin_bottom = 134.0
 rect_min_size = Vector2( 0, 64 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 34 )
+custom_fonts/font = SubResource( 38 )
 text = "Invencible"
 
 [node name="Currency" type="Button" parent="UIGame/DebugPanel/VBoxContainer"]
@@ -1639,7 +1639,7 @@ margin_bottom = 272.0
 rect_min_size = Vector2( 0, 64 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 35 )
+custom_fonts/font = SubResource( 39 )
 text = "Currency"
 
 [node name="ResetGame" type="Button" parent="UIGame/DebugPanel/VBoxContainer"]
@@ -1649,7 +1649,7 @@ margin_bottom = 410.0
 rect_min_size = Vector2( 0, 64 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 35 )
+custom_fonts/font = SubResource( 39 )
 text = "RESET GAME STATE"
 
 [node name="ToggleCollectables" type="Button" parent="UIGame/DebugPanel/VBoxContainer"]
@@ -1659,7 +1659,7 @@ margin_bottom = 548.0
 rect_min_size = Vector2( 0, 64 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 35 )
+custom_fonts/font = SubResource( 39 )
 toggle_mode = true
 pressed = true
 text = "ON/OFF COLLECT"
@@ -1671,7 +1671,7 @@ margin_bottom = 686.0
 rect_min_size = Vector2( 0, 64 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 35 )
+custom_fonts/font = SubResource( 39 )
 toggle_mode = true
 pressed = true
 text = "ON/OFF ENEMIES"
@@ -1683,7 +1683,7 @@ margin_bottom = 824.0
 rect_min_size = Vector2( 0, 64 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 35 )
+custom_fonts/font = SubResource( 39 )
 toggle_mode = true
 pressed = true
 text = "ON/OFF RIBBON"

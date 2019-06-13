@@ -1,9 +1,9 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Sprites/Shop/Cat/Skin/Skin.png" type="Texture" id=1]
-[ext_resource path="res://Shaders/outline.shader" type="Shader" id=2]
-[ext_resource path="res://Sprites/Collectables/Coin.png" type="Texture" id=3]
-[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Shaders/outline.shader" type="Shader" id=3]
+[ext_resource path="res://Sprites/Collectables/Coin.png" type="Texture" id=4]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.329412, 0, 0.462745, 1 )
@@ -29,6 +29,7 @@ signal item_buy(item_type,item_name)
 signal item_equip(item_type,item_name,item_color)
 signal item_unequip(item_type)
 signal on_color_button_pressed(item_panel)
+signal item_preview(item_type,item_texture)
 
 func _ready():
 	$UseButton.hide()
@@ -49,8 +50,9 @@ func set_item_info(iname:String,info : Dictionary):
 	connect('item_buy',GameManager,'buy_item')
 	connect('item_buy',get_tree().root.get_node('ShopScene'),'update_buttons_states')
 	connect('item_unequip',get_tree().root.get_node('ShopScene'),'unequip_item')
+	connect('item_preview',get_tree().root.get_node('ShopScene'),'item_preview')
 	connect('item_equip',GameManager,'equip_item')
-	connect('item_equip',get_tree().root.get_node('ShopScene'),'enable_last_used_item')
+	connect('item_equip',get_tree().root.get_node('ShopScene'),'equip_item')
 	connect('on_color_button_pressed',get_tree().root.get_node('ShopScene'),'open_color_picker')
 	configure_panel()
 	pass
@@ -79,9 +81,12 @@ func check_item_state():
 		$ShopButton/CC/HBC/PriceTag.text = str(price)
 		$ShopButton/CC/HBC/Payment.texture = load('Sprites/Collectables/'+payment+'.png')
 		$ShopButton.disabled = check_button_available()
+		$ItemPanel/PreviewButton.show()
 	else:
 		$ShopButton.hide()
 		$UseButton.show()
+		$ItemPanel/PreviewButton.hide()
+		$ItemPanel/PreviewButton.disabled = true
 	if GameManager.items_equipped.has(type):
 		if typeof(GameManager.items_equipped[type]) != TYPE_ARRAY:
 			if GameManager.items_equipped[type] == item_name:
@@ -116,6 +121,8 @@ func _on_ShopButton_button_down():
 	buyed = !buyed
 	$ShopButton.hide()
 	$UseButton.show()
+	$ItemPanel/PreviewButton.hide()
+	$ItemPanel/PreviewButton.disabled = true
 	pass # Replace with function body.
 
 func _on_UseButton_button_down():
@@ -140,6 +147,7 @@ func unequip_item():
 	$ItemPanel/ColorButton.hide()
 	GameManager.items_equipped.erase(type)
 	emit_signal('item_unequip',type)
+	$ItemPanel/PreviewButton/Label.hide()
 	pass
 
 func enable_use_button(val):
@@ -148,6 +156,8 @@ func enable_use_button(val):
 			using = false
 			$UseButton/Text.text = \"USE\"
 			$ItemPanel/ColorButton.hide()
+	else:
+		$ItemPanel/PreviewButton/Label.hide()
 	pass
 
 func _on_ColorButton_button_down():
@@ -158,7 +168,13 @@ func set_item_color(_color):
 	color = _color
 	$ItemPanel/ItemImage.self_modulate = color
 	update_color_button()
-	pass"
+	pass
+
+func _on_PreviewButton_button_down():
+	emit_signal('item_preview',type,$ItemPanel/ItemImage.texture)
+	$ItemPanel/PreviewButton/Label.show()
+	pass # Replace with function body.
+"
 
 [sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.403922, 0, 0.627451, 1 )
@@ -166,6 +182,13 @@ corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
+
+[sub_resource type="DynamicFont" id=12]
+size = 32
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+use_filter = true
+font_data = ExtResource( 2 )
 
 [sub_resource type="StyleBoxFlat" id=4]
 border_width_left = 5
@@ -209,7 +232,7 @@ corner_radius_bottom_left = 10
 shadow_color = Color( 0.156863, 0.439216, 0, 0.6 )
 
 [sub_resource type="ShaderMaterial" id=8]
-shader = ExtResource( 2 )
+shader = ExtResource( 3 )
 shader_param/outline_width = 1.2
 shader_param/outline_color = Color( 0, 0, 0, 1 )
 
@@ -218,7 +241,7 @@ size = 50
 outline_size = 3
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
-font_data = ExtResource( 4 )
+font_data = ExtResource( 2 )
 
 [sub_resource type="StyleBoxFlat" id=10]
 bg_color = Color( 1, 0.745098, 0, 1 )
@@ -271,6 +294,17 @@ anchor_bottom = 1.0
 expand = true
 stretch_mode = 6
 
+[node name="PreviewButton" type="TextureButton" parent="ItemPanel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Label" type="Label" parent="ItemPanel/PreviewButton"]
+visible = false
+margin_right = 78.0
+margin_bottom = 25.0
+custom_fonts/font = SubResource( 12 )
+text = "PREVIEW"
+
 [node name="ColorButton" type="Button" parent="ItemPanel"]
 visible = false
 anchor_left = 1.0
@@ -319,7 +353,7 @@ margin_right = 50.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 50, 64 )
 mouse_filter = 2
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 expand = true
 stretch_mode = 6
 
@@ -360,6 +394,7 @@ custom_fonts/font = SubResource( 9 )
 text = "USE"
 align = 1
 valign = 1
+[connection signal="button_down" from="ItemPanel/PreviewButton" to="." method="_on_PreviewButton_button_down"]
 [connection signal="button_down" from="ItemPanel/ColorButton" to="." method="_on_ColorButton_button_down"]
 [connection signal="button_down" from="ShopButton" to="." method="_on_ShopButton_button_down"]
 [connection signal="button_down" from="UseButton" to="." method="_on_UseButton_button_down"]
