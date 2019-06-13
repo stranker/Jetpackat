@@ -45,6 +45,7 @@ func initialize():
 	connect('invencible',get_tree().root.get_node('GameScene'),'on_player_invencible')
 	emit_signal('current_height',0)
 	$InvencibleTimer.wait_time = invencible_time
+	$Visible/Shield.hide()
 	pass
 
 func _physics_process(delta):
@@ -596,7 +597,7 @@ tracks/8/keys = {
 "times": PoolRealArray( 0, 0.8, 1.5, 2 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 2.66292, -18.9571 ), Vector2( -29.6566, -34.9257 ), Vector2( -44.9386, 37.6524 ), Vector2( 29.338, 68.346 ) ]
+"values": [ Vector2( 2.50847, -22.9723 ), Vector2( -29.6566, -34.9257 ), Vector2( -44.9386, 37.6524 ), Vector2( 29.338, 68.346 ) ]
 }
 tracks/9/type = "value"
 tracks/9/path = NodePath("Visible/Skin/Hat:rotation_degrees")
@@ -734,7 +735,7 @@ tracks/3/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector2( 2.66666, -20.2354 ) ]
+"values": [ Vector2( 2.66666, -23.0152 ) ]
 }
 tracks/4/type = "value"
 tracks/4/path = NodePath("Visible/Scarf:position")
@@ -1173,8 +1174,8 @@ texture = ExtResource( 2 )
 hframes = 7
 
 [node name="Hat" type="Sprite" parent="Visible/Skin"]
-position = Vector2( 2.66292, -18.9571 )
-rotation = 0.0224156
+position = Vector2( 2.66666, -23.0152 )
+rotation = 0.0163139
 scale = Vector2( 0.6, 0.6 )
 offset = Vector2( -3.49275, -23.7578 )
 
@@ -1226,7 +1227,7 @@ shape = SubResource( 10 )
 
 [node name="Scarf" type="Polygon2D" parent="Visible"]
 editor/display_folded = true
-position = Vector2( -39.8734, -10.5546 )
+position = Vector2( -42.0043, -9.19867 )
 scale = Vector2( 3, 3 )
 color = Color( 1, 1, 1, 0 )
 skeleton = NodePath("Skeleton")

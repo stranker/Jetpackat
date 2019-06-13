@@ -98,6 +98,15 @@ func save_item_data_file():
 	file.close()
 	pass
 
+func save_item_data_res():
+	var file = File.new()
+	file.open('res://Data/ItemShopData.dat',File.WRITE)
+	if !item_data.empty():
+		file.store_line(to_json(item_data))
+		file.store_line("")
+	file.close()
+	pass
+
 func save_equipped_item_file():
 	var file = File.new()
 	file.open('user://Saves/EquippedItemsData.dat',File.WRITE)

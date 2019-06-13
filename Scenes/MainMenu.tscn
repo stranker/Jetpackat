@@ -519,7 +519,6 @@ tracks/1/keys = {
 }
 
 [node name="MainMenu" type="Control"]
-editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -691,7 +690,6 @@ expand = true
 stretch_mode = 5
 
 [node name="Player" type="Node2D" parent="."]
-editor/display_folded = true
 position = Vector2( 781.834, 1559.8 )
 rotation = -0.288943
 
@@ -709,7 +707,7 @@ texture = ExtResource( 21 )
 [node name="Particles" type="CPUParticles2D" parent="Player/Skin/Jetpack"]
 position = Vector2( 0.197189, 12.9721 )
 rotation = 1.37589
-amount = 50
+amount = 100
 lifetime = 0.6
 explosiveness = 0.1
 local_coords = false
@@ -717,7 +715,7 @@ texture = ExtResource( 22 )
 gravity = Vector2( 0, 0 )
 initial_velocity = 30.0
 damping = 20.0
-scale_amount = 4.0
+scale_amount = 6.0
 scale_amount_curve = SubResource( 4 )
 color_ramp = SubResource( 5 )
 
@@ -732,7 +730,7 @@ texture = ExtResource( 23 )
 hframes = 7
 
 [node name="Hat" type="Sprite" parent="Player/Skin"]
-position = Vector2( 0, -34.5355 )
+position = Vector2( -0.0911903, -37.3138 )
 rotation = -2.48353e-008
 scale = Vector2( 0.6, 0.6 )
 
