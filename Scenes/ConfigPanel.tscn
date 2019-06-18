@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Sprites/UI/PawCatIcon.png" type="Texture" id=2]
@@ -52,21 +52,53 @@ func _on_Mode_toggled(button_pressed):
 	pass # Replace with function body.
 "
 
-[sub_resource type="DynamicFont" id=6]
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 1, 0.823529, 0.00784314, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color( 0.92549, 0.65098, 0, 1 )
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+expand_margin_left = 10.0
+expand_margin_right = 10.0
+expand_margin_top = 2.0
+expand_margin_bottom = 2.0
+shadow_color = Color( 0, 0, 0, 0.25098 )
+shadow_size = 10
+
+[sub_resource type="DynamicFont" id=8]
 size = 72
 outline_size = 6
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 1 )
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="StyleBoxFlat" id=11]
+bg_color = Color( 1, 0.866667, 0, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color( 0.913725, 0.662745, 0, 1 )
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+shadow_color = Color( 0, 0, 0, 0.184314 )
+shadow_size = 15
+
+[sub_resource type="DynamicFont" id=9]
 size = 64
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 1 )
 
-[sub_resource type="StyleBoxFlat" id=4]
+[sub_resource type="StyleBoxFlat" id=10]
 bg_color = Color( 0.392157, 0, 0.545098, 1 )
 border_width_left = 5
 border_width_top = 5
@@ -84,7 +116,7 @@ expand_margin_bottom = 20.0
 shadow_color = Color( 0, 0, 0, 0.411765 )
 shadow_size = 5
 
-[sub_resource type="StyleBoxFlat" id=5]
+[sub_resource type="StyleBoxFlat" id=6]
 content_margin_left = 1.0
 content_margin_right = 1.0
 content_margin_top = 1.0
@@ -122,17 +154,28 @@ script = SubResource( 2 )
 [node name="Title" type="Label" parent="."]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -441.0
-margin_top = 30.0
-margin_right = 441.0
-margin_bottom = 118.0
-custom_fonts/font = SubResource( 6 )
+margin_left = -261.0
+margin_top = 35.0
+margin_right = 261.0
+margin_bottom = 143.0
+custom_styles/normal = SubResource( 7 )
+custom_fonts/font = SubResource( 8 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_x = 8
 custom_constants/shadow_offset_y = 8
-text = "CONFIGURATION PANEL"
+text = "CONFIGURATION"
 align = 1
-valign = 1
+
+[node name="BackPanel" type="Panel" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -315.5
+margin_top = -175.0
+margin_right = 315.5
+margin_bottom = 245.0
+custom_styles/panel = SubResource( 11 )
 
 [node name="MusicLabel" type="Label" parent="."]
 editor/display_folded = true
@@ -144,7 +187,7 @@ margin_left = -215.0
 margin_top = -145.0
 margin_right = 215.0
 margin_bottom = -67.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 9 )
 text = "Music VOLUME"
 align = 1
 
@@ -160,8 +203,8 @@ margin_bottom = 108.0
 size_flags_horizontal = 15
 custom_icons/grabber_highlight = ExtResource( 2 )
 custom_icons/grabber = ExtResource( 2 )
-custom_styles/slider = SubResource( 4 )
-custom_styles/grabber_area = SubResource( 5 )
+custom_styles/slider = SubResource( 10 )
+custom_styles/grabber_area = SubResource( 6 )
 max_value = 5.0
 value = 3.0
 tick_count = 5
@@ -176,7 +219,7 @@ margin_left = -215.0
 margin_top = 65.0
 margin_right = 215.0
 margin_bottom = 143.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 9 )
 text = "SOUND VOLUME"
 align = 1
 
@@ -191,8 +234,8 @@ margin_right = 245.0
 margin_bottom = 46.0
 custom_icons/grabber_highlight = ExtResource( 2 )
 custom_icons/grabber = ExtResource( 2 )
-custom_styles/slider = SubResource( 4 )
-custom_styles/grabber_area = SubResource( 5 )
+custom_styles/slider = SubResource( 10 )
+custom_styles/grabber_area = SubResource( 6 )
 max_value = 5.0
 value = 3.0
 tick_count = 5
@@ -209,7 +252,7 @@ margin_left = -205.0
 margin_top = 135.0
 margin_right = 225.0
 margin_bottom = 199.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 9 )
 text = "LEFT MODE"
 align = 1
 
@@ -228,12 +271,14 @@ custom_icons/off = ExtResource( 3 )
 custom_icons/on = ExtResource( 4 )
 
 [node name="CloseConfigButton" type="TextureButton" parent="."]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -100.0
-margin_top = -50.0
-margin_right = 40.0
-margin_bottom = 70.0
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -82.0
+margin_top = -85.0
+margin_right = 81.0
+margin_bottom = 55.0
 texture_normal = ExtResource( 5 )
 texture_pressed = ExtResource( 6 )
 texture_disabled = ExtResource( 6 )

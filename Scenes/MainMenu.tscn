@@ -25,7 +25,7 @@
 [ext_resource path="res://Sprites/Cat/Eyes.png" type="Texture" id=23]
 [ext_resource path="res://Scenes/ConfigPanel.tscn" type="PackedScene" id=24]
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=25]
-[ext_resource path="res://Sounds/Music/Intro.ogg" type="AudioStream" id=26]
+[ext_resource path="res://Sounds/Music/CCF Theme.ogg" type="AudioStream" id=26]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Control

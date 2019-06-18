@@ -1202,7 +1202,6 @@ margin_top = 10.0
 margin_bottom = 110.0
 
 [node name="CoinLabel" type="Label" parent="UIGame/UI/UpperPanel/CoinPanel"]
-editor/display_folded = true
 anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
@@ -1219,7 +1218,6 @@ align = 2
 valign = 1
 
 [node name="CoinControl" type="Control" parent="UIGame/UI/UpperPanel/CoinPanel/CoinLabel"]
-editor/display_folded = true
 anchor_top = 0.5
 anchor_bottom = 0.5
 margin_left = -70.0
