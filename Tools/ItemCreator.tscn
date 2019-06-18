@@ -15,15 +15,12 @@ var item_price : int = 0
 var item_buyed : bool = false
 var has_color : bool = false
 var item_color : String
-var item_id
 
 func _ready():
-	item_id = GameManager.item_data[item_type].keys().size()
 	pass # Replace with function body.
 
 func _on_ItemType_item_selected(ID):
 	item_type = $Panel/ItemType.get_item_text(ID)
-	item_id = GameManager.item_data[item_type].keys().size()
 	pass # Replace with function body.
 
 func _on_LineEdit_text_changed(new_text):
@@ -52,7 +49,7 @@ func _on_Create_button_down():
 		return
 	new_item[item_name] = {}
 	new_item[item_name]['type'] = item_type 
-	new_item[item_name]['id'] = item_id 
+	new_item[item_name]['id'] = GameManager.item_data[item_type].keys().size() 
 	new_item[item_name]['buyed'] = item_buyed 
 	new_item[item_name]['payment'] = item_payment 
 	new_item[item_name]['price'] = item_price
@@ -60,7 +57,18 @@ func _on_Create_button_down():
 		new_item[item_name]['color'] = \"ffffff\"
 	GameManager.item_data[item_type][item_name] = new_item[item_name]
 	save_item_data()
+	reset_item()
 	pass # Replace with function body.
+
+func reset_item():
+	new_item = {}
+	item_type = ''
+	item_name = ''
+	item_payment = ''
+	item_price = 0
+	item_buyed = false
+	has_color = false
+	pass
 
 func save_item_data():
 	GameManager.save_item_data_res()
