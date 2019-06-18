@@ -1087,7 +1087,6 @@ anchor_bottom = 1.0
 mouse_filter = 2
 
 [node name="UpperPanel" type="Control" parent="UIGame/UI"]
-editor/display_folded = true
 anchor_right = 1.0
 margin_bottom = 284.0
 
@@ -1141,6 +1140,7 @@ custom_styles/panel = SubResource( 8 )
 custom_styles/panelnc = SubResource( 8 )
 
 [node name="ComboPanel" type="Control" parent="UIGame/UI/UpperPanel"]
+editor/display_folded = true
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_left = 10.0
@@ -1194,7 +1194,6 @@ custom_styles/panel = SubResource( 13 )
 custom_styles/panelnc = SubResource( 12 )
 
 [node name="CoinPanel" type="Control" parent="UIGame/UI/UpperPanel"]
-editor/display_folded = true
 show_behind_parent = true
 anchor_left = 1.0
 anchor_right = 1.0
@@ -1203,6 +1202,7 @@ margin_top = 10.0
 margin_bottom = 110.0
 
 [node name="CoinLabel" type="Label" parent="UIGame/UI/UpperPanel/CoinPanel"]
+editor/display_folded = true
 anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
@@ -1219,6 +1219,7 @@ align = 2
 valign = 1
 
 [node name="CoinControl" type="Control" parent="UIGame/UI/UpperPanel/CoinPanel/CoinLabel"]
+editor/display_folded = true
 anchor_top = 0.5
 anchor_bottom = 0.5
 margin_left = -70.0
@@ -1227,14 +1228,12 @@ margin_right = -30.0
 margin_bottom = 20.0
 
 [node name="Coin" type="TextureRect" parent="UIGame/UI/UpperPanel/CoinPanel/CoinLabel/CoinControl"]
-anchor_left = 0.5
 anchor_top = 0.5
-anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -38.0
-margin_top = -39.0
-margin_right = 38.0
-margin_bottom = 39.0
+margin_left = -28.0
+margin_top = -47.0
+margin_right = 68.0
+margin_bottom = 49.0
 grow_horizontal = 0
 grow_vertical = 0
 rect_min_size = Vector2( 76, 76 )
@@ -1257,7 +1256,6 @@ custom_styles/panel = SubResource( 12 )
 custom_styles/panelnc = SubResource( 12 )
 
 [node name="FishPanel" type="Control" parent="UIGame/UI/UpperPanel"]
-editor/display_folded = true
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0

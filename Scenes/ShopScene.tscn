@@ -683,8 +683,8 @@ align = 1
 
 [node name="FadeOut" type="TextureRect" parent="."]
 self_modulate = Color( 0, 0, 0, 1 )
-margin_right = 40.0
-margin_bottom = 40.0
+margin_right = 1080.0
+margin_bottom = 1920.0
 mouse_filter = 2
 texture = ExtResource( 15 )
 
