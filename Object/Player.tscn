@@ -21,6 +21,7 @@ var GRAVITY = 1600
 var activated : bool = false 
 var size_sprite : Vector2
 var invencible : bool = false
+var can_receive_damage : bool = true
 var dead : bool = false
 
 signal start_playing
@@ -92,7 +93,7 @@ func check_is_active():
 	pass
 
 func take_damage():
-	if !invencible and !dead:
+	if !invencible and !dead and can_receive_damage:
 		dead = !dead
 		check_die_direction()
 		set_physics_process(false)
@@ -130,10 +131,6 @@ func check_scale_direction():
 	$Visible.scale.x = -jump_direction
 	velocity.x = jump_direction * horizontal_speed
 	pass
-
-func _on_Invencible_button_down():
-	invencible = !invencible
-	pass # Replace with function body.
 
 func _on_Anim_animation_finished(anim_name):
 	if anim_name == 'TimeOut':
@@ -176,7 +173,12 @@ func ribbon_passed():
 
 func hide_tutorial_arrow():
 	$Visible/Arrow/Anim.play('Hide')
-	pass"
+	pass
+
+func _on_Invencible_toggled(button_pressed):
+	can_receive_damage = !button_pressed
+	pass # Replace with function body.
+"
 
 [sub_resource type="CapsuleShape2D" id=2]
 radius = 53.0
@@ -1159,9 +1161,11 @@ script = SubResource( 3 )
 one_shot = true
 
 [node name="Visible" type="Node2D" parent="."]
+editor/display_folded = true
 script = SubResource( 4 )
 
 [node name="Skin" type="Sprite" parent="Visible"]
+editor/display_folded = true
 scale = Vector2( 3, 3 )
 texture = ExtResource( 1 )
 hframes = 2
@@ -1376,6 +1380,7 @@ one_shot = true
 stream = ExtResource( 8 )
 volume_db = -17.165
 pitch_scale = 2.0
+bus = "Sounds"
 [connection signal="timeout" from="Camera2D/Timer" to="Camera2D" method="_on_Timer_timeout"]
 [connection signal="animation_finished" from="Anim" to="." method="_on_Anim_animation_finished"]
 [connection signal="gui_input" from="ClickArea/Area" to="." method="_on_Area_gui_input"]

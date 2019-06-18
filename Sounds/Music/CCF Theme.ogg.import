@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/CCF Theme.ogg-c7ac244cd18683a3fc95898be0881dd1.oggstr"
+
+[deps]
+
+source_file="res://Sounds/Music/CCF Theme.ogg"
+dest_files=[ "res://.import/CCF Theme.ogg-c7ac244cd18683a3fc95898be0881dd1.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

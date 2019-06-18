@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://Scenes/ItemShopPanel.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Collectables/Coin.png" type="Texture" id=2]
@@ -14,6 +14,7 @@
 [ext_resource path="res://Sprites/Shop/Cat/Skin/Skin.png" type="Texture" id=12]
 [ext_resource path="res://Sprites/Cat/Eyes.png" type="Texture" id=13]
 [ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=14]
+[ext_resource path="res://Sprites/Background/Bg1.png" type="Texture" id=15]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.247059, 0, 0.388235, 1 )
@@ -24,6 +25,7 @@ script/source = "extends Control
 export (PackedScene) var item_shop_panel
 var current_item_panel
 onready var player = get_node('VBC/PlayerPanel/HBC/Player/Skin')
+onready var item_list = get_node('VBC/HBC/ShopPanel/PanelItems/SC/Items')
 
 func _ready():
 	update_currency()
@@ -43,7 +45,7 @@ func add_currency():
 	update_items_state()
 
 func update_items_state():
-	for i in $VBC/HBC/ShopPanel/PanelItems/Items.get_children():
+	for i in item_list.get_children():
 		i.check_item_state()
 	pass
 
@@ -73,7 +75,7 @@ func _on_Jetpack_button_down():
 	pass # Replace with function body.
 
 func clear_item_panels():
-	for i in $VBC/HBC/ShopPanel/PanelItems/Items.get_children():
+	for i in item_list.get_children():
 		i.queue_free()
 	pass
 
@@ -81,12 +83,12 @@ func create_panels(data : Dictionary):
 	clear_item_panels()
 	for i in data.keys():
 		var isp = item_shop_panel.instance()
-		$VBC/HBC/ShopPanel/PanelItems/Items.add_child(isp)
+		item_list.add_child(isp)
 		isp.set_item_info(i,data[i])
 	pass
 
 func _on_TextureButton_button_down():
-	get_tree().change_scene('Scenes/MainMenu.tscn')
+	$AnimationPlayer.play('FadeIn')
 	pass
 
 func equip_item(type,item_name,color):
@@ -95,7 +97,7 @@ func equip_item(type,item_name,color):
 	pass
 
 func enable_used_items(item_name):
-	for i in $VBC/HBC/ShopPanel/PanelItems/Items.get_children():
+	for i in item_list.get_children():
 		if i.item_name != item_name:
 			i.enable_use_button(true)
 	pass
@@ -123,7 +125,7 @@ func open_color_picker(item_panel):
 	pass
 
 func update_buttons_states(type,item):
-	for i in $VBC/HBC/ShopPanel/PanelItems/Items.get_children():
+	for i in item_list.get_children():
 		i.check_item_state()
 
 
@@ -160,11 +162,25 @@ func unequip_item(item_type):
 	player.get_node(item_type).texture = null
 	pass
 
+func equip_default_jetpack():
+	for i in item_list.get_children():
+		if i.type == 'Jetpack' and i.item_name == 'Green':
+			i.equip_item()
+			break
+	pass
+
 func item_preview(item_type,item_texture):
-	for i in $VBC/HBC/ShopPanel/PanelItems/Items.get_children():
+	for i in item_list.get_children():
 		i.unequip_item()
 	player.get_node(item_type).texture = item_texture
-	pass"
+	player.get_node(item_type).self_modulate = 'ffffff'
+	pass
+
+func _on_AnimationPlayer_animation_finished(anim_name):
+	if anim_name == 'FadeIn':
+		get_tree().change_scene('Scenes/MainMenu.tscn')
+	pass # Replace with function body.
+"
 
 [sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.247059, 0, 0.388235, 1 )
@@ -278,6 +294,36 @@ outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 3 )
 
+[sub_resource type="Animation" id=15]
+resource_name = "FadeIn"
+tracks/0/type = "value"
+tracks/0/path = NodePath("FadeOut:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
+}
+
+[sub_resource type="Animation" id=14]
+resource_name = "FadeOut"
+tracks/0/type = "value"
+tracks/0/path = NodePath("FadeOut:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
+}
+
 [node name="ShopScene" type="Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -286,6 +332,7 @@ script = SubResource( 2 )
 item_shop_panel = ExtResource( 1 )
 
 [node name="VBC" type="VBoxContainer" parent="."]
+editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_constants/separation = 5
@@ -298,6 +345,7 @@ size_flags_vertical = 3
 custom_constants/separation = 0
 
 [node name="ShopPanel" type="VBoxContainer" parent="VBC/HBC"]
+editor/display_folded = true
 margin_right = 880.0
 margin_bottom = 1315.0
 mouse_filter = 2
@@ -306,7 +354,6 @@ size_flags_vertical = 3
 custom_constants/separation = 0
 
 [node name="Currency" type="Panel" parent="VBC/HBC/ShopPanel"]
-editor/display_folded = true
 margin_right = 880.0
 margin_bottom = 160.0
 rect_min_size = Vector2( 0, 160 )
@@ -394,14 +441,16 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_styles/panel = SubResource( 7 )
 
-[node name="Items" type="GridContainer" parent="VBC/HBC/ShopPanel/PanelItems"]
+[node name="SC" type="ScrollContainer" parent="VBC/HBC/ShopPanel/PanelItems"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 20.0
-margin_top = 20.0
-margin_right = -20.0
-margin_bottom = -20.0
-custom_constants/hseparation = 25
+margin_left = 18.0
+margin_top = 18.0
+margin_right = -18.0
+margin_bottom = -18.0
+
+[node name="Items" type="GridContainer" parent="VBC/HBC/ShopPanel/PanelItems/SC"]
+custom_constants/hseparation = 26
 columns = 3
 
 [node name="CustomColor" parent="VBC/HBC/ShopPanel/PanelItems" instance=ExtResource( 5 )]
@@ -416,7 +465,6 @@ margin_right = 280.0
 margin_bottom = 355.0
 
 [node name="VBB" type="VBoxContainer" parent="VBC/HBC"]
-editor/display_folded = true
 margin_left = 880.0
 margin_right = 1080.0
 margin_bottom = 1315.0
@@ -433,7 +481,6 @@ stretch_mode = 5
 
 [node name="PanelButtons" type="Panel" parent="VBC/HBC/VBB"]
 pause_mode = 1
-editor/display_folded = true
 margin_top = 164.0
 margin_right = 200.0
 margin_bottom = 1315.0
@@ -447,24 +494,24 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -91.5
-margin_top = -442.0
-margin_right = 91.5
-margin_bottom = 442.0
+margin_left = -90.0
+margin_top = -441.5
+margin_right = 92.0
+margin_bottom = 442.5
 rect_min_size = Vector2( 170, 0 )
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.3
 custom_constants/separation = 50
 
 [node name="Hat" parent="VBC/HBC/VBB/PanelButtons/Panel" instance=ExtResource( 8 )]
-margin_right = 183.0
+margin_right = 182.0
 margin_bottom = 183.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Skin" parent="VBC/HBC/VBB/PanelButtons/Panel" instance=ExtResource( 8 )]
 margin_top = 233.0
-margin_right = 183.0
+margin_right = 182.0
 margin_bottom = 416.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -474,7 +521,7 @@ texture = ExtResource( 9 )
 
 [node name="Scarf" parent="VBC/HBC/VBB/PanelButtons/Panel" instance=ExtResource( 8 )]
 margin_top = 466.0
-margin_right = 183.0
+margin_right = 182.0
 margin_bottom = 649.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -484,7 +531,7 @@ texture = ExtResource( 10 )
 
 [node name="Jetpack" parent="VBC/HBC/VBB/PanelButtons/Panel" instance=ExtResource( 8 )]
 margin_top = 699.0
-margin_right = 183.0
+margin_right = 182.0
 margin_bottom = 884.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -502,6 +549,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="PlayerPanel" type="Panel" parent="VBC"]
+editor/display_folded = true
 margin_top = 1320.0
 margin_right = 1080.0
 margin_bottom = 1920.0
@@ -632,6 +680,18 @@ margin_bottom = 118.0
 custom_fonts/font = SubResource( 13 )
 text = "BONUS"
 align = 1
+
+[node name="FadeOut" type="TextureRect" parent="."]
+self_modulate = Color( 0, 0, 0, 1 )
+margin_right = 40.0
+margin_bottom = 40.0
+mouse_filter = 2
+texture = ExtResource( 15 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "FadeOut"
+anims/FadeIn = SubResource( 15 )
+anims/FadeOut = SubResource( 14 )
 [connection signal="value_changed" from="VBC/HBC/ShopPanel/PanelItems/CustomColor" to="." method="_on_CustomColor_value_changed"]
 [connection signal="button_down" from="VBC/HBC/VBB/CloseButton" to="." method="_on_TextureButton_button_down"]
 [connection signal="button_down" from="VBC/HBC/VBB/PanelButtons/Panel/Hat" to="." method="_on_Hat_button_down"]
@@ -640,6 +700,7 @@ align = 1
 [connection signal="button_down" from="VBC/HBC/VBB/PanelButtons/Panel/Jetpack" to="." method="_on_Jetpack_button_down"]
 [connection signal="button_down" from="VBC/HBC/VBB/PanelButtons/Panel/Thruster" to="." method="_on_Thruster_button_down"]
 [connection signal="button_down" from="VBC/PlayerPanel/HBC/Player/SkinColorButton" to="." method="_on_SkinColorButton_button_down"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 
 [editable path="VBC/HBC/VBB/PanelButtons/Panel/Hat"]
 

@@ -690,6 +690,7 @@ expand = true
 stretch_mode = 5
 
 [node name="Player" type="Node2D" parent="."]
+editor/display_folded = true
 position = Vector2( 781.834, 1559.8 )
 rotation = -0.288943
 
@@ -935,6 +936,7 @@ texture = ExtResource( 2 )
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 26 )
 autoplay = true
+bus = "Music"
 [connection signal="button_down" from="PawCat/StartButton" to="." method="_on_StartButton_button_down"]
 [connection signal="button_down" from="PawCat/ShopButton" to="." method="_on_ShopButton_button_down"]
 [connection signal="button_down" from="PawCat/LeaderboardButton" to="." method="_on_LeaderboardButton_button_down"]

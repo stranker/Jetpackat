@@ -30,6 +30,7 @@ signal item_equip(item_type,item_name,item_color)
 signal item_unequip(item_type)
 signal on_color_button_pressed(item_panel)
 signal item_preview(item_type,item_texture)
+signal equip_default_jetpack()
 
 func _ready():
 	$UseButton.hide()
@@ -53,6 +54,7 @@ func set_item_info(iname:String,info : Dictionary):
 	connect('item_preview',get_tree().root.get_node('ShopScene'),'item_preview')
 	connect('item_equip',GameManager,'equip_item')
 	connect('item_equip',get_tree().root.get_node('ShopScene'),'equip_item')
+	connect('equip_default_jetpack',get_tree().root.get_node('ShopScene'),'equip_default_jetpack')
 	connect('on_color_button_pressed',get_tree().root.get_node('ShopScene'),'open_color_picker')
 	configure_panel()
 	pass
@@ -142,12 +144,19 @@ func equip_item():
 	pass
 
 func unequip_item():
-	using = false
-	$UseButton/Text.text = \"USE\"
-	$ItemPanel/ColorButton.hide()
-	GameManager.items_equipped.erase(type)
-	emit_signal('item_unequip',type)
-	$ItemPanel/PreviewButton/Label.hide()
+	if type != 'Jetpack':
+		using = false
+		$UseButton/Text.text = \"USE\"
+		$ItemPanel/ColorButton.hide()
+		GameManager.items_equipped.erase(type)
+		emit_signal('item_unequip',type)
+		$ItemPanel/PreviewButton/Label.hide()
+	else:
+		equip_default_jetpack()
+	pass
+
+func equip_default_jetpack():
+	emit_signal('equip_default_jetpack')
 	pass
 
 func enable_use_button(val):
@@ -183,14 +192,14 @@ corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
-[sub_resource type="DynamicFont" id=12]
+[sub_resource type="DynamicFont" id=4]
 size = 32
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 2 )
 
-[sub_resource type="StyleBoxFlat" id=4]
+[sub_resource type="StyleBoxFlat" id=5]
 border_width_left = 5
 border_width_top = 5
 border_width_right = 5
@@ -200,16 +209,6 @@ corner_radius_top_left = 10
 corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
-
-[sub_resource type="StyleBoxFlat" id=5]
-bg_color = Color( 0.00784314, 0.392157, 0, 1 )
-border_width_bottom = 10
-border_color = Color( 0.0823529, 0.380392, 0, 1 )
-corner_radius_top_left = 10
-corner_radius_top_right = 10
-corner_radius_bottom_right = 10
-corner_radius_bottom_left = 10
-shadow_color = Color( 0.156863, 0.439216, 0, 0.6 )
 
 [sub_resource type="StyleBoxFlat" id=6]
 bg_color = Color( 0.00784314, 0.392157, 0, 1 )
@@ -222,6 +221,16 @@ corner_radius_bottom_left = 10
 shadow_color = Color( 0.156863, 0.439216, 0, 0.6 )
 
 [sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 0.00784314, 0.392157, 0, 1 )
+border_width_bottom = 10
+border_color = Color( 0.0823529, 0.380392, 0, 1 )
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color( 0.156863, 0.439216, 0, 0.6 )
+
+[sub_resource type="StyleBoxFlat" id=8]
 bg_color = Color( 0.14902, 0.682353, 0, 1 )
 border_width_bottom = 10
 border_color = Color( 0.0823529, 0.380392, 0, 1 )
@@ -231,19 +240,19 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 shadow_color = Color( 0.156863, 0.439216, 0, 0.6 )
 
-[sub_resource type="ShaderMaterial" id=8]
+[sub_resource type="ShaderMaterial" id=9]
 shader = ExtResource( 3 )
 shader_param/outline_width = 1.2
 shader_param/outline_color = Color( 0, 0, 0, 1 )
 
-[sub_resource type="DynamicFont" id=9]
+[sub_resource type="DynamicFont" id=10]
 size = 50
 outline_size = 3
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 2 )
 
-[sub_resource type="StyleBoxFlat" id=10]
+[sub_resource type="StyleBoxFlat" id=11]
 bg_color = Color( 1, 0.745098, 0, 1 )
 border_width_bottom = 10
 border_color = Color( 0.737255, 0.556863, 0.00784314, 1 )
@@ -253,7 +262,7 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 shadow_color = Color( 0.156863, 0.439216, 0, 0.6 )
 
-[sub_resource type="StyleBoxFlat" id=11]
+[sub_resource type="StyleBoxFlat" id=12]
 bg_color = Color( 0.854902, 0.619608, 0, 1 )
 border_width_bottom = 10
 border_color = Color( 0.815686, 0.611765, 0, 1 )
@@ -302,7 +311,7 @@ anchor_bottom = 1.0
 visible = false
 margin_right = 78.0
 margin_bottom = 25.0
-custom_fonts/font = SubResource( 12 )
+custom_fonts/font = SubResource( 4 )
 text = "PREVIEW"
 
 [node name="ColorButton" type="Button" parent="ItemPanel"]
@@ -313,11 +322,11 @@ margin_left = -74.0
 margin_top = 4.0
 margin_right = -5.0
 margin_bottom = 42.0
-custom_styles/hover = SubResource( 4 )
-custom_styles/pressed = SubResource( 4 )
-custom_styles/focus = SubResource( 4 )
-custom_styles/disabled = SubResource( 4 )
-custom_styles/normal = SubResource( 4 )
+custom_styles/hover = SubResource( 5 )
+custom_styles/pressed = SubResource( 5 )
+custom_styles/focus = SubResource( 5 )
+custom_styles/disabled = SubResource( 5 )
+custom_styles/normal = SubResource( 5 )
 
 [node name="ShopButton" type="Button" parent="."]
 editor/display_folded = true
@@ -330,9 +339,9 @@ margin_top = -75.0
 margin_right = 130.0
 rect_min_size = Vector2( 260, 64 )
 focus_mode = 0
-custom_styles/pressed = SubResource( 5 )
-custom_styles/disabled = SubResource( 6 )
-custom_styles/normal = SubResource( 7 )
+custom_styles/pressed = SubResource( 6 )
+custom_styles/disabled = SubResource( 7 )
+custom_styles/normal = SubResource( 8 )
 enabled_focus_mode = 0
 
 [node name="CC" type="CenterContainer" parent="ShopButton"]
@@ -348,7 +357,7 @@ margin_bottom = 69.0
 mouse_filter = 2
 
 [node name="Payment" type="TextureRect" parent="ShopButton/CC/HBC"]
-material = SubResource( 8 )
+material = SubResource( 9 )
 margin_right = 50.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 50, 64 )
@@ -362,7 +371,7 @@ margin_left = 54.0
 margin_right = 135.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 0, 64 )
-custom_fonts/font = SubResource( 9 )
+custom_fonts/font = SubResource( 10 )
 text = "999"
 valign = 1
 
@@ -378,11 +387,11 @@ margin_top = -75.0
 margin_right = 130.0
 rect_min_size = Vector2( 260, 64 )
 focus_mode = 0
-custom_styles/hover = SubResource( 10 )
-custom_styles/pressed = SubResource( 11 )
-custom_styles/focus = SubResource( 10 )
-custom_styles/disabled = SubResource( 11 )
-custom_styles/normal = SubResource( 10 )
+custom_styles/hover = SubResource( 11 )
+custom_styles/pressed = SubResource( 12 )
+custom_styles/focus = SubResource( 11 )
+custom_styles/disabled = SubResource( 12 )
+custom_styles/normal = SubResource( 11 )
 shortcut_in_tooltip = false
 enabled_focus_mode = 0
 
@@ -390,7 +399,7 @@ enabled_focus_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_min_size = Vector2( 0, 64 )
-custom_fonts/font = SubResource( 9 )
+custom_fonts/font = SubResource( 10 )
 text = "USE"
 align = 1
 valign = 1

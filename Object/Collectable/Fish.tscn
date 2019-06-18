@@ -165,6 +165,7 @@ color_ramp = SubResource( 6 )
 
 [node name="Sample" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 4 )
+bus = "Sounds"
 [connection signal="area_entered" from="." to="." method="_on_Fish_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_Fish_body_entered"]
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

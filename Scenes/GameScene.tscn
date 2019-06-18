@@ -15,14 +15,14 @@
 [ext_resource path="res://Sprites/UI/FuelFire.png" type="Texture" id=13]
 [ext_resource path="res://Sprites/UI/PauseButton.png" type="Texture" id=14]
 [ext_resource path="res://Sprites/UI/PauseButtonPressed.png" type="Texture" id=15]
-[ext_resource path="res://Scenes/ConfigPanel.tscn" type="PackedScene" id=16]
-[ext_resource path="res://Sprites/Tutorial/PawTutorial.png" type="Texture" id=17]
-[ext_resource path="res://Sprites/UI/HomeButton.png" type="Texture" id=18]
-[ext_resource path="res://Sprites/UI/HomeButtonPressed.png" type="Texture" id=19]
-[ext_resource path="res://Sprites/UI/ConfigButton.png" type="Texture" id=20]
-[ext_resource path="res://Sprites/UI/ConfigButtonPressed.png" type="Texture" id=21]
-[ext_resource path="res://Sprites/UI/ContinueButton.png" type="Texture" id=22]
-[ext_resource path="res://Sprites/UI/ContinueButtonPressed.png" type="Texture" id=23]
+[ext_resource path="res://Sprites/Tutorial/PawTutorial.png" type="Texture" id=16]
+[ext_resource path="res://Sprites/UI/HomeButton.png" type="Texture" id=17]
+[ext_resource path="res://Sprites/UI/HomeButtonPressed.png" type="Texture" id=18]
+[ext_resource path="res://Sprites/UI/ConfigButton.png" type="Texture" id=19]
+[ext_resource path="res://Sprites/UI/ConfigButtonPressed.png" type="Texture" id=20]
+[ext_resource path="res://Sprites/UI/ContinueButton.png" type="Texture" id=21]
+[ext_resource path="res://Sprites/UI/ContinueButtonPressed.png" type="Texture" id=22]
+[ext_resource path="res://Scenes/ConfigPanel.tscn" type="PackedScene" id=23]
 [ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=24]
 [ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=25]
 [ext_resource path="res://Sprites/Cat/CatHead.png" type="Texture" id=26]
@@ -36,7 +36,7 @@
 [ext_resource path="res://Object/Enemies/Ovni.tscn" type="PackedScene" id=34]
 [ext_resource path="res://Object/Misc/OrbitSpawner.tscn" type="PackedScene" id=35]
 [ext_resource path="res://Object/Ribbon/Ribbon.tscn" type="PackedScene" id=36]
-[ext_resource path="res://Sounds/Music/Game.ogg" type="AudioStream" id=37]
+[ext_resource path="res://Sounds/Music/CCF Theme.ogg" type="AudioStream" id=37]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node
@@ -165,6 +165,14 @@ func _on_ToggleCollectables_toggled(button_pressed):
 
 func _on_ToggleRibbons_toggled(button_pressed):
 	$RibbonSpawner.activated = button_pressed
+	pass # Replace with function body.
+
+func _on_Music_toggled(button_pressed):
+	if button_pressed:
+		$Music.stream = load('res://Sounds/Music/Game.ogg')
+	else:
+		$Music.stream = load('res://Sounds/Music/CCF Theme.ogg')
+	$Music.play()
 	pass # Replace with function body."
 
 [sub_resource type="GDScript" id=2]
@@ -1070,7 +1078,6 @@ centered = false
 position = Vector2( 569.5, 830 )
 
 [node name="UIGame" type="CanvasLayer" parent="."]
-editor/display_folded = true
 script = SubResource( 6 )
 
 [node name="UI" type="Control" parent="UIGame"]
@@ -1080,6 +1087,7 @@ anchor_bottom = 1.0
 mouse_filter = 2
 
 [node name="UpperPanel" type="Control" parent="UIGame/UI"]
+editor/display_folded = true
 anchor_right = 1.0
 margin_bottom = 284.0
 
@@ -1360,10 +1368,10 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -134.0
-margin_top = -129.0
-margin_right = -13.0
-margin_bottom = -11.0
+margin_left = -150.0
+margin_top = -150.0
+margin_right = -29.0
+margin_bottom = -32.0
 texture_normal = ExtResource( 14 )
 texture_pressed = ExtResource( 15 )
 texture_hover = ExtResource( 15 )
@@ -1372,18 +1380,6 @@ texture_focused = ExtResource( 15 )
 expand = true
 stretch_mode = 5
 
-[node name="ConfigPanel" parent="UIGame/UI" instance=ExtResource( 16 )]
-pause_mode = 2
-visible = false
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -345.0
-margin_top = -270.0
-margin_right = 345.0
-margin_bottom = 270.0
-
 [node name="PawTutorial" type="Sprite" parent="UIGame/UI"]
 pause_mode = 1
 editor/display_folded = true
@@ -1391,7 +1387,7 @@ modulate = Color( 1, 1, 1, 0.729412 )
 position = Vector2( 914, 1261.5 )
 rotation = -0.549675
 scale = Vector2( 4.84536, 4.84536 )
-texture = ExtResource( 17 )
+texture = ExtResource( 16 )
 offset = Vector2( 0.792252, -29.756 )
 hframes = 2
 
@@ -1444,8 +1440,8 @@ margin_left = -299.0
 margin_top = -240.5
 margin_right = -18.0
 margin_bottom = -19.5
-texture_normal = ExtResource( 18 )
-texture_pressed = ExtResource( 19 )
+texture_normal = ExtResource( 17 )
+texture_pressed = ExtResource( 18 )
 expand = true
 stretch_mode = 5
 
@@ -1455,8 +1451,8 @@ anchor_bottom = 1.0
 margin_top = -240.0
 margin_right = 310.0
 margin_bottom = -19.0
-texture_normal = ExtResource( 20 )
-texture_pressed = ExtResource( 21 )
+texture_normal = ExtResource( 19 )
+texture_pressed = ExtResource( 20 )
 expand = true
 stretch_mode = 5
 
@@ -1469,8 +1465,8 @@ margin_left = -172.5
 margin_top = -180.0
 margin_right = 172.5
 margin_bottom = 126.0
-texture_normal = ExtResource( 22 )
-texture_pressed = ExtResource( 23 )
+texture_normal = ExtResource( 21 )
+texture_pressed = ExtResource( 22 )
 expand = true
 stretch_mode = 5
 
@@ -1498,6 +1494,14 @@ align = 1
 
 [node name="Anim" type="AnimationPlayer" parent="UIGame/UI/PauseTimer"]
 anims/Countdown = SubResource( 31 )
+
+[node name="ConfigPanel" parent="UIGame/UI" instance=ExtResource( 23 )]
+pause_mode = 2
+visible = false
+margin_left = -420.0
+margin_top = -350.0
+margin_right = 420.0
+margin_bottom = 350.0
 
 [node name="DeadPanel" type="Panel" parent="UIGame/UI"]
 pause_mode = 2
@@ -1554,8 +1558,8 @@ margin_left = 42.0
 margin_top = -248.075
 margin_right = 294.0
 margin_bottom = -39.0754
-texture_normal = ExtResource( 22 )
-texture_pressed = ExtResource( 23 )
+texture_normal = ExtResource( 21 )
+texture_pressed = ExtResource( 22 )
 expand = true
 stretch_mode = 5
 
@@ -1619,23 +1623,23 @@ margin_top = -963.0
 margin_right = 442.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UIGame/DebugPanel"]
-editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="Invencible" type="Button" parent="UIGame/DebugPanel/VBoxContainer"]
 margin_right = 442.0
-margin_bottom = 134.0
+margin_bottom = 116.0
 rect_min_size = Vector2( 0, 64 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_fonts/font = SubResource( 38 )
-text = "Invencible"
+toggle_mode = true
+text = "ON/OFF INVENCIBLE"
 
 [node name="Currency" type="Button" parent="UIGame/DebugPanel/VBoxContainer"]
-margin_top = 138.0
+margin_top = 120.0
 margin_right = 442.0
-margin_bottom = 272.0
+margin_bottom = 236.0
 rect_min_size = Vector2( 0, 64 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -1643,9 +1647,9 @@ custom_fonts/font = SubResource( 39 )
 text = "Currency"
 
 [node name="ResetGame" type="Button" parent="UIGame/DebugPanel/VBoxContainer"]
-margin_top = 276.0
+margin_top = 240.0
 margin_right = 442.0
-margin_bottom = 410.0
+margin_bottom = 356.0
 rect_min_size = Vector2( 0, 64 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -1653,9 +1657,9 @@ custom_fonts/font = SubResource( 39 )
 text = "RESET GAME STATE"
 
 [node name="ToggleCollectables" type="Button" parent="UIGame/DebugPanel/VBoxContainer"]
-margin_top = 414.0
+margin_top = 360.0
 margin_right = 442.0
-margin_bottom = 548.0
+margin_bottom = 476.0
 rect_min_size = Vector2( 0, 64 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -1665,9 +1669,9 @@ pressed = true
 text = "ON/OFF COLLECT"
 
 [node name="ToggleEnemies" type="Button" parent="UIGame/DebugPanel/VBoxContainer"]
-margin_top = 552.0
+margin_top = 480.0
 margin_right = 442.0
-margin_bottom = 686.0
+margin_bottom = 596.0
 rect_min_size = Vector2( 0, 64 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -1677,9 +1681,9 @@ pressed = true
 text = "ON/OFF ENEMIES"
 
 [node name="ToggleRibbons" type="Button" parent="UIGame/DebugPanel/VBoxContainer"]
-margin_top = 690.0
+margin_top = 600.0
 margin_right = 442.0
-margin_bottom = 824.0
+margin_bottom = 716.0
 rect_min_size = Vector2( 0, 64 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -1688,8 +1692,19 @@ toggle_mode = true
 pressed = true
 text = "ON/OFF RIBBON"
 
+[node name="Music" type="Button" parent="UIGame/DebugPanel/VBoxContainer"]
+margin_top = 720.0
+margin_right = 442.0
+margin_bottom = 836.0
+rect_min_size = Vector2( 0, 64 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = SubResource( 39 )
+toggle_mode = true
+text = "Music NEW/OLD"
+
 [node name="Height" type="LineEdit" parent="UIGame/DebugPanel/VBoxContainer"]
-margin_top = 828.0
+margin_top = 840.0
 margin_right = 442.0
 margin_bottom = 963.0
 rect_min_size = Vector2( 0, 50 )
@@ -1755,9 +1770,10 @@ min_height_tutorial = 12
 [node name="Ribbons" type="Node2D" parent="."]
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
+pause_mode = 2
 stream = ExtResource( 37 )
-volume_db = -2.0
 autoplay = true
+bus = "Music"
 [connection signal="screen_exited" from="House/VisibilityNotifier2D" to="House" method="_on_VisibilityNotifier2D_screen_exited"]
 [connection signal="button_down" from="UIGame/UI/PauseButton" to="UIGame" method="_on_PauseButton_button_down"]
 [connection signal="button_down" from="UIGame/UI/PausePanel/HomeButton" to="UIGame" method="_on_HomeButton_button_down"]
@@ -1767,11 +1783,12 @@ autoplay = true
 [connection signal="button_down" from="UIGame/UI/DeadPanel/RestartButton" to="." method="_on_RestartButton_button_down"]
 [connection signal="button_down" from="UIGame/UI/DeadPanel/CloseButton" to="." method="_on_CloseButton_button_down"]
 [connection signal="animation_finished" from="UIGame/UI/Transition/Anim" to="UIGame" method="_on_Anim_animation_finished"]
-[connection signal="button_down" from="UIGame/DebugPanel/VBoxContainer/Invencible" to="Player" method="_on_Invencible_button_down"]
+[connection signal="toggled" from="UIGame/DebugPanel/VBoxContainer/Invencible" to="Player" method="_on_Invencible_toggled"]
 [connection signal="button_down" from="UIGame/DebugPanel/VBoxContainer/Currency" to="." method="_on_Currency_button_down"]
 [connection signal="button_down" from="UIGame/DebugPanel/VBoxContainer/ResetGame" to="." method="_on_ResetGame_button_down"]
 [connection signal="toggled" from="UIGame/DebugPanel/VBoxContainer/ToggleCollectables" to="." method="_on_ToggleCollectables_toggled"]
 [connection signal="toggled" from="UIGame/DebugPanel/VBoxContainer/ToggleEnemies" to="." method="_on_ToggleEnemies_toggled"]
 [connection signal="toggled" from="UIGame/DebugPanel/VBoxContainer/ToggleRibbons" to="." method="_on_ToggleRibbons_toggled"]
+[connection signal="toggled" from="UIGame/DebugPanel/VBoxContainer/Music" to="." method="_on_Music_toggled"]
 [connection signal="gui_input" from="UIGame/DebugPanel/VBoxContainer/Height" to="." method="_on_Height_gui_input"]
 [connection signal="button_down" from="UIGame/DebugPanel/Button" to="." method="_on_Button_button_down"]

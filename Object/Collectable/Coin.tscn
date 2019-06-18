@@ -187,7 +187,7 @@ color_ramp = SubResource( 4 )
 
 [node name="Sample" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 4 )
-bus = "Collectables"
+bus = "Sounds"
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Idle"

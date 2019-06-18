@@ -1,11 +1,13 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Sprites/UI/PawCatIcon.png" type="Texture" id=2]
-[ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=3]
-[ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/UI/LeftyOffButton.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/UI/LeftyOnButton.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=6]
 
-[sub_resource type="StyleBoxFlat" id=5]
+[sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 1, 0.74902, 0, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -17,7 +19,7 @@ corner_radius_top_right = 30
 corner_radius_bottom_right = 30
 corner_radius_bottom_left = 30
 
-[sub_resource type="GDScript" id=1]
+[sub_resource type="GDScript" id=2]
 script/source = "extends Panel
 
 func _on_ConfigPanel_visibility_changed():
@@ -36,23 +38,35 @@ func _on_CloseConfigButton_button_down():
 
 
 func _on_MusicSlider_value_changed(value):
-	GameManager.music_volume = int(value)
+	GameManager.change_music_volume(int(value))
 	pass # Replace with function body.
 
 
 func _on_SoundSlider_value_changed(value):
-	GameManager.sound_volume = int(value)
+	GameManager.change_sound_volume(int(value))
+	pass # Replace with function body.
+
+
+func _on_Mode_toggled(button_pressed):
+	GameManager.left_mode = button_pressed
 	pass # Replace with function body.
 "
 
-[sub_resource type="DynamicFont" id=2]
-size = 52
+[sub_resource type="DynamicFont" id=6]
+size = 72
+outline_size = 6
+outline_color = Color( 0, 0, 0, 1 )
+use_filter = true
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=3]
+size = 64
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 1 )
 
-[sub_resource type="StyleBoxFlat" id=3]
+[sub_resource type="StyleBoxFlat" id=4]
 bg_color = Color( 0.392157, 0, 0.545098, 1 )
 border_width_left = 5
 border_width_top = 5
@@ -70,7 +84,7 @@ expand_margin_bottom = 20.0
 shadow_color = Color( 0, 0, 0, 0.411765 )
 shadow_size = 5
 
-[sub_resource type="StyleBoxFlat" id=4]
+[sub_resource type="StyleBoxFlat" id=5]
 content_margin_left = 1.0
 content_margin_right = 1.0
 content_margin_top = 1.0
@@ -93,21 +107,44 @@ expand_margin_bottom = 10.0
 shadow_size = 2
 
 [node name="ConfigPanel" type="Panel"]
-margin_left = 190.0
-margin_top = 580.0
-margin_right = 880.0
-margin_bottom = 1120.0
-custom_styles/panel = SubResource( 5 )
-script = SubResource( 1 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -421.0
+margin_top = -345.0
+margin_right = 419.0
+margin_bottom = 355.0
+rect_min_size = Vector2( 840, 700 )
+custom_styles/panel = SubResource( 1 )
+script = SubResource( 2 )
 
-[node name="MusicLabel" type="Label" parent="."]
+[node name="Title" type="Label" parent="."]
 anchor_left = 0.5
 anchor_right = 0.5
+margin_left = -441.0
+margin_top = 30.0
+margin_right = 441.0
+margin_bottom = 118.0
+custom_fonts/font = SubResource( 6 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 8
+custom_constants/shadow_offset_y = 8
+text = "CONFIGURATION PANEL"
+align = 1
+valign = 1
+
+[node name="MusicLabel" type="Label" parent="."]
+editor/display_folded = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
 margin_left = -215.0
-margin_top = 50.0
+margin_top = -145.0
 margin_right = 215.0
-margin_bottom = 114.0
-custom_fonts/font = SubResource( 2 )
+margin_bottom = -67.0
+custom_fonts/font = SubResource( 3 )
 text = "Music VOLUME"
 align = 1
 
@@ -123,22 +160,23 @@ margin_bottom = 108.0
 size_flags_horizontal = 15
 custom_icons/grabber_highlight = ExtResource( 2 )
 custom_icons/grabber = ExtResource( 2 )
-custom_styles/slider = SubResource( 3 )
-custom_styles/grabber_area = SubResource( 4 )
+custom_styles/slider = SubResource( 4 )
+custom_styles/grabber_area = SubResource( 5 )
 max_value = 5.0
 value = 3.0
 tick_count = 5
 
 [node name="SoundLabel" type="Label" parent="."]
+editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -215.0
-margin_top = -40.0
+margin_top = 65.0
 margin_right = 215.0
-margin_bottom = 24.0
-custom_fonts/font = SubResource( 2 )
+margin_bottom = 143.0
+custom_fonts/font = SubResource( 3 )
 text = "SOUND VOLUME"
 align = 1
 
@@ -153,29 +191,56 @@ margin_right = 245.0
 margin_bottom = 46.0
 custom_icons/grabber_highlight = ExtResource( 2 )
 custom_icons/grabber = ExtResource( 2 )
-custom_styles/slider = SubResource( 3 )
-custom_styles/grabber_area = SubResource( 4 )
+custom_styles/slider = SubResource( 4 )
+custom_styles/grabber_area = SubResource( 5 )
 max_value = 5.0
 value = 3.0
 tick_count = 5
 ticks_on_borders = true
 
-[node name="CloseConfigButton" type="TextureButton" parent="."]
+[node name="LeftMode" type="Label" parent="."]
+editor/display_folded = true
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -205.0
+margin_top = 135.0
+margin_right = 225.0
+margin_bottom = 199.0
+custom_fonts/font = SubResource( 3 )
+text = "LEFT MODE"
+align = 1
+
+[node name="Mode" type="CheckButton" parent="LeftMode"]
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -70.0
-margin_top = -140.0
-margin_right = 70.0
-margin_bottom = -20.0
-texture_normal = ExtResource( 3 )
-texture_pressed = ExtResource( 4 )
-texture_disabled = ExtResource( 4 )
+margin_left = -65.0
+margin_top = 6.0
+margin_right = 57.0
+margin_bottom = 86.0
+rect_scale = Vector2( 1.5, 1.5 )
+rect_pivot_offset = Vector2( 61, 0 )
+custom_icons/off = ExtResource( 3 )
+custom_icons/on = ExtResource( 4 )
+
+[node name="CloseConfigButton" type="TextureButton" parent="."]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -100.0
+margin_top = -50.0
+margin_right = 40.0
+margin_bottom = 70.0
+texture_normal = ExtResource( 5 )
+texture_pressed = ExtResource( 6 )
+texture_disabled = ExtResource( 6 )
 expand = true
 stretch_mode = 5
-
 [connection signal="visibility_changed" from="." to="." method="_on_ConfigPanel_visibility_changed"]
 [connection signal="value_changed" from="MusicLabel/MusicSlider" to="." method="_on_MusicSlider_value_changed"]
 [connection signal="value_changed" from="SoundLabel/SoundSlider" to="." method="_on_SoundSlider_value_changed"]
+[connection signal="toggled" from="LeftMode/Mode" to="." method="_on_Mode_toggled"]
 [connection signal="button_down" from="CloseConfigButton" to="." method="_on_CloseConfigButton_button_down"]

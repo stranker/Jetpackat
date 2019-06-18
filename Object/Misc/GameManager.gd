@@ -17,6 +17,7 @@ var game_info : Dictionary = {}
 var timer : float = 0
 var intro_watched : bool = false
 var private_url = 'A_qF1JJVd0iy5GKQGTuHjAXVoYJ4ml3kq7N2E5W0B16g'
+var left_mode : bool = false
 
 func reset_stats():
 	player_height = 0
@@ -24,6 +25,8 @@ func reset_stats():
 
 func _ready():
 	load_data()
+	change_music_volume(game_info['MusicVolume'])
+	change_sound_volume(game_info['SoundVolume'])
 	pass
 
 func load_data():
@@ -45,6 +48,7 @@ func load_data_from_res():
 		combos = game_info['Combo']
 		music_volume = game_info['MusicVolume']
 		sound_volume = game_info['SoundVolume']
+		left_mode = game_info['LeftMode']
 	save_game_data()
 	pass
 
@@ -61,6 +65,7 @@ func load_data_from_user():
 		intro_watched = game_info['IntroWatched']
 		music_volume = game_info['MusicVolume']
 		sound_volume = game_info['SoundVolume']
+		left_mode = game_info['LeftMode']
 	save_game_data()
 	pass
 
@@ -127,6 +132,7 @@ func save_current_game_info():
 	game_info['IntroWatched'] = intro_watched
 	game_info['MusicVolume'] = music_volume
 	game_info['SoundVolume'] = sound_volume
+	game_info['LeftMode'] = left_mode
 	if !game_info.empty():
 		file.store_line(to_json(game_info))
 		file.store_line("")
@@ -180,3 +186,13 @@ func int_to_time(number):
 	else:
 		time_number = str(seconds)
 	return time_number
+
+func change_music_volume(value):
+	music_volume = value
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index('Music'),-32 + 6.4 * value)
+	AudioServer.set_bus_mute(AudioServer.get_bus_index('Music'),value == 0)
+
+func change_sound_volume(value):
+	sound_volume = value
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index('Sounds'),-32 + 6.4 * value)
+	AudioServer.set_bus_mute(AudioServer.get_bus_index('Sounds'),value == 0)
