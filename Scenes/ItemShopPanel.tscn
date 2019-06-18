@@ -150,7 +150,7 @@ func unequip_item():
 		$ItemPanel/ColorButton.hide()
 		GameManager.items_equipped.erase(type)
 		emit_signal('item_unequip',type)
-		$ItemPanel/PreviewButton/Label.hide()
+		$ItemPanel/Label.hide()
 	else:
 		equip_default_jetpack()
 	pass
@@ -166,7 +166,7 @@ func enable_use_button(val):
 			$UseButton/Text.text = \"USE\"
 			$ItemPanel/ColorButton.hide()
 	else:
-		$ItemPanel/PreviewButton/Label.hide()
+		$ItemPanel/Label.hide()
 	pass
 
 func _on_ColorButton_button_down():
@@ -181,7 +181,7 @@ func set_item_color(_color):
 
 func _on_PreviewButton_button_down():
 	emit_signal('item_preview',type,$ItemPanel/ItemImage.texture)
-	$ItemPanel/PreviewButton/Label.show()
+	$ItemPanel/Label.show()
 	pass # Replace with function body.
 "
 
@@ -192,14 +192,7 @@ corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
-[sub_resource type="DynamicFont" id=4]
-size = 32
-outline_size = 2
-outline_color = Color( 0, 0, 0, 1 )
-use_filter = true
-font_data = ExtResource( 2 )
-
-[sub_resource type="StyleBoxFlat" id=5]
+[sub_resource type="StyleBoxFlat" id=4]
 border_width_left = 5
 border_width_top = 5
 border_width_right = 5
@@ -209,6 +202,13 @@ corner_radius_top_left = 10
 corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
+
+[sub_resource type="DynamicFont" id=5]
+size = 32
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+use_filter = true
+font_data = ExtResource( 2 )
 
 [sub_resource type="StyleBoxFlat" id=6]
 bg_color = Color( 0.00784314, 0.392157, 0, 1 )
@@ -240,7 +240,7 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 shadow_color = Color( 0.156863, 0.439216, 0, 0.6 )
 
-[sub_resource type="ShaderMaterial" id=13]
+[sub_resource type="ShaderMaterial" id=9]
 shader = ExtResource( 3 )
 shader_param/outline_width = 1.3
 shader_param/outline_color = Color( 0, 0, 0, 1 )
@@ -276,17 +276,18 @@ shadow_color = Color( 0.156863, 0.439216, 0, 0.6 )
 margin_right = 260.0
 margin_bottom = 390.0
 rect_min_size = Vector2( 260, 360 )
+mouse_filter = 2
 custom_styles/panel = SubResource( 1 )
 script = SubResource( 2 )
 
 [node name="ItemPanel" type="Panel" parent="."]
-editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
 margin_top = 5.0
 margin_right = -5.0
 margin_bottom = -80.0
+mouse_filter = 2
 custom_styles/panel = SubResource( 3 )
 
 [node name="SkinPlace" type="TextureRect" parent="ItemPanel"]
@@ -294,6 +295,7 @@ visible = false
 self_modulate = Color( 0, 0, 0, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 texture = ExtResource( 1 )
 expand = true
 stretch_mode = 6
@@ -301,19 +303,17 @@ stretch_mode = 6
 [node name="ItemImage" type="TextureRect" parent="ItemPanel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 expand = true
 stretch_mode = 6
 
 [node name="PreviewButton" type="TextureButton" parent="ItemPanel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-
-[node name="Label" type="Label" parent="ItemPanel/PreviewButton"]
-visible = false
-margin_right = 78.0
-margin_bottom = 25.0
-custom_fonts/font = SubResource( 4 )
-text = "PREVIEW"
+margin_left = 45.0
+margin_top = 54.0
+margin_right = -44.0
+margin_bottom = -55.0
 
 [node name="ColorButton" type="Button" parent="ItemPanel"]
 visible = false
@@ -323,13 +323,23 @@ margin_left = -74.0
 margin_top = 4.0
 margin_right = -5.0
 margin_bottom = 42.0
-custom_styles/hover = SubResource( 5 )
-custom_styles/pressed = SubResource( 5 )
-custom_styles/focus = SubResource( 5 )
-custom_styles/disabled = SubResource( 5 )
-custom_styles/normal = SubResource( 5 )
+custom_styles/hover = SubResource( 4 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/focus = SubResource( 4 )
+custom_styles/disabled = SubResource( 4 )
+custom_styles/normal = SubResource( 4 )
+
+[node name="Label" type="Label" parent="ItemPanel"]
+visible = false
+margin_left = 11.4
+margin_top = 7.6
+margin_right = 136.4
+margin_bottom = 46.6
+custom_fonts/font = SubResource( 5 )
+text = "PREVIEW"
 
 [node name="ShopButton" type="Button" parent="."]
+editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -361,7 +371,7 @@ rect_min_size = Vector2( 0, 60 )
 mouse_filter = 2
 
 [node name="Payment" type="TextureRect" parent="ShopButton/CC/HBC"]
-material = SubResource( 13 )
+material = SubResource( 9 )
 margin_right = 60.0
 margin_bottom = 61.0
 rect_min_size = Vector2( 60, 0 )
