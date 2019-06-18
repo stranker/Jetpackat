@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://Scenes/ItemShopPanel.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Collectables/Coin.png" type="Texture" id=2]
@@ -227,6 +227,65 @@ corner_radius_top_right = 50
 corner_radius_bottom_right = 50
 corner_radius_bottom_left = 50
 
+[sub_resource type="StyleBoxFlat" id=19]
+bg_color = Color( 0, 0.831373, 0.0901961, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0, 0.407843, 0, 1 )
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+expand_margin_left = 5.0
+expand_margin_right = 5.0
+expand_margin_top = 5.0
+expand_margin_bottom = 5.0
+
+[sub_resource type="StyleBoxFlat" id=20]
+bg_color = Color( 0, 0.407843, 0, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0, 0.407843, 0, 1 )
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+expand_margin_left = 5.0
+expand_margin_right = 5.0
+expand_margin_top = 5.0
+expand_margin_bottom = 5.0
+
+[sub_resource type="StyleBoxFlat" id=17]
+bg_color = Color( 0.67451, 0, 1, 1 )
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color( 0.592157, 0, 1, 1 )
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+expand_margin_left = 4.0
+expand_margin_right = 4.0
+expand_margin_top = 2.0
+expand_margin_bottom = 2.0
+
+[sub_resource type="Theme" id=18]
+VScrollBar/icons/decrement = null
+VScrollBar/icons/decrement_highlight = null
+VScrollBar/icons/increment = null
+VScrollBar/icons/increment_highlight = null
+VScrollBar/styles/grabber = SubResource( 19 )
+VScrollBar/styles/grabber_highlight = SubResource( 20 )
+VScrollBar/styles/grabber_pressed = SubResource( 20 )
+VScrollBar/styles/scroll = SubResource( 17 )
+VScrollBar/styles/scroll_focus = SubResource( 17 )
+
 [sub_resource type="StyleBoxFlat" id=8]
 bg_color = Color( 0.247059, 0, 0.388235, 1 )
 border_width_left = 10
@@ -294,7 +353,7 @@ outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 3 )
 
-[sub_resource type="Animation" id=15]
+[sub_resource type="Animation" id=14]
 resource_name = "FadeIn"
 tracks/0/type = "value"
 tracks/0/path = NodePath("FadeOut:self_modulate")
@@ -308,9 +367,20 @@ tracks/0/keys = {
 "update": 0,
 "values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("FadeOut:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
 
-[sub_resource type="Animation" id=14]
-resource_name = "FadeOut"
+[sub_resource type="Animation" id=15]
 tracks/0/type = "value"
 tracks/0/path = NodePath("FadeOut:self_modulate")
 tracks/0/interp = 1
@@ -323,6 +393,18 @@ tracks/0/keys = {
 "update": 0,
 "values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("FadeOut:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
 
 [node name="ShopScene" type="Panel"]
 anchor_right = 1.0
@@ -332,7 +414,6 @@ script = SubResource( 2 )
 item_shop_panel = ExtResource( 1 )
 
 [node name="VBC" type="VBoxContainer" parent="."]
-editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_constants/separation = 5
@@ -345,7 +426,6 @@ size_flags_vertical = 3
 custom_constants/separation = 0
 
 [node name="ShopPanel" type="VBoxContainer" parent="VBC/HBC"]
-editor/display_folded = true
 margin_right = 880.0
 margin_bottom = 1315.0
 mouse_filter = 2
@@ -354,6 +434,7 @@ size_flags_vertical = 3
 custom_constants/separation = 0
 
 [node name="Currency" type="Panel" parent="VBC/HBC/ShopPanel"]
+editor/display_folded = true
 margin_right = 880.0
 margin_bottom = 160.0
 rect_min_size = Vector2( 0, 160 )
@@ -432,7 +513,6 @@ text = "99999"
 valign = 1
 
 [node name="PanelItems" type="Panel" parent="VBC/HBC/ShopPanel"]
-editor/display_folded = true
 margin_top = 160.0
 margin_right = 880.0
 margin_bottom = 1315.0
@@ -450,7 +530,8 @@ margin_right = -18.0
 margin_bottom = -18.0
 
 [node name="Items" type="GridContainer" parent="VBC/HBC/ShopPanel/PanelItems/SC"]
-custom_constants/hseparation = 26
+theme = SubResource( 18 )
+custom_constants/hseparation = 10
 columns = 3
 
 [node name="CustomColor" parent="VBC/HBC/ShopPanel/PanelItems" instance=ExtResource( 5 )]
@@ -465,6 +546,7 @@ margin_right = 280.0
 margin_bottom = 355.0
 
 [node name="VBB" type="VBoxContainer" parent="VBC/HBC"]
+editor/display_folded = true
 margin_left = 880.0
 margin_right = 1080.0
 margin_bottom = 1315.0
@@ -682,7 +764,8 @@ text = "BONUS"
 align = 1
 
 [node name="FadeOut" type="TextureRect" parent="."]
-self_modulate = Color( 0, 0, 0, 1 )
+visible = false
+self_modulate = Color( 0, 0, 0, 0 )
 margin_right = 1080.0
 margin_bottom = 1920.0
 mouse_filter = 2
@@ -690,8 +773,8 @@ texture = ExtResource( 15 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "FadeOut"
-anims/FadeIn = SubResource( 15 )
-anims/FadeOut = SubResource( 14 )
+anims/FadeIn = SubResource( 14 )
+anims/FadeOut = SubResource( 15 )
 [connection signal="value_changed" from="VBC/HBC/ShopPanel/PanelItems/CustomColor" to="." method="_on_CustomColor_value_changed"]
 [connection signal="button_down" from="VBC/HBC/VBB/CloseButton" to="." method="_on_TextureButton_button_down"]
 [connection signal="button_down" from="VBC/HBC/VBB/PanelButtons/Panel/Hat" to="." method="_on_Hat_button_down"]
