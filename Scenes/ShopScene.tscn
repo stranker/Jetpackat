@@ -419,6 +419,7 @@ anchor_bottom = 1.0
 custom_constants/separation = 5
 
 [node name="HBC" type="HBoxContainer" parent="VBC"]
+editor/display_folded = true
 margin_right = 1080.0
 margin_bottom = 1315.0
 size_flags_horizontal = 3

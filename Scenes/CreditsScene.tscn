@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Sprites/Background/Bg1.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Background/Star2.png" type="Texture" id=2]
-[ext_resource path="res://Fonts/comic_andy.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://Fonts/Handsdown.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://Fonts/overload burn.ttf" type="DynamicFontData" id=4]
 [ext_resource path="res://Sprites/UI/BackButton.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/UI/BackButtonPressed.png" type="Texture" id=6]
@@ -62,7 +62,9 @@ func _on_Anim_animation_finished(anim_name):
 "
 
 [sub_resource type="DynamicFont" id=2]
-size = 300
+size = 150
+outline_size = 10
+use_filter = true
 font_data = ExtResource( 3 )
 
 [sub_resource type="DynamicFont" id=3]
@@ -240,12 +242,12 @@ texture = ExtResource( 2 )
 [node name="CreditsLabel" type="Label" parent="."]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -320.0
-margin_top = -20.0
-margin_right = 316.0
-margin_bottom = 316.0
+margin_left = -318.0
+margin_right = 318.0
+margin_bottom = 336.0
 custom_fonts/font = SubResource( 2 )
-text = "CREDITS"
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Credits"
 align = 1
 valign = 1
 

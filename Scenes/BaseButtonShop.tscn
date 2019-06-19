@@ -5,7 +5,7 @@
 [ext_resource path="res://Sprites/UI/Shop/HatButton.png" type="Texture" id=3]
 
 [node name="BaseButtonShop" type="TextureButton"]
-self_modulate = Color( 0.00784314, 0.796078, 0, 1 )
+self_modulate = Color( 0.0235294, 0.72549, 0.0156863, 1 )
 margin_right = 70.0
 margin_bottom = 70.0
 texture_normal = ExtResource( 1 )

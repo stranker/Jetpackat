@@ -1,7 +1,7 @@
 {
    "Hat":{
       "Baseball":{
-         "buyed":true,
+         "buyed":false,
          "color":"ffffff",
          "id":8,
          "payment":"Coin",
@@ -32,7 +32,7 @@
          "type":"Hat"
       },
       "Fedora":{
-         "buyed":true,
+         "buyed":false,
          "id":3,
          "payment":"Fish",
          "price":30,
