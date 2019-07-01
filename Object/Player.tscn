@@ -1,13 +1,14 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://Sprites/Cat/Skin/Skin.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Cat/Eyes.png" type="Texture" id=2]
-[ext_resource path="res://Shaders/outline.shader" type="Shader" id=3]
-[ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=4]
-[ext_resource path="res://Sprites/Shop/Cat/Thruster/Smoke.png" type="Texture" id=5]
-[ext_resource path="res://Sprites/Tutorial/JumpArrow.png" type="Texture" id=6]
-[ext_resource path="res://Sprites/Cat/Shield.png" type="Texture" id=7]
-[ext_resource path="res://Sounds/Sfx/Jump.wav" type="AudioStream" id=8]
+[ext_resource path="res://Sprites/Collectables/Magnet.png" type="Texture" id=3]
+[ext_resource path="res://Shaders/outline.shader" type="Shader" id=4]
+[ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/Shop/Cat/Thruster/Smoke.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/Tutorial/JumpArrow.png" type="Texture" id=7]
+[ext_resource path="res://Sprites/Cat/Shield.png" type="Texture" id=8]
+[ext_resource path="res://Sounds/Sfx/Jump.wav" type="AudioStream" id=9]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends KinematicBody2D
@@ -23,6 +24,7 @@ var size_sprite : Vector2
 var invencible : bool = false
 var can_receive_damage : bool = true
 var dead : bool = false
+var on_magnet : bool = false
 
 signal start_playing
 signal dead
@@ -156,6 +158,7 @@ func set_invencible(val):
 		velocity.x = 0
 		$Anim.play('Invencible')
 		impulse(1500)
+		set_increment_magnet_area(true)
 	emit_signal('invencible',invencible)
 
 func _on_NoColliderTimer_timeout():
@@ -167,8 +170,9 @@ func combo_master():
 	pass
 
 func ribbon_passed():
-	$Anim.play('Ribbon')
-	$Anim.queue('Flying')
+	if !on_magnet:
+		$Anim.play('Ribbon')
+		$Anim.queue('Flying')
 	pass
 
 func hide_tutorial_arrow():
@@ -178,7 +182,27 @@ func hide_tutorial_arrow():
 func _on_Invencible_toggled(button_pressed):
 	can_receive_damage = !button_pressed
 	pass # Replace with function body.
-"
+
+func set_magnet(val):
+	on_magnet = val
+	$MagnetTimer.start()
+	set_increment_magnet_area(on_magnet)
+	$Anim.play('Magnet')
+	pass
+
+func _on_MagnetTimer_timeout():
+	on_magnet = false
+	set_increment_magnet_area(on_magnet)
+	$Anim.play('Flying')
+	$Visible/Skin/Magnet.hide()
+	pass # Replace with function body.
+
+func set_increment_magnet_area(val):
+	if val:
+		$Visible/MagnetArea/CollisionShape2D.shape.radius = 2000
+	else:
+		$Visible/MagnetArea/CollisionShape2D.shape.radius = 117.5
+	pass"
 
 [sub_resource type="CapsuleShape2D" id=2]
 radius = 53.0
@@ -275,7 +299,7 @@ func set_jetpack(item):
 "
 
 [sub_resource type="ShaderMaterial" id=5]
-shader = ExtResource( 3 )
+shader = ExtResource( 4 )
 shader_param/outline_width = 0.5
 shader_param/outline_color = Color( 0, 0, 0, 1 )
 
@@ -312,7 +336,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="CircleShape2D" id=10]
-radius = 117.38
+radius = 117.5
 
 [sub_resource type="Animation" id=11]
 resource_name = "Falling"
@@ -767,103 +791,103 @@ tracks/5/keys = {
 [sub_resource type="Animation" id=18]
 length = 4.0
 tracks/0/type = "value"
-tracks/0/path = NodePath("Visible/MagnetArea/CollisionShape2D:shape:radius")
+tracks/0/path = NodePath("Visible/Skin:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 4 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ 117.38, 1000.0, 117.38 ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Visible/Skin:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
 "times": PoolRealArray( 0, 0.2, 3.8 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ 0, 1, 0 ]
 }
-tracks/2/type = "value"
-tracks/2/path = NodePath("Visible/Skin/Eyes:texture")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
+tracks/1/type = "value"
+tracks/1/path = NodePath("Visible/Skin/Eyes:texture")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ ExtResource( 2 ) ]
 }
-tracks/3/type = "value"
-tracks/3/path = NodePath("Visible/Skin/Eyes:frame")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
+tracks/2/type = "value"
+tracks/2/path = NodePath("Visible/Skin/Eyes:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
 "times": PoolRealArray( 0, 0.1, 0.6, 1.1, 1.6, 2.5, 3.1 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 0, 1, 4, 5, 6, 1, 0 ]
 }
-tracks/4/type = "value"
-tracks/4/path = NodePath("Visible/Shield:self_modulate")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
+tracks/3/type = "value"
+tracks/3/path = NodePath("Visible/Shield:self_modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
 "times": PoolRealArray( 0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0.0980392 ), Color( 1, 1, 1, 0.12549 ), Color( 1, 1, 1, 0.0980392 ), Color( 1, 1, 1, 0.12549 ), Color( 1, 1, 1, 0.0980392 ), Color( 1, 1, 1, 0.12549 ), Color( 1, 1, 1, 0.0980392 ), Color( 1, 1, 1, 0.12549 ), Color( 1, 1, 1, 0.0980392 ) ]
 }
-tracks/5/type = "value"
-tracks/5/path = NodePath("Visible/Shield:visible")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
+tracks/4/type = "value"
+tracks/4/path = NodePath("Visible/Shield:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
 "times": PoolRealArray( 0, 4 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
 }
-tracks/6/type = "value"
-tracks/6/path = NodePath("Visible/Shield/Skeleton/Bone2D:rotation_degrees")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/keys = {
+tracks/5/type = "value"
+tracks/5/path = NodePath("Visible/Shield/Skeleton/Bone2D:rotation_degrees")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
 "times": PoolRealArray( 0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5, 4 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ 156.548, 156.548, 156.548, 156.548, 156.548, 156.548, 156.548, 156.548, 156.548 ]
 }
-tracks/7/type = "value"
-tracks/7/path = NodePath("Visible/Shield/Skeleton/Bone2D/Bone2D2:rotation_degrees")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/keys = {
+tracks/6/type = "value"
+tracks/6/path = NodePath("Visible/Shield/Skeleton/Bone2D/Bone2D2:rotation_degrees")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
 "times": PoolRealArray( 0, 4 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ 0.0, 2.17334 ]
 }
+tracks/7/type = "value"
+tracks/7/path = NodePath("Visible/Shield/Skeleton/Bone2D/Bone2D2/Bone2D3:rotation_degrees")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0, 0.3, 0.6, 0.9, 1.2, 1.5, 1.8, 2.1, 2.4, 2.6, 2.9, 3.2, 3.5, 3.8, 4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ -57.0638, -61.8089, -61.8089, -57.6238, -75.2704, -61.8089, -61.8089, -57.6238, -75.2704, -75.2704, -61.8089, -61.8089, -57.6238, -75.2704, -57.6238 ]
+}
 tracks/8/type = "value"
-tracks/8/path = NodePath("Visible/Shield/Skeleton/Bone2D/Bone2D2/Bone2D3:rotation_degrees")
+tracks/8/path = NodePath("Visible/Shield/Skeleton/Bone2D/Bone2D2/Bone2D3/Bone2D4:rotation_degrees")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/imported = false
@@ -872,34 +896,34 @@ tracks/8/keys = {
 "times": PoolRealArray( 0, 0.3, 0.6, 0.9, 1.2, 1.5, 1.8, 2.1, 2.4, 2.6, 2.9, 3.2, 3.5, 3.8, 4 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ -57.0638, -61.8089, -61.8089, -57.6238, -75.2704, -61.8089, -61.8089, -57.6238, -75.2704, -75.2704, -61.8089, -61.8089, -57.6238, -75.2704, -57.6238 ]
+"values": [ -9.77505, -6.25701, -11.0747, -11.0747, 13.5171, -6.25701, -11.0747, -11.0747, 13.5171, 13.5171, -6.25701, -11.0747, -11.0747, 13.5171, -11.0747 ]
 }
 tracks/9/type = "value"
-tracks/9/path = NodePath("Visible/Shield/Skeleton/Bone2D/Bone2D2/Bone2D3/Bone2D4:rotation_degrees")
+tracks/9/path = NodePath("Visible/Shield/Skeleton/Bone2D/Bone2D2/Bone2D3/Bone2D4/Bone2D5:rotation_degrees")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/imported = false
 tracks/9/enabled = true
 tracks/9/keys = {
-"times": PoolRealArray( 0, 0.3, 0.6, 0.9, 1.2, 1.5, 1.8, 2.1, 2.4, 2.6, 2.9, 3.2, 3.5, 3.8, 4 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ -9.77505, -6.25701, -11.0747, -11.0747, 13.5171, -6.25701, -11.0747, -11.0747, 13.5171, 13.5171, -6.25701, -11.0747, -11.0747, 13.5171, -11.0747 ]
-}
-tracks/10/type = "value"
-tracks/10/path = NodePath("Visible/Shield/Skeleton/Bone2D/Bone2D2/Bone2D3/Bone2D4/Bone2D5:rotation_degrees")
-tracks/10/interp = 1
-tracks/10/loop_wrap = true
-tracks/10/imported = false
-tracks/10/enabled = true
-tracks/10/keys = {
 "times": PoolRealArray( 0, 0.3, 0.6, 0.9, 1.2, 1.4, 1.5, 1.8, 2.1, 2.2, 2.4, 2.6, 2.8, 2.9, 3.2, 3.5, 3.6, 3.8, 4 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ -8.55468, -14.6222, -9.25048, 7.7445, -15.8857, -15.3803, -14.6222, -9.25048, 7.7445, 3.01845, -15.8857, -15.8857, -15.3803, -14.6222, -9.25048, 7.7445, 3.01845, -15.8857, 7.7445 ]
 }
+tracks/10/type = "value"
+tracks/10/path = NodePath("Visible/Shield/Skeleton/Bone2D/Bone2D2/Bone2D3/Bone2D4/Bone2D5/Bone2D6:rotation_degrees")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0, 0.3, 0.6, 0.9, 1.2, 1.5, 1.8, 2.1, 2.4, 2.6, 2.9, 3.2, 3.5, 3.8, 4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 2.34051, 12.5492, -5.23897, -5.37634, -31.9329, 12.5492, -5.23897, -5.37634, -31.9329, -31.9329, 12.5492, -5.23897, -5.37634, -31.9329, -5.37634 ]
+}
 tracks/11/type = "value"
-tracks/11/path = NodePath("Visible/Shield/Skeleton/Bone2D/Bone2D2/Bone2D3/Bone2D4/Bone2D5/Bone2D6:rotation_degrees")
+tracks/11/path = NodePath("Visible/Shield/Skeleton/Bone2D/Bone2D2/Bone2D3/Bone2D4/Bone2D5/Bone2D6/Bone2D7:rotation_degrees")
 tracks/11/interp = 1
 tracks/11/loop_wrap = true
 tracks/11/imported = false
@@ -908,43 +932,71 @@ tracks/11/keys = {
 "times": PoolRealArray( 0, 0.3, 0.6, 0.9, 1.2, 1.5, 1.8, 2.1, 2.4, 2.6, 2.9, 3.2, 3.5, 3.8, 4 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ 2.34051, 12.5492, -5.23897, -5.37634, -31.9329, 12.5492, -5.23897, -5.37634, -31.9329, -31.9329, 12.5492, -5.23897, -5.37634, -31.9329, -5.37634 ]
+"values": [ 0.0, -9.05104, 11.2393, 45.5997, 11.3987, -9.05104, 11.2393, 45.5997, 11.3987, 11.3987, -9.05104, 11.2393, 45.5997, 11.3987, 45.5997 ]
 }
 tracks/12/type = "value"
-tracks/12/path = NodePath("Visible/Shield/Skeleton/Bone2D/Bone2D2/Bone2D3/Bone2D4/Bone2D5/Bone2D6/Bone2D7:rotation_degrees")
+tracks/12/path = NodePath("Visible/Shield/Skeleton/Bone2D/Bone2D2/Bone2D3/Bone2D4/Bone2D5:position")
 tracks/12/interp = 1
 tracks/12/loop_wrap = true
 tracks/12/imported = false
 tracks/12/enabled = true
 tracks/12/keys = {
-"times": PoolRealArray( 0, 0.3, 0.6, 0.9, 1.2, 1.5, 1.8, 2.1, 2.4, 2.6, 2.9, 3.2, 3.5, 3.8, 4 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ 0.0, -9.05104, 11.2393, 45.5997, 11.3987, -9.05104, 11.2393, 45.5997, 11.3987, 11.3987, -9.05104, 11.2393, 45.5997, 11.3987, 45.5997 ]
-}
-tracks/13/type = "value"
-tracks/13/path = NodePath("Visible/Shield/Skeleton/Bone2D/Bone2D2/Bone2D3/Bone2D4/Bone2D5:position")
-tracks/13/interp = 1
-tracks/13/loop_wrap = true
-tracks/13/imported = false
-tracks/13/enabled = true
-tracks/13/keys = {
 "times": PoolRealArray( 0, 0.6, 0.9, 1.4, 1.8, 2.2, 2.8, 3.2, 3.6 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 7.07895, -0.848358 ), Vector2( 14.9407, -2.27116 ), Vector2( 6.09616, -5.80498 ), Vector2( 12.3385, -2.52031 ), Vector2( 10.943, 4.4714 ), Vector2( 16.8123, 0.346107 ), Vector2( 12.3385, -2.52031 ), Vector2( 10.943, 4.4714 ), Vector2( 16.8123, 0.346107 ) ]
 }
-tracks/14/type = "value"
-tracks/14/path = NodePath("Visible/Shield/Skeleton/Bone2D:position")
-tracks/14/interp = 1
-tracks/14/loop_wrap = true
-tracks/14/imported = false
-tracks/14/enabled = true
-tracks/14/keys = {
+tracks/13/type = "value"
+tracks/13/path = NodePath("Visible/Shield/Skeleton/Bone2D:position")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Vector2( 26.9508, -2.5791 ) ]
+}
+
+[sub_resource type="Animation" id=21]
+resource_name = "Magnet"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Visible/Skin:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 1 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Visible/Skin/Eyes:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.3, 1.8, 2, 2.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 4, 1, 0, 4 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Visible/Skin/Magnet:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 3.99078 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
 }
 
 [sub_resource type="Animation" id=19]
@@ -1161,14 +1213,13 @@ script = SubResource( 3 )
 one_shot = true
 
 [node name="Visible" type="Node2D" parent="."]
-editor/display_folded = true
 script = SubResource( 4 )
 
 [node name="Skin" type="Sprite" parent="Visible"]
-editor/display_folded = true
 scale = Vector2( 3, 3 )
 texture = ExtResource( 1 )
 hframes = 2
+frame = 1
 
 [node name="Pattern" type="Sprite" parent="Visible/Skin"]
 
@@ -1183,13 +1234,20 @@ rotation = 0.0163139
 scale = Vector2( 0.6, 0.6 )
 offset = Vector2( -3.49275, -23.7578 )
 
+[node name="Magnet" type="Sprite" parent="Visible/Skin"]
+visible = false
+position = Vector2( -24.4751, -7.13806 )
+rotation = 2.32103
+scale = Vector2( 0.8, 0.8 )
+texture = ExtResource( 3 )
+
 [node name="Jetpack" type="Sprite" parent="Visible"]
 editor/display_folded = true
 show_behind_parent = true
 material = SubResource( 5 )
 position = Vector2( 3.84464, 39.7731 )
 scale = Vector2( 3, 3 )
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 
 [node name="Thruster" type="CPUParticles2D" parent="Visible/Jetpack"]
 show_behind_parent = true
@@ -1203,7 +1261,7 @@ explosiveness = 0.1
 randomness = 0.5
 fract_delta = false
 local_coords = false
-texture = ExtResource( 5 )
+texture = ExtResource( 6 )
 emission_shape = 1
 emission_sphere_radius = 5.0
 flag_align_y = true
@@ -1224,7 +1282,6 @@ script = SubResource( 8 )
 anims/Propulsion = SubResource( 9 )
 
 [node name="MagnetArea" type="Area2D" parent="Visible"]
-editor/display_folded = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Visible/MagnetArea"]
 shape = SubResource( 10 )
@@ -1289,7 +1346,7 @@ editor/display_folded = true
 self_modulate = Color( 1, 1, 1, 0.634177 )
 position = Vector2( -109.113, 14.6102 )
 scale = Vector2( 4.78937, 4.78937 )
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 flip_h = true
 
 [node name="Anim" type="AnimationPlayer" parent="Visible/Arrow"]
@@ -1299,11 +1356,10 @@ anims/Idle = SubResource( 15 )
 
 [node name="Shield" type="Polygon2D" parent="Visible"]
 editor/display_folded = true
-visible = false
 self_modulate = Color( 1, 1, 1, 0.0980392 )
 position = Vector2( -67.6962, -89.4284 )
 scale = Vector2( 3.29189, 3.29189 )
-texture = ExtResource( 7 )
+texture = ExtResource( 8 )
 skeleton = NodePath("Skeleton")
 polygon = PoolVector2Array( 9.5, 60.75, -2.5, 42, -2.5, 14.5, 5, 2.5, 13.25, -2.25, 29.75, -2.75, 42.25, 10.75, 44.25, 24.5, 42, 44.25, 34.5, 63.75, 28, 62.25, 25.75, 52.75, 16.75, 55.25 )
 uv = PoolVector2Array( 10.25, 59, 0, 42, 0.25, 15.75, 5, 2.5, 13.5, 0.25, 30.25, 0, 42.25, 10.75, 44.25, 24.5, 42, 44.25, 34.5, 63.75, 28, 62.25, 28, 51.5, 23.25, 53.25 )
@@ -1357,11 +1413,11 @@ autoplay = "Flying"
 anims/Dead = SubResource( 16 )
 anims/Flying = SubResource( 17 )
 anims/Invencible = SubResource( 18 )
+anims/Magnet = SubResource( 21 )
 anims/Ribbon = SubResource( 19 )
 anims/TimeOut = SubResource( 20 )
 
 [node name="ClickArea" type="CanvasLayer" parent="."]
-editor/display_folded = true
 
 [node name="Area" type="Control" parent="ClickArea"]
 anchor_right = 1.0
@@ -1374,10 +1430,14 @@ one_shot = true
 [node name="NoColliderTimer" type="Timer" parent="."]
 one_shot = true
 
+[node name="MagnetTimer" type="Timer" parent="."]
+wait_time = 4.0
+one_shot = true
+
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 
 [node name="Sample" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 8 )
+stream = ExtResource( 9 )
 volume_db = -17.165
 pitch_scale = 2.0
 bus = "Sounds"
@@ -1386,4 +1446,5 @@ bus = "Sounds"
 [connection signal="gui_input" from="ClickArea/Area" to="." method="_on_Area_gui_input"]
 [connection signal="timeout" from="InvencibleTimer" to="." method="_on_InvencibleTimer_timeout"]
 [connection signal="timeout" from="NoColliderTimer" to="." method="_on_NoColliderTimer_timeout"]
+[connection signal="timeout" from="MagnetTimer" to="." method="_on_MagnetTimer_timeout"]
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

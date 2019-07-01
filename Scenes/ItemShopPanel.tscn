@@ -125,6 +125,7 @@ func _on_ShopButton_button_down():
 	$UseButton.show()
 	$ItemPanel/PreviewButton.hide()
 	$ItemPanel/PreviewButton.disabled = true
+	$ItemPanel/Label.hide()
 	pass # Replace with function body.
 
 func _on_UseButton_button_down():

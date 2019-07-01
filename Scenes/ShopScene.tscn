@@ -198,19 +198,19 @@ corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
-[sub_resource type="ShaderMaterial" id=20]
+[sub_resource type="ShaderMaterial" id=5]
 shader = ExtResource( 2 )
 shader_param/outline_width = 1.0
 shader_param/outline_color = Color( 0, 0, 0, 1 )
 
-[sub_resource type="DynamicFont" id=5]
+[sub_resource type="DynamicFont" id=6]
 size = 80
 outline_size = 3
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 4 )
 
-[sub_resource type="StyleBoxFlat" id=6]
+[sub_resource type="StyleBoxFlat" id=7]
 bg_color = Color( 0.890196, 0.752941, 0.00784314, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -222,7 +222,7 @@ corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
-[sub_resource type="StyleBoxFlat" id=7]
+[sub_resource type="StyleBoxFlat" id=8]
 bg_color = Color( 0.247059, 0, 0.388235, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -234,7 +234,7 @@ corner_radius_top_right = 50
 corner_radius_bottom_right = 50
 corner_radius_bottom_left = 50
 
-[sub_resource type="StyleBoxFlat" id=8]
+[sub_resource type="StyleBoxFlat" id=9]
 bg_color = Color( 0, 0.831373, 0.0901961, 1 )
 border_width_left = 2
 border_width_top = 2
@@ -247,7 +247,7 @@ expand_margin_left = 10.0
 expand_margin_top = 5.0
 expand_margin_bottom = 5.0
 
-[sub_resource type="StyleBoxFlat" id=9]
+[sub_resource type="StyleBoxFlat" id=10]
 bg_color = Color( 0, 0.407843, 0, 1 )
 border_width_left = 2
 border_width_top = 2
@@ -261,7 +261,7 @@ expand_margin_left = 10.0
 expand_margin_top = 5.0
 expand_margin_bottom = 5.0
 
-[sub_resource type="StyleBoxFlat" id=10]
+[sub_resource type="StyleBoxFlat" id=11]
 bg_color = Color( 0.67451, 0, 1, 1 )
 border_width_left = 4
 border_width_top = 4
@@ -276,28 +276,16 @@ expand_margin_left = 10.0
 expand_margin_top = 2.0
 expand_margin_bottom = 2.0
 
-[sub_resource type="Theme" id=11]
+[sub_resource type="Theme" id=12]
 VScrollBar/icons/decrement = null
 VScrollBar/icons/decrement_highlight = null
 VScrollBar/icons/increment = null
 VScrollBar/icons/increment_highlight = null
-VScrollBar/styles/grabber = SubResource( 8 )
-VScrollBar/styles/grabber_highlight = SubResource( 9 )
-VScrollBar/styles/grabber_pressed = SubResource( 9 )
-VScrollBar/styles/scroll = SubResource( 10 )
-VScrollBar/styles/scroll_focus = SubResource( 10 )
-
-[sub_resource type="StyleBoxFlat" id=12]
-bg_color = Color( 0.247059, 0, 0.388235, 1 )
-border_width_left = 10
-border_width_top = 10
-border_width_right = 10
-border_width_bottom = 10
-border_color = Color( 0.180392, 0, 0.286275, 1 )
-corner_radius_top_left = 50
-corner_radius_top_right = 50
-corner_radius_bottom_right = 50
-corner_radius_bottom_left = 50
+VScrollBar/styles/grabber = SubResource( 9 )
+VScrollBar/styles/grabber_highlight = SubResource( 10 )
+VScrollBar/styles/grabber_pressed = SubResource( 10 )
+VScrollBar/styles/scroll = SubResource( 11 )
+VScrollBar/styles/scroll_focus = SubResource( 11 )
 
 [sub_resource type="StyleBoxFlat" id=13]
 bg_color = Color( 0.247059, 0, 0.388235, 1 )
@@ -312,6 +300,18 @@ corner_radius_bottom_right = 50
 corner_radius_bottom_left = 50
 
 [sub_resource type="StyleBoxFlat" id=14]
+bg_color = Color( 0.247059, 0, 0.388235, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color( 0.180392, 0, 0.286275, 1 )
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+
+[sub_resource type="StyleBoxFlat" id=15]
 bg_color = Color( 0.701961, 0.505882, 0.933333, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -323,7 +323,7 @@ corner_radius_top_right = 50
 corner_radius_bottom_right = 50
 corner_radius_bottom_left = 50
 
-[sub_resource type="StyleBoxFlat" id=15]
+[sub_resource type="StyleBoxFlat" id=16]
 bg_color = Color( 1, 1, 1, 1 )
 border_width_left = 5
 border_width_top = 5
@@ -335,7 +335,7 @@ corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
-[sub_resource type="StyleBoxFlat" id=16]
+[sub_resource type="StyleBoxFlat" id=17]
 bg_color = Color( 0.933333, 0.721569, 0, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -347,14 +347,14 @@ corner_radius_top_right = 50
 corner_radius_bottom_right = 50
 corner_radius_bottom_left = 50
 
-[sub_resource type="DynamicFont" id=17]
+[sub_resource type="DynamicFont" id=18]
 size = 56
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 4 )
 
-[sub_resource type="Animation" id=18]
+[sub_resource type="Animation" id=19]
 tracks/0/type = "value"
 tracks/0/path = NodePath("FadeOut:self_modulate")
 tracks/0/interp = 1
@@ -380,7 +380,7 @@ tracks/1/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=19]
+[sub_resource type="Animation" id=20]
 tracks/0/type = "value"
 tracks/0/path = NodePath("FadeOut:self_modulate")
 tracks/0/interp = 1
@@ -451,7 +451,7 @@ rect_min_size = Vector2( 370, 0 )
 custom_styles/panel = SubResource( 4 )
 
 [node name="Coins" type="TextureRect" parent="VBC/HBC/ShopPanel/Currency/CoinPanel"]
-material = SubResource( 20 )
+material = SubResource( 5 )
 anchor_top = 0.5
 anchor_bottom = 0.5
 margin_left = 20.0
@@ -471,7 +471,7 @@ margin_left = 1.8775
 margin_top = -60.0975
 margin_right = 221.878
 margin_bottom = 57.9025
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 6 )
 text = "99999"
 valign = 1
 
@@ -486,10 +486,10 @@ margin_top = -59.5
 margin_right = -70.0
 margin_bottom = 63.5
 rect_min_size = Vector2( 370, 0 )
-custom_styles/panel = SubResource( 6 )
+custom_styles/panel = SubResource( 7 )
 
 [node name="Fishes" type="TextureRect" parent="VBC/HBC/ShopPanel/Currency/FishPanel"]
-material = SubResource( 20 )
+material = SubResource( 5 )
 anchor_top = 0.5
 anchor_bottom = 0.5
 margin_left = 20.0
@@ -509,7 +509,7 @@ margin_left = 8.72821
 margin_top = -62.0
 margin_right = 228.728
 margin_bottom = 58.0
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 6 )
 text = "99999"
 valign = 1
 
@@ -521,7 +521,7 @@ margin_bottom = 1315.0
 mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/panel = SubResource( 7 )
+custom_styles/panel = SubResource( 8 )
 
 [node name="SC" type="ScrollContainer" parent="VBC/HBC/ShopPanel/PanelItems"]
 editor/display_folded = true
@@ -531,10 +531,10 @@ margin_left = 18.0
 margin_top = 18.0
 margin_right = -18.0
 margin_bottom = -18.0
-theme = SubResource( 11 )
+theme = SubResource( 12 )
 
 [node name="Items" type="GridContainer" parent="VBC/HBC/ShopPanel/PanelItems/SC"]
-theme = SubResource( 11 )
+theme = SubResource( 12 )
 custom_constants/hseparation = 10
 columns = 3
 
@@ -572,7 +572,7 @@ margin_right = 200.0
 margin_bottom = 1315.0
 rect_min_size = Vector2( 200, 0 )
 size_flags_vertical = 3
-custom_styles/panel = SubResource( 12 )
+custom_styles/panel = SubResource( 13 )
 
 [node name="Panel" type="VBoxContainer" parent="VBC/HBC/VBB/PanelButtons"]
 anchor_left = 0.5
@@ -639,7 +639,7 @@ margin_top = 1320.0
 margin_right = 1080.0
 margin_bottom = 1920.0
 rect_min_size = Vector2( 0, 600 )
-custom_styles/panel = SubResource( 13 )
+custom_styles/panel = SubResource( 14 )
 
 [node name="HBC" type="HBoxContainer" parent="VBC/PlayerPanel"]
 anchor_left = 0.5
@@ -659,7 +659,7 @@ margin_right = 455.0
 margin_bottom = 560.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/panel = SubResource( 14 )
+custom_styles/panel = SubResource( 15 )
 
 [node name="Skin" type="TextureRect" parent="VBC/PlayerPanel/HBC/Player"]
 anchor_left = 0.5
@@ -740,11 +740,11 @@ margin_left = -131.772
 margin_top = 26.5446
 margin_right = -25.7723
 margin_bottom = 80.5446
-custom_styles/hover = SubResource( 15 )
-custom_styles/pressed = SubResource( 15 )
-custom_styles/focus = SubResource( 15 )
-custom_styles/disabled = SubResource( 15 )
-custom_styles/normal = SubResource( 15 )
+custom_styles/hover = SubResource( 16 )
+custom_styles/pressed = SubResource( 16 )
+custom_styles/focus = SubResource( 16 )
+custom_styles/disabled = SubResource( 16 )
+custom_styles/normal = SubResource( 16 )
 
 [node name="Stats" type="Panel" parent="VBC/PlayerPanel/HBC"]
 editor/display_folded = true
@@ -753,7 +753,7 @@ margin_right = 920.0
 margin_bottom = 560.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/panel = SubResource( 16 )
+custom_styles/panel = SubResource( 17 )
 
 [node name="Title" type="Label" parent="VBC/PlayerPanel/HBC/Stats"]
 anchor_left = 0.5
@@ -762,7 +762,7 @@ margin_left = -114.0
 margin_top = 50.0
 margin_right = 114.0
 margin_bottom = 118.0
-custom_fonts/font = SubResource( 17 )
+custom_fonts/font = SubResource( 18 )
 text = "BONUS"
 align = 1
 
@@ -776,8 +776,8 @@ texture = ExtResource( 16 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "FadeOut"
-anims/FadeIn = SubResource( 18 )
-anims/FadeOut = SubResource( 19 )
+anims/FadeIn = SubResource( 19 )
+anims/FadeOut = SubResource( 20 )
 [connection signal="value_changed" from="VBC/HBC/ShopPanel/PanelItems/CustomColor" to="." method="_on_CustomColor_value_changed"]
 [connection signal="button_down" from="VBC/HBC/VBB/CloseButton" to="." method="_on_TextureButton_button_down"]
 [connection signal="button_down" from="VBC/HBC/VBB/PanelButtons/Panel/Hat" to="." method="_on_Hat_button_down"]
