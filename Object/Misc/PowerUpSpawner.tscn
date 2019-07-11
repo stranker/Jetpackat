@@ -1,0 +1,60 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Object/Collectable/Magnet.tscn" type="PackedScene" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends 'res://Object/Misc/Spawner.gd'
+
+export (Array, float) var probability
+export var deactivate_time : float = 7
+
+func _ready():
+	$Timer.wait_time = deactivate_time
+
+func _process(delta):
+	if activated:
+		if check_can_spawn():
+			var item = get_new_item()
+			if item:
+				spawn_item(item)
+	pass
+
+func deactivate():
+	set_active(false)
+	$Timer.start()
+	for i in get_node(parent_node).get_children():
+		i.queue_free()
+
+func get_new_item():
+	var item = null
+	if GameManager.player.on_magnet:
+		return item
+	var item_pos = 0
+	var prob = rand_range(0,1)
+	var spawned = false
+	for i in probability:
+		if prob <= i and !spawned:
+			item = item_list[item_pos]
+			spawned = !spawned
+		else:
+			item_pos += 1
+	return item
+
+func _on_Timer_timeout():
+	set_active(true)
+	pass # Replace with function body.
+"
+
+[node name="PowerUpSpawner" type="Node"]
+script = SubResource( 1 )
+item_list = [ ExtResource( 1 ) ]
+parent_node = NodePath("../PowerUps")
+spawn_points_node = NodePath("../SpawnPoints")
+min_height = 15.0
+max_height = 25.0
+probability = [ 0.5 ]
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

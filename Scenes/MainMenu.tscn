@@ -1,31 +1,34 @@
-[gd_scene load_steps=55 format=2]
+[gd_scene load_steps=62 format=2]
 
 [ext_resource path="res://Scenes/LeaderTest.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Sprites/Background/Bg1.png" type="Texture" id=2]
-[ext_resource path="res://Sprites/Background/Star3.png" type="Texture" id=3]
-[ext_resource path="res://Sprites/Background/House.png" type="Texture" id=4]
-[ext_resource path="res://Sprites/Background/SmokeParticle.png" type="Texture" id=5]
-[ext_resource path="res://Fonts/Handsdown.ttf" type="DynamicFontData" id=6]
-[ext_resource path="res://Sprites/UI/PawCat.png" type="Texture" id=7]
-[ext_resource path="res://Sprites/UI/ContinueButton.png" type="Texture" id=8]
-[ext_resource path="res://Sprites/UI/ContinueButtonPressed.png" type="Texture" id=9]
-[ext_resource path="res://Sprites/UI/ShopButton.png" type="Texture" id=10]
-[ext_resource path="res://Sprites/UI/ShopButtonPressed.png" type="Texture" id=11]
-[ext_resource path="res://Sprites/UI/LeaderboardButton.png" type="Texture" id=12]
-[ext_resource path="res://Sprites/UI/LeaderboardButtonPressed.png" type="Texture" id=13]
-[ext_resource path="res://Sprites/UI/ConfigButton.png" type="Texture" id=14]
-[ext_resource path="res://Sprites/UI/ConfigButtonPressed.png" type="Texture" id=15]
-[ext_resource path="res://Sprites/UI/CreditsButton.png" type="Texture" id=16]
-[ext_resource path="res://Sprites/UI/CreditsButtonPressed.png" type="Texture" id=17]
-[ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=18]
-[ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=19]
-[ext_resource path="res://Sprites/Cat/Skin/Skin.png" type="Texture" id=20]
-[ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=21]
-[ext_resource path="res://Sprites/Shop/Cat/Thruster/Smoke.png" type="Texture" id=22]
-[ext_resource path="res://Sprites/Cat/Eyes.png" type="Texture" id=23]
-[ext_resource path="res://Scenes/ConfigPanel.tscn" type="PackedScene" id=24]
-[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=25]
-[ext_resource path="res://Sounds/Music/CCF Theme.ogg" type="AudioStream" id=26]
+[ext_resource path="res://Sprites/Background/HouseBroken.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Background/Bg1.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/Background/Star3.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/Background/House.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/Background/SmokeParticle.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/Enemies/Bird.png" type="Texture" id=7]
+[ext_resource path="res://Fonts/Handsdown.ttf" type="DynamicFontData" id=8]
+[ext_resource path="res://Sprites/Enemies/PaperPlane.png" type="Texture" id=9]
+[ext_resource path="res://Sprites/UI/PawCat.png" type="Texture" id=10]
+[ext_resource path="res://Sprites/UI/ContinueButton.png" type="Texture" id=11]
+[ext_resource path="res://Sprites/UI/ContinueButtonPressed.png" type="Texture" id=12]
+[ext_resource path="res://Sprites/UI/ShopButton.png" type="Texture" id=13]
+[ext_resource path="res://Sprites/UI/ShopButtonPressed.png" type="Texture" id=14]
+[ext_resource path="res://Sprites/UI/LeaderboardButton.png" type="Texture" id=15]
+[ext_resource path="res://Sprites/UI/LeaderboardButtonPressed.png" type="Texture" id=16]
+[ext_resource path="res://Sprites/UI/ConfigButton.png" type="Texture" id=17]
+[ext_resource path="res://Sprites/UI/ConfigButtonPressed.png" type="Texture" id=18]
+[ext_resource path="res://Sprites/UI/CreditsButton.png" type="Texture" id=19]
+[ext_resource path="res://Sprites/UI/CreditsButtonPressed.png" type="Texture" id=20]
+[ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=21]
+[ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=22]
+[ext_resource path="res://Sprites/Cat/Skin/Skin.png" type="Texture" id=23]
+[ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=24]
+[ext_resource path="res://Sprites/Shop/Cat/Thruster/Smoke.png" type="Texture" id=25]
+[ext_resource path="res://Sprites/Cat/Eyes.png" type="Texture" id=26]
+[ext_resource path="res://Scenes/ConfigPanel.tscn" type="PackedScene" id=27]
+[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=28]
+[ext_resource path="res://Sounds/Music/CCF Theme.ogg" type="AudioStream" id=29]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Control
@@ -33,9 +36,11 @@ script/source = "extends Control
 var next_scene = ''
 export (PackedScene) var leader
 var easter_cont : int = 0
+export (Texture) var house_broken
 
 func _ready():
-	$VersionLabel.text = \"VERSION 0.81\"
+	randomize()
+	$VersionLabel.text = \"VERSION 0.82\"
 	get_tree().paused = false
 	set_items_equipped()
 	$Tween.interpolate_property($Background, 'self_modulate', $Background.self_modulate, Color.black, 15, Tween.TRANS_LINEAR,Tween.EASE_IN)
@@ -43,6 +48,8 @@ func _ready():
 	$Tween.start()
 	check_first_game()
 	GameManager.upload_highscore()
+	if GameManager.easter:
+		$House.texture = house_broken
 	pass
 
 func check_first_game():
@@ -196,15 +203,67 @@ func _on_PlayerEasterButton_button_down():
 	easter_cont += 1
 	if easter_cont > 4:
 		$Anim.play('Easter')
+		GameManager.easter = true
 	pass # Replace with function body.
 
 func _on_MainMenu_tree_exiting():
 	GameManager.save_game_data()
 	pass # Replace with function body.
+
+func set_house_broken():
+	$House.texture = house_broken
+	$House/RoofParticles.emitting = true
+	pass
+
+func _on_PTimer_timeout():
+	$PaperPlane/Anim.play('Idle')
+	$PaperPlane/PTimer.wait_time = rand_range(10,15)
+	pass # Replace with function body.
+
+
+func _on_BTimer_timeout():
+	$Bird/AnimationPlayer.play('Idle')
+	$Bird/BTimer.wait_time = rand_range(15,20)
+	pass # Replace with function body.
 "
 
 [sub_resource type="Gradient" id=2]
-colors = PoolColorArray( 0.726563, 0.726563, 0.726563, 1, 0, 0, 0, 0 )
+colors = PoolColorArray( 0.671875, 0.671875, 0.671875, 1, 0, 0, 0, 0 )
+
+[sub_resource type="Curve" id=29]
+_data = [ Vector2( 0.494279, 1 ), 0.0, -0.769093, 0, 0, Vector2( 1, 0.6232 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=30]
+offsets = PoolRealArray( 0, 0.7, 1 )
+colors = PoolColorArray( 0.734375, 0.180635, 0.123352, 1, 0.921875, 0.604191, 0.540161, 0.27451, 0.949219, 0.949219, 0.949219, 0 )
+
+[sub_resource type="Animation" id=32]
+resource_name = "Idle"
+length = 9.0
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2, 3.4, 4.5, 5.9, 7.4, 8.9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1250.95, 284.798 ), Vector2( 958.941, 461.445 ), Vector2( 699.378, 292.008 ), Vector2( 475.865, 425.395 ), Vector2( 227.117, 288.403 ), Vector2( 3.60486, 418.185 ), Vector2( -230.723, 284.798 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.8, 1.8, 1.9, 2.1, 2.5, 3, 4.2, 4.3, 4.4, 4.5, 4.7, 5.2, 5.8, 7.1, 7.2, 7.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 4, 2, 1, 2, 1, 2, 3, 4, 2, 1, 2, 1, 3, 4 ]
+}
 
 [sub_resource type="DynamicFont" id=3]
 size = 200
@@ -212,14 +271,42 @@ outline_size = 15
 outline_color = Color( 0.407843, 0, 1, 1 )
 use_filter = true
 extra_spacing_bottom = 20
-font_data = ExtResource( 6 )
+font_data = ExtResource( 8 )
+
+[sub_resource type="Animation" id=31]
+resource_name = "Idle"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1.2, 2.5, 3.4, 3.8 ),
+"transitions": PoolRealArray( 1, 0.5, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -113.227, 992.031 ), Vector2( 525.345, 858.098 ), Vector2( 821.91, 700.249 ), Vector2( 1105.05, 845.956 ), Vector2( 1230.88, 910.715 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1.2, 2.5, 3, 3.4, 3.8 ),
+"transitions": PoolRealArray( 1, 1, 0.812252, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, -19.5811, -36.3448, 22.6035, 7.34499, 10.6581 ]
+}
 
 [sub_resource type="Curve" id=4]
 _data = [ Vector2( 0, 0.412 ), 0.0, 0.138585, 0, 0, Vector2( 1, 0.7728 ), 1.51742, 0.0, 0, 0 ]
 
 [sub_resource type="Gradient" id=5]
-offsets = PoolRealArray( 0, 0.41358, 0.641975, 0.808642, 1 )
-colors = PoolColorArray( 1, 1, 1, 1, 1, 0.960938, 0, 1, 1, 0.773438, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0 )
+offsets = PoolRealArray( 0, 0.211921, 0.476821, 0.688742, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 0.960938, 0, 1, 1, 0.773438, 0, 1, 1, 0, 0, 1, 0.605469, 0, 0, 0 )
 
 [sub_resource type="StyleBoxFlat" id=6]
 bg_color = Color( 1, 0.772549, 0, 1 )
@@ -254,14 +341,14 @@ size = 100
 outline_size = 10
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
-font_data = ExtResource( 25 )
+font_data = ExtResource( 28 )
 
 [sub_resource type="DynamicFont" id=9]
 size = 40
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
-font_data = ExtResource( 25 )
+font_data = ExtResource( 28 )
 
 [sub_resource type="StyleBoxFlat" id=10]
 bg_color = Color( 0.803922, 0.623529, 0.00392157, 1 )
@@ -342,7 +429,7 @@ size = 80
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
-font_data = ExtResource( 25 )
+font_data = ExtResource( 28 )
 
 [sub_resource type="StyleBoxFlat" id=17]
 bg_color = Color( 0.615686, 0, 1, 1 )
@@ -361,7 +448,7 @@ size = 60
 outline_size = 7
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
-font_data = ExtResource( 25 )
+font_data = ExtResource( 28 )
 
 [sub_resource type="StyleBoxFlat" id=19]
 bg_color = Color( 0.333333, 0, 0.568627, 1 )
@@ -380,7 +467,7 @@ size = 50
 outline_size = 8
 outline_color = Color( 0, 0, 0, 1 )
 extra_spacing_char = 1
-font_data = ExtResource( 25 )
+font_data = ExtResource( 28 )
 
 [sub_resource type="StyleBoxFlat" id=21]
 bg_color = Color( 0.00392157, 0.552941, 0.109804, 1 )
@@ -405,14 +492,14 @@ size = 46
 outline_size = 4
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
-font_data = ExtResource( 25 )
+font_data = ExtResource( 28 )
 
 [sub_resource type="DynamicFont" id=24]
 size = 28
 outline_size = 3
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
-font_data = ExtResource( 25 )
+font_data = ExtResource( 28 )
 
 [sub_resource type="Animation" id=25]
 resource_name = "Easter"
@@ -425,9 +512,9 @@ tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0, 0.3, 1.4, 2, 3.5, 4, 4.1, 5.5, 5.9, 6.3, 6.5, 8.1 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 781.834, 1559.8 ), Vector2( 839.372, 1666.03 ), Vector2( -510.57, 254.118 ), Vector2( -510.57, 254.118 ), Vector2( 1671.47, 329.361 ), Vector2( 1671.47, 329.361 ), Vector2( 857.076, -812.558 ), Vector2( 640.2, 1090.64 ), Vector2( 560.531, 926.876 ), Vector2( 330.377, 1232.27 ), Vector2( 330.377, 1232.27 ), Vector2( 1907.15, 956.67 ) ]
+"values": [ Vector2( 781.834, 1559.8 ), Vector2( 839.372, 1666.03 ), Vector2( -510.57, 254.118 ), Vector2( -510.57, 254.118 ), Vector2( 1671.47, 329.361 ), Vector2( 1671.47, 329.361 ), Vector2( 857.076, -812.558 ), Vector2( 609.291, 1421.36 ), Vector2( 560.531, 926.876 ), Vector2( 322.175, 1498.84 ), Vector2( 342.68, 1422.97 ), Vector2( 1907.15, 956.67 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Player:rotation_degrees")
@@ -449,9 +536,35 @@ tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
 "times": PoolRealArray( 0, 1.4, 2, 3.5, 4.1, 5.5, 5.9, 6.3, 6.5, 8.8 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 0.5, 1, 1, 1, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ Vector2( 1, 1 ), Vector2( -1, 1 ), Vector2( -0.6, 0.6 ), Vector2( 1, 1 ), Vector2( 0.5, 0.5 ), Vector2( 0.5, 0.5 ), Vector2( 0.5, 0.5 ), Vector2( 0.5, 0.5 ), Vector2( 0.5, 0.5 ), Vector2( 1, 1 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Player/Skin/Eyes:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.5, 0.7, 2.7, 2.9, 5.1, 5.5, 5.7, 6.1, 6.7, 6.9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 0, 1, 0, 1, 2, 3, 2, 1, 0 ]
+}
+tracks/4/type = "method"
+tracks/4/path = NodePath(".")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 5.5 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "set_house_broken"
+} ]
 }
 
 [sub_resource type="Animation" id=26]
@@ -529,18 +642,19 @@ anchor_bottom = 1.0
 mouse_filter = 2
 script = SubResource( 1 )
 leader = ExtResource( 1 )
+house_broken = ExtResource( 2 )
 
 [node name="Background" type="TextureRect" parent="."]
 modulate = Color( 0.815686, 0.643137, 1, 1 )
 margin_right = 1080.0
 margin_bottom = 1920.0
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 
 [node name="Stars" type="TextureRect" parent="."]
 self_modulate = Color( 1, 1, 1, 0 )
 margin_right = 1080.0
 margin_bottom = 1920.0
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 
 [node name="House" type="TextureRect" parent="."]
 editor/display_folded = true
@@ -548,22 +662,22 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -549.681
-margin_top = -1090.0
-margin_right = 547.319
-margin_bottom = 30.0
-texture = ExtResource( 4 )
+margin_left = -874.542
+margin_top = -1054.33
+margin_right = 556.458
+margin_bottom = 439.667
+texture = ExtResource( 5 )
 expand = true
 stretch_mode = 6
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="House"]
 show_behind_parent = true
-position = Vector2( 1051.59, 180 )
+position = Vector2( 1388.36, 415.385 )
 rotation = -1.309
 amount = 20
 lifetime = 2.0
 explosiveness = 0.1
-texture = ExtResource( 5 )
+texture = ExtResource( 6 )
 emission_shape = 1
 emission_sphere_radius = 5.0
 spread = 50.0
@@ -577,6 +691,46 @@ angle_random = 1.0
 scale_amount = 4.0
 scale_amount_random = 0.2
 color_ramp = SubResource( 2 )
+
+[node name="RoofParticles" type="CPUParticles2D" parent="House"]
+position = Vector2( 946.338, 744.181 )
+rotation = -3.07569
+emitting = false
+amount = 30
+lifetime = 2.0
+one_shot = true
+explosiveness = 1.0
+texture = ExtResource( 6 )
+emission_shape = 1
+emission_sphere_radius = 20.0
+spread = 180.0
+gravity = Vector2( 0, 100 )
+initial_velocity = 300.0
+initial_velocity_random = 0.5
+damping = 100.0
+damping_random = 0.13
+angle = 360.0
+angle_random = 1.0
+scale_amount = 5.0
+scale_amount_random = 0.2
+scale_amount_curve = SubResource( 29 )
+color_ramp = SubResource( 30 )
+
+[node name="Bird" type="Sprite" parent="."]
+editor/display_folded = true
+position = Vector2( 577.462, 364.764 )
+rotation = -3.14159
+scale = Vector2( 4, -4 )
+texture = ExtResource( 7 )
+hframes = 5
+frame = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Bird"]
+anims/Idle = SubResource( 32 )
+
+[node name="BTimer" type="Timer" parent="Bird"]
+wait_time = 15.0
+autostart = true
 
 [node name="Title" type="Label" parent="."]
 anchor_left = 0.5
@@ -595,6 +749,20 @@ text = "Cats Can
 Fly!"
 align = 1
 
+[node name="PaperPlane" type="Sprite" parent="."]
+editor/display_folded = true
+position = Vector2( 1230.88, 910.715 )
+rotation = 0.18602
+scale = Vector2( 2, 2 )
+texture = ExtResource( 9 )
+
+[node name="Anim" type="AnimationPlayer" parent="PaperPlane"]
+anims/Idle = SubResource( 31 )
+
+[node name="PTimer" type="Timer" parent="PaperPlane"]
+wait_time = 10.0
+autostart = true
+
 [node name="PawCat" type="TextureRect" parent="."]
 editor/display_folded = true
 self_modulate = Color( 0.247059, 0, 0.639216, 1 )
@@ -607,7 +775,7 @@ margin_top = -450.0
 margin_right = 379.0
 margin_bottom = 300.0
 mouse_filter = 2
-texture = ExtResource( 7 )
+texture = ExtResource( 10 )
 expand = true
 stretch_mode = 6
 
@@ -619,8 +787,8 @@ anchor_bottom = 0.5
 margin_left = -130.0
 margin_right = 120.0
 margin_bottom = 260.0
-texture_normal = ExtResource( 8 )
-texture_pressed = ExtResource( 9 )
+texture_normal = ExtResource( 11 )
+texture_pressed = ExtResource( 12 )
 expand = true
 stretch_mode = 5
 
@@ -633,8 +801,8 @@ margin_left = -340.0
 margin_top = -135.0
 margin_right = -219.0
 margin_bottom = 13.0
-texture_normal = ExtResource( 10 )
-texture_pressed = ExtResource( 11 )
+texture_normal = ExtResource( 13 )
+texture_pressed = ExtResource( 14 )
 expand = true
 stretch_mode = 5
 
@@ -647,8 +815,8 @@ margin_left = -168.569
 margin_top = -255.0
 margin_right = -48.5687
 margin_bottom = -130.0
-texture_normal = ExtResource( 12 )
-texture_pressed = ExtResource( 13 )
+texture_normal = ExtResource( 15 )
+texture_pressed = ExtResource( 16 )
 expand = true
 stretch_mode = 5
 
@@ -661,8 +829,8 @@ margin_left = 70.8408
 margin_top = -257.272
 margin_right = 190.841
 margin_bottom = -132.272
-texture_normal = ExtResource( 14 )
-texture_pressed = ExtResource( 15 )
+texture_normal = ExtResource( 17 )
+texture_pressed = ExtResource( 18 )
 expand = true
 stretch_mode = 5
 
@@ -675,8 +843,8 @@ margin_left = -58.4927
 margin_top = 896.08
 margin_right = 61.5073
 margin_bottom = 1021.08
-texture_normal = ExtResource( 16 )
-texture_pressed = ExtResource( 17 )
+texture_normal = ExtResource( 19 )
+texture_pressed = ExtResource( 20 )
 expand = true
 stretch_mode = 5
 
@@ -689,8 +857,8 @@ margin_left = 210.0
 margin_top = -105.0
 margin_right = 330.0
 margin_bottom = 20.0
-texture_normal = ExtResource( 18 )
-texture_pressed = ExtResource( 19 )
+texture_normal = ExtResource( 21 )
+texture_pressed = ExtResource( 22 )
 expand = true
 stretch_mode = 5
 
@@ -701,25 +869,26 @@ rotation = -0.288943
 
 [node name="Skin" type="Sprite" parent="Player"]
 scale = Vector2( 10, 10 )
-texture = ExtResource( 20 )
+texture = ExtResource( 23 )
 hframes = 2
 
 [node name="Jetpack" type="Sprite" parent="Player/Skin"]
-editor/display_folded = true
 show_behind_parent = true
 position = Vector2( 1.51094, 12.3033 )
-texture = ExtResource( 21 )
+texture = ExtResource( 24 )
 
 [node name="Particles" type="CPUParticles2D" parent="Player/Skin/Jetpack"]
 position = Vector2( 0.197189, 12.9721 )
 rotation = 1.37589
-amount = 100
-lifetime = 0.6
-explosiveness = 0.1
+amount = 150
+lifetime = 0.55
 local_coords = false
-texture = ExtResource( 22 )
+texture = ExtResource( 25 )
+spread = 180.0
+flatness = 1.0
 gravity = Vector2( 0, 0 )
-initial_velocity = 30.0
+initial_velocity = 20.0
+initial_velocity_random = 0.8
 damping = 20.0
 scale_amount = 6.0
 scale_amount_curve = SubResource( 4 )
@@ -732,7 +901,7 @@ position = Vector2( -1, 9.00002 )
 
 [node name="Eyes" type="Sprite" parent="Player/Skin"]
 position = Vector2( 0, -15 )
-texture = ExtResource( 23 )
+texture = ExtResource( 26 )
 hframes = 7
 
 [node name="Hat" type="Sprite" parent="Player/Skin"]
@@ -747,7 +916,7 @@ margin_right = 886.449
 margin_bottom = 1889.95
 rect_rotation = -19.284
 
-[node name="ConfigPanel" parent="." instance=ExtResource( 24 )]
+[node name="ConfigPanel" parent="." instance=ExtResource( 27 )]
 visible = false
 
 [node name="Leaderboard" type="Panel" parent="."]
@@ -841,9 +1010,9 @@ margin_left = -89.0
 margin_top = -93.5
 margin_right = 89.0
 margin_bottom = 76.5
-texture_normal = ExtResource( 18 )
-texture_pressed = ExtResource( 19 )
-texture_disabled = ExtResource( 19 )
+texture_normal = ExtResource( 21 )
+texture_pressed = ExtResource( 22 )
+texture_disabled = ExtResource( 22 )
 expand = true
 stretch_mode = 5
 
@@ -882,7 +1051,7 @@ margin_left = -375.0
 margin_top = -59.0
 margin_right = 375.0
 margin_bottom = 59.0
-custom_icons/clear = ExtResource( 18 )
+custom_icons/clear = ExtResource( 21 )
 custom_styles/normal = SubResource( 19 )
 custom_fonts/font = SubResource( 20 )
 custom_colors/font_color_selected = Color( 0.47451, 0.937255, 0.945098, 1 )
@@ -936,13 +1105,15 @@ modulate = Color( 0, 0, 0, 0 )
 margin_right = 1080.0
 margin_bottom = 1920.0
 mouse_filter = 2
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 26 )
+stream = ExtResource( 29 )
 autoplay = true
 bus = "Music"
 [connection signal="tree_exiting" from="." to="." method="_on_MainMenu_tree_exiting"]
+[connection signal="timeout" from="Bird/BTimer" to="." method="_on_BTimer_timeout"]
+[connection signal="timeout" from="PaperPlane/PTimer" to="." method="_on_PTimer_timeout"]
 [connection signal="button_down" from="PawCat/StartButton" to="." method="_on_StartButton_button_down"]
 [connection signal="button_down" from="PawCat/ShopButton" to="." method="_on_ShopButton_button_down"]
 [connection signal="button_down" from="PawCat/LeaderboardButton" to="." method="_on_LeaderboardButton_button_down"]

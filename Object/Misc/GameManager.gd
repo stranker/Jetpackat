@@ -18,6 +18,8 @@ var timer : float = 0
 var intro_watched : bool = false
 var private_url = 'A_qF1JJVd0iy5GKQGTuHjAXVoYJ4ml3kq7N2E5W0B16g'
 var left_mode : bool = false
+var easter = false
+var tutorial_done : bool = false
 
 func reset_stats():
 	player_height = 0
@@ -49,6 +51,7 @@ func load_data_from_res():
 		music_volume = game_info['MusicVolume']
 		sound_volume = game_info['SoundVolume']
 		left_mode = game_info['LeftMode']
+		tutorial_done = game_info['Tutorial']
 	save_game_data()
 	pass
 
@@ -66,6 +69,7 @@ func load_data_from_user():
 		music_volume = game_info['MusicVolume']
 		sound_volume = game_info['SoundVolume']
 		left_mode = game_info['LeftMode']
+		tutorial_done = game_info['Tutorial']
 	save_game_data()
 	pass
 
@@ -133,6 +137,7 @@ func save_current_game_info():
 	game_info['MusicVolume'] = music_volume
 	game_info['SoundVolume'] = sound_volume
 	game_info['LeftMode'] = left_mode
+	game_info['Tutorial'] = tutorial_done
 	if !game_info.empty():
 		file.store_line(to_json(game_info))
 		file.store_line("")

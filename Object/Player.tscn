@@ -1,9 +1,9 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=32 format=2]
 
-[ext_resource path="res://Sprites/Cat/Skin/Skin.png" type="Texture" id=1]
-[ext_resource path="res://Sprites/Cat/Eyes.png" type="Texture" id=2]
-[ext_resource path="res://Sprites/Collectables/Magnet.png" type="Texture" id=3]
-[ext_resource path="res://Shaders/outline.shader" type="Shader" id=4]
+[ext_resource path="res://Shaders/outline.shader" type="Shader" id=1]
+[ext_resource path="res://Sprites/Cat/Skin/Skin.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Cat/Eyes.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/Collectables/Magnet.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/Shop/Cat/Thruster/Smoke.png" type="Texture" id=6]
 [ext_resource path="res://Sprites/Tutorial/JumpArrow.png" type="Texture" id=7]
@@ -99,6 +99,7 @@ func take_damage():
 		dead = !dead
 		check_die_direction()
 		set_physics_process(false)
+		$Anim.stop()
 		$Anim.play('Dead')
 	pass
 
@@ -199,10 +200,13 @@ func _on_MagnetTimer_timeout():
 
 func set_increment_magnet_area(val):
 	if val:
-		$Visible/MagnetArea/CollisionShape2D.shape.radius = 2000
+		$Visible/MagnetArea/CollisionShape2D.shape.radius = 1000
 	else:
 		$Visible/MagnetArea/CollisionShape2D.shape.radius = 117.5
-	pass"
+	pass
+
+func disable_tutorial():
+	$Visible/Arrow.hide()"
 
 [sub_resource type="CapsuleShape2D" id=2]
 radius = 53.0
@@ -298,8 +302,13 @@ func set_jetpack(item):
 		$Jetpack.self_modulate = GameManager.items_equipped['Jetpack'][1]
 "
 
+[sub_resource type="ShaderMaterial" id=22]
+shader = ExtResource( 1 )
+shader_param/outline_width = 0.5
+shader_param/outline_color = Color( 0, 0, 0, 1 )
+
 [sub_resource type="ShaderMaterial" id=5]
-shader = ExtResource( 4 )
+shader = ExtResource( 1 )
 shader_param/outline_width = 0.5
 shader_param/outline_color = Color( 0, 0, 0, 1 )
 
@@ -336,7 +345,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="CircleShape2D" id=10]
-radius = 117.5
+radius = 117.38
 
 [sub_resource type="Animation" id=11]
 resource_name = "Falling"
@@ -812,7 +821,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ ExtResource( 2 ) ]
+"values": [ ExtResource( 3 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("Visible/Skin/Eyes:frame")
@@ -959,7 +968,7 @@ tracks/13/keys = {
 "values": [ Vector2( 26.9508, -2.5791 ) ]
 }
 
-[sub_resource type="Animation" id=21]
+[sub_resource type="Animation" id=19]
 resource_name = "Magnet"
 length = 4.0
 tracks/0/type = "value"
@@ -999,7 +1008,7 @@ tracks/2/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="Animation" id=19]
+[sub_resource type="Animation" id=20]
 length = 1.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("Visible/Skin:frame")
@@ -1038,7 +1047,7 @@ tracks/2/keys = {
 "values": [ 117.38 ]
 }
 
-[sub_resource type="Animation" id=20]
+[sub_resource type="Animation" id=21]
 length = 2.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Camera2D:zoom")
@@ -1059,7 +1068,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 1, 1.98999 ),
+"times": PoolRealArray( 0, 1, 2 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 0, 0 ), Vector2( 7.99997, -178 ), Vector2( 53.1022, 374.015 ) ]
@@ -1071,10 +1080,10 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 1, 1.98999, 2 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 1, 2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ 0.0, 0.0, 105.0, 105.0 ]
+"values": [ 0.0, 0.0, 105.0 ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("Visible/Jetpack:position")
@@ -1083,10 +1092,10 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 1, 1.98999, 2 ),
-"transitions": PoolRealArray( 0.5, 1, 1, 1 ),
+"times": PoolRealArray( 0, 1, 2 ),
+"transitions": PoolRealArray( 0.5, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 3.84464, 39.7731 ), Vector2( 7.99997, -138 ), Vector2( -103.742, 354.015 ), Vector2( -25.3412, 483.8 ) ]
+"values": [ Vector2( 3.84464, 39.7731 ), Vector2( 7.99997, -138 ), Vector2( -103.742, 354.015 ) ]
 }
 tracks/4/type = "value"
 tracks/4/path = NodePath("Visible/Jetpack:rotation_degrees")
@@ -1095,10 +1104,10 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0, 1, 1.98999, 2 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 1, 2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ 0.0, 0.0, -74.9999, -74.9999 ]
+"values": [ 0.0, 0.0, -74.9999 ]
 }
 tracks/5/type = "value"
 tracks/5/path = NodePath("Visible/Skin/Hat:position")
@@ -1216,21 +1225,22 @@ one_shot = true
 script = SubResource( 4 )
 
 [node name="Skin" type="Sprite" parent="Visible"]
+editor/display_folded = true
+material = SubResource( 22 )
 scale = Vector2( 3, 3 )
-texture = ExtResource( 1 )
+texture = ExtResource( 2 )
 hframes = 2
-frame = 1
 
 [node name="Pattern" type="Sprite" parent="Visible/Skin"]
 
 [node name="Eyes" type="Sprite" parent="Visible/Skin"]
 position = Vector2( 0, -15 )
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 hframes = 7
 
 [node name="Hat" type="Sprite" parent="Visible/Skin"]
-position = Vector2( 2.66666, -23.0152 )
-rotation = 0.0163139
+position = Vector2( 2.50847, -22.9723 )
+rotation = 0.0224156
 scale = Vector2( 0.6, 0.6 )
 offset = Vector2( -3.49275, -23.7578 )
 
@@ -1239,7 +1249,7 @@ visible = false
 position = Vector2( -24.4751, -7.13806 )
 rotation = 2.32103
 scale = Vector2( 0.8, 0.8 )
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 
 [node name="Jetpack" type="Sprite" parent="Visible"]
 editor/display_folded = true
@@ -1282,13 +1292,14 @@ script = SubResource( 8 )
 anims/Propulsion = SubResource( 9 )
 
 [node name="MagnetArea" type="Area2D" parent="Visible"]
+editor/display_folded = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Visible/MagnetArea"]
 shape = SubResource( 10 )
 
 [node name="Scarf" type="Polygon2D" parent="Visible"]
 editor/display_folded = true
-position = Vector2( -42.0043, -9.19867 )
+position = Vector2( -39.8734, -10.5546 )
 scale = Vector2( 3, 3 )
 color = Color( 1, 1, 1, 0 )
 skeleton = NodePath("Skeleton")
@@ -1413,9 +1424,9 @@ autoplay = "Flying"
 anims/Dead = SubResource( 16 )
 anims/Flying = SubResource( 17 )
 anims/Invencible = SubResource( 18 )
-anims/Magnet = SubResource( 21 )
-anims/Ribbon = SubResource( 19 )
-anims/TimeOut = SubResource( 20 )
+anims/Magnet = SubResource( 19 )
+anims/Ribbon = SubResource( 20 )
+anims/TimeOut = SubResource( 21 )
 
 [node name="ClickArea" type="CanvasLayer" parent="."]
 

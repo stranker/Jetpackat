@@ -6,6 +6,7 @@
 	"Combo":0,
 	"MusicVolume":5,
 	"SoundVolume":5,
-	"LeftMode":false
+	"LeftMode":false,
+	"Tutorial":false
 }
 
