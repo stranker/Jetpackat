@@ -195,7 +195,7 @@ anims/Idle = SubResource( 5 )
 anims/Taken = SubResource( 6 )
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 0.5
+wait_time = 2.0
 [connection signal="area_entered" from="." to="." method="_on_Coin_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_Coin_body_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

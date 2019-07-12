@@ -4,6 +4,11 @@ func _ready():
 	connect('taken',get_tree().root.get_node('GameScene/PowerUpSpawner'),'deactivate')
 	pass # Replace with function body.
 
+func _process(delta):
+	if GameManager.player.on_magnet:
+		queue_free()
+	pass
+
 func _on_Magnet_body_entered(body):
 	if body.is_in_group('Player') and !taked:
 		taked = !taked
