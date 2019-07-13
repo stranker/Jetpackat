@@ -181,7 +181,12 @@ func _on_Music_toggled(button_pressed):
 	else:
 		$Music.stream = load('res://Sounds/Music/CCF Theme.ogg')
 	$Music.play()
-	pass # Replace with function body."
+	pass # Replace with function body.
+
+func _on_ComboButton_button_down():
+	add_combo(true)
+	pass # Replace with function body.
+"
 
 [sub_resource type="GDScript" id=2]
 script/source = "extends Node2D
@@ -334,7 +339,7 @@ func combo_fuel(val):
 func failed_combo(val):
 	$UI/UpperPanel/ComboPanel/ComboLabel/CLabel.text = str(0)
 	$UI/FuelBar/Tween.stop_all()
-	$UI/FuelBar/Tween.interpolate_property($UI/FuelBar, 'value', $UI/FuelBar.value, 0, 1.5,Tween.TRANS_EXPO,Tween.EASE_IN)
+	$UI/FuelBar/Tween.interpolate_property($UI/FuelBar, 'value', $UI/FuelBar.value, 0, 1,Tween.TRANS_EXPO,Tween.EASE_IN)
 	$UI/FuelBar/Tween.start()
 	$UI/FuelBar/Anim.play('Failed')
 	$UI/FuelBar/Anim.queue('Idle')
@@ -513,28 +518,28 @@ expand_margin_bottom = 7.0
 resource_name = "AddCombo"
 length = 0.5
 tracks/0/type = "value"
-tracks/0/path = NodePath("TextureRect:rect_position")
+tracks/0/path = NodePath("Fire:rect_position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.2, 0.5 ),
+"times": PoolRealArray( 0, 0.1, 0.5 ),
 "transitions": PoolRealArray( 0.5, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 401.743, -23.269 ), Vector2( 415, -37 ), Vector2( 401.743, -23.269 ) ]
+"values": [ Vector2( 401.743, -23.269 ), Vector2( 430.03, -47.4313 ), Vector2( 401.743, -23.269 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("TextureRect:rect_size")
+tracks/1/path = NodePath("Fire:rect_size")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.2, 0.5 ),
+"times": PoolRealArray( 0, 0.1, 0.5 ),
 "transitions": PoolRealArray( 0.5, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 87, 87 ), Vector2( 114, 114 ), Vector2( 87, 87 ) ]
+"values": [ Vector2( 87, 87 ), Vector2( 136, 136 ), Vector2( 87, 87 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath(".:self_modulate")
@@ -546,12 +551,11 @@ tracks/2/keys = {
 "times": PoolRealArray( 0, 0.2, 0.5 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 0.305882, 0, 1 ), Color( 1, 1, 1, 1 ) ]
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 0.141176, 0, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 
 [sub_resource type="Animation" id=21]
 resource_name = "Failed"
-length = 1.5
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:self_modulate")
 tracks/0/interp = 1
@@ -559,43 +563,43 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 0.5, 1 ),
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 0.5, 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 0.168627, 0.168627, 0.168627, 1 ) ]
+"values": [ Color( 1, 1, 1, 1 ), Color( 0.168627, 0.168627, 0.168627, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("TextureRect:self_modulate")
+tracks/1/path = NodePath("Fire:self_modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.5, 1.5 ),
+"times": PoolRealArray( 0, 0.5, 1 ),
 "transitions": PoolRealArray( 2, 1, 2 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 0.419608, 0.419608, 0.419608, 0.466667 ), Color( 1, 1, 1, 1 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("TextureRect:rect_size")
+tracks/2/path = NodePath("Fire:rect_size")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.3, 1 ),
+"times": PoolRealArray( 0, 0.2, 0.5 ),
 "transitions": PoolRealArray( 0.5, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 87, 87 ), Vector2( 58, 70 ), Vector2( 87, 87 ) ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("TextureRect:rect_position")
+tracks/3/path = NodePath("Fire:rect_position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 0.3, 1 ),
+"times": PoolRealArray( 0, 0.2, 0.5 ),
 "transitions": PoolRealArray( 0.5, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 401.743, -23.269 ), Vector2( 393, -9 ), Vector2( 401.743, -23.269 ) ]
@@ -617,7 +621,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("TextureRect:self_modulate")
+tracks/1/path = NodePath("Fire:self_modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -633,19 +637,19 @@ tracks/1/keys = {
 resource_name = "Pump"
 length = 4.0
 tracks/0/type = "value"
-tracks/0/path = NodePath("TextureRect:rect_size")
+tracks/0/path = NodePath("Fire:rect_size")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.2, 0.3, 0.5 ),
-"transitions": PoolRealArray( 0.5, 1, 0.5, 0.5 ),
+"times": PoolRealArray( 0, 0.2, 0.3, 0.5, 0.8, 1.3, 1.6, 1.8, 2, 2.3, 2.8, 3, 3.3 ),
+"transitions": PoolRealArray( 0.5, 1, 0.5, 0.5, 0.5, 1, 0.5, 0.5, 1, 0.5, 0.5, 1, 0.5 ),
 "update": 0,
-"values": [ Vector2( 87, 87 ), Vector2( 112, 112 ), Vector2( 70, 70 ), Vector2( 87, 87 ) ]
+"values": [ Vector2( 87, 87 ), Vector2( 112, 112 ), Vector2( 70, 70 ), Vector2( 87, 87 ), Vector2( 70, 70 ), Vector2( 112, 112 ), Vector2( 70, 70 ), Vector2( 87, 87 ), Vector2( 112, 112 ), Vector2( 70, 70 ), Vector2( 87, 87 ), Vector2( 112, 112 ), Vector2( 87, 87 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("TextureRect:rect_position")
+tracks/1/path = NodePath("Fire:rect_position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -654,7 +658,19 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 0.2, 0.3, 0.4, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.6, 1.7, 1.8, 2, 2.2, 2.4, 2.6, 2.8, 3, 3.2, 3.4, 3.6, 3.8, 4 ),
 "transitions": PoolRealArray( 0.5, 1, 1, 0.5, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.5 ),
 "update": 0,
-"values": [ Vector2( 401.743, -23.269 ), Vector2( 414, -36 ), Vector2( 388.066, -14.2302 ), Vector2( 401.743, -23.269 ), Vector2( 399.247, -27.4298 ), Vector2( 396.195, -19.3857 ), Vector2( 396.75, -17.7213 ), Vector2( 403.685, -14.3926 ), Vector2( 402.298, -17.1664 ), Vector2( 402.298, -17.1664 ), Vector2( 404.517, -20.4951 ), Vector2( 404.24, -24.3786 ), Vector2( 395.918, -24.1013 ), Vector2( 396.195, -19.3857 ), Vector2( 396.75, -17.7213 ), Vector2( 404.24, -24.3786 ), Vector2( 399.247, -27.4298 ), Vector2( 403.685, -14.3926 ), Vector2( 396.75, -17.7213 ), Vector2( 402.298, -17.1664 ), Vector2( 396.195, -19.3857 ), Vector2( 395.918, -24.1013 ), Vector2( 404.517, -20.4951 ), Vector2( 404.24, -24.3786 ), Vector2( 403.685, -14.3926 ), Vector2( 399.247, -27.4298 ), Vector2( 401.743, -23.269 ) ]
+"values": [ Vector2( 401.743, -23.269 ), Vector2( 414, -36 ), Vector2( 388.066, -14.2302 ), Vector2( 401.743, -23.269 ), Vector2( 399.247, -27.4298 ), Vector2( 396.195, -19.3857 ), Vector2( 396.75, -17.7213 ), Vector2( 403.685, -14.3926 ), Vector2( 402.298, -17.1664 ), Vector2( 402.298, -17.1664 ), Vector2( 404.517, -20.4951 ), Vector2( 404.24, -24.3786 ), Vector2( 395.918, -24.1013 ), Vector2( 396.195, -19.3857 ), Vector2( 396.75, -17.7213 ), Vector2( 404.24, -24.3786 ), Vector2( 402.93, -43.3904 ), Vector2( 403.685, -14.3926 ), Vector2( 396.75, -17.7213 ), Vector2( 402.298, -17.1664 ), Vector2( 396.195, -19.3857 ), Vector2( 410.651, -36.3787 ), Vector2( 404.517, -20.4951 ), Vector2( 404.24, -24.3786 ), Vector2( 403.685, -14.3926 ), Vector2( 399.247, -27.4298 ), Vector2( 401.743, -23.269 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5, 1.2, 2, 2.8, 3.4, 4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 0.607843, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 0.607843, 0, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 0.607843, 0, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 
 [sub_resource type="ShaderMaterial" id=24]
@@ -1359,15 +1375,15 @@ anims/Failed = SubResource( 21 )
 anims/Idle = SubResource( 22 )
 anims/Pump = SubResource( 23 )
 
-[node name="TextureRect" type="TextureRect" parent="UIGame/UI/FuelBar"]
+[node name="Fire" type="TextureRect" parent="UIGame/UI/FuelBar"]
 material = SubResource( 24 )
 anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-margin_left = -26.2569
+margin_left = -26.257
 margin_top = -44.269
-margin_right = 60.7431
+margin_right = 60.743
 margin_bottom = 42.731
 rect_rotation = 89.9999
 rect_pivot_offset = Vector2( 43.5, 43.5 )
@@ -1593,6 +1609,12 @@ stretch_mode = 5
 [node name="Anim" type="AnimationPlayer" parent="UIGame/UI/DeadPanel"]
 anims/HighscorePassed = SubResource( 35 )
 
+[node name="ComboButton" type="TextureButton" parent="UIGame/UI"]
+margin_left = 10.0
+margin_top = 1797.0
+margin_right = 160.0
+margin_bottom = 1906.0
+
 [node name="Transition" type="TextureRect" parent="UIGame/UI"]
 editor/display_folded = true
 self_modulate = Color( 0, 0, 0, 0 )
@@ -1800,6 +1822,7 @@ bus = "Music"
 [connection signal="button_down" from="UIGame/UI/PausePanel/DebugButton" to="." method="_on_DebugButton_button_down"]
 [connection signal="button_down" from="UIGame/UI/DeadPanel/RestartButton" to="." method="_on_RestartButton_button_down"]
 [connection signal="button_down" from="UIGame/UI/DeadPanel/CloseButton" to="." method="_on_CloseButton_button_down"]
+[connection signal="button_down" from="UIGame/UI/ComboButton" to="." method="_on_ComboButton_button_down"]
 [connection signal="animation_finished" from="UIGame/UI/Transition/Anim" to="UIGame" method="_on_Anim_animation_finished"]
 [connection signal="toggled" from="UIGame/DebugPanel/VBoxContainer/Invencible" to="Player" method="_on_Invencible_toggled"]
 [connection signal="button_down" from="UIGame/DebugPanel/VBoxContainer/Currency" to="." method="_on_Currency_button_down"]

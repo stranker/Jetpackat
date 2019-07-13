@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/WindEffect.png-1b26d9e066b5a77d2b92977d70d17cf1.stex"
+path="res://.import/WindEffect4.png-5ee0763de476bbeda588d48a02a049c8.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Effect/WindEffect.png"
-dest_files=[ "res://.import/WindEffect.png-1b26d9e066b5a77d2b92977d70d17cf1.stex" ]
+source_file="res://Sprites/Effect/WindEffect4.png"
+dest_files=[ "res://.import/WindEffect4.png-5ee0763de476bbeda588d48a02a049c8.stex" ]
 
 [params]
 
@@ -19,7 +19,7 @@ compress/lossy_quality=0.7
 compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
-flags/repeat=1
+flags/repeat=0
 flags/filter=false
 flags/mipmaps=false
 flags/anisotropic=false
