@@ -1,34 +1,35 @@
-[gd_scene load_steps=62 format=2]
+[gd_scene load_steps=65 format=2]
 
 [ext_resource path="res://Scenes/LeaderTest.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Background/HouseBroken.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/Background/Bg1.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/Background/Star3.png" type="Texture" id=4]
-[ext_resource path="res://Sprites/Background/House.png" type="Texture" id=5]
-[ext_resource path="res://Sprites/Background/SmokeParticle.png" type="Texture" id=6]
-[ext_resource path="res://Sprites/Enemies/Bird.png" type="Texture" id=7]
-[ext_resource path="res://Fonts/Handsdown.ttf" type="DynamicFontData" id=8]
-[ext_resource path="res://Sprites/Enemies/PaperPlane.png" type="Texture" id=9]
-[ext_resource path="res://Sprites/UI/PawCat.png" type="Texture" id=10]
-[ext_resource path="res://Sprites/UI/ContinueButton.png" type="Texture" id=11]
-[ext_resource path="res://Sprites/UI/ContinueButtonPressed.png" type="Texture" id=12]
-[ext_resource path="res://Sprites/UI/ShopButton.png" type="Texture" id=13]
-[ext_resource path="res://Sprites/UI/ShopButtonPressed.png" type="Texture" id=14]
-[ext_resource path="res://Sprites/UI/LeaderboardButton.png" type="Texture" id=15]
-[ext_resource path="res://Sprites/UI/LeaderboardButtonPressed.png" type="Texture" id=16]
-[ext_resource path="res://Sprites/UI/ConfigButton.png" type="Texture" id=17]
-[ext_resource path="res://Sprites/UI/ConfigButtonPressed.png" type="Texture" id=18]
-[ext_resource path="res://Sprites/UI/CreditsButton.png" type="Texture" id=19]
-[ext_resource path="res://Sprites/UI/CreditsButtonPressed.png" type="Texture" id=20]
-[ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=21]
-[ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=22]
-[ext_resource path="res://Sprites/Cat/Skin/Skin.png" type="Texture" id=23]
-[ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=24]
-[ext_resource path="res://Sprites/Shop/Cat/Thruster/Smoke.png" type="Texture" id=25]
-[ext_resource path="res://Sprites/Cat/Eyes.png" type="Texture" id=26]
-[ext_resource path="res://Scenes/ConfigPanel.tscn" type="PackedScene" id=27]
-[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=28]
-[ext_resource path="res://Sounds/Music/CCF Theme.ogg" type="AudioStream" id=29]
+[ext_resource path="res://Sprites/Background/Star2.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/Background/House.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/Background/SmokeParticle.png" type="Texture" id=7]
+[ext_resource path="res://Sprites/Enemies/Bird.png" type="Texture" id=8]
+[ext_resource path="res://Fonts/Handsdown.ttf" type="DynamicFontData" id=9]
+[ext_resource path="res://Sprites/Enemies/PaperPlane.png" type="Texture" id=10]
+[ext_resource path="res://Sprites/UI/PawCat.png" type="Texture" id=11]
+[ext_resource path="res://Sprites/UI/ContinueButton.png" type="Texture" id=12]
+[ext_resource path="res://Sprites/UI/ContinueButtonPressed.png" type="Texture" id=13]
+[ext_resource path="res://Sprites/UI/ShopButton.png" type="Texture" id=14]
+[ext_resource path="res://Sprites/UI/ShopButtonPressed.png" type="Texture" id=15]
+[ext_resource path="res://Sprites/UI/LeaderboardButton.png" type="Texture" id=16]
+[ext_resource path="res://Sprites/UI/LeaderboardButtonPressed.png" type="Texture" id=17]
+[ext_resource path="res://Sprites/UI/ConfigButton.png" type="Texture" id=18]
+[ext_resource path="res://Sprites/UI/ConfigButtonPressed.png" type="Texture" id=19]
+[ext_resource path="res://Sprites/UI/CreditsButton.png" type="Texture" id=20]
+[ext_resource path="res://Sprites/UI/CreditsButtonPressed.png" type="Texture" id=21]
+[ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=22]
+[ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=23]
+[ext_resource path="res://Sprites/Cat/Skin/Skin.png" type="Texture" id=24]
+[ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=25]
+[ext_resource path="res://Sprites/Shop/Cat/Thruster/Smoke.png" type="Texture" id=26]
+[ext_resource path="res://Sprites/Cat/Eyes.png" type="Texture" id=27]
+[ext_resource path="res://Scenes/ConfigPanel.tscn" type="PackedScene" id=28]
+[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=29]
+[ext_resource path="res://Sounds/Music/CCF Theme.ogg" type="AudioStream" id=30]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Control
@@ -43,9 +44,6 @@ func _ready():
 	$VersionLabel.text = \"VERSION 0.82\"
 	get_tree().paused = false
 	set_items_equipped()
-	$Tween.interpolate_property($Background, 'self_modulate', $Background.self_modulate, Color.black, 15, Tween.TRANS_LINEAR,Tween.EASE_IN)
-	$Tween.interpolate_property($Stars, 'self_modulate', Color(0,0,0,0), Color.white, 12, Tween.TRANS_LINEAR,Tween.EASE_IN)
-	$Tween.start()
 	check_first_game()
 	GameManager.upload_highscore()
 	if GameManager.easter:
@@ -227,17 +225,58 @@ func _on_BTimer_timeout():
 	pass # Replace with function body.
 "
 
+[sub_resource type="Animation" id=34]
+resource_name = "Cycle"
+length = 20.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Stars:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 5, 10, 15 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 5, 10, 15 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0.847059, 0.619608, 1, 1 ), Color( 0.847059, 0.619608, 1, 1 ), Color( 0.0901961, 0.0627451, 0.25098, 1 ), Color( 0.0901961, 0.0627451, 0.25098, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Stars2:self_modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 5, 8.5, 10, 15 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+
 [sub_resource type="Gradient" id=2]
 colors = PoolColorArray( 0.671875, 0.671875, 0.671875, 1, 0, 0, 0, 0 )
 
-[sub_resource type="Curve" id=29]
+[sub_resource type="Curve" id=3]
 _data = [ Vector2( 0.494279, 1 ), 0.0, -0.769093, 0, 0, Vector2( 1, 0.6232 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="Gradient" id=30]
+[sub_resource type="Gradient" id=4]
 offsets = PoolRealArray( 0, 0.7, 1 )
 colors = PoolColorArray( 0.734375, 0.180635, 0.123352, 1, 0.921875, 0.604191, 0.540161, 0.27451, 0.949219, 0.949219, 0.949219, 0 )
 
-[sub_resource type="Animation" id=32]
+[sub_resource type="Animation" id=5]
 resource_name = "Idle"
 length = 9.0
 tracks/0/type = "value"
@@ -265,15 +304,15 @@ tracks/1/keys = {
 "values": [ 0, 1, 2, 4, 2, 1, 2, 1, 2, 3, 4, 2, 1, 2, 1, 3, 4 ]
 }
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=6]
 size = 200
 outline_size = 15
 outline_color = Color( 0.407843, 0, 1, 1 )
 use_filter = true
 extra_spacing_bottom = 20
-font_data = ExtResource( 8 )
+font_data = ExtResource( 9 )
 
-[sub_resource type="Animation" id=31]
+[sub_resource type="Animation" id=7]
 resource_name = "Idle"
 length = 4.0
 tracks/0/type = "value"
@@ -301,14 +340,14 @@ tracks/1/keys = {
 "values": [ 0.0, -19.5811, -36.3448, 22.6035, 7.34499, 10.6581 ]
 }
 
-[sub_resource type="Curve" id=4]
+[sub_resource type="Curve" id=8]
 _data = [ Vector2( 0, 0.412 ), 0.0, 0.138585, 0, 0, Vector2( 1, 0.7728 ), 1.51742, 0.0, 0, 0 ]
 
-[sub_resource type="Gradient" id=5]
+[sub_resource type="Gradient" id=9]
 offsets = PoolRealArray( 0, 0.211921, 0.476821, 0.688742, 1 )
 colors = PoolColorArray( 1, 1, 1, 1, 1, 0.960938, 0, 1, 1, 0.773438, 0, 1, 1, 0, 0, 1, 0.605469, 0, 0, 0 )
 
-[sub_resource type="StyleBoxFlat" id=6]
+[sub_resource type="StyleBoxFlat" id=10]
 bg_color = Color( 1, 0.772549, 0, 1 )
 border_width_left = 15
 border_width_top = 15
@@ -320,7 +359,7 @@ corner_radius_top_right = 50
 corner_radius_bottom_right = 50
 corner_radius_bottom_left = 50
 
-[sub_resource type="StyleBoxFlat" id=7]
+[sub_resource type="StyleBoxFlat" id=11]
 bg_color = Color( 0.905882, 0.717647, 0.0666667, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -336,21 +375,21 @@ expand_margin_right = 10.0
 expand_margin_top = 5.0
 expand_margin_bottom = 5.0
 
-[sub_resource type="DynamicFont" id=8]
+[sub_resource type="DynamicFont" id=12]
 size = 100
 outline_size = 10
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
-font_data = ExtResource( 28 )
+font_data = ExtResource( 29 )
 
-[sub_resource type="DynamicFont" id=9]
+[sub_resource type="DynamicFont" id=13]
 size = 40
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
-font_data = ExtResource( 28 )
+font_data = ExtResource( 29 )
 
-[sub_resource type="StyleBoxFlat" id=10]
+[sub_resource type="StyleBoxFlat" id=14]
 bg_color = Color( 0.803922, 0.623529, 0.00392157, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -363,7 +402,7 @@ corner_radius_bottom_right = 50
 corner_radius_bottom_left = 50
 expand_margin_bottom = 5.0
 
-[sub_resource type="StyleBoxFlat" id=11]
+[sub_resource type="StyleBoxFlat" id=15]
 bg_color = Color( 0.0470588, 0, 0.462745, 1 )
 border_width_left = 5
 border_width_top = 5
@@ -375,7 +414,7 @@ corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
-[sub_resource type="StyleBoxFlat" id=12]
+[sub_resource type="StyleBoxFlat" id=16]
 bg_color = Color( 0, 0.623529, 1, 1 )
 border_width_left = 2
 border_width_top = 2
@@ -389,7 +428,7 @@ corner_radius_bottom_left = 30
 expand_margin_left = 20.0
 expand_margin_right = 20.0
 
-[sub_resource type="StyleBoxFlat" id=13]
+[sub_resource type="StyleBoxFlat" id=17]
 bg_color = Color( 0, 0.419608, 0.670588, 1 )
 border_width_left = 2
 border_width_top = 2
@@ -403,7 +442,7 @@ corner_radius_bottom_left = 30
 expand_margin_left = 20.0
 expand_margin_right = 20.0
 
-[sub_resource type="StyleBoxFlat" id=14]
+[sub_resource type="StyleBoxFlat" id=18]
 bg_color = Color( 0.447059, 0, 0.85098, 1 )
 border_width_left = 5
 border_width_top = 5
@@ -417,59 +456,77 @@ corner_radius_bottom_left = 20
 expand_margin_left = 15.0
 expand_margin_right = 15.0
 
-[sub_resource type="Theme" id=15]
-VScrollBar/styles/ = SubResource( 11 )
-VScrollBar/styles/grabber = SubResource( 12 )
-VScrollBar/styles/grabber_highlight = SubResource( 13 )
-VScrollBar/styles/grabber_pressed = SubResource( 13 )
-VScrollBar/styles/scroll = SubResource( 14 )
+[sub_resource type="Theme" id=19]
+VScrollBar/styles/ = SubResource( 15 )
+VScrollBar/styles/grabber = SubResource( 16 )
+VScrollBar/styles/grabber_highlight = SubResource( 17 )
+VScrollBar/styles/grabber_pressed = SubResource( 17 )
+VScrollBar/styles/scroll = SubResource( 18 )
 
-[sub_resource type="DynamicFont" id=16]
+[sub_resource type="DynamicFont" id=20]
 size = 80
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
-font_data = ExtResource( 28 )
+font_data = ExtResource( 29 )
 
-[sub_resource type="StyleBoxFlat" id=17]
-bg_color = Color( 0.615686, 0, 1, 1 )
+[sub_resource type="StyleBoxFlat" id=21]
+bg_color = Color( 0.541176, 0.164706, 0.772549, 1 )
 border_width_left = 10
 border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
-border_color = Color( 0.509804, 0, 0.886275, 1 )
+border_color = Color( 0.227451, 0.00392157, 0.435294, 1 )
 corner_radius_top_left = 40
 corner_radius_top_right = 40
 corner_radius_bottom_right = 40
 corner_radius_bottom_left = 40
 
-[sub_resource type="DynamicFont" id=18]
-size = 60
-outline_size = 7
-outline_color = Color( 0, 0, 0, 1 )
-use_filter = true
-font_data = ExtResource( 28 )
-
-[sub_resource type="StyleBoxFlat" id=19]
-bg_color = Color( 0.333333, 0, 0.568627, 1 )
+[sub_resource type="StyleBoxFlat" id=22]
+bg_color = Color( 0, 0.694118, 1, 1 )
 border_width_left = 10
 border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
-border_color = Color( 0.235294, 0, 0.368627, 1 )
+border_color = Color( 0.196078, 0.219608, 0.796078, 1 )
 corner_radius_top_left = 30
 corner_radius_top_right = 30
 corner_radius_bottom_right = 30
 corner_radius_bottom_left = 30
+expand_margin_top = 2.0
+expand_margin_bottom = 2.0
+shadow_color = Color( 0, 0, 0, 0.25098 )
+shadow_size = 10
 
-[sub_resource type="DynamicFont" id=20]
+[sub_resource type="DynamicFont" id=23]
+size = 60
+outline_size = 7
+outline_color = Color( 0, 0, 0, 1 )
+use_filter = true
+font_data = ExtResource( 29 )
+
+[sub_resource type="StyleBoxFlat" id=24]
+bg_color = Color( 0.952941, 0.886275, 0.168627, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color( 0.909804, 0.662745, 0.00392157, 1 )
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+shadow_color = Color( 0, 0, 0, 0.239216 )
+shadow_size = 10
+
+[sub_resource type="DynamicFont" id=25]
 size = 50
 outline_size = 8
 outline_color = Color( 0, 0, 0, 1 )
 extra_spacing_char = 1
-font_data = ExtResource( 28 )
+font_data = ExtResource( 29 )
 
-[sub_resource type="StyleBoxFlat" id=21]
+[sub_resource type="StyleBoxFlat" id=26]
 bg_color = Color( 0.00392157, 0.552941, 0.109804, 1 )
 border_width_bottom = 10
 border_color = Color( 0.054902, 0.545098, 0, 1 )
@@ -477,8 +534,10 @@ corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
+shadow_color = Color( 0, 0, 0, 0.239216 )
+shadow_size = 10
 
-[sub_resource type="StyleBoxFlat" id=22]
+[sub_resource type="StyleBoxFlat" id=27]
 bg_color = Color( 0, 0.894118, 0.156863, 1 )
 border_width_bottom = 10
 border_color = Color( 0.054902, 0.545098, 0, 1 )
@@ -486,23 +545,24 @@ corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
+shadow_color = Color( 0, 0, 0, 0.239216 )
+shadow_size = 10
 
-[sub_resource type="DynamicFont" id=23]
-size = 46
-outline_size = 4
+[sub_resource type="DynamicFont" id=28]
+size = 69
+outline_size = 8
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
-font_data = ExtResource( 28 )
+font_data = ExtResource( 29 )
 
-[sub_resource type="DynamicFont" id=24]
+[sub_resource type="DynamicFont" id=29]
 size = 28
 outline_size = 3
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
-font_data = ExtResource( 28 )
+font_data = ExtResource( 29 )
 
-[sub_resource type="Animation" id=25]
-resource_name = "Easter"
+[sub_resource type="Animation" id=30]
 length = 8.8
 tracks/0/type = "value"
 tracks/0/path = NodePath("Player:position")
@@ -567,7 +627,7 @@ tracks/4/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=26]
+[sub_resource type="Animation" id=31]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("FadeTexture:modulate")
@@ -582,7 +642,7 @@ tracks/0/keys = {
 "values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
 }
 
-[sub_resource type="Animation" id=27]
+[sub_resource type="Animation" id=32]
 length = 4.5
 loop = true
 tracks/0/type = "value"
@@ -610,7 +670,7 @@ tracks/1/keys = {
 "values": [ 0, 1, 0, 1, 0 ]
 }
 
-[sub_resource type="Animation" id=28]
+[sub_resource type="Animation" id=33]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Player:position")
 tracks/0/interp = 1
@@ -645,16 +705,28 @@ leader = ExtResource( 1 )
 house_broken = ExtResource( 2 )
 
 [node name="Background" type="TextureRect" parent="."]
-modulate = Color( 0.815686, 0.643137, 1, 1 )
+editor/display_folded = true
+modulate = Color( 0.847059, 0.619608, 1, 1 )
+self_modulate = Color( 0.847059, 0.619608, 1, 1 )
 margin_right = 1080.0
 margin_bottom = 1920.0
 texture = ExtResource( 3 )
 
-[node name="Stars" type="TextureRect" parent="."]
+[node name="Stars" type="TextureRect" parent="Background"]
 self_modulate = Color( 1, 1, 1, 0 )
 margin_right = 1080.0
 margin_bottom = 1920.0
 texture = ExtResource( 4 )
+
+[node name="Stars2" type="TextureRect" parent="Background"]
+self_modulate = Color( 1, 1, 1, 0 )
+margin_right = 1080.0
+margin_bottom = 1920.0
+texture = ExtResource( 5 )
+
+[node name="Anim" type="AnimationPlayer" parent="Background"]
+autoplay = "Cycle"
+anims/Cycle = SubResource( 34 )
 
 [node name="House" type="TextureRect" parent="."]
 editor/display_folded = true
@@ -666,7 +738,7 @@ margin_left = -874.542
 margin_top = -1054.33
 margin_right = 556.458
 margin_bottom = 439.667
-texture = ExtResource( 5 )
+texture = ExtResource( 6 )
 expand = true
 stretch_mode = 6
 
@@ -677,7 +749,7 @@ rotation = -1.309
 amount = 20
 lifetime = 2.0
 explosiveness = 0.1
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 emission_shape = 1
 emission_sphere_radius = 5.0
 spread = 50.0
@@ -700,7 +772,7 @@ amount = 30
 lifetime = 2.0
 one_shot = true
 explosiveness = 1.0
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 emission_shape = 1
 emission_sphere_radius = 20.0
 spread = 180.0
@@ -713,20 +785,20 @@ angle = 360.0
 angle_random = 1.0
 scale_amount = 5.0
 scale_amount_random = 0.2
-scale_amount_curve = SubResource( 29 )
-color_ramp = SubResource( 30 )
+scale_amount_curve = SubResource( 3 )
+color_ramp = SubResource( 4 )
 
 [node name="Bird" type="Sprite" parent="."]
 editor/display_folded = true
 position = Vector2( 577.462, 364.764 )
 rotation = -3.14159
 scale = Vector2( 4, -4 )
-texture = ExtResource( 7 )
+texture = ExtResource( 8 )
 hframes = 5
 frame = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Bird"]
-anims/Idle = SubResource( 32 )
+anims/Idle = SubResource( 5 )
 
 [node name="BTimer" type="Timer" parent="Bird"]
 wait_time = 15.0
@@ -739,7 +811,7 @@ margin_left = -535.0
 margin_top = 70.0
 margin_right = 536.0
 margin_bottom = 605.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 6 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_x = 25
@@ -754,10 +826,10 @@ editor/display_folded = true
 position = Vector2( 1230.88, 910.715 )
 rotation = 0.18602
 scale = Vector2( 2, 2 )
-texture = ExtResource( 9 )
+texture = ExtResource( 10 )
 
 [node name="Anim" type="AnimationPlayer" parent="PaperPlane"]
-anims/Idle = SubResource( 31 )
+anims/Idle = SubResource( 7 )
 
 [node name="PTimer" type="Timer" parent="PaperPlane"]
 wait_time = 10.0
@@ -765,7 +837,7 @@ autostart = true
 
 [node name="PawCat" type="TextureRect" parent="."]
 editor/display_folded = true
-self_modulate = Color( 0.247059, 0, 0.639216, 1 )
+self_modulate = Color( 0.521569, 0, 1, 1 )
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -775,7 +847,7 @@ margin_top = -450.0
 margin_right = 379.0
 margin_bottom = 300.0
 mouse_filter = 2
-texture = ExtResource( 10 )
+texture = ExtResource( 11 )
 expand = true
 stretch_mode = 6
 
@@ -787,8 +859,8 @@ anchor_bottom = 0.5
 margin_left = -130.0
 margin_right = 120.0
 margin_bottom = 260.0
-texture_normal = ExtResource( 11 )
-texture_pressed = ExtResource( 12 )
+texture_normal = ExtResource( 12 )
+texture_pressed = ExtResource( 13 )
 expand = true
 stretch_mode = 5
 
@@ -801,8 +873,8 @@ margin_left = -340.0
 margin_top = -135.0
 margin_right = -219.0
 margin_bottom = 13.0
-texture_normal = ExtResource( 13 )
-texture_pressed = ExtResource( 14 )
+texture_normal = ExtResource( 14 )
+texture_pressed = ExtResource( 15 )
 expand = true
 stretch_mode = 5
 
@@ -815,8 +887,8 @@ margin_left = -168.569
 margin_top = -255.0
 margin_right = -48.5687
 margin_bottom = -130.0
-texture_normal = ExtResource( 15 )
-texture_pressed = ExtResource( 16 )
+texture_normal = ExtResource( 16 )
+texture_pressed = ExtResource( 17 )
 expand = true
 stretch_mode = 5
 
@@ -829,8 +901,8 @@ margin_left = 70.8408
 margin_top = -257.272
 margin_right = 190.841
 margin_bottom = -132.272
-texture_normal = ExtResource( 17 )
-texture_pressed = ExtResource( 18 )
+texture_normal = ExtResource( 18 )
+texture_pressed = ExtResource( 19 )
 expand = true
 stretch_mode = 5
 
@@ -843,8 +915,8 @@ margin_left = -58.4927
 margin_top = 896.08
 margin_right = 61.5073
 margin_bottom = 1021.08
-texture_normal = ExtResource( 19 )
-texture_pressed = ExtResource( 20 )
+texture_normal = ExtResource( 20 )
+texture_pressed = ExtResource( 21 )
 expand = true
 stretch_mode = 5
 
@@ -857,8 +929,8 @@ margin_left = 210.0
 margin_top = -105.0
 margin_right = 330.0
 margin_bottom = 20.0
-texture_normal = ExtResource( 21 )
-texture_pressed = ExtResource( 22 )
+texture_normal = ExtResource( 22 )
+texture_pressed = ExtResource( 23 )
 expand = true
 stretch_mode = 5
 
@@ -869,13 +941,13 @@ rotation = -0.288943
 
 [node name="Skin" type="Sprite" parent="Player"]
 scale = Vector2( 10, 10 )
-texture = ExtResource( 23 )
+texture = ExtResource( 24 )
 hframes = 2
 
 [node name="Jetpack" type="Sprite" parent="Player/Skin"]
 show_behind_parent = true
 position = Vector2( 1.51094, 12.3033 )
-texture = ExtResource( 24 )
+texture = ExtResource( 25 )
 
 [node name="Particles" type="CPUParticles2D" parent="Player/Skin/Jetpack"]
 position = Vector2( 0.197189, 12.9721 )
@@ -883,7 +955,7 @@ rotation = 1.37589
 amount = 150
 lifetime = 0.55
 local_coords = false
-texture = ExtResource( 25 )
+texture = ExtResource( 26 )
 spread = 180.0
 flatness = 1.0
 gravity = Vector2( 0, 0 )
@@ -891,8 +963,8 @@ initial_velocity = 20.0
 initial_velocity_random = 0.8
 damping = 20.0
 scale_amount = 6.0
-scale_amount_curve = SubResource( 4 )
-color_ramp = SubResource( 5 )
+scale_amount_curve = SubResource( 8 )
+color_ramp = SubResource( 9 )
 
 [node name="Pattern" type="Sprite" parent="Player/Skin"]
 
@@ -901,7 +973,7 @@ position = Vector2( -1, 9.00002 )
 
 [node name="Eyes" type="Sprite" parent="Player/Skin"]
 position = Vector2( 0, -15 )
-texture = ExtResource( 26 )
+texture = ExtResource( 27 )
 hframes = 7
 
 [node name="Hat" type="Sprite" parent="Player/Skin"]
@@ -916,7 +988,7 @@ margin_right = 886.449
 margin_bottom = 1889.95
 rect_rotation = -19.284
 
-[node name="ConfigPanel" parent="." instance=ExtResource( 27 )]
+[node name="ConfigPanel" parent="." instance=ExtResource( 28 )]
 visible = false
 
 [node name="Leaderboard" type="Panel" parent="."]
@@ -930,7 +1002,7 @@ margin_left = -485.0
 margin_top = -873.5
 margin_right = 485.0
 margin_bottom = 873.5
-custom_styles/panel = SubResource( 6 )
+custom_styles/panel = SubResource( 10 )
 
 [node name="Title" type="Label" parent="Leaderboard"]
 anchor_left = 0.5
@@ -939,8 +1011,8 @@ margin_left = -340.0
 margin_top = 43.5
 margin_right = 326.0
 margin_bottom = 183.5
-custom_styles/normal = SubResource( 7 )
-custom_fonts/font = SubResource( 8 )
+custom_styles/normal = SubResource( 11 )
+custom_fonts/font = SubResource( 12 )
 text = "LEADERBOARD"
 align = 1
 
@@ -951,7 +1023,7 @@ margin_left = -456.0
 margin_top = 213.5
 margin_right = 457.0
 margin_bottom = 282.5
-custom_fonts/font = SubResource( 9 )
+custom_fonts/font = SubResource( 13 )
 text = "  POS  NAME                                   SCORE  COMBO"
 valign = 1
 
@@ -967,7 +1039,7 @@ margin_right = 204.8
 margin_bottom = 735.5
 rect_clip_content = true
 mouse_filter = 1
-custom_styles/panel = SubResource( 10 )
+custom_styles/panel = SubResource( 14 )
 
 [node name="SC" type="ScrollContainer" parent="Leaderboard/Leaders"]
 anchor_left = 0.5
@@ -980,7 +1052,7 @@ margin_right = 427.5
 margin_bottom = 630.5
 rect_clip_content = false
 mouse_filter = 1
-theme = SubResource( 15 )
+theme = SubResource( 19 )
 scroll_horizontal_enabled = false
 
 [node name="ItemList" type="GridContainer" parent="Leaderboard/Leaders/SC"]
@@ -998,7 +1070,7 @@ margin_left = -440.0
 margin_top = -50.5
 margin_right = 440.0
 margin_bottom = 50.5
-custom_fonts/font = SubResource( 16 )
+custom_fonts/font = SubResource( 20 )
 align = 1
 
 [node name="CloseLeaderButton" type="TextureButton" parent="Leaderboard"]
@@ -1010,9 +1082,9 @@ margin_left = -89.0
 margin_top = -93.5
 margin_right = 89.0
 margin_bottom = 76.5
-texture_normal = ExtResource( 21 )
-texture_pressed = ExtResource( 22 )
-texture_disabled = ExtResource( 22 )
+texture_normal = ExtResource( 22 )
+texture_pressed = ExtResource( 23 )
+texture_disabled = ExtResource( 23 )
 expand = true
 stretch_mode = 5
 
@@ -1024,23 +1096,26 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -400.0
-margin_top = -137.0
+margin_top = -220.0
 margin_right = 400.0
-margin_bottom = 241.0
-custom_styles/panel = SubResource( 17 )
+margin_bottom = 250.0
+custom_styles/panel = SubResource( 21 )
 
-[node name="Label" type="Label" parent="NicknamePanel"]
+[node name="Title" type="Label" parent="NicknamePanel"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -390.0
-margin_top = 17.0
-margin_right = 389.0
-margin_bottom = 102.0
-custom_fonts/font = SubResource( 18 )
+margin_left = -345.5
+margin_top = 27.0
+margin_right = 345.5
+margin_bottom = 120.0
+custom_styles/normal = SubResource( 22 )
+custom_fonts/font = SubResource( 23 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 9
+custom_constants/shadow_offset_y = 8
 text = "CREATE YOUR NICKNAME"
 align = 1
-valign = 1
 
 [node name="Nickname" type="LineEdit" parent="NicknamePanel"]
 anchor_left = 0.5
@@ -1051,9 +1126,9 @@ margin_left = -375.0
 margin_top = -59.0
 margin_right = 375.0
 margin_bottom = 59.0
-custom_icons/clear = ExtResource( 21 )
-custom_styles/normal = SubResource( 19 )
-custom_fonts/font = SubResource( 20 )
+custom_icons/clear = ExtResource( 22 )
+custom_styles/normal = SubResource( 24 )
+custom_fonts/font = SubResource( 25 )
 custom_colors/font_color_selected = Color( 0.47451, 0.937255, 0.945098, 1 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 align = 1
@@ -1063,18 +1138,18 @@ placeholder_alpha = 0.387
 caret_blink = true
 
 [node name="AcceptButton" type="Button" parent="NicknamePanel"]
-visible = false
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 margin_left = -130.0
-margin_top = -121.0
+margin_top = -131.0
 margin_right = 130.0
-margin_bottom = -18.0
-custom_styles/pressed = SubResource( 21 )
-custom_styles/normal = SubResource( 22 )
-custom_fonts/font = SubResource( 23 )
+margin_bottom = -28.0
+custom_styles/hover = SubResource( 26 )
+custom_styles/pressed = SubResource( 26 )
+custom_styles/normal = SubResource( 27 )
+custom_fonts/font = SubResource( 28 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "NEXT"
 
@@ -1085,18 +1160,16 @@ margin_left = 5.0
 margin_top = -60.0
 margin_right = 395.0
 margin_bottom = -26.0
-custom_fonts/font = SubResource( 24 )
+custom_fonts/font = SubResource( 29 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "Version"
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Start"
-anims/Easter = SubResource( 25 )
-anims/FadeOut = SubResource( 26 )
-anims/Idle = SubResource( 27 )
-anims/Start = SubResource( 28 )
-
-[node name="Tween" type="Tween" parent="."]
+anims/Easter = SubResource( 30 )
+anims/FadeOut = SubResource( 31 )
+anims/Idle = SubResource( 32 )
+anims/Start = SubResource( 33 )
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 
@@ -1108,7 +1181,7 @@ mouse_filter = 2
 texture = ExtResource( 3 )
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 29 )
+stream = ExtResource( 30 )
 autoplay = true
 bus = "Music"
 [connection signal="tree_exiting" from="." to="." method="_on_MainMenu_tree_exiting"]

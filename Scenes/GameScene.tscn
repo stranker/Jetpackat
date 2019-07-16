@@ -1,4 +1,4 @@
-[gd_scene load_steps=79 format=2]
+[gd_scene load_steps=81 format=2]
 
 [ext_resource path="res://Sprites/Background/HouseBroken.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Background/House.png" type="Texture" id=2]
@@ -38,7 +38,9 @@
 [ext_resource path="res://Object/Misc/OrbitSpawner.tscn" type="PackedScene" id=36]
 [ext_resource path="res://Object/Ribbon/Ribbon.tscn" type="PackedScene" id=37]
 [ext_resource path="res://Object/Misc/PowerUpSpawner.tscn" type="PackedScene" id=38]
-[ext_resource path="res://Sounds/Music/CCF Theme.ogg" type="AudioStream" id=39]
+[ext_resource path="res://Object/PowerUp/AegisWings.tscn" type="PackedScene" id=39]
+[ext_resource path="res://Object/PowerUp/Magnet.tscn" type="PackedScene" id=40]
+[ext_resource path="res://Sounds/Music/CCF Theme.ogg" type="AudioStream" id=41]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node
@@ -363,8 +365,8 @@ border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
 border_color = Color( 0.266667, 0, 0.403922, 1 )
-corner_radius_top_right = 40
-corner_radius_bottom_right = 40
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
 expand_margin_left = 30.0
 expand_margin_right = 110.0
 shadow_size = 6
@@ -417,8 +419,8 @@ border_width_left = 10
 border_width_top = 10
 border_width_bottom = 10
 border_color = Color( 0.266667, 0, 0.403922, 1 )
-corner_radius_top_left = 40
-corner_radius_bottom_left = 40
+corner_radius_top_left = 20
+corner_radius_bottom_left = 20
 expand_margin_left = 120.0
 expand_margin_right = 30.0
 expand_margin_top = 6.0
@@ -431,8 +433,8 @@ border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
 border_color = Color( 0.266667, 0, 0.403922, 1 )
-corner_radius_top_right = 40
-corner_radius_bottom_right = 40
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
 expand_margin_left = 30.0
 expand_margin_right = 115.0
 shadow_size = 6
@@ -1108,16 +1110,17 @@ centered = false
 position = Vector2( 559.5, 830 )
 
 [node name="UIGame" type="CanvasLayer" parent="."]
+editor/display_folded = true
 script = SubResource( 6 )
 
 [node name="UI" type="Control" parent="UIGame"]
 pause_mode = 2
+editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 
 [node name="UpperPanel" type="Control" parent="UIGame/UI"]
-editor/display_folded = true
 anchor_right = 1.0
 margin_bottom = 284.0
 
@@ -1171,7 +1174,6 @@ custom_styles/panel = SubResource( 8 )
 custom_styles/panelnc = SubResource( 8 )
 
 [node name="ComboPanel" type="Control" parent="UIGame/UI/UpperPanel"]
-editor/display_folded = true
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_left = 10.0
@@ -1182,6 +1184,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ComboLabel" type="Label" parent="UIGame/UI/UpperPanel/ComboPanel"]
+editor/display_folded = true
 anchor_top = 0.5
 anchor_bottom = 0.5
 margin_left = 20.0
@@ -1225,7 +1228,6 @@ custom_styles/panel = SubResource( 13 )
 custom_styles/panelnc = SubResource( 12 )
 
 [node name="CoinPanel" type="Control" parent="UIGame/UI/UpperPanel"]
-editor/display_folded = true
 show_behind_parent = true
 anchor_left = 1.0
 anchor_right = 1.0
@@ -1234,6 +1236,7 @@ margin_top = 10.0
 margin_bottom = 110.0
 
 [node name="CoinLabel" type="Label" parent="UIGame/UI/UpperPanel/CoinPanel"]
+editor/display_folded = true
 anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
@@ -1756,27 +1759,74 @@ margin_bottom = 36.4966
 text = "X"
 
 [node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="Enemies" type="Node2D" parent="SpawnPoints"]
 editor/display_folded = true
 
-[node name="Position2D" type="Position2D" parent="SpawnPoints"]
-position = Vector2( 540, -330 )
-
-[node name="Position2D2" type="Position2D" parent="SpawnPoints"]
+[node name="Position2D11" type="Position2D" parent="SpawnPoints/Enemies"]
 position = Vector2( 340, -330 )
 
-[node name="Position2D3" type="Position2D" parent="SpawnPoints"]
+[node name="Position2D12" type="Position2D" parent="SpawnPoints/Enemies"]
 position = Vector2( 208, -330 )
 
-[node name="Position2D4" type="Position2D" parent="SpawnPoints"]
+[node name="Position2D13" type="Position2D" parent="SpawnPoints/Enemies"]
 position = Vector2( 748.729, -330 )
 
-[node name="Position2D5" type="Position2D" parent="SpawnPoints"]
+[node name="Position2D14" type="Position2D" parent="SpawnPoints/Enemies"]
+position = Vector2( 872, -330 )
+
+[node name="Ribbons" type="Node2D" parent="SpawnPoints"]
+editor/display_folded = true
+
+[node name="Position2D6" type="Position2D" parent="SpawnPoints/Ribbons"]
+position = Vector2( 540, -330 )
+
+[node name="Position2D7" type="Position2D" parent="SpawnPoints/Ribbons"]
+position = Vector2( 340, -330 )
+
+[node name="Position2D8" type="Position2D" parent="SpawnPoints/Ribbons"]
+position = Vector2( 208, -330 )
+
+[node name="Position2D9" type="Position2D" parent="SpawnPoints/Ribbons"]
+position = Vector2( 748.729, -330 )
+
+[node name="Position2D10" type="Position2D" parent="SpawnPoints/Ribbons"]
+position = Vector2( 872, -330 )
+
+[node name="Collectables" type="Node2D" parent="SpawnPoints"]
+editor/display_folded = true
+
+[node name="Position2D" type="Position2D" parent="SpawnPoints/Collectables"]
+position = Vector2( 540, -330 )
+
+[node name="Position2D2" type="Position2D" parent="SpawnPoints/Collectables"]
+position = Vector2( 340, -330 )
+
+[node name="Position2D3" type="Position2D" parent="SpawnPoints/Collectables"]
+position = Vector2( 208, -330 )
+
+[node name="Position2D4" type="Position2D" parent="SpawnPoints/Collectables"]
+position = Vector2( 748.729, -330 )
+
+[node name="Position2D5" type="Position2D" parent="SpawnPoints/Collectables"]
+position = Vector2( 872, -330 )
+
+[node name="PowerUps" type="Node2D" parent="SpawnPoints"]
+editor/display_folded = true
+
+[node name="Position2D" type="Position2D" parent="SpawnPoints/PowerUps"]
+position = Vector2( 540, -330 )
+
+[node name="Position2D3" type="Position2D" parent="SpawnPoints/PowerUps"]
+position = Vector2( 208, -330 )
+
+[node name="Position2D5" type="Position2D" parent="SpawnPoints/PowerUps"]
 position = Vector2( 872, -330 )
 
 [node name="CollectableSpawner" parent="." instance=ExtResource( 28 )]
 item_list = [ ExtResource( 29 ), ExtResource( 30 ) ]
 parent_node = NodePath("../Collectables")
-spawn_points_node = NodePath("../SpawnPoints")
+spawn_points_node = NodePath("../SpawnPoints/Collectables")
 min_height = 8.0
 max_height = 12.0
 probability = [ 0.15, 1.0 ]
@@ -1784,7 +1834,7 @@ probability = [ 0.15, 1.0 ]
 [node name="EnemySpawner" parent="." instance=ExtResource( 31 )]
 item_list = [ ExtResource( 32 ), ExtResource( 33 ), ExtResource( 34 ), ExtResource( 35 ) ]
 parent_node = NodePath("../Enemies")
-spawn_points_node = NodePath("../SpawnPoints")
+spawn_points_node = NodePath("../SpawnPoints/Enemies")
 min_height = 10.0
 max_height = 20.0
 height_control_list = [ 0, 200, 350, 500 ]
@@ -1793,13 +1843,16 @@ min_height_tutorial = 20
 [node name="RibbonSpawner" parent="." instance=ExtResource( 36 )]
 item_list = [ ExtResource( 37 ) ]
 parent_node = NodePath("../Ribbons")
-spawn_points_node = NodePath("../SpawnPoints")
+spawn_points_node = NodePath("../SpawnPoints/Ribbons")
 min_height = 15.0
 max_height = 20.0
 min_height_tutorial = 12
 
 [node name="PowerUpSpawner" parent="." instance=ExtResource( 38 )]
-probability = [ 0.1 ]
+item_list = [ ExtResource( 39 ), ExtResource( 40 ) ]
+spawn_points_node = NodePath("../SpawnPoints/PowerUps")
+min_height = 20.0
+probability = [ 0.9, 1.0 ]
 
 [node name="Collectables" type="Node2D" parent="."]
 
@@ -1811,7 +1864,7 @@ probability = [ 0.1 ]
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 pause_mode = 2
-stream = ExtResource( 39 )
+stream = ExtResource( 41 )
 autoplay = true
 bus = "Music"
 [connection signal="screen_exited" from="House/VisibilityNotifier2D" to="House" method="_on_VisibilityNotifier2D_screen_exited"]

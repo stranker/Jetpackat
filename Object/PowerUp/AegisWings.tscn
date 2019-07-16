@@ -1,0 +1,159 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Shaders/outline.shader" type="Shader" id=1]
+[ext_resource path="res://Sprites/PowerUps/AegisWings.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/PowerUps/AegisFeathers.png" type="Texture" id=3]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends \"res://Object/Collectable/Collectable.gd\"
+
+func _on_AegisWings_area_entered(area):
+	if area.name == 'MagnetArea' and !on_magnet_area:
+		player_magnet = area
+		on_magnet_area = !on_magnet_area
+	pass # Replace with function body.
+
+func _on_AegisWings_body_entered(body):
+	if body.is_in_group('Player') and !taked:
+		taked = !taked
+		$Anim.play('Taken')
+		body.set_aegis(taked)
+	pass # Replace with function body.
+
+func _on_VisibilityNotifier2D_screen_exited():
+	queue_free()
+	pass # Replace with function body."
+
+[sub_resource type="ShaderMaterial" id=3]
+shader = ExtResource( 1 )
+shader_param/outline_width = 0.3
+shader_param/outline_color = Color( 0.988235, 0.788235, 0.105882, 1 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 62.3658, 40.6958 )
+
+[sub_resource type="Animation" id=4]
+resource_name = "Idle"
+length = 1.4
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 15.0, -15.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:material:shader_param/outline_width")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.4, 0.8, 1.2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.3, 1.0, 0.3, 1.0 ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "Taken"
+length = 2.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 2.25, 2.25 ), Vector2( 3, 3 ), Vector2( 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 2.5 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
+
+[sub_resource type="Gradient" id=6]
+offsets = PoolRealArray( 0, 0.384106, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0.803922, 1, 1, 1, 0 )
+
+[node name="AegisWings" type="Area2D"]
+script = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+material = SubResource( 3 )
+rotation = 0.261799
+scale = Vector2( 2.25, 2.25 )
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 2 )
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+autoplay = "Idle"
+anims/Idle = SubResource( 4 )
+anims/Taken = SubResource( 5 )
+
+[node name="Feathers" type="CPUParticles2D" parent="."]
+rotation = 1.57079
+emitting = false
+amount = 300
+lifetime = 2.0
+one_shot = true
+explosiveness = 0.95
+randomness = 0.5
+draw_order = 1
+texture = ExtResource( 3 )
+emission_shape = 1
+emission_sphere_radius = 20.0
+spread = 180.0
+flatness = 1.0
+gravity = Vector2( -100, 50 )
+initial_velocity = 150.0
+initial_velocity_random = 0.25
+angular_velocity = 300.0
+angular_velocity_random = 0.3
+tangential_accel = 5.0
+tangential_accel_random = 1.0
+damping = 100.0
+damping_random = 0.6
+angle = 360.0
+angle_random = 1.0
+scale_amount = 2.5
+scale_amount_random = 0.5
+color_ramp = SubResource( 6 )
+[connection signal="area_entered" from="." to="." method="_on_AegisWings_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_AegisWings_body_entered"]
+[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
