@@ -55,7 +55,8 @@ func check_first_game():
 	if GameManager.nickname == '':
 		$NicknamePanel.show()
 		for i in $PawCat.get_children():
-			i.disabled = true
+			if i is Button:
+				i.disabled = true
 	pass
 
 func set_items_equipped():
@@ -167,7 +168,8 @@ func _on_AcceptButton_button_down():
 	GameManager.nickname = $NicknamePanel/Nickname.text
 	$NicknamePanel.hide()
 	for i in $PawCat.get_children():
-		i.disabled = false
+		if i is Button:
+			i.disabled = false
 	pass # Replace with function body.
 
 func _on_SC_gui_input(event):
@@ -493,14 +495,14 @@ outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 29 )
 
-[sub_resource type="DynamicFont" id=26]
+[sub_resource type="DynamicFont" id=25]
 size = 56
 outline_size = 3
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 29 )
 
-[sub_resource type="StyleBoxFlat" id=27]
+[sub_resource type="StyleBoxFlat" id=26]
 bg_color = Color( 0.00392157, 0.552941, 0.109804, 1 )
 border_width_bottom = 10
 border_color = Color( 0.054902, 0.545098, 0, 1 )
@@ -511,7 +513,7 @@ corner_radius_bottom_left = 20
 shadow_color = Color( 0, 0, 0, 0.239216 )
 shadow_size = 10
 
-[sub_resource type="StyleBoxFlat" id=28]
+[sub_resource type="StyleBoxFlat" id=27]
 bg_color = Color( 0, 0.894118, 0.156863, 1 )
 border_width_bottom = 10
 border_color = Color( 0.054902, 0.545098, 0, 1 )
@@ -522,21 +524,21 @@ corner_radius_bottom_left = 20
 shadow_color = Color( 0, 0, 0, 0.239216 )
 shadow_size = 10
 
-[sub_resource type="DynamicFont" id=29]
+[sub_resource type="DynamicFont" id=28]
 size = 69
 outline_size = 8
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 29 )
 
-[sub_resource type="DynamicFont" id=30]
+[sub_resource type="DynamicFont" id=29]
 size = 28
 outline_size = 3
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 29 )
 
-[sub_resource type="Animation" id=31]
+[sub_resource type="Animation" id=30]
 length = 8.8
 tracks/0/type = "value"
 tracks/0/path = NodePath("Player:position")
@@ -601,7 +603,7 @@ tracks/4/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=32]
+[sub_resource type="Animation" id=31]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("FadeTexture:modulate")
@@ -616,7 +618,7 @@ tracks/0/keys = {
 "values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
 }
 
-[sub_resource type="Animation" id=33]
+[sub_resource type="Animation" id=32]
 length = 4.5
 loop = true
 tracks/0/type = "value"
@@ -644,7 +646,7 @@ tracks/1/keys = {
 "values": [ 0, 1, 0, 1, 0 ]
 }
 
-[sub_resource type="Animation" id=34]
+[sub_resource type="Animation" id=33]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Player:position")
 tracks/0/interp = 1
@@ -914,6 +916,7 @@ margin_left = 16.2988
 margin_top = 3.0
 margin_right = 767.299
 margin_bottom = 773.0
+mouse_filter = 2
 texture = ExtResource( 11 )
 expand = true
 stretch_mode = 6
@@ -1112,7 +1115,7 @@ margin_right = 370.0
 margin_bottom = 59.0
 custom_icons/clear = ExtResource( 22 )
 custom_styles/normal = SubResource( 23 )
-custom_fonts/font = SubResource( 26 )
+custom_fonts/font = SubResource( 25 )
 custom_colors/font_color_selected = Color( 0, 0, 0, 1 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 align = 1
@@ -1132,10 +1135,10 @@ margin_left = -130.0
 margin_top = -131.0
 margin_right = 130.0
 margin_bottom = -28.0
-custom_styles/hover = SubResource( 27 )
-custom_styles/pressed = SubResource( 27 )
-custom_styles/normal = SubResource( 28 )
-custom_fonts/font = SubResource( 29 )
+custom_styles/hover = SubResource( 26 )
+custom_styles/pressed = SubResource( 26 )
+custom_styles/normal = SubResource( 27 )
+custom_fonts/font = SubResource( 28 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "NEXT"
 
@@ -1146,16 +1149,16 @@ margin_left = 5.0
 margin_top = -60.0
 margin_right = 395.0
 margin_bottom = -26.0
-custom_fonts/font = SubResource( 30 )
+custom_fonts/font = SubResource( 29 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "Version"
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Start"
-anims/Easter = SubResource( 31 )
-anims/FadeOut = SubResource( 32 )
-anims/Idle = SubResource( 33 )
-anims/Start = SubResource( 34 )
+anims/Easter = SubResource( 30 )
+anims/FadeOut = SubResource( 31 )
+anims/Idle = SubResource( 32 )
+anims/Start = SubResource( 33 )
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 
