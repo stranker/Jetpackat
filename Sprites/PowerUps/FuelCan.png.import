@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/WindEffect3.png-b38b72653d7e80e84cba4daf24c0c68c.stex"
+path="res://.import/FuelCan.png-21cbfd56eb05f09a51022084c14cafe1.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Effect/WindEffect3.png"
-dest_files=[ "res://.import/WindEffect3.png-b38b72653d7e80e84cba4daf24c0c68c.stex" ]
+source_file="res://Sprites/PowerUps/FuelCan.png"
+dest_files=[ "res://.import/FuelCan.png-21cbfd56eb05f09a51022084c14cafe1.stex" ]
 
 [params]
 

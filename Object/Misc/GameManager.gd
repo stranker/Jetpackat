@@ -5,7 +5,7 @@ var coins : int = 0
 var fishes : int = 0
 var playing : bool = false
 var player_height : int = 0
-var combos : int = 0
+var fuel : int = 0
 var camera : Camera2D = null
 var highscore : int = 0
 var player = null
@@ -47,7 +47,7 @@ func load_data_from_res():
 		coins = game_info['Coins']
 		fishes = game_info['Fishes']
 		highscore = game_info['Highscore']
-		combos = game_info['Combo']
+		fuel = game_info['Fuel']
 		music_volume = game_info['MusicVolume']
 		sound_volume = game_info['SoundVolume']
 		left_mode = game_info['LeftMode']
@@ -64,7 +64,7 @@ func load_data_from_user():
 		coins = game_info['Coins']
 		fishes = game_info['Fishes']
 		highscore = game_info['Highscore']
-		combos = game_info['Combo']
+		fuel = game_info['Fuel']
 		intro_watched = game_info['IntroWatched']
 		music_volume = game_info['MusicVolume']
 		sound_volume = game_info['SoundVolume']
@@ -132,7 +132,7 @@ func save_current_game_info():
 	game_info['Coins'] = coins
 	game_info['Fishes'] = fishes
 	game_info['Highscore'] = highscore
-	game_info['Combo'] = combos
+	game_info['Fuel'] = fuel
 	game_info['IntroWatched'] = intro_watched
 	game_info['MusicVolume'] = music_volume
 	game_info['SoundVolume'] = sound_volume
@@ -176,7 +176,7 @@ func upload_highscore():
 		count += 1
 		if count >= 4:
 			return
-	var err = http_client.request(HTTPClient.METHOD_GET,'/lb/'+private_url+'/add-pipe/'+nickname+'/'+str(highscore)+'/'+str(combos),[])
+	var err = http_client.request(HTTPClient.METHOD_GET,'/lb/'+private_url+'/add-pipe/'+nickname+'/'+str(highscore),[])
 	return err
 
 func int_to_time(number):
@@ -196,8 +196,10 @@ func change_music_volume(value):
 	music_volume = value
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index('Music'),-32 + 6.4 * value)
 	AudioServer.set_bus_mute(AudioServer.get_bus_index('Music'),value == 0)
+	pass
 
 func change_sound_volume(value):
 	sound_volume = value
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index('Sounds'),-32 + 6.4 * value)
 	AudioServer.set_bus_mute(AudioServer.get_bus_index('Sounds'),value == 0)
+	pass

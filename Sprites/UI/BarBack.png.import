@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/WindEffect4.png-5ee0763de476bbeda588d48a02a049c8.stex"
+path="res://.import/BarBack.png-9779e39b1e3faa1c098d9934c4f77b4f.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Effect/WindEffect4.png"
-dest_files=[ "res://.import/WindEffect4.png-5ee0763de476bbeda588d48a02a049c8.stex" ]
+source_file="res://Sprites/UI/BarBack.png"
+dest_files=[ "res://.import/BarBack.png-9779e39b1e3faa1c098d9934c4f77b4f.stex" ]
 
 [params]
 
@@ -24,11 +24,11 @@ flags/filter=false
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2
-process/fix_alpha_border=true
+process/fix_alpha_border=false
 process/premult_alpha=false
 process/HDR_as_SRGB=false
 process/invert_color=false
 stream=false
 size_limit=0
-detect_3d=true
+detect_3d=false
 svg/scale=1.0

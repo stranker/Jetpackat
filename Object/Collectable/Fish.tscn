@@ -1,6 +1,6 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://Shaders/OutlineShaderResource.tres" type="Material" id=1]
+[ext_resource path="res://Shaders/outline.shader" type="Shader" id=1]
 [ext_resource path="res://Sprites/Collectables/Fish.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/Shop/Cat/Thruster/Star.png" type="Texture" id=3]
 [ext_resource path="res://Sounds/Sfx/Fish.wav" type="AudioStream" id=4]
@@ -31,36 +31,41 @@ func _on_Fish_area_entered(area):
 	pass # Replace with function body.
 "
 
+[sub_resource type="ShaderMaterial" id=7]
+shader = ExtResource( 1 )
+shader_param/outline_width = 0.7
+shader_param/outline_color = Color( 1, 1, 1, 0.256014 )
+
 [sub_resource type="CircleShape2D" id=2]
 radius = 50.4194
 
 [sub_resource type="Animation" id=3]
 resource_name = "Idle"
-length = 2.0
+length = 1.2
 loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:position")
+tracks/0/path = NodePath("Sprite:rotation_degrees")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 0.5, 1 ),
+"times": PoolRealArray( 0, 0.6 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 1.19748, 1.52588e-005 ), Vector2( 2.39496, -10.7773 ) ]
+"values": [ -55.9271, -15.2614 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Sprite:rotation_degrees")
+tracks/1/path = NodePath("Sprite:material:shader_param/outline_color")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 0.5, 1 ),
+"times": PoolRealArray( 0, 0.3, 0.6, 0.9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ 0.0, -25.0094 ]
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.168627 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.156863 ) ]
 }
 
 [sub_resource type="Animation" id=4]
@@ -127,9 +132,9 @@ colors = PoolColorArray( 0.207184, 0.726563, 0.337029, 1, 0.163277, 0.78451, 0.2
 script = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-material = ExtResource( 1 )
-position = Vector2( 2.09726, -8.09802 )
-rotation = -0.327982
+material = SubResource( 7 )
+position = Vector2( 1.19748, 1.52588e-005 )
+rotation = -0.583936
 scale = Vector2( 2, 2 )
 texture = ExtResource( 2 )
 

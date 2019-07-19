@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Shaders/outline.shader" type="Shader" id=1]
 [ext_resource path="res://Sprites/PowerUps/AegisWings.png" type="Texture" id=2]
@@ -24,13 +24,13 @@ func _on_VisibilityNotifier2D_screen_exited():
 	queue_free()
 	pass # Replace with function body."
 
-[sub_resource type="ShaderMaterial" id=3]
+[sub_resource type="ShaderMaterial" id=7]
 shader = ExtResource( 1 )
-shader_param/outline_width = 0.3
-shader_param/outline_color = Color( 0.988235, 0.788235, 0.105882, 1 )
+shader_param/outline_width = 0.7
+shader_param/outline_color = Color( 0.988235, 0.788235, 0.105882, 0.0470588 )
 
-[sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 62.3658, 40.6958 )
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 80, 60 )
 
 [sub_resource type="Animation" id=4]
 resource_name = "Idle"
@@ -49,16 +49,16 @@ tracks/0/keys = {
 "values": [ 15.0, -15.0 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Sprite:material:shader_param/outline_width")
+tracks/1/path = NodePath("Sprite:material:shader_param/outline_color")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.4, 0.8, 1.2 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.3, 0.5, 0.8, 1.1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ 0.3, 1.0, 0.3, 1.0 ]
+"values": [ Color( 0.988235, 0.788235, 0.105882, 0.0470588 ), Color( 0.988235, 0.788235, 0.105882, 1 ), Color( 0.988235, 0.788235, 0.105882, 1 ), Color( 0.988235, 0.788235, 0.105882, 0.0392157 ), Color( 0.988235, 0.788235, 0.105882, 1 ) ]
 }
 
 [sub_resource type="Animation" id=5]
@@ -74,7 +74,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.2, 0.5 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 2.25, 2.25 ), Vector2( 3, 3 ), Vector2( 1, 1 ) ]
+"values": [ Vector2( 3, 3 ), Vector2( 4.5, 4.5 ), Vector2( 1, 1 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Sprite:self_modulate")
@@ -102,6 +102,23 @@ tracks/2/keys = {
 "method": "queue_free"
 } ]
 }
+tracks/3/type = "value"
+tracks/3/path = NodePath("Feathers:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="Curve" id=8]
+min_value = -10.0
+max_value = 10.0
+_data = [ Vector2( 0, -10 ), 0.0, -11.6663, 0, 0, Vector2( 0.986287, 9.856 ), -1.96364, 0.0, 0, 0 ]
 
 [sub_resource type="Gradient" id=6]
 offsets = PoolRealArray( 0, 0.384106, 1 )
@@ -111,13 +128,13 @@ colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0.803922, 1, 1, 1, 0 )
 script = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-material = SubResource( 3 )
+material = SubResource( 7 )
 rotation = 0.261799
-scale = Vector2( 2.25, 2.25 )
+scale = Vector2( 3, 3 )
 texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 2 )
+shape = SubResource( 3 )
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 
@@ -140,18 +157,19 @@ emission_shape = 1
 emission_sphere_radius = 20.0
 spread = 180.0
 flatness = 1.0
-gravity = Vector2( -100, 50 )
-initial_velocity = 150.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 200.0
 initial_velocity_random = 0.25
 angular_velocity = 300.0
 angular_velocity_random = 0.3
-tangential_accel = 5.0
+radial_accel = 50.0
 tangential_accel_random = 1.0
+tangential_accel_curve = SubResource( 8 )
 damping = 100.0
 damping_random = 0.6
 angle = 360.0
 angle_random = 1.0
-scale_amount = 2.5
+scale_amount = 3.0
 scale_amount_random = 0.5
 color_ramp = SubResource( 6 )
 [connection signal="area_entered" from="." to="." method="_on_AegisWings_area_entered"]

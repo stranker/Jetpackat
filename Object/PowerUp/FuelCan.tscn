@@ -1,0 +1,200 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Shaders/outline.shader" type="Shader" id=1]
+[ext_resource path="res://Sprites/PowerUps/FuelCan.png" type="Texture" id=2]
+[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=3]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends \"res://Object/Collectable/Collectable.gd\"
+
+func _ready():
+	connect('taken',get_tree().root.get_node('GameScene'),'add_fuel')
+	pass
+
+func _on_VisibilityNotifier2D_screen_exited():
+	queue_free()
+	pass # Replace with function body.
+
+func _on_FuelCan_body_entered(body):
+	if body.is_in_group('Player') and !taked:
+		taked = !taked
+		$Anim.play('Taken')
+		body.take_fuel()
+		emit_signal('taken')
+	pass # Replace with function body.
+
+func _on_FuelCan_area_entered(area):
+	if area.name == 'MagnetArea' and !on_magnet_area:
+		player_magnet = area
+		on_magnet_area = !on_magnet_area
+	pass # Replace with function body.
+"
+
+[sub_resource type="ShaderMaterial" id=5]
+shader = ExtResource( 1 )
+shader_param/outline_width = 0.7
+shader_param/outline_color = Color( 1, 1, 1, 0.495684 )
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 58.8121
+
+[sub_resource type="DynamicFont" id=6]
+size = 40
+outline_size = 2
+outline_color = Color( 1, 0.913725, 0, 1 )
+use_filter = true
+font_data = ExtResource( 3 )
+
+[sub_resource type="Animation" id=3]
+resource_name = "Idle"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 15.0, -15.0, 15.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:material:shader_param/outline_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2, 0.5, 0.7, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.0235294 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.0235294 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "Taken"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 2, 2 ), Vector2( 3, 3 ), Vector2( 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 2 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Label:self_modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.2, 0.5, 0.9, 1.2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.717647 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Label:custom_fonts/font:outline_color")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.9 ),
+"transitions": PoolRealArray( 2, 1 ),
+"update": 0,
+"values": [ Color( 1, 0.913725, 0, 1 ), Color( 1, 0, 0, 1 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Label:rect_position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.5, 0.8 ),
+"transitions": PoolRealArray( 0.5, 2, 1 ),
+"update": 0,
+"values": [ Vector2( -70, -30 ), Vector2( -70, -220 ), Vector2( -70, -149 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Label:rect_scale")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 0.5, 2 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 3, 3 ) ]
+}
+
+[node name="FuelCan" type="Area2D"]
+z_index = 12
+script = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+material = SubResource( 5 )
+rotation = -0.15363
+scale = Vector2( 2, 2 )
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 2 )
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+
+[node name="Label" type="Label" parent="."]
+self_modulate = Color( 1, 1, 1, 0 )
+margin_left = -70.0
+margin_top = -30.0
+margin_right = 77.0
+margin_bottom = 19.0
+rect_pivot_offset = Vector2( 73.5, 24.5 )
+custom_fonts/font = SubResource( 6 )
+text = "FUEL UP!"
+align = 1
+valign = 3
+uppercase = true
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+autoplay = "Idle"
+anims/Idle = SubResource( 3 )
+anims/Taken = SubResource( 4 )
+[connection signal="area_entered" from="." to="." method="_on_FuelCan_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_FuelCan_body_entered"]
+[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

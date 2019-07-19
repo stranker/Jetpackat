@@ -98,6 +98,18 @@ tracks/2/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
+tracks/3/type = "value"
+tracks/3/path = NodePath("Sprite:material:shader_param/outline_color")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.0431373 ), Color( 1, 1, 1, 1 ) ]
+}
 
 [sub_resource type="Animation" id=6]
 length = 2.5
@@ -157,7 +169,9 @@ script = SubResource( 1 )
 material = ExtResource( 1 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 2 )
+flip_h = true
 hframes = 4
+frame = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 2 )

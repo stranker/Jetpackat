@@ -377,24 +377,25 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -196.5
-margin_top = -33.0
-margin_right = 196.5
-margin_bottom = 52.0
+margin_left = -353.814
+margin_top = -185.508
+margin_right = 39.186
+margin_bottom = -100.508
+rect_scale = Vector2( 1.8, 1.8 )
 custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 0.980392, 0.980392, 0.980392, 1 )
-custom_colors/font_outline_modulate = Color( 0.968627, 1, 0, 1 )
+custom_colors/font_outline_modulate = Color( 1, 0.164706, 0, 1 )
 text = "FUEL UP!"
 align = 1
 
 [node name="Ballon" type="Sprite" parent="."]
-position = Vector2( -100, -210 )
+position = Vector2( -95.7202, -294.17 )
 scale = Vector2( 2, 2 )
 z_index = 2
 texture = ExtResource( 3 )
 
 [node name="Ballon2" type="Sprite" parent="."]
-position = Vector2( 100, -210 )
+position = Vector2( 101.427, -277.857 )
 scale = Vector2( 2, 2 )
 z_index = 2
 texture = ExtResource( 3 )

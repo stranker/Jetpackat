@@ -1,4 +1,4 @@
-[gd_scene load_steps=65 format=2]
+[gd_scene load_steps=64 format=2]
 
 [ext_resource path="res://Scenes/LeaderTest.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Background/HouseBroken.png" type="Texture" id=2]
@@ -139,36 +139,24 @@ func _on_HTTPRequest_request_completed(result, response_code, headers, body):
 		if leaderboard_list:
 			fill_leaderboard(leaderboard_list['entry'])
 		else:
-			fill_leader_empty(1,20)
+			$Leaderboard/State.text = 'NO SCORES YET./nYOU CAN BE THE LEADER!'
 	else:
 		$Leaderboard/State.text = 'FAILED TO CONNECT'
 	pass # Replace with function body.
 
 func fill_leaderboard(entries):
-	var min_entries = 20
-	var empty_leader
 	var pos = 1
 	if typeof(entries) == TYPE_DICTIONARY:
-		empty_leader = min_entries - 1
 		var l = leader.instance()
 		$Leaderboard/Leaders/SC/ItemList.add_child(l)
 		l.set_info(pos,entries)
 		pos += 1
-		fill_leader_empty(pos,empty_leader)
 	if typeof(entries) == TYPE_ARRAY:
-		empty_leader = min_entries - entries.size()
 		for i in entries:
 			var l = leader.instance()
 			l.set_info(pos,i)
 			$Leaderboard/Leaders/SC/ItemList.add_child(l)
 			pos += 1
-		fill_leader_empty(pos,empty_leader)
-
-func fill_leader_empty(pos,cant):
-	for i in range(pos,cant + 1):
-		var l = leader.instance()
-		l.set_info(i,{})
-		$Leaderboard/Leaders/SC/ItemList.add_child(l)
 	pass
 
 func _on_LineEdit_text_changed(new_text):
@@ -225,7 +213,7 @@ func _on_BTimer_timeout():
 	pass # Replace with function body.
 "
 
-[sub_resource type="Animation" id=34]
+[sub_resource type="Animation" id=2]
 resource_name = "Cycle"
 length = 20.0
 loop = true
@@ -266,18 +254,17 @@ tracks/2/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Gradient" id=2]
+[sub_resource type="Gradient" id=3]
 colors = PoolColorArray( 0.671875, 0.671875, 0.671875, 1, 0, 0, 0, 0 )
 
-[sub_resource type="Curve" id=3]
+[sub_resource type="Curve" id=4]
 _data = [ Vector2( 0.494279, 1 ), 0.0, -0.769093, 0, 0, Vector2( 1, 0.6232 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="Gradient" id=4]
+[sub_resource type="Gradient" id=5]
 offsets = PoolRealArray( 0, 0.7, 1 )
 colors = PoolColorArray( 0.734375, 0.180635, 0.123352, 1, 0.921875, 0.604191, 0.540161, 0.27451, 0.949219, 0.949219, 0.949219, 0 )
 
-[sub_resource type="Animation" id=5]
-resource_name = "Idle"
+[sub_resource type="Animation" id=6]
 length = 9.0
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:position")
@@ -304,7 +291,7 @@ tracks/1/keys = {
 "values": [ 0, 1, 2, 4, 2, 1, 2, 1, 2, 3, 4, 2, 1, 2, 1, 3, 4 ]
 }
 
-[sub_resource type="DynamicFont" id=6]
+[sub_resource type="DynamicFont" id=7]
 size = 200
 outline_size = 15
 outline_color = Color( 0.407843, 0, 1, 1 )
@@ -312,8 +299,7 @@ use_filter = true
 extra_spacing_bottom = 20
 font_data = ExtResource( 9 )
 
-[sub_resource type="Animation" id=7]
-resource_name = "Idle"
+[sub_resource type="Animation" id=8]
 length = 4.0
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:position")
@@ -340,14 +326,14 @@ tracks/1/keys = {
 "values": [ 0.0, -19.5811, -36.3448, 22.6035, 7.34499, 10.6581 ]
 }
 
-[sub_resource type="Curve" id=8]
+[sub_resource type="Curve" id=9]
 _data = [ Vector2( 0, 0.412 ), 0.0, 0.138585, 0, 0, Vector2( 1, 0.7728 ), 1.51742, 0.0, 0, 0 ]
 
-[sub_resource type="Gradient" id=9]
+[sub_resource type="Gradient" id=10]
 offsets = PoolRealArray( 0, 0.211921, 0.476821, 0.688742, 1 )
 colors = PoolColorArray( 1, 1, 1, 1, 1, 0.960938, 0, 1, 1, 0.773438, 0, 1, 1, 0, 0, 1, 0.605469, 0, 0, 0 )
 
-[sub_resource type="StyleBoxFlat" id=10]
+[sub_resource type="StyleBoxFlat" id=11]
 bg_color = Color( 1, 0.772549, 0, 1 )
 border_width_left = 15
 border_width_top = 15
@@ -359,7 +345,7 @@ corner_radius_top_right = 50
 corner_radius_bottom_right = 50
 corner_radius_bottom_left = 50
 
-[sub_resource type="StyleBoxFlat" id=11]
+[sub_resource type="StyleBoxFlat" id=12]
 bg_color = Color( 0.905882, 0.717647, 0.0666667, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -375,21 +361,21 @@ expand_margin_right = 10.0
 expand_margin_top = 5.0
 expand_margin_bottom = 5.0
 
-[sub_resource type="DynamicFont" id=12]
+[sub_resource type="DynamicFont" id=13]
 size = 100
 outline_size = 10
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 29 )
 
-[sub_resource type="DynamicFont" id=13]
+[sub_resource type="DynamicFont" id=14]
 size = 40
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 29 )
 
-[sub_resource type="StyleBoxFlat" id=14]
+[sub_resource type="StyleBoxFlat" id=15]
 bg_color = Color( 0.803922, 0.623529, 0.00392157, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -402,7 +388,7 @@ corner_radius_bottom_right = 50
 corner_radius_bottom_left = 50
 expand_margin_bottom = 5.0
 
-[sub_resource type="StyleBoxFlat" id=15]
+[sub_resource type="StyleBoxFlat" id=16]
 bg_color = Color( 0.0470588, 0, 0.462745, 1 )
 border_width_left = 5
 border_width_top = 5
@@ -414,7 +400,7 @@ corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
-[sub_resource type="StyleBoxFlat" id=16]
+[sub_resource type="StyleBoxFlat" id=17]
 bg_color = Color( 0, 0.623529, 1, 1 )
 border_width_left = 2
 border_width_top = 2
@@ -428,7 +414,7 @@ corner_radius_bottom_left = 30
 expand_margin_left = 20.0
 expand_margin_right = 20.0
 
-[sub_resource type="StyleBoxFlat" id=17]
+[sub_resource type="StyleBoxFlat" id=18]
 bg_color = Color( 0, 0.419608, 0.670588, 1 )
 border_width_left = 2
 border_width_top = 2
@@ -442,7 +428,7 @@ corner_radius_bottom_left = 30
 expand_margin_left = 20.0
 expand_margin_right = 20.0
 
-[sub_resource type="StyleBoxFlat" id=18]
+[sub_resource type="StyleBoxFlat" id=19]
 bg_color = Color( 0.447059, 0, 0.85098, 1 )
 border_width_left = 5
 border_width_top = 5
@@ -456,21 +442,21 @@ corner_radius_bottom_left = 20
 expand_margin_left = 15.0
 expand_margin_right = 15.0
 
-[sub_resource type="Theme" id=19]
-VScrollBar/styles/ = SubResource( 15 )
-VScrollBar/styles/grabber = SubResource( 16 )
-VScrollBar/styles/grabber_highlight = SubResource( 17 )
-VScrollBar/styles/grabber_pressed = SubResource( 17 )
-VScrollBar/styles/scroll = SubResource( 18 )
+[sub_resource type="Theme" id=20]
+VScrollBar/styles/ = SubResource( 16 )
+VScrollBar/styles/grabber = SubResource( 17 )
+VScrollBar/styles/grabber_highlight = SubResource( 18 )
+VScrollBar/styles/grabber_pressed = SubResource( 18 )
+VScrollBar/styles/scroll = SubResource( 19 )
 
-[sub_resource type="DynamicFont" id=20]
+[sub_resource type="DynamicFont" id=21]
 size = 80
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 29 )
 
-[sub_resource type="StyleBoxFlat" id=21]
+[sub_resource type="StyleBoxFlat" id=22]
 bg_color = Color( 0.541176, 0.164706, 0.772549, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -481,8 +467,10 @@ corner_radius_top_left = 40
 corner_radius_top_right = 40
 corner_radius_bottom_right = 40
 corner_radius_bottom_left = 40
+shadow_color = Color( 0, 0, 0, 0.258824 )
+shadow_size = 10
 
-[sub_resource type="StyleBoxFlat" id=22]
+[sub_resource type="StyleBoxFlat" id=23]
 bg_color = Color( 0, 0.694118, 1, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -498,35 +486,21 @@ expand_margin_bottom = 2.0
 shadow_color = Color( 0, 0, 0, 0.25098 )
 shadow_size = 10
 
-[sub_resource type="DynamicFont" id=23]
+[sub_resource type="DynamicFont" id=24]
 size = 60
 outline_size = 7
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 29 )
 
-[sub_resource type="StyleBoxFlat" id=24]
-bg_color = Color( 0.952941, 0.886275, 0.168627, 1 )
-border_width_left = 10
-border_width_top = 10
-border_width_right = 10
-border_width_bottom = 10
-border_color = Color( 0.909804, 0.662745, 0.00392157, 1 )
-corner_radius_top_left = 30
-corner_radius_top_right = 30
-corner_radius_bottom_right = 30
-corner_radius_bottom_left = 30
-shadow_color = Color( 0, 0, 0, 0.239216 )
-shadow_size = 10
-
-[sub_resource type="DynamicFont" id=25]
-size = 50
-outline_size = 8
+[sub_resource type="DynamicFont" id=26]
+size = 56
+outline_size = 3
 outline_color = Color( 0, 0, 0, 1 )
-extra_spacing_char = 1
+use_filter = true
 font_data = ExtResource( 29 )
 
-[sub_resource type="StyleBoxFlat" id=26]
+[sub_resource type="StyleBoxFlat" id=27]
 bg_color = Color( 0.00392157, 0.552941, 0.109804, 1 )
 border_width_bottom = 10
 border_color = Color( 0.054902, 0.545098, 0, 1 )
@@ -537,7 +511,7 @@ corner_radius_bottom_left = 20
 shadow_color = Color( 0, 0, 0, 0.239216 )
 shadow_size = 10
 
-[sub_resource type="StyleBoxFlat" id=27]
+[sub_resource type="StyleBoxFlat" id=28]
 bg_color = Color( 0, 0.894118, 0.156863, 1 )
 border_width_bottom = 10
 border_color = Color( 0.054902, 0.545098, 0, 1 )
@@ -548,21 +522,21 @@ corner_radius_bottom_left = 20
 shadow_color = Color( 0, 0, 0, 0.239216 )
 shadow_size = 10
 
-[sub_resource type="DynamicFont" id=28]
+[sub_resource type="DynamicFont" id=29]
 size = 69
 outline_size = 8
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 29 )
 
-[sub_resource type="DynamicFont" id=29]
+[sub_resource type="DynamicFont" id=30]
 size = 28
 outline_size = 3
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 29 )
 
-[sub_resource type="Animation" id=30]
+[sub_resource type="Animation" id=31]
 length = 8.8
 tracks/0/type = "value"
 tracks/0/path = NodePath("Player:position")
@@ -627,7 +601,7 @@ tracks/4/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=31]
+[sub_resource type="Animation" id=32]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("FadeTexture:modulate")
@@ -642,7 +616,7 @@ tracks/0/keys = {
 "values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
 }
 
-[sub_resource type="Animation" id=32]
+[sub_resource type="Animation" id=33]
 length = 4.5
 loop = true
 tracks/0/type = "value"
@@ -670,7 +644,7 @@ tracks/1/keys = {
 "values": [ 0, 1, 0, 1, 0 ]
 }
 
-[sub_resource type="Animation" id=33]
+[sub_resource type="Animation" id=34]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Player:position")
 tracks/0/interp = 1
@@ -726,7 +700,7 @@ texture = ExtResource( 5 )
 
 [node name="Anim" type="AnimationPlayer" parent="Background"]
 autoplay = "Cycle"
-anims/Cycle = SubResource( 34 )
+anims/Cycle = SubResource( 2 )
 
 [node name="House" type="TextureRect" parent="."]
 editor/display_folded = true
@@ -762,7 +736,7 @@ angle = 360.0
 angle_random = 1.0
 scale_amount = 4.0
 scale_amount_random = 0.2
-color_ramp = SubResource( 2 )
+color_ramp = SubResource( 3 )
 
 [node name="RoofParticles" type="CPUParticles2D" parent="House"]
 position = Vector2( 946.338, 744.181 )
@@ -785,8 +759,8 @@ angle = 360.0
 angle_random = 1.0
 scale_amount = 5.0
 scale_amount_random = 0.2
-scale_amount_curve = SubResource( 3 )
-color_ramp = SubResource( 4 )
+scale_amount_curve = SubResource( 4 )
+color_ramp = SubResource( 5 )
 
 [node name="Bird" type="Sprite" parent="."]
 editor/display_folded = true
@@ -798,7 +772,7 @@ hframes = 5
 frame = 2
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Bird"]
-anims/Idle = SubResource( 5 )
+anims/Idle = SubResource( 6 )
 
 [node name="BTimer" type="Timer" parent="Bird"]
 wait_time = 15.0
@@ -811,7 +785,7 @@ margin_left = -535.0
 margin_top = 70.0
 margin_right = 536.0
 margin_bottom = 605.0
-custom_fonts/font = SubResource( 6 )
+custom_fonts/font = SubResource( 7 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_x = 25
@@ -829,14 +803,13 @@ scale = Vector2( 2, 2 )
 texture = ExtResource( 10 )
 
 [node name="Anim" type="AnimationPlayer" parent="PaperPlane"]
-anims/Idle = SubResource( 7 )
+anims/Idle = SubResource( 8 )
 
 [node name="PTimer" type="Timer" parent="PaperPlane"]
 wait_time = 10.0
 autostart = true
 
 [node name="PawCat" type="TextureRect" parent="."]
-editor/display_folded = true
 self_modulate = Color( 0.521569, 0, 1, 1 )
 anchor_left = 0.5
 anchor_top = 0.5
@@ -934,6 +907,17 @@ texture_pressed = ExtResource( 23 )
 expand = true
 stretch_mode = 5
 
+[node name="Shadow" type="TextureRect" parent="PawCat"]
+modulate = Color( 0, 0, 0, 0.156863 )
+show_behind_parent = true
+margin_left = 16.2988
+margin_top = 3.0
+margin_right = 767.299
+margin_bottom = 773.0
+texture = ExtResource( 11 )
+expand = true
+stretch_mode = 6
+
 [node name="Player" type="Node2D" parent="."]
 editor/display_folded = true
 position = Vector2( 781.834, 1559.8 )
@@ -963,8 +947,8 @@ initial_velocity = 20.0
 initial_velocity_random = 0.8
 damping = 20.0
 scale_amount = 6.0
-scale_amount_curve = SubResource( 8 )
-color_ramp = SubResource( 9 )
+scale_amount_curve = SubResource( 9 )
+color_ramp = SubResource( 10 )
 
 [node name="Pattern" type="Sprite" parent="Player/Skin"]
 
@@ -1002,7 +986,7 @@ margin_left = -485.0
 margin_top = -873.5
 margin_right = 485.0
 margin_bottom = 873.5
-custom_styles/panel = SubResource( 10 )
+custom_styles/panel = SubResource( 11 )
 
 [node name="Title" type="Label" parent="Leaderboard"]
 anchor_left = 0.5
@@ -1011,8 +995,8 @@ margin_left = -340.0
 margin_top = 43.5
 margin_right = 326.0
 margin_bottom = 183.5
-custom_styles/normal = SubResource( 11 )
-custom_fonts/font = SubResource( 12 )
+custom_styles/normal = SubResource( 12 )
+custom_fonts/font = SubResource( 13 )
 text = "LEADERBOARD"
 align = 1
 
@@ -1023,8 +1007,8 @@ margin_left = -456.0
 margin_top = 213.5
 margin_right = 457.0
 margin_bottom = 282.5
-custom_fonts/font = SubResource( 13 )
-text = "  POS  NAME                                   SCORE  COMBO"
+custom_fonts/font = SubResource( 14 )
+text = "  POS  NAME                                                  SCORE "
 valign = 1
 
 [node name="Leaders" type="Panel" parent="Leaderboard"]
@@ -1039,7 +1023,7 @@ margin_right = 204.8
 margin_bottom = 735.5
 rect_clip_content = true
 mouse_filter = 1
-custom_styles/panel = SubResource( 14 )
+custom_styles/panel = SubResource( 15 )
 
 [node name="SC" type="ScrollContainer" parent="Leaderboard/Leaders"]
 anchor_left = 0.5
@@ -1052,7 +1036,7 @@ margin_right = 427.5
 margin_bottom = 630.5
 rect_clip_content = false
 mouse_filter = 1
-theme = SubResource( 19 )
+theme = SubResource( 20 )
 scroll_horizontal_enabled = false
 
 [node name="ItemList" type="GridContainer" parent="Leaderboard/Leaders/SC"]
@@ -1070,7 +1054,7 @@ margin_left = -440.0
 margin_top = -50.5
 margin_right = 440.0
 margin_bottom = 50.5
-custom_fonts/font = SubResource( 20 )
+custom_fonts/font = SubResource( 21 )
 align = 1
 
 [node name="CloseLeaderButton" type="TextureButton" parent="Leaderboard"]
@@ -1099,7 +1083,7 @@ margin_left = -400.0
 margin_top = -220.0
 margin_right = 400.0
 margin_bottom = 250.0
-custom_styles/panel = SubResource( 21 )
+custom_styles/panel = SubResource( 22 )
 
 [node name="Title" type="Label" parent="NicknamePanel"]
 anchor_left = 0.5
@@ -1108,8 +1092,8 @@ margin_left = -345.5
 margin_top = 27.0
 margin_right = 345.5
 margin_bottom = 120.0
-custom_styles/normal = SubResource( 22 )
-custom_fonts/font = SubResource( 23 )
+custom_styles/normal = SubResource( 23 )
+custom_fonts/font = SubResource( 24 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_x = 9
@@ -1124,20 +1108,22 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -375.0
 margin_top = -59.0
-margin_right = 375.0
+margin_right = 370.0
 margin_bottom = 59.0
 custom_icons/clear = ExtResource( 22 )
-custom_styles/normal = SubResource( 24 )
-custom_fonts/font = SubResource( 25 )
-custom_colors/font_color_selected = Color( 0.47451, 0.937255, 0.945098, 1 )
+custom_styles/normal = SubResource( 23 )
+custom_fonts/font = SubResource( 26 )
+custom_colors/font_color_selected = Color( 0, 0, 0, 1 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 align = 1
 max_length = 30
 placeholder_text = "YOUR NICKNAME"
-placeholder_alpha = 0.387
+placeholder_alpha = 0.763
 caret_blink = true
+caret_blink_speed = 0.12
 
 [node name="AcceptButton" type="Button" parent="NicknamePanel"]
+visible = false
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -1146,10 +1132,10 @@ margin_left = -130.0
 margin_top = -131.0
 margin_right = 130.0
 margin_bottom = -28.0
-custom_styles/hover = SubResource( 26 )
-custom_styles/pressed = SubResource( 26 )
-custom_styles/normal = SubResource( 27 )
-custom_fonts/font = SubResource( 28 )
+custom_styles/hover = SubResource( 27 )
+custom_styles/pressed = SubResource( 27 )
+custom_styles/normal = SubResource( 28 )
+custom_fonts/font = SubResource( 29 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "NEXT"
 
@@ -1160,16 +1146,16 @@ margin_left = 5.0
 margin_top = -60.0
 margin_right = 395.0
 margin_bottom = -26.0
-custom_fonts/font = SubResource( 29 )
+custom_fonts/font = SubResource( 30 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "Version"
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Start"
-anims/Easter = SubResource( 30 )
-anims/FadeOut = SubResource( 31 )
-anims/Idle = SubResource( 32 )
-anims/Start = SubResource( 33 )
+anims/Easter = SubResource( 31 )
+anims/FadeOut = SubResource( 32 )
+anims/Idle = SubResource( 33 )
+anims/Start = SubResource( 34 )
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 

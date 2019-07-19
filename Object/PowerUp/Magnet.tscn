@@ -36,13 +36,13 @@ func _on_VisibilityNotifier2D_screen_exited():
 [sub_resource type="ShaderMaterial" id=2]
 shader = ExtResource( 1 )
 shader_param/outline_width = 0.7
-shader_param/outline_color = Color( 0, 0, 0, 1 )
+shader_param/outline_color = Color( 1, 1, 1, 0.0470588 )
 
 [sub_resource type="CircleShape2D" id=3]
 radius = 40.1264
 
 [sub_resource type="Animation" id=4]
-length = 1.4
+length = 1.2
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:rotation_degrees")
@@ -51,22 +51,22 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.7 ),
+"times": PoolRealArray( 0, 0.6 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ 32.4491, -26.233 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Sprite:scale")
+tracks/1/path = NodePath("Sprite:material:shader_param/outline_color")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0.4, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 0.3, 0.6, 0.9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 2, 2 ), Vector2( 2.5, 2.5 ) ]
+"values": [ Color( 1, 1, 1, 0.0470588 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.0235294 ), Color( 1, 1, 1, 1 ) ]
 }
 
 [sub_resource type="Animation" id=5]
@@ -116,7 +116,7 @@ script = SubResource( 1 )
 material = SubResource( 2 )
 position = Vector2( -0.26564, -4.54848 )
 rotation = 0.566344
-scale = Vector2( 2.25, 2.25 )
+scale = Vector2( 2, 2 )
 texture = ExtResource( 2 )
 offset = Vector2( 0.26564, 4.54848 )
 

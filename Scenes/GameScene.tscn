@@ -1,53 +1,55 @@
-[gd_scene load_steps=81 format=2]
+[gd_scene load_steps=79 format=2]
 
 [ext_resource path="res://Sprites/Background/HouseBroken.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Background/House.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/Background/SmokeParticle.png" type="Texture" id=3]
-[ext_resource path="res://Sprites/Background/Bg1.png" type="Texture" id=4]
-[ext_resource path="res://Sprites/Background/Bg2.png" type="Texture" id=5]
-[ext_resource path="res://Sprites/Background/Star2.png" type="Texture" id=6]
-[ext_resource path="res://Sprites/Background/Bg3.png" type="Texture" id=7]
-[ext_resource path="res://Sprites/Background/Star3.png" type="Texture" id=8]
-[ext_resource path="res://Object/Player.tscn" type="PackedScene" id=9]
-[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=10]
-[ext_resource path="res://Sprites/Collectables/Coin.png" type="Texture" id=11]
-[ext_resource path="res://Sprites/Collectables/Fish.png" type="Texture" id=12]
-[ext_resource path="res://Shaders/outline.shader" type="Shader" id=13]
-[ext_resource path="res://Sprites/UI/FuelFire.png" type="Texture" id=14]
-[ext_resource path="res://Sprites/UI/PauseButton.png" type="Texture" id=15]
-[ext_resource path="res://Sprites/UI/PauseButtonPressed.png" type="Texture" id=16]
-[ext_resource path="res://Sprites/Tutorial/PawTutorial.png" type="Texture" id=17]
-[ext_resource path="res://Sprites/UI/HomeButton.png" type="Texture" id=18]
-[ext_resource path="res://Sprites/UI/HomeButtonPressed.png" type="Texture" id=19]
-[ext_resource path="res://Sprites/UI/ConfigButton.png" type="Texture" id=20]
-[ext_resource path="res://Sprites/UI/ConfigButtonPressed.png" type="Texture" id=21]
-[ext_resource path="res://Sprites/UI/ContinueButton.png" type="Texture" id=22]
-[ext_resource path="res://Sprites/UI/ContinueButtonPressed.png" type="Texture" id=23]
-[ext_resource path="res://Scenes/ConfigPanel.tscn" type="PackedScene" id=24]
-[ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=25]
-[ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=26]
-[ext_resource path="res://Sprites/Cat/CatHead.png" type="Texture" id=27]
-[ext_resource path="res://Object/Misc/CollectableSpawner.tscn" type="PackedScene" id=28]
-[ext_resource path="res://Object/Collectable/Fish.tscn" type="PackedScene" id=29]
-[ext_resource path="res://Object/Collectable/CoinCluster.tscn" type="PackedScene" id=30]
-[ext_resource path="res://Object/Misc/EnemySpawner.tscn" type="PackedScene" id=31]
-[ext_resource path="res://Object/Enemies/PaperPlane.tscn" type="PackedScene" id=32]
-[ext_resource path="res://Object/Enemies/Bird.tscn" type="PackedScene" id=33]
-[ext_resource path="res://Object/Enemies/Condor.tscn" type="PackedScene" id=34]
-[ext_resource path="res://Object/Enemies/Ovni.tscn" type="PackedScene" id=35]
-[ext_resource path="res://Object/Misc/OrbitSpawner.tscn" type="PackedScene" id=36]
-[ext_resource path="res://Object/Ribbon/Ribbon.tscn" type="PackedScene" id=37]
-[ext_resource path="res://Object/Misc/PowerUpSpawner.tscn" type="PackedScene" id=38]
-[ext_resource path="res://Object/PowerUp/AegisWings.tscn" type="PackedScene" id=39]
-[ext_resource path="res://Object/PowerUp/Magnet.tscn" type="PackedScene" id=40]
-[ext_resource path="res://Sounds/Music/CCF Theme.ogg" type="AudioStream" id=41]
+[ext_resource path="res://Sprites/Shop/Cat/Skin/Skin.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/Background/Bg1.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/Background/Bg2.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/Background/Star2.png" type="Texture" id=7]
+[ext_resource path="res://Sprites/Background/Bg3.png" type="Texture" id=8]
+[ext_resource path="res://Sprites/Background/Star3.png" type="Texture" id=9]
+[ext_resource path="res://Object/Player.tscn" type="PackedScene" id=10]
+[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=11]
+[ext_resource path="res://Sprites/Collectables/Coin.png" type="Texture" id=12]
+[ext_resource path="res://Sprites/Collectables/Fish.png" type="Texture" id=13]
+[ext_resource path="res://Shaders/outline.shader" type="Shader" id=14]
+[ext_resource path="res://Sprites/UI/FuelFire.png" type="Texture" id=15]
+[ext_resource path="res://Sprites/UI/BarBack.png" type="Texture" id=16]
+[ext_resource path="res://Sprites/UI/PauseButton.png" type="Texture" id=17]
+[ext_resource path="res://Sprites/UI/PauseButtonPressed.png" type="Texture" id=18]
+[ext_resource path="res://Sprites/Tutorial/PawTutorial.png" type="Texture" id=19]
+[ext_resource path="res://Sprites/UI/HomeButton.png" type="Texture" id=20]
+[ext_resource path="res://Sprites/UI/HomeButtonPressed.png" type="Texture" id=21]
+[ext_resource path="res://Sprites/UI/ConfigButton.png" type="Texture" id=22]
+[ext_resource path="res://Sprites/UI/ConfigButtonPressed.png" type="Texture" id=23]
+[ext_resource path="res://Sprites/UI/ContinueButton.png" type="Texture" id=24]
+[ext_resource path="res://Sprites/UI/ContinueButtonPressed.png" type="Texture" id=25]
+[ext_resource path="res://Scenes/ConfigPanel.tscn" type="PackedScene" id=26]
+[ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=27]
+[ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=28]
+[ext_resource path="res://Sprites/Cat/CatHead.png" type="Texture" id=29]
+[ext_resource path="res://Object/Misc/CollectableSpawner.tscn" type="PackedScene" id=30]
+[ext_resource path="res://Object/Collectable/Fish.tscn" type="PackedScene" id=31]
+[ext_resource path="res://Object/Collectable/CoinCluster.tscn" type="PackedScene" id=32]
+[ext_resource path="res://Object/Misc/EnemySpawner.tscn" type="PackedScene" id=33]
+[ext_resource path="res://Object/Enemies/PaperPlane.tscn" type="PackedScene" id=34]
+[ext_resource path="res://Object/Enemies/Bird.tscn" type="PackedScene" id=35]
+[ext_resource path="res://Object/Enemies/Condor.tscn" type="PackedScene" id=36]
+[ext_resource path="res://Object/Enemies/Ovni.tscn" type="PackedScene" id=37]
+[ext_resource path="res://Object/Misc/OrbitSpawner.tscn" type="PackedScene" id=38]
+[ext_resource path="res://Object/PowerUp/FuelCan.tscn" type="PackedScene" id=39]
+[ext_resource path="res://Object/Misc/PowerUpSpawner.tscn" type="PackedScene" id=40]
+[ext_resource path="res://Object/PowerUp/AegisWings.tscn" type="PackedScene" id=41]
+[ext_resource path="res://Object/PowerUp/Magnet.tscn" type="PackedScene" id=42]
+[ext_resource path="res://Sounds/Music/CCF Theme.ogg" type="AudioStream" id=43]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node
 
 var playing : bool = false
 var player_height : int = 0
-var combos : int = 0
+var fuel : int = 0
 var end_play : bool = false
 var highscore_passed : bool = false
 export (Texture) var house_broken
@@ -66,24 +68,19 @@ func _ready():
 func _input(event):
 	if event is InputEventKey and !event.is_echo() and event.is_pressed():
 		if event.scancode == KEY_1:
-			add_combo(true)
+			add_fuel()
+	pass
 
 func start_game():
 	playing = !playing
 	GameManager.playing = playing
 	pass
 
-func add_combo(activated):
-	if activated:
-		combos += 1
-		if combos % 10 == 0:
-			$Player.combo_master()
-		$UIGame.combo_fuel(combos)
-	else:
-		if GameManager.combos < combos:
-			GameManager.combos = combos
-		combos = 0
-		$UIGame.failed_combo(combos)
+func add_fuel():
+	fuel += 1
+	if fuel % 10 == 0:
+		$Player.fuel_master()
+	$UIGame.add_fuel(fuel)
 	pass
 
 func add_fish(val):
@@ -108,8 +105,7 @@ func end_game():
 	if GameManager.highscore < player_height:
 		GameManager.highscore = player_height
 		highscore_passed = true
-	if GameManager.combos < combos:
-		GameManager.combos = combos
+	GameManager.fuel = fuel
 	playing = !playing
 	$UIGame.show_deadpanel()
 	GameManager.tutorial_done = true
@@ -161,7 +157,7 @@ func _on_Height_gui_input(event):
 
 func on_player_invencible(val):
 	$EnemySpawner.set_active(!val)
-	$RibbonSpawner.set_active(!val)
+	$FuelCanSpawner.set_active(!val)
 	$CollectableSpawner.set_height_if_invencible(val)
 	pass
 
@@ -174,7 +170,7 @@ func _on_ToggleCollectables_toggled(button_pressed):
 	pass # Replace with function body.
 
 func _on_ToggleRibbons_toggled(button_pressed):
-	$RibbonSpawner.activated = button_pressed
+	$FuelCanSpawner.activated = button_pressed
 	pass # Replace with function body.
 
 func _on_Music_toggled(button_pressed):
@@ -186,7 +182,7 @@ func _on_Music_toggled(button_pressed):
 	pass # Replace with function body.
 
 func _on_ComboButton_button_down():
-	add_combo(true)
+	add_fuel()
 	pass # Replace with function body.
 "
 
@@ -197,7 +193,13 @@ func _on_VisibilityNotifier2D_screen_exited():
 	$CPUParticles2D.emitting = false
 	queue_free()
 	pass # Replace with function body.
-"
+
+func _process(delta):
+	var dist = $CatShadow.position.distance_to(GameManager.player.position)
+	$CatShadow.modulate.a = 100/dist
+	$CatShadow.position.x = GameManager.player.position.x
+	$CatShadow.scale.x = $CatShadow.scale.x * GameManager.player.scale.x
+	pass"
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 51.2298, 12.5829 )
@@ -246,7 +248,7 @@ func _ready():
 	$UI/PausePanel.hide()
 	$UI/DeadPanel.hide()
 	$UI/Transition/Anim.play('FadeOut')
-	$UI/FuelBar.value = get_parent().combos
+	$UI/FuelBar.value = 0
 	pass
 
 func _process(delta):
@@ -325,26 +327,27 @@ func failed_to_upload_highscore():
 	$UI/DeadPanel/Error.show()
 	pass
 
-func combo_fuel(val):
-	$UI/UpperPanel/ComboPanel/ComboLabel/CLabel.text = str(val)
-	$UI/UpperPanel/ComboPanel/ComboLabel/Anim.play('AddCombo')
+func add_fuel(val):
 	$UI/FuelBar/Tween.stop_all()
 	if val % 10 == 0 and val != 0:
 		$UI/FuelBar/Tween.interpolate_property($UI/FuelBar, 'value', $UI/FuelBar.value, $UI/FuelBar.max_value, 1,Tween.TRANS_EXPO,Tween.EASE_OUT)
 		$UI/FuelBar/Tween.interpolate_property($UI/FuelBar, 'value', $UI/FuelBar.max_value, $UI/FuelBar.min_value, get_parent().get_node('Player').invencible_time -1,Tween.TRANS_LINEAR,Tween.EASE_IN,1)
 		$UI/FuelBar/Anim.play('Pump')
+		$UI/FuelBar/BackFuelBar.modulate = Color(1,1,1,0)
+		$UI/FuelBar/BackFuelBar/Tween.stop_all()
 	else:
 		$UI/FuelBar/Tween.interpolate_property($UI/FuelBar, 'value', $UI/FuelBar.value, val % int($UI/FuelBar.max_value), 1,Tween.TRANS_EXPO,Tween.EASE_OUT)
 		$UI/FuelBar/Anim.play('AddCombo')
+		start_backfuelbar_tween(val)
 	$UI/FuelBar/Tween.start()
+	pass
 
-func failed_combo(val):
-	$UI/UpperPanel/ComboPanel/ComboLabel/CLabel.text = str(0)
-	$UI/FuelBar/Tween.stop_all()
-	$UI/FuelBar/Tween.interpolate_property($UI/FuelBar, 'value', $UI/FuelBar.value, 0, 1,Tween.TRANS_EXPO,Tween.EASE_IN)
-	$UI/FuelBar/Tween.start()
-	$UI/FuelBar/Anim.play('Failed')
-	$UI/FuelBar/Anim.queue('Idle')
+func start_backfuelbar_tween(val):
+	$UI/FuelBar/BackFuelBar/Tween.interpolate_property($UI/FuelBar/BackFuelBar, 'modulate',
+							Color(1,1,1,0), Color(1,1,1,float(val % 10)/10), 0.5,Tween.TRANS_LINEAR,Tween.EASE_OUT) 
+	$UI/FuelBar/BackFuelBar/Tween.interpolate_property($UI/FuelBar/BackFuelBar, 'modulate',
+							Color(1,1,1,float(val % 10)/10), Color(1,1,1,0), 0.5,Tween.TRANS_LINEAR,Tween.EASE_OUT,0.5) 
+	$UI/FuelBar/BackFuelBar/Tween.start()
 	pass
 
 func set_tutorial_done():
@@ -357,7 +360,7 @@ size = 86
 outline_size = 6
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
-font_data = ExtResource( 10 )
+font_data = ExtResource( 11 )
 
 [sub_resource type="StyleBoxFlat" id=8]
 bg_color = Color( 0.4, 0.00392157, 0.580392, 1 )
@@ -371,42 +374,24 @@ expand_margin_left = 30.0
 expand_margin_right = 110.0
 shadow_size = 6
 
-[sub_resource type="DynamicFont" id=9]
-size = 42
-outline_size = 6
+[sub_resource type="DynamicFont" id=14]
+size = 72
+outline_size = 4
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
-font_data = ExtResource( 10 )
+extra_spacing_char = 2
+font_data = ExtResource( 11 )
 
-[sub_resource type="DynamicFont" id=10]
-size = 42
-outline_size = 6
-outline_color = Color( 0, 0, 0, 1 )
-use_filter = true
-font_data = ExtResource( 10 )
-
-[sub_resource type="Animation" id=11]
-resource_name = "AddCombo"
+[sub_resource type="Animation" id=15]
+resource_name = "AddCoin"
 length = 0.5
 tracks/0/type = "value"
-tracks/0/path = NodePath("CLabel:rect_position")
+tracks/0/path = NodePath("Coin:rect_scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.3, 0.5 ),
-"transitions": PoolRealArray( 0.5, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 172, 11 ), Vector2( 150, 0 ), Vector2( 172, 11 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("CLabel:rect_scale")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
 "times": PoolRealArray( 0, 0.3, 0.5 ),
 "transitions": PoolRealArray( 0.5, 1, 1 ),
 "update": 0,
@@ -427,49 +412,13 @@ expand_margin_top = 6.0
 expand_margin_bottom = 6.0
 shadow_size = 6
 
-[sub_resource type="StyleBoxFlat" id=13]
-bg_color = Color( 0.4, 0.00392157, 0.580392, 1 )
-border_width_top = 10
-border_width_right = 10
-border_width_bottom = 10
-border_color = Color( 0.266667, 0, 0.403922, 1 )
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-expand_margin_left = 30.0
-expand_margin_right = 115.0
-shadow_size = 6
-
-[sub_resource type="DynamicFont" id=14]
-size = 72
-outline_size = 4
-outline_color = Color( 0, 0, 0, 1 )
-use_filter = true
-extra_spacing_char = 2
-font_data = ExtResource( 10 )
-
-[sub_resource type="Animation" id=15]
-resource_name = "AddCoin"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/path = NodePath("Coin:rect_scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.3, 0.5 ),
-"transitions": PoolRealArray( 0.5, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 1, 1 ), Vector2( 1.5, 1.5 ), Vector2( 1, 1 ) ]
-}
-
 [sub_resource type="DynamicFont" id=16]
 size = 72
 outline_size = 4
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 extra_spacing_char = 2
-font_data = ExtResource( 10 )
+font_data = ExtResource( 11 )
 
 [sub_resource type="Animation" id=17]
 length = 0.5
@@ -676,7 +625,7 @@ tracks/2/keys = {
 }
 
 [sub_resource type="ShaderMaterial" id=24]
-shader = ExtResource( 13 )
+shader = ExtResource( 14 )
 shader_param/outline_width = 0.5
 shader_param/outline_color = Color( 0, 0, 0, 1 )
 
@@ -740,7 +689,7 @@ size = 18
 outline_size = 2
 outline_color = Color( 0.0901961, 0.0901961, 0.0901961, 1 )
 use_filter = true
-font_data = ExtResource( 10 )
+font_data = ExtResource( 11 )
 
 [sub_resource type="StyleBoxFlat" id=28]
 bg_color = Color( 0.482353, 0, 0.67451, 1 )
@@ -759,14 +708,14 @@ size = 80
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
-font_data = ExtResource( 10 )
+font_data = ExtResource( 11 )
 
 [sub_resource type="DynamicFont" id=30]
 size = 400
 outline_size = 20
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
-font_data = ExtResource( 10 )
+font_data = ExtResource( 11 )
 
 [sub_resource type="Animation" id=31]
 length = 3.5
@@ -864,7 +813,7 @@ size = 80
 outline_size = 6
 outline_color = Color( 1, 0.952941, 0.952941, 1 )
 use_filter = true
-font_data = ExtResource( 10 )
+font_data = ExtResource( 11 )
 
 [sub_resource type="DynamicFont" id=34]
 size = 60
@@ -872,7 +821,7 @@ outline_size = 6
 outline_color = Color( 0, 0, 0, 1 )
 use_mipmaps = true
 use_filter = true
-font_data = ExtResource( 10 )
+font_data = ExtResource( 11 )
 
 [sub_resource type="Animation" id=35]
 length = 2.0
@@ -1008,18 +957,17 @@ tracks/4/keys = {
 
 [sub_resource type="DynamicFont" id=38]
 size = 32
-font_data = ExtResource( 10 )
+font_data = ExtResource( 11 )
 
 [sub_resource type="DynamicFont" id=39]
 size = 32
-font_data = ExtResource( 10 )
+font_data = ExtResource( 11 )
 
 [node name="GameScene" type="Node"]
 script = SubResource( 1 )
 house_broken = ExtResource( 1 )
 
 [node name="House" type="Node2D" parent="."]
-editor/display_folded = true
 script = SubResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="House"]
@@ -1029,7 +977,7 @@ texture = ExtResource( 2 )
 
 [node name="StaticBody2D" type="StaticBody2D" parent="House"]
 editor/display_folded = true
-position = Vector2( 540.76, 208.427 )
+position = Vector2( 542.192, 239.93 )
 scale = Vector2( 12, 12 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="House/StaticBody2D"]
@@ -1063,6 +1011,13 @@ color_ramp = SubResource( 4 )
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="House"]
 position = Vector2( 539.258, -643.115 )
 
+[node name="CatShadow" type="Sprite" parent="House"]
+modulate = Color( 0, 0, 0, 0.27451 )
+position = Vector2( 537.16, 111.432 )
+rotation = 3.14159
+scale = Vector2( 3.21969, 0.509004 )
+texture = ExtResource( 4 )
+
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 editor/display_folded = true
 script = SubResource( 5 )
@@ -1073,7 +1028,7 @@ motion_mirroring = Vector2( 1080, 1920 )
 
 [node name="Bg1" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
 self_modulate = Color( 0.588837, 0.438385, 0.664063, 1 )
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 centered = false
 
 [node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
@@ -1082,12 +1037,12 @@ motion_scale = Vector2( 1, 0.2 )
 motion_mirroring = Vector2( 0, 1920 )
 
 [node name="Cloud1" type="Sprite" parent="ParallaxBackground/ParallaxLayer2"]
-texture = ExtResource( 5 )
+texture = ExtResource( 6 )
 centered = false
 
 [node name="Star1" type="Sprite" parent="ParallaxBackground/ParallaxLayer2"]
 modulate = Color( 1, 1, 1, 0 )
-texture = ExtResource( 6 )
+texture = ExtResource( 7 )
 centered = false
 
 [node name="ParallaxLayer3" type="ParallaxLayer" parent="ParallaxBackground"]
@@ -1096,17 +1051,17 @@ motion_scale = Vector2( 1, 0.3 )
 motion_mirroring = Vector2( 0, 1920 )
 
 [node name="Cloud2" type="Sprite" parent="ParallaxBackground/ParallaxLayer3"]
-texture = ExtResource( 7 )
+texture = ExtResource( 8 )
 centered = false
 
 [node name="Star2" type="Sprite" parent="ParallaxBackground/ParallaxLayer3"]
 self_modulate = Color( 1, 1, 1, 0 )
-texture = ExtResource( 8 )
+texture = ExtResource( 9 )
 centered = false
 
 [node name="Tween" type="Tween" parent="ParallaxBackground"]
 
-[node name="Player" parent="." instance=ExtResource( 9 )]
+[node name="Player" parent="." instance=ExtResource( 10 )]
 position = Vector2( 559.5, 830 )
 
 [node name="UIGame" type="CanvasLayer" parent="."]
@@ -1115,12 +1070,12 @@ script = SubResource( 6 )
 
 [node name="UI" type="Control" parent="UIGame"]
 pause_mode = 2
-editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 
 [node name="UpperPanel" type="Control" parent="UIGame/UI"]
+editor/display_folded = true
 anchor_right = 1.0
 margin_bottom = 284.0
 
@@ -1173,61 +1128,8 @@ custom_styles/panelf = SubResource( 8 )
 custom_styles/panel = SubResource( 8 )
 custom_styles/panelnc = SubResource( 8 )
 
-[node name="ComboPanel" type="Control" parent="UIGame/UI/UpperPanel"]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_left = 10.0
-margin_top = -140.0
-margin_right = 370.0
-margin_bottom = -24.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="ComboLabel" type="Label" parent="UIGame/UI/UpperPanel/ComboPanel"]
-editor/display_folded = true
-anchor_top = 0.5
-anchor_bottom = 0.5
-margin_left = 20.0
-margin_top = -42.0
-margin_right = 146.0
-margin_bottom = 31.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_fonts/font = SubResource( 9 )
-text = "COMBO"
-valign = 1
-
-[node name="CLabel" type="Label" parent="UIGame/UI/UpperPanel/ComboPanel/ComboLabel"]
-self_modulate = Color( 1, 0.843137, 0, 1 )
-anchor_top = 0.5
-anchor_bottom = 0.5
-margin_left = 172.0
-margin_top = -25.5
-margin_right = 216.0
-margin_bottom = 25.5
-grow_horizontal = 0
-grow_vertical = 0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_fonts/font = SubResource( 10 )
-text = "0"
-align = 2
-valign = 1
-
-[node name="Anim" type="AnimationPlayer" parent="UIGame/UI/UpperPanel/ComboPanel/ComboLabel"]
-anims/AddCombo = SubResource( 11 )
-
-[node name="ComboPanel" type="Panel" parent="UIGame/UI/UpperPanel/ComboPanel/ComboLabel"]
-show_behind_parent = true
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 0
-grow_vertical = 0
-custom_styles/panelf = SubResource( 12 )
-custom_styles/panel = SubResource( 13 )
-custom_styles/panelnc = SubResource( 12 )
-
 [node name="CoinPanel" type="Control" parent="UIGame/UI/UpperPanel"]
+editor/display_folded = true
 show_behind_parent = true
 anchor_left = 1.0
 anchor_right = 1.0
@@ -1271,7 +1173,7 @@ grow_horizontal = 0
 grow_vertical = 0
 rect_min_size = Vector2( 76, 76 )
 rect_pivot_offset = Vector2( 38, 39 )
-texture = ExtResource( 11 )
+texture = ExtResource( 12 )
 expand = true
 stretch_mode = 6
 
@@ -1335,7 +1237,7 @@ grow_horizontal = 0
 grow_vertical = 0
 rect_min_size = Vector2( 96, 96 )
 rect_pivot_offset = Vector2( 48, 48 )
-texture = ExtResource( 12 )
+texture = ExtResource( 13 )
 expand = true
 stretch_mode = 6
 
@@ -1353,7 +1255,6 @@ custom_styles/panel = SubResource( 12 )
 custom_styles/panelnc = SubResource( 12 )
 
 [node name="FuelBar" type="ProgressBar" parent="UIGame/UI"]
-editor/display_folded = true
 show_behind_parent = true
 anchor_top = 0.5
 anchor_bottom = 0.5
@@ -1390,9 +1291,25 @@ margin_right = 60.743
 margin_bottom = 42.731
 rect_rotation = 89.9999
 rect_pivot_offset = Vector2( 43.5, 43.5 )
-texture = ExtResource( 14 )
+texture = ExtResource( 15 )
 expand = true
 stretch_mode = 6
+
+[node name="BackFuelBar" type="TextureRect" parent="UIGame/UI/FuelBar"]
+modulate = Color( 1, 1, 1, 0 )
+show_behind_parent = true
+margin_left = 448.0
+margin_top = -21.0
+margin_right = 535.0
+margin_bottom = 455.0
+rect_rotation = 90.0
+texture = ExtResource( 16 )
+expand = true
+
+[node name="Tween" type="Tween" parent="UIGame/UI/FuelBar/BackFuelBar"]
+repeat = true
+playback_process_mode = 0
+playback/repeat = true
 
 [node name="PauseButton" type="TextureButton" parent="UIGame/UI"]
 pause_mode = 2
@@ -1404,11 +1321,11 @@ margin_left = -150.0
 margin_top = -150.0
 margin_right = -29.0
 margin_bottom = -32.0
-texture_normal = ExtResource( 15 )
-texture_pressed = ExtResource( 16 )
-texture_hover = ExtResource( 16 )
-texture_disabled = ExtResource( 16 )
-texture_focused = ExtResource( 16 )
+texture_normal = ExtResource( 17 )
+texture_pressed = ExtResource( 18 )
+texture_hover = ExtResource( 18 )
+texture_disabled = ExtResource( 18 )
+texture_focused = ExtResource( 18 )
 expand = true
 stretch_mode = 5
 
@@ -1419,7 +1336,7 @@ modulate = Color( 1, 1, 1, 0.729412 )
 position = Vector2( 914, 1261.5 )
 rotation = -0.549675
 scale = Vector2( 4.84536, 4.84536 )
-texture = ExtResource( 17 )
+texture = ExtResource( 19 )
 offset = Vector2( 0.792252, -29.756 )
 hframes = 2
 
@@ -1472,8 +1389,8 @@ margin_left = -299.0
 margin_top = -240.5
 margin_right = -18.0
 margin_bottom = -19.5
-texture_normal = ExtResource( 18 )
-texture_pressed = ExtResource( 19 )
+texture_normal = ExtResource( 20 )
+texture_pressed = ExtResource( 21 )
 expand = true
 stretch_mode = 5
 
@@ -1483,8 +1400,8 @@ anchor_bottom = 1.0
 margin_top = -240.0
 margin_right = 310.0
 margin_bottom = -19.0
-texture_normal = ExtResource( 20 )
-texture_pressed = ExtResource( 21 )
+texture_normal = ExtResource( 22 )
+texture_pressed = ExtResource( 23 )
 expand = true
 stretch_mode = 5
 
@@ -1497,8 +1414,8 @@ margin_left = -172.5
 margin_top = -180.0
 margin_right = 172.5
 margin_bottom = 126.0
-texture_normal = ExtResource( 22 )
-texture_pressed = ExtResource( 23 )
+texture_normal = ExtResource( 24 )
+texture_pressed = ExtResource( 25 )
 expand = true
 stretch_mode = 5
 
@@ -1527,7 +1444,7 @@ align = 1
 [node name="Anim" type="AnimationPlayer" parent="UIGame/UI/PauseTimer"]
 anims/Countdown = SubResource( 31 )
 
-[node name="ConfigPanel" parent="UIGame/UI" instance=ExtResource( 24 )]
+[node name="ConfigPanel" parent="UIGame/UI" instance=ExtResource( 26 )]
 pause_mode = 2
 visible = false
 margin_left = -420.0
@@ -1590,8 +1507,8 @@ margin_left = 42.0
 margin_top = -248.075
 margin_right = 294.0
 margin_bottom = -39.0754
-texture_normal = ExtResource( 22 )
-texture_pressed = ExtResource( 23 )
+texture_normal = ExtResource( 24 )
+texture_pressed = ExtResource( 25 )
 expand = true
 stretch_mode = 5
 
@@ -1604,8 +1521,8 @@ margin_left = -272.0
 margin_top = -280.0
 margin_right = -62.0
 margin_bottom = -9.0
-texture_normal = ExtResource( 25 )
-texture_pressed = ExtResource( 26 )
+texture_normal = ExtResource( 27 )
+texture_pressed = ExtResource( 28 )
 expand = true
 stretch_mode = 5
 
@@ -1624,7 +1541,7 @@ self_modulate = Color( 0, 0, 0, 0 )
 margin_right = 40.0
 margin_bottom = 40.0
 mouse_filter = 2
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 __meta__ = {
 "_edit_lock_": true
 }
@@ -1642,7 +1559,7 @@ margin_bottom = 95.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-texture = ExtResource( 27 )
+texture = ExtResource( 29 )
 expand = true
 stretch_mode = 6
 
@@ -1759,80 +1676,85 @@ margin_bottom = 36.4966
 text = "X"
 
 [node name="SpawnPoints" type="Node2D" parent="."]
+editor/display_folded = true
 
 [node name="Enemies" type="Node2D" parent="SpawnPoints"]
 editor/display_folded = true
+visible = false
 
 [node name="Position2D11" type="Position2D" parent="SpawnPoints/Enemies"]
-position = Vector2( 340, -330 )
+position = Vector2( 340, -340 )
 
 [node name="Position2D12" type="Position2D" parent="SpawnPoints/Enemies"]
-position = Vector2( 208, -330 )
+position = Vector2( 130, -370 )
 
 [node name="Position2D13" type="Position2D" parent="SpawnPoints/Enemies"]
-position = Vector2( 748.729, -330 )
+position = Vector2( 750, -340 )
 
 [node name="Position2D14" type="Position2D" parent="SpawnPoints/Enemies"]
-position = Vector2( 872, -330 )
+position = Vector2( 950, -370 )
 
-[node name="Ribbons" type="Node2D" parent="SpawnPoints"]
+[node name="FuelCans" type="Node2D" parent="SpawnPoints"]
 editor/display_folded = true
+visible = false
 
-[node name="Position2D6" type="Position2D" parent="SpawnPoints/Ribbons"]
+[node name="Position2D6" type="Position2D" parent="SpawnPoints/FuelCans"]
 position = Vector2( 540, -330 )
 
-[node name="Position2D7" type="Position2D" parent="SpawnPoints/Ribbons"]
-position = Vector2( 340, -330 )
+[node name="Position2D7" type="Position2D" parent="SpawnPoints/FuelCans"]
+position = Vector2( 380, -370 )
 
-[node name="Position2D8" type="Position2D" parent="SpawnPoints/Ribbons"]
-position = Vector2( 208, -330 )
+[node name="Position2D8" type="Position2D" parent="SpawnPoints/FuelCans"]
+position = Vector2( 224.5, -330 )
 
-[node name="Position2D9" type="Position2D" parent="SpawnPoints/Ribbons"]
-position = Vector2( 748.729, -330 )
+[node name="Position2D9" type="Position2D" parent="SpawnPoints/FuelCans"]
+position = Vector2( 700, -370 )
 
-[node name="Position2D10" type="Position2D" parent="SpawnPoints/Ribbons"]
-position = Vector2( 872, -330 )
+[node name="Position2D10" type="Position2D" parent="SpawnPoints/FuelCans"]
+position = Vector2( 850, -330 )
 
 [node name="Collectables" type="Node2D" parent="SpawnPoints"]
 editor/display_folded = true
+visible = false
 
 [node name="Position2D" type="Position2D" parent="SpawnPoints/Collectables"]
-position = Vector2( 540, -330 )
+position = Vector2( 541.563, -230 )
 
 [node name="Position2D2" type="Position2D" parent="SpawnPoints/Collectables"]
-position = Vector2( 340, -330 )
+position = Vector2( 335, -230 )
 
 [node name="Position2D3" type="Position2D" parent="SpawnPoints/Collectables"]
-position = Vector2( 208, -330 )
+position = Vector2( 190, -230 )
 
 [node name="Position2D4" type="Position2D" parent="SpawnPoints/Collectables"]
-position = Vector2( 748.729, -330 )
+position = Vector2( 750, -230 )
 
 [node name="Position2D5" type="Position2D" parent="SpawnPoints/Collectables"]
-position = Vector2( 872, -330 )
+position = Vector2( 880, -230 )
 
 [node name="PowerUps" type="Node2D" parent="SpawnPoints"]
 editor/display_folded = true
+visible = false
 
 [node name="Position2D" type="Position2D" parent="SpawnPoints/PowerUps"]
 position = Vector2( 540, -330 )
 
 [node name="Position2D3" type="Position2D" parent="SpawnPoints/PowerUps"]
-position = Vector2( 208, -330 )
+position = Vector2( 120, -330 )
 
 [node name="Position2D5" type="Position2D" parent="SpawnPoints/PowerUps"]
-position = Vector2( 872, -330 )
+position = Vector2( 960, -330 )
 
-[node name="CollectableSpawner" parent="." instance=ExtResource( 28 )]
-item_list = [ ExtResource( 29 ), ExtResource( 30 ) ]
+[node name="CollectableSpawner" parent="." instance=ExtResource( 30 )]
+item_list = [ ExtResource( 31 ), ExtResource( 32 ) ]
 parent_node = NodePath("../Collectables")
 spawn_points_node = NodePath("../SpawnPoints/Collectables")
 min_height = 8.0
 max_height = 12.0
 probability = [ 0.15, 1.0 ]
 
-[node name="EnemySpawner" parent="." instance=ExtResource( 31 )]
-item_list = [ ExtResource( 32 ), ExtResource( 33 ), ExtResource( 34 ), ExtResource( 35 ) ]
+[node name="EnemySpawner" parent="." instance=ExtResource( 33 )]
+item_list = [ ExtResource( 34 ), ExtResource( 35 ), ExtResource( 36 ), ExtResource( 37 ) ]
 parent_node = NodePath("../Enemies")
 spawn_points_node = NodePath("../SpawnPoints/Enemies")
 min_height = 10.0
@@ -1840,19 +1762,19 @@ max_height = 20.0
 height_control_list = [ 0, 200, 350, 500 ]
 min_height_tutorial = 20
 
-[node name="RibbonSpawner" parent="." instance=ExtResource( 36 )]
-item_list = [ ExtResource( 37 ) ]
-parent_node = NodePath("../Ribbons")
-spawn_points_node = NodePath("../SpawnPoints/Ribbons")
+[node name="FuelCanSpawner" parent="." instance=ExtResource( 38 )]
+item_list = [ ExtResource( 39 ) ]
+parent_node = NodePath("../FuelCans")
+spawn_points_node = NodePath("../SpawnPoints/FuelCans")
 min_height = 15.0
 max_height = 20.0
 min_height_tutorial = 12
 
-[node name="PowerUpSpawner" parent="." instance=ExtResource( 38 )]
-item_list = [ ExtResource( 39 ), ExtResource( 40 ) ]
+[node name="PowerUpSpawner" parent="." instance=ExtResource( 40 )]
+item_list = [ ExtResource( 41 ), ExtResource( 42 ) ]
 spawn_points_node = NodePath("../SpawnPoints/PowerUps")
 min_height = 20.0
-probability = [ 0.9, 1.0 ]
+probability = [ 0.05, 0.2 ]
 
 [node name="Collectables" type="Node2D" parent="."]
 
@@ -1860,11 +1782,11 @@ probability = [ 0.9, 1.0 ]
 
 [node name="Enemies" type="Node2D" parent="."]
 
-[node name="Ribbons" type="Node2D" parent="."]
+[node name="FuelCans" type="Node2D" parent="."]
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 pause_mode = 2
-stream = ExtResource( 41 )
+stream = ExtResource( 43 )
 autoplay = true
 bus = "Music"
 [connection signal="screen_exited" from="House/VisibilityNotifier2D" to="House" method="_on_VisibilityNotifier2D_screen_exited"]

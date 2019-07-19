@@ -31,7 +31,7 @@ func spawn_item(item_scene):
 	var new_pos = Vector2()
 	spawn_points.shuffle()
 	new_pos.x = spawn_points[0].position.x
-	new_pos.y = GameManager.camera.global_position.y - get_viewport().get_viewport().size.y
+	new_pos.y = GameManager.camera.global_position.y - get_viewport().get_viewport().size.y + spawn_points[0].position.y
 	item.call_deferred('set_global_position',new_pos)
 	pos_player_last_spawn = GameManager.player_height
 	get_new_height()
