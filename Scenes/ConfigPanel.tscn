@@ -208,6 +208,7 @@ custom_styles/grabber_area = SubResource( 8 )
 max_value = 5.0
 value = 3.0
 tick_count = 5
+ticks_on_borders = true
 
 [node name="SoundLabel" type="Label" parent="."]
 editor/display_folded = true

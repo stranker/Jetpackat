@@ -1,0 +1,267 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Sprites/Background/Bg1.png" type="Texture" id=1]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Control
+
+export var has_played : bool = false
+
+func _ready():
+	randomize()
+	pass # Replace with function body.
+
+func play_random():
+	var anim_count = $Anim.get_animation_list().size()
+	$Anim.play('Transition'+str(1 + randi() % anim_count))
+	has_played = false
+	pass
+
+func play_random_backwards():
+	var anim_count = $Anim.get_animation_list().size()
+	$Anim.play_backwards('Transition'+str(1 + randi() % anim_count))
+	has_played = true
+	pass"
+
+[sub_resource type="Animation" id=2]
+length = 0.7
+tracks/0/type = "value"
+tracks/0/path = NodePath("TransitionItems/TextureRect:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.7 ),
+"transitions": PoolRealArray( 2, 1 ),
+"update": 0,
+"values": [ Vector2( -460, -1880 ), Vector2( 200, -990 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("TransitionItems/TextureRect2:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.7 ),
+"transitions": PoolRealArray( 2, 1 ),
+"update": 0,
+"values": [ Vector2( 1920, 1120 ), Vector2( 1110, 340 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("TransitionItems/TextureRect2:rect_rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 44.9999, 44.9999 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("TransitionItems/TextureRect:rect_rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 44.9999, 44.9999 ]
+}
+
+[sub_resource type="Animation" id=3]
+length = 0.7
+tracks/0/type = "value"
+tracks/0/path = NodePath("TransitionItems/TextureRect:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.7 ),
+"transitions": PoolRealArray( 2, 1 ),
+"update": 0,
+"values": [ Vector2( 1510, -1690 ), Vector2( 1570, -560 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("TransitionItems/TextureRect:rect_rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 89.9999, 89.9999 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("TransitionItems/TextureRect2:rect_position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.7 ),
+"transitions": PoolRealArray( 2, 1 ),
+"update": 0,
+"values": [ Vector2( 1490, 1980 ), Vector2( 1540, 940 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("TransitionItems/TextureRect2:rect_rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 89.9999, 89.9999 ]
+}
+
+[sub_resource type="Animation" id=4]
+length = 0.7
+tracks/0/type = "value"
+tracks/0/path = NodePath("TransitionItems/TextureRect2:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.7 ),
+"transitions": PoolRealArray( 2, 1 ),
+"update": 0,
+"values": [ Vector2( 3240, -30 ), Vector2( 2450, -40 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("TransitionItems/TextureRect2:rect_rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 89.9999, 89.9999 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("TransitionItems/TextureRect:rect_position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.7 ),
+"transitions": PoolRealArray( 2, 1 ),
+"update": 0,
+"values": [ Vector2( -160, 1985 ), Vector2( 560, 2000 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("TransitionItems/TextureRect:rect_rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 180.0, 180.0 ]
+}
+
+[sub_resource type="Animation" id=5]
+length = 0.7
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("TransitionItems/TextureRect2:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3, 0.55, 0.6, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1680, -2520 ), Vector2( 1650, -2160 ), Vector2( 1670, -930 ), Vector2( 1660, -880 ), Vector2( 1660, -830 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("TransitionItems/TextureRect2:rect_rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.3, 0.55, 0.6, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 89.9999, 89.9999, 89.9999, 89.9999, 89.9999 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("TransitionItems/TextureRect:rect_position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.7 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( -50, 1110 ), Vector2( -50, 1110 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("TransitionItems/TextureRect:rect_rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.7 ),
+"transitions": PoolRealArray( 2, 1 ),
+"update": 0,
+"values": [ 180.0, 359.999 ]
+}
+
+[node name="TransitionScene" type="Control"]
+pause_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+script = SubResource( 1 )
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+anims/Transition1 = SubResource( 2 )
+anims/Transition2 = SubResource( 3 )
+anims/Transition3 = SubResource( 4 )
+anims/Transition4 = SubResource( 5 )
+
+[node name="TransitionItems" type="Control" parent="."]
+editor/display_folded = true
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="TextureRect" type="TextureRect" parent="TransitionItems"]
+modulate = Color( 0, 0, 0, 1 )
+margin_left = -50.0
+margin_top = 1110.0
+margin_right = 1572.0
+margin_bottom = 3221.0
+rect_rotation = 180.0
+texture = ExtResource( 1 )
+expand = true
+
+[node name="TextureRect2" type="TextureRect" parent="TransitionItems"]
+modulate = Color( 0, 0, 0, 1 )
+margin_left = 1680.0
+margin_top = -2520.0
+margin_right = 3669.0
+margin_bottom = -600.002
+rect_rotation = 89.9999
+texture = ExtResource( 1 )
+expand = true

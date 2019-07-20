@@ -1,14 +1,20 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Shaders/outline.shader" type="Shader" id=1]
 [ext_resource path="res://Sprites/PowerUps/FuelCan.png" type="Texture" id=2]
-[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://Sprites/Background/SmokeParticle.png" type="Texture" id=3]
+[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=4]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends \"res://Object/Collectable/Collectable.gd\"
 
 func _ready():
 	connect('taken',get_tree().root.get_node('GameScene'),'add_fuel')
+	pass
+
+func _process(delta):
+	if GameManager.player.invencible:
+		queue_free()
 	pass
 
 func _on_VisibilityNotifier2D_screen_exited():
@@ -30,23 +36,30 @@ func _on_FuelCan_area_entered(area):
 	pass # Replace with function body.
 "
 
-[sub_resource type="ShaderMaterial" id=5]
+[sub_resource type="ShaderMaterial" id=2]
 shader = ExtResource( 1 )
 shader_param/outline_width = 0.7
 shader_param/outline_color = Color( 1, 1, 1, 0.495684 )
 
-[sub_resource type="CircleShape2D" id=2]
+[sub_resource type="CircleShape2D" id=3]
 radius = 58.8121
 
-[sub_resource type="DynamicFont" id=6]
+[sub_resource type="Curve" id=7]
+max_value = 6.0
+_data = [ Vector2( 0.00109641, 5.9106 ), 0.0, -6.11803, 0, 0, Vector2( 1, 3.6468 ), -0.502107, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=8]
+offsets = PoolRealArray( 0, 0.282209, 0.564417, 0.846626, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 0.960938, 0, 1, 1, 0.632813, 0, 1, 0.784314, 0, 0, 0.588235, 0.359375, 0.359375, 0.359375, 0 )
+
+[sub_resource type="DynamicFont" id=4]
 size = 40
 outline_size = 2
 outline_color = Color( 1, 0.913725, 0, 1 )
 use_filter = true
-font_data = ExtResource( 3 )
+font_data = ExtResource( 4 )
 
-[sub_resource type="Animation" id=3]
-resource_name = "Idle"
+[sub_resource type="Animation" id=5]
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:rotation_degrees")
@@ -73,8 +86,7 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.0235294 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.0235294 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=4]
-resource_name = "Taken"
+[sub_resource type="Animation" id=6]
 length = 2.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:scale")
@@ -162,21 +174,57 @@ tracks/6/keys = {
 "update": 0,
 "values": [ Vector2( 1, 1 ), Vector2( 3, 3 ) ]
 }
+tracks/7/type = "value"
+tracks/7/path = NodePath("Particles:emitting")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
 
 [node name="FuelCan" type="Area2D"]
+editor/display_folded = true
 z_index = 12
 script = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-material = SubResource( 5 )
+material = SubResource( 2 )
 rotation = -0.15363
 scale = Vector2( 2, 2 )
 texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 2 )
+shape = SubResource( 3 )
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+
+[node name="Particles" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 40
+one_shot = true
+explosiveness = 0.9
+texture = ExtResource( 3 )
+emission_shape = 1
+emission_sphere_radius = 3.0
+spread = 180.0
+flatness = 1.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 200.0
+initial_velocity_random = 0.3
+angular_velocity = 500.0
+angular_velocity_random = 1.0
+tangential_accel = 1.0
+tangential_accel_random = 1.0
+angle = 360.0
+angle_random = 1.0
+scale_amount_random = 1.0
+scale_amount_curve = SubResource( 7 )
+color_ramp = SubResource( 8 )
 
 [node name="Label" type="Label" parent="."]
 self_modulate = Color( 1, 1, 1, 0 )
@@ -185,7 +233,7 @@ margin_top = -30.0
 margin_right = 77.0
 margin_bottom = 19.0
 rect_pivot_offset = Vector2( 73.5, 24.5 )
-custom_fonts/font = SubResource( 6 )
+custom_fonts/font = SubResource( 4 )
 text = "FUEL UP!"
 align = 1
 valign = 3
@@ -193,8 +241,8 @@ uppercase = true
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Idle"
-anims/Idle = SubResource( 3 )
-anims/Taken = SubResource( 4 )
+anims/Idle = SubResource( 5 )
+anims/Taken = SubResource( 6 )
 [connection signal="area_entered" from="." to="." method="_on_FuelCan_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_FuelCan_body_entered"]
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

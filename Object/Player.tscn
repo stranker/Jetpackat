@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=2]
+[gd_scene load_steps=42 format=2]
 
 [ext_resource path="res://Sprites/Effect/WindEffect.png" type="Texture" id=1]
 [ext_resource path="res://Shaders/outline.shader" type="Shader" id=2]
@@ -10,7 +10,8 @@
 [ext_resource path="res://Sprites/Tutorial/JumpArrow.png" type="Texture" id=8]
 [ext_resource path="res://Sprites/Cat/Shield.png" type="Texture" id=9]
 [ext_resource path="res://Sprites/PowerUps/AegisWings.png" type="Texture" id=10]
-[ext_resource path="res://Sounds/Sfx/Jump.wav" type="AudioStream" id=11]
+[ext_resource path="res://Sprites/PowerUps/AegisFeathers.png" type="Texture" id=11]
+[ext_resource path="res://Sounds/Sfx/Jump.wav" type="AudioStream" id=12]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends KinematicBody2D
@@ -221,7 +222,6 @@ func set_aegis(val):
 		$Visible/AegisWings/Anim.play('Idle')
 	else:
 		$Visible/AegisWings/Anim.play('Used')
-	$Visible/AegisWings.visible = has_aegis
 	pass
 
 func disable_tutorial():
@@ -290,7 +290,7 @@ func _on_Tween_tween_completed(object, key):
 	pass # Replace with function body.
 "
 
-[sub_resource type="Animation" id=28]
+[sub_resource type="Animation" id=4]
 resource_name = "Wind"
 length = 0.3
 loop = true
@@ -368,24 +368,24 @@ shader = ExtResource( 2 )
 shader_param/outline_width = 0.5
 shader_param/outline_color = Color( 0, 0, 0, 1 )
 
-[sub_resource type="ShaderMaterial" id=27]
+[sub_resource type="ShaderMaterial" id=7]
 shader = ExtResource( 2 )
 shader_param/outline_width = 0.7
 shader_param/outline_color = Color( 0, 0, 0, 1 )
 
-[sub_resource type="ShaderMaterial" id=7]
+[sub_resource type="ShaderMaterial" id=8]
 shader = ExtResource( 2 )
 shader_param/outline_width = 0.5
 shader_param/outline_color = Color( 0, 0, 0, 1 )
 
-[sub_resource type="Curve" id=8]
+[sub_resource type="Curve" id=9]
 _data = [ Vector2( 0, 0.456 ), 0.0, 0.4158, 0, 1, Vector2( 0.592593, 0.7024 ), 0.6336, 0.6336, 0, 0, Vector2( 1, 1 ), 0.730473, 0.0, 1, 0 ]
 
-[sub_resource type="Gradient" id=9]
+[sub_resource type="Gradient" id=10]
 offsets = PoolRealArray( 0.358025, 0.530864, 0.679012, 0.82716, 1 )
 colors = PoolColorArray( 1, 1, 1, 1, 1, 0.984375, 0, 1, 1, 0.492188, 0, 1, 1, 0.00392157, 0.00392157, 0.345098, 0.423529, 0, 0, 0 )
 
-[sub_resource type="GDScript" id=10]
+[sub_resource type="GDScript" id=11]
 script/source = "extends CPUParticles2D
 
 # Called when the node enters the scene tree for the first time.
@@ -395,7 +395,7 @@ func _ready():
 		texture = load('Sprites/Shop/Cat/Thruster/'+GameManager.items_equipped['Thruster']+'.png')
 	pass # Replace with function body."
 
-[sub_resource type="Animation" id=11]
+[sub_resource type="Animation" id=12]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:position")
@@ -410,10 +410,10 @@ tracks/0/keys = {
 "values": [ Vector2( 3.84464, 39.7731 ), Vector2( 7.04977, 38.0137 ), Vector2( -0.644684, 41.9775 ), Vector2( 3.2222, 40.4274 ), Vector2( 5.22339, 44.976 ), Vector2( 3.84464, 39.7731 ) ]
 }
 
-[sub_resource type="CircleShape2D" id=12]
+[sub_resource type="CircleShape2D" id=13]
 radius = 117.38
 
-[sub_resource type="Animation" id=16]
+[sub_resource type="Animation" id=14]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:self_modulate")
@@ -428,7 +428,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 0.34902 ), Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="Animation" id=17]
+[sub_resource type="Animation" id=15]
 length = 0.8
 loop = true
 tracks/0/type = "value"
@@ -444,7 +444,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 0.34902 ), Color( 1, 1, 1, 0.717647 ), Color( 1, 1, 1, 0.34902 ) ]
 }
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=16]
 length = 1.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("Skeleton/Bone2D/Bone2D2/Bone2D3:rotation_degrees")
@@ -483,7 +483,7 @@ tracks/2/keys = {
 "values": [ 6.06401, -20.8268, 32.9491, 86.1725, -73.9872, 32.9491, 86.1725, -73.9872, 86.1725 ]
 }
 
-[sub_resource type="Animation" id=14]
+[sub_resource type="Animation" id=17]
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Skeleton/Bone2D/Bone2D2:rotation_degrees")
@@ -534,7 +534,7 @@ tracks/3/keys = {
 "values": [ 6.06401, -70.6719, 54.2652, 7.53509 ]
 }
 
-[sub_resource type="Animation" id=15]
+[sub_resource type="Animation" id=18]
 length = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("Skeleton/Bone2D/Bone2D2:rotation_degrees")
@@ -585,7 +585,7 @@ tracks/3/keys = {
 "values": [ 6.06401 ]
 }
 
-[sub_resource type="Animation" id=29]
+[sub_resource type="Animation" id=19]
 resource_name = "ShieldOn"
 length = 0.3
 loop = true
@@ -686,8 +686,7 @@ tracks/7/keys = {
 "values": [ 38.6546, 36.8882, 42.7678 ]
 }
 
-[sub_resource type="Animation" id=18]
-resource_name = "Idle"
+[sub_resource type="Animation" id=20]
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Skeleton2D/M/LU:rotation_degrees")
@@ -785,24 +784,63 @@ tracks/7/keys = {
 "update": 0,
 "values": [ Vector2( 9.17053, -2.3114 ), Vector2( 9.35596, -4.44592 ), Vector2( -2.2637, 1.70966 ) ]
 }
+tracks/8/type = "value"
+tracks/8/path = NodePath(".:visible")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
 
-[sub_resource type="Animation" id=19]
-resource_name = "Used"
+[sub_resource type="Animation" id=21]
 length = 0.5
 tracks/0/type = "value"
-tracks/0/path = NodePath(".:modulate")
+tracks/0/path = NodePath("Feathers:emitting")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5 ),
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.5 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
 
-[sub_resource type="Animation" id=20]
+[sub_resource type="Gradient" id=22]
+offsets = PoolRealArray( 0, 0.785276, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0.635294, 1, 1, 1, 0 )
+
+[sub_resource type="Animation" id=23]
 length = 2.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Visible/Skin:position")
@@ -1001,7 +1039,7 @@ tracks/15/keys = {
 "values": [ 117.38 ]
 }
 
-[sub_resource type="Animation" id=21]
+[sub_resource type="Animation" id=24]
 length = 5.0
 loop = true
 tracks/0/type = "value"
@@ -1077,8 +1115,7 @@ tracks/5/keys = {
 "values": [ 117.38 ]
 }
 
-[sub_resource type="Animation" id=24]
-resource_name = "FuelTaken"
+[sub_resource type="Animation" id=25]
 length = 1.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("Visible/Skin:frame")
@@ -1146,7 +1183,7 @@ tracks/1/keys = {
 "values": [ 0, 1, 0, 1, 0 ]
 }
 
-[sub_resource type="Animation" id=22]
+[sub_resource type="Animation" id=27]
 length = 4.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Visible/Skin:frame")
@@ -1209,7 +1246,7 @@ tracks/4/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="Animation" id=23]
+[sub_resource type="Animation" id=28]
 length = 4.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Visible/Skin:frame")
@@ -1248,7 +1285,7 @@ tracks/2/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="Animation" id=25]
+[sub_resource type="Animation" id=29]
 length = 2.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("GameCamera:zoom")
@@ -1406,6 +1443,7 @@ script = SubResource( 1 )
 shape = SubResource( 2 )
 
 [node name="GameCamera" type="Camera2D" parent="."]
+editor/display_folded = true
 position = Vector2( -17.937, -546.416 )
 current = true
 limit_smoothed = true
@@ -1429,7 +1467,7 @@ texture = ExtResource( 1 )
 hframes = 4
 
 [node name="Anim" type="AnimationPlayer" parent="GameCamera"]
-anims/Wind = SubResource( 28 )
+anims/Wind = SubResource( 4 )
 
 [node name="Visible" type="Node2D" parent="."]
 script = SubResource( 5 )
@@ -1456,7 +1494,7 @@ offset = Vector2( -3.49275, -23.7578 )
 
 [node name="Magnet" type="Sprite" parent="Visible/Skin"]
 visible = false
-material = SubResource( 27 )
+material = SubResource( 7 )
 position = Vector2( -24.4751, -7.13806 )
 rotation = 2.32103
 scale = Vector2( 0.8, 0.8 )
@@ -1465,7 +1503,7 @@ texture = ExtResource( 5 )
 [node name="Jetpack" type="Sprite" parent="Visible"]
 editor/display_folded = true
 show_behind_parent = true
-material = SubResource( 7 )
+material = SubResource( 8 )
 position = Vector2( 3.84464, 39.7731 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 6 )
@@ -1495,18 +1533,18 @@ angle = 360.0
 angle_random = 1.0
 scale_amount = 2.5
 scale_amount_random = 1.0
-scale_amount_curve = SubResource( 8 )
-color_ramp = SubResource( 9 )
-script = SubResource( 10 )
+scale_amount_curve = SubResource( 9 )
+color_ramp = SubResource( 10 )
+script = SubResource( 11 )
 
 [node name="Anim" type="AnimationPlayer" parent="Visible/Jetpack"]
-anims/Propulsion = SubResource( 11 )
+anims/Propulsion = SubResource( 12 )
 
 [node name="MagnetArea" type="Area2D" parent="Visible"]
 editor/display_folded = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Visible/MagnetArea"]
-shape = SubResource( 12 )
+shape = SubResource( 13 )
 
 [node name="Arrow" type="Sprite" parent="Visible"]
 editor/display_folded = true
@@ -1518,8 +1556,8 @@ flip_h = true
 
 [node name="Anim" type="AnimationPlayer" parent="Visible/Arrow"]
 autoplay = "Idle"
-anims/Hide = SubResource( 16 )
-anims/Idle = SubResource( 17 )
+anims/Hide = SubResource( 14 )
+anims/Idle = SubResource( 15 )
 
 [node name="Scarf" type="Polygon2D" parent="Visible"]
 editor/display_folded = true
@@ -1534,9 +1572,9 @@ bones = [ NodePath("Bone2D"), PoolRealArray( 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0,
 
 [node name="Anim" type="AnimationPlayer" parent="Visible/Scarf"]
 autoplay = "Idle"
-anims/Falling = SubResource( 13 )
-anims/Flying = SubResource( 14 )
-anims/Idle = SubResource( 15 )
+anims/Falling = SubResource( 16 )
+anims/Flying = SubResource( 17 )
+anims/Idle = SubResource( 18 )
 
 [node name="Skeleton" type="Skeleton2D" parent="Visible/Scarf"]
 editor/display_folded = true
@@ -1605,7 +1643,6 @@ rest = Transform2D( 0.780926, 0.624624, -0.624624, 0.780926, 17.47, 15.9221 )
 [node name="M2" type="Bone2D" parent="Visible/Shield/Skeleton2D/C/M1"]
 position = Vector2( 15.0436, 1.22847 )
 rotation = 0.217363
-scale = Vector2( 1, 1 )
 rest = Transform2D( 0.97647, 0.215655, -0.215655, 0.97647, 15.0436, 1.22847 )
 
 [node name="L" type="Bone2D" parent="Visible/Shield/Skeleton2D/C/M1/M2"]
@@ -1624,7 +1661,7 @@ rotation = -0.21599
 rest = Transform2D( 0.976765, -0.214314, 0.214314, 0.976765, 23.2403, -19.968 )
 
 [node name="Anim" type="AnimationPlayer" parent="Visible/Shield"]
-anims/ShieldOn = SubResource( 29 )
+anims/ShieldOn = SubResource( 19 )
 
 [node name="AegisWings" type="Polygon2D" parent="Visible"]
 editor/display_folded = true
@@ -1640,6 +1677,7 @@ polygons = [ PoolIntArray( 10, 9, 8, 7, 6 ), PoolIntArray( 10, 11, 6 ), PoolIntA
 bones = [ NodePath("M"), PoolRealArray( 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1 ), NodePath("M/LU"), PoolRealArray( 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0 ), NodePath("M/RU"), PoolRealArray( 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ), NodePath("M/LM"), PoolRealArray( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.5, 1, 1, 0, 0, 0 ), NodePath("M/RM"), PoolRealArray( 1, 1, 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ), NodePath("M/LB"), PoolRealArray( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.5, 1, 1, 0, 0 ), NodePath("M/RB"), PoolRealArray( 1, 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 ) ]
 
 [node name="Skeleton2D" type="Skeleton2D" parent="Visible/AegisWings"]
+editor/display_folded = true
 position = Vector2( 27.3715, 17.8969 )
 
 [node name="M" type="Bone2D" parent="Visible/AegisWings/Skeleton2D"]
@@ -1677,20 +1715,40 @@ rotation = 4.61884
 rest = Transform2D( -0.0400426, -0.999198, 0.999198, -0.0400426, 10.2345, -1.41992 )
 
 [node name="Anim" type="AnimationPlayer" parent="Visible/AegisWings"]
-anims/Idle = SubResource( 18 )
-anims/Used = SubResource( 19 )
+anims/Idle = SubResource( 20 )
+anims/Used = SubResource( 21 )
+
+[node name="Feathers" type="CPUParticles2D" parent="Visible/AegisWings"]
+position = Vector2( 27.4478, 13.603 )
+rotation = 1.57079
+amount = 60
+one_shot = true
+explosiveness = 0.8
+texture = ExtResource( 11 )
+emission_shape = 1
+emission_sphere_radius = 3.0
+spread = 110.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 100.0
+initial_velocity_random = 0.5
+angular_velocity = 200.0
+angular_velocity_random = 1.0
+angle = 360.0
+angle_random = 1.0
+color_ramp = SubResource( 22 )
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Idle"
-anims/Dead = SubResource( 20 )
-anims/Flying = SubResource( 21 )
-anims/FuelTaken = SubResource( 24 )
+anims/Dead = SubResource( 23 )
+anims/Flying = SubResource( 24 )
+anims/FuelTaken = SubResource( 25 )
 anims/Idle = SubResource( 26 )
-anims/Invencible = SubResource( 22 )
-anims/Magnet = SubResource( 23 )
-anims/TimeOut = SubResource( 25 )
+anims/Invencible = SubResource( 27 )
+anims/Magnet = SubResource( 28 )
+anims/TimeOut = SubResource( 29 )
 
 [node name="ClickArea" type="CanvasLayer" parent="."]
+editor/display_folded = true
 
 [node name="Area" type="Control" parent="ClickArea"]
 anchor_right = 1.0
@@ -1710,7 +1768,7 @@ one_shot = true
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 
 [node name="Sample" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 11 )
+stream = ExtResource( 12 )
 volume_db = -17.165
 pitch_scale = 2.0
 bus = "Sounds"

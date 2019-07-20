@@ -1,21 +1,21 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://Scenes/ItemShopPanel.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Shaders/outline.shader" type="Shader" id=2]
-[ext_resource path="res://Sprites/Collectables/Coin.png" type="Texture" id=3]
-[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=4]
-[ext_resource path="res://Sprites/Collectables/Fish.png" type="Texture" id=5]
-[ext_resource path="res://addons/PickerOfColors/CustomColor.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=7]
-[ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=8]
-[ext_resource path="res://Scenes/BaseButtonShop.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Sprites/Collectables/Coin.png" type="Texture" id=2]
+[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://Sprites/Collectables/Fish.png" type="Texture" id=4]
+[ext_resource path="res://addons/PickerOfColors/CustomColor.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=7]
+[ext_resource path="res://Scenes/BaseButtonShop.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Groups/ShopButtonGroup.tres" type="ButtonGroup" id=9]
 [ext_resource path="res://Sprites/UI/Shop/SkinButton.png" type="Texture" id=10]
 [ext_resource path="res://Sprites/UI/Shop/ScarfButton.png" type="Texture" id=11]
 [ext_resource path="res://Sprites/UI/Shop/JetpackButton.png" type="Texture" id=12]
 [ext_resource path="res://Sprites/Shop/Cat/Skin/Skin.png" type="Texture" id=13]
 [ext_resource path="res://Sprites/Cat/Eyes.png" type="Texture" id=14]
 [ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=15]
-[ext_resource path="res://Sprites/Background/Bg1.png" type="Texture" id=16]
+[ext_resource path="res://Scenes/TransitionScene.tscn" type="PackedScene" id=16]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.247059, 0, 0.388235, 1 )
@@ -32,6 +32,7 @@ func _ready():
 	update_currency()
 	update_equipment()
 	_on_Hat_button_down()
+	$TransitionScene.play_random_backwards()
 	pass
 
 func _input(event):
@@ -89,7 +90,7 @@ func create_panels(data : Dictionary):
 	pass
 
 func _on_TextureButton_button_down():
-	$AnimationPlayer.play('FadeIn')
+	$TransitionScene.play_random()
 	pass
 
 func equip_item(type,item_name,color):
@@ -177,11 +178,10 @@ func item_preview(item_type,item_texture):
 	player.get_node(item_type).self_modulate = 'ffffff'
 	pass
 
-func _on_AnimationPlayer_animation_finished(anim_name):
-	if anim_name == 'FadeIn':
+func _on_Anim_animation_finished(anim_name):
+	if !$TransitionScene.has_played:
 		get_tree().change_scene('Scenes/MainMenu.tscn')
-	pass # Replace with function body.
-"
+	pass # Replace with function body."
 
 [sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.247059, 0, 0.388235, 1 )
@@ -192,31 +192,26 @@ border_width_left = 10
 border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
-border_color = Color( 0.0705882, 0.298039, 0.00784314, 1 )
+border_color = Color( 0.137255, 0.513726, 0.0313726, 1 )
 corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
-
-[sub_resource type="ShaderMaterial" id=5]
-shader = ExtResource( 2 )
-shader_param/outline_width = 1.0
-shader_param/outline_color = Color( 0, 0, 0, 1 )
 
 [sub_resource type="DynamicFont" id=6]
 size = 80
 outline_size = 3
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
-font_data = ExtResource( 4 )
+font_data = ExtResource( 3 )
 
 [sub_resource type="StyleBoxFlat" id=7]
-bg_color = Color( 0.890196, 0.752941, 0.00784314, 1 )
+bg_color = Color( 1, 0.823529, 0.00784314, 1 )
 border_width_left = 10
 border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
-border_color = Color( 0.717647, 0.521569, 0, 1 )
+border_color = Color( 0.92549, 0.65098, 0, 1 )
 corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
@@ -352,59 +347,7 @@ size = 56
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
-font_data = ExtResource( 4 )
-
-[sub_resource type="Animation" id=19]
-tracks/0/type = "value"
-tracks/0/path = NodePath("FadeOut:self_modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("FadeOut:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
-}
-
-[sub_resource type="Animation" id=20]
-tracks/0/type = "value"
-tracks/0/path = NodePath("FadeOut:self_modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("FadeOut:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, false ]
-}
+font_data = ExtResource( 3 )
 
 [node name="ShopScene" type="Panel"]
 anchor_right = 1.0
@@ -414,12 +357,12 @@ script = SubResource( 2 )
 item_shop_panel = ExtResource( 1 )
 
 [node name="VBC" type="VBoxContainer" parent="."]
+editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_constants/separation = 5
 
 [node name="HBC" type="HBoxContainer" parent="VBC"]
-editor/display_folded = true
 margin_right = 1080.0
 margin_bottom = 1315.0
 size_flags_horizontal = 3
@@ -427,6 +370,7 @@ size_flags_vertical = 3
 custom_constants/separation = 0
 
 [node name="ShopPanel" type="VBoxContainer" parent="VBC/HBC"]
+editor/display_folded = true
 margin_right = 880.0
 margin_bottom = 1315.0
 mouse_filter = 2
@@ -435,6 +379,7 @@ size_flags_vertical = 3
 custom_constants/separation = 0
 
 [node name="Currency" type="Panel" parent="VBC/HBC/ShopPanel"]
+editor/display_folded = true
 margin_right = 880.0
 margin_bottom = 160.0
 rect_min_size = Vector2( 0, 160 )
@@ -451,14 +396,13 @@ rect_min_size = Vector2( 370, 0 )
 custom_styles/panel = SubResource( 4 )
 
 [node name="Coins" type="TextureRect" parent="VBC/HBC/ShopPanel/Currency/CoinPanel"]
-material = SubResource( 5 )
 anchor_top = 0.5
 anchor_bottom = 0.5
 margin_left = 20.0
 margin_top = -51.0
 margin_right = 110.0
 margin_bottom = 52.0
-texture = ExtResource( 3 )
+texture = ExtResource( 2 )
 expand = true
 stretch_mode = 6
 
@@ -489,14 +433,13 @@ rect_min_size = Vector2( 370, 0 )
 custom_styles/panel = SubResource( 7 )
 
 [node name="Fishes" type="TextureRect" parent="VBC/HBC/ShopPanel/Currency/FishPanel"]
-material = SubResource( 5 )
 anchor_top = 0.5
 anchor_bottom = 0.5
 margin_left = 20.0
 margin_top = -44.5
 margin_right = 110.0
 margin_bottom = 45.5
-texture = ExtResource( 5 )
+texture = ExtResource( 4 )
 expand = true
 stretch_mode = 6
 
@@ -538,7 +481,7 @@ theme = SubResource( 12 )
 custom_constants/hseparation = 10
 columns = 3
 
-[node name="CustomColor" parent="VBC/HBC/ShopPanel/PanelItems" instance=ExtResource( 6 )]
+[node name="CustomColor" parent="VBC/HBC/ShopPanel/PanelItems" instance=ExtResource( 5 )]
 visible = false
 anchor_left = 0.5
 anchor_top = 0.5
@@ -559,14 +502,13 @@ pause_mode = 1
 margin_right = 200.0
 margin_bottom = 160.0
 rect_min_size = Vector2( 0, 160 )
-texture_normal = ExtResource( 7 )
-texture_pressed = ExtResource( 8 )
+texture_normal = ExtResource( 6 )
+texture_pressed = ExtResource( 7 )
 expand = true
 stretch_mode = 5
 
 [node name="PanelButtons" type="Panel" parent="VBC/HBC/VBB"]
 pause_mode = 1
-editor/display_folded = true
 margin_top = 164.0
 margin_right = 200.0
 margin_bottom = 1315.0
@@ -588,43 +530,56 @@ size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.3
 custom_constants/separation = 50
 
-[node name="Hat" parent="VBC/HBC/VBB/PanelButtons/Panel" instance=ExtResource( 9 )]
+[node name="Hat" parent="VBC/HBC/VBB/PanelButtons/Panel" instance=ExtResource( 8 )]
+editor/display_folded = true
 margin_right = 176.0
 margin_bottom = 183.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+toggle_mode = true
+pressed = true
+group = ExtResource( 9 )
 
-[node name="Skin" parent="VBC/HBC/VBB/PanelButtons/Panel" instance=ExtResource( 9 )]
+[node name="Skin" parent="VBC/HBC/VBB/PanelButtons/Panel" instance=ExtResource( 8 )]
+editor/display_folded = true
 margin_top = 233.0
 margin_right = 176.0
 margin_bottom = 416.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+toggle_mode = true
+group = ExtResource( 9 )
 
 [node name="Type" parent="VBC/HBC/VBB/PanelButtons/Panel/Skin" index="0"]
 texture = ExtResource( 10 )
 
-[node name="Scarf" parent="VBC/HBC/VBB/PanelButtons/Panel" instance=ExtResource( 9 )]
+[node name="Scarf" parent="VBC/HBC/VBB/PanelButtons/Panel" instance=ExtResource( 8 )]
+editor/display_folded = true
 margin_top = 466.0
 margin_right = 176.0
 margin_bottom = 649.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+toggle_mode = true
+group = ExtResource( 9 )
 
 [node name="Type" parent="VBC/HBC/VBB/PanelButtons/Panel/Scarf" index="0"]
 texture = ExtResource( 11 )
 
-[node name="Jetpack" parent="VBC/HBC/VBB/PanelButtons/Panel" instance=ExtResource( 9 )]
+[node name="Jetpack" parent="VBC/HBC/VBB/PanelButtons/Panel" instance=ExtResource( 8 )]
+editor/display_folded = true
 margin_top = 699.0
 margin_right = 176.0
 margin_bottom = 884.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+toggle_mode = true
+group = ExtResource( 9 )
 
 [node name="Type" parent="VBC/HBC/VBB/PanelButtons/Panel/Jetpack" index="0"]
 texture = ExtResource( 12 )
 
-[node name="Thruster" parent="VBC/HBC/VBB/PanelButtons/Panel" instance=ExtResource( 9 )]
+[node name="Thruster" parent="VBC/HBC/VBB/PanelButtons/Panel" instance=ExtResource( 8 )]
 editor/display_folded = true
 visible = false
 margin_top = 752.0
@@ -766,18 +721,24 @@ custom_fonts/font = SubResource( 18 )
 text = "BONUS"
 align = 1
 
-[node name="FadeOut" type="TextureRect" parent="."]
-visible = false
-self_modulate = Color( 0, 0, 0, 0 )
-margin_right = 1080.0
-margin_bottom = 1920.0
-mouse_filter = 2
-texture = ExtResource( 16 )
+[node name="TransitionScene" parent="." instance=ExtResource( 16 )]
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-autoplay = "FadeOut"
-anims/FadeIn = SubResource( 19 )
-anims/FadeOut = SubResource( 20 )
+[node name="TransitionItems" parent="TransitionScene" index="1"]
+editor/display_folded = true
+
+[node name="TextureRect" parent="TransitionScene/TransitionItems" index="0"]
+margin_left = -460.0
+margin_top = -1880.0
+margin_right = 1162.0
+margin_bottom = 231.0
+rect_rotation = 44.9999
+
+[node name="TextureRect2" parent="TransitionScene/TransitionItems" index="1"]
+margin_left = 1920.0
+margin_top = 1120.0
+margin_right = 3909.0
+margin_bottom = 3040.0
+rect_rotation = 44.9999
 [connection signal="value_changed" from="VBC/HBC/ShopPanel/PanelItems/CustomColor" to="." method="_on_CustomColor_value_changed"]
 [connection signal="button_down" from="VBC/HBC/VBB/CloseButton" to="." method="_on_TextureButton_button_down"]
 [connection signal="button_down" from="VBC/HBC/VBB/PanelButtons/Panel/Hat" to="." method="_on_Hat_button_down"]
@@ -786,7 +747,7 @@ anims/FadeOut = SubResource( 20 )
 [connection signal="button_down" from="VBC/HBC/VBB/PanelButtons/Panel/Jetpack" to="." method="_on_Jetpack_button_down"]
 [connection signal="button_down" from="VBC/HBC/VBB/PanelButtons/Panel/Thruster" to="." method="_on_Thruster_button_down"]
 [connection signal="button_down" from="VBC/PlayerPanel/HBC/Player/SkinColorButton" to="." method="_on_SkinColorButton_button_down"]
-[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
+[connection signal="animation_finished" from="TransitionScene/Anim" to="." method="_on_Anim_animation_finished"]
 
 [editable path="VBC/HBC/VBB/PanelButtons/Panel/Hat"]
 
@@ -795,3 +756,5 @@ anims/FadeOut = SubResource( 20 )
 [editable path="VBC/HBC/VBB/PanelButtons/Panel/Scarf"]
 
 [editable path="VBC/HBC/VBB/PanelButtons/Panel/Jetpack"]
+
+[editable path="TransitionScene"]

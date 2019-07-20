@@ -11,3 +11,7 @@ func _process(delta):
 
 func get_new_item():
 	return item_list[0]
+
+func _on_Timer_timeout():
+	set_active(true)
+	pass # Replace with function body.
