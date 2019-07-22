@@ -798,7 +798,6 @@ tracks/8/keys = {
 }
 
 [sub_resource type="Animation" id=21]
-length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("Feathers:emitting")
 tracks/0/interp = 1
@@ -830,7 +829,7 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0.5 ),
+"times": PoolRealArray( 1 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ false ]
@@ -1664,6 +1663,7 @@ rest = Transform2D( 0.976765, -0.214314, 0.214314, 0.976765, 23.2403, -19.968 )
 anims/ShieldOn = SubResource( 19 )
 
 [node name="AegisWings" type="Polygon2D" parent="Visible"]
+editor/display_folded = true
 visible = false
 show_behind_parent = true
 position = Vector2( -82.3435, -50.809 )
