@@ -1,4 +1,4 @@
-[gd_scene load_steps=79 format=2]
+[gd_scene load_steps=80 format=2]
 
 [ext_resource path="res://Sprites/Background/HouseBroken.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Background/House.png" type="Texture" id=2]
@@ -28,22 +28,23 @@
 [ext_resource path="res://Scenes/ConfigPanel.tscn" type="PackedScene" id=26]
 [ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=27]
 [ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=28]
-[ext_resource path="res://Scenes/TransitionScene.tscn" type="PackedScene" id=29]
-[ext_resource path="res://Sprites/Cat/CatHead.png" type="Texture" id=30]
-[ext_resource path="res://Object/Misc/CollectableSpawner.tscn" type="PackedScene" id=31]
-[ext_resource path="res://Object/Collectable/Fish.tscn" type="PackedScene" id=32]
-[ext_resource path="res://Object/Collectable/CoinCluster.tscn" type="PackedScene" id=33]
-[ext_resource path="res://Object/Misc/EnemySpawner.tscn" type="PackedScene" id=34]
-[ext_resource path="res://Object/Enemies/PaperPlane.tscn" type="PackedScene" id=35]
-[ext_resource path="res://Object/Enemies/Bird.tscn" type="PackedScene" id=36]
-[ext_resource path="res://Object/Enemies/Condor.tscn" type="PackedScene" id=37]
-[ext_resource path="res://Object/Enemies/Ovni.tscn" type="PackedScene" id=38]
-[ext_resource path="res://Object/Misc/OrbitSpawner.tscn" type="PackedScene" id=39]
-[ext_resource path="res://Object/PowerUp/FuelCan.tscn" type="PackedScene" id=40]
-[ext_resource path="res://Object/Misc/PowerUpSpawner.tscn" type="PackedScene" id=41]
-[ext_resource path="res://Object/PowerUp/AegisWings.tscn" type="PackedScene" id=42]
-[ext_resource path="res://Object/PowerUp/Magnet.tscn" type="PackedScene" id=43]
-[ext_resource path="res://Sounds/Music/CCF Theme.ogg" type="AudioStream" id=44]
+[ext_resource path="res://Scenes/InitialDarker.tscn" type="PackedScene" id=29]
+[ext_resource path="res://Scenes/TransitionScene.tscn" type="PackedScene" id=30]
+[ext_resource path="res://Sprites/Cat/CatHead.png" type="Texture" id=31]
+[ext_resource path="res://Object/Misc/CollectableSpawner.tscn" type="PackedScene" id=32]
+[ext_resource path="res://Object/Collectable/Fish.tscn" type="PackedScene" id=33]
+[ext_resource path="res://Object/Collectable/CoinCluster.tscn" type="PackedScene" id=34]
+[ext_resource path="res://Object/Misc/EnemySpawner.tscn" type="PackedScene" id=35]
+[ext_resource path="res://Object/Enemies/PaperPlane.tscn" type="PackedScene" id=36]
+[ext_resource path="res://Object/Enemies/Bird.tscn" type="PackedScene" id=37]
+[ext_resource path="res://Object/Enemies/Condor.tscn" type="PackedScene" id=38]
+[ext_resource path="res://Object/Enemies/Ovni.tscn" type="PackedScene" id=39]
+[ext_resource path="res://Object/Misc/OrbitSpawner.tscn" type="PackedScene" id=40]
+[ext_resource path="res://Object/PowerUp/FuelCan.tscn" type="PackedScene" id=41]
+[ext_resource path="res://Object/Misc/PowerUpSpawner.tscn" type="PackedScene" id=42]
+[ext_resource path="res://Object/PowerUp/AegisWings.tscn" type="PackedScene" id=43]
+[ext_resource path="res://Object/PowerUp/Magnet.tscn" type="PackedScene" id=44]
+[ext_resource path="res://Sounds/Music/CCF Theme.ogg" type="AudioStream" id=45]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node
@@ -885,7 +886,7 @@ tracks/3/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 1.5, 1.5 ), Vector2( 1, 1 ), Vector2( 1.5, 1.5 ) ]
 }
 
-[sub_resource type="Animation" id=34]
+[sub_resource type="Animation" id=32]
 resource_name = "Start"
 length = 1.6
 tracks/0/type = "value"
@@ -937,11 +938,11 @@ tracks/3/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="DynamicFont" id=32]
+[sub_resource type="DynamicFont" id=33]
 size = 32
 font_data = ExtResource( 11 )
 
-[sub_resource type="DynamicFont" id=33]
+[sub_resource type="DynamicFont" id=34]
 size = 32
 font_data = ExtResource( 11 )
 
@@ -1517,10 +1518,13 @@ margin_top = 1797.0
 margin_right = 160.0
 margin_bottom = 1906.0
 
-[node name="TransitionScene" parent="UIGame/UI" instance=ExtResource( 29 )]
+[node name="InitialDarker" parent="UIGame/UI" instance=ExtResource( 29 )]
+
+[node name="TransitionScene" parent="UIGame/UI" instance=ExtResource( 30 )]
 editor/display_folded = true
 
 [node name="RestartTransition" type="TextureRect" parent="UIGame/UI"]
+editor/display_folded = true
 self_modulate = Color( 0, 0, 0, 0 )
 margin_right = 40.0
 margin_bottom = 40.0
@@ -1528,14 +1532,14 @@ mouse_filter = 2
 texture = ExtResource( 5 )
 
 [node name="RestAnim" type="AnimationPlayer" parent="UIGame/UI/RestartTransition"]
-anims/Start = SubResource( 34 )
+anims/Start = SubResource( 32 )
 
 [node name="Sprite" type="Sprite" parent="UIGame/UI/RestartTransition"]
 visible = false
 position = Vector2( 530, 950 )
 rotation = -1.0472
 scale = Vector2( 3.81007, 3.81007 )
-texture = ExtResource( 30 )
+texture = ExtResource( 31 )
 
 [node name="DebugPanel" type="Panel" parent="UIGame"]
 pause_mode = 2
@@ -1556,7 +1560,7 @@ margin_bottom = 116.0
 rect_min_size = Vector2( 0, 64 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 32 )
+custom_fonts/font = SubResource( 33 )
 toggle_mode = true
 text = "ON/OFF INVENCIBLE"
 
@@ -1567,7 +1571,7 @@ margin_bottom = 236.0
 rect_min_size = Vector2( 0, 64 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 33 )
+custom_fonts/font = SubResource( 34 )
 text = "Currency"
 
 [node name="ResetGame" type="Button" parent="UIGame/DebugPanel/VBoxContainer"]
@@ -1577,7 +1581,7 @@ margin_bottom = 356.0
 rect_min_size = Vector2( 0, 64 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 33 )
+custom_fonts/font = SubResource( 34 )
 text = "RESET GAME STATE"
 
 [node name="ToggleCollectables" type="Button" parent="UIGame/DebugPanel/VBoxContainer"]
@@ -1587,7 +1591,7 @@ margin_bottom = 476.0
 rect_min_size = Vector2( 0, 64 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 33 )
+custom_fonts/font = SubResource( 34 )
 toggle_mode = true
 pressed = true
 text = "ON/OFF COLLECT"
@@ -1599,7 +1603,7 @@ margin_bottom = 596.0
 rect_min_size = Vector2( 0, 64 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 33 )
+custom_fonts/font = SubResource( 34 )
 toggle_mode = true
 pressed = true
 text = "ON/OFF ENEMIES"
@@ -1611,7 +1615,7 @@ margin_bottom = 716.0
 rect_min_size = Vector2( 0, 64 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 33 )
+custom_fonts/font = SubResource( 34 )
 toggle_mode = true
 pressed = true
 text = "ON/OFF RIBBON"
@@ -1623,7 +1627,7 @@ margin_bottom = 836.0
 rect_min_size = Vector2( 0, 64 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 33 )
+custom_fonts/font = SubResource( 34 )
 toggle_mode = true
 text = "Music NEW/OLD"
 
@@ -1714,16 +1718,16 @@ position = Vector2( 120, -330 )
 [node name="Position2D5" type="Position2D" parent="SpawnPoints/PowerUps"]
 position = Vector2( 960, -330 )
 
-[node name="CollectableSpawner" parent="." instance=ExtResource( 31 )]
-item_list = [ ExtResource( 32 ), ExtResource( 33 ) ]
+[node name="CollectableSpawner" parent="." instance=ExtResource( 32 )]
+item_list = [ ExtResource( 33 ), ExtResource( 34 ) ]
 parent_node = NodePath("../Collectables")
 spawn_points_node = NodePath("../SpawnPoints/Collectables")
 min_height = 8.0
 max_height = 12.0
 probability = [ 0.15, 1.0 ]
 
-[node name="EnemySpawner" parent="." instance=ExtResource( 34 )]
-item_list = [ ExtResource( 35 ), ExtResource( 36 ), ExtResource( 37 ), ExtResource( 38 ) ]
+[node name="EnemySpawner" parent="." instance=ExtResource( 35 )]
+item_list = [ ExtResource( 36 ), ExtResource( 37 ), ExtResource( 38 ), ExtResource( 39 ) ]
 parent_node = NodePath("../Enemies")
 spawn_points_node = NodePath("../SpawnPoints/Enemies")
 min_height = 10.0
@@ -1731,16 +1735,16 @@ max_height = 20.0
 height_control_list = [ 0, 200, 350, 500 ]
 min_height_tutorial = 20
 
-[node name="FuelCanSpawner" parent="." instance=ExtResource( 39 )]
-item_list = [ ExtResource( 40 ) ]
+[node name="FuelCanSpawner" parent="." instance=ExtResource( 40 )]
+item_list = [ ExtResource( 41 ) ]
 parent_node = NodePath("../FuelCans")
 spawn_points_node = NodePath("../SpawnPoints/FuelCans")
 min_height = 15.0
 max_height = 20.0
 min_height_tutorial = 12
 
-[node name="PowerUpSpawner" parent="." instance=ExtResource( 41 )]
-item_list = [ ExtResource( 42 ), ExtResource( 43 ) ]
+[node name="PowerUpSpawner" parent="." instance=ExtResource( 42 )]
+item_list = [ ExtResource( 43 ), ExtResource( 44 ) ]
 spawn_points_node = NodePath("../SpawnPoints/PowerUps")
 min_height = 20.0
 probability = [ 0.05, 0.2 ]
@@ -1755,7 +1759,7 @@ probability = [ 0.05, 0.2 ]
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 pause_mode = 2
-stream = ExtResource( 44 )
+stream = ExtResource( 45 )
 autoplay = true
 bus = "Music"
 [connection signal="screen_exited" from="House/VisibilityNotifier2D" to="House" method="_on_VisibilityNotifier2D_screen_exited"]

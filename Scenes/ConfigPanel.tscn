@@ -31,12 +31,6 @@ func set_sliders():
 	$MusicLabel/MusicSlider.value = GameManager.music_volume
 	$SoundLabel/SoundSlider.value = GameManager.sound_volume
 
-
-func _on_CloseConfigButton_button_down():
-	hide()
-	pass # Replace with function body.
-
-
 func _on_MusicSlider_value_changed(value):
 	GameManager.change_music_volume(int(value))
 	pass # Replace with function body.
@@ -289,4 +283,3 @@ stretch_mode = 5
 [connection signal="value_changed" from="MusicLabel/MusicSlider" to="." method="_on_MusicSlider_value_changed"]
 [connection signal="value_changed" from="SoundLabel/SoundSlider" to="." method="_on_SoundSlider_value_changed"]
 [connection signal="toggled" from="LeftMode/Mode" to="." method="_on_Mode_toggled"]
-[connection signal="button_down" from="CloseConfigButton" to="." method="_on_CloseConfigButton_button_down"]
