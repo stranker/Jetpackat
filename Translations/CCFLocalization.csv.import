@@ -1,0 +1,16 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+
+[deps]
+
+files=[ "res://Translations/CCFLocalization.en.translation", "res://Translations/CCFLocalization.es.translation", "res://Translations/CCFLocalization.pt.translation" ]
+
+source_file="res://Translations/CCFLocalization.csv"
+dest_files=[ "res://Translations/CCFLocalization.en.translation", "res://Translations/CCFLocalization.es.translation", "res://Translations/CCFLocalization.pt.translation" ]
+
+[params]
+
+compress=true
+delimiter=1

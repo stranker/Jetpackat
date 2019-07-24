@@ -141,13 +141,13 @@ func equip_item():
 	using = true
 	emit_signal('item_equip',type,item_name,color)
 	check_button_color()
-	$UseButton/Text.text = \"UNEQUIP\"
+	$UseButton/Text.text = tr(\"SBUNE\")
 	pass
 
 func unequip_item():
 	if type != 'Jetpack':
 		using = false
-		$UseButton/Text.text = \"USE\"
+		$UseButton/Text.text = tr(\"SBUSE\")
 		$ItemPanel/ColorButton.hide()
 		GameManager.items_equipped.erase(type)
 		emit_signal('item_unequip',type)
@@ -164,7 +164,7 @@ func enable_use_button(val):
 	if buyed:
 		if val:
 			using = false
-			$UseButton/Text.text = \"USE\"
+			$UseButton/Text.text = tr(\"SBUSE\")
 			$ItemPanel/ColorButton.hide()
 	else:
 		$ItemPanel/Label.hide()
@@ -391,8 +391,6 @@ text = "999"
 valign = 1
 
 [node name="UseButton" type="Button" parent="."]
-editor/display_folded = true
-visible = false
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -415,7 +413,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 rect_min_size = Vector2( 0, 64 )
 custom_fonts/font = SubResource( 10 )
-text = "USE"
+text = "SBUSE"
 align = 1
 valign = 1
 [connection signal="button_down" from="ItemPanel/PreviewButton" to="." method="_on_PreviewButton_button_down"]

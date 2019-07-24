@@ -173,7 +173,6 @@ func _on_AcceptButton_button_down():
 func set_disable_main_buttons(val):
 	for i in $PawCat.get_children():
 		if i is TextureButton:
-			print(1)
 			i.disabled = val
 	pass
 

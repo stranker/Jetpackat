@@ -228,12 +228,12 @@ texture = ExtResource( 2 )
 [node name="CreditsLabel" type="Label" parent="."]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -318.0
-margin_right = 318.0
+margin_left = -461.0
+margin_right = 461.0
 margin_bottom = 336.0
 custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 0, 0, 0, 1 )
-text = "Credits"
+text = "CREDITS"
 align = 1
 valign = 1
 
@@ -249,7 +249,7 @@ margin_right = 353.005
 margin_bottom = -494.0
 custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "Programmer:"
+text = "PROGRAMMER"
 align = 1
 
 [node name="ProgrammerLabel" type="Label" parent="ProgrammerTitle"]
@@ -279,7 +279,7 @@ margin_right = 345.0
 margin_bottom = -154.0
 custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "Game Artist:"
+text = "GA"
 align = 1
 
 [node name="ArtistLabel" type="Label" parent="ArtistTitle"]
@@ -309,7 +309,7 @@ margin_right = 345.0
 margin_bottom = -774.0
 custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "Fonts:"
+text = "FONTS"
 align = 1
 
 [node name="Font" type="Label" parent="FontTitle"]
@@ -354,6 +354,7 @@ expand = true
 stretch_mode = 5
 
 [node name="Player" type="Node2D" parent="."]
+editor/display_folded = true
 position = Vector2( -133.396, 494.541 )
 rotation = 0.242549
 scale = Vector2( -4, 4 )

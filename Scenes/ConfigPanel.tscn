@@ -1,11 +1,11 @@
 [gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=1]
-[ext_resource path="res://Sprites/UI/PawCatIcon.png" type="Texture" id=2]
-[ext_resource path="res://Sprites/UI/LeftyOffButton.png" type="Texture" id=3]
-[ext_resource path="res://Sprites/UI/LeftyOnButton.png" type="Texture" id=4]
-[ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=5]
-[ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/UI/LeftyOffButton.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/UI/LeftyOnButton.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/UI/PawCatIcon.png" type="Texture" id=6]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 1, 0.74902, 0, 1 )
@@ -28,8 +28,8 @@ func _on_ConfigPanel_visibility_changed():
 	pass # Replace with function body.
 
 func set_sliders():
-	$MusicLabel/MusicSlider.value = GameManager.music_volume
-	$SoundLabel/SoundSlider.value = GameManager.sound_volume
+	$MusicSlider.value = GameManager.music_volume
+	$SoundSlider.value = GameManager.sound_volume
 
 func _on_MusicSlider_value_changed(value):
 	GameManager.change_music_volume(int(value))
@@ -172,69 +172,30 @@ margin_bottom = 245.0
 custom_styles/panel = SubResource( 5 )
 
 [node name="MusicLabel" type="Label" parent="."]
-editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -215.0
+margin_left = -409.0
 margin_top = -145.0
-margin_right = 215.0
+margin_right = 411.0
 margin_bottom = -67.0
 custom_fonts/font = SubResource( 6 )
-text = "Music VOLUME"
+text = "MVOLUME"
 align = 1
-
-[node name="MusicSlider" type="HSlider" parent="MusicLabel"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-margin_left = -235.0
-margin_top = 38.0
-margin_right = 30.0
-margin_bottom = 108.0
-size_flags_horizontal = 15
-custom_icons/grabber_highlight = ExtResource( 2 )
-custom_icons/grabber = ExtResource( 2 )
-custom_styles/slider = SubResource( 7 )
-custom_styles/grabber_area = SubResource( 8 )
-max_value = 5.0
-value = 3.0
-tick_count = 5
-ticks_on_borders = true
 
 [node name="SoundLabel" type="Label" parent="."]
-editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -215.0
+margin_left = -409.0
 margin_top = 65.0
-margin_right = 215.0
+margin_right = 411.0
 margin_bottom = 143.0
 custom_fonts/font = SubResource( 6 )
-text = "SOUND VOLUME"
+text = "SVOLUME"
 align = 1
-
-[node name="SoundSlider" type="HSlider" parent="SoundLabel"]
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -235.0
-margin_top = 16.0
-margin_right = 245.0
-margin_bottom = 46.0
-custom_icons/grabber_highlight = ExtResource( 2 )
-custom_icons/grabber = ExtResource( 2 )
-custom_styles/slider = SubResource( 7 )
-custom_styles/grabber_area = SubResource( 8 )
-max_value = 5.0
-value = 3.0
-tick_count = 5
-ticks_on_borders = true
 
 [node name="LeftMode" type="Label" parent="."]
 editor/display_folded = true
@@ -262,8 +223,8 @@ margin_right = 57.0
 margin_bottom = 86.0
 rect_scale = Vector2( 1.5, 1.5 )
 rect_pivot_offset = Vector2( 61, 0 )
-custom_icons/off = ExtResource( 3 )
-custom_icons/on = ExtResource( 4 )
+custom_icons/off = ExtResource( 2 )
+custom_icons/on = ExtResource( 3 )
 
 [node name="CloseConfigButton" type="TextureButton" parent="."]
 anchor_left = 0.5
@@ -274,12 +235,49 @@ margin_left = -82.0
 margin_top = -85.0
 margin_right = 81.0
 margin_bottom = 55.0
-texture_normal = ExtResource( 5 )
-texture_pressed = ExtResource( 6 )
-texture_disabled = ExtResource( 6 )
+texture_normal = ExtResource( 4 )
+texture_pressed = ExtResource( 5 )
+texture_disabled = ExtResource( 5 )
 expand = true
 stretch_mode = 5
+
+[node name="SoundSlider" type="HSlider" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -235.0
+margin_top = -191.0
+margin_right = 245.0
+margin_bottom = -161.0
+custom_icons/grabber_highlight = ExtResource( 6 )
+custom_icons/grabber = ExtResource( 6 )
+custom_styles/slider = SubResource( 7 )
+custom_styles/grabber_area = SubResource( 8 )
+max_value = 5.0
+value = 3.0
+tick_count = 5
+ticks_on_borders = true
+
+[node name="MusicSlider" type="HSlider" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -235.0
+margin_top = -68.0
+margin_right = -175.0
+margin_bottom = 2.0
+size_flags_horizontal = 15
+custom_icons/grabber_highlight = ExtResource( 6 )
+custom_icons/grabber = ExtResource( 6 )
+custom_styles/slider = SubResource( 7 )
+custom_styles/grabber_area = SubResource( 8 )
+max_value = 5.0
+value = 3.0
+tick_count = 5
+ticks_on_borders = true
 [connection signal="visibility_changed" from="." to="." method="_on_ConfigPanel_visibility_changed"]
-[connection signal="value_changed" from="MusicLabel/MusicSlider" to="." method="_on_MusicSlider_value_changed"]
-[connection signal="value_changed" from="SoundLabel/SoundSlider" to="." method="_on_SoundSlider_value_changed"]
 [connection signal="toggled" from="LeftMode/Mode" to="." method="_on_Mode_toggled"]
+[connection signal="value_changed" from="SoundSlider" to="." method="_on_SoundSlider_value_changed"]
+[connection signal="value_changed" from="MusicSlider" to="." method="_on_MusicSlider_value_changed"]

@@ -66,6 +66,11 @@ texture={
 
 pointing/emulate_touch_from_mouse=true
 
+[locale]
+
+translations=PoolStringArray( "res://Translations/CCFLocalization.en.translation", "res://Translations/CCFLocalization.es.translation", "res://Translations/CCFLocalization.pt.translation" )
+locale_filter=[ 1, [ "en_US", "es_AR", "pt_BR" ] ]
+
 [physics]
 
 2d/physics_engine="GodotPhysics"

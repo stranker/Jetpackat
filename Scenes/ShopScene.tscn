@@ -729,10 +729,6 @@ editor/display_folded = true
 
 [node name="TransitionItems" parent="TransitionScene" index="1"]
 editor/display_folded = true
-
-[node name="TextureRect2" parent="TransitionScene/TransitionItems" index="1"]
-margin_right = 3909.0
-margin_bottom = 3040.0
 [connection signal="value_changed" from="VBC/HBC/ShopPanel/PanelItems/CustomColor" to="." method="_on_CustomColor_value_changed"]
 [connection signal="button_down" from="VBC/HBC/VBB/CloseButton" to="." method="_on_TextureButton_button_down"]
 [connection signal="button_down" from="VBC/HBC/VBB/PanelButtons/Panel/Hat" to="." method="_on_Hat_button_down"]
