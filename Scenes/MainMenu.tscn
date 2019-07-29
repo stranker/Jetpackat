@@ -1,4 +1,4 @@
-[gd_scene load_steps=69 format=2]
+[gd_scene load_steps=70 format=2]
 
 [ext_resource path="res://Scenes/LeaderTest.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Background/HouseBroken.png" type="Texture" id=2]
@@ -32,6 +32,7 @@
 [ext_resource path="res://Sounds/Music/CCF Theme.ogg" type="AudioStream" id=30]
 [ext_resource path="res://Scenes/TransitionScene.tscn" type="PackedScene" id=31]
 [ext_resource path="res://Scenes/InitialDarker.tscn" type="PackedScene" id=32]
+[ext_resource path="res://Scenes/LanguageSelection.tscn" type="PackedScene" id=33]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Control
@@ -125,7 +126,7 @@ func get_leaderboard_data():
 	if $Leaderboard/Leaders/SC/ItemList.get_children().empty():
 		var public_url = 'http://dreamlo.com/lb/5cba6e4a3eba5e041c24a2b4/json'
 		$HTTPRequest.request(public_url,[],true,HTTPClient.METHOD_GET)
-		$Leaderboard/State.text = 'CONNECTING...'
+		$Leaderboard/State.text = tr('LEADERBOARD_CONNECTING')
 	pass
 
 func _on_CloseLeaderButton_button_down():
@@ -140,9 +141,9 @@ func _on_HTTPRequest_request_completed(result, response_code, headers, body):
 		if leaderboard_list:
 			fill_leaderboard(leaderboard_list['entry'])
 		else:
-			$Leaderboard/State.text = 'NO SCORES YET./nYOU CAN BE THE LEADER!'
+			$Leaderboard/State.text = tr('LEADERBOARD_EMPTY')
 	else:
-		$Leaderboard/State.text = 'FAILED TO CONNECT'
+		$Leaderboard/State.text = tr('LEADERBOARD_FAILED')
 	pass # Replace with function body.
 
 func fill_leaderboard(entries):
@@ -183,7 +184,6 @@ func _on_SC_gui_input(event):
 	pass # Replace with function body.
 
 func _on_TouchArea_input_event(viewport, event, shape_idx):
-	print(event)
 	if event is InputEventScreenTouch:
 		if event.pressed and event.is_echo() and easter_cont < 5:
 			easter_cont += 1
@@ -224,6 +224,11 @@ func _on_AnimTrans_animation_finished(anim_name):
 
 func _on_CloseConfigButton_button_down():
 	$UIAnimation.play_backwards('ConfPanel')
+	pass # Replace with function body.
+
+
+func _on_En_button_down():
+	
 	pass # Replace with function body.
 "
 
@@ -1393,6 +1398,12 @@ custom_styles/normal = SubResource( 31 )
 custom_fonts/font = SubResource( 32 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "NEXT"
+
+[node name="LanguageSelection" parent="." instance=ExtResource( 33 )]
+margin_left = -480.0
+margin_top = -300.0
+margin_right = 483.0
+margin_bottom = 375.0
 
 [node name="UIAnimation" type="AnimationPlayer" parent="."]
 anims/Begin = SubResource( 33 )
