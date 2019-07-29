@@ -29,6 +29,7 @@ var can_receive_damage : bool = true
 var dead : bool = false
 var on_magnet : bool = false
 var has_aegis : bool = false
+const initial_magnet : float = 117.5
 
 signal start_playing
 signal dead
@@ -100,9 +101,8 @@ func check_is_active():
 	pass
 
 func take_damage():
-	if !has_aegis:
-		print(1)
-		if !invencible and !dead and can_receive_damage:
+	if !has_aegis and !invencible:
+		if !dead and can_receive_damage:
 			dead = !dead
 			check_die_direction()
 			set_physics_process(false)
@@ -155,6 +155,7 @@ func impulse(force):
 
 func _on_InvencibleTimer_timeout():
 	set_invencible(false)
+	set_magnet_area_radius(initial_magnet)
 	$CollisionShape2D.disabled = true
 	$Visible/Shield.hide()
 	$NoColliderTimer.start()
@@ -170,7 +171,7 @@ func set_invencible(val):
 		velocity.x = 0
 		$Anim.play('Invencible')
 		impulse(1500)
-		set_increment_magnet_area(true)
+		set_magnet_area_radius(1000)
 	else:
 		$Visible/Shield/Anim.stop()
 	emit_signal('invencible',invencible)
@@ -196,25 +197,31 @@ func set_magnet(val):
 	on_magnet = val
 	if val:
 		$MagnetTimer.start()
-		set_increment_magnet_area(on_magnet)
-		$Anim.play('Magnet')
+		set_active_magnet_area(on_magnet, 300)
 	pass
 
 func _on_MagnetTimer_timeout():
 	if !dead:
 		on_magnet = false
 		if !invencible:
-			set_increment_magnet_area(on_magnet)
+			set_active_magnet_area(on_magnet, initial_magnet)
 			$Anim.play('Flying')
 		$Visible/Skin/Magnet.hide()
 	pass # Replace with function body.
 
-func set_increment_magnet_area(val):
-	if val:
-		$Visible/MagnetArea/CollisionShape2D.shape.radius = 1000
-	else:
-		$Visible/MagnetArea/CollisionShape2D.shape.radius = 117.5
+func set_active_magnet_area(active, val):
+	if !invencible:
+		if active:
+			set_magnet_area_radius(val)
+			$Visible/Skin/Magnet/Anim.play('Magnet')
+		else:
+			set_magnet_area_radius(initial_magnet)
+			$Visible/Skin/Magnet/Anim.stop()
+			$Visible/Skin/Magnet.visible = active
 	pass
+
+func set_magnet_area_radius(val):
+	$Visible/MagnetArea/CollisionShape2D.shape.radius = val
 
 func set_aegis(val):
 	has_aegis = val
@@ -372,6 +379,34 @@ shader_param/outline_color = Color( 0, 0, 0, 1 )
 shader = ExtResource( 2 )
 shader_param/outline_width = 0.7
 shader_param/outline_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="Animation" id=30]
+resource_name = "Magnet"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 144.859, 214.754 ]
+}
 
 [sub_resource type="ShaderMaterial" id=8]
 shader = ExtResource( 2 )
@@ -805,10 +840,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ true ]
+"values": [ true, false ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath(".:self_modulate")
@@ -1245,45 +1280,6 @@ tracks/4/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="Animation" id=28]
-length = 4.0
-tracks/0/type = "value"
-tracks/0/path = NodePath("Visible/Skin:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 1 ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Visible/Skin/Eyes:frame")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.3, 1.8, 2, 2.4 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ 0, 4, 1, 0, 4 ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Visible/Skin/Magnet:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 3.99078 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, false ]
-}
-
 [sub_resource type="Animation" id=29]
 length = 2.0
 tracks/0/type = "value"
@@ -1492,12 +1488,16 @@ scale = Vector2( 0.6, 0.6 )
 offset = Vector2( -3.49275, -23.7578 )
 
 [node name="Magnet" type="Sprite" parent="Visible/Skin"]
+editor/display_folded = true
 visible = false
 material = SubResource( 7 )
-position = Vector2( -24.4751, -7.13806 )
-rotation = 2.32103
+position = Vector2( -0.475098, -45.8047 )
+rotation = 2.52827
 scale = Vector2( 0.8, 0.8 )
 texture = ExtResource( 5 )
+
+[node name="Anim" type="AnimationPlayer" parent="Visible/Skin/Magnet"]
+anims/Magnet = SubResource( 30 )
 
 [node name="Jetpack" type="Sprite" parent="Visible"]
 editor/display_folded = true
@@ -1720,6 +1720,7 @@ anims/Used = SubResource( 21 )
 [node name="Feathers" type="CPUParticles2D" parent="Visible/AegisWings"]
 position = Vector2( 27.4478, 13.603 )
 rotation = 1.57079
+emitting = false
 amount = 60
 one_shot = true
 explosiveness = 0.8
@@ -1743,7 +1744,6 @@ anims/Flying = SubResource( 24 )
 anims/FuelTaken = SubResource( 25 )
 anims/Idle = SubResource( 26 )
 anims/Invencible = SubResource( 27 )
-anims/Magnet = SubResource( 28 )
 anims/TimeOut = SubResource( 29 )
 
 [node name="ClickArea" type="CanvasLayer" parent="."]
@@ -1761,7 +1761,7 @@ one_shot = true
 one_shot = true
 
 [node name="MagnetTimer" type="Timer" parent="."]
-wait_time = 4.0
+wait_time = 10.0
 one_shot = true
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]

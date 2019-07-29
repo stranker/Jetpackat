@@ -1049,6 +1049,7 @@ centered = false
 position = Vector2( 559.5, 830 )
 
 [node name="UIGame" type="CanvasLayer" parent="."]
+editor/display_folded = true
 script = SubResource( 6 )
 
 [node name="UI" type="Control" parent="UIGame"]
