@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Sprites/UI/PawCatIcon.png" type="Texture" id=2]
-[ext_resource path="res://Sprites/UI/MainMenu/ARGFlag.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/UI/MainMenu/es_flag.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/UI/LeftyOffButton.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/UI/LeftyOnButton.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=6]
@@ -27,6 +27,7 @@ script/source = "extends Panel
 func _on_ConfigPanel_visibility_changed():
 	if visible:
 		set_sliders()
+		$BackPanel/VBC/Language/LanguageButton.texture_normal = load('res://Sprites/UI/MainMenu/'+GameManager.language+'_flag.png')
 	pass # Replace with function body.
 
 func set_sliders():
@@ -48,11 +49,19 @@ func _on_Mode_toggled(button_pressed):
 func _on_LanguageButton_button_down():
 	$LanguageSelection.show()
 	$LanguageSelection.on_animation_end()
+	$CloseConfigButton.disabled = true
 	pass # Replace with function body.
 
 func _on_LanguageSelection_language_selected(texture):
 	$LanguageSelection.hide()
 	$BackPanel/VBC/Language/LanguageButton.texture_normal = texture
+	GameManager.language = TranslationServer.get_locale()
+	$CloseConfigButton.disabled = false
+	pass # Replace with function body.
+
+func _on_CloseConfigButton_button_down():
+	GameManager.save_current_game_info()
+	hide()
 	pass # Replace with function body.
 "
 
@@ -362,4 +371,5 @@ margin_bottom = 281.5
 [connection signal="value_changed" from="BackPanel/VBC/Sound/SoundSlider" to="." method="_on_SoundSlider_value_changed"]
 [connection signal="button_down" from="BackPanel/VBC/Language/LanguageButton" to="." method="_on_LanguageButton_button_down"]
 [connection signal="toggled" from="LeftMode/Mode" to="." method="_on_Mode_toggled"]
+[connection signal="button_down" from="CloseConfigButton" to="." method="_on_CloseConfigButton_button_down"]
 [connection signal="language_selected" from="LanguageSelection" to="." method="_on_LanguageSelection_language_selected"]

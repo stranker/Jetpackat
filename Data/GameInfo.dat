@@ -7,6 +7,7 @@
 	"MusicVolume":5,
 	"SoundVolume":5,
 	"LeftMode":false,
-	"Tutorial":false
+	"Tutorial":false,
+	"Language":"en"
 }
 

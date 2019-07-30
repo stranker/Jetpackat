@@ -1049,7 +1049,6 @@ centered = false
 position = Vector2( 559.5, 830 )
 
 [node name="UIGame" type="CanvasLayer" parent="."]
-editor/display_folded = true
 script = SubResource( 6 )
 
 [node name="UI" type="Control" parent="UIGame"]
@@ -1342,7 +1341,6 @@ valign = 1
 
 [node name="PausePanel" type="Panel" parent="UIGame/UI"]
 pause_mode = 2
-editor/display_folded = true
 visible = false
 self_modulate = Color( 1, 1, 1, 0.839216 )
 anchor_left = 0.5
@@ -1360,7 +1358,7 @@ anchor_right = 1.0
 margin_top = 10.5
 margin_bottom = 114.5
 custom_fonts/font = SubResource( 25 )
-text = "GAME PAUSED"
+text = "GAME_PAUSED"
 align = 1
 valign = 1
 
@@ -1434,7 +1432,7 @@ visible = false
 margin_left = -420.0
 margin_top = -350.0
 margin_right = 420.0
-margin_bottom = 350.0
+margin_bottom = 510.0
 
 [node name="DeadPanel" type="Panel" parent="UIGame/UI"]
 pause_mode = 2

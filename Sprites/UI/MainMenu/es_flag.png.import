@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/ARGFlag.png-b7302c81c85c9b85257dd3adb0b8692b.stex"
+path="res://.import/es_flag.png-f83dab145a32d2732a3c2cb13b68b952.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/UI/MainMenu/ARGFlag.png"
-dest_files=[ "res://.import/ARGFlag.png-b7302c81c85c9b85257dd3adb0b8692b.stex" ]
+source_file="res://Sprites/UI/MainMenu/es_flag.png"
+dest_files=[ "res://.import/es_flag.png-f83dab145a32d2732a3c2cb13b68b952.stex" ]
 
 [params]
 

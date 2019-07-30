@@ -20,6 +20,7 @@ var private_url = 'A_qF1JJVd0iy5GKQGTuHjAXVoYJ4ml3kq7N2E5W0B16g'
 var left_mode : bool = false
 var easter = false
 var tutorial_done : bool = false
+var language = ''
 
 func reset_stats():
 	player_height = 0
@@ -29,6 +30,7 @@ func _ready():
 	load_data()
 	change_music_volume(game_info['MusicVolume'])
 	change_sound_volume(game_info['SoundVolume'])
+	change_language()
 	pass
 
 func load_data():
@@ -52,6 +54,7 @@ func load_data_from_res():
 		sound_volume = game_info['SoundVolume']
 		left_mode = game_info['LeftMode']
 		tutorial_done = game_info['Tutorial']
+		language = game_info['Language']
 	save_game_data()
 	pass
 
@@ -70,6 +73,7 @@ func load_data_from_user():
 		sound_volume = game_info['SoundVolume']
 		left_mode = game_info['LeftMode']
 		tutorial_done = game_info['Tutorial']
+		language = game_info['Language']
 	save_game_data()
 	pass
 
@@ -138,6 +142,7 @@ func save_current_game_info():
 	game_info['SoundVolume'] = sound_volume
 	game_info['LeftMode'] = left_mode
 	game_info['Tutorial'] = tutorial_done
+	game_info['Language'] = language
 	if !game_info.empty():
 		file.store_line(to_json(game_info))
 		file.store_line("")
@@ -202,4 +207,8 @@ func change_sound_volume(value):
 	sound_volume = value
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index('Sounds'),-32 + 6.4 * value)
 	AudioServer.set_bus_mute(AudioServer.get_bus_index('Sounds'),value == 0)
+	pass
+
+func change_language():
+	TranslationServer.set_locale(language.to_lower())
 	pass

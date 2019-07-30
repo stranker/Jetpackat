@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/USAFlag.png-765046a2d6f6ac07c989760bc74f8a4b.stex"
+path="res://.import/en_flag.png-77161eabca9d6b1031e24035bd71fc6b.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/UI/MainMenu/USAFlag.png"
-dest_files=[ "res://.import/USAFlag.png-765046a2d6f6ac07c989760bc74f8a4b.stex" ]
+source_file="res://Sprites/UI/MainMenu/en_flag.png"
+dest_files=[ "res://.import/en_flag.png-77161eabca9d6b1031e24035bd71fc6b.stex" ]
 
 [params]
 
