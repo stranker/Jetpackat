@@ -279,7 +279,7 @@ margin_right = 345.0
 margin_bottom = -154.0
 custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "GA"
+text = "GAME_ARTIST"
 align = 1
 
 [node name="ArtistLabel" type="Label" parent="ArtistTitle"]

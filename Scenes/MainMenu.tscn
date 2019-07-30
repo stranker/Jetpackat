@@ -1,4 +1,4 @@
-[gd_scene load_steps=70 format=2]
+[gd_scene load_steps=71 format=2]
 
 [ext_resource path="res://Scenes/LeaderTest.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Background/HouseBroken.png" type="Texture" id=2]
@@ -57,8 +57,9 @@ func _ready():
 func check_first_game():
 	$NicknamePanel.hide()
 	$Darker.hide()
+	$LanguageSelection.hide()
 	if GameManager.nickname == '':
-		$UIAnimation.play('Begin')
+		$UIAnimation.play('Language')
 	pass
 
 func set_items_equipped():
@@ -226,9 +227,8 @@ func _on_CloseConfigButton_button_down():
 	$UIAnimation.play_backwards('ConfPanel')
 	pass # Replace with function body.
 
-
-func _on_En_button_down():
-	
+func _on_LanguageSelection_language_selected(texture):
+	$UIAnimation.play('Nickname')
 	pass # Replace with function body.
 "
 
@@ -650,6 +650,8 @@ corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
+expand_margin_left = 20.0
+expand_margin_right = 20.0
 shadow_color = Color( 0, 0, 0, 0.239216 )
 shadow_size = 10
 
@@ -661,6 +663,8 @@ corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
+expand_margin_left = 20.0
+expand_margin_right = 20.0
 shadow_color = Color( 0, 0, 0, 0.239216 )
 shadow_size = 10
 
@@ -672,58 +676,6 @@ use_filter = true
 font_data = ExtResource( 29 )
 
 [sub_resource type="Animation" id=33]
-resource_name = "Begin"
-length = 0.7
-tracks/0/type = "value"
-tracks/0/path = NodePath("NicknamePanel:rect_position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.7 ),
-"transitions": PoolRealArray( 0.5, 1 ),
-"update": 0,
-"values": [ Vector2( 1170, 750 ), Vector2( 140, 750 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("NicknamePanel:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Darker:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("Darker:modulate")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Color( 0, 0, 0, 0.92549 ) ]
-}
-
-[sub_resource type="Animation" id=34]
 resource_name = "ConfPanel"
 length = 0.6
 tracks/0/type = "value"
@@ -756,6 +708,72 @@ tracks/1/keys = {
 }, {
 "args": [ true ],
 "method": "set_disable_main_buttons"
+} ]
+}
+
+[sub_resource type="Animation" id=34]
+resource_name = "Language"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/path = NodePath("LanguageSelection:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.6 ),
+"transitions": PoolRealArray( 0.5, 1 ),
+"update": 0,
+"values": [ Vector2( 60, 1960 ), Vector2( 58.5, 678.5 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("LanguageSelection:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Darker:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Darker:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 0.952941 ) ]
+}
+tracks/4/type = "method"
+tracks/4/path = NodePath("LanguageSelection")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.6 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "on_animation_end"
 } ]
 }
 
@@ -808,6 +826,69 @@ tracks/2/keys = {
 }
 
 [sub_resource type="Animation" id=36]
+length = 0.8
+tracks/0/type = "value"
+tracks/0/path = NodePath("NicknamePanel:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3, 0.8 ),
+"transitions": PoolRealArray( 2, 0.5, 1 ),
+"update": 0,
+"values": [ Vector2( 1110, 725 ), Vector2( 1110, 725 ), Vector2( 140.003, 724.999 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("NicknamePanel:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Darker:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Darker:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 0.92549 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("LanguageSelection:rect_position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.6 ),
+"transitions": PoolRealArray( 0.5, 1 ),
+"update": 0,
+"values": [ Vector2( 58.5, 678.5 ), Vector2( 58.5007, 2050 ) ]
+}
+
+[sub_resource type="Animation" id=37]
 length = 0.7
 tracks/0/type = "value"
 tracks/0/path = NodePath("NicknamePanel:rect_position")
@@ -817,9 +898,9 @@ tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0, 0.7 ),
-"transitions": PoolRealArray( 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 140, 750 ), Vector2( 1260, 750 ) ]
+"values": [ Vector2( 140.004, 724.972 ), Vector2( 1260, 725 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Darker:modulate")
@@ -852,10 +933,10 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0.7 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 0.7 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ false ]
+"values": [ true, false ]
 }
 tracks/4/type = "value"
 tracks/4/path = NodePath("Darker:visible")
@@ -1327,10 +1408,10 @@ editor/display_folded = true
 [node name="InitialDarker" parent="." instance=ExtResource( 32 )]
 
 [node name="Darker" type="TextureRect" parent="."]
-modulate = Color( 0, 0, 0, 0.92549 )
+modulate = Color( 0, 0, 0, 0.952941 )
 margin_right = 40.0
 margin_bottom = 40.0
-mouse_filter = 2
+mouse_filter = 0
 texture = ExtResource( 3 )
 
 [node name="NicknamePanel" type="Panel" parent="."]
@@ -1339,10 +1420,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 356.735
-margin_top = -210.0
-margin_right = 1156.73
-margin_bottom = 260.003
+margin_left = -399.996
+margin_top = -235.028
+margin_right = 399.995
+margin_bottom = 235.03
 custom_styles/panel = SubResource( 26 )
 
 [node name="Title" type="Label" parent="NicknamePanel"]
@@ -1352,13 +1433,16 @@ margin_left = -345.5
 margin_top = 27.0
 margin_right = 345.5
 margin_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 5
 custom_styles/normal = SubResource( 27 )
 custom_fonts/font = SubResource( 28 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_x = 9
 custom_constants/shadow_offset_y = 8
-text = "CREATE YOUR CATNAME"
+text = "NICKNAME_TITLE"
 align = 1
 
 [node name="Nickname" type="LineEdit" parent="NicknamePanel"]
@@ -1367,9 +1451,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -375.0
-margin_top = -59.0
+margin_top = -70.0009
 margin_right = 370.0
-margin_bottom = 59.0
+margin_bottom = 47.9991
 custom_icons/clear = ExtResource( 22 )
 custom_styles/normal = SubResource( 27 )
 custom_fonts/font = SubResource( 29 )
@@ -1377,7 +1461,7 @@ custom_colors/font_color_selected = Color( 0, 0, 0, 1 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 align = 1
 max_length = 30
-placeholder_text = "CATNAME"
+placeholder_text = "NICKNAME"
 placeholder_alpha = 0.451
 caret_blink = true
 caret_blink_speed = 1.0
@@ -1388,28 +1472,35 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -130.0
-margin_top = -131.0
-margin_right = 130.0
-margin_bottom = -28.0
+margin_left = -106.5
+margin_top = -145.03
+margin_right = 106.5
+margin_bottom = -20.0298
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 5
+size_flags_vertical = 5
 custom_styles/hover = SubResource( 30 )
 custom_styles/pressed = SubResource( 30 )
 custom_styles/normal = SubResource( 31 )
 custom_fonts/font = SubResource( 32 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "NEXT"
+text = "NICKNAME_ACCEPT"
 
 [node name="LanguageSelection" parent="." instance=ExtResource( 33 )]
+anchor_top = 1.0
+anchor_bottom = 1.0
 margin_left = -480.0
-margin_top = -300.0
-margin_right = 483.0
-margin_bottom = 375.0
+margin_top = 40.0
+margin_right = 482.999
+margin_bottom = 602.995
 
 [node name="UIAnimation" type="AnimationPlayer" parent="."]
-anims/Begin = SubResource( 33 )
-anims/ConfPanel = SubResource( 34 )
+anims/ConfPanel = SubResource( 33 )
+anims/Language = SubResource( 34 )
 anims/Leaderboard = SubResource( 35 )
-anims/NicknameAccepted = SubResource( 36 )
+anims/Nickname = SubResource( 36 )
+anims/NicknameAccepted = SubResource( 37 )
 [connection signal="tree_exiting" from="." to="." method="_on_MainMenu_tree_exiting"]
 [connection signal="timeout" from="Bird/BTimer" to="." method="_on_BTimer_timeout"]
 [connection signal="timeout" from="PaperPlane/PTimer" to="." method="_on_PTimer_timeout"]
@@ -1428,6 +1519,7 @@ anims/NicknameAccepted = SubResource( 36 )
 [connection signal="animation_finished" from="TransitionScene/Anim" to="." method="_on_AnimTrans_animation_finished"]
 [connection signal="text_changed" from="NicknamePanel/Nickname" to="." method="_on_LineEdit_text_changed"]
 [connection signal="button_down" from="NicknamePanel/AcceptButton" to="." method="_on_AcceptButton_button_down"]
+[connection signal="language_selected" from="LanguageSelection" to="." method="_on_LanguageSelection_language_selected"]
 
 [editable path="ConfigPanel"]
 

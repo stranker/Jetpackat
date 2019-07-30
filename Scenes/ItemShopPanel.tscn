@@ -141,13 +141,13 @@ func equip_item():
 	using = true
 	emit_signal('item_equip',type,item_name,color)
 	check_button_color()
-	$UseButton/Text.text = tr(\"SBUNE\")
+	$UseButton/Text.text = tr(\"SHOPBUTTON_UNEQUIP\")
 	pass
 
 func unequip_item():
 	if type != 'Jetpack':
 		using = false
-		$UseButton/Text.text = tr(\"SBUSE\")
+		$UseButton/Text.text = tr(\"SHOPBUTTON_USE\")
 		$ItemPanel/ColorButton.hide()
 		GameManager.items_equipped.erase(type)
 		emit_signal('item_unequip',type)
@@ -164,7 +164,7 @@ func enable_use_button(val):
 	if buyed:
 		if val:
 			using = false
-			$UseButton/Text.text = tr(\"SBUSE\")
+			$UseButton/Text.text = tr(\"SHOPBUTTON_USE\")
 			$ItemPanel/ColorButton.hide()
 	else:
 		$ItemPanel/Label.hide()
@@ -391,6 +391,7 @@ text = "999"
 valign = 1
 
 [node name="UseButton" type="Button" parent="."]
+editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -411,9 +412,15 @@ enabled_focus_mode = 0
 [node name="Text" type="Label" parent="UseButton"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = -68.5
+margin_top = -3.59241
+margin_right = 68.5
+margin_bottom = -3.59241
+grow_horizontal = 2
+grow_vertical = 2
 rect_min_size = Vector2( 0, 64 )
 custom_fonts/font = SubResource( 10 )
-text = "SBUSE"
+text = "SHOPBUTTON_USE"
 align = 1
 valign = 1
 [connection signal="button_down" from="ItemPanel/PreviewButton" to="." method="_on_PreviewButton_button_down"]
