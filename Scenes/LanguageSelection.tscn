@@ -26,32 +26,55 @@ script/source = "extends Panel
 signal language_selected(texture_button)
 onready var initial_button_scale = Vector2(0.4,0.3)
 export (Array, NodePath) var button_list
+var button_clicked = null
 
 func _ready():
 	randomize()
 	pass
 
 func _on_En_button_down():
-	TranslationServer.set_locale('en')
-	emit_signal('language_selected',$Flags/English/En.texture_normal)
+	on_translation_button_clicked('en',$Flags/English/En)
 	pass # Replace with function body.
 
 func _on_Es_button_down():
-	TranslationServer.set_locale('es')
-	emit_signal('language_selected',$Flags/Espaniol/Es.texture_normal)
+	on_translation_button_clicked('es',$Flags/Espaniol/Es)
 	pass # Replace with function body.
 
 func _on_Pt_button_down():
-	TranslationServer.set_locale('pt')
-	emit_signal('language_selected',$Flags/Portugues/Pt.texture_normal)
+	on_translation_button_clicked('pt',$Flags/Portugues/Pt)
 	pass # Replace with function body.
 
-func on_animation_end():
-	for button in button_list:
-		$Tween.interpolate_property(get_node(button),'rect_scale', initial_button_scale, Vector2(1,1), 0.4,
-		 Tween.TRANS_ELASTIC,Tween.EASE_OUT, rand_range(0.05,0.25))
+func on_translation_button_clicked(lang,button):
+	button_clicked = button
+	TranslationServer.set_locale(lang)
+	GameManager.language = lang
+	$Tween.remove_all()
+	$Tween.interpolate_property(button,'rect_scale', initial_button_scale, Vector2(1.2,1.2), 0.5,
+		 Tween.TRANS_ELASTIC,Tween.EASE_OUT)
 	$Tween.start()
-	pass"
+	$Timer.start()
+	pass
+
+func on_animation_end():
+	if !button_clicked:
+		$Tween.remove_all()
+		for button in button_list:
+			$Tween.interpolate_property(get_node(button),'rect_scale', initial_button_scale, Vector2(1,1), 0.4,
+			 Tween.TRANS_ELASTIC,Tween.EASE_OUT, rand_range(0.05,0.25))
+		$Tween.start()
+	pass
+
+func _on_Timer_timeout():
+	emit_signal('language_selected',button_clicked.texture_normal)
+	pass # Replace with function body.
+
+func _on_LanguageSelection_visibility_changed():
+	if !visible:
+		for button in button_list:
+			get_node(button).rect_scale = Vector2(1,1)
+		button_clicked = null
+	pass # Replace with function body.
+"
 
 [sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0, 0.694118, 1, 1 )
@@ -113,6 +136,7 @@ text = "SELECT YOUR LANGUAGE"
 align = 1
 
 [node name="Flags" type="GridContainer" parent="."]
+editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -279,6 +303,12 @@ expand = true
 stretch_mode = 6
 
 [node name="Tween" type="Tween" parent="."]
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.6
+one_shot = true
+[connection signal="visibility_changed" from="." to="." method="_on_LanguageSelection_visibility_changed"]
 [connection signal="button_down" from="Flags/Espaniol/Es" to="." method="_on_Es_button_down"]
 [connection signal="button_down" from="Flags/English/En" to="." method="_on_En_button_down"]
 [connection signal="button_down" from="Flags/Portugues/Pt" to="." method="_on_Pt_button_down"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
