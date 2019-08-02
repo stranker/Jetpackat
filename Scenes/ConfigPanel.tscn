@@ -10,12 +10,12 @@
 [ext_resource path="res://Scenes/LanguageSelection.tscn" type="PackedScene" id=8]
 
 [sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 1, 0.74902, 0, 1 )
+bg_color = Color( 1, 0.768627, 0.0745098, 1 )
 border_width_left = 10
 border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
-border_color = Color( 0.835294, 0.588235, 0, 1 )
+border_color = Color( 1, 1, 1, 1 )
 corner_radius_top_left = 30
 corner_radius_top_right = 30
 corner_radius_bottom_right = 30
@@ -69,20 +69,16 @@ func _on_CloseConfigButton_button_down():
 "
 
 [sub_resource type="StyleBoxFlat" id=3]
-bg_color = Color( 1, 0.823529, 0.00784314, 1 )
+bg_color = Color( 1, 0.678431, 0, 1 )
 border_width_left = 10
 border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
-border_color = Color( 0.92549, 0.65098, 0, 1 )
+border_color = Color( 1, 1, 1, 1 )
 corner_radius_top_left = 30
 corner_radius_top_right = 30
 corner_radius_bottom_right = 30
 corner_radius_bottom_left = 30
-expand_margin_left = 10.0
-expand_margin_right = 10.0
-expand_margin_top = 2.0
-expand_margin_bottom = 2.0
 shadow_color = Color( 0, 0, 0, 0.25098 )
 shadow_size = 10
 
@@ -94,12 +90,12 @@ use_filter = true
 font_data = ExtResource( 1 )
 
 [sub_resource type="StyleBoxFlat" id=5]
-bg_color = Color( 1, 0.866667, 0, 1 )
+bg_color = Color( 1, 0.796078, 0, 1 )
 border_width_left = 10
 border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
-border_color = Color( 0.913725, 0.662745, 0, 1 )
+border_color = Color( 1, 1, 1, 1 )
 corner_radius_top_left = 30
 corner_radius_top_right = 30
 corner_radius_bottom_right = 30
@@ -108,7 +104,7 @@ shadow_color = Color( 0, 0, 0, 0.184314 )
 shadow_size = 15
 
 [sub_resource type="DynamicFont" id=6]
-size = 64
+size = 48
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
@@ -208,7 +204,7 @@ anchor_bottom = 0.5
 margin_left = -421.0
 margin_top = -345.0
 margin_right = 419.0
-margin_bottom = 490.0
+margin_bottom = 600.0
 rect_min_size = Vector2( 840, 700 )
 custom_styles/panel = SubResource( 1 )
 script = SubResource( 2 )
@@ -216,9 +212,9 @@ script = SubResource( 2 )
 [node name="Title" type="Label" parent="."]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -261.0
+margin_left = -451.0
 margin_top = 35.0
-margin_right = 261.0
+margin_right = 451.0
 margin_bottom = 143.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -226,7 +222,7 @@ size_flags_horizontal = 5
 size_flags_vertical = 5
 custom_styles/normal = SubResource( 3 )
 custom_fonts/font = SubResource( 4 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.294118 )
 custom_constants/shadow_offset_x = 8
 custom_constants/shadow_offset_y = 8
 text = "CONFIGURATION"
@@ -237,21 +233,19 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -379.0
-margin_top = -242.5
-margin_right = 379.0
-margin_bottom = 317.5
+margin_left = -351.0
+margin_top = -297.5
+margin_right = 351.0
+margin_bottom = 322.5
 custom_styles/panel = SubResource( 5 )
 
 [node name="VBC" type="VBoxContainer" parent="BackPanel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_bottom = -10.0
 
 [node name="Music" type="Control" parent="BackPanel/VBC"]
-editor/display_folded = true
-margin_right = 758.0
-margin_bottom = 180.0
+margin_right = 702.0
+margin_bottom = 204.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -260,10 +254,11 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -410.0
-margin_top = -60.0
-margin_right = 410.0
-margin_bottom = 18.0
+margin_left = -381.0
+margin_top = -69.0
+margin_right = 379.0
+margin_bottom = 10.0
+custom_styles/normal = SubResource( 3 )
 custom_fonts/font = SubResource( 6 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.376471 )
 custom_constants/shadow_offset_x = 8
@@ -277,8 +272,9 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 margin_left = -219.5
-margin_top = -70.0
+margin_top = -54.0
 margin_right = 219.5
+margin_bottom = -14.0
 size_flags_horizontal = 15
 custom_icons/grabber_highlight = ExtResource( 2 )
 custom_icons/grabber = ExtResource( 2 )
@@ -290,10 +286,9 @@ tick_count = 5
 ticks_on_borders = true
 
 [node name="Sound" type="Control" parent="BackPanel/VBC"]
-editor/display_folded = true
-margin_top = 184.0
-margin_right = 758.0
-margin_bottom = 364.0
+margin_top = 208.0
+margin_right = 702.0
+margin_bottom = 412.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -302,10 +297,11 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -410.0
-margin_top = -64.0
-margin_right = 410.0
-margin_bottom = 14.0
+margin_left = -381.0
+margin_top = -77.0
+margin_right = 379.0
+margin_bottom = 2.0
+custom_styles/normal = SubResource( 3 )
 custom_fonts/font = SubResource( 6 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.376471 )
 custom_constants/shadow_offset_x = 8
@@ -318,9 +314,10 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -219.0
-margin_top = -74.0
-margin_right = 220.0
+margin_left = -219.5
+margin_top = -69.5
+margin_right = 219.5
+margin_bottom = -19.5
 custom_icons/grabber_highlight = ExtResource( 2 )
 custom_icons/grabber = ExtResource( 2 )
 custom_styles/slider = SubResource( 7 )
@@ -331,19 +328,20 @@ tick_count = 5
 ticks_on_borders = true
 
 [node name="Language" type="Control" parent="BackPanel/VBC"]
-editor/display_folded = true
-margin_top = 368.0
-margin_right = 758.0
-margin_bottom = 550.0
+margin_top = 416.0
+margin_right = 702.0
+margin_bottom = 620.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Language" type="Label" parent="BackPanel/VBC/Language"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -410.0
-margin_right = 410.0
-margin_bottom = 78.0
+margin_left = -379.0
+margin_top = 15.0
+margin_right = 381.0
+margin_bottom = 94.0
+custom_styles/normal = SubResource( 3 )
 custom_fonts/font = SubResource( 6 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.376471 )
 custom_constants/shadow_offset_x = 8
@@ -353,19 +351,34 @@ align = 1
 
 [node name="LanguageButton" type="TextureButton" parent="BackPanel/VBC/Language"]
 anchor_left = 0.5
-anchor_top = 0.5
+anchor_top = 1.0
 anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -75.0
-margin_top = -9.0
-margin_right = 75.0
-margin_bottom = 81.0
+anchor_bottom = 1.0
+margin_left = -62.0
+margin_top = -100.0
+margin_right = 62.0
+margin_bottom = -24.0
 grow_horizontal = 2
 grow_vertical = 2
-rect_pivot_offset = Vector2( 75, 45 )
+rect_pivot_offset = Vector2( 62, 38 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture_normal = ExtResource( 3 )
+expand = true
+stretch_mode = 5
+
+[node name="BackShadow" type="TextureRect" parent="BackPanel/VBC/Language/LanguageButton"]
+modulate = Color( 0, 0, 0, 0.305882 )
+show_behind_parent = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -2.0
+margin_right = 3.0
+margin_bottom = 7.0
+rect_pivot_offset = Vector2( 73, 45 )
+texture = ExtResource( 3 )
+expand = true
+stretch_mode = 6
 
 [node name="Tween" type="Tween" parent="BackPanel/VBC/Language"]
 
@@ -403,13 +416,14 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -82.0
-margin_top = -85.0
-margin_right = 81.0
-margin_bottom = 55.0
+margin_left = -69.0
+margin_top = -140.0
+margin_right = 70.0
+margin_bottom = -20.0
 texture_normal = ExtResource( 6 )
 texture_pressed = ExtResource( 7 )
-texture_disabled = ExtResource( 7 )
+texture_disabled = ExtResource( 6 )
+texture_focused = ExtResource( 6 )
 expand = true
 stretch_mode = 5
 
