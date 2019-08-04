@@ -6,12 +6,12 @@
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=4]
 
 [sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0.545098, 0, 0.85098, 0.901961 )
+bg_color = Color( 0.478431, 0, 0.807843, 1 )
 border_width_left = 5
 border_width_top = 5
 border_width_right = 5
 border_width_bottom = 5
-border_color = Color( 0.388235, 0, 0.854902, 1 )
+border_color = Color( 1, 1, 1, 1 )
 corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
@@ -31,11 +31,7 @@ func set_info(pos:int,info:Dictionary):
 		$MC/HBC/Position/Cup.texture = cup_textures[pos-1]"
 
 [sub_resource type="StyleBoxFlat" id=3]
-bg_color = Color( 0.411765, 0, 0.721569, 1 )
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
+bg_color = Color( 0.639216, 0, 1, 1 )
 border_color = Color( 1, 1, 1, 1 )
 corner_radius_top_left = 10
 corner_radius_top_right = 10
@@ -65,7 +61,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 10.0
 margin_right = -10.0
-margin_bottom = -0.00268555
 mouse_filter = 2
 
 [node name="HBC" type="HBoxContainer" parent="MC"]
@@ -76,7 +71,7 @@ custom_constants/separation = 15
 
 [node name="Position" type="Label" parent="MC/HBC"]
 margin_top = 10.0
-margin_right = 104.0
+margin_right = 100.0
 margin_bottom = 80.0
 rect_min_size = Vector2( 100, 70 )
 custom_styles/normal = SubResource( 3 )
@@ -99,7 +94,7 @@ expand = true
 stretch_mode = 6
 
 [node name="Name" type="Label" parent="MC/HBC"]
-margin_left = 119.0
+margin_left = 115.0
 margin_top = 10.0
 margin_right = 645.0
 margin_bottom = 80.0

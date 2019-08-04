@@ -1,0 +1,434 @@
+[gd_scene load_steps=18 format=2]
+
+[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Sprites/UI/ContinueButton.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/UI/ContinueButtonPressed.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/Background/StarParticle.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/Cat/CatHead.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/Cat/CatPaws.png" type="Texture" id=6]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.576471, 0, 0.901961, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color( 1, 1, 1, 1 )
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+shadow_color = Color( 0, 0, 0, 0.219608 )
+shadow_size = 5
+
+[sub_resource type="GDScript" id=10]
+script/source = "extends Panel
+
+signal restart_game
+export (Array, String) var no_highscore_titles = []
+export (Array, String) var highscore_titles = []
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+func init(score,highscorepassed):
+	generate_random_title(highscorepassed)
+	$ScorePanel/Score.text = str(score) + 'M'
+	$Anim.play('DeadPanel')
+
+func _on_RestartButton_button_down():
+	emit_signal('restart_game')
+	pass # Replace with function body.
+
+
+func _on_Anim_animation_finished(anim_name):
+	if anim_name == 'DeadPanel':
+		$Anim.play('InitDeadPanel')
+	pass # Replace with function body.
+
+func generate_random_title(highscorepassed):
+	if highscorepassed:
+		$Title.text = highscore_titles[randi() % highscore_titles.size()]
+		$ScorePanel/Anim.play('Highscore')
+	else:
+		$Title.text = no_highscore_titles[randi() % no_highscore_titles.size()]
+	pass"
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.470588, 0, 0.705882, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color( 1, 1, 1, 1 )
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+shadow_color = Color( 0, 0, 0, 0.207843 )
+shadow_size = 10
+
+[sub_resource type="DynamicFont" id=3]
+size = 80
+outline_size = 6
+outline_color = Color( 0, 0, 0, 1 )
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 1 )
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.439216, 0, 0.686275, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color( 0.396078, 0, 0.615686, 1 )
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+
+[sub_resource type="DynamicFont" id=5]
+size = 90
+outline_size = 6
+outline_color = Color( 0, 0, 0, 1 )
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 50
+outline_size = 6
+outline_color = Color( 0, 0, 0, 1 )
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 1 )
+
+[sub_resource type="Animation" id=7]
+resource_name = "Highscore"
+loop = true
+step = 0.25
+tracks/0/type = "value"
+tracks/0/path = NodePath("NewHighscore:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 121.881 ), Vector2( 0, 121.881 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("NewHighscore:rect_rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 4.42979, -2.27343 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("NewHighscore:rect_scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.25, 0.5, 0.75 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.2, 1.2 ), Vector2( 1, 1 ), Vector2( 1.2, 1.2 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("NewHighscore:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("../Stars:emitting")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("../Stars2:emitting")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=8]
+resource_name = "DeadPanel"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.6 ),
+"transitions": PoolRealArray( 0.5, 1 ),
+"update": 0,
+"values": [ Vector2( 208, 2000 ), Vector2( 208, 641 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.598656 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Stars:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Stars2:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+
+[sub_resource type="Animation" id=9]
+resource_name = "InitDeadPanel"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/path = NodePath("Cathead:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.6 ),
+"transitions": PoolRealArray( -2, 1 ),
+"update": 0,
+"values": [ Vector2( 165, 22.678 ), Vector2( 152, -340 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("CatPaws:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+
+[sub_resource type="Gradient" id=11]
+offsets = PoolRealArray( 0, 0.82716, 1 )
+colors = PoolColorArray( 1, 0.866667, 0, 1, 1, 0.866667, 0, 1, 1, 0.866667, 0, 0 )
+
+[node name="DeadPanel" type="Panel"]
+pause_mode = 2
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -332.0
+margin_top = 1040.0
+margin_right = 332.0
+margin_bottom = 1679.0
+custom_styles/panel = SubResource( 1 )
+script = SubResource( 10 )
+no_highscore_titles = [ "TRY AGAIN!", "YOU CAN DO IT BETTER!" ]
+highscore_titles = [ "PERFECT!", "AMAZING!", "EXCELLENT!" ]
+
+[node name="Title" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -374.0
+margin_top = 32.0
+margin_right = 374.0
+margin_bottom = 149.0
+rect_pivot_offset = Vector2( 357.5, 50 )
+custom_styles/normal = SubResource( 2 )
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.235294 )
+custom_constants/shadow_offset_x = 8
+custom_constants/shadow_offset_y = 8
+text = "PERFECT!"
+align = 1
+
+[node name="ScorePanel" type="Panel" parent="."]
+editor/display_folded = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -306.0
+margin_top = -110.5
+margin_right = 306.0
+margin_bottom = 92.5
+custom_styles/panel = SubResource( 4 )
+
+[node name="Score" type="Label" parent="ScorePanel"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -300.0
+margin_top = -84.0
+margin_right = 300.0
+margin_bottom = -11.0
+rect_pivot_offset = Vector2( 302.192, 60 )
+custom_fonts/font = SubResource( 5 )
+custom_colors/font_color = Color( 1, 0.988235, 0.945098, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_as_outline = 1
+text = "9999M"
+align = 1
+
+[node name="NewHighscore" type="Label" parent="ScorePanel"]
+visible = false
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -306.0
+margin_top = -81.119
+margin_right = 294.0
+margin_bottom = -20.119
+rect_rotation = 4.42979
+rect_pivot_offset = Vector2( 304.655, 30.8888 )
+custom_fonts/font = SubResource( 6 )
+custom_colors/font_color = Color( 1, 0.784314, 0, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_as_outline = 1
+text = "NEW HIGHSCORE!"
+align = 1
+
+[node name="Anim" type="AnimationPlayer" parent="ScorePanel"]
+anims/Highscore = SubResource( 7 )
+
+[node name="RestartButton" type="TextureButton" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -86.0
+margin_top = -180.0
+margin_right = 86.0
+margin_bottom = -37.0
+texture_normal = ExtResource( 2 )
+texture_pressed = ExtResource( 3 )
+expand = true
+stretch_mode = 5
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+anims/DeadPanel = SubResource( 8 )
+anims/InitDeadPanel = SubResource( 9 )
+
+[node name="Stars" type="CPUParticles2D" parent="."]
+visible = false
+show_behind_parent = true
+position = Vector2( 157.266, 23.6089 )
+rotation = -1.5708
+emitting = false
+lifetime = 3.0
+speed_scale = 1.8
+explosiveness = 0.75
+randomness = 0.5
+texture = ExtResource( 4 )
+spread = 40.0
+gravity = Vector2( -600, 0 )
+initial_velocity = 700.0
+initial_velocity_random = 0.1
+angle = 360.0
+angle_random = 1.0
+scale_amount = 5.5
+color_ramp = SubResource( 11 )
+
+[node name="Stars2" type="CPUParticles2D" parent="."]
+visible = false
+show_behind_parent = true
+position = Vector2( 516.254, 32.6972 )
+rotation = -1.5708
+emitting = false
+lifetime = 3.0
+speed_scale = 1.8
+explosiveness = 0.75
+randomness = 0.5
+texture = ExtResource( 4 )
+spread = 40.0
+gravity = Vector2( -600, 0 )
+initial_velocity = 700.0
+initial_velocity_random = 0.1
+angle = 360.0
+angle_random = 1.0
+scale_amount = 5.5
+color_ramp = SubResource( 11 )
+
+[node name="Cathead" type="TextureRect" parent="."]
+show_behind_parent = true
+margin_left = 165.0
+margin_top = 22.678
+margin_right = 505.0
+margin_bottom = 362.678
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 6
+
+[node name="CatPaws" type="TextureRect" parent="."]
+visible = false
+margin_left = 152.0
+margin_top = -51.0
+margin_right = 492.0
+margin_bottom = 45.0
+texture = ExtResource( 6 )
+expand = true
+stretch_mode = 6
+[connection signal="button_down" from="RestartButton" to="." method="_on_RestartButton_button_down"]
+[connection signal="animation_finished" from="Anim" to="." method="_on_Anim_animation_finished"]
