@@ -19,3 +19,7 @@ func get_new_item():
 			item = item_list[i]
 			spawned = true
 	return item
+
+func _on_Player_invencible(val):
+	set_active(!val)
+	pass # Replace with function body.

@@ -71,6 +71,10 @@ func start_game():
 	GameManager.playing = playing
 	pass
 
+func _on_Player_start_playing():
+	start_game()
+	pass # Replace with function body.
+
 func add_fuel():
 	fuel += 1
 	if fuel % 10 == 0:
@@ -95,6 +99,10 @@ func update_height(val):
 		$UIGame.update_meters_label()
 	pass
 
+func _on_Player_current_height(value):
+	update_height(value)
+	pass # Replace with function body.
+
 func end_game():
 	if GameManager.highscore < player_height:
 		GameManager.highscore = player_height
@@ -107,6 +115,10 @@ func end_game():
 	GameManager.save_game_data()
 	GameManager.player_height = 0
 	pass
+
+func _on_Player_dead():
+	end_game()
+	pass # Replace with function body.
 
 func restart_game():
 	GameManager.save_game_data()
@@ -141,12 +153,6 @@ func _on_Height_gui_input(event):
 				$Player.global_position = Vector2($Player.position.x,-height * 100)
 	pass # Replace with function body.
 
-func on_player_invencible(val):
-	#$EnemySpawner.set_active(!val)
-	#$FuelCanSpawner.set_active(!val)
-	#$CollectableSpawner.set_height_if_invencible(val)
-	pass
-
 func _on_ToggleEnemies_toggled(button_pressed):
 	$EnemySpawner.activated = button_pressed
 	pass # Replace with function body.
@@ -177,8 +183,7 @@ func _on_RestAnim_animation_finished(anim_name):
 
 func _on_DeadPanel_restart_game():
 	$UIGame/UI/RestartTransition/RestAnim.play('Start')
-	pass # Replace with function body.
-"
+	pass # Replace with function body."
 
 [sub_resource type="GDScript" id=2]
 script/source = "extends Node2D
@@ -207,15 +212,8 @@ script/source = "extends ParallaxBackground
 export var space_height = 500
 var on_space : bool = false
 
-func _process(delta):
-	if GameManager.player_height > space_height and !on_space:
-		change_to_space()
-	if !on_space and GameManager.player_height > 50:
-		set_background_darker()
-	pass
-
-func set_background_darker():
-	if GameManager.player_height % 50 == 0 and !$Tween.is_active():
+func set_background_darker(value):
+	if value > 50 and value % 50 == 0 and !$Tween.is_active():
 		$Tween.stop_all()
 		var actual_color = $ParallaxLayer/Bg1.self_modulate
 		var new_color : Color = Color(actual_color.r - 0.05,actual_color.g - 0.05,actual_color.b - 0.05)
@@ -232,7 +230,15 @@ func change_to_space():
 	$Tween.interpolate_property($ParallaxLayer2/Star1, 'modulate',$ParallaxLayer2/Star1.modulate, Color(1,1,1,1), 2, Tween.TRANS_LINEAR,Tween.EASE_IN)
 	$Tween.interpolate_property($ParallaxLayer3/Star2, 'modulate',$ParallaxLayer3/Star2.modulate, Color(1,1,1,1), 2, Tween.TRANS_LINEAR,Tween.EASE_IN)
 	$Tween.start()
-	pass"
+	pass
+
+func _on_Player_current_height(value):
+	if value > space_height:
+		change_to_space()
+	else:
+		set_background_darker(value)
+	pass # Replace with function body.
+"
 
 [sub_resource type="GDScript" id=6]
 script/source = "extends CanvasLayer
@@ -941,6 +947,7 @@ func spawn_new_item_cluster():
 		item_cluster.spawn_coins()
 	else:
 		item_cluster.spawn_items()
+	#$SpawnTimer.start()
 	pass
 
 func set_can_spawn():
@@ -953,7 +960,12 @@ func _on_Player_invencible(val):
 	else:
 		max_height += min_height * 3 
 	pass # Replace with function body.
-"
+
+func _on_SpawnTimer_timeout():
+	if !can_spawn:
+		can_spawn = ! can_spawn
+		spawn_new_item_cluster()
+	pass # Replace with function body."
 
 [node name="GameScene" type="Node"]
 script = SubResource( 1 )
@@ -1016,6 +1028,7 @@ editor/display_folded = true
 script = SubResource( 5 )
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+editor/display_folded = true
 motion_mirroring = Vector2( 1080, 1920 )
 
 [node name="Bg1" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
@@ -1057,6 +1070,7 @@ centered = false
 position = Vector2( 559.5, 830 )
 
 [node name="UIGame" type="CanvasLayer" parent="."]
+editor/display_folded = true
 script = SubResource( 6 )
 
 [node name="UI" type="Control" parent="UIGame"]
@@ -1594,6 +1608,7 @@ margin_bottom = 36.4966
 text = "X"
 
 [node name="SpawnPoints" type="Node2D" parent="."]
+editor/display_folded = true
 
 [node name="Enemies" type="Node2D" parent="SpawnPoints"]
 editor/display_folded = true
@@ -1614,7 +1629,6 @@ position = Vector2( 950, -370 )
 item_list = [ ExtResource( 32 ), ExtResource( 33 ), ExtResource( 34 ), ExtResource( 35 ) ]
 parent_node = NodePath("../Enemies")
 spawn_points_node = NodePath("../SpawnPoints/Enemies")
-activated = false
 min_height = 10.0
 max_height = 20.0
 height_control_list = [ 0, 200, 350, 500 ]
@@ -1624,6 +1638,10 @@ min_height_tutorial = 20
 script = SubResource( 34 )
 item_cluster_scene = ExtResource( 36 )
 parent_node = NodePath("../Collectables")
+
+[node name="SpawnTimer" type="Timer" parent="ItemClusterSpawner"]
+wait_time = 3.0
+one_shot = true
 
 [node name="Collectables" type="Node2D" parent="."]
 
@@ -1635,7 +1653,12 @@ stream = ExtResource( 37 )
 autoplay = true
 bus = "Music"
 [connection signal="screen_exited" from="House/VisibilityNotifier2D" to="House" method="_on_VisibilityNotifier2D_screen_exited"]
+[connection signal="current_height" from="Player" to="ParallaxBackground" method="_on_Player_current_height"]
+[connection signal="current_height" from="Player" to="." method="_on_Player_current_height"]
+[connection signal="dead" from="Player" to="." method="_on_Player_dead"]
 [connection signal="invencible" from="Player" to="ItemClusterSpawner" method="_on_Player_invencible"]
+[connection signal="invencible" from="Player" to="EnemySpawner" method="_on_Player_invencible"]
+[connection signal="start_playing" from="Player" to="." method="_on_Player_start_playing"]
 [connection signal="button_down" from="UIGame/UI/PauseButton" to="UIGame" method="_on_PauseButton_button_down"]
 [connection signal="button_down" from="UIGame/UI/PausePanel/HomeButton" to="UIGame" method="_on_HomeButton_button_down"]
 [connection signal="button_down" from="UIGame/UI/PausePanel/ConfigButton" to="UIGame" method="_on_ConfigButton_button_down"]
@@ -1655,5 +1678,6 @@ bus = "Music"
 [connection signal="toggled" from="UIGame/DebugPanel/VBoxContainer/Music" to="." method="_on_Music_toggled"]
 [connection signal="gui_input" from="UIGame/DebugPanel/VBoxContainer/Height" to="." method="_on_Height_gui_input"]
 [connection signal="button_down" from="UIGame/DebugPanel/Button" to="." method="_on_Button_button_down"]
+[connection signal="timeout" from="ItemClusterSpawner/SpawnTimer" to="ItemClusterSpawner" method="_on_SpawnTimer_timeout"]
 
 [editable path="UIGame/UI/TransitionScene"]
