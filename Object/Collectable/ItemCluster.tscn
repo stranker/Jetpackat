@@ -1,0 +1,114 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Object/Collectable/CoinCluster.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Object/PowerUp/FuelCan.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Object/PowerUp/Magnet.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Object/Collectable/Fish.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Object/PowerUp/AegisWings.tscn" type="PackedScene" id=5]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Node2D
+
+export (Curve) var position_probabilities
+export (Array, PackedScene) var items_scene
+export (Array, float) var items_probabilities
+var offset_height : int = 0
+
+signal player_passed
+
+var player_passed : bool = false
+
+func _process(delta):
+	if GameManager.camera and position.y > GameManager.camera.global_position.y + offset_height:
+		if !player_passed:
+			emit_signal('player_passed')
+			player_passed = !player_passed
+
+func spawn_items():
+	var position_list = get_item_positions_idx()
+	for i in range(position_list.size()):
+		var item_position = $Positions.get_child(position_list[i])
+		var item = null
+		if i == 0:
+			item = get_coins()
+		else:
+			item = get_random_item().instance()
+		item_position.call_deferred('add_child',item)
+	pass
+
+func get_coins():
+	return items_scene[0].instance()
+
+func spawn_coins():
+	var position_list = get_item_positions_idx()
+	for i in position_list:
+		var item_position = $Positions.get_child(i)
+		var item = get_coins()
+		item_position.call_deferred('add_child',item)
+	pass
+
+func get_item_positions_idx():
+	randomize()
+	var prob = rand_range(0,1)
+	var positions_number = floor(position_probabilities.interpolate(prob))
+	if positions_number > $Positions.get_child_count():
+		return
+	var positions_idx = []
+	for i in range(positions_number):
+		var idx = randi() % $Positions.get_child_count()
+		while positions_idx.has(idx):
+			idx = randi() % $Positions.get_child_count()
+		positions_idx.append(idx)
+	return positions_idx
+
+func get_random_item():
+	var prob = rand_range(0,1)
+	var item = null
+	for i in range(items_probabilities.size()):
+		if prob < items_probabilities[i]:
+			pass
+		else:
+			item = items_scene[i - 1]
+			break
+	if !item:
+		item = items_scene[0]
+	return item
+
+func set_offset(val):
+	offset_height = val
+
+func _on_VisibilityNotifier2D_screen_exited():
+	queue_free()
+	pass # Replace with function body.
+"
+
+[sub_resource type="Curve" id=2]
+min_value = 1.0
+max_value = 3.0
+_data = [ Vector2( 0, 1 ), 0.0, 0.52207, 0, 0, Vector2( 0.395909, 2.1584 ), 0.0, 0.0, 0, 0, Vector2( 0.92746, 3 ), 4.6228, 0.0, 0, 0 ]
+
+[node name="ItemCluster" type="Node2D"]
+script = SubResource( 1 )
+position_probabilities = SubResource( 2 )
+items_scene = [ ExtResource( 1 ), ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ) ]
+items_probabilities = [ 1.0, 0.6, 0.2, 0.1, 0.05 ]
+
+[node name="Positions" type="Node2D" parent="."]
+
+[node name="Position1" type="Position2D" parent="Positions"]
+position = Vector2( 140, 50 )
+
+[node name="Position2" type="Position2D" parent="Positions"]
+position = Vector2( 340, 50 )
+
+[node name="Position3" type="Position2D" parent="Positions"]
+position = Vector2( 540, 50 )
+
+[node name="Position4" type="Position2D" parent="Positions"]
+position = Vector2( 750, 50 )
+
+[node name="Position5" type="Position2D" parent="Positions"]
+position = Vector2( 930, 50 )
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
