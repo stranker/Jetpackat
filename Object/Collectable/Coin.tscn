@@ -1,9 +1,8 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://Shaders/OutlineShaderResource.tres" type="Material" id=1]
-[ext_resource path="res://Sprites/Collectables/CoinAnimation.png" type="Texture" id=2]
-[ext_resource path="res://Sprites/Background/StarParticle.png" type="Texture" id=3]
-[ext_resource path="res://Sounds/Sfx/Coin.wav" type="AudioStream" id=4]
+[ext_resource path="res://Sprites/Collectables/CoinAnimation.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/Background/StarParticle.png" type="Texture" id=2]
+[ext_resource path="res://Sounds/Sfx/Coin.wav" type="AudioStream" id=3]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends 'res://Object/Collectable/Collectable.gd'
@@ -47,6 +46,43 @@ func reset():
 	taked = false
 	$Anim.play('Idle')
 	pass"
+
+[sub_resource type="Shader" id=7]
+code = "shader_type canvas_item;
+
+uniform float outline_width = 2.0;
+uniform vec4 outline_color : hint_color;
+
+void fragment() {
+	vec4 col = texture(TEXTURE, UV);
+	vec2 ps = TEXTURE_PIXEL_SIZE;
+	float a;
+	float maxa = col.a;
+	float mina = col.a;
+
+	a = texture(TEXTURE, UV + vec2(0.0, -outline_width) * ps).a;
+	maxa = max(a, maxa);
+	mina = min(a, mina);
+
+	a = texture(TEXTURE, UV + vec2(0.0, outline_width) * ps).a;
+	maxa = max(a, maxa);
+	mina = min(a, mina);
+
+	a = texture(TEXTURE, UV + vec2(-outline_width, 0.0) * ps).a;
+	maxa = max(a, maxa);
+	mina = min(a, mina);
+
+	a = texture(TEXTURE, UV + vec2(outline_width, 0.0) * ps).a;
+	maxa = max(a, maxa);
+	mina = min(a, mina);
+
+	COLOR = mix(col, outline_color, maxa - mina);
+}"
+
+[sub_resource type="ShaderMaterial" id=8]
+shader = SubResource( 7 )
+shader_param/outline_width = 0.7
+shader_param/outline_color = Color( 1, 1, 1, 1 )
 
 [sub_resource type="CircleShape2D" id=2]
 radius = 40.0
@@ -166,12 +202,10 @@ z_index = 8
 script = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-material = ExtResource( 1 )
+material = SubResource( 8 )
 scale = Vector2( 2, 2 )
-texture = ExtResource( 2 )
-flip_h = true
+texture = ExtResource( 1 )
 hframes = 4
-frame = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 2 )
@@ -185,7 +219,7 @@ one_shot = true
 preprocess = 0.2
 speed_scale = 3.0
 explosiveness = 0.8
-texture = ExtResource( 3 )
+texture = ExtResource( 2 )
 spread = 180.0
 flatness = 1.0
 gravity = Vector2( 0, 0 )
@@ -200,7 +234,7 @@ scale_amount_curve = SubResource( 3 )
 color_ramp = SubResource( 4 )
 
 [node name="Sample" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 4 )
+stream = ExtResource( 3 )
 bus = "Sounds"
 
 [node name="Anim" type="AnimationPlayer" parent="."]

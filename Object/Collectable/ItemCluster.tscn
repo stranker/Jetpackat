@@ -99,13 +99,19 @@ items_probabilities = [ 1.0, 0.6, 0.2, 0.1, 0.05 ]
 position = Vector2( 140, 50 )
 
 [node name="Position2" type="Position2D" parent="Positions"]
-position = Vector2( 340, 50 )
+position = Vector2( 330, 230 )
+
+[node name="Position6" type="Position2D" parent="Positions"]
+position = Vector2( 330, -150 )
 
 [node name="Position3" type="Position2D" parent="Positions"]
 position = Vector2( 540, 50 )
 
 [node name="Position4" type="Position2D" parent="Positions"]
-position = Vector2( 750, 50 )
+position = Vector2( 740, -140 )
+
+[node name="Position7" type="Position2D" parent="Positions"]
+position = Vector2( 740, 240 )
 
 [node name="Position5" type="Position2D" parent="Positions"]
 position = Vector2( 930, 50 )
