@@ -121,23 +121,39 @@ func _on_VisibilityNotifier2D_screen_exited():
 	pass
 
 func _on_Area_gui_input(event):
+	if !invencible:
+		jump_control(event)
+	else:
+		slide_control(event)
+	pass
+
+func jump_control(event : InputEvent):
 	if event is InputEventScreenTouch:
 		if !event.is_echo() and event.pressed and !dead and !invencible:
 			check_is_active()
 			jump(jump_speed)
 	pass
 
+func slide_control(event : InputEvent):
+	if event is InputEventScreenDrag:
+		if event.relative.x < 0:
+			jump_direction = -1
+		elif event.relative.x > 0:
+			jump_direction = 1
+		check_scale_direction(jump_direction)
+		move_and_slide(Vector2.RIGHT * jump_direction * horizontal_speed, Vector2.UP)
+
 func jump(jforce : int):
 	jump_direction = -jump_direction
-	check_scale_direction()
+	check_scale_direction(jump_direction)
 	velocity.y = -jforce
 	$Sample.play()
 	$Visible/Jetpack/Anim.play('Propulsion')
 	pass
 
-func check_scale_direction():
-	$Visible.scale.x = -jump_direction
-	velocity.x = jump_direction * horizontal_speed
+func check_scale_direction(dir):
+	$Visible.scale.x = -dir
+	velocity.x = dir * horizontal_speed
 	pass
 
 func _on_Anim_animation_finished(anim_name):
@@ -151,7 +167,6 @@ func impulse(force):
 
 func _on_InvencibleTimer_timeout():
 	set_invencible(false)
-	set_magnet_area_radius(initial_magnet)
 	$CollisionShape2D.disabled = true
 	$Visible/Shield.hide()
 	$NoColliderTimer.start()
@@ -1430,6 +1445,7 @@ script = SubResource( 1 )
 shape = SubResource( 2 )
 
 [node name="GameCamera" type="Camera2D" parent="."]
+editor/display_folded = true
 position = Vector2( -17.937, -546.416 )
 current = true
 limit_smoothed = true
@@ -1459,6 +1475,7 @@ one_shot = true
 anims/Wind = SubResource( 4 )
 
 [node name="Visible" type="Node2D" parent="."]
+editor/display_folded = true
 script = SubResource( 5 )
 
 [node name="Skin" type="Sprite" parent="Visible"]
@@ -1739,7 +1756,6 @@ anims/Invencible = SubResource( 28 )
 anims/TimeOut = SubResource( 29 )
 
 [node name="ClickArea" type="CanvasLayer" parent="."]
-editor/display_folded = true
 
 [node name="Area" type="Control" parent="ClickArea"]
 anchor_right = 1.0
