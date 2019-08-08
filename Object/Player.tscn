@@ -167,7 +167,6 @@ func set_invencible(val):
 		velocity.x = 0
 		$Anim.play('Invencible')
 		impulse(1500)
-		set_magnet_area_radius(1000)
 	else:
 		$Visible/Shield/Anim.stop()
 	emit_signal('invencible',invencible)
@@ -199,25 +198,23 @@ func set_magnet(val):
 func _on_MagnetTimer_timeout():
 	if !dead:
 		on_magnet = false
-		if !invencible:
-			set_active_magnet_area(on_magnet, initial_magnet)
-			$Anim.play('Flying')
-		$Visible/Skin/Magnet.hide()
+		set_active_magnet_area(on_magnet, initial_magnet)
 	pass # Replace with function body.
 
 func set_active_magnet_area(active, val):
-	if !invencible:
-		if active:
-			set_magnet_area_radius(val)
-			$Visible/Skin/Magnet/Anim.play('Magnet')
-		else:
-			set_magnet_area_radius(initial_magnet)
-			$Visible/Skin/Magnet/Anim.stop()
-			$Visible/Skin/Magnet.visible = active
+	if active:
+		set_magnet_area_radius(val)
+		$Visible/Skin/Magnet/Anim.play('Magnet')
+	else:
+		set_magnet_area_radius(initial_magnet)
+		$Visible/Skin/Magnet/Anim.stop()
+		$Visible/Skin/Magnet.visible = active
+		$Anim.play('Flying')
 	pass
 
 func set_magnet_area_radius(val):
 	$Visible/MagnetArea/CollisionShape2D.shape.radius = val
+	pass
 
 func set_aegis(val):
 	has_aegis = val
@@ -244,6 +241,7 @@ height = 80.0
 script/source = "extends Camera2D
 
 var shake_amount : float
+onready var player_sprite = get_parent().get_node('Visible/Skin')
 
 func _process(delta):
 	offset.x = rand_range(-shake_amount,shake_amount)
@@ -251,8 +249,8 @@ func _process(delta):
 	pass
 
 func follow_player():
-	var pos_player = get_parent().global_position
-	$Tween.interpolate_property(self,'global_position',global_position,pos_player + Vector2(0,100),0.5,Tween.TRANS_QUAD,Tween.EASE_OUT)
+	var pos_player = player_sprite.global_position
+	$Tween.interpolate_property(self,'global_position',global_position,pos_player + Vector2(0,200), 0.5, Tween.TRANS_LINEAR, Tween.EASE_OUT)
 	$Tween.start()
 	pass
 
@@ -1432,7 +1430,6 @@ script = SubResource( 1 )
 shape = SubResource( 2 )
 
 [node name="GameCamera" type="Camera2D" parent="."]
-editor/display_folded = true
 position = Vector2( -17.937, -546.416 )
 current = true
 limit_smoothed = true
@@ -1444,6 +1441,7 @@ editor_draw_drag_margin = true
 script = SubResource( 3 )
 
 [node name="CL" type="CanvasLayer" parent="GameCamera"]
+editor/display_folded = true
 
 [node name="WindEffect" type="Sprite" parent="GameCamera/CL"]
 self_modulate = Color( 1, 1, 1, 0 )
@@ -1461,11 +1459,9 @@ one_shot = true
 anims/Wind = SubResource( 4 )
 
 [node name="Visible" type="Node2D" parent="."]
-editor/display_folded = true
 script = SubResource( 5 )
 
 [node name="Skin" type="Sprite" parent="Visible"]
-editor/display_folded = true
 material = SubResource( 6 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 3 )
@@ -1485,7 +1481,6 @@ scale = Vector2( 0.6, 0.6 )
 offset = Vector2( -3.49275, -23.7578 )
 
 [node name="Magnet" type="Sprite" parent="Visible/Skin"]
-editor/display_folded = true
 visible = false
 material = SubResource( 7 )
 position = Vector2( -0.475098, -45.8047 )
@@ -1744,6 +1739,7 @@ anims/Invencible = SubResource( 28 )
 anims/TimeOut = SubResource( 29 )
 
 [node name="ClickArea" type="CanvasLayer" parent="."]
+editor/display_folded = true
 
 [node name="Area" type="Control" parent="ClickArea"]
 anchor_right = 1.0

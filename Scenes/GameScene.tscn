@@ -1072,16 +1072,17 @@ centered = false
 position = Vector2( 559.5, 830 )
 
 [node name="UIGame" type="CanvasLayer" parent="."]
+editor/display_folded = true
 script = SubResource( 6 )
 
 [node name="UI" type="Control" parent="UIGame"]
 pause_mode = 2
+editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 
 [node name="UpperPanel" type="Control" parent="UIGame/UI"]
-editor/display_folded = true
 anchor_right = 1.0
 margin_bottom = 284.0
 
@@ -1481,9 +1482,6 @@ editor/display_folded = true
 [node name="TransitionItems" parent="UIGame/UI/TransitionScene" index="1"]
 editor/display_folded = true
 
-[node name="TextureRect2" parent="UIGame/UI/TransitionScene/TransitionItems" index="1"]
-margin_left = 1920.0
-
 [node name="RestartTransition" type="TextureRect" parent="UIGame/UI"]
 editor/display_folded = true
 self_modulate = Color( 0, 0, 0, 0 )
@@ -1658,11 +1656,11 @@ stream = ExtResource( 37 )
 autoplay = true
 bus = "Music"
 [connection signal="screen_exited" from="House/VisibilityNotifier2D" to="House" method="_on_VisibilityNotifier2D_screen_exited"]
-[connection signal="current_height" from="Player" to="ParallaxBackground" method="_on_Player_current_height"]
 [connection signal="current_height" from="Player" to="." method="_on_Player_current_height"]
+[connection signal="current_height" from="Player" to="ParallaxBackground" method="_on_Player_current_height"]
 [connection signal="dead" from="Player" to="." method="_on_Player_dead"]
-[connection signal="invencible" from="Player" to="ItemClusterSpawner" method="_on_Player_invencible"]
 [connection signal="invencible" from="Player" to="EnemySpawner" method="_on_Player_invencible"]
+[connection signal="invencible" from="Player" to="ItemClusterSpawner" method="_on_Player_invencible"]
 [connection signal="start_playing" from="Player" to="." method="_on_Player_start_playing"]
 [connection signal="button_down" from="UIGame/UI/PauseButton" to="UIGame" method="_on_PauseButton_button_down"]
 [connection signal="button_down" from="UIGame/UI/PausePanel/HomeButton" to="UIGame" method="_on_HomeButton_button_down"]
