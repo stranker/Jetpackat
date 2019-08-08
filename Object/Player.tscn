@@ -17,7 +17,7 @@
 script/source = "extends KinematicBody2D
 
 export var jump_speed : float = 700
-export var horizontal_speed : float = 270
+export var horizontal_speed : float = 200
 export var invencible_time : float = 4
 var velocity : Vector2
 var jump_direction : int = 1
@@ -108,6 +108,14 @@ func take_damage():
 		set_aegis(!has_aegis)
 	pass
 
+func height_damage():
+	dead = !dead
+	check_die_direction()
+	set_physics_process(false)
+	$Anim.stop()
+	$Anim.play('Dead')
+	pass
+
 func check_die_direction():
 	if global_position.x < get_viewport_rect().size.x/4:
 		$Visible.scale.x = 1
@@ -117,7 +125,7 @@ func check_die_direction():
 
 func _on_VisibilityNotifier2D_screen_exited():
 	if !get_tree().paused:
-		take_damage()
+		height_damage()
 	pass
 
 func _on_Area_gui_input(event):
@@ -136,9 +144,11 @@ func jump_control(event : InputEvent):
 
 func slide_control(event : InputEvent):
 	if event is InputEventScreenDrag:
-		if event.relative.x < 0:
+		var relative_clamped = event.relative.x
+		relative_clamped = clamp(relative_clamped,-1,1)
+		if relative_clamped < 0:
 			jump_direction = -1
-		elif event.relative.x > 0:
+		else:
 			jump_direction = 1
 		check_scale_direction(jump_direction)
 		move_and_slide(Vector2.RIGHT * jump_direction * horizontal_speed, Vector2.UP)
@@ -203,17 +213,18 @@ func _on_Invencible_toggled(button_pressed):
 	can_receive_damage = !button_pressed
 	pass # Replace with function body.
 
-func set_magnet(val):
-	on_magnet = val
-	if val:
-		$MagnetTimer.start()
-		set_active_magnet_area(on_magnet, 300)
+func activate_magnet():
+	on_magnet = true
+	$MagnetTimer.start()
+	set_active_magnet_area(true, 300)
+	print(\"Magnet Start\")
 	pass
 
 func _on_MagnetTimer_timeout():
 	if !dead:
+		print(\"Magnet Finish\")
 		on_magnet = false
-		set_active_magnet_area(on_magnet, initial_magnet)
+		set_active_magnet_area(false, initial_magnet)
 	pass # Replace with function body.
 
 func set_active_magnet_area(active, val):
@@ -221,6 +232,7 @@ func set_active_magnet_area(active, val):
 		set_magnet_area_radius(val)
 		$Visible/Skin/Magnet/Anim.play('Magnet')
 	else:
+		print(1)
 		set_magnet_area_radius(initial_magnet)
 		$Visible/Skin/Magnet/Anim.stop()
 		$Visible/Skin/Magnet.visible = active
@@ -246,7 +258,12 @@ func disable_tutorial():
 func take_fuel():
 	if !on_magnet and !invencible:
 		$Anim.play('FuelTaken')
-	pass"
+	pass
+
+func _on_VisibilityNotifier2D_viewport_exited(viewport):
+	_on_VisibilityNotifier2D_screen_exited()
+	pass # Replace with function body.
+"
 
 [sub_resource type="CapsuleShape2D" id=2]
 radius = 53.0
@@ -1479,6 +1496,7 @@ editor/display_folded = true
 script = SubResource( 5 )
 
 [node name="Skin" type="Sprite" parent="Visible"]
+editor/display_folded = true
 material = SubResource( 6 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 3 )
@@ -1756,6 +1774,7 @@ anims/Invencible = SubResource( 28 )
 anims/TimeOut = SubResource( 29 )
 
 [node name="ClickArea" type="CanvasLayer" parent="."]
+editor/display_folded = true
 
 [node name="Area" type="Control" parent="ClickArea"]
 anchor_right = 1.0
@@ -1787,3 +1806,4 @@ bus = "Sounds"
 [connection signal="timeout" from="NoColliderTimer" to="." method="_on_NoColliderTimer_timeout"]
 [connection signal="timeout" from="MagnetTimer" to="." method="_on_MagnetTimer_timeout"]
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
+[connection signal="viewport_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_viewport_exited"]

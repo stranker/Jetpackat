@@ -927,46 +927,49 @@ script/source = "extends Node
 
 export (PackedScene) var item_cluster_scene
 export (NodePath) var parent_node
-export var can_spawn : bool = true
+export var activated : bool = true
 export var only_drop_coin : bool = true
-export var max_height : int = 200
-export var min_height : int = 50
+export var max_height : int = 14
+export var min_height : int = 10
+export var init_max_height : int = 14
+export var invencible_max_height : int = 10
+var height_spawn : int
+var pos_player_last_spawn : int
 
 func _process(delta):
-	if can_spawn:
+	if check_can_spawn():
 		spawn_new_item_cluster()
 	pass
 
 func spawn_new_item_cluster():
-	can_spawn = ! can_spawn
 	var item_cluster = item_cluster_scene.instance()
 	item_cluster.position.x = 0
 	item_cluster.position.y = GameManager.camera.global_position.y - get_viewport().get_visible_rect().size.y + 800
-	item_cluster.set_offset(min_height + randi() % max_height)
 	get_node(parent_node).call_deferred('add_child',item_cluster)
-	item_cluster.connect('player_passed', self, 'set_can_spawn')
 	if only_drop_coin:
 		item_cluster.spawn_coins()
 	else:
 		item_cluster.spawn_items()
-	#$SpawnTimer.start()
+	pos_player_last_spawn = GameManager.player_height
+	get_new_height()
 	pass
 
+func get_new_height():
+	height_spawn = min_height + randi() % max_height
+	pass
+
+func check_can_spawn(): 
+	return GameManager.player_height > height_spawn + pos_player_last_spawn and activated
+
 func set_can_spawn():
-	can_spawn = !can_spawn
+	activated = !activated
 	pass
 
 func _on_Player_invencible(val):
 	if val:
-		max_height -= min_height * 3
+		max_height = invencible_max_height
 	else:
-		max_height += min_height * 3 
-	pass # Replace with function body.
-
-func _on_SpawnTimer_timeout():
-	if !can_spawn:
-		can_spawn = ! can_spawn
-		spawn_new_item_cluster()
+		max_height = init_max_height
 	pass # Replace with function body."
 
 [node name="GameScene" type="Node"]
@@ -1636,15 +1639,10 @@ height_control_list = [ 0, 200, 350, 500 ]
 min_height_tutorial = 20
 
 [node name="ItemClusterSpawner" type="Node" parent="."]
-editor/display_folded = true
 script = SubResource( 34 )
 item_cluster_scene = ExtResource( 36 )
 parent_node = NodePath("../Collectables")
 only_drop_coin = false
-
-[node name="SpawnTimer" type="Timer" parent="ItemClusterSpawner"]
-wait_time = 3.0
-one_shot = true
 
 [node name="Collectables" type="Node2D" parent="."]
 
@@ -1656,11 +1654,11 @@ stream = ExtResource( 37 )
 autoplay = true
 bus = "Music"
 [connection signal="screen_exited" from="House/VisibilityNotifier2D" to="House" method="_on_VisibilityNotifier2D_screen_exited"]
-[connection signal="current_height" from="Player" to="." method="_on_Player_current_height"]
 [connection signal="current_height" from="Player" to="ParallaxBackground" method="_on_Player_current_height"]
+[connection signal="current_height" from="Player" to="." method="_on_Player_current_height"]
 [connection signal="dead" from="Player" to="." method="_on_Player_dead"]
-[connection signal="invencible" from="Player" to="EnemySpawner" method="_on_Player_invencible"]
 [connection signal="invencible" from="Player" to="ItemClusterSpawner" method="_on_Player_invencible"]
+[connection signal="invencible" from="Player" to="EnemySpawner" method="_on_Player_invencible"]
 [connection signal="start_playing" from="Player" to="." method="_on_Player_start_playing"]
 [connection signal="button_down" from="UIGame/UI/PauseButton" to="UIGame" method="_on_PauseButton_button_down"]
 [connection signal="button_down" from="UIGame/UI/PausePanel/HomeButton" to="UIGame" method="_on_HomeButton_button_down"]
@@ -1681,6 +1679,5 @@ bus = "Music"
 [connection signal="toggled" from="UIGame/DebugPanel/VBoxContainer/Music" to="." method="_on_Music_toggled"]
 [connection signal="gui_input" from="UIGame/DebugPanel/VBoxContainer/Height" to="." method="_on_Height_gui_input"]
 [connection signal="button_down" from="UIGame/DebugPanel/Button" to="." method="_on_Button_button_down"]
-[connection signal="timeout" from="ItemClusterSpawner/SpawnTimer" to="ItemClusterSpawner" method="_on_SpawnTimer_timeout"]
 
 [editable path="UIGame/UI/TransitionScene"]
