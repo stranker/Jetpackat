@@ -239,7 +239,9 @@ func set_active_magnet_area(active, val):
 	pass
 
 func set_magnet_area_radius(val):
-	$Visible/MagnetArea/CollisionShape2D.shape.radius = val
+	var new_shape = $Visible/MagnetArea/CollisionShape2D.shape.duplicate()
+	new_shape.radius = val
+	$Visible/MagnetArea/CollisionShape2D.shape = new_shape
 	pass
 
 func set_aegis(val):
