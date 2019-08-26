@@ -1,12 +1,12 @@
-[gd_scene load_steps=42 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://Sprites/Effect/WindEffect.png" type="Texture" id=1]
 [ext_resource path="res://Shaders/outline.shader" type="Shader" id=2]
 [ext_resource path="res://Sprites/Cat/Skin/Skin.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/Cat/Eyes.png" type="Texture" id=4]
-[ext_resource path="res://Sprites/Collectables/Magnet.png" type="Texture" id=5]
-[ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=6]
-[ext_resource path="res://Sprites/Shop/Cat/Thruster/Smoke.png" type="Texture" id=7]
+[ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/Shop/Cat/Thruster/Smoke.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/Collectables/MagnetArea.png" type="Texture" id=7]
 [ext_resource path="res://Sprites/Tutorial/JumpArrow.png" type="Texture" id=8]
 [ext_resource path="res://Sprites/Cat/Shield.png" type="Texture" id=9]
 [ext_resource path="res://Sprites/PowerUps/AegisWings.png" type="Texture" id=10]
@@ -29,7 +29,7 @@ var can_receive_damage : bool = true
 var dead : bool = false
 var on_magnet : bool = false
 var has_aegis : bool = false
-const initial_magnet : float = 117.5
+const initial_magnet_size : float = 117.5
 
 signal start_playing
 signal dead
@@ -217,30 +217,35 @@ func activate_magnet():
 	on_magnet = true
 	$MagnetTimer.start()
 	set_active_magnet_area(true, 300)
-	print(\"Magnet Start\")
 	pass
 
 func _on_MagnetTimer_timeout():
 	if !dead:
-		print(\"Magnet Finish\")
 		on_magnet = false
-		set_active_magnet_area(false, initial_magnet)
+		set_active_magnet_area(false, initial_magnet_size)
 	pass # Replace with function body.
 
 func set_active_magnet_area(active, val):
 	if active:
 		call_deferred('set_magnet_area_radius',val)
-		$Visible/Skin/Magnet/Anim.play('Magnet')
+		$Visible/MagnetArea/Magnet.show()
+		$Visible/MagnetArea/Magnet/Tween.start()
 	else:
-		call_deferred('set_magnet_area_radius',initial_magnet)
-		$Visible/Skin/Magnet/Anim.stop()
-		$Visible/Skin/Magnet.visible = active
+		call_deferred('set_magnet_area_radius',initial_magnet_size)
+		$Visible/MagnetArea/Magnet.hide()
+		$Visible/MagnetArea/Magnet/Tween.stop_all()
 		$Anim.play('Flying')
 	pass
 
 func set_magnet_area_radius(val):
 	var new_shape = $Visible/MagnetArea/CollisionShape2D.shape.duplicate()
+	var magnet_scale = (val * 2.4) / initial_magnet_size
 	new_shape.radius = val
+	$Visible/MagnetArea/Magnet.scale = Vector2.ONE * magnet_scale
+	$Visible/MagnetArea/Magnet/Tween.remove_all()
+	$Visible/MagnetArea/Magnet/Tween.interpolate_property($Visible/MagnetArea/Magnet,'scale',$Visible/MagnetArea/Magnet.scale,
+		Vector2(0,0),1,Tween.TRANS_LINEAR,Tween.EASE_OUT)
+	$Visible/MagnetArea/Magnet/Tween.start()
 	$Visible/MagnetArea/CollisionShape2D.shape = new_shape
 	pass
 
@@ -401,39 +406,6 @@ func set_jetpack(item):
 shader = ExtResource( 2 )
 shader_param/outline_width = 0.5
 shader_param/outline_color = Color( 0, 0, 0, 1 )
-
-[sub_resource type="ShaderMaterial" id=7]
-shader = ExtResource( 2 )
-shader_param/outline_width = 0.7
-shader_param/outline_color = Color( 0, 0, 0, 1 )
-
-[sub_resource type="Animation" id=8]
-resource_name = "Magnet"
-loop = true
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath(".:rotation_degrees")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ 144.859, 214.754 ]
-}
 
 [sub_resource type="ShaderMaterial" id=9]
 shader = ExtResource( 2 )
@@ -1493,11 +1465,9 @@ one_shot = true
 anims/Wind = SubResource( 4 )
 
 [node name="Visible" type="Node2D" parent="."]
-editor/display_folded = true
 script = SubResource( 5 )
 
 [node name="Skin" type="Sprite" parent="Visible"]
-editor/display_folded = true
 material = SubResource( 6 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 3 )
@@ -1516,24 +1486,13 @@ rotation = 0.0224156
 scale = Vector2( 0.6, 0.6 )
 offset = Vector2( -3.49275, -23.7578 )
 
-[node name="Magnet" type="Sprite" parent="Visible/Skin"]
-visible = false
-material = SubResource( 7 )
-position = Vector2( -0.475098, -45.8047 )
-rotation = 2.52827
-scale = Vector2( 0.8, 0.8 )
-texture = ExtResource( 5 )
-
-[node name="Anim" type="AnimationPlayer" parent="Visible/Skin/Magnet"]
-anims/Magnet = SubResource( 8 )
-
 [node name="Jetpack" type="Sprite" parent="Visible"]
 editor/display_folded = true
 show_behind_parent = true
 material = SubResource( 9 )
 position = Vector2( 3.84464, 39.7731 )
 scale = Vector2( 3, 3 )
-texture = ExtResource( 6 )
+texture = ExtResource( 5 )
 
 [node name="Thruster" type="CPUParticles2D" parent="Visible/Jetpack"]
 show_behind_parent = true
@@ -1547,7 +1506,7 @@ explosiveness = 0.1
 randomness = 0.5
 fract_delta = false
 local_coords = false
-texture = ExtResource( 7 )
+texture = ExtResource( 6 )
 emission_shape = 1
 emission_sphere_radius = 5.0
 flag_align_y = true
@@ -1571,7 +1530,19 @@ anims/Propulsion = SubResource( 13 )
 editor/display_folded = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Visible/MagnetArea"]
+visible = false
 shape = SubResource( 14 )
+
+[node name="Magnet" type="Sprite" parent="Visible/MagnetArea"]
+editor/display_folded = true
+visible = false
+self_modulate = Color( 0.980392, 0.823529, 0.45098, 0.239216 )
+scale = Vector2( 2.4, 2.4 )
+texture = ExtResource( 7 )
+
+[node name="Tween" type="Tween" parent="Visible/MagnetArea/Magnet"]
+repeat = true
+playback/repeat = true
 
 [node name="Arrow" type="Sprite" parent="Visible"]
 editor/display_folded = true
@@ -1775,7 +1746,6 @@ anims/Invencible = SubResource( 28 )
 anims/TimeOut = SubResource( 29 )
 
 [node name="ClickArea" type="CanvasLayer" parent="."]
-editor/display_folded = true
 
 [node name="Area" type="Control" parent="ClickArea"]
 anchor_right = 1.0
