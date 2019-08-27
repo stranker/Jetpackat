@@ -14,11 +14,11 @@ func _ready():
 
 func _process(delta):
 	if GameManager.player.invencible:
-		queue_free()
+		kill()
 	pass
 
 func _on_VisibilityNotifier2D_screen_exited():
-	queue_free()
+	kill()
 	pass # Replace with function body.
 
 func _on_FuelCan_body_entered(body):
@@ -44,15 +44,15 @@ shader_param/outline_color = Color( 1, 1, 1, 0.495684 )
 [sub_resource type="CircleShape2D" id=3]
 radius = 58.8121
 
-[sub_resource type="Curve" id=9]
+[sub_resource type="Curve" id=4]
 max_value = 6.0
 _data = [ Vector2( 0.00109641, 5.9106 ), 0.0, -6.11803, 0, 0, Vector2( 1, 3.6468 ), -0.502107, 0.0, 0, 0 ]
 
-[sub_resource type="Gradient" id=10]
+[sub_resource type="Gradient" id=5]
 offsets = PoolRealArray( 0, 0.282209, 0.564417, 0.846626, 1 )
 colors = PoolColorArray( 1, 1, 1, 1, 1, 0.960938, 0, 1, 1, 0.632813, 0, 1, 0.784314, 0, 0, 0.588235, 0.359375, 0.359375, 0.359375, 0 )
 
-[sub_resource type="DynamicFont" id=11]
+[sub_resource type="DynamicFont" id=6]
 size = 40
 outline_size = 2
 outline_color = Color( 1, 0.913725, 0, 1 )
@@ -223,8 +223,8 @@ tangential_accel_random = 1.0
 angle = 360.0
 angle_random = 1.0
 scale_amount_random = 1.0
-scale_amount_curve = SubResource( 9 )
-color_ramp = SubResource( 10 )
+scale_amount_curve = SubResource( 4 )
+color_ramp = SubResource( 5 )
 
 [node name="Label" type="Label" parent="."]
 self_modulate = Color( 1, 1, 1, 0 )
@@ -233,7 +233,7 @@ margin_top = -30.0
 margin_right = 77.0
 margin_bottom = 19.0
 rect_pivot_offset = Vector2( 73.5, 24.5 )
-custom_fonts/font = SubResource( 11 )
+custom_fonts/font = SubResource( 6 )
 text = "FUEL UP!"
 align = 1
 valign = 3

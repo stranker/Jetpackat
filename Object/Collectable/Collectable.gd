@@ -13,3 +13,6 @@ func _process(delta):
 		speed += delta * speed
 		var direction : Vector2 = (player_magnet.global_position - global_position).normalized()
 		translate(direction*speed*delta)
+
+func kill():
+	call_deferred('queue_free')

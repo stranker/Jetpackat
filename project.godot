@@ -34,7 +34,6 @@ gdscript/warnings/enable=false
 
 window/size/width=1080
 window/size/height=1920
-window/vsync/use_vsync=false
 window/handheld/orientation="portrait"
 window/stretch/mode="viewport"
 window/stretch/aspect="keep_width"
@@ -78,14 +77,19 @@ locale_filter=[ 1, [ "en_US", "es_AR", "pt_BR" ] ]
 [rendering]
 
 quality/driver/driver_name="GLES2"
-quality/intended_usage/framebuffer_allocation=0
-quality/intended_usage/framebuffer_allocation.mobile=0
-quality/2d/use_pixel_snap=true
+quality/2d/gles2_use_nvidia_rect_flicker_workaround=true
+quality/intended_usage/framebuffer_allocation=1
+quality/intended_usage/framebuffer_allocation.mobile=1
 vram_compression/import_etc=true
 vram_compression/import_etc2=false
+quality/directional_shadow/size=256
+quality/directional_shadow/size.mobile=256
 quality/shadows/filter_mode=0
 quality/reflections/texture_array_reflections=false
 quality/reflections/high_quality_ggx=false
+quality/shading/force_vertex_shading=true
+quality/shading/force_lambert_over_burley=true
+quality/filters/use_nearest_mipmap_filter=true
 quality/depth/hdr=false
 environment/default_environment="res://default_env.tres"
 quality/dynamic_fonts/use_oversampling=false

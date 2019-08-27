@@ -158,11 +158,7 @@ func _on_ToggleEnemies_toggled(button_pressed):
 	pass # Replace with function body.
 
 func _on_ToggleCollectables_toggled(button_pressed):
-	$CollectableSpawner.activated = button_pressed
-	pass # Replace with function body.
-
-func _on_ToggleRibbons_toggled(button_pressed):
-	$FuelCanSpawner.activated = button_pressed
+	$ItemClusterSpawne.activated = button_pressed
 	pass # Replace with function body.
 
 func _on_Music_toggled(button_pressed):
@@ -943,8 +939,9 @@ func _process(delta):
 
 func spawn_new_item_cluster():
 	var item_cluster = item_cluster_scene.instance()
-	item_cluster.position.x = 0
-	item_cluster.position.y = GameManager.camera.global_position.y - get_viewport().get_visible_rect().size.y + 800
+	var item_pos : Vector2 = Vector2.ZERO
+	item_pos.y = GameManager.camera.global_position.y - get_viewport().get_visible_rect().size.y + 800
+	item_cluster.call_deferred('set_position', item_pos)
 	get_node(parent_node).call_deferred('add_child',item_cluster)
 	if only_drop_coin:
 		item_cluster.spawn_coins()
@@ -1075,17 +1072,16 @@ centered = false
 position = Vector2( 559.5, 830 )
 
 [node name="UIGame" type="CanvasLayer" parent="."]
-editor/display_folded = true
 script = SubResource( 6 )
 
 [node name="UI" type="Control" parent="UIGame"]
 pause_mode = 2
-editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 
 [node name="UpperPanel" type="Control" parent="UIGame/UI"]
+editor/display_folded = true
 anchor_right = 1.0
 margin_bottom = 284.0
 
@@ -1513,13 +1509,12 @@ margin_top = -963.0
 margin_right = 442.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UIGame/DebugPanel"]
-editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="Invencible" type="Button" parent="UIGame/DebugPanel/VBoxContainer"]
 margin_right = 442.0
-margin_bottom = 116.0
+margin_bottom = 134.0
 rect_min_size = Vector2( 0, 64 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -1528,9 +1523,9 @@ toggle_mode = true
 text = "ON/OFF INVENCIBLE"
 
 [node name="Currency" type="Button" parent="UIGame/DebugPanel/VBoxContainer"]
-margin_top = 120.0
+margin_top = 138.0
 margin_right = 442.0
-margin_bottom = 236.0
+margin_bottom = 272.0
 rect_min_size = Vector2( 0, 64 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -1538,9 +1533,9 @@ custom_fonts/font = SubResource( 33 )
 text = "Currency"
 
 [node name="ResetGame" type="Button" parent="UIGame/DebugPanel/VBoxContainer"]
-margin_top = 240.0
+margin_top = 276.0
 margin_right = 442.0
-margin_bottom = 356.0
+margin_bottom = 410.0
 rect_min_size = Vector2( 0, 64 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -1548,9 +1543,9 @@ custom_fonts/font = SubResource( 33 )
 text = "RESET GAME STATE"
 
 [node name="ToggleCollectables" type="Button" parent="UIGame/DebugPanel/VBoxContainer"]
-margin_top = 360.0
+margin_top = 414.0
 margin_right = 442.0
-margin_bottom = 476.0
+margin_bottom = 548.0
 rect_min_size = Vector2( 0, 64 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -1560,9 +1555,9 @@ pressed = true
 text = "ON/OFF COLLECT"
 
 [node name="ToggleEnemies" type="Button" parent="UIGame/DebugPanel/VBoxContainer"]
-margin_top = 480.0
+margin_top = 552.0
 margin_right = 442.0
-margin_bottom = 596.0
+margin_bottom = 686.0
 rect_min_size = Vector2( 0, 64 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -1571,22 +1566,10 @@ toggle_mode = true
 pressed = true
 text = "ON/OFF ENEMIES"
 
-[node name="ToggleRibbons" type="Button" parent="UIGame/DebugPanel/VBoxContainer"]
-margin_top = 600.0
-margin_right = 442.0
-margin_bottom = 716.0
-rect_min_size = Vector2( 0, 64 )
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_fonts/font = SubResource( 33 )
-toggle_mode = true
-pressed = true
-text = "ON/OFF RIBBON"
-
 [node name="Music" type="Button" parent="UIGame/DebugPanel/VBoxContainer"]
-margin_top = 720.0
+margin_top = 690.0
 margin_right = 442.0
-margin_bottom = 836.0
+margin_bottom = 824.0
 rect_min_size = Vector2( 0, 64 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -1595,7 +1578,7 @@ toggle_mode = true
 text = "Music NEW/OLD"
 
 [node name="Height" type="LineEdit" parent="UIGame/DebugPanel/VBoxContainer"]
-margin_top = 840.0
+margin_top = 828.0
 margin_right = 442.0
 margin_bottom = 963.0
 rect_min_size = Vector2( 0, 50 )
@@ -1675,7 +1658,6 @@ bus = "Music"
 [connection signal="button_down" from="UIGame/DebugPanel/VBoxContainer/ResetGame" to="." method="_on_ResetGame_button_down"]
 [connection signal="toggled" from="UIGame/DebugPanel/VBoxContainer/ToggleCollectables" to="." method="_on_ToggleCollectables_toggled"]
 [connection signal="toggled" from="UIGame/DebugPanel/VBoxContainer/ToggleEnemies" to="." method="_on_ToggleEnemies_toggled"]
-[connection signal="toggled" from="UIGame/DebugPanel/VBoxContainer/ToggleRibbons" to="." method="_on_ToggleRibbons_toggled"]
 [connection signal="toggled" from="UIGame/DebugPanel/VBoxContainer/Music" to="." method="_on_Music_toggled"]
 [connection signal="gui_input" from="UIGame/DebugPanel/VBoxContainer/Height" to="." method="_on_Height_gui_input"]
 [connection signal="button_down" from="UIGame/DebugPanel/Button" to="." method="_on_Button_button_down"]

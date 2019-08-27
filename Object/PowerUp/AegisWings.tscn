@@ -21,10 +21,10 @@ func _on_AegisWings_body_entered(body):
 	pass # Replace with function body.
 
 func _on_VisibilityNotifier2D_screen_exited():
-	queue_free()
+	kill()
 	pass # Replace with function body."
 
-[sub_resource type="ShaderMaterial" id=7]
+[sub_resource type="ShaderMaterial" id=2]
 shader = ExtResource( 1 )
 shader_param/outline_width = 0.7
 shader_param/outline_color = Color( 0.988235, 0.788235, 0.105882, 0.0470588 )
@@ -115,12 +115,12 @@ tracks/3/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Curve" id=8]
+[sub_resource type="Curve" id=6]
 min_value = -10.0
 max_value = 10.0
 _data = [ Vector2( 0, -10 ), 0.0, -11.6663, 0, 0, Vector2( 0.986287, 9.856 ), -1.96364, 0.0, 0, 0 ]
 
-[sub_resource type="Gradient" id=6]
+[sub_resource type="Gradient" id=7]
 offsets = PoolRealArray( 0, 0.384106, 1 )
 colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0.803922, 1, 1, 1, 0 )
 
@@ -128,7 +128,7 @@ colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0.803922, 1, 1, 1, 0 )
 script = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-material = SubResource( 7 )
+material = SubResource( 2 )
 rotation = 0.261799
 scale = Vector2( 3, 3 )
 texture = ExtResource( 2 )
@@ -164,14 +164,14 @@ angular_velocity = 300.0
 angular_velocity_random = 0.3
 radial_accel = 50.0
 tangential_accel_random = 1.0
-tangential_accel_curve = SubResource( 8 )
+tangential_accel_curve = SubResource( 6 )
 damping = 100.0
 damping_random = 0.6
 angle = 360.0
 angle_random = 1.0
 scale_amount = 3.0
 scale_amount_random = 0.5
-color_ramp = SubResource( 6 )
+color_ramp = SubResource( 7 )
 [connection signal="area_entered" from="." to="." method="_on_AegisWings_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_AegisWings_body_entered"]
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

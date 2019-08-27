@@ -26,6 +26,8 @@ func _ready():
 
 func _process(delta):
 	check_patron(delta)
+	if global_position.y > GameManager.player.global_position.y + get_viewport_rect().size.y:
+		call_deferred('queue_free')
 	pass
 
 func check_patron(delta):
@@ -61,11 +63,6 @@ func _on_PatrolTimer_timeout():
 func _on_Ovni_body_entered(body):
 	if body.is_in_group('Player'):
 		body.take_damage()
-	pass # Replace with function body.
-
-func _on_VisibilityNotifier2D_screen_exited():
-	if abs(global_position.y) < abs(GameManager.player.global_position.y) - get_viewport_rect().size.y/2:
-		queue_free()
 	pass # Replace with function body.
 "
 
@@ -107,9 +104,5 @@ one_shot = true
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Run"
 anims/Run = SubResource( 2 )
-
-[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
-
 [connection signal="body_entered" from="." to="." method="_on_Ovni_body_entered"]
 [connection signal="timeout" from="PatrolTimer" to="." method="_on_PatrolTimer_timeout"]
-[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

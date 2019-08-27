@@ -29,6 +29,8 @@ func _process(delta):
 	velocity.y = sin(time * 2) * speed
 	translate(velocity*delta)
 	check_boundaries()
+	if global_position.y > GameManager.player.global_position.y + get_viewport_rect().size.y:
+		call_deferred('queue_free')
 
 func check_boundaries():
 	if position.x > get_viewport_rect().size.x + size_sprite.x/2 or position.x < -size_sprite.x/2:
@@ -39,13 +41,7 @@ func check_boundaries():
 func _on_Bird_body_entered(body):
 	if body.is_in_group('Player'):
 		body.take_damage()
-	pass # Replace with function body.
-
-func _on_VisibilityNotifier2D_screen_exited():
-	if abs(global_position.y) < abs(GameManager.player.global_position.y) - get_viewport_rect().size.y/2:
-		queue_free()
-	pass # Replace with function body.
-"
+	pass # Replace with function body."
 
 [sub_resource type="CapsuleShape2D" id=2]
 radius = 60.8486
@@ -83,10 +79,7 @@ position = Vector2( -0.735077, -5.14565 )
 rotation = 1.5708
 shape = SubResource( 2 )
 
-[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
-
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Fly"
 anims/Fly = SubResource( 3 )
 [connection signal="body_entered" from="." to="." method="_on_Bird_body_entered"]
-[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
