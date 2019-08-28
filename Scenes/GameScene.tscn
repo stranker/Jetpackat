@@ -1,4 +1,4 @@
-[gd_scene load_steps=72 format=2]
+[gd_scene load_steps=77 format=2]
 
 [ext_resource path="res://Sprites/Background/HouseBroken.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Background/House.png" type="Texture" id=2]
@@ -31,12 +31,16 @@
 [ext_resource path="res://Scenes/TransitionScene.tscn" type="PackedScene" id=29]
 [ext_resource path="res://Sprites/Cat/CatHead.png" type="Texture" id=30]
 [ext_resource path="res://Object/Misc/EnemySpawner.tscn" type="PackedScene" id=31]
-[ext_resource path="res://Object/Enemies/PaperPlane.tscn" type="PackedScene" id=32]
-[ext_resource path="res://Object/Enemies/Bird.tscn" type="PackedScene" id=33]
-[ext_resource path="res://Object/Enemies/Condor.tscn" type="PackedScene" id=34]
-[ext_resource path="res://Object/Enemies/Ovni.tscn" type="PackedScene" id=35]
-[ext_resource path="res://Object/Collectable/ItemCluster.tscn" type="PackedScene" id=36]
-[ext_resource path="res://Sounds/Music/CCF Theme.ogg" type="AudioStream" id=37]
+[ext_resource path="res://Sounds/Music/CCF Theme.ogg" type="AudioStream" id=32]
+[ext_resource path="res://Object/Collectable/CoinCluster.tscn" type="PackedScene" id=33]
+[ext_resource path="res://Object/Collectable/Fish.tscn" type="PackedScene" id=34]
+[ext_resource path="res://Object/PowerUp/AegisWings.tscn" type="PackedScene" id=35]
+[ext_resource path="res://Object/PowerUp/FuelCan.tscn" type="PackedScene" id=36]
+[ext_resource path="res://Object/PowerUp/Magnet.tscn" type="PackedScene" id=37]
+[ext_resource path="res://Object/Enemies/Bird.tscn" type="PackedScene" id=38]
+[ext_resource path="res://Object/Enemies/Condor.tscn" type="PackedScene" id=39]
+[ext_resource path="res://Object/Enemies/Ovni.tscn" type="PackedScene" id=40]
+[ext_resource path="res://Object/Enemies/PaperPlane.tscn" type="PackedScene" id=41]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node
@@ -158,7 +162,7 @@ func _on_ToggleEnemies_toggled(button_pressed):
 	pass # Replace with function body.
 
 func _on_ToggleCollectables_toggled(button_pressed):
-	$ItemClusterSpawne.activated = button_pressed
+	$ItemClusterSpawner.activated = button_pressed
 	pass # Replace with function body.
 
 func _on_Music_toggled(button_pressed):
@@ -921,35 +925,48 @@ font_data = ExtResource( 11 )
 resource_name = "ItemClusterSpawner.gd"
 script/source = "extends Node
 
-export (PackedScene) var item_cluster_scene
-export (NodePath) var parent_node
+export (Array, String) var items
+export (Array, float) var items_prob
+onready var pool_manager = get_parent().get_node('PoolManager')
 export var activated : bool = true
-export var only_drop_coin : bool = true
 export var max_height : int = 14
 export var min_height : int = 10
 export var init_max_height : int = 14
 export var invencible_max_height : int = 10
 var height_spawn : int
 var pos_player_last_spawn : int
+var num : float = 0
+export (NodePath) var collectables_node
+export (NodePath) var collectables_spawns
 
 func _process(delta):
 	if check_can_spawn():
-		spawn_new_item_cluster()
+		spawn_item()
 	pass
 
-func spawn_new_item_cluster():
-	var item_cluster = item_cluster_scene.instance()
-	var item_pos : Vector2 = Vector2.ZERO
+func spawn_item():
+	var item_pos : Vector2 = get_node(collectables_spawns).get_children()[randi()%get_node(collectables_spawns).get_child_count()].position
 	item_pos.y = GameManager.camera.global_position.y - get_viewport().get_visible_rect().size.y + 800
-	item_cluster.call_deferred('set_position', item_pos)
-	get_node(parent_node).call_deferred('add_child',item_cluster)
-	if only_drop_coin:
-		item_cluster.spawn_coins()
-	else:
-		item_cluster.spawn_items()
 	pos_player_last_spawn = GameManager.player_height
-	get_new_height()
+	var item = pool_manager.get_object_by_name(get_random_item())
+	if item:
+		get_node(collectables_node).add_child(item)
+		item.position = item_pos
+		item.set_active(true)
+		get_new_height()
 	pass
+
+func get_random_item():
+	var item_name = ''
+	num = rand_range(0,1)
+	for i in range(items.size()):
+		if num < items_prob[i]:
+			break
+		else:
+			item_name = items[i - 1]
+	if item_name.empty():
+		item_name = items[0]
+	return item_name
 
 func get_new_height():
 	height_spawn = min_height + randi() % max_height
@@ -968,6 +985,40 @@ func _on_Player_invencible(val):
 	else:
 		max_height = init_max_height
 	pass # Replace with function body."
+
+[sub_resource type="GDScript" id=35]
+script/source = "extends Node2D
+
+export (Array, PackedScene) var objects_scene_list
+export var objects_number : int
+
+func _ready():
+	create_objects()
+	pass
+
+func create_objects():
+	if !objects_scene_list.empty():
+		for object_scene in objects_scene_list:
+			for i in range(objects_number):
+				var object = object_scene.instance()
+				call_deferred('add_child',object)
+				object.call_deferred('set_active',false)
+	pass
+
+func get_object_by_name(obj_name : String):
+	var object = null
+	for obj in get_children():
+		if obj.name.find(obj_name) >= 0 and !obj.activated:
+			object = obj
+			break
+	if object:
+		remove_child(object)
+	return object
+
+func return_object(obj):
+	obj.get_parent().call_deferred('remove_child',obj)
+	obj.set_active(false)
+	call_deferred('add_child',obj)"
 
 [node name="GameScene" type="Node"]
 script = SubResource( 1 )
@@ -1076,6 +1127,7 @@ script = SubResource( 6 )
 
 [node name="UI" type="Control" parent="UIGame"]
 pause_mode = 2
+editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -1612,20 +1664,42 @@ position = Vector2( 750, -340 )
 [node name="Position2D14" type="Position2D" parent="SpawnPoints/Enemies"]
 position = Vector2( 950, -370 )
 
+[node name="Collectables" type="Node2D" parent="SpawnPoints"]
+editor/display_folded = true
+
+[node name="Position2D11" type="Position2D" parent="SpawnPoints/Collectables"]
+position = Vector2( 547.854, -340 )
+
+[node name="Position2D12" type="Position2D" parent="SpawnPoints/Collectables"]
+position = Vector2( 266.454, -335.093 )
+
+[node name="Position2D13" type="Position2D" parent="SpawnPoints/Collectables"]
+position = Vector2( 826.16, -335.24 )
+
+[node name="Position2D14" type="Position2D" parent="SpawnPoints/Collectables"]
+position = Vector2( 918.266, -425.534 )
+
+[node name="Position2D15" type="Position2D" parent="SpawnPoints/Collectables"]
+position = Vector2( 178.878, -411.253 )
+
 [node name="EnemySpawner" parent="." instance=ExtResource( 31 )]
-item_list = [ ExtResource( 32 ), ExtResource( 33 ), ExtResource( 34 ), ExtResource( 35 ) ]
+item_list = [  ]
 parent_node = NodePath("../Enemies")
 spawn_points_node = NodePath("../SpawnPoints/Enemies")
 min_height = 10.0
 max_height = 20.0
-height_control_list = [ 0, 200, 350, 500 ]
+enemy_list = [ "PaperPlane" ]
+height_control_list = [ 0 ]
 min_height_tutorial = 20
+pool_manager = NodePath("../PoolManager")
+enemies_pos = NodePath("../SpawnPoints/Enemies")
 
-[node name="ItemClusterSpawner" type="Node" parent="."]
+[node name="CollectablesSpawner" type="Node" parent="."]
 script = SubResource( 34 )
-item_cluster_scene = ExtResource( 36 )
-parent_node = NodePath("../Collectables")
-only_drop_coin = false
+items = [ "Coin" ]
+items_prob = [ 1.0 ]
+collectables_node = NodePath("../Collectables")
+collectables_spawns = NodePath("../SpawnPoints/Collectables")
 
 [node name="Collectables" type="Node2D" parent="."]
 
@@ -1633,15 +1707,20 @@ only_drop_coin = false
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 pause_mode = 2
-stream = ExtResource( 37 )
+stream = ExtResource( 32 )
 autoplay = true
 bus = "Music"
+
+[node name="PoolManager" type="Node2D" parent="."]
+script = SubResource( 35 )
+objects_scene_list = [ ExtResource( 33 ), ExtResource( 34 ), ExtResource( 35 ), ExtResource( 36 ), ExtResource( 37 ), ExtResource( 38 ), ExtResource( 39 ), ExtResource( 40 ), ExtResource( 41 ) ]
+objects_number = 5
 [connection signal="screen_exited" from="House/VisibilityNotifier2D" to="House" method="_on_VisibilityNotifier2D_screen_exited"]
 [connection signal="current_height" from="Player" to="ParallaxBackground" method="_on_Player_current_height"]
 [connection signal="current_height" from="Player" to="." method="_on_Player_current_height"]
 [connection signal="dead" from="Player" to="." method="_on_Player_dead"]
+[connection signal="invencible" from="Player" to="CollectablesSpawner" method="_on_Player_invencible"]
 [connection signal="invencible" from="Player" to="EnemySpawner" method="_on_Player_invencible"]
-[connection signal="invencible" from="Player" to="ItemClusterSpawner" method="_on_Player_invencible"]
 [connection signal="start_playing" from="Player" to="." method="_on_Player_start_playing"]
 [connection signal="button_down" from="UIGame/UI/PauseButton" to="UIGame" method="_on_PauseButton_button_down"]
 [connection signal="button_down" from="UIGame/UI/PausePanel/HomeButton" to="UIGame" method="_on_HomeButton_button_down"]

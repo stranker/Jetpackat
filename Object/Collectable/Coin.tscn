@@ -17,35 +17,34 @@ func initialize():
 	initial_pos = position
 
 func _on_Coin_body_entered(body):
-	if body.is_in_group('Player') and !taked:
+	if body.is_in_group('Player') and !taked and activated:
 		taked = !taked
 		emit_signal('taken',value)
 		$Anim.play('Taken')
 	pass # Replace with function body.
 
 func _on_Coin_area_entered(area):
-	if area.name == 'MagnetArea' and !on_magnet_area:
+	if area.name == 'MagnetArea' and !on_magnet_area and activated:
 		player_magnet = area
 		on_magnet_area = !on_magnet_area
-		$Timer.start()
 	pass
 
-func _on_Timer_timeout():
-	if !taked:
-		taked = !taked
-		$Anim.play('Taken')
-		emit_signal('taken',value)
-	pass # Replace with function body.
+func set_coin_active(val):
+	set_active(val)
 
 func reset():
-	speed = 1000
 	position = initial_pos
-	$Timer.stop()
-	player_magnet = null
-	on_magnet_area = false
-	taked = false
-	$Anim.play('Idle')
-	pass"
+	$Anim.play_backwards('Taken')
+	pass
+
+func _on_Coin_active(val):
+	$Sprite.visible = val
+	if val:
+		$Anim.play('Idle')
+	else:
+		reset()
+	pass # Replace with function body.
+"
 
 [sub_resource type="Shader" id=2]
 code = "shader_type canvas_item;
@@ -191,13 +190,10 @@ z_index = 8
 script = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-self_modulate = Color( 1, 1, 1, 0 )
 material = SubResource( 3 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 1 )
-flip_h = true
 hframes = 4
-frame = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 4 )
@@ -233,9 +229,6 @@ bus = "Sounds"
 autoplay = "Idle"
 anims/Idle = SubResource( 7 )
 anims/Taken = SubResource( 8 )
-
-[node name="Timer" type="Timer" parent="."]
-wait_time = 2.0
+[connection signal="active" from="." to="." method="_on_Coin_active"]
 [connection signal="area_entered" from="." to="." method="_on_Coin_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_Coin_body_entered"]
-[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

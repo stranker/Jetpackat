@@ -13,20 +13,24 @@ func _ready():
 	speed = 500
 
 func _on_Fish_body_entered(body):
-	if body.is_in_group('Player') and !taked:
+	if body.is_in_group('Player') and !taked and activated:
 		taked = !taked
 		$Anim.play('Taken')
 		emit_signal('taken',value)
 	pass # Replace with function body.
 
-func _on_VisibilityNotifier2D_screen_exited():
-	call_deferred('queue_free')
-	pass # Replace with function body.
-
 func _on_Fish_area_entered(area):
-	if area.name == 'MagnetArea' and !on_magnet_area:
+	if area.name == 'MagnetArea' and !on_magnet_area and activated:
 		player_magnet = area
 		on_magnet_area = !on_magnet_area
+	pass # Replace with function body.
+
+func _on_Fish_active(val):
+	$Sprite.visible = val
+	if val:
+		$Anim.play('Idle')
+	else:
+		$Anim.play_backwards('Taken')
 	pass # Replace with function body.
 "
 
@@ -116,7 +120,6 @@ colors = PoolColorArray( 0.207184, 0.726563, 0.337029, 1, 0.163277, 0.78451, 0.2
 script = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-self_modulate = Color( 1, 1, 1, 0 )
 material = SubResource( 2 )
 position = Vector2( 1.19748, 1.52588e-005 )
 rotation = -0.976112
@@ -130,8 +133,6 @@ shape = SubResource( 3 )
 autoplay = "Idle"
 anims/Idle = SubResource( 4 )
 anims/Taken = SubResource( 5 )
-
-[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 
 [node name="Particles2D" type="CPUParticles2D" parent="."]
 z_index = 12
@@ -156,6 +157,6 @@ color_ramp = SubResource( 7 )
 [node name="Sample" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 4 )
 bus = "Sounds"
+[connection signal="active" from="." to="." method="_on_Fish_active"]
 [connection signal="area_entered" from="." to="." method="_on_Fish_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_Fish_body_entered"]
-[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

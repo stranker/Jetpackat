@@ -1,7 +1,10 @@
 extends 'res://Object/Misc/Spawner.gd'
 
+export (Array, String) var enemy_list
 export (Array, int) var height_control_list
 export var min_height_tutorial : int = 10
+export (NodePath) var pool_manager
+export (NodePath) var enemies_pos
 
 func _process(delta):
 	if activated:
@@ -16,7 +19,7 @@ func get_new_item():
 	var spawned : bool = false
 	for i in range(height_control_list.size() - 1, -1 ,-1):
 		if !spawned and GameManager.player_height > height_control_list[i]:
-			item = item_list[i]
+			item = get_node(pool_manager).get_object_by_name(enemy_list[i])
 			spawned = true
 	return item
 

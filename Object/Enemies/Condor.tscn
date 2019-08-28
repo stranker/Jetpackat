@@ -3,7 +3,7 @@
 [ext_resource path="res://Sprites/Enemies/Condor.png" type="Texture" id=1]
 
 [sub_resource type="GDScript" id=1]
-script/source = "extends Area2D
+script/source = "extends \"res://Object/Enemies/Enemy.gd\"
 
 var direction : int = 1
 
@@ -23,17 +23,22 @@ func change_direction():
 	$Anim.play('Attack')
 	pass
 
-func _process(delta):
-	if global_position.y > GameManager.player.global_position.y + get_viewport_rect().size.y:
-		call_deferred('queue_free')
-
 func _on_Condor_body_entered(body):
-	if body.is_in_group('Player'):
+	if body.is_in_group('Player') and activated:
 		body.take_damage()
 	pass # Replace with function body.
 
 func _on_Anim_animation_finished(anim_name):
 	change_direction()
+	pass # Replace with function body.
+
+
+func _on_Condor_active(val):
+	if val:
+		$Anim.play('Attack')
+	else:
+		$Anim.stop()
+	$Sprite.visible = val
 	pass # Replace with function body.
 "
 
@@ -115,7 +120,7 @@ position = Vector2( 1195, 188 )
 polygon = PoolVector2Array( -70, 10, 10, 50, 80, 0, 40, -30 )
 
 [node name="Anim" type="AnimationPlayer" parent="."]
-autoplay = "Attack"
 anims/Attack = SubResource( 2 )
+[connection signal="active" from="." to="." method="_on_Condor_active"]
 [connection signal="body_entered" from="." to="." method="_on_Condor_body_entered"]
 [connection signal="animation_finished" from="Anim" to="." method="_on_Anim_animation_finished"]

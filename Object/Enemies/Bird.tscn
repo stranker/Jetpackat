@@ -3,7 +3,7 @@
 [ext_resource path="res://Sprites/Enemies/Bird.png" type="Texture" id=1]
 
 [sub_resource type="GDScript" id=1]
-script/source = "extends Area2D
+script/source = "extends \"res://Object/Enemies/Enemy.gd\"
 
 export var max_speed : float
 export var min_speed : float
@@ -22,15 +22,15 @@ func _ready():
 		direction = -direction
 		$Sprite.scale.x = $Sprite.scale.x * -1
 	velocity.x = speed * direction
+	set_process(false)
 	pass # Replace with function body.
 
 func _process(delta):
-	time += delta
-	velocity.y = sin(time * 2) * speed
-	translate(velocity*delta)
-	check_boundaries()
-	if global_position.y > GameManager.player.global_position.y + get_viewport_rect().size.y:
-		call_deferred('queue_free')
+	if activated:
+		time += delta
+		velocity.y = sin(time * 2) * speed
+		translate(velocity*delta)
+		check_boundaries()
 
 func check_boundaries():
 	if position.x > get_viewport_rect().size.x + size_sprite.x/2 or position.x < -size_sprite.x/2:
@@ -39,9 +39,16 @@ func check_boundaries():
 		$Sprite.scale.x = $Sprite.scale.x * -1
 
 func _on_Bird_body_entered(body):
-	if body.is_in_group('Player'):
+	if body.is_in_group('Player') and activated:
 		body.take_damage()
-	pass # Replace with function body."
+	pass # Replace with function body.
+
+
+func _on_Bird_active(val):
+	set_process(val)
+	$Sprite.visible = val
+	pass # Replace with function body.
+"
 
 [sub_resource type="CapsuleShape2D" id=2]
 radius = 60.8486
@@ -82,4 +89,5 @@ shape = SubResource( 2 )
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Fly"
 anims/Fly = SubResource( 3 )
+[connection signal="active" from="." to="." method="_on_Bird_active"]
 [connection signal="body_entered" from="." to="." method="_on_Bird_body_entered"]

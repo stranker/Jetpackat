@@ -22,18 +22,15 @@ func get_new_height():
 func check_can_spawn(): 
 	return GameManager.player_height > height_spawn + pos_player_last_spawn
 
-func spawn_item(item_scene):
-	var item = null
-	if !item_scene:
-		return
-	item = item_scene.instance()
-	get_node(parent_node).call_deferred('add_child',item)
-	var new_pos = Vector2()
+func spawn_item(enemy):
+	get_node(parent_node).call_deferred('add_child',enemy)
+	var new_pos : Vector2 = Vector2.ZERO
 	spawn_points.shuffle()
 	new_pos.x = spawn_points[0].position.x
 	new_pos.y = GameManager.camera.global_position.y - get_viewport().get_viewport().size.y + spawn_points[0].position.y
-	item.call_deferred('set_global_position',new_pos)
+	enemy.call_deferred('set_global_position',new_pos)
 	pos_player_last_spawn = GameManager.player_height
+	enemy.set_active(true)
 	get_new_height()
 	pass
 
