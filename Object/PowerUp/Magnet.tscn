@@ -20,11 +20,14 @@ func _on_Magnet_area_entered(area):
 	pass # Replace with function body.
 
 func _on_Magnet_active(val):
-	$Sprite.visible = val
 	if val:
-		$Anim.play('Idle')
+		$Anim.queue('Idle')
 	else:
 		$Anim.play_backwards('Taken')
+	pass # Replace with function body.
+
+func _on_VisibilityNotifier2D_screen_exited():
+	dispose_object()
 	pass # Replace with function body.
 "
 
@@ -109,6 +112,9 @@ shape = SubResource( 3 )
 autoplay = "Idle"
 anims/Idle = SubResource( 4 )
 anims/Taken = SubResource( 5 )
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 [connection signal="active" from="." to="." method="_on_Magnet_active"]
 [connection signal="area_entered" from="." to="." method="_on_Magnet_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_Magnet_body_entered"]
+[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

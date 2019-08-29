@@ -43,12 +43,9 @@ func _on_Bird_body_entered(body):
 		body.take_damage()
 	pass # Replace with function body.
 
-
 func _on_Bird_active(val):
 	set_process(val)
-	$Sprite.visible = val
-	pass # Replace with function body.
-"
+	pass # Replace with function body."
 
 [sub_resource type="CapsuleShape2D" id=2]
 radius = 60.8486

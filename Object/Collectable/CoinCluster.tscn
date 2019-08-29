@@ -8,6 +8,7 @@ script/source = "extends Node2D
 var activated : bool = false
 export (PackedScene) var coin_scene
 onready var pattern_list = $Patterns.get_children()
+signal dispose(obj)
 
 func _ready():
 	choose_pattern()
@@ -29,12 +30,12 @@ func choose_pattern():
 func set_active(val):
 	activated = val
 	for coin in $Coins.get_children():
-		coin.set_coin_active(val)
+		coin.set_active(val)
 	pass
 
 func _on_VisibilityNotifier2D_screen_exited():
 	if activated:
-		get_tree().root.get_node('GameScene/PoolManager').return_object(self)
+		emit_signal('dispose',self)
 	pass # Replace with function body.
 "
 

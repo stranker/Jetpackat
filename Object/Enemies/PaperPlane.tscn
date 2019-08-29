@@ -46,7 +46,7 @@ func _on_PaperPlane_body_entered(body):
 	pass # Replace with function body.
 
 func set_fly_type():
-	if GameManager.player_height > 100:
+	if GameManager.player_height > 200:
 		type = FLY_TYPE.LOOP
 	else:
 		type = FLY_TYPE.NORMAL
@@ -56,18 +56,17 @@ func set_fly_type():
 func _on_PaperPlane_active(val):
 	if val:
 		change_direction()
+		set_fly_type()
 	else:
 		$Anim.stop()
-	$Sprite.visible = val
-	pass # Replace with function body.
-"
+	pass # Replace with function body."
 
 [sub_resource type="ShaderMaterial" id=2]
 shader = ExtResource( 1 )
 shader_param/outline_width = 0.6
 shader_param/outline_color = Color( 0.227451, 0.227451, 0.227451, 1 )
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=3]
 resource_name = "Loop"
 length = 4.4
 tracks/0/type = "value"
@@ -119,8 +118,7 @@ tracks/3/keys = {
 "values": [ 0.0, 5.77297, -20.6903, -54.3653, -99.8248, -151.21, -224.112, -255.959, -290.59, -348.57, -362.247, -378.897, -381.267, -355.821, -355.821 ]
 }
 
-[sub_resource type="Animation" id=3]
-resource_name = "Normal"
+[sub_resource type="Animation" id=4]
 length = 5.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Collision:position")
@@ -189,8 +187,8 @@ scale = Vector2( 0.797962, 0.797962 )
 polygon = PoolVector2Array( -61.6072, 8.79681, -51.9376, -19.0744, 60.116, 1.40241, 7.78642, 16.1912 )
 
 [node name="Anim" type="AnimationPlayer" parent="."]
-anims/Loop = SubResource( 4 )
-anims/Normal = SubResource( 3 )
+anims/Loop = SubResource( 3 )
+anims/Normal = SubResource( 4 )
 [connection signal="active" from="." to="." method="_on_PaperPlane_active"]
 [connection signal="body_entered" from="." to="." method="_on_PaperPlane_body_entered"]
 [connection signal="animation_finished" from="Anim" to="." method="_on_Anim_animation_finished"]

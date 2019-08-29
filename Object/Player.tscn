@@ -17,7 +17,8 @@
 script/source = "extends KinematicBody2D
 
 export var jump_speed : float = 700
-export var horizontal_speed : float = 200
+export var horizontal_jump_speed : float = 300
+export var slide_speed : float = 400
 export var invencible_time : float = 4
 var velocity : Vector2
 var jump_direction : int = 1
@@ -97,23 +98,24 @@ func check_is_active():
 	pass
 
 func take_damage():
-	if !has_aegis and !invencible:
+	if has_aegis:
+		set_aegis(false)
+	elif !invencible:
 		if !dead and can_receive_damage:
 			dead = !dead
 			check_die_direction()
 			set_physics_process(false)
 			$Anim.stop()
 			$Anim.play('Dead')
-	else:
-		set_aegis(!has_aegis)
 	pass
 
 func height_damage():
-	dead = !dead
-	check_die_direction()
-	set_physics_process(false)
-	$Anim.stop()
-	$Anim.play('Dead')
+	if !dead:
+		dead = !dead
+		check_die_direction()
+		set_physics_process(false)
+		$Anim.stop()
+		$Anim.play('Dead')
 	pass
 
 func check_die_direction():
@@ -143,18 +145,12 @@ func jump_control(event : InputEvent):
 	pass
 
 func slide_control(event : InputEvent):
-	if event is InputEventScreenDrag:
-		var relative_clamped = event.relative.x
-		relative_clamped = clamp(relative_clamped,-1,1)
-		if relative_clamped < 0:
-			jump_direction = -1
-		else:
-			jump_direction = 1
-		check_scale_direction(jump_direction)
-		move_and_slide(Vector2.RIGHT * jump_direction * horizontal_speed, Vector2.UP)
+	if event is InputEventScreenTouch:
+		if event.is_pressed():
+			check_scale_direction(jump_direction)
+			move_and_slide(Vector2.RIGHT * jump_direction * slide_speed, Vector2.UP)
 
 func jump(jforce : int):
-	jump_direction = -jump_direction
 	check_scale_direction(jump_direction)
 	velocity.y = -jforce
 	$Sample.play()
@@ -163,7 +159,7 @@ func jump(jforce : int):
 
 func check_scale_direction(dir):
 	$Visible.scale.x = -dir
-	velocity.x = dir * horizontal_speed
+	velocity.x = dir * horizontal_jump_speed
 	pass
 
 func _on_Anim_animation_finished(anim_name):
@@ -269,6 +265,22 @@ func take_fuel():
 func _on_VisibilityNotifier2D_viewport_exited(viewport):
 	_on_VisibilityNotifier2D_screen_exited()
 	pass # Replace with function body.
+
+func _on_Left_gui_input(event):
+	jump_direction = -1
+	check_movement_type(event)
+	pass # Replace with function body.
+
+func _on_Right_gui_input(event):
+	jump_direction = 1
+	check_movement_type(event)
+	pass # Replace with function body.
+
+func check_movement_type(event):
+	if !invencible:
+		jump_control(event)
+	else:
+		slide_control(event)
 "
 
 [sub_resource type="CapsuleShape2D" id=2]
@@ -1748,10 +1760,28 @@ anims/Invencible = SubResource( 26 )
 anims/TimeOut = SubResource( 27 )
 
 [node name="ClickArea" type="CanvasLayer" parent="."]
+editor/display_folded = true
 
 [node name="Area" type="Control" parent="ClickArea"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+
+[node name="HBC" type="HBoxContainer" parent="ClickArea"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Left" type="Control" parent="ClickArea/HBC"]
+margin_right = 538.0
+margin_bottom = 1920.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Right" type="Control" parent="ClickArea/HBC"]
+margin_left = 542.0
+margin_right = 1080.0
+margin_bottom = 1920.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="InvencibleTimer" type="Timer" parent="."]
 wait_time = 4.0
@@ -1774,7 +1804,8 @@ bus = "Sounds"
 [connection signal="tween_completed" from="GameCamera/Tween" to="GameCamera" method="_on_Tween_tween_completed"]
 [connection signal="timeout" from="GameCamera/Timer" to="GameCamera" method="_on_Timer_timeout"]
 [connection signal="animation_finished" from="Anim" to="." method="_on_Anim_animation_finished"]
-[connection signal="gui_input" from="ClickArea/Area" to="." method="_on_Area_gui_input"]
+[connection signal="gui_input" from="ClickArea/HBC/Left" to="." method="_on_Left_gui_input"]
+[connection signal="gui_input" from="ClickArea/HBC/Right" to="." method="_on_Right_gui_input"]
 [connection signal="timeout" from="InvencibleTimer" to="." method="_on_InvencibleTimer_timeout"]
 [connection signal="timeout" from="NoColliderTimer" to="." method="_on_NoColliderTimer_timeout"]
 [connection signal="timeout" from="MagnetTimer" to="." method="_on_MagnetTimer_timeout"]

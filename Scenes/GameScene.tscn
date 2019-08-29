@@ -1,4 +1,4 @@
-[gd_scene load_steps=77 format=2]
+[gd_scene load_steps=75 format=2]
 
 [ext_resource path="res://Sprites/Background/HouseBroken.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Background/House.png" type="Texture" id=2]
@@ -18,29 +18,28 @@
 [ext_resource path="res://Sprites/UI/BarBack.png" type="Texture" id=16]
 [ext_resource path="res://Sprites/UI/PauseButton.png" type="Texture" id=17]
 [ext_resource path="res://Sprites/UI/PauseButtonPressed.png" type="Texture" id=18]
-[ext_resource path="res://Sprites/Tutorial/PawTutorial.png" type="Texture" id=19]
-[ext_resource path="res://Sprites/UI/HomeButton.png" type="Texture" id=20]
-[ext_resource path="res://Sprites/UI/HomeButtonPressed.png" type="Texture" id=21]
-[ext_resource path="res://Sprites/UI/ConfigButton.png" type="Texture" id=22]
-[ext_resource path="res://Sprites/UI/ConfigButtonPressed.png" type="Texture" id=23]
-[ext_resource path="res://Sprites/UI/ContinueButton.png" type="Texture" id=24]
-[ext_resource path="res://Sprites/UI/ContinueButtonPressed.png" type="Texture" id=25]
-[ext_resource path="res://Scenes/ConfigPanel.tscn" type="PackedScene" id=26]
-[ext_resource path="res://Scenes/DeadPanel.tscn" type="PackedScene" id=27]
-[ext_resource path="res://Scenes/InitialDarker.tscn" type="PackedScene" id=28]
-[ext_resource path="res://Scenes/TransitionScene.tscn" type="PackedScene" id=29]
-[ext_resource path="res://Sprites/Cat/CatHead.png" type="Texture" id=30]
-[ext_resource path="res://Object/Misc/EnemySpawner.tscn" type="PackedScene" id=31]
-[ext_resource path="res://Sounds/Music/CCF Theme.ogg" type="AudioStream" id=32]
-[ext_resource path="res://Object/Collectable/CoinCluster.tscn" type="PackedScene" id=33]
-[ext_resource path="res://Object/Collectable/Fish.tscn" type="PackedScene" id=34]
-[ext_resource path="res://Object/PowerUp/AegisWings.tscn" type="PackedScene" id=35]
-[ext_resource path="res://Object/PowerUp/FuelCan.tscn" type="PackedScene" id=36]
-[ext_resource path="res://Object/PowerUp/Magnet.tscn" type="PackedScene" id=37]
+[ext_resource path="res://Sprites/UI/HomeButton.png" type="Texture" id=19]
+[ext_resource path="res://Sprites/UI/HomeButtonPressed.png" type="Texture" id=20]
+[ext_resource path="res://Sprites/UI/ConfigButton.png" type="Texture" id=21]
+[ext_resource path="res://Sprites/UI/ConfigButtonPressed.png" type="Texture" id=22]
+[ext_resource path="res://Sprites/UI/ContinueButton.png" type="Texture" id=23]
+[ext_resource path="res://Sprites/UI/ContinueButtonPressed.png" type="Texture" id=24]
+[ext_resource path="res://Scenes/ConfigPanel.tscn" type="PackedScene" id=25]
+[ext_resource path="res://Scenes/DeadPanel.tscn" type="PackedScene" id=26]
+[ext_resource path="res://Scenes/InitialDarker.tscn" type="PackedScene" id=27]
+[ext_resource path="res://Scenes/TransitionScene.tscn" type="PackedScene" id=28]
+[ext_resource path="res://Sprites/Cat/CatHead.png" type="Texture" id=29]
+[ext_resource path="res://Sprites/Tutorial/PawTutorial.png" type="Texture" id=30]
+[ext_resource path="res://Sounds/Music/CCF Theme.ogg" type="AudioStream" id=31]
+[ext_resource path="res://Object/Collectable/CoinCluster.tscn" type="PackedScene" id=32]
+[ext_resource path="res://Object/Collectable/Fish.tscn" type="PackedScene" id=33]
+[ext_resource path="res://Object/PowerUp/FuelCan.tscn" type="PackedScene" id=34]
+[ext_resource path="res://Object/PowerUp/Magnet.tscn" type="PackedScene" id=35]
+[ext_resource path="res://Object/PowerUp/AegisWings.tscn" type="PackedScene" id=36]
+[ext_resource path="res://Object/Enemies/PaperPlane.tscn" type="PackedScene" id=37]
 [ext_resource path="res://Object/Enemies/Bird.tscn" type="PackedScene" id=38]
 [ext_resource path="res://Object/Enemies/Condor.tscn" type="PackedScene" id=39]
 [ext_resource path="res://Object/Enemies/Ovni.tscn" type="PackedScene" id=40]
-[ext_resource path="res://Object/Enemies/PaperPlane.tscn" type="PackedScene" id=41]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node
@@ -190,14 +189,15 @@ script/source = "extends Node2D
 
 func _on_VisibilityNotifier2D_screen_exited():
 	$CPUParticles2D.emitting = false
-	queue_free()
+	visible = false
+	set_process(false)
 	pass # Replace with function body.
 
 func _process(delta):
 	var dist = $CatShadow.position.distance_to(GameManager.player.position)
 	$CatShadow.modulate.a = 100/dist
 	$CatShadow.position.x = GameManager.player.position.x
-	$CatShadow.scale.x = $CatShadow.scale.x * GameManager.player.scale.x
+	$CatShadow.scale.x = $CatShadow.scale.x * GameManager.player.get_node('Visible').scale.x
 	pass"
 
 [sub_resource type="RectangleShape2D" id=3]
@@ -209,16 +209,18 @@ colors = PoolColorArray( 0.730469, 0.730469, 0.730469, 1, 0, 0, 0, 0 )
 [sub_resource type="GDScript" id=5]
 script/source = "extends ParallaxBackground
 
-export var space_height = 500
+export var space_height : int
+export (Array, Color) var color_list
+var color_idx = 0
 var on_space : bool = false
 
 func set_background_darker(value):
-	if value > 50 and value % 50 == 0 and !$Tween.is_active():
-		$Tween.stop_all()
-		var actual_color = $ParallaxLayer/Bg1.self_modulate
-		var new_color : Color = Color(actual_color.r - 0.05,actual_color.g - 0.05,actual_color.b - 0.05)
-		$Tween.interpolate_property($ParallaxLayer/Bg1,'self_modulate',$ParallaxLayer/Bg1.self_modulate, new_color, 2, Tween.TRANS_LINEAR,Tween.EASE_IN)
+	if value > color_idx * space_height / color_list.size() and !$Tween.is_active():
+		$Tween.remove_all()
+		$Tween.interpolate_property($ParallaxLayer/Bg1,'self_modulate',
+		$ParallaxLayer/Bg1.self_modulate, color_list[color_idx], 2, Tween.TRANS_LINEAR,Tween.EASE_IN)
 		$Tween.start()
+		color_idx += 1
 	pass
 
 func change_to_space():
@@ -244,6 +246,8 @@ func _on_Player_current_height(value):
 script/source = "extends CanvasLayer
 
 var fuel_count : int = 0
+export var height_tutorial: int
+var tutorial_done : bool = false
 
 func _ready():
 	$UI/ConfigPanel.hide()
@@ -252,12 +256,6 @@ func _ready():
 	$UI/TransitionScene.play_random_backwards()
 	$UI/FuelBar.value = 0
 	pass
-
-func _process(delta):
-	if GameManager.player_height >= get_parent().get_node(\"EnemySpawner\").min_height_tutorial:
-		$UI/PawTutorial/Anim.play('End')
-		get_parent().get_node('Player').hide_tutorial_arrow()
-		set_process(false)
 
 func update_coin_label():
 	$UI/UpperPanel/CoinPanel/CoinLabel.text = str(GameManager.coins)
@@ -346,12 +344,19 @@ func start_backfuelbar_tween(val):
 	pass
 
 func set_tutorial_done():
-	$UI/PawTutorial.hide()
+	$UI/Tutorial/InitialTap.hide()
 	get_parent().get_node('Player').disable_tutorial()
 	pass
 
 func _on_ConfigPanel_config_panel_closed():
 	$UI/PausePanel/Anim.play_backwards('Config')
+	pass # Replace with function body.
+
+func _on_Player_current_height(value):
+	if !tutorial_done and value >= height_tutorial:
+		tutorial_done = true
+		$UI/Tutorial/InitialTap/Anim.play('End')
+		get_parent().get_node('Player').hide_tutorial_arrow()
 	pass # Replace with function body.
 "
 
@@ -631,68 +636,6 @@ shader = ExtResource( 14 )
 shader_param/outline_width = 0.5
 shader_param/outline_color = Color( 0, 0, 0, 1 )
 
-[sub_resource type="Animation" id=21]
-length = 0.5
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0.729412 ), Color( 1, 1, 1, 0 ) ]
-}
-
-[sub_resource type="Animation" id=22]
-length = 0.6
-loop = true
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:rotation_degrees")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.4 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ -30.0, -39.6617 ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath(".:scale")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.4 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 5, 5 ), Vector2( 4, 4 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath(".:frame")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.3, 0.5 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ 0, 1, 0 ]
-}
-
-[sub_resource type="DynamicFont" id=23]
-size = 18
-outline_size = 2
-outline_color = Color( 0.0901961, 0.0901961, 0.0901961, 1 )
-use_filter = true
-font_data = ExtResource( 11 )
-
 [sub_resource type="StyleBoxFlat" id=24]
 bg_color = Color( 0.639216, 0, 1, 1 )
 border_width_left = 10
@@ -913,6 +856,111 @@ tracks/3/keys = {
 "values": [ true, false ]
 }
 
+[sub_resource type="Animation" id=37]
+resource_name = "End"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("LPaw:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0.67451 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("RPaw:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0.67451 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=36]
+resource_name = "Start"
+length = 0.7
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("LPaw:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 0.5, 0.5 ),
+"update": 0,
+"values": [ 0.0, 30.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("RPaw:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 0.5, 0.5 ),
+"update": 0,
+"values": [ 0.0, -30.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("RPaw:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 3.625, 3.625 ), Vector2( 3.2, 3.2 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("LPaw:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 3.625, 3.625 ), Vector2( 3.2, 3.2 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("RPaw:frame")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.3, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 0 ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("LPaw:frame")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.3, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 0 ]
+}
+
 [sub_resource type="DynamicFont" id=32]
 size = 32
 font_data = ExtResource( 11 )
@@ -925,19 +973,22 @@ font_data = ExtResource( 11 )
 resource_name = "ItemClusterSpawner.gd"
 script/source = "extends Node
 
+enum SPAWN_TYPE {COLLECTABLE, ENEMY}
+export (SPAWN_TYPE) var spawn_type
 export (Array, String) var items
 export (Array, float) var items_prob
-onready var pool_manager = get_parent().get_node('PoolManager')
+export (Array, int) var items_max_height
+export (NodePath) var pool_manager
+export (NodePath) var parent_node
+export (NodePath) var spawn_points
 export var activated : bool = true
 export var max_height : int = 14
 export var min_height : int = 10
-export var init_max_height : int = 14
-export var invencible_max_height : int = 10
+export var invencible_decrease : int = 5
 var height_spawn : int
 var pos_player_last_spawn : int
 var num : float = 0
-export (NodePath) var collectables_node
-export (NodePath) var collectables_spawns
+var enemy_idx : int = 0
 
 func _process(delta):
 	if check_can_spawn():
@@ -945,35 +996,44 @@ func _process(delta):
 	pass
 
 func spawn_item():
-	var item_pos : Vector2 = get_node(collectables_spawns).get_children()[randi()%get_node(collectables_spawns).get_child_count()].position
-	item_pos.y = GameManager.camera.global_position.y - get_viewport().get_visible_rect().size.y + 800
+	var item_pos : Vector2 = get_node(spawn_points).get_children()[randi()%get_node(spawn_points).get_child_count()].position
+	item_pos.y = GameManager.camera.global_position.y - get_viewport().get_visible_rect().size.y - 600
 	pos_player_last_spawn = GameManager.player_height
-	var item = pool_manager.get_object_by_name(get_random_item())
+	var item = get_node(pool_manager).get_object_by_name(get_random_item())
 	if item:
-		get_node(collectables_node).add_child(item)
-		item.position = item_pos
+		item.call_deferred('set_global_position',item_pos)
+		get_node(parent_node).add_child(item)
 		item.set_active(true)
 		get_new_height()
 	pass
 
 func get_random_item():
+	match spawn_type:
+		SPAWN_TYPE.COLLECTABLE:
+			return get_collectable()
+		SPAWN_TYPE.ENEMY:
+			return get_enemy()
+
+func get_collectable():
 	var item_name = ''
 	num = rand_range(0,1)
 	for i in range(items.size()):
-		if num < items_prob[i]:
-			break
-		else:
+		if num > items_prob[i]:
 			item_name = items[i - 1]
+			break
 	if item_name.empty():
 		item_name = items[0]
 	return item_name
+
+func get_enemy():
+	return items[enemy_idx]
 
 func get_new_height():
 	height_spawn = min_height + randi() % max_height
 	pass
 
 func check_can_spawn(): 
-	return GameManager.player_height > height_spawn + pos_player_last_spawn and activated
+	return activated and GameManager.player_height > height_spawn + pos_player_last_spawn
 
 func set_can_spawn():
 	activated = !activated
@@ -981,10 +1041,28 @@ func set_can_spawn():
 
 func _on_Player_invencible(val):
 	if val:
-		max_height = invencible_max_height
+		max_height -= invencible_decrease
+		min_height -= invencible_decrease
 	else:
-		max_height = init_max_height
-	pass # Replace with function body."
+		max_height += invencible_decrease
+		min_height += invencible_decrease
+	pass # Replace with function body.
+
+func _on_Player_current_height(value):
+	update_enemy_index(value)
+	pass # Replace with function body.
+
+func update_enemy_index(player_height):
+	if player_height > items_max_height[enemy_idx]:
+		enemy_idx += 1
+	if enemy_idx >= items.size():
+		enemy_idx -= 1
+	pass
+
+func _on_Player_invencible_Enemy_Spawner(val):
+	activated = val
+	pass # Replace with function body.
+"
 
 [sub_resource type="GDScript" id=35]
 script/source = "extends Node2D
@@ -1003,11 +1081,15 @@ func create_objects():
 				var object = object_scene.instance()
 				call_deferred('add_child',object)
 				object.call_deferred('set_active',false)
+				object.call_deferred('set_global_position',Vector2(-900,-900))
+				object.connect('dispose',self,'return_object')
 	pass
 
 func get_object_by_name(obj_name : String):
 	var object = null
-	for obj in get_children():
+	var children_list = get_children()
+	children_list.shuffle()
+	for obj in children_list:
 		if obj.name.find(obj_name) >= 0 and !obj.activated:
 			object = obj
 			break
@@ -1018,6 +1100,7 @@ func get_object_by_name(obj_name : String):
 func return_object(obj):
 	obj.get_parent().call_deferred('remove_child',obj)
 	obj.set_active(false)
+	obj.call_deferred('set_global_position',Vector2(-900,-900))
 	call_deferred('add_child',obj)"
 
 [node name="GameScene" type="Node"]
@@ -1079,13 +1162,15 @@ texture = ExtResource( 4 )
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 editor/display_folded = true
 script = SubResource( 5 )
+space_height = 900
+color_list = [ Color( 0.388235, 0.517647, 0.792157, 1 ), Color( 0.337255, 0.45098, 0.690196, 1 ), Color( 0.223529, 0.294118, 0.45098, 1 ), Color( 0.141176, 0.188235, 0.286275, 1 ), Color( 0.105882, 0.137255, 0.215686, 1 ) ]
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
 editor/display_folded = true
 motion_mirroring = Vector2( 1080, 1920 )
 
 [node name="Bg1" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
-self_modulate = Color( 0.647059, 0.427451, 0.756863, 1 )
+self_modulate = Color( 0.388235, 0.517647, 0.792157, 1 )
 texture = ExtResource( 5 )
 centered = false
 
@@ -1123,7 +1208,9 @@ centered = false
 position = Vector2( 559.5, 830 )
 
 [node name="UIGame" type="CanvasLayer" parent="."]
+editor/display_folded = true
 script = SubResource( 6 )
+height_tutorial = 15
 
 [node name="UI" type="Control" parent="UIGame"]
 pause_mode = 2
@@ -1384,33 +1471,6 @@ texture_focused = ExtResource( 18 )
 expand = true
 stretch_mode = 5
 
-[node name="PawTutorial" type="Sprite" parent="UIGame/UI"]
-pause_mode = 1
-editor/display_folded = true
-modulate = Color( 1, 1, 1, 0.729412 )
-position = Vector2( 914, 1261.5 )
-rotation = -0.549675
-scale = Vector2( 4.84536, 4.84536 )
-texture = ExtResource( 19 )
-offset = Vector2( 0.792252, -29.756 )
-hframes = 2
-
-[node name="Anim" type="AnimationPlayer" parent="UIGame/UI/PawTutorial"]
-autoplay = "Start"
-anims/End = SubResource( 21 )
-anims/Start = SubResource( 22 )
-
-[node name="Label" type="Label" parent="UIGame/UI/PawTutorial"]
-margin_left = 6.65128
-margin_top = -96.9099
-margin_right = 55.6513
-margin_bottom = -64.9099
-rect_rotation = 30.0
-custom_fonts/font = SubResource( 23 )
-text = "TAP!"
-align = 1
-valign = 1
-
 [node name="PausePanel" type="Panel" parent="UIGame/UI"]
 pause_mode = 2
 editor/display_folded = true
@@ -1448,8 +1508,8 @@ margin_left = -204.0
 margin_top = -196.001
 margin_right = -44.0
 margin_bottom = -36.001
-texture_normal = ExtResource( 20 )
-texture_pressed = ExtResource( 21 )
+texture_normal = ExtResource( 19 )
+texture_pressed = ExtResource( 20 )
 expand = true
 stretch_mode = 5
 
@@ -1460,8 +1520,8 @@ margin_left = 44.0
 margin_top = -196.001
 margin_right = 204.0
 margin_bottom = -36.001
-texture_normal = ExtResource( 22 )
-texture_pressed = ExtResource( 23 )
+texture_normal = ExtResource( 21 )
+texture_pressed = ExtResource( 22 )
 expand = true
 stretch_mode = 5
 
@@ -1474,8 +1534,8 @@ margin_left = -172.5
 margin_top = -118.0
 margin_right = 172.5
 margin_bottom = 188.0
-texture_normal = ExtResource( 24 )
-texture_pressed = ExtResource( 25 )
+texture_normal = ExtResource( 23 )
+texture_pressed = ExtResource( 24 )
 expand = true
 stretch_mode = 5
 
@@ -1508,7 +1568,7 @@ align = 1
 [node name="Anim" type="AnimationPlayer" parent="UIGame/UI/PauseTimer"]
 anims/Countdown = SubResource( 30 )
 
-[node name="ConfigPanel" parent="UIGame/UI" instance=ExtResource( 26 )]
+[node name="ConfigPanel" parent="UIGame/UI" instance=ExtResource( 25 )]
 pause_mode = 2
 visible = false
 margin_left = 760.0
@@ -1516,7 +1576,7 @@ margin_top = -430.0
 margin_right = 1600.0
 margin_bottom = 535.0
 
-[node name="DeadPanel" parent="UIGame/UI" instance=ExtResource( 27 )]
+[node name="DeadPanel" parent="UIGame/UI" instance=ExtResource( 26 )]
 visible = false
 
 [node name="ComboButton" type="TextureButton" parent="UIGame/UI"]
@@ -1525,9 +1585,9 @@ margin_top = 1797.0
 margin_right = 160.0
 margin_bottom = 1906.0
 
-[node name="InitialDarker" parent="UIGame/UI" instance=ExtResource( 28 )]
+[node name="InitialDarker" parent="UIGame/UI" instance=ExtResource( 27 )]
 
-[node name="TransitionScene" parent="UIGame/UI" instance=ExtResource( 29 )]
+[node name="TransitionScene" parent="UIGame/UI" instance=ExtResource( 28 )]
 editor/display_folded = true
 
 [node name="TransitionItems" parent="UIGame/UI/TransitionScene" index="1"]
@@ -1549,7 +1609,36 @@ visible = false
 position = Vector2( 530, 950 )
 rotation = -1.0472
 scale = Vector2( 3.81007, 3.81007 )
+texture = ExtResource( 29 )
+
+[node name="Tutorial" type="Control" parent="UIGame/UI"]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="InitialTap" type="Control" parent="UIGame/UI/Tutorial"]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="Anim" type="AnimationPlayer" parent="UIGame/UI/Tutorial/InitialTap"]
+autoplay = "Start"
+anims/End = SubResource( 37 )
+anims/Start = SubResource( 36 )
+
+[node name="LPaw" type="Sprite" parent="UIGame/UI/Tutorial/InitialTap"]
+self_modulate = Color( 1, 1, 1, 0.67451 )
+position = Vector2( 186, 1650 )
+scale = Vector2( 3.625, 3.625 )
 texture = ExtResource( 30 )
+offset = Vector2( 0, -24.1379 )
+hframes = 2
+
+[node name="RPaw" type="Sprite" parent="UIGame/UI/Tutorial/InitialTap"]
+self_modulate = Color( 1, 1, 1, 0.67451 )
+position = Vector2( 872, 1650 )
+scale = Vector2( 3.625, 3.625 )
+texture = ExtResource( 30 )
+offset = Vector2( 2.75862, -24.1379 )
+hframes = 2
 
 [node name="DebugPanel" type="Panel" parent="UIGame"]
 pause_mode = 2
@@ -1653,53 +1742,77 @@ editor/display_folded = true
 editor/display_folded = true
 
 [node name="Position2D11" type="Position2D" parent="SpawnPoints/Enemies"]
-position = Vector2( 340, -340 )
+position = Vector2( 550, -340 )
 
 [node name="Position2D12" type="Position2D" parent="SpawnPoints/Enemies"]
-position = Vector2( 130, -370 )
+position = Vector2( 260, -335 )
 
 [node name="Position2D13" type="Position2D" parent="SpawnPoints/Enemies"]
-position = Vector2( 750, -340 )
+position = Vector2( 800, -340 )
 
-[node name="Position2D14" type="Position2D" parent="SpawnPoints/Enemies"]
-position = Vector2( 950, -370 )
-
-[node name="Collectables" type="Node2D" parent="SpawnPoints"]
+[node name="Currency" type="Node2D" parent="SpawnPoints"]
 editor/display_folded = true
 
-[node name="Position2D11" type="Position2D" parent="SpawnPoints/Collectables"]
-position = Vector2( 547.854, -340 )
+[node name="Position2D11" type="Position2D" parent="SpawnPoints/Currency"]
+position = Vector2( 549.258, -430 )
 
-[node name="Position2D12" type="Position2D" parent="SpawnPoints/Collectables"]
-position = Vector2( 266.454, -335.093 )
+[node name="Position2D12" type="Position2D" parent="SpawnPoints/Currency"]
+position = Vector2( 400, -290 )
 
-[node name="Position2D13" type="Position2D" parent="SpawnPoints/Collectables"]
-position = Vector2( 826.16, -335.24 )
+[node name="Position2D13" type="Position2D" parent="SpawnPoints/Currency"]
+position = Vector2( 690, -290 )
 
-[node name="Position2D14" type="Position2D" parent="SpawnPoints/Collectables"]
-position = Vector2( 918.266, -425.534 )
+[node name="Position2D14" type="Position2D" parent="SpawnPoints/Currency"]
+position = Vector2( 900, -420 )
 
-[node name="Position2D15" type="Position2D" parent="SpawnPoints/Collectables"]
-position = Vector2( 178.878, -411.253 )
+[node name="Position2D15" type="Position2D" parent="SpawnPoints/Currency"]
+position = Vector2( 190, -411.253 )
 
-[node name="EnemySpawner" parent="." instance=ExtResource( 31 )]
-item_list = [  ]
-parent_node = NodePath("../Enemies")
-spawn_points_node = NodePath("../SpawnPoints/Enemies")
-min_height = 10.0
-max_height = 20.0
-enemy_list = [ "PaperPlane" ]
-height_control_list = [ 0 ]
-min_height_tutorial = 20
-pool_manager = NodePath("../PoolManager")
-enemies_pos = NodePath("../SpawnPoints/Enemies")
+[node name="PowerUps" type="Node2D" parent="SpawnPoints"]
+editor/display_folded = true
 
-[node name="CollectablesSpawner" type="Node" parent="."]
+[node name="Position2D11" type="Position2D" parent="SpawnPoints/PowerUps"]
+position = Vector2( 550, -290 )
+
+[node name="Position2D12" type="Position2D" parent="SpawnPoints/PowerUps"]
+position = Vector2( 360, -360 )
+
+[node name="Position2D13" type="Position2D" parent="SpawnPoints/PowerUps"]
+position = Vector2( 720, -360 )
+
+[node name="Position2D14" type="Position2D" parent="SpawnPoints/PowerUps"]
+position = Vector2( 950, -280 )
+
+[node name="Position2D15" type="Position2D" parent="SpawnPoints/PowerUps"]
+position = Vector2( 120, -290 )
+
+[node name="CurrencySpawner" type="Node" parent="."]
 script = SubResource( 34 )
-items = [ "Coin" ]
-items_prob = [ 1.0 ]
-collectables_node = NodePath("../Collectables")
-collectables_spawns = NodePath("../SpawnPoints/Collectables")
+items = [ "Coin", "Fish" ]
+items_prob = [ 1.0, 0.2 ]
+pool_manager = NodePath("../CurrencyPool")
+parent_node = NodePath("../Collectables")
+spawn_points = NodePath("../SpawnPoints/Currency")
+min_height = 8
+
+[node name="PowerUpSpawner" type="Node" parent="."]
+script = SubResource( 34 )
+items = [ "FuelCan", "Magnet", "AegisWings" ]
+items_prob = [ 1.0, 0.2, 0.1 ]
+pool_manager = NodePath("../PowerUpPool")
+parent_node = NodePath("../Collectables")
+spawn_points = NodePath("../SpawnPoints/PowerUps")
+max_height = 18
+min_height = 12
+
+[node name="EnemySpawner" type="Node" parent="."]
+script = SubResource( 34 )
+spawn_type = 1
+items = [ "PaperPlane", "Bird", "Condor", "Ovni" ]
+items_max_height = [ 400, 700, 900, 1200 ]
+pool_manager = NodePath("../EnemyPool")
+parent_node = NodePath("../Enemies")
+spawn_points = NodePath("../SpawnPoints/Enemies")
 
 [node name="Collectables" type="Node2D" parent="."]
 
@@ -1707,20 +1820,32 @@ collectables_spawns = NodePath("../SpawnPoints/Collectables")
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 pause_mode = 2
-stream = ExtResource( 32 )
+stream = ExtResource( 31 )
 autoplay = true
 bus = "Music"
 
-[node name="PoolManager" type="Node2D" parent="."]
+[node name="CurrencyPool" type="Node2D" parent="."]
 script = SubResource( 35 )
-objects_scene_list = [ ExtResource( 33 ), ExtResource( 34 ), ExtResource( 35 ), ExtResource( 36 ), ExtResource( 37 ), ExtResource( 38 ), ExtResource( 39 ), ExtResource( 40 ), ExtResource( 41 ) ]
+objects_scene_list = [ ExtResource( 32 ), ExtResource( 33 ) ]
+objects_number = 8
+
+[node name="PowerUpPool" type="Node2D" parent="."]
+script = SubResource( 35 )
+objects_scene_list = [ ExtResource( 34 ), ExtResource( 35 ), ExtResource( 36 ) ]
+objects_number = 3
+
+[node name="EnemyPool" type="Node2D" parent="."]
+script = SubResource( 35 )
+objects_scene_list = [ ExtResource( 37 ), ExtResource( 38 ), ExtResource( 39 ), ExtResource( 40 ) ]
 objects_number = 5
 [connection signal="screen_exited" from="House/VisibilityNotifier2D" to="House" method="_on_VisibilityNotifier2D_screen_exited"]
 [connection signal="current_height" from="Player" to="ParallaxBackground" method="_on_Player_current_height"]
+[connection signal="current_height" from="Player" to="UIGame" method="_on_Player_current_height"]
 [connection signal="current_height" from="Player" to="." method="_on_Player_current_height"]
+[connection signal="current_height" from="Player" to="EnemySpawner" method="_on_Player_current_height"]
 [connection signal="dead" from="Player" to="." method="_on_Player_dead"]
-[connection signal="invencible" from="Player" to="CollectablesSpawner" method="_on_Player_invencible"]
-[connection signal="invencible" from="Player" to="EnemySpawner" method="_on_Player_invencible"]
+[connection signal="invencible" from="Player" to="CurrencySpawner" method="_on_Player_invencible"]
+[connection signal="invencible" from="Player" to="EnemySpawner" method="_on_Player_invencible_Enemy_Spawner"]
 [connection signal="start_playing" from="Player" to="." method="_on_Player_start_playing"]
 [connection signal="button_down" from="UIGame/UI/PauseButton" to="UIGame" method="_on_PauseButton_button_down"]
 [connection signal="button_down" from="UIGame/UI/PausePanel/HomeButton" to="UIGame" method="_on_HomeButton_button_down"]

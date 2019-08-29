@@ -258,7 +258,7 @@ tracks/1/keys = {
 "times": PoolRealArray( 0, 5, 10, 15 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 0.847059, 0.619608, 1, 1 ), Color( 0.847059, 0.619608, 1, 1 ), Color( 0.0901961, 0.0627451, 0.25098, 1 ), Color( 0.0901961, 0.0627451, 0.25098, 1 ) ]
+"values": [ Color( 0.372549, 0.360784, 0.796078, 1 ), Color( 0.372549, 0.360784, 0.796078, 1 ), Color( 0.0901961, 0.0627451, 0.25098, 1 ), Color( 0.0901961, 0.0627451, 0.25098, 1 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("Stars2:self_modulate")
@@ -972,9 +972,8 @@ leader = ExtResource( 1 )
 house_broken = ExtResource( 2 )
 
 [node name="Background" type="TextureRect" parent="."]
-editor/display_folded = true
-modulate = Color( 0.847059, 0.619608, 1, 1 )
-self_modulate = Color( 0.847059, 0.619608, 1, 1 )
+modulate = Color( 0.372549, 0.360784, 0.796078, 1 )
+self_modulate = Color( 0.372549, 0.360784, 0.796078, 1 )
 margin_right = 1080.0
 margin_bottom = 1920.0
 texture = ExtResource( 3 )

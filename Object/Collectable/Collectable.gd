@@ -9,6 +9,7 @@ var on_magnet_area : bool = false
 
 signal taken(val)
 signal active(val)
+signal dispose(obj)
 
 func _process(delta):
 	if activated and player_magnet and !taked:
@@ -23,4 +24,9 @@ func set_active(val):
 	taked = false
 	speed = 1000
 	emit_signal('active',val)
+	call_deferred('visible',val)
 	pass
+
+func dispose_object():
+	if activated:
+		emit_signal('dispose',self)

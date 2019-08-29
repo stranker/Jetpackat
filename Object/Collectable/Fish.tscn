@@ -8,9 +8,10 @@
 [sub_resource type="GDScript" id=1]
 script/source = "extends 'res://Object/Collectable/Collectable.gd'
 
+var initial_pos : Vector2
+
 func _ready():
 	connect('taken',get_tree().root.get_node('GameScene'),'add_fish')
-	speed = 500
 
 func _on_Fish_body_entered(body):
 	if body.is_in_group('Player') and !taked and activated:
@@ -25,11 +26,14 @@ func _on_Fish_area_entered(area):
 		on_magnet_area = !on_magnet_area
 	pass # Replace with function body.
 
+func initialize():
+	initial_pos = position
+
 func _on_Fish_active(val):
-	$Sprite.visible = val
 	if val:
-		$Anim.play('Idle')
+		$Anim.queue('Idle')
 	else:
+		position = initial_pos
 		$Anim.play_backwards('Taken')
 	pass # Replace with function body.
 "
@@ -57,21 +61,9 @@ tracks/0/keys = {
 "update": 0,
 "values": [ -55.9271, -15.2614 ]
 }
-tracks/1/type = "value"
-tracks/1/path = NodePath("Sprite:material:shader_param/outline_color")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.3, 0.6, 0.9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.168627 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.156863 ) ]
-}
 
 [sub_resource type="Animation" id=5]
-length = 2.0
+length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:self_modulate")
 tracks/0/interp = 1
@@ -118,6 +110,7 @@ colors = PoolColorArray( 0.207184, 0.726563, 0.337029, 1, 0.163277, 0.78451, 0.2
 
 [node name="Fish" type="Area2D"]
 script = SubResource( 1 )
+speed = 500
 
 [node name="Sprite" type="Sprite" parent="."]
 material = SubResource( 2 )

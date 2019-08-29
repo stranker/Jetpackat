@@ -5,6 +5,8 @@ export (Array, int) var height_control_list
 export var min_height_tutorial : int = 10
 export (NodePath) var pool_manager
 export (NodePath) var enemies_pos
+enum SpawnType {COLLECTABLE, ENEMY}
+export var spawn_type = SpawnType.COLLECTABLE
 
 func _process(delta):
 	if activated:

@@ -65,10 +65,8 @@ func _on_Ovni_body_entered(body):
 	pass # Replace with function body.
 
 func _on_Ovni_active(val):
-	$Sprite.visible = val
 	set_process(val)
-	pass # Replace with function body.
-"
+	pass # Replace with function body."
 
 [sub_resource type="Animation" id=2]
 resource_name = "Run"

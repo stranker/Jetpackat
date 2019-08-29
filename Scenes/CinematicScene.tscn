@@ -410,14 +410,13 @@ anchor_bottom = 1.0
 script = SubResource( 1 )
 
 [node name="Sky" type="TextureRect" parent="."]
-self_modulate = Color( 0.972549, 0.639216, 1, 1 )
+self_modulate = Color( 0.372549, 0.360784, 0.796078, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 texture = ExtResource( 1 )
 expand = true
 
 [node name="Fence" type="TextureRect" parent="."]
-visible = false
 margin_left = -208.52
 margin_top = 1141.63
 margin_right = 722.48
@@ -427,7 +426,6 @@ expand = true
 stretch_mode = 6
 
 [node name="Fence2" type="TextureRect" parent="."]
-visible = false
 margin_left = 511.48
 margin_top = 1141.63
 margin_right = 1442.48
@@ -502,14 +500,14 @@ scale = Vector2( 3, 3 )
 texture = ExtResource( 5 )
 flip_h = true
 hframes = 7
-frame = 5
+frame = 6
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Walking"
 anims/Walking = SubResource( 2 )
 
 [node name="Bird" type="Sprite" parent="."]
-position = Vector2( 1139.67, 449.492 )
+position = Vector2( 476.077, 721.567 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 6 )
 hframes = 5
@@ -517,8 +515,8 @@ frame = 2
 
 [node name="Hearth" type="Sprite" parent="."]
 self_modulate = Color( 1, 1, 1, 0 )
-position = Vector2( 513.374, 920 )
-scale = Vector2( 2.14408, 2.14408 )
+position = Vector2( 513.375, 1050 )
+scale = Vector2( 1.2, 1.2 )
 texture = ExtResource( 7 )
 
 [node name="CatHeadAmazed" type="Sprite" parent="."]
@@ -544,6 +542,7 @@ hframes = 2
 frame = 1
 
 [node name="TextureRect" type="TextureRect" parent="."]
+visible = false
 modulate = Color( 0, 0, 0, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -556,12 +555,14 @@ expand = true
 stretch_mode = 6
 
 [node name="FirstPhoto" type="Sprite" parent="."]
+visible = false
 position = Vector2( 549.166, 538.413 )
 rotation = 6.4263
 scale = Vector2( 6.88958, 6.88958 )
 texture = ExtResource( 11 )
 
 [node name="SecondPhoto" type="Sprite" parent="."]
+visible = false
 position = Vector2( 587.009, 1354.13 )
 rotation = 5.99964
 scale = Vector2( 7.76622, 7.76622 )
@@ -570,8 +571,9 @@ hframes = 2
 frame = 1
 
 [node name="Camera" type="Camera2D" parent="."]
-position = Vector2( 540, 960 )
+position = Vector2( 581.097, 956.575 )
 current = true
+zoom = Vector2( 0.7, 0.7 )
 
 [node name="FadeOut" type="TextureRect" parent="."]
 modulate = Color( 0, 0, 0, 0 )
@@ -621,6 +623,7 @@ expand = true
 stretch_mode = 5
 
 [node name="Sprite12" type="Sprite" parent="."]
+visible = false
 position = Vector2( 558.782, 825.556 )
 scale = Vector2( 20, 20 )
 texture = ExtResource( 16 )

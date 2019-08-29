@@ -29,16 +29,12 @@ func _on_Coin_area_entered(area):
 		on_magnet_area = !on_magnet_area
 	pass
 
-func set_coin_active(val):
-	set_active(val)
-
 func reset():
 	position = initial_pos
 	$Anim.play_backwards('Taken')
 	pass
 
 func _on_Coin_active(val):
-	$Sprite.visible = val
 	if val:
 		$Anim.play('Idle')
 	else:
@@ -132,18 +128,6 @@ tracks/2/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ) ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("Sprite:material:shader_param/outline_color")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0, 0.2, 0.4 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.0431373 ), Color( 1, 1, 1, 1 ) ]
 }
 
 [sub_resource type="Animation" id=8]
