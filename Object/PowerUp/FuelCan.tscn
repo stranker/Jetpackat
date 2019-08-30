@@ -56,7 +56,7 @@ _data = [ Vector2( 0.00109641, 5.9106 ), 0.0, -6.11803, 0, 0, Vector2( 1, 3.6468
 offsets = PoolRealArray( 0, 0.282209, 0.564417, 0.846626, 1 )
 colors = PoolColorArray( 1, 1, 1, 1, 1, 0.960938, 0, 1, 1, 0.632813, 0, 1, 0.784314, 0, 0, 0.588235, 0.359375, 0.359375, 0.359375, 0 )
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=6]
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:rotation_degrees")
@@ -83,7 +83,7 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.0235294 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.0235294 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=7]
 length = 0.7
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:scale")
@@ -160,8 +160,8 @@ color_ramp = SubResource( 5 )
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Idle"
-anims/Idle = SubResource( 7 )
-anims/Taken = SubResource( 8 )
+anims/Idle = SubResource( 6 )
+anims/Taken = SubResource( 7 )
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 [connection signal="active" from="." to="." method="_on_FuelCan_active"]

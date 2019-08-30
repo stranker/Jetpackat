@@ -28,12 +28,16 @@ var size_sprite : Vector2
 var invencible : bool = false
 var can_receive_damage : bool = true
 var dead : bool = false
-var on_magnet : bool = false
+var has_magnet : bool = false
 var has_aegis : bool = false
+var magnet_time : int = 10
+var magnet_running_time : float = 0
 const initial_magnet_size : float = 117.5
 
 signal start_playing
 signal dead
+signal on_magnet(val)
+signal magnet_time(val)
 signal current_height(value)
 signal invencible(val)
 
@@ -51,6 +55,7 @@ func initialize():
 	emit_signal('current_height',0)
 	$InvencibleTimer.wait_time = invencible_time
 	$Visible/Shield.hide()
+	$MagnetTimer.wait_time = magnet_time
 	pass
 
 func _physics_process(delta):
@@ -66,6 +71,7 @@ func _process(delta):
 	if activated:
 		check_boundaries()
 		process_animation()
+		check_magnet_time()
 		if !is_on_floor():
 			emit_signal('current_height',int(abs(position.y) * 0.01))
 		$Visible/Jetpack/Thruster.emitting = velocity.y < 0
@@ -96,6 +102,11 @@ func check_is_active():
 		set_physics_process(activated)
 		$Visible/Scarf/Anim.play('Flying')
 	pass
+
+func check_magnet_time():
+	if has_magnet:
+		magnet_running_time = $MagnetTimer.time_left
+		emit_signal('magnet_time',magnet_running_time)
 
 func take_damage():
 	if has_aegis:
@@ -210,16 +221,11 @@ func _on_Invencible_toggled(button_pressed):
 	pass # Replace with function body.
 
 func activate_magnet():
-	on_magnet = true
+	has_magnet = true
 	$MagnetTimer.start()
 	set_active_magnet_area(true, 300)
+	emit_signal('on_magnet',has_magnet)
 	pass
-
-func _on_MagnetTimer_timeout():
-	if !dead:
-		on_magnet = false
-		set_active_magnet_area(false, initial_magnet_size)
-	pass # Replace with function body.
 
 func set_active_magnet_area(active, val):
 	if active:
@@ -258,7 +264,7 @@ func disable_tutorial():
 	pass
 
 func take_fuel():
-	if !on_magnet and !invencible:
+	if !has_magnet and !invencible:
 		$Anim.play('FuelTaken')
 	pass
 
@@ -281,6 +287,13 @@ func check_movement_type(event):
 		jump_control(event)
 	else:
 		slide_control(event)
+
+func _on_MagnetTimer_timeout():
+	if !dead:
+		has_magnet = false
+		set_active_magnet_area(false, initial_magnet_size)
+		emit_signal('on_magnet',has_magnet)
+	pass # Replace with function body.
 "
 
 [sub_resource type="CapsuleShape2D" id=2]
@@ -1477,7 +1490,6 @@ one_shot = true
 anims/Wind = SubResource( 4 )
 
 [node name="Visible" type="Node2D" parent="."]
-editor/display_folded = true
 script = SubResource( 5 )
 
 [node name="Skin" type="Sprite" parent="Visible"]
@@ -1550,7 +1562,7 @@ shape = SubResource( 12 )
 [node name="Magnet" type="Sprite" parent="Visible/MagnetArea"]
 editor/display_folded = true
 visible = false
-self_modulate = Color( 0.980392, 0.823529, 0.45098, 0.239216 )
+self_modulate = Color( 0.980392, 0.823529, 0.45098, 0.470588 )
 scale = Vector2( 2.4, 2.4 )
 texture = ExtResource( 7 )
 

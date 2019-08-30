@@ -7,6 +7,8 @@ script/source = "extends Control
 
 export var has_played : bool = false
 
+signal finished
+
 func _ready():
 	randomize()
 	pass # Replace with function body.
@@ -21,7 +23,13 @@ func play_random_backwards():
 	var anim_count = $Anim.get_animation_list().size()
 	$Anim.play_backwards('Transition'+str(1 + randi() % anim_count))
 	has_played = true
-	pass"
+	pass
+
+func _on_Anim_animation_finished(anim_name):
+	if has_played:
+		emit_signal('finished')
+	pass # Replace with function body.
+"
 
 [sub_resource type="Animation" id=2]
 length = 0.8
@@ -264,3 +272,4 @@ margin_bottom = 3040.0
 rect_rotation = 44.9999
 texture = ExtResource( 1 )
 expand = true
+[connection signal="animation_finished" from="Anim" to="." method="_on_Anim_animation_finished"]

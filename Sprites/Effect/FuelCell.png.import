@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/FuelChimi.png-763c32dba7a1fb60fdc8433e8374b25d.stex"
+path="res://.import/FuelCell.png-48604f2249ee6c00f18b38cb0f9a8377.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/UI/FuelChimi.png"
-dest_files=[ "res://.import/FuelChimi.png-763c32dba7a1fb60fdc8433e8374b25d.stex" ]
+source_file="res://Sprites/Effect/FuelCell.png"
+dest_files=[ "res://.import/FuelCell.png-48604f2249ee6c00f18b38cb0f9a8377.stex" ]
 
 [params]
 
