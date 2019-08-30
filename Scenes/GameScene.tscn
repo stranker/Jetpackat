@@ -636,7 +636,7 @@ shader = ExtResource( 14 )
 shader_param/outline_width = 0.5
 shader_param/outline_color = Color( 0, 0, 0, 1 )
 
-[sub_resource type="StyleBoxFlat" id=24]
+[sub_resource type="StyleBoxFlat" id=21]
 bg_color = Color( 0.639216, 0, 1, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -648,7 +648,7 @@ corner_radius_top_right = 30
 corner_radius_bottom_right = 30
 corner_radius_bottom_left = 30
 
-[sub_resource type="StyleBoxFlat" id=25]
+[sub_resource type="StyleBoxFlat" id=22]
 bg_color = Color( 0.466667, 0, 0.729412, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -660,14 +660,14 @@ corner_radius_top_right = 30
 corner_radius_bottom_right = 30
 corner_radius_bottom_left = 30
 
-[sub_resource type="DynamicFont" id=26]
+[sub_resource type="DynamicFont" id=23]
 size = 80
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 11 )
 
-[sub_resource type="Animation" id=27]
+[sub_resource type="Animation" id=24]
 length = 0.6
 tracks/0/type = "value"
 tracks/0/path = NodePath("../ConfigPanel:rect_position")
@@ -694,7 +694,7 @@ tracks/1/keys = {
 "values": [ false, true, true ]
 }
 
-[sub_resource type="Animation" id=28]
+[sub_resource type="Animation" id=25]
 length = 0.6
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:rect_position")
@@ -721,14 +721,14 @@ tracks/1/keys = {
 "values": [ false, true, true ]
 }
 
-[sub_resource type="DynamicFont" id=29]
+[sub_resource type="DynamicFont" id=26]
 size = 400
 outline_size = 20
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 11 )
 
-[sub_resource type="Animation" id=30]
+[sub_resource type="Animation" id=27]
 length = 3.5
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:text")
@@ -805,7 +805,7 @@ tracks/5/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="Animation" id=31]
+[sub_resource type="Animation" id=28]
 length = 1.6
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:rotation_degrees")
@@ -856,7 +856,7 @@ tracks/3/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="Animation" id=37]
+[sub_resource type="Animation" id=29]
 resource_name = "End"
 length = 0.5
 tracks/0/type = "value"
@@ -884,7 +884,7 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 0.67451 ), Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="Animation" id=36]
+[sub_resource type="Animation" id=30]
 resource_name = "Start"
 length = 0.7
 loop = true
@@ -961,15 +961,15 @@ tracks/5/keys = {
 "values": [ 0, 1, 0 ]
 }
 
+[sub_resource type="DynamicFont" id=31]
+size = 32
+font_data = ExtResource( 11 )
+
 [sub_resource type="DynamicFont" id=32]
 size = 32
 font_data = ExtResource( 11 )
 
-[sub_resource type="DynamicFont" id=33]
-size = 32
-font_data = ExtResource( 11 )
-
-[sub_resource type="GDScript" id=34]
+[sub_resource type="GDScript" id=33]
 resource_name = "ItemClusterSpawner.gd"
 script/source = "extends Node
 
@@ -1060,11 +1060,10 @@ func update_enemy_index(player_height):
 	pass
 
 func _on_Player_invencible_Enemy_Spawner(val):
-	activated = val
-	pass # Replace with function body.
-"
+	activated = !val
+	pass # Replace with function body."
 
-[sub_resource type="GDScript" id=35]
+[sub_resource type="GDScript" id=34]
 script/source = "extends Node2D
 
 export (Array, PackedScene) var objects_scene_list
@@ -1483,7 +1482,7 @@ margin_left = -374.0
 margin_top = -320.5
 margin_right = 374.0
 margin_bottom = 320.501
-custom_styles/panel = SubResource( 24 )
+custom_styles/panel = SubResource( 21 )
 
 [node name="PauseLabel" type="Label" parent="UIGame/UI/PausePanel"]
 anchor_left = 0.5
@@ -1494,8 +1493,8 @@ margin_right = 410.0
 margin_bottom = 147.5
 size_flags_horizontal = 5
 size_flags_vertical = 5
-custom_styles/normal = SubResource( 25 )
-custom_fonts/font = SubResource( 26 )
+custom_styles/normal = SubResource( 22 )
+custom_fonts/font = SubResource( 23 )
 text = "GAME_PAUSED"
 align = 1
 
@@ -1544,8 +1543,8 @@ margin_right = 98.0
 margin_bottom = 104.0
 
 [node name="Anim" type="AnimationPlayer" parent="UIGame/UI/PausePanel"]
-anims/Config = SubResource( 27 )
-anims/PausePanel = SubResource( 28 )
+anims/Config = SubResource( 24 )
+anims/PausePanel = SubResource( 25 )
 
 [node name="PauseTimer" type="Label" parent="UIGame/UI"]
 pause_mode = 2
@@ -1561,12 +1560,12 @@ margin_top = -180.0
 margin_right = 262.258
 margin_bottom = 300.0
 rect_scale = Vector2( 0.2, 0.2 )
-custom_fonts/font = SubResource( 29 )
+custom_fonts/font = SubResource( 26 )
 text = "3"
 align = 1
 
 [node name="Anim" type="AnimationPlayer" parent="UIGame/UI/PauseTimer"]
-anims/Countdown = SubResource( 30 )
+anims/Countdown = SubResource( 27 )
 
 [node name="ConfigPanel" parent="UIGame/UI" instance=ExtResource( 25 )]
 pause_mode = 2
@@ -1602,7 +1601,7 @@ mouse_filter = 2
 texture = ExtResource( 5 )
 
 [node name="RestAnim" type="AnimationPlayer" parent="UIGame/UI/RestartTransition"]
-anims/Start = SubResource( 31 )
+anims/Start = SubResource( 28 )
 
 [node name="Sprite" type="Sprite" parent="UIGame/UI/RestartTransition"]
 visible = false
@@ -1621,8 +1620,8 @@ margin_bottom = 40.0
 
 [node name="Anim" type="AnimationPlayer" parent="UIGame/UI/Tutorial/InitialTap"]
 autoplay = "Start"
-anims/End = SubResource( 37 )
-anims/Start = SubResource( 36 )
+anims/End = SubResource( 29 )
+anims/Start = SubResource( 30 )
 
 [node name="LPaw" type="Sprite" parent="UIGame/UI/Tutorial/InitialTap"]
 self_modulate = Color( 1, 1, 1, 0.67451 )
@@ -1659,7 +1658,7 @@ margin_bottom = 134.0
 rect_min_size = Vector2( 0, 64 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 32 )
+custom_fonts/font = SubResource( 31 )
 toggle_mode = true
 text = "ON/OFF INVENCIBLE"
 
@@ -1670,7 +1669,7 @@ margin_bottom = 272.0
 rect_min_size = Vector2( 0, 64 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 33 )
+custom_fonts/font = SubResource( 32 )
 text = "Currency"
 
 [node name="ResetGame" type="Button" parent="UIGame/DebugPanel/VBoxContainer"]
@@ -1680,7 +1679,7 @@ margin_bottom = 410.0
 rect_min_size = Vector2( 0, 64 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 33 )
+custom_fonts/font = SubResource( 32 )
 text = "RESET GAME STATE"
 
 [node name="ToggleCollectables" type="Button" parent="UIGame/DebugPanel/VBoxContainer"]
@@ -1690,7 +1689,7 @@ margin_bottom = 548.0
 rect_min_size = Vector2( 0, 64 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 33 )
+custom_fonts/font = SubResource( 32 )
 toggle_mode = true
 pressed = true
 text = "ON/OFF COLLECT"
@@ -1702,7 +1701,7 @@ margin_bottom = 686.0
 rect_min_size = Vector2( 0, 64 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 33 )
+custom_fonts/font = SubResource( 32 )
 toggle_mode = true
 pressed = true
 text = "ON/OFF ENEMIES"
@@ -1714,7 +1713,7 @@ margin_bottom = 824.0
 rect_min_size = Vector2( 0, 64 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 33 )
+custom_fonts/font = SubResource( 32 )
 toggle_mode = true
 text = "Music NEW/OLD"
 
@@ -1787,7 +1786,7 @@ position = Vector2( 950, -280 )
 position = Vector2( 120, -290 )
 
 [node name="CurrencySpawner" type="Node" parent="."]
-script = SubResource( 34 )
+script = SubResource( 33 )
 items = [ "Coin", "Fish" ]
 items_prob = [ 1.0, 0.2 ]
 pool_manager = NodePath("../CurrencyPool")
@@ -1796,7 +1795,7 @@ spawn_points = NodePath("../SpawnPoints/Currency")
 min_height = 8
 
 [node name="PowerUpSpawner" type="Node" parent="."]
-script = SubResource( 34 )
+script = SubResource( 33 )
 items = [ "FuelCan", "Magnet", "AegisWings" ]
 items_prob = [ 1.0, 0.2, 0.1 ]
 pool_manager = NodePath("../PowerUpPool")
@@ -1806,13 +1805,15 @@ max_height = 18
 min_height = 12
 
 [node name="EnemySpawner" type="Node" parent="."]
-script = SubResource( 34 )
+script = SubResource( 33 )
 spawn_type = 1
 items = [ "PaperPlane", "Bird", "Condor", "Ovni" ]
 items_max_height = [ 400, 700, 900, 1200 ]
 pool_manager = NodePath("../EnemyPool")
 parent_node = NodePath("../Enemies")
 spawn_points = NodePath("../SpawnPoints/Enemies")
+max_height = 12
+min_height = 8
 
 [node name="Collectables" type="Node2D" parent="."]
 
@@ -1825,17 +1826,17 @@ autoplay = true
 bus = "Music"
 
 [node name="CurrencyPool" type="Node2D" parent="."]
-script = SubResource( 35 )
+script = SubResource( 34 )
 objects_scene_list = [ ExtResource( 32 ), ExtResource( 33 ) ]
 objects_number = 8
 
 [node name="PowerUpPool" type="Node2D" parent="."]
-script = SubResource( 35 )
+script = SubResource( 34 )
 objects_scene_list = [ ExtResource( 34 ), ExtResource( 35 ), ExtResource( 36 ) ]
 objects_number = 3
 
 [node name="EnemyPool" type="Node2D" parent="."]
-script = SubResource( 35 )
+script = SubResource( 34 )
 objects_scene_list = [ ExtResource( 37 ), ExtResource( 38 ), ExtResource( 39 ), ExtResource( 40 ) ]
 objects_number = 5
 [connection signal="screen_exited" from="House/VisibilityNotifier2D" to="House" method="_on_VisibilityNotifier2D_screen_exited"]

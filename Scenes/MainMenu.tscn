@@ -1,33 +1,33 @@
-[gd_scene load_steps=71 format=2]
+[gd_scene load_steps=72 format=2]
 
-[ext_resource path="res://Scenes/LeaderTest.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Sprites/Background/HouseBroken.png" type="Texture" id=2]
-[ext_resource path="res://Sprites/Background/Bg1.png" type="Texture" id=3]
-[ext_resource path="res://Sprites/Background/Star3.png" type="Texture" id=4]
-[ext_resource path="res://Sprites/Background/Star2.png" type="Texture" id=5]
-[ext_resource path="res://Sprites/Background/House.png" type="Texture" id=6]
-[ext_resource path="res://Sprites/Background/SmokeParticle.png" type="Texture" id=7]
-[ext_resource path="res://Sprites/Enemies/Bird.png" type="Texture" id=8]
-[ext_resource path="res://Fonts/Handsdown.ttf" type="DynamicFontData" id=9]
-[ext_resource path="res://Sprites/Enemies/PaperPlane.png" type="Texture" id=10]
-[ext_resource path="res://Sprites/UI/PawCat.png" type="Texture" id=11]
-[ext_resource path="res://Sprites/UI/ContinueButton.png" type="Texture" id=12]
-[ext_resource path="res://Sprites/UI/ContinueButtonPressed.png" type="Texture" id=13]
-[ext_resource path="res://Sprites/UI/ShopButton.png" type="Texture" id=14]
-[ext_resource path="res://Sprites/UI/ShopButtonPressed.png" type="Texture" id=15]
-[ext_resource path="res://Sprites/UI/LeaderboardButton.png" type="Texture" id=16]
-[ext_resource path="res://Sprites/UI/LeaderboardButtonPressed.png" type="Texture" id=17]
-[ext_resource path="res://Sprites/UI/ConfigButton.png" type="Texture" id=18]
-[ext_resource path="res://Sprites/UI/ConfigButtonPressed.png" type="Texture" id=19]
-[ext_resource path="res://Sprites/UI/CreditsButton.png" type="Texture" id=20]
-[ext_resource path="res://Sprites/UI/CreditsButtonPressed.png" type="Texture" id=21]
-[ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=22]
-[ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=23]
-[ext_resource path="res://Sprites/Cat/Skin/Skin.png" type="Texture" id=24]
-[ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=25]
-[ext_resource path="res://Sprites/Shop/Cat/Thruster/Smoke.png" type="Texture" id=26]
-[ext_resource path="res://Sprites/Cat/Eyes.png" type="Texture" id=27]
-[ext_resource path="res://Scenes/ConfigPanel.tscn" type="PackedScene" id=28]
+[ext_resource path="res://Sprites/Background/HouseBroken.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/Background/Bg1.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Background/Star3.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/Background/Star2.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/Background/House.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/Background/SmokeParticle.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/Enemies/Bird.png" type="Texture" id=7]
+[ext_resource path="res://Fonts/Handsdown.ttf" type="DynamicFontData" id=8]
+[ext_resource path="res://Sprites/Enemies/PaperPlane.png" type="Texture" id=9]
+[ext_resource path="res://Sprites/UI/PawCat.png" type="Texture" id=10]
+[ext_resource path="res://Sprites/UI/ContinueButton.png" type="Texture" id=11]
+[ext_resource path="res://Sprites/UI/ContinueButtonPressed.png" type="Texture" id=12]
+[ext_resource path="res://Sprites/UI/ShopButton.png" type="Texture" id=13]
+[ext_resource path="res://Sprites/UI/ShopButtonPressed.png" type="Texture" id=14]
+[ext_resource path="res://Sprites/UI/LeaderboardButton.png" type="Texture" id=15]
+[ext_resource path="res://Sprites/UI/LeaderboardButtonPressed.png" type="Texture" id=16]
+[ext_resource path="res://Sprites/UI/ConfigButton.png" type="Texture" id=17]
+[ext_resource path="res://Sprites/UI/ConfigButtonPressed.png" type="Texture" id=18]
+[ext_resource path="res://Sprites/UI/CreditsButton.png" type="Texture" id=19]
+[ext_resource path="res://Sprites/UI/CreditsButtonPressed.png" type="Texture" id=20]
+[ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=21]
+[ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=22]
+[ext_resource path="res://Sprites/Cat/Skin/Skin.png" type="Texture" id=23]
+[ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=24]
+[ext_resource path="res://Sprites/Shop/Cat/Thruster/Smoke.png" type="Texture" id=25]
+[ext_resource path="res://Sprites/Cat/Eyes.png" type="Texture" id=26]
+[ext_resource path="res://Scenes/ConfigPanel.tscn" type="PackedScene" id=27]
+[ext_resource path="res://Scenes/LeaderTest.tscn" type="PackedScene" id=28]
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=29]
 [ext_resource path="res://Sounds/Music/CCF Theme.ogg" type="AudioStream" id=30]
 [ext_resource path="res://Scenes/TransitionScene.tscn" type="PackedScene" id=31]
@@ -38,7 +38,6 @@
 script/source = "extends Control
 
 var next_scene = ''
-export (PackedScene) var leader
 var easter_cont : int = 0
 export (Texture) var house_broken
 
@@ -127,7 +126,7 @@ func get_leaderboard_data():
 	if $Leaderboard/Leaders/SC/ItemList.get_children().empty():
 		var public_url = 'http://dreamlo.com/lb/5cba6e4a3eba5e041c24a2b4/json'
 		$HTTPRequest.request(public_url,[],true,HTTPClient.METHOD_GET)
-		$Leaderboard/State.text = tr('LEADERBOARD_CONNECTING')
+		$Leaderboard.connecting()
 	pass
 
 func _on_CloseLeaderButton_button_down():
@@ -136,31 +135,13 @@ func _on_CloseLeaderButton_button_down():
 
 func _on_HTTPRequest_request_completed(result, response_code, headers, body):
 	if result == HTTPRequest.RESULT_SUCCESS:
-		$Leaderboard/State.hide()
 		var leaderboard_data = JSON.parse(body.get_string_from_utf8()).result
 		var leaderboard_list : Dictionary = leaderboard_data['dreamlo']['leaderboard']
-		if leaderboard_list:
-			fill_leaderboard(leaderboard_list['entry'])
-		else:
-			$Leaderboard/State.text = tr('LEADERBOARD_EMPTY')
+		$Leaderboard.fill_leaderboard(leaderboard_list['entry'])
 	else:
-		$Leaderboard/State.text = tr('LEADERBOARD_FAILED')
+		$Leaderboard.failed_to_connect()
 	pass # Replace with function body.
 
-func fill_leaderboard(entries):
-	var pos = 1
-	if typeof(entries) == TYPE_DICTIONARY:
-		var l = leader.instance()
-		$Leaderboard/Leaders/SC/ItemList.add_child(l)
-		l.set_info(pos,entries)
-		pos += 1
-	if typeof(entries) == TYPE_ARRAY:
-		for i in entries:
-			var l = leader.instance()
-			l.set_info(pos,i)
-			$Leaderboard/Leaders/SC/ItemList.add_child(l)
-			pos += 1
-	pass
 
 func _on_LineEdit_text_changed(new_text):
 	$NicknamePanel/AcceptButton.visible = new_text != ''
@@ -316,7 +297,7 @@ outline_size = 15
 outline_color = Color( 0.407843, 0, 1, 1 )
 use_filter = true
 extra_spacing_bottom = 20
-font_data = ExtResource( 9 )
+font_data = ExtResource( 8 )
 
 [sub_resource type="Animation" id=8]
 length = 4.0
@@ -364,7 +345,50 @@ corner_radius_top_right = 50
 corner_radius_bottom_right = 50
 corner_radius_bottom_left = 50
 
-[sub_resource type="StyleBoxFlat" id=12]
+[sub_resource type="GDScript" id=12]
+script/source = "extends Panel
+
+export (PackedScene) var leaderitem_scene
+
+func fill_leaderboard(data):
+	if data:
+		$State.hide()
+		var pos = 1
+		if typeof(data) == TYPE_DICTIONARY:
+			var l = leaderitem_scene.instance()
+			$Leaders/SC/ItemList.add_child(l)
+			l.set_info(pos,data)
+			pos += 1
+			if is_current_player(data):
+				l.change_to_player()
+		if typeof(data) == TYPE_ARRAY:
+			for i in data:
+				var l = leaderitem_scene.instance()
+				l.set_info(pos,i)
+				$Leaders/SC/ItemList.add_child(l)
+				if is_current_player(i):
+					print(1)
+					l.change_to_player()
+				pos += 1
+	else:
+		leader_empty()
+	pass
+
+func is_current_player(data):
+	return data['name'] == GameManager.nickname
+
+func leader_empty():
+	$State.text = 'LEADERBOARD_EMPTY'
+	pass
+
+func failed_to_connect():
+	$State.text = 'LEADERBOARD_FAILED'
+	pass
+
+func connecting():
+	$State.text = tr('LEADERBOARD_CONNECTING')"
+
+[sub_resource type="StyleBoxFlat" id=13]
 bg_color = Color( 1, 0.823529, 0.00784314, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -380,14 +404,14 @@ expand_margin_right = 10.0
 expand_margin_top = 5.0
 expand_margin_bottom = 5.0
 
-[sub_resource type="DynamicFont" id=13]
+[sub_resource type="DynamicFont" id=14]
 size = 100
 outline_size = 10
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 29 )
 
-[sub_resource type="StyleBoxFlat" id=14]
+[sub_resource type="StyleBoxFlat" id=15]
 bg_color = Color( 1, 0.866667, 0, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -400,7 +424,7 @@ corner_radius_bottom_right = 50
 corner_radius_bottom_left = 50
 expand_margin_bottom = 5.0
 
-[sub_resource type="StyleBoxFlat" id=15]
+[sub_resource type="StyleBoxFlat" id=16]
 bg_color = Color( 0.0470588, 0, 0.462745, 1 )
 border_width_left = 5
 border_width_top = 5
@@ -412,7 +436,7 @@ corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
-[sub_resource type="StyleBoxFlat" id=16]
+[sub_resource type="StyleBoxFlat" id=17]
 bg_color = Color( 0.00784314, 1, 0, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -425,7 +449,7 @@ corner_radius_bottom_right = 30
 corner_radius_bottom_left = 30
 expand_margin_left = 30.0
 
-[sub_resource type="StyleBoxFlat" id=17]
+[sub_resource type="StyleBoxFlat" id=18]
 bg_color = Color( 0.00784314, 1, 0, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -438,7 +462,7 @@ corner_radius_bottom_right = 30
 corner_radius_bottom_left = 30
 expand_margin_left = 30.0
 
-[sub_resource type="StyleBoxFlat" id=18]
+[sub_resource type="StyleBoxFlat" id=19]
 bg_color = Color( 0, 0.552941, 1, 1 )
 border_width_left = 5
 border_width_top = 5
@@ -451,35 +475,35 @@ corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 expand_margin_left = 30.0
 
-[sub_resource type="Theme" id=19]
-VScrollBar/styles/ = SubResource( 15 )
-VScrollBar/styles/grabber = SubResource( 16 )
-VScrollBar/styles/grabber_highlight = SubResource( 17 )
-VScrollBar/styles/grabber_pressed = SubResource( 17 )
-VScrollBar/styles/scroll = SubResource( 18 )
+[sub_resource type="Theme" id=20]
+VScrollBar/styles/ = SubResource( 16 )
+VScrollBar/styles/grabber = SubResource( 17 )
+VScrollBar/styles/grabber_highlight = SubResource( 18 )
+VScrollBar/styles/grabber_pressed = SubResource( 18 )
+VScrollBar/styles/scroll = SubResource( 19 )
 
-[sub_resource type="DynamicFont" id=20]
+[sub_resource type="DynamicFont" id=21]
 size = 60
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 29 )
 
-[sub_resource type="DynamicFont" id=21]
+[sub_resource type="DynamicFont" id=22]
 size = 80
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 29 )
 
-[sub_resource type="DynamicFont" id=22]
+[sub_resource type="DynamicFont" id=23]
 size = 28
 outline_size = 3
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 29 )
 
-[sub_resource type="Animation" id=23]
+[sub_resource type="Animation" id=24]
 length = 8.8
 tracks/0/type = "value"
 tracks/0/path = NodePath("Player:position")
@@ -544,7 +568,7 @@ tracks/4/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=24]
+[sub_resource type="Animation" id=25]
 length = 4.5
 loop = true
 tracks/0/type = "value"
@@ -572,7 +596,7 @@ tracks/1/keys = {
 "values": [ 0, 1, 0, 1, 0 ]
 }
 
-[sub_resource type="Animation" id=25]
+[sub_resource type="Animation" id=26]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Player:position")
 tracks/0/interp = 1
@@ -598,7 +622,7 @@ tracks/1/keys = {
 "values": [ -36.1838, -16.5552 ]
 }
 
-[sub_resource type="StyleBoxFlat" id=26]
+[sub_resource type="StyleBoxFlat" id=27]
 bg_color = Color( 0.541176, 0.164706, 0.772549, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -612,7 +636,7 @@ corner_radius_bottom_left = 30
 shadow_color = Color( 0, 0, 0, 0.258824 )
 shadow_size = 10
 
-[sub_resource type="StyleBoxFlat" id=27]
+[sub_resource type="StyleBoxFlat" id=28]
 bg_color = Color( 0, 0.694118, 1, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -628,21 +652,21 @@ expand_margin_bottom = 2.0
 shadow_color = Color( 0, 0, 0, 0.25098 )
 shadow_size = 10
 
-[sub_resource type="DynamicFont" id=28]
+[sub_resource type="DynamicFont" id=29]
 size = 72
 outline_size = 7
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 29 )
 
-[sub_resource type="DynamicFont" id=29]
+[sub_resource type="DynamicFont" id=30]
 size = 64
 outline_size = 10
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 29 )
 
-[sub_resource type="StyleBoxFlat" id=30]
+[sub_resource type="StyleBoxFlat" id=31]
 bg_color = Color( 0.00392157, 0.552941, 0.109804, 1 )
 border_width_bottom = 10
 border_color = Color( 0.054902, 0.545098, 0, 1 )
@@ -655,7 +679,7 @@ expand_margin_right = 20.0
 shadow_color = Color( 0, 0, 0, 0.239216 )
 shadow_size = 10
 
-[sub_resource type="StyleBoxFlat" id=31]
+[sub_resource type="StyleBoxFlat" id=32]
 bg_color = Color( 0, 0.894118, 0.156863, 1 )
 border_width_bottom = 10
 border_color = Color( 0.054902, 0.545098, 0, 1 )
@@ -668,15 +692,14 @@ expand_margin_right = 20.0
 shadow_color = Color( 0, 0, 0, 0.239216 )
 shadow_size = 10
 
-[sub_resource type="DynamicFont" id=32]
+[sub_resource type="DynamicFont" id=33]
 size = 69
 outline_size = 8
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 29 )
 
-[sub_resource type="Animation" id=33]
-resource_name = "ConfPanel"
+[sub_resource type="Animation" id=34]
 length = 0.6
 tracks/0/type = "value"
 tracks/0/path = NodePath("ConfigPanel:rect_position")
@@ -711,8 +734,7 @@ tracks/1/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=34]
-resource_name = "Language"
+[sub_resource type="Animation" id=35]
 length = 0.6
 tracks/0/type = "value"
 tracks/0/path = NodePath("LanguageSelection:rect_position")
@@ -777,8 +799,7 @@ tracks/4/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=35]
-resource_name = "Leaderboard"
+[sub_resource type="Animation" id=36]
 length = 0.6
 tracks/0/type = "value"
 tracks/0/path = NodePath("Leaderboard:rect_position")
@@ -825,7 +846,7 @@ tracks/2/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=36]
+[sub_resource type="Animation" id=37]
 length = 0.8
 tracks/0/type = "value"
 tracks/0/path = NodePath("NicknamePanel:rect_position")
@@ -900,7 +921,7 @@ tracks/5/keys = {
 "values": [ true, true, false ]
 }
 
-[sub_resource type="Animation" id=37]
+[sub_resource type="Animation" id=38]
 length = 0.7
 tracks/0/type = "value"
 tracks/0/path = NodePath("NicknamePanel:rect_position")
@@ -968,27 +989,26 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 script = SubResource( 1 )
-leader = ExtResource( 1 )
-house_broken = ExtResource( 2 )
+house_broken = ExtResource( 1 )
 
 [node name="Background" type="TextureRect" parent="."]
 modulate = Color( 0.372549, 0.360784, 0.796078, 1 )
 self_modulate = Color( 0.372549, 0.360784, 0.796078, 1 )
 margin_right = 1080.0
 margin_bottom = 1920.0
-texture = ExtResource( 3 )
+texture = ExtResource( 2 )
 
 [node name="Stars" type="TextureRect" parent="Background"]
 self_modulate = Color( 1, 1, 1, 0 )
 margin_right = 1080.0
 margin_bottom = 1920.0
-texture = ExtResource( 4 )
+texture = ExtResource( 3 )
 
 [node name="Stars2" type="TextureRect" parent="Background"]
 self_modulate = Color( 1, 1, 1, 0 )
 margin_right = 1080.0
 margin_bottom = 1920.0
-texture = ExtResource( 5 )
+texture = ExtResource( 4 )
 
 [node name="Anim" type="AnimationPlayer" parent="Background"]
 autoplay = "Cycle"
@@ -1004,7 +1024,7 @@ margin_left = -874.542
 margin_top = -1054.33
 margin_right = 556.458
 margin_bottom = 439.667
-texture = ExtResource( 6 )
+texture = ExtResource( 5 )
 expand = true
 stretch_mode = 6
 
@@ -1015,7 +1035,7 @@ rotation = -1.309
 amount = 20
 lifetime = 2.0
 explosiveness = 0.1
-texture = ExtResource( 7 )
+texture = ExtResource( 6 )
 emission_shape = 1
 emission_sphere_radius = 5.0
 spread = 50.0
@@ -1038,7 +1058,7 @@ amount = 30
 lifetime = 2.0
 one_shot = true
 explosiveness = 1.0
-texture = ExtResource( 7 )
+texture = ExtResource( 6 )
 emission_shape = 1
 emission_sphere_radius = 20.0
 spread = 180.0
@@ -1059,7 +1079,7 @@ editor/display_folded = true
 position = Vector2( 577.462, 364.764 )
 rotation = -3.14159
 scale = Vector2( 4, -4 )
-texture = ExtResource( 8 )
+texture = ExtResource( 7 )
 hframes = 5
 frame = 2
 
@@ -1092,7 +1112,7 @@ editor/display_folded = true
 position = Vector2( 1230.88, 910.715 )
 rotation = 0.18602
 scale = Vector2( 2, 2 )
-texture = ExtResource( 10 )
+texture = ExtResource( 9 )
 
 [node name="Anim" type="AnimationPlayer" parent="PaperPlane"]
 anims/Idle = SubResource( 8 )
@@ -1113,7 +1133,7 @@ margin_top = -450.0
 margin_right = 379.0
 margin_bottom = 300.0
 mouse_filter = 2
-texture = ExtResource( 11 )
+texture = ExtResource( 10 )
 expand = true
 stretch_mode = 6
 
@@ -1125,8 +1145,8 @@ anchor_bottom = 0.5
 margin_left = -130.0
 margin_right = 120.0
 margin_bottom = 260.0
-texture_normal = ExtResource( 12 )
-texture_pressed = ExtResource( 13 )
+texture_normal = ExtResource( 11 )
+texture_pressed = ExtResource( 12 )
 expand = true
 stretch_mode = 5
 
@@ -1139,8 +1159,8 @@ margin_left = -340.0
 margin_top = -135.0
 margin_right = -219.0
 margin_bottom = 13.0
-texture_normal = ExtResource( 14 )
-texture_pressed = ExtResource( 15 )
+texture_normal = ExtResource( 13 )
+texture_pressed = ExtResource( 14 )
 expand = true
 stretch_mode = 5
 
@@ -1153,8 +1173,8 @@ margin_left = -168.569
 margin_top = -255.0
 margin_right = -48.5687
 margin_bottom = -130.0
-texture_normal = ExtResource( 16 )
-texture_pressed = ExtResource( 17 )
+texture_normal = ExtResource( 15 )
+texture_pressed = ExtResource( 16 )
 expand = true
 stretch_mode = 5
 
@@ -1167,8 +1187,8 @@ margin_left = 70.8408
 margin_top = -257.272
 margin_right = 190.841
 margin_bottom = -132.272
-texture_normal = ExtResource( 18 )
-texture_pressed = ExtResource( 19 )
+texture_normal = ExtResource( 17 )
+texture_pressed = ExtResource( 18 )
 expand = true
 stretch_mode = 5
 
@@ -1181,8 +1201,8 @@ margin_left = -58.4927
 margin_top = 896.08
 margin_right = 61.5073
 margin_bottom = 1021.08
-texture_normal = ExtResource( 20 )
-texture_pressed = ExtResource( 21 )
+texture_normal = ExtResource( 19 )
+texture_pressed = ExtResource( 20 )
 expand = true
 stretch_mode = 5
 
@@ -1195,8 +1215,8 @@ margin_left = 210.0
 margin_top = -105.0
 margin_right = 330.0
 margin_bottom = 20.0
-texture_normal = ExtResource( 22 )
-texture_pressed = ExtResource( 23 )
+texture_normal = ExtResource( 21 )
+texture_pressed = ExtResource( 22 )
 expand = true
 stretch_mode = 5
 
@@ -1208,7 +1228,7 @@ margin_top = 3.0
 margin_right = 767.299
 margin_bottom = 773.0
 mouse_filter = 2
-texture = ExtResource( 11 )
+texture = ExtResource( 10 )
 expand = true
 stretch_mode = 6
 
@@ -1219,13 +1239,13 @@ rotation = -0.288943
 
 [node name="Skin" type="Sprite" parent="Player"]
 scale = Vector2( 10, 10 )
-texture = ExtResource( 24 )
+texture = ExtResource( 23 )
 hframes = 2
 
 [node name="Jetpack" type="Sprite" parent="Player/Skin"]
 show_behind_parent = true
 position = Vector2( 1.51094, 12.3033 )
-texture = ExtResource( 25 )
+texture = ExtResource( 24 )
 
 [node name="Particles" type="CPUParticles2D" parent="Player/Skin/Jetpack"]
 position = Vector2( 0.197189, 12.9721 )
@@ -1233,7 +1253,7 @@ rotation = 1.37589
 amount = 150
 lifetime = 0.55
 local_coords = false
-texture = ExtResource( 26 )
+texture = ExtResource( 25 )
 spread = 180.0
 flatness = 1.0
 gravity = Vector2( 0, 0 )
@@ -1251,7 +1271,7 @@ position = Vector2( -1, 9.00002 )
 
 [node name="Eyes" type="Sprite" parent="Player/Skin"]
 position = Vector2( 0, -15 )
-texture = ExtResource( 27 )
+texture = ExtResource( 26 )
 hframes = 7
 
 [node name="Hat" type="Sprite" parent="Player/Skin"]
@@ -1266,14 +1286,12 @@ margin_right = 886.449
 margin_bottom = 1889.95
 rect_rotation = -19.284
 
-[node name="ConfigPanel" parent="." instance=ExtResource( 28 )]
+[node name="ConfigPanel" parent="." instance=ExtResource( 27 )]
 editor/display_folded = true
 margin_top = 1000.0
 margin_bottom = 1945.0
 
 [node name="Leaderboard" type="Panel" parent="."]
-editor/display_folded = true
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1283,6 +1301,8 @@ margin_top = -873.5
 margin_right = -730.003
 margin_bottom = 873.5
 custom_styles/panel = SubResource( 11 )
+script = SubResource( 12 )
+leaderitem_scene = ExtResource( 28 )
 
 [node name="Title" type="Label" parent="Leaderboard"]
 anchor_left = 0.5
@@ -1291,13 +1311,12 @@ margin_left = -340.0
 margin_top = 43.5
 margin_right = 326.0
 margin_bottom = 183.5
-custom_styles/normal = SubResource( 12 )
-custom_fonts/font = SubResource( 13 )
+custom_styles/normal = SubResource( 13 )
+custom_fonts/font = SubResource( 14 )
 text = "LEADERBOARD"
 align = 1
 
 [node name="Leaders" type="Panel" parent="Leaderboard"]
-editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.76
@@ -1307,7 +1326,7 @@ margin_top = -589.5
 margin_right = 204.8
 margin_bottom = 735.5
 mouse_filter = 1
-custom_styles/panel = SubResource( 14 )
+custom_styles/panel = SubResource( 15 )
 
 [node name="SC" type="ScrollContainer" parent="Leaderboard/Leaders"]
 editor/display_folded = true
@@ -1320,7 +1339,7 @@ margin_top = -630.5
 margin_right = 427.5
 margin_bottom = 630.5
 mouse_filter = 1
-theme = SubResource( 19 )
+theme = SubResource( 20 )
 scroll_horizontal_enabled = false
 
 [node name="ItemList" type="GridContainer" parent="Leaderboard/Leaders/SC"]
@@ -1342,7 +1361,7 @@ margin_bottom = 2.5
 margin_right = 120.0
 margin_bottom = 73.0
 rect_min_size = Vector2( 120, 0 )
-custom_fonts/font = SubResource( 20 )
+custom_fonts/font = SubResource( 21 )
 text = "POS"
 valign = 1
 
@@ -1351,7 +1370,7 @@ margin_left = 124.0
 margin_right = 649.0
 margin_bottom = 73.0
 rect_min_size = Vector2( 525, 0 )
-custom_fonts/font = SubResource( 20 )
+custom_fonts/font = SubResource( 21 )
 text = "NAME"
 valign = 1
 
@@ -1359,7 +1378,7 @@ valign = 1
 margin_left = 653.0
 margin_right = 826.0
 margin_bottom = 73.0
-custom_fonts/font = SubResource( 20 )
+custom_fonts/font = SubResource( 21 )
 text = "SCORE"
 valign = 1
 
@@ -1372,7 +1391,7 @@ margin_left = -440.0
 margin_top = -50.5
 margin_right = 440.0
 margin_bottom = 50.5
-custom_fonts/font = SubResource( 21 )
+custom_fonts/font = SubResource( 22 )
 align = 1
 
 [node name="CloseLeaderButton" type="TextureButton" parent="Leaderboard"]
@@ -1384,9 +1403,9 @@ margin_left = -89.0
 margin_top = -93.5
 margin_right = 89.0
 margin_bottom = 76.5
-texture_normal = ExtResource( 22 )
-texture_pressed = ExtResource( 23 )
-texture_disabled = ExtResource( 23 )
+texture_normal = ExtResource( 21 )
+texture_pressed = ExtResource( 22 )
+texture_disabled = ExtResource( 22 )
 expand = true
 stretch_mode = 5
 
@@ -1397,15 +1416,15 @@ margin_left = 5.0
 margin_top = -60.0
 margin_right = 395.0
 margin_bottom = -26.0
-custom_fonts/font = SubResource( 22 )
+custom_fonts/font = SubResource( 23 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "Version"
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Start"
-anims/Easter = SubResource( 23 )
-anims/Idle = SubResource( 24 )
-anims/Start = SubResource( 25 )
+anims/Easter = SubResource( 24 )
+anims/Idle = SubResource( 25 )
+anims/Start = SubResource( 26 )
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 
@@ -1424,7 +1443,7 @@ modulate = Color( 0, 0, 0, 0.952941 )
 margin_right = 40.0
 margin_bottom = 40.0
 mouse_filter = 0
-texture = ExtResource( 3 )
+texture = ExtResource( 2 )
 
 [node name="NicknamePanel" type="Panel" parent="."]
 editor/display_folded = true
@@ -1437,7 +1456,7 @@ margin_left = -400.0
 margin_top = -260.0
 margin_right = 400.0
 margin_bottom = 260.0
-custom_styles/panel = SubResource( 26 )
+custom_styles/panel = SubResource( 27 )
 
 [node name="Title" type="Label" parent="NicknamePanel"]
 anchor_left = 0.5
@@ -1449,8 +1468,8 @@ margin_bottom = 148.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 5
-custom_styles/normal = SubResource( 27 )
-custom_fonts/font = SubResource( 28 )
+custom_styles/normal = SubResource( 28 )
+custom_fonts/font = SubResource( 29 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_x = 9
@@ -1467,9 +1486,9 @@ margin_left = -372.0
 margin_top = -75.0
 margin_right = 373.0
 margin_bottom = 63.0
-custom_icons/clear = ExtResource( 22 )
-custom_styles/normal = SubResource( 27 )
-custom_fonts/font = SubResource( 29 )
+custom_icons/clear = ExtResource( 21 )
+custom_styles/normal = SubResource( 28 )
+custom_fonts/font = SubResource( 30 )
 custom_colors/font_color_selected = Color( 0, 0, 0, 1 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 align = 1
@@ -1493,10 +1512,10 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 5
 size_flags_vertical = 5
-custom_styles/hover = SubResource( 30 )
-custom_styles/pressed = SubResource( 30 )
-custom_styles/normal = SubResource( 31 )
-custom_fonts/font = SubResource( 32 )
+custom_styles/hover = SubResource( 31 )
+custom_styles/pressed = SubResource( 31 )
+custom_styles/normal = SubResource( 32 )
+custom_fonts/font = SubResource( 33 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "NICKNAME_ACCEPT"
 
@@ -1510,11 +1529,11 @@ margin_right = 481.499
 margin_bottom = -678.505
 
 [node name="UIAnimation" type="AnimationPlayer" parent="."]
-anims/ConfPanel = SubResource( 33 )
-anims/Language = SubResource( 34 )
-anims/Leaderboard = SubResource( 35 )
-anims/Nickname = SubResource( 36 )
-anims/NicknameAccepted = SubResource( 37 )
+anims/ConfPanel = SubResource( 34 )
+anims/Language = SubResource( 35 )
+anims/Leaderboard = SubResource( 36 )
+anims/Nickname = SubResource( 37 )
+anims/NicknameAccepted = SubResource( 38 )
 [connection signal="tree_exiting" from="." to="." method="_on_MainMenu_tree_exiting"]
 [connection signal="timeout" from="Bird/BTimer" to="." method="_on_BTimer_timeout"]
 [connection signal="timeout" from="PaperPlane/PTimer" to="." method="_on_PTimer_timeout"]
