@@ -1,4 +1,4 @@
-[gd_scene load_steps=71 format=2]
+[gd_scene load_steps=58 format=2]
 
 [ext_resource path="res://Sprites/Background/HouseBroken.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Background/Bg1.png" type="Texture" id=2]
@@ -27,7 +27,7 @@
 [ext_resource path="res://Sprites/Shop/Cat/Thruster/Smoke.png" type="Texture" id=25]
 [ext_resource path="res://Sprites/Cat/Eyes.png" type="Texture" id=26]
 [ext_resource path="res://Scenes/ConfigPanel.tscn" type="PackedScene" id=27]
-[ext_resource path="res://Scenes/LeaderTest.tscn" type="PackedScene" id=28]
+[ext_resource path="res://Scenes/Leaderboard.tscn" type="PackedScene" id=28]
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=29]
 [ext_resource path="res://Sounds/Music/CCF Theme.ogg" type="AudioStream" id=30]
 [ext_resource path="res://Scenes/TransitionScene.tscn" type="PackedScene" id=31]
@@ -120,7 +120,7 @@ func _on_ShopButton_button_down():
 func _on_LeaderboardButton_button_down():
 	set_disable_main_buttons(true)
 	get_leaderboard_data()
-	$UIAnimation.play('Leaderboard')
+	$Leaderboard.start()
 	pass # Replace with function body.
 
 func get_leaderboard_data():
@@ -211,6 +211,10 @@ func _on_LanguageSelection_language_selected(texture):
 	pass # Replace with function body.
 
 func _on_ConfigPanel_config_panel_closed():
+	set_disable_main_buttons(false)
+	pass # Replace with function body.
+
+func _on_Leaderboard_leader_closed():
 	set_disable_main_buttons(false)
 	pass # Replace with function body.
 "
@@ -335,177 +339,14 @@ _data = [ Vector2( 0, 0.412 ), 0.0, 0.138585, 0, 0, Vector2( 1, 0.7728 ), 1.5174
 offsets = PoolRealArray( 0, 0.211921, 0.476821, 0.688742, 1 )
 colors = PoolColorArray( 1, 1, 1, 1, 1, 0.960938, 0, 1, 1, 0.773438, 0, 1, 1, 0, 0, 1, 0.605469, 0, 0, 0 )
 
-[sub_resource type="StyleBoxFlat" id=11]
-bg_color = Color( 1, 0.74902, 0, 1 )
-border_width_left = 15
-border_width_top = 15
-border_width_right = 15
-border_width_bottom = 15
-border_color = Color( 0.835294, 0.588235, 0, 1 )
-corner_radius_top_left = 50
-corner_radius_top_right = 50
-corner_radius_bottom_right = 50
-corner_radius_bottom_left = 50
-
-[sub_resource type="GDScript" id=12]
-script/source = "extends Panel
-
-export (PackedScene) var leaderitem_scene
-
-func fill_leaderboard(data):
-	if data:
-		$State.hide()
-		var pos = 1
-		if typeof(data) == TYPE_DICTIONARY:
-			var l = leaderitem_scene.instance()
-			$Leaders/SC/ItemList.add_child(l)
-			l.set_info(pos,data)
-			pos += 1
-			if is_current_player(data):
-				l.change_to_player()
-		if typeof(data) == TYPE_ARRAY:
-			for i in data:
-				var l = leaderitem_scene.instance()
-				l.set_info(pos,i)
-				$Leaders/SC/ItemList.add_child(l)
-				if is_current_player(i):
-					print(1)
-					l.change_to_player()
-				pos += 1
-	else:
-		leader_empty()
-	pass
-
-func is_current_player(data):
-	return data['name'] == GameManager.nickname
-
-func leader_empty():
-	$State.text = 'LEADERBOARD_EMPTY'
-	pass
-
-func failed_to_connect():
-	$State.text = 'LEADERBOARD_FAILED'
-	pass
-
-func connecting():
-	$State.text = tr('LEADERBOARD_CONNECTING')"
-
-[sub_resource type="StyleBoxFlat" id=13]
-bg_color = Color( 1, 0.823529, 0.00784314, 1 )
-border_width_left = 10
-border_width_top = 10
-border_width_right = 10
-border_width_bottom = 10
-border_color = Color( 0.92549, 0.65098, 0, 1 )
-corner_radius_top_left = 25
-corner_radius_top_right = 25
-corner_radius_bottom_right = 25
-corner_radius_bottom_left = 25
-expand_margin_left = 10.0
-expand_margin_right = 10.0
-expand_margin_top = 5.0
-expand_margin_bottom = 5.0
-
-[sub_resource type="DynamicFont" id=14]
-size = 100
-outline_size = 10
-outline_color = Color( 0, 0, 0, 1 )
-use_filter = true
-font_data = ExtResource( 29 )
-
-[sub_resource type="StyleBoxFlat" id=15]
-bg_color = Color( 1, 0.866667, 0, 1 )
-border_width_left = 10
-border_width_top = 10
-border_width_right = 10
-border_width_bottom = 10
-border_color = Color( 0.913725, 0.662745, 0, 1 )
-corner_radius_top_left = 50
-corner_radius_top_right = 50
-corner_radius_bottom_right = 50
-corner_radius_bottom_left = 50
-expand_margin_bottom = 5.0
-
-[sub_resource type="StyleBoxFlat" id=16]
-bg_color = Color( 0.0470588, 0, 0.462745, 1 )
-border_width_left = 5
-border_width_top = 5
-border_width_right = 5
-border_width_bottom = 5
-border_color = Color( 0, 0, 0, 1 )
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
-
-[sub_resource type="StyleBoxFlat" id=17]
-bg_color = Color( 0.00784314, 1, 0, 1 )
-border_width_left = 10
-border_width_top = 10
-border_width_right = 10
-border_width_bottom = 10
-border_color = Color( 0, 0, 0, 1 )
-corner_radius_top_left = 30
-corner_radius_top_right = 30
-corner_radius_bottom_right = 30
-corner_radius_bottom_left = 30
-expand_margin_left = 30.0
-
-[sub_resource type="StyleBoxFlat" id=18]
-bg_color = Color( 0.00784314, 1, 0, 1 )
-border_width_left = 10
-border_width_top = 10
-border_width_right = 10
-border_width_bottom = 10
-border_color = Color( 1, 1, 1, 1 )
-corner_radius_top_left = 30
-corner_radius_top_right = 30
-corner_radius_bottom_right = 30
-corner_radius_bottom_left = 30
-expand_margin_left = 30.0
-
-[sub_resource type="StyleBoxFlat" id=19]
-bg_color = Color( 0, 0.552941, 1, 1 )
-border_width_left = 5
-border_width_top = 5
-border_width_right = 5
-border_width_bottom = 5
-border_color = Color( 0, 0, 0, 1 )
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
-expand_margin_left = 30.0
-
-[sub_resource type="Theme" id=20]
-VScrollBar/styles/ = SubResource( 16 )
-VScrollBar/styles/grabber = SubResource( 17 )
-VScrollBar/styles/grabber_highlight = SubResource( 18 )
-VScrollBar/styles/grabber_pressed = SubResource( 18 )
-VScrollBar/styles/scroll = SubResource( 19 )
-
-[sub_resource type="DynamicFont" id=21]
-size = 60
-outline_size = 5
-outline_color = Color( 0, 0, 0, 1 )
-use_filter = true
-font_data = ExtResource( 29 )
-
-[sub_resource type="DynamicFont" id=22]
-size = 80
-outline_size = 5
-outline_color = Color( 0, 0, 0, 1 )
-use_filter = true
-font_data = ExtResource( 29 )
-
-[sub_resource type="DynamicFont" id=23]
+[sub_resource type="DynamicFont" id=11]
 size = 28
 outline_size = 3
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 29 )
 
-[sub_resource type="Animation" id=24]
+[sub_resource type="Animation" id=12]
 length = 8.8
 tracks/0/type = "value"
 tracks/0/path = NodePath("Player:position")
@@ -570,7 +411,7 @@ tracks/4/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=25]
+[sub_resource type="Animation" id=13]
 length = 4.5
 loop = true
 tracks/0/type = "value"
@@ -598,7 +439,7 @@ tracks/1/keys = {
 "values": [ 0, 1, 0, 1, 0 ]
 }
 
-[sub_resource type="Animation" id=26]
+[sub_resource type="Animation" id=14]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Player:position")
 tracks/0/interp = 1
@@ -624,7 +465,7 @@ tracks/1/keys = {
 "values": [ -36.1838, -16.5552 ]
 }
 
-[sub_resource type="StyleBoxFlat" id=27]
+[sub_resource type="StyleBoxFlat" id=15]
 bg_color = Color( 0.541176, 0.164706, 0.772549, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -638,7 +479,7 @@ corner_radius_bottom_left = 30
 shadow_color = Color( 0, 0, 0, 0.258824 )
 shadow_size = 10
 
-[sub_resource type="StyleBoxFlat" id=28]
+[sub_resource type="StyleBoxFlat" id=16]
 bg_color = Color( 0, 0.694118, 1, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -654,21 +495,21 @@ expand_margin_bottom = 2.0
 shadow_color = Color( 0, 0, 0, 0.25098 )
 shadow_size = 10
 
-[sub_resource type="DynamicFont" id=29]
+[sub_resource type="DynamicFont" id=17]
 size = 72
 outline_size = 7
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 29 )
 
-[sub_resource type="DynamicFont" id=30]
+[sub_resource type="DynamicFont" id=18]
 size = 64
 outline_size = 10
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 29 )
 
-[sub_resource type="StyleBoxFlat" id=31]
+[sub_resource type="StyleBoxFlat" id=19]
 bg_color = Color( 0.00392157, 0.552941, 0.109804, 1 )
 border_width_bottom = 10
 border_color = Color( 0.054902, 0.545098, 0, 1 )
@@ -681,7 +522,7 @@ expand_margin_right = 20.0
 shadow_color = Color( 0, 0, 0, 0.239216 )
 shadow_size = 10
 
-[sub_resource type="StyleBoxFlat" id=32]
+[sub_resource type="StyleBoxFlat" id=20]
 bg_color = Color( 0, 0.894118, 0.156863, 1 )
 border_width_bottom = 10
 border_color = Color( 0.054902, 0.545098, 0, 1 )
@@ -694,14 +535,14 @@ expand_margin_right = 20.0
 shadow_color = Color( 0, 0, 0, 0.239216 )
 shadow_size = 10
 
-[sub_resource type="DynamicFont" id=33]
+[sub_resource type="DynamicFont" id=21]
 size = 69
 outline_size = 8
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 29 )
 
-[sub_resource type="Animation" id=34]
+[sub_resource type="Animation" id=22]
 length = 0.6
 tracks/0/type = "value"
 tracks/0/path = NodePath("LanguageSelection:rect_position")
@@ -766,34 +607,7 @@ tracks/4/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=35]
-length = 0.6
-tracks/0/type = "value"
-tracks/0/path = NodePath("Leaderboard:rect_position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.6 ),
-"transitions": PoolRealArray( 0.5, 1 ),
-"update": 0,
-"values": [ Vector2( -1160, 86.5 ), Vector2( 55, 86.5 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("Leaderboard:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.1, 0.58471 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, true ]
-}
-
-[sub_resource type="Animation" id=36]
+[sub_resource type="Animation" id=24]
 length = 0.8
 tracks/0/type = "value"
 tracks/0/path = NodePath("NicknamePanel:rect_position")
@@ -868,7 +682,7 @@ tracks/5/keys = {
 "values": [ true, true, false ]
 }
 
-[sub_resource type="Animation" id=37]
+[sub_resource type="Animation" id=25]
 length = 0.7
 tracks/0/type = "value"
 tracks/0/path = NodePath("NicknamePanel:rect_position")
@@ -939,6 +753,7 @@ script = SubResource( 1 )
 house_broken = ExtResource( 1 )
 
 [node name="Background" type="TextureRect" parent="."]
+editor/display_folded = true
 self_modulate = Color( 0.372549, 0.360784, 0.796078, 1 )
 margin_right = 1080.0
 margin_bottom = 1920.0
@@ -1068,7 +883,6 @@ wait_time = 10.0
 autostart = true
 
 [node name="PawCat" type="TextureRect" parent="."]
-editor/display_folded = true
 self_modulate = Color( 0.521569, 0, 1, 1 )
 anchor_left = 0.5
 anchor_top = 0.5
@@ -1235,123 +1049,15 @@ rect_rotation = -19.284
 [node name="ConfigPanel" parent="." instance=ExtResource( 27 )]
 editor/display_folded = true
 
-[node name="Leaderboard" type="Panel" parent="."]
-editor/display_folded = true
-visible = false
+[node name="Leaderboard" parent="." instance=ExtResource( 28 )]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -1700.0
-margin_top = -873.5
-margin_right = -730.003
-margin_bottom = 873.5
-custom_styles/panel = SubResource( 11 )
-script = SubResource( 12 )
-leaderitem_scene = ExtResource( 28 )
-
-[node name="Title" type="Label" parent="Leaderboard"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -340.0
-margin_top = 43.5
-margin_right = 326.0
-margin_bottom = 183.5
-custom_styles/normal = SubResource( 13 )
-custom_fonts/font = SubResource( 14 )
-text = "LEADERBOARD"
-align = 1
-
-[node name="Leaders" type="Panel" parent="Leaderboard"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.76
-anchor_bottom = 0.5
-margin_left = -455.999
-margin_top = -589.5
-margin_right = 204.802
-margin_bottom = 836.5
-mouse_filter = 1
-custom_styles/panel = SubResource( 15 )
-
-[node name="SC" type="ScrollContainer" parent="Leaderboard/Leaders"]
-editor/display_folded = true
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -427.5
-margin_top = -697.0
-margin_right = 427.5
-margin_bottom = 704.0
-mouse_filter = 1
-theme = SubResource( 20 )
-scroll_horizontal_enabled = false
-
-[node name="ItemList" type="GridContainer" parent="Leaderboard/Leaders/SC"]
-self_modulate = Color( 1, 1, 1, 0 )
-mouse_filter = 2
-custom_constants/vseparation = 10
-custom_constants/hseparation = 0
-
-[node name="HeadersBox" type="HBoxContainer" parent="Leaderboard/Leaders"]
-editor/display_folded = true
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -427.5
-margin_top = -70.5
-margin_right = 457.5
-margin_bottom = 2.5
-
-[node name="Pos" type="Label" parent="Leaderboard/Leaders/HeadersBox"]
-margin_right = 120.0
-margin_bottom = 73.0
-rect_min_size = Vector2( 120, 0 )
-custom_fonts/font = SubResource( 21 )
-text = "POS"
-valign = 1
-
-[node name="Name" type="Label" parent="Leaderboard/Leaders/HeadersBox"]
-margin_left = 124.0
-margin_right = 649.0
-margin_bottom = 73.0
-rect_min_size = Vector2( 525, 0 )
-custom_fonts/font = SubResource( 21 )
-text = "NAME"
-valign = 1
-
-[node name="Score" type="Label" parent="Leaderboard/Leaders/HeadersBox"]
-margin_left = 653.0
-margin_right = 826.0
-margin_bottom = 73.0
-custom_fonts/font = SubResource( 21 )
-text = "SCORE"
-valign = 1
-
-[node name="State" type="Label" parent="Leaderboard"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -440.0
-margin_top = -50.5
-margin_right = 440.0
-margin_bottom = 50.5
-custom_fonts/font = SubResource( 22 )
-align = 1
-
-[node name="CloseLeaderButton" type="TextureButton" parent="Leaderboard"]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -139.997
-margin_top = 10.0
-margin_right = -10.9971
-margin_bottom = 133.0
-texture_normal = ExtResource( 21 )
-texture_pressed = ExtResource( 22 )
-texture_disabled = ExtResource( 22 )
-expand = true
-stretch_mode = 5
+margin_left = -540.0
+margin_top = -960.0
+margin_right = 540.0
+margin_bottom = 960.0
 
 [node name="VersionLabel" type="Label" parent="."]
 anchor_top = 1.0
@@ -1360,15 +1066,15 @@ margin_left = 5.0
 margin_top = -60.0
 margin_right = 395.0
 margin_bottom = -26.0
-custom_fonts/font = SubResource( 23 )
+custom_fonts/font = SubResource( 11 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "Version"
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Start"
-anims/Easter = SubResource( 24 )
-anims/Idle = SubResource( 25 )
-anims/Start = SubResource( 26 )
+anims/Easter = SubResource( 12 )
+anims/Idle = SubResource( 13 )
+anims/Start = SubResource( 14 )
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 
@@ -1399,7 +1105,7 @@ margin_left = -399.997
 margin_top = -235.001
 margin_right = 400.002
 margin_bottom = 284.998
-custom_styles/panel = SubResource( 27 )
+custom_styles/panel = SubResource( 15 )
 
 [node name="Title" type="Label" parent="NicknamePanel"]
 anchor_left = 0.5
@@ -1411,8 +1117,8 @@ margin_bottom = 148.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 5
-custom_styles/normal = SubResource( 28 )
-custom_fonts/font = SubResource( 29 )
+custom_styles/normal = SubResource( 16 )
+custom_fonts/font = SubResource( 17 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_x = 9
@@ -1430,8 +1136,8 @@ margin_top = -75.0
 margin_right = 373.0
 margin_bottom = 63.0
 custom_icons/clear = ExtResource( 21 )
-custom_styles/normal = SubResource( 28 )
-custom_fonts/font = SubResource( 30 )
+custom_styles/normal = SubResource( 16 )
+custom_fonts/font = SubResource( 18 )
 custom_colors/font_color_selected = Color( 0, 0, 0, 1 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 align = 1
@@ -1455,10 +1161,10 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 5
 size_flags_vertical = 5
-custom_styles/hover = SubResource( 31 )
-custom_styles/pressed = SubResource( 31 )
-custom_styles/normal = SubResource( 32 )
-custom_fonts/font = SubResource( 33 )
+custom_styles/hover = SubResource( 19 )
+custom_styles/pressed = SubResource( 19 )
+custom_styles/normal = SubResource( 20 )
+custom_fonts/font = SubResource( 21 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "NICKNAME_ACCEPT"
 
@@ -1472,10 +1178,9 @@ margin_right = 481.5
 margin_bottom = 692.995
 
 [node name="UIAnimation" type="AnimationPlayer" parent="."]
-anims/Language = SubResource( 34 )
-anims/Leaderboard = SubResource( 35 )
-anims/Nickname = SubResource( 36 )
-anims/NicknameAccepted = SubResource( 37 )
+anims/Language = SubResource( 22 )
+anims/Nickname = SubResource( 24 )
+anims/NicknameAccepted = SubResource( 25 )
 [connection signal="tree_exiting" from="." to="." method="_on_MainMenu_tree_exiting"]
 [connection signal="timeout" from="Bird/BTimer" to="." method="_on_BTimer_timeout"]
 [connection signal="timeout" from="PaperPlane/PTimer" to="." method="_on_PTimer_timeout"]
@@ -1487,8 +1192,7 @@ anims/NicknameAccepted = SubResource( 37 )
 [connection signal="button_down" from="PawCat/CloseButton" to="." method="_on_CloseButton_button_down"]
 [connection signal="button_down" from="PlayerEasterButton" to="." method="_on_PlayerEasterButton_button_down"]
 [connection signal="config_panel_closed" from="ConfigPanel" to="." method="_on_ConfigPanel_config_panel_closed"]
-[connection signal="gui_input" from="Leaderboard/Leaders/SC" to="." method="_on_SC_gui_input"]
-[connection signal="button_down" from="Leaderboard/CloseLeaderButton" to="." method="_on_CloseLeaderButton_button_down"]
+[connection signal="leader_closed" from="Leaderboard" to="." method="_on_Leaderboard_leader_closed"]
 [connection signal="animation_finished" from="Anim" to="." method="_on_Anim_animation_finished"]
 [connection signal="request_completed" from="HTTPRequest" to="." method="_on_HTTPRequest_request_completed"]
 [connection signal="animation_finished" from="TransitionScene/Anim" to="." method="_on_AnimTrans_animation_finished"]

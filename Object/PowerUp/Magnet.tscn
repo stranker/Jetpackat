@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Shaders/outline.shader" type="Shader" id=1]
 [ext_resource path="res://Sprites/Collectables/Magnet.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Background/StarParticle.png" type="Texture" id=3]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends \"res://Object/Collectable/Collectable.gd\"
@@ -92,6 +93,38 @@ tracks/1/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
+tracks/2/type = "value"
+tracks/2/path = NodePath("BluePartiles:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("RedParticles:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="Gradient" id=8]
+offsets = PoolRealArray( 0, 0.765432, 1 )
+colors = PoolColorArray( 0.211765, 0.223529, 0.85098, 1, 0.211765, 0.223529, 0.85098, 0.745098, 0.211765, 0.223529, 0.85098, 0 )
+
+[sub_resource type="Gradient" id=7]
+offsets = PoolRealArray( 0, 0.764368, 1 )
+colors = PoolColorArray( 0.921569, 0.156863, 0.137255, 1, 0.921569, 0.156863, 0.137255, 0.768627, 0.921569, 0.156863, 0.137255, 0.14902 )
 
 [node name="Magnet" type="Area2D"]
 script = SubResource( 1 )
@@ -114,6 +147,40 @@ anims/Idle = SubResource( 4 )
 anims/Taken = SubResource( 5 )
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+
+[node name="BluePartiles" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 20
+one_shot = true
+explosiveness = 0.9
+texture = ExtResource( 3 )
+emission_shape = 1
+emission_sphere_radius = 5.0
+spread = 180.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 150.0
+tangential_accel = -10.0
+damping = 100.0
+angle = 360.0
+angle_random = 1.0
+color_ramp = SubResource( 8 )
+
+[node name="RedParticles" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 20
+one_shot = true
+explosiveness = 0.9
+texture = ExtResource( 3 )
+emission_shape = 1
+emission_sphere_radius = 5.0
+spread = 180.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 150.0
+tangential_accel = 10.0
+damping = 100.0
+angle = 360.0
+angle_random = 1.0
+color_ramp = SubResource( 7 )
 [connection signal="active" from="." to="." method="_on_Magnet_active"]
 [connection signal="area_entered" from="." to="." method="_on_Magnet_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_Magnet_body_entered"]

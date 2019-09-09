@@ -1,16 +1,17 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Sprites/UI/PawCatIcon.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/UI/MainMenu/es_flag.png" type="Texture" id=3]
-[ext_resource path="res://Sprites/UI/LeftyOffButton.png" type="Texture" id=4]
-[ext_resource path="res://Sprites/UI/LeftyOnButton.png" type="Texture" id=5]
-[ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=6]
-[ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=7]
-[ext_resource path="res://Scenes/LanguageSelection.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Sprites/Cinematic/OptionCat.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/UI/LeftyOffButton.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/UI/LeftyOnButton.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=7]
+[ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=8]
+[ext_resource path="res://Scenes/LanguageSelection.tscn" type="PackedScene" id=9]
 
-[sub_resource type="StyleBoxFlat" id=11]
-bg_color = Color( 1, 0.678431, 0, 0 )
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.188235, 0.188235, 0.188235, 0.901961 )
 
 [sub_resource type="GDScript" id=2]
 script/source = "extends Panel
@@ -60,20 +61,6 @@ func _on_CloseConfigButton_button_down():
 	pass # Replace with function body.
 "
 
-[sub_resource type="StyleBoxFlat" id=5]
-bg_color = Color( 1, 0.796078, 0, 1 )
-border_width_left = 10
-border_width_top = 10
-border_width_right = 10
-border_width_bottom = 10
-border_color = Color( 1, 1, 1, 1 )
-corner_radius_top_left = 30
-corner_radius_top_right = 30
-corner_radius_bottom_right = 30
-corner_radius_bottom_left = 30
-shadow_color = Color( 0, 0, 0, 0.184314 )
-shadow_size = 15
-
 [sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 1, 0.678431, 0, 1 )
 border_width_left = 10
@@ -89,14 +76,28 @@ shadow_color = Color( 0, 0, 0, 0.25098 )
 shadow_size = 10
 
 [sub_resource type="DynamicFont" id=4]
-size = 72
+size = 100
 outline_size = 6
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 1 )
 
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 1, 0.796078, 0, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color( 1, 1, 1, 1 )
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+shadow_color = Color( 0, 0, 0, 0.184314 )
+shadow_size = 15
+
 [sub_resource type="DynamicFont" id=6]
-size = 48
+size = 72
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
@@ -188,7 +189,7 @@ tracks/2/keys = {
 resource_name = "LanguageOut"
 length = 0.6
 
-[sub_resource type="Animation" id=12]
+[sub_resource type="Animation" id=11]
 resource_name = "PauseIn"
 length = 0.4
 tracks/0/type = "value"
@@ -198,88 +199,101 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.4 ),
-"transitions": PoolRealArray( 0.5, 1 ),
+"times": PoolRealArray( 0, 0.3, 0.4 ),
+"transitions": PoolRealArray( 0.5, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 1600, 533.5 ), Vector2( 189, 533.5 ) ]
+"values": [ Vector2( 1200, 580 ), Vector2( 90, 580 ), Vector2( 110, 580 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath(".:custom_styles/panel:bg_color")
+tracks/1/path = NodePath("CloseConfigButton:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.4 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 0.678431, 0, 0 ), Color( 1, 0.678431, 0, 0.682353 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("CloseConfigButton:modulate")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
 "times": PoolRealArray( 0.2, 0.391504 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
-tracks/3/type = "value"
-tracks/3/path = NodePath("CloseConfigButton:disabled")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
+tracks/2/type = "value"
+tracks/2/path = NodePath("CloseConfigButton:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
 "times": PoolRealArray( 0.0105629, 0.4 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
 }
-tracks/4/type = "value"
-tracks/4/path = NodePath("CloseConfigButton:visible")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
+tracks/3/type = "value"
+tracks/3/path = NodePath("CloseConfigButton:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
 "times": PoolRealArray( 0, 0.2 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ false, true ]
 }
+tracks/4/type = "value"
+tracks/4/path = NodePath(".:self_modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Title:rect_position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 0.3, 0.4 ),
+"transitions": PoolRealArray( 0.5, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 255, -300 ), Vector2( 255, 200 ), Vector2( 255, 161 ) ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("FrontPanel/Cat:rect_position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 0.4 ),
+"transitions": PoolRealArray( 0.5, 1 ),
+"update": 0,
+"values": [ Vector2( 272, 0 ), Vector2( 200, -360 ) ]
+}
 
 [node name="OptionPanel" type="Panel"]
 pause_mode = 2
+self_modulate = Color( 1, 1, 1, 0 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_min_size = Vector2( 840, 700 )
 mouse_filter = 2
-custom_styles/panel = SubResource( 11 )
+custom_styles/panel = SubResource( 1 )
 script = SubResource( 2 )
 
-[node name="FrontPanel" type="Panel" parent="."]
-editor/display_folded = true
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = 1060.0
-margin_top = -426.5
-margin_right = 1762.0
-margin_bottom = 426.5
-custom_styles/panel = SubResource( 5 )
-
-[node name="Title" type="Label" parent="FrontPanel"]
+[node name="Title" type="Label" parent="."]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -390.5
-margin_top = 40.0
-margin_right = 390.5
-margin_bottom = 148.0
+margin_left = -285.0
+margin_top = -300.0
+margin_right = 285.0
+margin_bottom = -160.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 5
@@ -292,18 +306,26 @@ custom_constants/shadow_offset_y = 8
 text = "OPTIONS"
 align = 1
 
-[node name="VBC" type="VBoxContainer" parent="FrontPanel"]
+[node name="FrontPanel" type="Panel" parent="."]
+editor/display_folded = true
 anchor_left = 0.5
-anchor_top = 1.0
+anchor_top = 0.5
 anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 660.0
+margin_top = -380.0
+margin_right = 1511.0
+margin_bottom = 647.0
+custom_styles/panel = SubResource( 5 )
+
+[node name="VBC" type="VBoxContainer" parent="FrontPanel"]
+anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -350.5
-margin_top = -705.0
-margin_right = 350.5
 
 [node name="Music" type="Control" parent="FrontPanel/VBC"]
-margin_right = 701.0
-margin_bottom = 232.0
+editor/display_folded = true
+margin_right = 851.0
+margin_bottom = 339.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -312,10 +334,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -318.0
-margin_top = -69.0
-margin_right = 316.0
-margin_bottom = 10.0
+margin_left = -317.0
+margin_top = -94.5
+margin_right = 317.0
+margin_bottom = 13.5
 custom_styles/normal = SubResource( 3 )
 custom_fonts/font = SubResource( 6 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.376471 )
@@ -326,13 +348,13 @@ align = 1
 
 [node name="MusicSlider" type="HSlider" parent="FrontPanel/VBC/Music"]
 anchor_left = 0.5
-anchor_top = 1.0
+anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -219.5
-margin_top = -54.0
-margin_right = 219.5
-margin_bottom = -14.0
+anchor_bottom = 0.5
+margin_left = -220.0
+margin_top = 55.5
+margin_right = 219.0
+margin_bottom = 95.5
 size_flags_horizontal = 15
 custom_icons/grabber_highlight = ExtResource( 2 )
 custom_icons/grabber = ExtResource( 2 )
@@ -345,9 +367,9 @@ ticks_on_borders = true
 
 [node name="Sound" type="Control" parent="FrontPanel/VBC"]
 editor/display_folded = true
-margin_top = 236.0
-margin_right = 701.0
-margin_bottom = 468.0
+margin_top = 343.0
+margin_right = 851.0
+margin_bottom = 682.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -356,10 +378,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -318.0
-margin_top = -77.0
-margin_right = 316.0
-margin_bottom = 2.0
+margin_left = -317.0
+margin_top = -105.116
+margin_right = 317.0
+margin_bottom = 2.88397
 custom_styles/normal = SubResource( 3 )
 custom_fonts/font = SubResource( 6 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.376471 )
@@ -370,13 +392,13 @@ align = 1
 
 [node name="SoundSlider" type="HSlider" parent="FrontPanel/VBC/Sound"]
 anchor_left = 0.5
-anchor_top = 1.0
+anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 1.0
+anchor_bottom = 0.5
 margin_left = -219.5
-margin_top = -69.5
+margin_top = 42.5
 margin_right = 219.5
-margin_bottom = -19.5
+margin_bottom = 92.5
 custom_icons/grabber_highlight = ExtResource( 2 )
 custom_icons/grabber = ExtResource( 2 )
 custom_styles/slider = SubResource( 7 )
@@ -387,19 +409,21 @@ tick_count = 5
 ticks_on_borders = true
 
 [node name="Language" type="Control" parent="FrontPanel/VBC"]
-margin_top = 472.0
-margin_right = 701.0
-margin_bottom = 705.0
+margin_top = 686.0
+margin_right = 851.0
+margin_bottom = 1027.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Language" type="Label" parent="FrontPanel/VBC/Language"]
 anchor_left = 0.5
+anchor_top = 0.5
 anchor_right = 0.5
-margin_left = -318.0
-margin_top = 16.5
-margin_right = 316.0
-margin_bottom = 95.5
+anchor_bottom = 0.5
+margin_left = -320.0
+margin_top = -141.5
+margin_right = 314.0
+margin_bottom = -33.5
 custom_styles/normal = SubResource( 3 )
 custom_fonts/font = SubResource( 6 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.376471 )
@@ -411,16 +435,16 @@ align = 1
 [node name="LanguageButton" type="TextureButton" parent="FrontPanel/VBC/Language"]
 editor/display_folded = true
 anchor_left = 0.5
-anchor_top = 1.0
+anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -62.0
-margin_top = -113.0
-margin_right = 62.0
-margin_bottom = -37.0
+anchor_bottom = 0.5
+margin_left = -91.0
+margin_top = -1.5
+margin_right = 91.0
+margin_bottom = 108.5
 grow_horizontal = 2
 grow_vertical = 2
-rect_pivot_offset = Vector2( 62, 38 )
+rect_pivot_offset = Vector2( 91, 55 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture_normal = ExtResource( 3 )
@@ -441,6 +465,18 @@ expand = true
 stretch_mode = 6
 
 [node name="Tween" type="Tween" parent="FrontPanel/VBC/Language"]
+
+[node name="Cat" type="TextureRect" parent="FrontPanel"]
+show_behind_parent = true
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -153.5
+margin_right = 225.5
+margin_bottom = 377.0
+rect_pivot_offset = Vector2( 200, 188.5 )
+texture = ExtResource( 4 )
+expand = true
+stretch_mode = 6
 
 [node name="LeftMode" type="Label" parent="."]
 editor/display_folded = true
@@ -468,26 +504,27 @@ margin_right = 57.0
 margin_bottom = 86.0
 rect_scale = Vector2( 1.5, 1.5 )
 rect_pivot_offset = Vector2( 61, 0 )
-custom_icons/off = ExtResource( 4 )
-custom_icons/on = ExtResource( 5 )
+custom_icons/off = ExtResource( 5 )
+custom_icons/on = ExtResource( 6 )
 
 [node name="CloseConfigButton" type="TextureButton" parent="."]
 visible = false
-modulate = Color( 1, 1, 1, 0.522183 )
+modulate = Color( 1, 1, 1, 0 )
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -139.0
-margin_top = 15.0
-margin_bottom = 135.0
+margin_left = -130.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = 130.0
 disabled = true
-texture_normal = ExtResource( 6 )
-texture_pressed = ExtResource( 7 )
-texture_disabled = ExtResource( 6 )
-texture_focused = ExtResource( 6 )
+texture_normal = ExtResource( 7 )
+texture_pressed = ExtResource( 8 )
+texture_disabled = ExtResource( 7 )
+texture_focused = ExtResource( 7 )
 expand = true
 stretch_mode = 5
 
-[node name="LanguageSelection" parent="." instance=ExtResource( 8 )]
+[node name="LanguageSelection" parent="." instance=ExtResource( 9 )]
 visible = false
 margin_left = 641.0
 margin_top = -310.0
@@ -497,7 +534,7 @@ margin_bottom = 253.0
 [node name="Anim" type="AnimationPlayer" parent="."]
 anims/Language = SubResource( 9 )
 anims/LanguageOut = SubResource( 10 )
-anims/PauseIn = SubResource( 12 )
+anims/PauseIn = SubResource( 11 )
 [connection signal="value_changed" from="FrontPanel/VBC/Music/MusicSlider" to="." method="_on_MusicSlider_value_changed"]
 [connection signal="value_changed" from="FrontPanel/VBC/Sound/SoundSlider" to="." method="_on_SoundSlider_value_changed"]
 [connection signal="button_down" from="FrontPanel/VBC/Language/LanguageButton" to="." method="_on_LanguageButton_button_down"]
