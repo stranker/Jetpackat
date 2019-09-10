@@ -49,13 +49,13 @@ func set_item_info(iname:String,info : Dictionary):
 	if type == 'Pattern':
 		$ItemPanel/SkinPlace.show()
 	connect('item_buy',GameManager,'buy_item')
-	connect('item_buy',get_tree().root.get_node('ShopScene'),'update_buttons_states')
-	connect('item_unequip',get_tree().root.get_node('ShopScene'),'unequip_item')
-	connect('item_preview',get_tree().root.get_node('ShopScene'),'item_preview')
+	connect('item_buy',get_tree().root.get_node('ShopAndUpgradeScene'),'update_buttons_states')
+	connect('item_unequip',get_tree().root.get_node('ShopAndUpgradeScene'),'unequip_item')
+	connect('item_preview',get_tree().root.get_node('ShopAndUpgradeScene'),'item_preview')
 	connect('item_equip',GameManager,'equip_item')
-	connect('item_equip',get_tree().root.get_node('ShopScene'),'equip_item')
-	connect('equip_default_jetpack',get_tree().root.get_node('ShopScene'),'equip_default_jetpack')
-	connect('on_color_button_pressed',get_tree().root.get_node('ShopScene'),'open_color_picker')
+	connect('item_equip',get_tree().root.get_node('ShopAndUpgradeScene'),'equip_item')
+	connect('equip_default_jetpack',get_tree().root.get_node('ShopAndUpgradeScene'),'equip_default_jetpack')
+	connect('on_color_button_pressed',get_tree().root.get_node('ShopAndUpgradeScene'),'open_color_picker')
 	configure_panel()
 	pass
 
@@ -80,12 +80,12 @@ func configure_panel():
 
 func check_item_state():
 	if !buyed:
-		$ShopButton/CC/HBC/PriceTag.text = str(price)
-		$ShopButton/CC/HBC/Payment.texture = load('Sprites/Collectables/'+payment+'.png')
-		$ShopButton.disabled = check_button_available()
+		$BuyButton/CC/HBC/PriceTag.text = str(price)
+		$BuyButton/CC/HBC/Payment.texture = load('Sprites/Collectables/'+payment+'.png')
+		$BuyButton.disabled = check_button_available()
 		$ItemPanel/PreviewButton.show()
 	else:
-		$ShopButton.hide()
+		$BuyButton.hide()
 		$UseButton.show()
 		$ItemPanel/PreviewButton.hide()
 		$ItemPanel/PreviewButton.disabled = true
@@ -112,16 +112,16 @@ func check_button_available():
 			currency = GameManager.fishes
 	return price > currency
 
-func _on_ShopButton_button_down():
+func _on_BuyButton_button_down():
 	match payment:
 		'Coin':
 			GameManager.coins -= price
 		'Fish':
 			GameManager.fishes -= price
 	emit_signal('item_buy',type,item_name)
-	get_tree().root.get_node('ShopScene').update_currency()
+	get_tree().root.get_node('ShopAndUpgradeScene').update_currency()
 	buyed = !buyed
-	$ShopButton.hide()
+	$BuyButton.hide()
 	$UseButton.show()
 	$ItemPanel/PreviewButton.hide()
 	$ItemPanel/PreviewButton.disabled = true
@@ -205,13 +205,13 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
 [sub_resource type="DynamicFont" id=5]
-size = 32
+size = 40
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 2 )
 
-[sub_resource type="StyleBoxFlat" id=6]
+[sub_resource type="StyleBoxFlat" id=7]
 bg_color = Color( 0.00784314, 0.392157, 0, 1 )
 border_width_bottom = 10
 border_color = Color( 0.0823529, 0.380392, 0, 1 )
@@ -221,7 +221,7 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 shadow_color = Color( 0.156863, 0.439216, 0, 0.6 )
 
-[sub_resource type="StyleBoxFlat" id=7]
+[sub_resource type="StyleBoxFlat" id=6]
 bg_color = Color( 0.00784314, 0.392157, 0, 1 )
 border_width_bottom = 10
 border_color = Color( 0.0823529, 0.380392, 0, 1 )
@@ -247,7 +247,7 @@ shader_param/outline_width = 1.3
 shader_param/outline_color = Color( 0, 0, 0, 1 )
 
 [sub_resource type="DynamicFont" id=10]
-size = 50
+size = 60
 outline_size = 3
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
@@ -276,7 +276,7 @@ shadow_color = Color( 0.156863, 0.439216, 0, 0.6 )
 [node name="ItemShopPanel" type="Panel"]
 margin_right = 260.0
 margin_bottom = 390.0
-rect_min_size = Vector2( 260, 360 )
+rect_min_size = Vector2( 320, 460 )
 mouse_filter = 2
 custom_styles/panel = SubResource( 1 )
 script = SubResource( 2 )
@@ -287,7 +287,7 @@ anchor_bottom = 1.0
 margin_left = 5.0
 margin_top = 5.0
 margin_right = -5.0
-margin_bottom = -80.0
+margin_bottom = -110.0
 mouse_filter = 2
 custom_styles/panel = SubResource( 3 )
 
@@ -311,10 +311,10 @@ stretch_mode = 6
 [node name="PreviewButton" type="TextureButton" parent="ItemPanel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 45.0
-margin_top = 54.0
-margin_right = -44.0
-margin_bottom = -55.0
+margin_left = 25.0
+margin_top = 33.0
+margin_right = -25.0
+margin_bottom = -35.0
 
 [node name="ColorButton" type="Button" parent="ItemPanel"]
 visible = false
@@ -339,52 +339,52 @@ margin_bottom = 46.6
 custom_fonts/font = SubResource( 5 )
 text = "PREVIEW"
 
-[node name="ShopButton" type="Button" parent="."]
-editor/display_folded = true
+[node name="BuyButton" type="Button" parent="."]
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -130.0
-margin_top = -75.0
-margin_right = 130.0
+margin_left = -160.0
+margin_top = -100.0
+margin_right = 160.0
 rect_min_size = Vector2( 260, 64 )
 focus_mode = 0
+custom_styles/hover = SubResource( 7 )
 custom_styles/pressed = SubResource( 6 )
+custom_styles/focus = SubResource( 7 )
 custom_styles/disabled = SubResource( 7 )
 custom_styles/normal = SubResource( 8 )
 enabled_focus_mode = 0
 
-[node name="CC" type="CenterContainer" parent="ShopButton"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -130.0
-margin_right = 130.0
-margin_bottom = 70.0
+[node name="CC" type="CenterContainer" parent="BuyButton"]
+editor/display_folded = true
+anchor_right = 1.0
+anchor_bottom = 1.0
 mouse_filter = 2
 
-[node name="HBC" type="HBoxContainer" parent="ShopButton/CC"]
-margin_left = 57.0
-margin_top = 4.0
-margin_right = 202.0
-margin_bottom = 65.0
-rect_min_size = Vector2( 0, 60 )
+[node name="HBC" type="HBoxContainer" parent="BuyButton/CC"]
+margin_left = 68.0
+margin_top = 5.0
+margin_right = 251.0
+margin_bottom = 95.0
+rect_min_size = Vector2( 0, 90 )
 mouse_filter = 2
 
-[node name="Payment" type="TextureRect" parent="ShopButton/CC/HBC"]
+[node name="Payment" type="TextureRect" parent="BuyButton/CC/HBC"]
 material = SubResource( 9 )
-margin_right = 60.0
-margin_bottom = 61.0
-rect_min_size = Vector2( 60, 0 )
+margin_right = 80.0
+margin_bottom = 90.0
+rect_min_size = Vector2( 80, 0 )
 mouse_filter = 2
 texture = ExtResource( 4 )
 expand = true
 stretch_mode = 6
 
-[node name="PriceTag" type="Label" parent="ShopButton/CC/HBC"]
-margin_left = 64.0
-margin_right = 145.0
-margin_bottom = 61.0
+[node name="PriceTag" type="Label" parent="BuyButton/CC/HBC"]
+margin_left = 84.0
+margin_top = 8.0
+margin_right = 183.0
+margin_bottom = 81.0
 rect_min_size = Vector2( 0, 60 )
 custom_fonts/font = SubResource( 10 )
 text = "999"
@@ -396,9 +396,9 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -130.0
-margin_top = -75.0
-margin_right = 130.0
+margin_left = -160.0
+margin_top = -100.0
+margin_right = 160.0
 rect_min_size = Vector2( 260, 64 )
 focus_mode = 0
 custom_styles/hover = SubResource( 11 )
@@ -425,5 +425,5 @@ align = 1
 valign = 1
 [connection signal="button_down" from="ItemPanel/PreviewButton" to="." method="_on_PreviewButton_button_down"]
 [connection signal="button_down" from="ItemPanel/ColorButton" to="." method="_on_ColorButton_button_down"]
-[connection signal="button_down" from="ShopButton" to="." method="_on_ShopButton_button_down"]
+[connection signal="button_down" from="BuyButton" to="." method="_on_ShopButton_button_down"]
 [connection signal="button_down" from="UseButton" to="." method="_on_UseButton_button_down"]

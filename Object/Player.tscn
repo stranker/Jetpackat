@@ -1554,6 +1554,7 @@ anims/Propulsion = SubResource( 11 )
 
 [node name="MagnetArea" type="Area2D" parent="Visible"]
 editor/display_folded = true
+show_behind_parent = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Visible/MagnetArea"]
 visible = false

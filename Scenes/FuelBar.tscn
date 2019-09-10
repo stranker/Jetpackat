@@ -22,9 +22,9 @@ func initialize_tween():
 	var pos = 0
 	for i in range($GridContainer.get_child_count() - 1,-1,-1):
 		var cell = $GridContainer.get_child(i)
-		$PosTween.interpolate_property(cell,'rect_position',cell.rect_position, cell.rect_position - Vector2(15,0), 0.3,
+		$PosTween.interpolate_property(cell,'rect_position',cell.rect_position, cell.rect_position - Vector2(-20,0), 0.3,
 		Tween.TRANS_EXPO, Tween.EASE_OUT, pos * delay_between_cells)
-		$PosTween.interpolate_property(cell,'rect_position',cell.rect_position - Vector2(15,0), cell.rect_position, 0.3,
+		$PosTween.interpolate_property(cell,'rect_position',cell.rect_position - Vector2(-20,0), cell.rect_position, 0.3,
 		Tween.TRANS_EXPO, Tween.EASE_OUT, pos * delay_between_cells + delay_between_tween)
 		pos += 1
 	pass
@@ -287,8 +287,6 @@ stretch_mode = 6
 [node name="ColorTween" type="Tween" parent="."]
 
 [node name="FuelPanel" type="TextureRect" parent="."]
-editor/display_folded = true
-self_modulate = Color( 1, 1, 1, 0.729412 )
 show_behind_parent = true
 anchor_right = 1.0
 anchor_bottom = 1.0
