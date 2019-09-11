@@ -1,23 +1,24 @@
-[gd_scene load_steps=30 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://Scenes/ItemShopPanel.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=2]
-[ext_resource path="res://Sprites/Collectables/Coin.png" type="Texture" id=3]
-[ext_resource path="res://Sprites/Collectables/Fish.png" type="Texture" id=4]
-[ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=5]
-[ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=6]
-[ext_resource path="res://Groups/ShopAndUpgradeButtonGroup.tres" type="ButtonGroup" id=7]
-[ext_resource path="res://Groups/ShopButtonGroup.tres" type="ButtonGroup" id=8]
-[ext_resource path="res://Scenes/ItemPageGrid.tscn" type="PackedScene" id=9]
-[ext_resource path="res://addons/PickerOfColors/CustomColor.tscn" type="PackedScene" id=10]
-[ext_resource path="res://Sprites/Shop/Cat/Skin/Skin.png" type="Texture" id=11]
-[ext_resource path="res://Sprites/Cat/Eyes.png" type="Texture" id=12]
-[ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=13]
-[ext_resource path="res://Scenes/InitialDarker.tscn" type="PackedScene" id=14]
-[ext_resource path="res://Scenes/TransitionScene.tscn" type="PackedScene" id=15]
+[ext_resource path="res://Sprites/Background/Bg3.png" type="Texture" id=2]
+[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://Sprites/Collectables/Coin.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/Collectables/Fish.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=7]
+[ext_resource path="res://Groups/ShopAndUpgradeButtonGroup.tres" type="ButtonGroup" id=8]
+[ext_resource path="res://Groups/ShopButtonGroup.tres" type="ButtonGroup" id=9]
+[ext_resource path="res://Scenes/ItemPageGrid.tscn" type="PackedScene" id=10]
+[ext_resource path="res://addons/PickerOfColors/CustomColor.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Sprites/Shop/Cat/Skin/Skin.png" type="Texture" id=12]
+[ext_resource path="res://Sprites/Cat/Eyes.png" type="Texture" id=13]
+[ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=14]
+[ext_resource path="res://Scenes/InitialDarker.tscn" type="PackedScene" id=15]
+[ext_resource path="res://Scenes/TransitionScene.tscn" type="PackedScene" id=16]
 
-[sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0, 0.811765, 1, 1 )
+[sub_resource type="StyleBoxFlat" id=20]
+bg_color = Color( 0.356863, 0.619608, 0.827451, 1 )
 
 [sub_resource type="GDScript" id=2]
 script/source = "extends Control
@@ -25,7 +26,7 @@ script/source = "extends Control
 export (PackedScene) var item_shop_panel
 var current_item_panel
 onready var player = get_node('VBC/MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/Player/Skin')
-onready var item_list = get_node('VBC/MainPanel/ShopPanel/BackPanel/HBC/PanelItems/SC/Items')
+onready var item_list = get_node('VBC/MainPanel/ShopPanel/BackPanel/HBC/PanelItems/ItemPageGrid/VBC/Grid')
 onready var coin_label = get_node('VBC/CurrencyInfo/HBC/Coins/Panel/Cuant')
 onready var fish_label = get_node('VBC/CurrencyInfo/HBC/Fish/Panel/Cuant')
 onready var color_picker = get_node('VBC/MainPanel/ShopPanel/BackPanel/HBC/PanelItems/CustomColor')
@@ -102,7 +103,8 @@ func open_color_picker(item_panel):
 func update_buttons_states(type,item):
 	for i in item_list.get_children():
 		i.check_item_state()
-
+	update_currency()
+	pass
 
 func _on_CustomColor_value_changed(c):
 	if current_item_panel and typeof(current_item_panel) != TYPE_STRING:
@@ -199,7 +201,7 @@ corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
-corner_detail = 5
+corner_detail = 2
 expand_margin_left = 5.0
 expand_margin_right = 5.0
 expand_margin_top = 5.0
@@ -210,7 +212,7 @@ size = 60
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
-font_data = ExtResource( 2 )
+font_data = ExtResource( 3 )
 
 [sub_resource type="Shader" id=5]
 code = "shader_type canvas_item;
@@ -249,24 +251,44 @@ shader = SubResource( 5 )
 shader_param/outline_width = 1.0
 shader_param/outline_color = Color( 1, 1, 1, 1 )
 
+[sub_resource type="StyleBoxFlat" id=17]
+bg_color = Color( 1, 0.705882, 0.00784314, 1 )
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_color = Color( 0.968627, 0.596078, 0.0117647, 1 )
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_detail = 2
+
 [sub_resource type="StyleBoxFlat" id=7]
-bg_color = Color( 1, 0.74902, 0, 1 )
+bg_color = Color( 1, 0.890196, 0.00784314, 1 )
 border_width_left = 5
 border_width_top = 5
 border_width_right = 5
 border_width_bottom = 15
-border_color = Color( 0.741176, 0.486275, 0, 1 )
+border_color = Color( 1, 0.705882, 0.00784314, 1 )
 corner_radius_top_left = 30
 corner_radius_top_right = 30
-corner_radius_bottom_right = 30
-corner_radius_bottom_left = 30
+corner_detail = 2
 
 [sub_resource type="DynamicFont" id=8]
 size = 70
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
-font_data = ExtResource( 2 )
+font_data = ExtResource( 3 )
+
+[sub_resource type="StyleBoxFlat" id=16]
+bg_color = Color( 0.0784314, 0.619608, 0, 1 )
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 15
+border_color = Color( 0.0784314, 0.619608, 0, 1 )
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_detail = 2
 
 [sub_resource type="StyleBoxFlat" id=9]
 bg_color = Color( 0.109804, 0.862745, 0, 1 )
@@ -277,8 +299,45 @@ border_width_bottom = 15
 border_color = Color( 0.0784314, 0.619608, 0, 1 )
 corner_radius_top_left = 30
 corner_radius_top_right = 30
-corner_radius_bottom_right = 30
-corner_radius_bottom_left = 30
+corner_detail = 2
+
+[sub_resource type="StyleBoxFlat" id=18]
+bg_color = Color( 1, 0.705882, 0.00784314, 1 )
+border_width_left = 7
+border_width_right = 7
+border_width_bottom = 20
+border_color = Color( 0.968627, 0.596078, 0.0117647, 1 )
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+corner_detail = 2
+expand_margin_left = 5.0
+expand_margin_right = 5.0
+expand_margin_top = 5.0
+
+[sub_resource type="StyleBoxFlat" id=21]
+bg_color = Color( 0.968627, 0.596078, 0.0117647, 1 )
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+corner_detail = 2
+
+[sub_resource type="StyleBoxFlat" id=15]
+bg_color = Color( 0.352941, 0, 0.619608, 1 )
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 12
+border_color = Color( 0.352941, 0, 0.619608, 1 )
+corner_radius_top_left = 40
+corner_radius_top_right = 40
+corner_radius_bottom_right = 40
+corner_radius_bottom_left = 40
+corner_detail = 2
+shadow_color = Color( 0, 0, 0, 0.309804 )
+shadow_size = 8
 
 [sub_resource type="StyleBoxFlat" id=10]
 bg_color = Color( 0.568627, 0, 1, 1 )
@@ -291,25 +350,16 @@ corner_radius_top_left = 40
 corner_radius_top_right = 40
 corner_radius_bottom_right = 40
 corner_radius_bottom_left = 40
+corner_detail = 2
+shadow_color = Color( 0, 0, 0, 0.309804 )
+shadow_size = 8
 
 [sub_resource type="DynamicFont" id=11]
 size = 40
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
-font_data = ExtResource( 2 )
-
-[sub_resource type="StyleBoxFlat" id=12]
-bg_color = Color( 0.247059, 0, 0.388235, 1 )
-border_width_left = 10
-border_width_top = 10
-border_width_right = 10
-border_width_bottom = 10
-border_color = Color( 0.180392, 0, 0.286275, 1 )
-corner_radius_top_left = 50
-corner_radius_top_right = 50
-corner_radius_bottom_right = 50
-corner_radius_bottom_left = 50
+font_data = ExtResource( 3 )
 
 [sub_resource type="StyleBoxFlat" id=13]
 bg_color = Color( 0.247059, 0, 0.388235, 1 )
@@ -335,34 +385,53 @@ corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
+[sub_resource type="StyleBoxFlat" id=19]
+bg_color = Color( 0.0784314, 0.619608, 0, 1 )
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+expand_margin_left = 5.0
+expand_margin_right = 5.0
+expand_margin_top = 5.0
+
 [node name="ShopAndUpgradeScene" type="Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_styles/panel = SubResource( 1 )
+custom_styles/panel = SubResource( 20 )
 script = SubResource( 2 )
 item_shop_panel = ExtResource( 1 )
+
+[node name="BG" type="TextureRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 2 )
+expand = true
+stretch_mode = 6
 
 [node name="VBC" type="VBoxContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+custom_constants/separation = 0
 
 [node name="CurrencyInfo" type="Control" parent="VBC"]
 editor/display_folded = true
 margin_right = 1080.0
-margin_bottom = 163.0
+margin_bottom = 164.0
 mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.1
 
 [node name="HBC" type="HBoxContainer" parent="VBC/CurrencyInfo"]
+editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="Coins" type="Control" parent="VBC/CurrencyInfo/HBC"]
 editor/display_folded = true
 margin_right = 466.0
-margin_bottom = 163.0
+margin_bottom = 164.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -400,7 +469,7 @@ anchor_bottom = 0.5
 margin_top = -67.5
 margin_right = 137.0
 margin_bottom = 67.5
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 expand = true
 stretch_mode = 6
 
@@ -408,11 +477,12 @@ stretch_mode = 6
 editor/display_folded = true
 margin_left = 470.0
 margin_right = 936.0
-margin_bottom = 163.0
+margin_bottom = 164.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Panel" type="Panel" parent="VBC/CurrencyInfo/HBC/Fish"]
+editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -445,7 +515,7 @@ anchor_bottom = 0.5
 margin_top = -67.5
 margin_right = 137.0
 margin_bottom = 67.5
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 expand = true
 stretch_mode = 6
 
@@ -453,7 +523,7 @@ stretch_mode = 6
 editor/display_folded = true
 margin_left = 940.0
 margin_right = 1080.0
-margin_bottom = 163.0
+margin_bottom = 164.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.3
@@ -467,16 +537,15 @@ margin_top = 10.0
 margin_right = -10.0
 margin_bottom = 130.0
 size_flags_vertical = 3
-texture_normal = ExtResource( 5 )
-texture_pressed = ExtResource( 6 )
+texture_normal = ExtResource( 6 )
+texture_pressed = ExtResource( 7 )
 expand = true
 stretch_mode = 5
 
 [node name="Buttons" type="Control" parent="VBC"]
-editor/display_folded = true
-margin_top = 167.0
+margin_top = 164.0
 margin_right = 1080.0
-margin_bottom = 281.0
+margin_bottom = 278.0
 mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -489,12 +558,16 @@ margin_left = 70.0
 margin_top = -55.0
 margin_right = 430.0
 margin_bottom = 55.0
+custom_styles/hover = SubResource( 17 )
+custom_styles/pressed = SubResource( 17 )
+custom_styles/focus = SubResource( 17 )
+custom_styles/disabled = SubResource( 17 )
 custom_styles/normal = SubResource( 7 )
 custom_fonts/font = SubResource( 8 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 toggle_mode = true
 pressed = true
-group = ExtResource( 7 )
+group = ExtResource( 8 )
 text = "SHOP"
 
 [node name="UpgradeButton" type="Button" parent="VBC/Buttons"]
@@ -506,15 +579,19 @@ margin_left = -430.0
 margin_top = -55.0
 margin_right = -70.0
 margin_bottom = 55.0
+custom_styles/hover = SubResource( 16 )
+custom_styles/pressed = SubResource( 16 )
+custom_styles/focus = SubResource( 16 )
+custom_styles/disabled = SubResource( 16 )
 custom_styles/normal = SubResource( 9 )
 custom_fonts/font = SubResource( 8 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 toggle_mode = true
-group = ExtResource( 7 )
+group = ExtResource( 8 )
 text = "UPGRADE"
 
 [node name="MainPanel" type="Control" parent="VBC"]
-margin_top = 285.0
+margin_top = 278.0
 margin_right = 1080.0
 margin_bottom = 1920.0
 mouse_filter = 2
@@ -532,125 +609,162 @@ anchor_right = 0.5
 anchor_bottom = 1.0
 margin_left = -530.0
 margin_top = -1640.0
-margin_right = 528.0
+margin_right = 530.0
 margin_bottom = -10.0
+custom_styles/panel = SubResource( 18 )
 
 [node name="HBC" type="VBoxContainer" parent="VBC/MainPanel/ShopPanel/BackPanel"]
+editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="ItemTypeButtons" type="Control" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC"]
-editor/display_folded = true
-margin_right = 1058.0
-margin_bottom = 135.0
+margin_right = 1060.0
+margin_bottom = 101.0
 size_flags_horizontal = 7
 size_flags_vertical = 7
 size_flags_stretch_ratio = 0.1
 
-[node name="VBC" type="HBoxContainer" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC/ItemTypeButtons"]
+[node name="Panel" type="Panel" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC/ItemTypeButtons"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_constants/separation = 0
+margin_left = 18.0
+margin_top = 10.0
+margin_right = -18.0
+custom_styles/panel = SubResource( 21 )
 
-[node name="HatButton" type="Button" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC/ItemTypeButtons/VBC"]
-margin_right = 264.0
-margin_bottom = 135.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_styles/normal = SubResource( 10 )
-custom_fonts/font = SubResource( 11 )
-toggle_mode = true
-pressed = true
-group = ExtResource( 8 )
-text = "HAT"
-
-[node name="PatternButton" type="Button" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC/ItemTypeButtons/VBC"]
-margin_left = 264.0
-margin_right = 528.0
-margin_bottom = 135.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_styles/normal = SubResource( 10 )
-custom_fonts/font = SubResource( 11 )
-toggle_mode = true
-group = ExtResource( 8 )
-text = "SKIN"
-
-[node name="JetpackButton" type="Button" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC/ItemTypeButtons/VBC"]
-margin_left = 528.0
-margin_right = 792.0
-margin_bottom = 135.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_styles/normal = SubResource( 10 )
-custom_fonts/font = SubResource( 11 )
-toggle_mode = true
-group = ExtResource( 8 )
-text = "JETPACK"
-
-[node name="ScarfButton" type="Button" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC/ItemTypeButtons/VBC"]
-margin_left = 792.0
-margin_right = 1058.0
-margin_bottom = 135.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_styles/normal = SubResource( 10 )
-custom_fonts/font = SubResource( 11 )
-toggle_mode = true
-group = ExtResource( 8 )
-text = "SCARF"
-
-[node name="PanelItems" type="Panel" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC"]
-margin_top = 139.0
-margin_right = 1058.0
-margin_bottom = 1490.0
-mouse_filter = 1
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_styles/panel = SubResource( 12 )
-
-[node name="ItemPageGrid" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC/PanelItems" instance=ExtResource( 9 )]
+[node name="VBC" type="HBoxContainer" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC/ItemTypeButtons/Panel"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -521.0
-margin_top = -487.0
-margin_right = 501.0
-margin_bottom = 487.0
+margin_left = -490.0
+margin_top = -35.0
+margin_right = 490.0
+margin_bottom = 35.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 10
+
+[node name="HatButton" type="Button" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC/ItemTypeButtons/Panel/VBC"]
+margin_right = 237.0
+margin_bottom = 70.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/hover = SubResource( 15 )
+custom_styles/pressed = SubResource( 15 )
+custom_styles/focus = SubResource( 15 )
+custom_styles/disabled = SubResource( 15 )
+custom_styles/normal = SubResource( 10 )
+custom_fonts/font = SubResource( 11 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+toggle_mode = true
+pressed = true
+group = ExtResource( 9 )
+text = "HAT"
+
+[node name="PatternButton" type="Button" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC/ItemTypeButtons/Panel/VBC"]
+margin_left = 247.0
+margin_right = 484.0
+margin_bottom = 70.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/hover = SubResource( 15 )
+custom_styles/pressed = SubResource( 15 )
+custom_styles/focus = SubResource( 15 )
+custom_styles/disabled = SubResource( 15 )
+custom_styles/normal = SubResource( 10 )
+custom_fonts/font = SubResource( 11 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+toggle_mode = true
+group = ExtResource( 9 )
+text = "SKIN"
+
+[node name="JetpackButton" type="Button" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC/ItemTypeButtons/Panel/VBC"]
+margin_left = 494.0
+margin_right = 731.0
+margin_bottom = 70.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/hover = SubResource( 15 )
+custom_styles/pressed = SubResource( 15 )
+custom_styles/focus = SubResource( 15 )
+custom_styles/disabled = SubResource( 15 )
+custom_styles/normal = SubResource( 10 )
+custom_fonts/font = SubResource( 11 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+toggle_mode = true
+group = ExtResource( 9 )
+text = "JETPACK"
+
+[node name="ScarfButton" type="Button" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC/ItemTypeButtons/Panel/VBC"]
+margin_left = 741.0
+margin_right = 980.0
+margin_bottom = 70.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/hover = SubResource( 15 )
+custom_styles/pressed = SubResource( 15 )
+custom_styles/focus = SubResource( 15 )
+custom_styles/disabled = SubResource( 15 )
+custom_styles/normal = SubResource( 10 )
+custom_fonts/font = SubResource( 11 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+toggle_mode = true
+group = ExtResource( 9 )
+text = "SCARF"
+
+[node name="PanelItems" type="Control" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC"]
+editor/display_folded = true
+margin_top = 105.0
+margin_right = 1060.0
+margin_bottom = 1118.0
+mouse_filter = 1
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ItemPageGrid" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC/PanelItems" instance=ExtResource( 10 )]
+editor/display_folded = true
+margin_left = 18.0
+margin_top = 25.0
+margin_right = -18.0
+margin_bottom = -32.0
+item_page_grid_type = 1
 packed_scene = ExtResource( 1 )
-vertical_layout = false
 columns_number = 3
 items_to_show = 6
 
-[node name="PrevButton" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC/PanelItems/ItemPageGrid/VBC" index="0"]
-margin_right = 1022.0
+[node name="VBC" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC/PanelItems/ItemPageGrid" index="0"]
+editor/display_folded = true
+
+[node name="Grid" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC/PanelItems/ItemPageGrid/VBC" index="0"]
+margin_right = 1024.0
+margin_bottom = 865.0
+grow_horizontal = 2
+grow_vertical = 2
+custom_constants/hseparation = 60
 
 [node name="HBC" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC/PanelItems/ItemPageGrid/VBC" index="1"]
-margin_right = 1022.0
-margin_bottom = 890.0
+editor/display_folded = true
+margin_top = 869.0
+margin_right = 1024.0
+margin_bottom = 956.0
 
-[node name="PrevButton2" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC/PanelItems/ItemPageGrid/VBC/HBC" index="0"]
-margin_bottom = 806.0
+[node name="Prev" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC/PanelItems/ItemPageGrid/VBC/HBC" index="0"]
+margin_right = 338.0
+margin_bottom = 87.0
 
-[node name="Grid" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC/PanelItems/ItemPageGrid/VBC/HBC" index="1"]
-margin_right = 938.0
-margin_bottom = 806.0
-custom_constants/hseparation = 30
+[node name="Page" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC/PanelItems/ItemPageGrid/VBC/HBC" index="1"]
+margin_left = 342.0
+margin_right = 680.0
+margin_bottom = 87.0
 
-[node name="NextButton2" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC/PanelItems/ItemPageGrid/VBC/HBC" index="2"]
-margin_left = 942.0
-margin_right = 1022.0
-margin_bottom = 806.0
+[node name="Next" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC/PanelItems/ItemPageGrid/VBC/HBC" index="2"]
+margin_left = 684.0
+margin_right = 1024.0
+margin_bottom = 87.0
 
-[node name="NextButton" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC/PanelItems/ItemPageGrid/VBC" index="2"]
-margin_top = 894.0
-margin_right = 1022.0
-margin_bottom = 974.0
-
-[node name="CustomColor" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC/PanelItems" instance=ExtResource( 10 )]
+[node name="CustomColor" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC/PanelItems" instance=ExtResource( 11 )]
 visible = false
 anchor_left = 0.5
 anchor_top = 0.5
@@ -662,12 +776,13 @@ margin_right = 280.0
 margin_bottom = 355.0
 
 [node name="PlayerPanel" type="Panel" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC"]
-margin_top = 1494.0
-margin_right = 1058.0
+editor/display_folded = true
+margin_top = 1122.0
+margin_right = 1060.0
 margin_bottom = 1630.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-size_flags_stretch_ratio = 0.1
+size_flags_stretch_ratio = 0.5
 custom_styles/panel = SubResource( 13 )
 
 [node name="Background" type="TextureRect" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel"]
@@ -676,42 +791,33 @@ anchor_bottom = 1.0
 
 [node name="Player" type="Control" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel"]
 editor/display_folded = true
-visible = false
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
+anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -460.0
-margin_top = -560.0
-margin_right = 460.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Skin" type="TextureRect" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/Player"]
-editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -149.5
-margin_top = -417.0
-margin_right = 150.5
-margin_bottom = -7.0
-rect_min_size = Vector2( 300, 410 )
+margin_left = -229.0
+margin_top = -350.0
+margin_right = 101.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-texture = ExtResource( 11 )
+texture = ExtResource( 12 )
 expand = true
 stretch_mode = 6
 
 [node name="Eyes" type="NinePatchRect" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/Player/Skin"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -116.0
-margin_top = 24.0
-margin_right = 85.0
-margin_bottom = 219.0
-texture = ExtResource( 12 )
+margin_left = -95.0
+margin_top = 20.0
+margin_right = 71.0
+margin_bottom = 186.0
+texture = ExtResource( 13 )
 region_rect = Rect2( 0, 0, 32, 32 )
 
 [node name="Pattern" type="TextureRect" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/Player/Skin"]
@@ -719,11 +825,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -130.0
-margin_top = -208.0
-margin_right = 130.0
-margin_bottom = 208.0
-rect_min_size = Vector2( 260, 416 )
+margin_left = -165.0
+margin_top = -175.0
+margin_right = 165.0
+margin_bottom = 175.0
 expand = true
 stretch_mode = 6
 
@@ -732,8 +837,8 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -80.0
-margin_top = -20.0
+margin_left = -77.0
+margin_top = -21.0
 margin_right = 70.0
 margin_bottom = 140.0
 expand = true
@@ -742,30 +847,31 @@ stretch_mode = 6
 [node name="Hat" type="TextureRect" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/Player/Skin"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -128.0
-margin_top = -140.0
-margin_right = 132.0
-margin_bottom = 94.0
+margin_left = -119.287
+margin_top = -131.715
+margin_right = 124.713
+margin_bottom = 88.2853
 rect_rotation = 0.927213
 expand = true
 stretch_mode = 6
 
 [node name="Jetpack" type="TextureRect" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/Player/Skin"]
 show_behind_parent = true
-margin_left = 272.5
-margin_top = 98.0
-margin_right = 495.5
+margin_left = 273.0
+margin_top = 94.0
+margin_right = 479.0
 margin_bottom = 321.0
-texture = ExtResource( 13 )
+texture = ExtResource( 14 )
 expand = true
 stretch_mode = 6
 
 [node name="SkinColorButton" type="Button" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/Player"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -143.0
-margin_top = 61.0
-margin_bottom = 145.0
+margin_left = -208.0
+margin_top = 58.0
+margin_right = -65.0
+margin_bottom = 142.0
 custom_styles/hover = SubResource( 14 )
 custom_styles/pressed = SubResource( 14 )
 custom_styles/focus = SubResource( 14 )
@@ -783,25 +889,23 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -522.0
+margin_left = -530.0
 margin_top = -1640.0
-margin_right = 522.0
-margin_bottom = -23.0
+margin_right = 530.0
+margin_bottom = -10.0
+custom_styles/panel = SubResource( 19 )
 
-[node name="InitialDarker" parent="." instance=ExtResource( 14 )]
+[node name="InitialDarker" parent="." instance=ExtResource( 15 )]
 
-[node name="TransitionScene" parent="." instance=ExtResource( 15 )]
-editor/display_folded = true
-
-[node name="TransitionItems" parent="TransitionScene" index="1"]
+[node name="TransitionScene" parent="." instance=ExtResource( 16 )]
 editor/display_folded = true
 [connection signal="button_down" from="VBC/CurrencyInfo/HBC/ClosePanel/CloseButton" to="." method="_on_TextureButton_button_down"]
 [connection signal="button_down" from="VBC/Buttons/ShopButton" to="." method="_on_ShopButton_button_down"]
 [connection signal="button_down" from="VBC/Buttons/UpgradeButton" to="." method="_on_UpgradeButton_button_down"]
-[connection signal="button_down" from="VBC/MainPanel/ShopPanel/BackPanel/HBC/ItemTypeButtons/VBC/HatButton" to="." method="_on_HatButton_button_down"]
-[connection signal="button_down" from="VBC/MainPanel/ShopPanel/BackPanel/HBC/ItemTypeButtons/VBC/PatternButton" to="." method="_on_PatternButton_button_down"]
-[connection signal="button_down" from="VBC/MainPanel/ShopPanel/BackPanel/HBC/ItemTypeButtons/VBC/JetpackButton" to="." method="_on_JetpackButton_button_down"]
-[connection signal="button_down" from="VBC/MainPanel/ShopPanel/BackPanel/HBC/ItemTypeButtons/VBC/ScarfButton" to="." method="_on_ScarfButton_button_down"]
+[connection signal="button_down" from="VBC/MainPanel/ShopPanel/BackPanel/HBC/ItemTypeButtons/Panel/VBC/HatButton" to="." method="_on_HatButton_button_down"]
+[connection signal="button_down" from="VBC/MainPanel/ShopPanel/BackPanel/HBC/ItemTypeButtons/Panel/VBC/PatternButton" to="." method="_on_PatternButton_button_down"]
+[connection signal="button_down" from="VBC/MainPanel/ShopPanel/BackPanel/HBC/ItemTypeButtons/Panel/VBC/JetpackButton" to="." method="_on_JetpackButton_button_down"]
+[connection signal="button_down" from="VBC/MainPanel/ShopPanel/BackPanel/HBC/ItemTypeButtons/Panel/VBC/ScarfButton" to="." method="_on_ScarfButton_button_down"]
 [connection signal="value_changed" from="VBC/MainPanel/ShopPanel/BackPanel/HBC/PanelItems/CustomColor" to="." method="_on_CustomColor_value_changed"]
 [connection signal="button_down" from="VBC/MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/Player/SkinColorButton" to="." method="_on_SkinColorButton_button_down"]
 [connection signal="animation_finished" from="TransitionScene/Anim" to="." method="_on_Anim_animation_finished"]

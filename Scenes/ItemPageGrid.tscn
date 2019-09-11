@@ -1,14 +1,14 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://Sprites/Tutorial/JumpArrow.png" type="Texture" id=1]
+[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=1]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Control
 
+enum ItemGridType {Leaderboard, ShopPanel}
+export (ItemGridType) var item_page_grid_type
 export (PackedScene) var packed_scene
-export (bool) var vertical_layout
 export (int) var columns_number = 1
-export (int) var h_separation
 var grid_data
 export (int) var items_to_show
 var total_pages : int
@@ -16,17 +16,9 @@ export var actual_page : int = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	if vertical_layout:
-		$VBC/HBC/PrevButton2.hide()
-		$VBC/HBC/NextButton2.hide()
-	else:
-		$VBC/PrevButton.hide()
-		$VBC/NextButton.hide()
+	$VBC/Grid.columns = columns_number
+	$VBC/HBC/Page/PageText.text = ''
 	pass # Replace with function body.
-
-func _process(delta):
-	if columns_number != 0 and columns_number != $VBC/HBC/Grid.columns:
-		$VBC/HBC/Grid.columns = columns_number
 
 func create_shop_items(data : Dictionary):
 	total_pages = ceil(float(data.size()) / float(items_to_show))
@@ -35,22 +27,18 @@ func create_shop_items(data : Dictionary):
 	clear_previous_data()
 	instanciate_page()
 	fill_shop_item_info()
-	if vertical_layout:
-		$VBC/PrevButton.hide()
-	else:
-		$VBC/HBC/PrevButton2.hide()
 	pass
 
 func fill_shop_item_info():
-	var panel_count = $VBC/HBC/Grid.get_child_count() 
+	var panel_count = $VBC/Grid.get_child_count() 
 	for idx in range(panel_count):
 		var item_data_key = grid_data.keys()[actual_page * items_to_show + idx]
-		$VBC/HBC/Grid.get_child(idx).set_item_info(item_data_key,grid_data[item_data_key])
+		$VBC/Grid.get_child(idx).set_item_info(item_data_key,grid_data[item_data_key])
 	pass
 
 func clear_previous_data():
-	for item in $VBC/HBC/Grid.get_children():
-		$VBC/HBC/Grid.remove_child(item)
+	for item in $VBC/Grid.get_children():
+		$VBC/Grid.remove_child(item)
 		item.queue_free()
 	pass
 
@@ -58,39 +46,54 @@ func instanciate_page():
 	if actual_page != total_pages - 1:
 		for i in range(items_to_show):
 			var scene = packed_scene.instance()
-			$VBC/HBC/Grid.add_child(scene)
+			$VBC/Grid.add_child(scene)
 	else:
 		for i in range(grid_data.size() % items_to_show):
 			var scene = packed_scene.instance()
-			$VBC/HBC/Grid.add_child(scene)
+			$VBC/Grid.add_child(scene)
+	check_ui()
 	pass
 
-func next_page():
-	if actual_page != total_pages:
+func check_ui():
+	if total_pages > 1:
+		$VBC/HBC/Page/PageText.text = str(actual_page + 1) + '/' + str(total_pages)
+	$VBC/HBC/Next/NextButton.visible = actual_page != total_pages - 1
+	$VBC/HBC/Prev/PrevButton.visible = actual_page != 0
+	pass
+
+func check_type():
+	match item_page_grid_type:
+		ItemGridType.Leaderboard:
+			return
+		ItemGridType.ShopPanel:
+			fill_shop_item_info()
+			return
+	pass
+
+func check_next():
+	if actual_page != total_pages - 1:
 		actual_page += 1
 		actual_page = clamp(actual_page, 0, total_pages)
-		clear_previous_data()
-		instanciate_page()
-		fill_shop_item_info()
-		if actual_page == total_pages - 1:
-			if vertical_layout:
-				$VBC/NextButton.hide()
-			else:
-				$VBC/HBC/NextButton2.hide()
 	pass
 
-func prev_page():
+func check_prev():
 	if actual_page != 0:
 		actual_page -= 1
 		actual_page = clamp(actual_page, 0, total_pages)
-		clear_previous_data()
-		instanciate_page()
-		fill_shop_item_info()
-		if actual_page == 0:
-			if vertical_layout:
-				$VBC/PrevButton.hide()
-			else:
-				$VBC/HBC/PrevButton2.hide()
+	pass
+
+func next_page():
+	check_next()
+	clear_previous_data()
+	instanciate_page()
+	check_type()
+	pass
+
+func prev_page():
+	check_prev()
+	clear_previous_data()
+	instanciate_page()
+	check_type()
 	pass
 
 func _on_PrevButton_button_down():
@@ -101,69 +104,130 @@ func _on_NextButton_button_down():
 	next_page()
 	pass # Replace with function body."
 
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.345098, 0.25098, 1, 1 )
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color( 0.345098, 0.25098, 1, 1 )
+corner_radius_top_left = 40
+corner_radius_top_right = 40
+corner_radius_bottom_right = 40
+corner_radius_bottom_left = 40
+corner_detail = 2
+shadow_color = Color( 0, 0, 0, 0.309804 )
+shadow_size = 8
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.25098, 0.505882, 1, 1 )
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 15
+border_color = Color( 0.345098, 0.25098, 1, 1 )
+corner_radius_top_left = 40
+corner_radius_top_right = 40
+corner_radius_bottom_right = 40
+corner_radius_bottom_left = 40
+corner_detail = 2
+shadow_color = Color( 0, 0, 0, 0.309804 )
+shadow_size = 8
+
+[sub_resource type="DynamicFont" id=3]
+size = 60
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+use_filter = true
+font_data = ExtResource( 1 )
+
 [node name="ItemPageGrid" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_bottom = -940.0
 script = SubResource( 1 )
-vertical_layout = true
 
 [node name="VBC" type="VBoxContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 
-[node name="PrevButton" type="TextureButton" parent="VBC"]
+[node name="Grid" type="GridContainer" parent="VBC"]
 margin_right = 1080.0
-margin_bottom = 80.0
-rect_min_size = Vector2( 80, 80 )
-size_flags_stretch_ratio = 0.2
-texture_normal = ExtResource( 1 )
-expand = true
-stretch_mode = 5
+margin_bottom = 887.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="HBC" type="HBoxContainer" parent="VBC"]
-margin_top = 84.0
-margin_right = 1080.0
-margin_bottom = 896.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="PrevButton2" type="TextureButton" parent="VBC/HBC"]
-margin_right = 80.0
-margin_bottom = 812.0
-rect_min_size = Vector2( 80, 80 )
-size_flags_stretch_ratio = 0.2
-texture_normal = ExtResource( 1 )
-expand = true
-stretch_mode = 5
-
-[node name="Grid" type="GridContainer" parent="VBC/HBC"]
-margin_left = 84.0
-margin_right = 996.0
-margin_bottom = 812.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="NextButton2" type="TextureButton" parent="VBC/HBC"]
-margin_left = 1000.0
-margin_right = 1080.0
-margin_bottom = 812.0
-rect_min_size = Vector2( 80, 80 )
-size_flags_stretch_ratio = 0.2
-texture_normal = ExtResource( 1 )
-expand = true
-stretch_mode = 5
-
-[node name="NextButton" type="TextureButton" parent="VBC"]
-margin_top = 900.0
+margin_top = 891.0
 margin_right = 1080.0
 margin_bottom = 980.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.1
+
+[node name="Prev" type="Control" parent="VBC/HBC"]
+margin_right = 357.0
+margin_bottom = 89.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PrevButton" type="Button" parent="VBC/HBC/Prev"]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -208.0
+margin_top = -44.5
+margin_bottom = 44.5
 rect_min_size = Vector2( 80, 80 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
 size_flags_stretch_ratio = 0.2
-texture_normal = ExtResource( 1 )
-expand = true
-stretch_mode = 5
-[connection signal="button_down" from="VBC/PrevButton" to="." method="_on_PrevButton_button_down"]
-[connection signal="button_down" from="VBC/HBC/PrevButton2" to="." method="_on_PrevButton_button_down"]
-[connection signal="button_down" from="VBC/HBC/NextButton2" to="." method="_on_NextButton_button_down"]
-[connection signal="button_down" from="VBC/NextButton" to="." method="_on_NextButton_button_down"]
+custom_styles/hover = SubResource( 4 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/focus = SubResource( 4 )
+custom_styles/disabled = SubResource( 4 )
+custom_styles/normal = SubResource( 2 )
+custom_fonts/font = SubResource( 3 )
+text = "<"
+
+[node name="Page" type="Control" parent="VBC/HBC"]
+margin_left = 361.0
+margin_right = 718.0
+margin_bottom = 89.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="PageText" type="Label" parent="VBC/HBC/Page"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = SubResource( 3 )
+text = "1/1"
+align = 1
+
+[node name="Next" type="Control" parent="VBC/HBC"]
+margin_left = 722.0
+margin_right = 1080.0
+margin_bottom = 89.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="NextButton" type="Button" parent="VBC/HBC/Next"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_top = -44.5
+margin_right = 198.0
+margin_bottom = 44.5
+rect_min_size = Vector2( 80, 80 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.2
+custom_styles/hover = SubResource( 4 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/focus = SubResource( 4 )
+custom_styles/disabled = SubResource( 4 )
+custom_styles/normal = SubResource( 2 )
+custom_fonts/font = SubResource( 3 )
+text = ">"
+[connection signal="button_down" from="VBC/HBC/Prev/PrevButton" to="." method="_on_PrevButton_button_down"]
+[connection signal="button_down" from="VBC/HBC/Next/NextButton" to="." method="_on_NextButton_button_down"]
