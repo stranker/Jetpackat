@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://Scenes/ItemShopPanel.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Background/Bg3.png" type="Texture" id=2]
@@ -11,13 +11,14 @@
 [ext_resource path="res://Groups/ShopButtonGroup.tres" type="ButtonGroup" id=9]
 [ext_resource path="res://Scenes/ItemPageGrid.tscn" type="PackedScene" id=10]
 [ext_resource path="res://addons/PickerOfColors/CustomColor.tscn" type="PackedScene" id=11]
-[ext_resource path="res://Sprites/Shop/Cat/Skin/Skin.png" type="Texture" id=12]
-[ext_resource path="res://Sprites/Cat/Eyes.png" type="Texture" id=13]
-[ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=14]
-[ext_resource path="res://Scenes/InitialDarker.tscn" type="PackedScene" id=15]
-[ext_resource path="res://Scenes/TransitionScene.tscn" type="PackedScene" id=16]
+[ext_resource path="res://Sprites/Shop/UI/Background.png" type="Texture" id=12]
+[ext_resource path="res://Sprites/Shop/Cat/Skin/Skin.png" type="Texture" id=13]
+[ext_resource path="res://Sprites/Cat/Eyes.png" type="Texture" id=14]
+[ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=15]
+[ext_resource path="res://Scenes/InitialDarker.tscn" type="PackedScene" id=16]
+[ext_resource path="res://Scenes/TransitionScene.tscn" type="PackedScene" id=17]
 
-[sub_resource type="StyleBoxFlat" id=20]
+[sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.356863, 0.619608, 0.827451, 1 )
 
 [sub_resource type="GDScript" id=2]
@@ -124,7 +125,7 @@ func update_item_color(item_type, _color):
 			player.get_node(item_type).self_modulate = color
 		else:
 			player.self_modulate = color
-			$VBC/MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/Player/SkinColorButton.self_modulate = color
+			$VBC/MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/SkinColorButton.self_modulate = color
 			GameManager.items_equipped['Skin'][1] = color
 	else:
 		player.get_node(item_type).self_modulate = 'ffffff'
@@ -197,10 +198,10 @@ border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
 border_color = Color( 0.427451, 0.121569, 0.8, 1 )
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
 corner_detail = 2
 expand_margin_left = 5.0
 expand_margin_right = 5.0
@@ -251,57 +252,57 @@ shader = SubResource( 5 )
 shader_param/outline_width = 1.0
 shader_param/outline_color = Color( 1, 1, 1, 1 )
 
-[sub_resource type="StyleBoxFlat" id=17]
+[sub_resource type="StyleBoxFlat" id=7]
 bg_color = Color( 1, 0.705882, 0.00784314, 1 )
 border_width_left = 5
 border_width_top = 5
 border_width_right = 5
 border_color = Color( 0.968627, 0.596078, 0.0117647, 1 )
-corner_radius_top_left = 30
-corner_radius_top_right = 30
+corner_radius_top_left = 50
+corner_radius_top_right = 50
 corner_detail = 2
 
-[sub_resource type="StyleBoxFlat" id=7]
+[sub_resource type="StyleBoxFlat" id=8]
 bg_color = Color( 1, 0.890196, 0.00784314, 1 )
 border_width_left = 5
 border_width_top = 5
 border_width_right = 5
 border_width_bottom = 15
 border_color = Color( 1, 0.705882, 0.00784314, 1 )
-corner_radius_top_left = 30
-corner_radius_top_right = 30
+corner_radius_top_left = 50
+corner_radius_top_right = 50
 corner_detail = 2
 
-[sub_resource type="DynamicFont" id=8]
+[sub_resource type="DynamicFont" id=9]
 size = 70
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 3 )
 
-[sub_resource type="StyleBoxFlat" id=16]
-bg_color = Color( 0.0784314, 0.619608, 0, 1 )
+[sub_resource type="StyleBoxFlat" id=10]
+bg_color = Color( 0.0901961, 0.721569, 0, 1 )
 border_width_left = 5
 border_width_top = 5
 border_width_right = 5
 border_width_bottom = 15
-border_color = Color( 0.0784314, 0.619608, 0, 1 )
-corner_radius_top_left = 30
-corner_radius_top_right = 30
+border_color = Color( 0.0901961, 0.721569, 0, 1 )
+corner_radius_top_left = 50
+corner_radius_top_right = 50
 corner_detail = 2
 
-[sub_resource type="StyleBoxFlat" id=9]
+[sub_resource type="StyleBoxFlat" id=11]
 bg_color = Color( 0.109804, 0.862745, 0, 1 )
 border_width_left = 5
 border_width_top = 5
 border_width_right = 5
 border_width_bottom = 15
-border_color = Color( 0.0784314, 0.619608, 0, 1 )
-corner_radius_top_left = 30
-corner_radius_top_right = 30
+border_color = Color( 0.0901961, 0.721569, 0, 1 )
+corner_radius_top_left = 50
+corner_radius_top_right = 50
 corner_detail = 2
 
-[sub_resource type="StyleBoxFlat" id=18]
+[sub_resource type="StyleBoxFlat" id=12]
 bg_color = Color( 1, 0.705882, 0.00784314, 1 )
 border_width_left = 7
 border_width_right = 7
@@ -315,16 +316,24 @@ corner_detail = 2
 expand_margin_left = 5.0
 expand_margin_right = 5.0
 expand_margin_top = 5.0
+expand_margin_bottom = 5.0
 
-[sub_resource type="StyleBoxFlat" id=21]
-bg_color = Color( 0.968627, 0.596078, 0.0117647, 1 )
+[sub_resource type="StyleBoxFlat" id=13]
+bg_color = Color( 0.788235, 0.486275, 0.00784314, 1 )
+border_width_left = 10
+border_width_top = 5
+border_width_right = 10
+border_width_bottom = 5
+border_color = Color( 0.752941, 0.466667, 0.00784314, 1 )
 corner_radius_top_left = 50
 corner_radius_top_right = 50
 corner_radius_bottom_right = 50
 corner_radius_bottom_left = 50
 corner_detail = 2
+shadow_color = Color( 0, 0, 0, 0.231373 )
+shadow_size = 5
 
-[sub_resource type="StyleBoxFlat" id=15]
+[sub_resource type="StyleBoxFlat" id=14]
 bg_color = Color( 0.352941, 0, 0.619608, 1 )
 border_width_left = 5
 border_width_top = 5
@@ -339,7 +348,7 @@ corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.309804 )
 shadow_size = 8
 
-[sub_resource type="StyleBoxFlat" id=10]
+[sub_resource type="StyleBoxFlat" id=15]
 bg_color = Color( 0.568627, 0, 1, 1 )
 border_width_left = 5
 border_width_top = 5
@@ -354,26 +363,28 @@ corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.309804 )
 shadow_size = 8
 
-[sub_resource type="DynamicFont" id=11]
+[sub_resource type="DynamicFont" id=16]
 size = 40
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 3 )
 
-[sub_resource type="StyleBoxFlat" id=13]
-bg_color = Color( 0.247059, 0, 0.388235, 1 )
+[sub_resource type="StyleBoxFlat" id=17]
+bg_color = Color( 0.996078, 0.913725, 0.913725, 1 )
 border_width_left = 10
 border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
-border_color = Color( 0.180392, 0, 0.286275, 1 )
+border_color = Color( 0, 0, 0, 1 )
 corner_radius_top_left = 50
 corner_radius_top_right = 50
 corner_radius_bottom_right = 50
 corner_radius_bottom_left = 50
+corner_detail = 2
+expand_margin_bottom = 2.0
 
-[sub_resource type="StyleBoxFlat" id=14]
+[sub_resource type="StyleBoxFlat" id=18]
 bg_color = Color( 1, 1, 1, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -386,19 +397,21 @@ corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
 [sub_resource type="StyleBoxFlat" id=19]
-bg_color = Color( 0.0784314, 0.619608, 0, 1 )
+bg_color = Color( 0.0901961, 0.721569, 0, 1 )
 corner_radius_top_left = 50
 corner_radius_top_right = 50
 corner_radius_bottom_right = 50
 corner_radius_bottom_left = 50
+corner_detail = 2
 expand_margin_left = 5.0
 expand_margin_right = 5.0
 expand_margin_top = 5.0
+expand_margin_bottom = 5.0
 
 [node name="ShopAndUpgradeScene" type="Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_styles/panel = SubResource( 20 )
+custom_styles/panel = SubResource( 1 )
 script = SubResource( 2 )
 item_shop_panel = ExtResource( 1 )
 
@@ -474,7 +487,6 @@ expand = true
 stretch_mode = 6
 
 [node name="Fish" type="Control" parent="VBC/CurrencyInfo/HBC"]
-editor/display_folded = true
 margin_left = 470.0
 margin_right = 936.0
 margin_bottom = 164.0
@@ -543,6 +555,7 @@ expand = true
 stretch_mode = 5
 
 [node name="Buttons" type="Control" parent="VBC"]
+editor/display_folded = true
 margin_top = 164.0
 margin_right = 1080.0
 margin_bottom = 278.0
@@ -558,12 +571,12 @@ margin_left = 70.0
 margin_top = -55.0
 margin_right = 430.0
 margin_bottom = 55.0
-custom_styles/hover = SubResource( 17 )
-custom_styles/pressed = SubResource( 17 )
-custom_styles/focus = SubResource( 17 )
-custom_styles/disabled = SubResource( 17 )
-custom_styles/normal = SubResource( 7 )
-custom_fonts/font = SubResource( 8 )
+custom_styles/hover = SubResource( 7 )
+custom_styles/pressed = SubResource( 7 )
+custom_styles/focus = SubResource( 7 )
+custom_styles/disabled = SubResource( 7 )
+custom_styles/normal = SubResource( 8 )
+custom_fonts/font = SubResource( 9 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 toggle_mode = true
 pressed = true
@@ -579,12 +592,12 @@ margin_left = -430.0
 margin_top = -55.0
 margin_right = -70.0
 margin_bottom = 55.0
-custom_styles/hover = SubResource( 16 )
-custom_styles/pressed = SubResource( 16 )
-custom_styles/focus = SubResource( 16 )
-custom_styles/disabled = SubResource( 16 )
-custom_styles/normal = SubResource( 9 )
-custom_fonts/font = SubResource( 8 )
+custom_styles/hover = SubResource( 10 )
+custom_styles/pressed = SubResource( 10 )
+custom_styles/focus = SubResource( 10 )
+custom_styles/disabled = SubResource( 10 )
+custom_styles/normal = SubResource( 11 )
+custom_fonts/font = SubResource( 9 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 toggle_mode = true
 group = ExtResource( 8 )
@@ -611,14 +624,14 @@ margin_left = -530.0
 margin_top = -1640.0
 margin_right = 530.0
 margin_bottom = -10.0
-custom_styles/panel = SubResource( 18 )
+custom_styles/panel = SubResource( 12 )
 
 [node name="HBC" type="VBoxContainer" parent="VBC/MainPanel/ShopPanel/BackPanel"]
-editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="ItemTypeButtons" type="Control" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC"]
+editor/display_folded = true
 margin_right = 1060.0
 margin_bottom = 101.0
 size_flags_horizontal = 7
@@ -626,12 +639,13 @@ size_flags_vertical = 7
 size_flags_stretch_ratio = 0.1
 
 [node name="Panel" type="Panel" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC/ItemTypeButtons"]
+editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 18.0
 margin_top = 10.0
 margin_right = -18.0
-custom_styles/panel = SubResource( 21 )
+custom_styles/panel = SubResource( 13 )
 
 [node name="VBC" type="HBoxContainer" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC/ItemTypeButtons/Panel"]
 anchor_left = 0.5
@@ -651,12 +665,12 @@ margin_right = 237.0
 margin_bottom = 70.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/hover = SubResource( 15 )
-custom_styles/pressed = SubResource( 15 )
-custom_styles/focus = SubResource( 15 )
-custom_styles/disabled = SubResource( 15 )
-custom_styles/normal = SubResource( 10 )
-custom_fonts/font = SubResource( 11 )
+custom_styles/hover = SubResource( 14 )
+custom_styles/pressed = SubResource( 14 )
+custom_styles/focus = SubResource( 14 )
+custom_styles/disabled = SubResource( 14 )
+custom_styles/normal = SubResource( 15 )
+custom_fonts/font = SubResource( 16 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 toggle_mode = true
 pressed = true
@@ -669,12 +683,12 @@ margin_right = 484.0
 margin_bottom = 70.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/hover = SubResource( 15 )
-custom_styles/pressed = SubResource( 15 )
-custom_styles/focus = SubResource( 15 )
-custom_styles/disabled = SubResource( 15 )
-custom_styles/normal = SubResource( 10 )
-custom_fonts/font = SubResource( 11 )
+custom_styles/hover = SubResource( 14 )
+custom_styles/pressed = SubResource( 14 )
+custom_styles/focus = SubResource( 14 )
+custom_styles/disabled = SubResource( 14 )
+custom_styles/normal = SubResource( 15 )
+custom_fonts/font = SubResource( 16 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 toggle_mode = true
 group = ExtResource( 9 )
@@ -686,12 +700,12 @@ margin_right = 731.0
 margin_bottom = 70.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/hover = SubResource( 15 )
-custom_styles/pressed = SubResource( 15 )
-custom_styles/focus = SubResource( 15 )
-custom_styles/disabled = SubResource( 15 )
-custom_styles/normal = SubResource( 10 )
-custom_fonts/font = SubResource( 11 )
+custom_styles/hover = SubResource( 14 )
+custom_styles/pressed = SubResource( 14 )
+custom_styles/focus = SubResource( 14 )
+custom_styles/disabled = SubResource( 14 )
+custom_styles/normal = SubResource( 15 )
+custom_fonts/font = SubResource( 16 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 toggle_mode = true
 group = ExtResource( 9 )
@@ -703,12 +717,12 @@ margin_right = 980.0
 margin_bottom = 70.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/hover = SubResource( 15 )
-custom_styles/pressed = SubResource( 15 )
-custom_styles/focus = SubResource( 15 )
-custom_styles/disabled = SubResource( 15 )
-custom_styles/normal = SubResource( 10 )
-custom_fonts/font = SubResource( 11 )
+custom_styles/hover = SubResource( 14 )
+custom_styles/pressed = SubResource( 14 )
+custom_styles/focus = SubResource( 14 )
+custom_styles/disabled = SubResource( 14 )
+custom_styles/normal = SubResource( 15 )
+custom_fonts/font = SubResource( 16 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 toggle_mode = true
 group = ExtResource( 9 )
@@ -719,6 +733,7 @@ editor/display_folded = true
 margin_top = 105.0
 margin_right = 1060.0
 margin_bottom = 1118.0
+rect_min_size = Vector2( 0, 950 )
 mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -776,37 +791,51 @@ margin_right = 280.0
 margin_bottom = 355.0
 
 [node name="PlayerPanel" type="Panel" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC"]
-editor/display_folded = true
 margin_top = 1122.0
 margin_right = 1060.0
 margin_bottom = 1630.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.5
-custom_styles/panel = SubResource( 13 )
+custom_styles/panel = SubResource( 17 )
 
 [node name="Background" type="TextureRect" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel"]
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -520.0
+margin_top = -245.0
+margin_right = 520.0
+margin_bottom = 245.0
+texture = ExtResource( 12 )
+expand = true
+stretch_mode = 7
 
 [node name="Player" type="Control" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel"]
-editor/display_folded = true
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -480.0
+margin_top = -254.0
+margin_right = 490.0
+margin_bottom = 254.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Skin" type="TextureRect" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/Player"]
 anchor_left = 0.5
-anchor_top = 1.0
+anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -229.0
-margin_top = -350.0
-margin_right = 101.0
+anchor_bottom = 0.5
+margin_left = -345.0
+margin_top = -106.0
+margin_right = -15.0
+margin_bottom = 244.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-texture = ExtResource( 12 )
+texture = ExtResource( 13 )
 expand = true
 stretch_mode = 6
 
@@ -817,7 +846,7 @@ margin_left = -95.0
 margin_top = 20.0
 margin_right = 71.0
 margin_bottom = 186.0
-texture = ExtResource( 13 )
+texture = ExtResource( 14 )
 region_rect = Rect2( 0, 0, 32, 32 )
 
 [node name="Pattern" type="TextureRect" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/Player/Skin"]
@@ -847,36 +876,35 @@ stretch_mode = 6
 [node name="Hat" type="TextureRect" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/Player/Skin"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -119.287
-margin_top = -131.715
-margin_right = 124.713
-margin_bottom = 88.2853
+margin_left = -96.0
+margin_top = -117.219
+margin_right = 104.0
+margin_bottom = 83.7805
 rect_rotation = 0.927213
 expand = true
 stretch_mode = 6
 
 [node name="Jetpack" type="TextureRect" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/Player/Skin"]
 show_behind_parent = true
-margin_left = 273.0
-margin_top = 94.0
-margin_right = 479.0
-margin_bottom = 321.0
-texture = ExtResource( 14 )
+margin_left = 235.0
+margin_top = 90.0
+margin_right = 441.0
+margin_bottom = 317.0
+rect_rotation = 15.0
+texture = ExtResource( 15 )
 expand = true
 stretch_mode = 6
 
-[node name="SkinColorButton" type="Button" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/Player"]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -208.0
-margin_top = 58.0
-margin_right = -65.0
-margin_bottom = 142.0
-custom_styles/hover = SubResource( 14 )
-custom_styles/pressed = SubResource( 14 )
-custom_styles/focus = SubResource( 14 )
-custom_styles/disabled = SubResource( 14 )
-custom_styles/normal = SubResource( 14 )
+[node name="SkinColorButton" type="Button" parent="VBC/MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel"]
+margin_left = 520.0
+margin_top = 18.0
+margin_right = 663.0
+margin_bottom = 102.0
+custom_styles/hover = SubResource( 18 )
+custom_styles/pressed = SubResource( 18 )
+custom_styles/focus = SubResource( 18 )
+custom_styles/disabled = SubResource( 18 )
+custom_styles/normal = SubResource( 18 )
 
 [node name="UpgradePanel" type="Control" parent="VBC/MainPanel"]
 editor/display_folded = true
@@ -895,9 +923,9 @@ margin_right = 530.0
 margin_bottom = -10.0
 custom_styles/panel = SubResource( 19 )
 
-[node name="InitialDarker" parent="." instance=ExtResource( 15 )]
+[node name="InitialDarker" parent="." instance=ExtResource( 16 )]
 
-[node name="TransitionScene" parent="." instance=ExtResource( 16 )]
+[node name="TransitionScene" parent="." instance=ExtResource( 17 )]
 editor/display_folded = true
 [connection signal="button_down" from="VBC/CurrencyInfo/HBC/ClosePanel/CloseButton" to="." method="_on_TextureButton_button_down"]
 [connection signal="button_down" from="VBC/Buttons/ShopButton" to="." method="_on_ShopButton_button_down"]
@@ -907,7 +935,7 @@ editor/display_folded = true
 [connection signal="button_down" from="VBC/MainPanel/ShopPanel/BackPanel/HBC/ItemTypeButtons/Panel/VBC/JetpackButton" to="." method="_on_JetpackButton_button_down"]
 [connection signal="button_down" from="VBC/MainPanel/ShopPanel/BackPanel/HBC/ItemTypeButtons/Panel/VBC/ScarfButton" to="." method="_on_ScarfButton_button_down"]
 [connection signal="value_changed" from="VBC/MainPanel/ShopPanel/BackPanel/HBC/PanelItems/CustomColor" to="." method="_on_CustomColor_value_changed"]
-[connection signal="button_down" from="VBC/MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/Player/SkinColorButton" to="." method="_on_SkinColorButton_button_down"]
+[connection signal="button_down" from="VBC/MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/SkinColorButton" to="." method="_on_SkinColorButton_button_down"]
 [connection signal="animation_finished" from="TransitionScene/Anim" to="." method="_on_Anim_animation_finished"]
 
 [editable path="VBC/MainPanel/ShopPanel/BackPanel/HBC/PanelItems/ItemPageGrid"]
