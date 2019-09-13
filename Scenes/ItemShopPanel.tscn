@@ -59,7 +59,7 @@ func set_item_info(iname:String,info : Dictionary):
 		has_color = true
 		set_item_color(info['color'])
 	if type == 'Pattern':
-		$ItemPanel/SkinPlace.show()
+		$VBC/ItemPanel/SkinPlace.show()
 	connect('item_buy',GameManager,'buy_item')
 	connect('item_buy',get_tree().root.get_node('ShopAndUpgradeScene'),'update_buttons_states')
 	connect('item_unequip',get_tree().root.get_node('ShopAndUpgradeScene'),'unequip_item')
@@ -197,7 +197,7 @@ func _on_PreviewButton_button_down():
 	pass # Replace with function body.
 "
 
-[sub_resource type="StyleBoxFlat" id=4]
+[sub_resource type="StyleBoxFlat" id=3]
 border_width_left = 5
 border_width_top = 5
 border_width_right = 5
@@ -208,14 +208,14 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
-[sub_resource type="DynamicFont" id=5]
+[sub_resource type="DynamicFont" id=4]
 size = 42
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 2 )
 
-[sub_resource type="StyleBoxFlat" id=7]
+[sub_resource type="StyleBoxFlat" id=5]
 bg_color = Color( 0.0784314, 0.619608, 0, 1 )
 border_width_bottom = 10
 border_color = Color( 0.0784314, 0.619608, 0, 1 )
@@ -226,7 +226,7 @@ corner_radius_bottom_left = 30
 corner_detail = 2
 shadow_color = Color( 0.156863, 0.439216, 0, 0.6 )
 
-[sub_resource type="StyleBoxFlat" id=8]
+[sub_resource type="StyleBoxFlat" id=6]
 bg_color = Color( 0.109804, 0.862745, 0, 1 )
 border_width_left = 5
 border_width_top = 5
@@ -240,19 +240,19 @@ corner_radius_bottom_left = 30
 corner_detail = 2
 shadow_color = Color( 0.156863, 0.439216, 0, 0.6 )
 
-[sub_resource type="ShaderMaterial" id=9]
+[sub_resource type="ShaderMaterial" id=7]
 shader = ExtResource( 3 )
 shader_param/outline_width = 1.3
 shader_param/outline_color = Color( 0, 0, 0, 1 )
 
-[sub_resource type="DynamicFont" id=10]
+[sub_resource type="DynamicFont" id=8]
 size = 60
 outline_size = 3
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 2 )
 
-[sub_resource type="StyleBoxFlat" id=12]
+[sub_resource type="StyleBoxFlat" id=9]
 bg_color = Color( 0.345098, 0.25098, 1, 1 )
 border_width_bottom = 10
 border_color = Color( 0.345098, 0.25098, 1, 1 )
@@ -263,7 +263,7 @@ corner_radius_bottom_left = 30
 corner_detail = 2
 shadow_color = Color( 0.156863, 0.439216, 0, 0.6 )
 
-[sub_resource type="StyleBoxFlat" id=11]
+[sub_resource type="StyleBoxFlat" id=10]
 bg_color = Color( 0.25098, 0.505882, 1, 1 )
 border_width_left = 5
 border_width_top = 5
@@ -336,11 +336,11 @@ margin_left = -90.0
 margin_top = 10.0
 margin_right = -21.0
 margin_bottom = 48.0
-custom_styles/hover = SubResource( 4 )
-custom_styles/pressed = SubResource( 4 )
-custom_styles/focus = SubResource( 4 )
-custom_styles/disabled = SubResource( 4 )
-custom_styles/normal = SubResource( 4 )
+custom_styles/hover = SubResource( 3 )
+custom_styles/pressed = SubResource( 3 )
+custom_styles/focus = SubResource( 3 )
+custom_styles/disabled = SubResource( 3 )
+custom_styles/normal = SubResource( 3 )
 
 [node name="Label" type="Label" parent="VBC/ItemPanel"]
 visible = false
@@ -348,7 +348,7 @@ margin_left = 20.0
 margin_top = 7.6
 margin_right = 175.0
 margin_bottom = 56.6
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 4 )
 text = "PREVIEW"
 
 [node name="Buttons" type="Control" parent="VBC"]
@@ -367,11 +367,11 @@ margin_right = -5.0
 margin_bottom = -10.0
 rect_min_size = Vector2( 260, 64 )
 focus_mode = 0
-custom_styles/hover = SubResource( 7 )
-custom_styles/pressed = SubResource( 7 )
-custom_styles/focus = SubResource( 7 )
-custom_styles/disabled = SubResource( 7 )
-custom_styles/normal = SubResource( 8 )
+custom_styles/hover = SubResource( 5 )
+custom_styles/pressed = SubResource( 5 )
+custom_styles/focus = SubResource( 5 )
+custom_styles/disabled = SubResource( 5 )
+custom_styles/normal = SubResource( 6 )
 enabled_focus_mode = 0
 
 [node name="CC" type="CenterContainer" parent="VBC/Buttons/BuyButton"]
@@ -389,7 +389,7 @@ rect_min_size = Vector2( 0, 90 )
 mouse_filter = 2
 
 [node name="Payment" type="TextureRect" parent="VBC/Buttons/BuyButton/CC/HBC"]
-material = SubResource( 9 )
+material = SubResource( 7 )
 margin_right = 80.0
 margin_bottom = 90.0
 rect_min_size = Vector2( 80, 0 )
@@ -404,7 +404,7 @@ margin_top = 8.0
 margin_right = 183.0
 margin_bottom = 81.0
 rect_min_size = Vector2( 0, 60 )
-custom_fonts/font = SubResource( 10 )
+custom_fonts/font = SubResource( 8 )
 text = "999"
 valign = 1
 
@@ -417,11 +417,11 @@ margin_right = -5.0
 margin_bottom = -12.0
 rect_min_size = Vector2( 260, 64 )
 focus_mode = 0
-custom_styles/hover = SubResource( 12 )
-custom_styles/pressed = SubResource( 12 )
-custom_styles/focus = SubResource( 12 )
-custom_styles/disabled = SubResource( 12 )
-custom_styles/normal = SubResource( 11 )
+custom_styles/hover = SubResource( 9 )
+custom_styles/pressed = SubResource( 9 )
+custom_styles/focus = SubResource( 9 )
+custom_styles/disabled = SubResource( 9 )
+custom_styles/normal = SubResource( 10 )
 shortcut_in_tooltip = false
 enabled_focus_mode = 0
 
@@ -435,7 +435,7 @@ margin_bottom = -3.59241
 grow_horizontal = 2
 grow_vertical = 2
 rect_min_size = Vector2( 0, 64 )
-custom_fonts/font = SubResource( 10 )
+custom_fonts/font = SubResource( 8 )
 text = "SHOPBUTTON_USE"
 align = 1
 valign = 1

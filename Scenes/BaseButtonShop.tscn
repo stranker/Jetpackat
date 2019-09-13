@@ -1,23 +1,129 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://Sprites/UI/Shop/ShopButton.png" type="Texture" id=1]
-[ext_resource path="res://Sprites/UI/Shop/ShopButtonPressed.png" type="Texture" id=2]
-[ext_resource path="res://Sprites/UI/Shop/HatButton.png" type="Texture" id=3]
+[ext_resource path="res://Groups/ShopButtonGroup.tres" type="ButtonGroup" id=1]
+[ext_resource path="res://Sprites/Shop/UI/ScarfButton.png" type="Texture" id=2]
+[ext_resource path="res://Scenes/BaseButtonShop.gd" type="Script" id=3]
 
-[node name="BaseButtonShop" type="TextureButton"]
-self_modulate = Color( 0.0235294, 0.72549, 0.0156863, 1 )
-margin_right = 70.0
-margin_bottom = 70.0
-texture_normal = ExtResource( 1 )
+[sub_resource type="Shader" id=22]
+code = "shader_type canvas_item;
+
+uniform float outline_width = 2.0;
+uniform vec4 outline_color : hint_color;
+
+void fragment() {
+	vec4 col = texture(TEXTURE, UV);
+	vec2 ps = TEXTURE_PIXEL_SIZE;
+	float a;
+	float maxa = col.a;
+	float mina = col.a;
+
+	a = texture(TEXTURE, UV + vec2(0.0, -outline_width) * ps).a;
+	maxa = max(a, maxa);
+	mina = min(a, mina);
+
+	a = texture(TEXTURE, UV + vec2(0.0, outline_width) * ps).a;
+	maxa = max(a, maxa);
+	mina = min(a, mina);
+
+	a = texture(TEXTURE, UV + vec2(-outline_width, 0.0) * ps).a;
+	maxa = max(a, maxa);
+	mina = min(a, mina);
+
+	a = texture(TEXTURE, UV + vec2(outline_width, 0.0) * ps).a;
+	maxa = max(a, maxa);
+	mina = min(a, mina);
+
+	COLOR = mix(col, outline_color, maxa - mina);
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 22 )
+shader_param/outline_width = 0.5
+shader_param/outline_color = Color( 1, 1, 1, 1 )
+
+[sub_resource type="Animation" id=4]
+resource_name = "Clicked"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.5 ),
+"transitions": PoolRealArray( 0.5, 2, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.2, 1.2 ), Vector2( 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.491882 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0.376471, 0.376471, 0.376471, 1 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "Idle"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:material:shader_param/outline_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
+[node name="ButtonShop" type="TextureButton"]
+material = SubResource( 2 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -540.0
+margin_top = -960.0
+margin_right = -230.0
+margin_bottom = -621.0
+rect_pivot_offset = Vector2( 160, 160 )
+mouse_filter = 1
+size_flags_horizontal = 3
+size_flags_vertical = 3
+toggle_mode = true
+group = ExtResource( 1 )
+texture_normal = ExtResource( 2 )
 texture_pressed = ExtResource( 2 )
 texture_hover = ExtResource( 2 )
 texture_disabled = ExtResource( 2 )
+texture_focused = ExtResource( 2 )
 expand = true
 stretch_mode = 5
+script = ExtResource( 3 )
 
-[node name="Type" type="TextureRect" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-texture = ExtResource( 3 )
-expand = true
-stretch_mode = 7
+[node name="Anim" type="AnimationPlayer" parent="."]
+autoplay = "Idle"
+anims/Clicked = SubResource( 4 )
+anims/Idle = SubResource( 3 )
+[connection signal="button_down" from="." to="." method="_on_ButtonShop_button_down"]
