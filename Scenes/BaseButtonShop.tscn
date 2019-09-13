@@ -4,7 +4,7 @@
 [ext_resource path="res://Sprites/Shop/UI/ScarfButton.png" type="Texture" id=2]
 [ext_resource path="res://Scenes/BaseButtonShop.gd" type="Script" id=3]
 
-[sub_resource type="Shader" id=22]
+[sub_resource type="Shader" id=1]
 code = "shader_type canvas_item;
 
 uniform float outline_width = 2.0;
@@ -37,11 +37,11 @@ void fragment() {
 }"
 
 [sub_resource type="ShaderMaterial" id=2]
-shader = SubResource( 22 )
+shader = SubResource( 1 )
 shader_param/outline_width = 0.5
 shader_param/outline_color = Color( 1, 1, 1, 1 )
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=3]
 resource_name = "Clicked"
 length = 0.5
 tracks/0/type = "value"
@@ -69,8 +69,7 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 0.376471, 0.376471, 0.376471, 1 ) ]
 }
 
-[sub_resource type="Animation" id=3]
-resource_name = "Idle"
+[sub_resource type="Animation" id=4]
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:material:shader_param/outline_color")
@@ -124,6 +123,8 @@ script = ExtResource( 3 )
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Idle"
-anims/Clicked = SubResource( 4 )
-anims/Idle = SubResource( 3 )
+anims/Clicked = SubResource( 3 )
+anims/Idle = SubResource( 4 )
 [connection signal="button_down" from="." to="." method="_on_ButtonShop_button_down"]
+[connection signal="mouse_entered" from="." to="." method="_on_ButtonShop_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_ButtonShop_mouse_exited"]

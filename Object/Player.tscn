@@ -116,6 +116,7 @@ func take_damage():
 			dead = !dead
 			check_die_direction()
 			set_physics_process(false)
+			$Visible/MagnetArea.hide()
 			$Anim.stop()
 			$Anim.play('Dead')
 	pass

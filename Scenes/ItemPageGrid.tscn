@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=1]
 
@@ -55,8 +55,7 @@ func instanciate_page():
 	pass
 
 func check_ui():
-	if total_pages > 1:
-		$VBC/HBC/Page/PageText.text = str(actual_page + 1) + '/' + str(total_pages)
+	$VBC/HBC/Page/PageText.text = str(actual_page + 1) + '/' + str(total_pages)
 	$VBC/HBC/Next/NextButton.visible = actual_page != total_pages - 1
 	$VBC/HBC/Prev/PrevButton.visible = actual_page != 0
 	pass
@@ -104,7 +103,7 @@ func _on_NextButton_button_down():
 	next_page()
 	pass # Replace with function body."
 
-[sub_resource type="StyleBoxFlat" id=4]
+[sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.345098, 0.25098, 1, 1 )
 border_width_left = 5
 border_width_top = 5
@@ -119,7 +118,7 @@ corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.309804 )
 shadow_size = 8
 
-[sub_resource type="StyleBoxFlat" id=2]
+[sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.25098, 0.505882, 1, 1 )
 border_width_left = 5
 border_width_top = 5
@@ -134,12 +133,27 @@ corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.309804 )
 shadow_size = 8
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=4]
 size = 60
-outline_size = 2
+outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 1 )
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0.345098, 0.25098, 1, 1 )
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 15
+border_color = Color( 0.345098, 0.25098, 1, 1 )
+corner_radius_top_left = 40
+corner_radius_top_right = 40
+corner_radius_bottom_right = 40
+corner_radius_bottom_left = 40
+corner_detail = 2
+shadow_color = Color( 0, 0, 0, 0.309804 )
+shadow_size = 8
 
 [node name="ItemPageGrid" type="Control"]
 anchor_right = 1.0
@@ -166,7 +180,7 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 0.1
 
 [node name="Prev" type="Control" parent="VBC/HBC"]
-margin_right = 357.0
+margin_right = 397.0
 margin_bottom = 89.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -183,30 +197,41 @@ rect_min_size = Vector2( 80, 80 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.2
-custom_styles/hover = SubResource( 4 )
-custom_styles/pressed = SubResource( 4 )
-custom_styles/focus = SubResource( 4 )
-custom_styles/disabled = SubResource( 4 )
-custom_styles/normal = SubResource( 2 )
-custom_fonts/font = SubResource( 3 )
+custom_styles/hover = SubResource( 2 )
+custom_styles/pressed = SubResource( 2 )
+custom_styles/focus = SubResource( 2 )
+custom_styles/disabled = SubResource( 2 )
+custom_styles/normal = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
 text = "<"
 
 [node name="Page" type="Control" parent="VBC/HBC"]
-margin_left = 361.0
-margin_right = 718.0
+margin_left = 401.0
+margin_right = 678.0
 margin_bottom = 89.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+size_flags_stretch_ratio = 0.7
 
 [node name="PageText" type="Label" parent="VBC/HBC/Page"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_fonts/font = SubResource( 3 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -94.5
+margin_top = -44.5
+margin_right = 94.5
+margin_bottom = 44.5
+custom_styles/normal = SubResource( 5 )
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.364706 )
+custom_constants/shadow_offset_x = 6
+custom_constants/shadow_offset_y = 6
 text = "1/1"
 align = 1
 
 [node name="Next" type="Control" parent="VBC/HBC"]
-margin_left = 722.0
+margin_left = 682.0
 margin_right = 1080.0
 margin_bottom = 89.0
 size_flags_horizontal = 3
@@ -222,12 +247,12 @@ rect_min_size = Vector2( 80, 80 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.2
-custom_styles/hover = SubResource( 4 )
-custom_styles/pressed = SubResource( 4 )
-custom_styles/focus = SubResource( 4 )
-custom_styles/disabled = SubResource( 4 )
-custom_styles/normal = SubResource( 2 )
-custom_fonts/font = SubResource( 3 )
+custom_styles/hover = SubResource( 2 )
+custom_styles/pressed = SubResource( 2 )
+custom_styles/focus = SubResource( 2 )
+custom_styles/disabled = SubResource( 2 )
+custom_styles/normal = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
 text = ">"
 [connection signal="button_down" from="VBC/HBC/Prev/PrevButton" to="." method="_on_PrevButton_button_down"]
 [connection signal="button_down" from="VBC/HBC/Next/NextButton" to="." method="_on_NextButton_button_down"]

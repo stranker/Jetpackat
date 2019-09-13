@@ -880,6 +880,7 @@ var height_spawn : int
 var pos_player_last_spawn : int
 var num : float = 0
 var enemy_idx : int = 0
+export var tutorial_height : int = 0
 
 func _process(delta):
 	if check_can_spawn():
@@ -888,7 +889,7 @@ func _process(delta):
 
 func spawn_item():
 	var item_pos : Vector2 = get_node(spawn_points).get_children()[randi()%get_node(spawn_points).get_child_count()].position
-	item_pos.y = GameManager.camera.global_position.y - get_viewport().get_visible_rect().size.y - 600
+	item_pos.y = GameManager.camera.global_position.y - get_viewport().get_visible_rect().size.y
 	pos_player_last_spawn = GameManager.player_height
 	var item = get_node(pool_manager).get_object_by_name(get_random_item())
 	if item:
@@ -924,7 +925,7 @@ func get_new_height():
 	pass
 
 func check_can_spawn(): 
-	return activated and GameManager.player_height > height_spawn + pos_player_last_spawn
+	return activated and GameManager.player_height > height_spawn + pos_player_last_spawn and GameManager.player_height > tutorial_height
 
 func set_can_spawn():
 	activated = !activated
@@ -1098,6 +1099,7 @@ centered = false
 position = Vector2( 559.5, 830 )
 
 [node name="UIGame" type="CanvasLayer" parent="."]
+editor/display_folded = true
 script = SubResource( 6 )
 height_tutorial = 15
 
@@ -1710,6 +1712,7 @@ parent_node = NodePath("../Enemies")
 spawn_points = NodePath("../SpawnPoints/Enemies")
 max_height = 12
 min_height = 8
+tutorial_height = 20
 
 [node name="Collectables" type="Node2D" parent="."]
 
@@ -1736,13 +1739,13 @@ script = SubResource( 30 )
 objects_scene_list = [ ExtResource( 36 ), ExtResource( 37 ), ExtResource( 38 ), ExtResource( 39 ) ]
 objects_number = 5
 [connection signal="screen_exited" from="House/VisibilityNotifier2D" to="House" method="_on_VisibilityNotifier2D_screen_exited"]
-[connection signal="current_height" from="Player" to="ParallaxBackground" method="_on_Player_current_height"]
 [connection signal="current_height" from="Player" to="UIGame" method="_on_Player_current_height"]
+[connection signal="current_height" from="Player" to="ParallaxBackground" method="_on_Player_current_height"]
 [connection signal="current_height" from="Player" to="." method="_on_Player_current_height"]
 [connection signal="current_height" from="Player" to="EnemySpawner" method="_on_Player_current_height"]
 [connection signal="dead" from="Player" to="." method="_on_Player_dead"]
-[connection signal="invencible" from="Player" to="EnemySpawner" method="_on_Player_invencible_Enemy_Spawner"]
 [connection signal="invencible" from="Player" to="CurrencySpawner" method="_on_Player_invencible"]
+[connection signal="invencible" from="Player" to="EnemySpawner" method="_on_Player_invencible_Enemy_Spawner"]
 [connection signal="magnet_time" from="Player" to="UIGame" method="_on_Player_magnet_time"]
 [connection signal="on_magnet" from="Player" to="UIGame" method="_on_Player_on_magnet"]
 [connection signal="start_playing" from="Player" to="." method="_on_Player_start_playing"]
