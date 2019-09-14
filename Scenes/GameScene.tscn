@@ -354,13 +354,14 @@ use_filter = true
 font_data = ExtResource( 11 )
 
 [sub_resource type="StyleBoxFlat" id=8]
-bg_color = Color( 0.4, 0.00392157, 0.580392, 1 )
+bg_color = Color( 0.568627, 0.254902, 0.952941, 1 )
 border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
-border_color = Color( 1, 1, 1, 1 )
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
+border_color = Color( 0.427451, 0.121569, 0.8, 1 )
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_detail = 2
 expand_margin_left = 30.0
 expand_margin_right = 110.0
 shadow_color = Color( 0, 0, 0, 0.235294 )
@@ -466,13 +467,14 @@ tracks/0/keys = {
 }
 
 [sub_resource type="StyleBoxFlat" id=14]
-bg_color = Color( 0.4, 0.00392157, 0.580392, 1 )
+bg_color = Color( 0.568627, 0.254902, 0.952941, 1 )
 border_width_left = 10
 border_width_top = 10
 border_width_bottom = 10
-border_color = Color( 1, 1, 1, 1 )
-corner_radius_top_left = 20
-corner_radius_bottom_left = 20
+border_color = Color( 0.427451, 0.121569, 0.8, 1 )
+corner_radius_top_left = 50
+corner_radius_bottom_left = 50
+corner_detail = 2
 expand_margin_left = 120.0
 expand_margin_right = 30.0
 expand_margin_top = 6.0
@@ -1099,7 +1101,6 @@ centered = false
 position = Vector2( 559.5, 830 )
 
 [node name="UIGame" type="CanvasLayer" parent="."]
-editor/display_folded = true
 script = SubResource( 6 )
 height_tutorial = 15
 
@@ -1114,7 +1115,6 @@ anchor_right = 1.0
 margin_bottom = 284.0
 
 [node name="MeterPanel" type="Control" parent="UIGame/UI/UpperPanel"]
-editor/display_folded = true
 margin_left = -190.0
 margin_top = 10.0
 margin_right = 190.0
@@ -1123,7 +1123,6 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="MeterLabel" type="Label" parent="UIGame/UI/UpperPanel/MeterPanel"]
-editor/display_folded = true
 anchor_top = 0.5
 anchor_bottom = 0.5
 margin_left = 20.0
@@ -1170,7 +1169,6 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="MagnetLabel" type="Label" parent="UIGame/UI/UpperPanel/MagnetPanel"]
-editor/display_folded = true
 visible = false
 anchor_left = 0.5
 anchor_top = 0.5
@@ -1221,7 +1219,6 @@ anims/Enter = SubResource( 10 )
 anims/Reset = SubResource( 11 )
 
 [node name="CoinPanel" type="Control" parent="UIGame/UI/UpperPanel"]
-editor/display_folded = true
 show_behind_parent = true
 anchor_left = 1.0
 anchor_right = 1.0
@@ -1472,7 +1469,6 @@ anims/Countdown = SubResource( 23 )
 editor/display_folded = true
 
 [node name="DeadPanel" parent="UIGame/UI" instance=ExtResource( 25 )]
-visible = false
 
 [node name="ComboButton" type="TextureButton" parent="UIGame/UI"]
 margin_left = 10.0
@@ -1739,13 +1735,13 @@ script = SubResource( 30 )
 objects_scene_list = [ ExtResource( 36 ), ExtResource( 37 ), ExtResource( 38 ), ExtResource( 39 ) ]
 objects_number = 5
 [connection signal="screen_exited" from="House/VisibilityNotifier2D" to="House" method="_on_VisibilityNotifier2D_screen_exited"]
-[connection signal="current_height" from="Player" to="UIGame" method="_on_Player_current_height"]
 [connection signal="current_height" from="Player" to="ParallaxBackground" method="_on_Player_current_height"]
 [connection signal="current_height" from="Player" to="." method="_on_Player_current_height"]
 [connection signal="current_height" from="Player" to="EnemySpawner" method="_on_Player_current_height"]
+[connection signal="current_height" from="Player" to="UIGame" method="_on_Player_current_height"]
 [connection signal="dead" from="Player" to="." method="_on_Player_dead"]
-[connection signal="invencible" from="Player" to="CurrencySpawner" method="_on_Player_invencible"]
 [connection signal="invencible" from="Player" to="EnemySpawner" method="_on_Player_invencible_Enemy_Spawner"]
+[connection signal="invencible" from="Player" to="CurrencySpawner" method="_on_Player_invencible"]
 [connection signal="magnet_time" from="Player" to="UIGame" method="_on_Player_magnet_time"]
 [connection signal="on_magnet" from="Player" to="UIGame" method="_on_Player_on_magnet"]
 [connection signal="start_playing" from="Player" to="." method="_on_Player_start_playing"]

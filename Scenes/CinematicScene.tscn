@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://Sprites/Background/Bg1.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Cinematic/WoodFence.png" type="Texture" id=2]
@@ -41,6 +41,43 @@ func _on_Anim_animation_finished(anim_name):
 		$FadeOut/FadeOut.play('Start')
 	pass # Replace with function body.
 "
+
+[sub_resource type="Shader" id=5]
+code = "shader_type canvas_item;
+
+uniform float outline_width = 2.0;
+uniform vec4 outline_color : hint_color;
+
+void fragment() {
+	vec4 col = texture(TEXTURE, UV);
+	vec2 ps = TEXTURE_PIXEL_SIZE;
+	float a;
+	float maxa = col.a;
+	float mina = col.a;
+
+	a = texture(TEXTURE, UV + vec2(0.0, -outline_width) * ps).a;
+	maxa = max(a, maxa);
+	mina = min(a, mina);
+
+	a = texture(TEXTURE, UV + vec2(0.0, outline_width) * ps).a;
+	maxa = max(a, maxa);
+	mina = min(a, mina);
+
+	a = texture(TEXTURE, UV + vec2(-outline_width, 0.0) * ps).a;
+	maxa = max(a, maxa);
+	mina = min(a, mina);
+
+	a = texture(TEXTURE, UV + vec2(outline_width, 0.0) * ps).a;
+	maxa = max(a, maxa);
+	mina = min(a, mina);
+
+	COLOR = mix(col, outline_color, maxa - mina);
+}"
+
+[sub_resource type="ShaderMaterial" id=6]
+shader = SubResource( 5 )
+shader_param/outline_width = 0.4
+shader_param/outline_color = Color( 0.47451, 0.396078, 0.0470588, 1 )
 
 [sub_resource type="Animation" id=2]
 length = 16.0
@@ -410,13 +447,14 @@ anchor_bottom = 1.0
 script = SubResource( 1 )
 
 [node name="Sky" type="TextureRect" parent="."]
-self_modulate = Color( 0.372549, 0.360784, 0.796078, 1 )
+self_modulate = Color( 0.490196, 0.478431, 0.92549, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 texture = ExtResource( 1 )
 expand = true
 
 [node name="Fence" type="TextureRect" parent="."]
+material = SubResource( 6 )
 margin_left = -208.52
 margin_top = 1141.63
 margin_right = 722.48
@@ -426,6 +464,7 @@ expand = true
 stretch_mode = 6
 
 [node name="Fence2" type="TextureRect" parent="."]
+material = SubResource( 6 )
 margin_left = 511.48
 margin_top = 1141.63
 margin_right = 1442.48

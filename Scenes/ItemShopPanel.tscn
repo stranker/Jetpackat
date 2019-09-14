@@ -43,6 +43,7 @@ signal item_unequip(item_type)
 signal on_color_button_pressed(item_panel)
 signal item_preview(item_type,item_texture)
 signal equip_default_jetpack()
+signal emit_confirmation(item_name, item_type, item_price, self_ref)
 
 func _ready():
 	use_button.hide()
@@ -62,6 +63,7 @@ func set_item_info(iname:String,info : Dictionary):
 		$VBC/ItemPanel/SkinPlace.show()
 	connect('item_buy',GameManager,'buy_item')
 	connect('item_buy',get_tree().root.get_node('ShopAndUpgradeScene'),'update_buttons_states')
+	connect('emit_confirmation',get_tree().root.get_node('ShopAndUpgradeScene'),'show_shop_confirmation')
 	connect('item_unequip',get_tree().root.get_node('ShopAndUpgradeScene'),'unequip_item')
 	connect('item_preview',get_tree().root.get_node('ShopAndUpgradeScene'),'item_preview')
 	connect('item_equip',GameManager,'equip_item')
@@ -125,11 +127,10 @@ func check_button_available():
 	return price > currency
 
 func _on_BuyButton_button_down():
-	match payment:
-		'Coin':
-			GameManager.coins -= price
-		'Fish':
-			GameManager.fishes -= price
+	emit_signal('emit_confirmation',item_name,payment,price,self)
+	pass # Replace with function body.
+
+func change_to_buy_state():
 	emit_signal('item_buy',type,item_name)
 	buyed = !buyed
 	buy_button.hide()
@@ -137,7 +138,7 @@ func _on_BuyButton_button_down():
 	preview_button.hide()
 	preview_button.disabled = true
 	$VBC/ItemPanel/Label.hide()
-	pass # Replace with function body.
+	pass
 
 func _on_UseButton_button_down():
 	using = !using

@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://Scenes/ItemShopPanel.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Background/Bg3.png" type="Texture" id=2]
@@ -7,21 +7,24 @@
 [ext_resource path="res://Sprites/Collectables/Fish.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=6]
 [ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=7]
-[ext_resource path="res://Sprites/Shop/UI/ShopButton.png" type="Texture" id=8]
-[ext_resource path="res://Sprites/Shop/UI/ShopButton_Pressed.png" type="Texture" id=9]
-[ext_resource path="res://Sprites/Shop/UI/WorkshopButton.png" type="Texture" id=10]
-[ext_resource path="res://Sprites/Shop/UI/WorkshopButton_Pressed.png" type="Texture" id=11]
-[ext_resource path="res://Sprites/Shop/UI/Background.png" type="Texture" id=12]
-[ext_resource path="res://Scenes/BaseButtonShop.tscn" type="PackedScene" id=13]
-[ext_resource path="res://Sprites/Shop/UI/HatButton.png" type="Texture" id=14]
-[ext_resource path="res://Sprites/Shop/UI/PatternButton.png" type="Texture" id=15]
-[ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=16]
-[ext_resource path="res://Sprites/Shop/Cat/Skin/Skin.png" type="Texture" id=17]
-[ext_resource path="res://Sprites/Cat/Eyes.png" type="Texture" id=18]
-[ext_resource path="res://Scenes/ItemPageGrid.tscn" type="PackedScene" id=19]
-[ext_resource path="res://addons/PickerOfColors/CustomColor.tscn" type="PackedScene" id=20]
-[ext_resource path="res://Scenes/InitialDarker.tscn" type="PackedScene" id=21]
-[ext_resource path="res://Scenes/TransitionScene.tscn" type="PackedScene" id=22]
+[ext_resource path="res://Scenes/ShopScene/MainShopButton.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Sprites/Shop/UI/WorkshopButton.png" type="Texture" id=9]
+[ext_resource path="res://Sprites/Shop/UI/WorkshopButton_Pressed.png" type="Texture" id=10]
+[ext_resource path="res://Sprites/Shop/UI/Background.png" type="Texture" id=11]
+[ext_resource path="res://Scenes/BaseButtonShop.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Sprites/Shop/UI/HatButton.png" type="Texture" id=13]
+[ext_resource path="res://Sprites/Shop/UI/PatternButton.png" type="Texture" id=14]
+[ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=15]
+[ext_resource path="res://Sprites/Shop/Cat/Skin/Skin.png" type="Texture" id=16]
+[ext_resource path="res://Sprites/Cat/Eyes.png" type="Texture" id=17]
+[ext_resource path="res://Scenes/ItemPageGrid.tscn" type="PackedScene" id=18]
+[ext_resource path="res://addons/PickerOfColors/CustomColor.tscn" type="PackedScene" id=19]
+[ext_resource path="res://Sprites/Shop/UI/BoardPanel.png" type="Texture" id=20]
+[ext_resource path="res://Sprites/Shop/UI/EngineButton.png" type="Texture" id=21]
+[ext_resource path="res://Sprites/Shop/UI/ChipButton.png" type="Texture" id=22]
+[ext_resource path="res://Scenes/InitialDarker.tscn" type="PackedScene" id=23]
+[ext_resource path="res://Scenes/TransitionScene.tscn" type="PackedScene" id=24]
+[ext_resource path="res://Scenes/ShopScene/ShopItemConfirmation.tscn" type="PackedScene" id=25]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.356863, 0.619608, 0.827451, 1 )
@@ -209,13 +212,17 @@ func _on_CloseButton_button_down():
 	$MainPanel/ShopPanel/ShopPanelAnim.play_backwards('Enter')
 	pass # Replace with function body.
 
-func _on_ShopButtonAnim_animation_finished(anim_name):
-	if anim_name == 'Click':
-		$VBC/Buttons/ShopButton/ShopButtonAnim.queue('Idle')
-		$MainPanel/ShopPanel/ShopPanelAnim.play('Enter')
-		$MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/HatButton._on_ButtonShop_button_down()
+func _on_ShopButton_button_clicked():
+	$MainPanel/ShopPanel/ShopPanelAnim.play('Enter')
+	$MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/HatButton._on_ButtonShop_button_down()
 	pass # Replace with function body.
-"
+
+func _on_WorkshopButton_button_clicked():
+	pass # Replace with function body.
+
+func show_shop_confirmation(item_name, payment, price, panel_ref):
+	$ShopItemConfirmation.set_shop_info(item_name, payment, price, panel_ref)
+	pass"
 
 [sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.568627, 0.254902, 0.952941, 1 )
@@ -236,7 +243,7 @@ expand_margin_bottom = 5.0
 
 [sub_resource type="DynamicFont" id=4]
 size = 60
-outline_size = 2
+outline_size = 4
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 3 )
@@ -278,46 +285,7 @@ shader = SubResource( 5 )
 shader_param/outline_width = 1.0
 shader_param/outline_color = Color( 1, 1, 1, 1 )
 
-[sub_resource type="DynamicFont" id=7]
-size = 100
-outline_size = 5
-outline_color = Color( 0, 0, 0, 1 )
-use_filter = true
-font_data = ExtResource( 3 )
-
-[sub_resource type="Animation" id=18]
-resource_name = "Click"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:rect_scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.2, 0.4 ),
-"transitions": PoolRealArray( 0.5, 2, 0.5 ),
-"update": 0,
-"values": [ Vector2( 1, 1 ), Vector2( 1.2, 1.2 ), Vector2( 1, 1 ) ]
-}
-
-[sub_resource type="Animation" id=20]
-resource_name = "Idle"
-loop = true
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:rect_scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( 1, 1 ), Vector2( 1.05, 1.05 ) ]
-}
-
-[sub_resource type="StyleBoxFlat" id=8]
+[sub_resource type="StyleBoxFlat" id=10]
 bg_color = Color( 1, 0.705882, 0.00784314, 1 )
 border_width_left = 7
 border_width_right = 7
@@ -370,14 +338,15 @@ shader = SubResource( 11 )
 shader_param/outline_width = 0.5
 shader_param/outline_color = Color( 1, 1, 1, 1 )
 
-[sub_resource type="ShaderMaterial" id=14]
+[sub_resource type="ShaderMaterial" id=13]
 shader = SubResource( 11 )
 shader_param/outline_width = 0.5
 shader_param/outline_color = Color( 1, 1, 1, 1 )
 
-[sub_resource type="Animation" id=19]
+[sub_resource type="Animation" id=14]
 resource_name = "Enter"
 length = 0.5
+step = 0.05
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:rect_position")
 tracks/0/interp = 1
@@ -397,14 +366,19 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.1 ),
+"times": PoolRealArray( 0, 0.05 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ false, true ]
 }
 
-[sub_resource type="StyleBoxFlat" id=17]
+[sub_resource type="StyleBoxFlat" id=15]
 bg_color = Color( 0.0901961, 0.721569, 0, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color( 0.0941176, 0.627451, 0.0156863, 1 )
 corner_radius_top_left = 50
 corner_radius_top_right = 50
 corner_radius_bottom_right = 50
@@ -414,6 +388,37 @@ expand_margin_left = 5.0
 expand_margin_right = 5.0
 expand_margin_top = 5.0
 expand_margin_bottom = 5.0
+
+[sub_resource type="ButtonGroup" id=17]
+
+[sub_resource type="Animation" id=16]
+resource_name = "Enter"
+length = 0.5
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("BackPanel:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4, 0.5 ),
+"transitions": PoolRealArray( 0.5, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1600, 2 ), Vector2( -20, 2 ), Vector2( 10, 2 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("BackPanel:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.05 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
 
 [node name="ShopAndUpgradeScene" type="Panel"]
 anchor_right = 1.0
@@ -445,19 +450,16 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 0.1
 
 [node name="HBC" type="HBoxContainer" parent="VBC/CurrencyInfo"]
-editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="Coins" type="Control" parent="VBC/CurrencyInfo/HBC"]
-editor/display_folded = true
 margin_right = 466.0
 margin_bottom = 174.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Panel" type="Panel" parent="VBC/CurrencyInfo/HBC/Coins"]
-editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -473,12 +475,15 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-margin_left = -259.0
+margin_left = -282.0
 margin_top = -36.5
-margin_right = -12.0
+margin_right = -20.0
 margin_bottom = 36.5
 custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.415686 )
+custom_constants/shadow_offset_x = 6
+custom_constants/shadow_offset_y = 6
 text = "999999"
 align = 2
 valign = 1
@@ -495,7 +500,6 @@ expand = true
 stretch_mode = 6
 
 [node name="Fish" type="Control" parent="VBC/CurrencyInfo/HBC"]
-editor/display_folded = true
 margin_left = 470.0
 margin_right = 936.0
 margin_bottom = 174.0
@@ -503,7 +507,6 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Panel" type="Panel" parent="VBC/CurrencyInfo/HBC/Fish"]
-editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -519,12 +522,15 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-margin_left = -259.0
+margin_left = -271.0
 margin_top = -36.5
-margin_right = -12.0
+margin_right = -21.0
 margin_bottom = 36.5
 custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.415686 )
+custom_constants/shadow_offset_x = 6
+custom_constants/shadow_offset_y = 6
 text = "999999"
 align = 2
 valign = 1
@@ -564,7 +570,6 @@ expand = true
 stretch_mode = 5
 
 [node name="Buttons" type="Control" parent="VBC"]
-editor/display_folded = true
 margin_top = 174.0
 margin_right = 1080.0
 margin_bottom = 1920.0
@@ -572,76 +577,21 @@ mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="ShopButton" type="TextureButton" parent="VBC/Buttons"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -450.0
-margin_top = 86.0
-margin_right = 450.0
-margin_bottom = 786.0
-rect_pivot_offset = Vector2( 460, 340 )
-texture_normal = ExtResource( 8 )
-texture_pressed = ExtResource( 9 )
-texture_hover = ExtResource( 9 )
-texture_disabled = ExtResource( 9 )
-texture_focused = ExtResource( 9 )
-expand = true
-stretch_mode = 5
+[node name="ShopButton" parent="VBC/Buttons" instance=ExtResource( 8 )]
+text = "Shop"
 
-[node name="Text" type="Label" parent="VBC/Buttons/ShopButton"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -430.0
-margin_top = 10.0
-margin_right = 440.0
-margin_bottom = 190.0
-custom_fonts/font = SubResource( 7 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 0.490196 )
-custom_constants/shadow_offset_x = 8
-custom_constants/shadow_offset_y = 8
-text = "SHOP"
-align = 1
-valign = 1
-
-[node name="ShopButtonAnim" type="AnimationPlayer" parent="VBC/Buttons/ShopButton"]
-autoplay = "Idle"
-anims/Click = SubResource( 18 )
-anims/Idle = SubResource( 20 )
-
-[node name="UpgradeButton" type="TextureButton" parent="VBC/Buttons"]
-editor/display_folded = true
-visible = false
-anchor_left = 0.5
+[node name="WorkshopButton" parent="VBC/Buttons" instance=ExtResource( 8 )]
 anchor_top = 1.0
-anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -450.0
-margin_top = -813.5
-margin_right = 450.0
-margin_bottom = -113.5
-toggle_mode = true
-texture_normal = ExtResource( 10 )
-texture_pressed = ExtResource( 11 )
-texture_hover = ExtResource( 11 )
-texture_disabled = ExtResource( 11 )
-texture_focused = ExtResource( 11 )
-expand = true
-stretch_mode = 5
-
-[node name="Text" type="Label" parent="VBC/Buttons/UpgradeButton"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -445.0
-margin_top = 20.0
-margin_right = 445.0
-margin_bottom = 200.0
-custom_fonts/font = SubResource( 7 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 0.490196 )
-custom_constants/shadow_offset_x = 8
-custom_constants/shadow_offset_y = 8
-text = "WORKSHOP"
-align = 1
-valign = 1
+margin_top = -810.0
+margin_bottom = -110.0
+texture_normal = ExtResource( 9 )
+texture_pressed = ExtResource( 10 )
+texture_hover = ExtResource( 10 )
+texture_disabled = ExtResource( 10 )
+texture_focused = ExtResource( 10 )
+text = "Workshop"
+animation_advance_time = 0.5
 
 [node name="MainPanel" type="Control" parent="."]
 anchor_left = 0.5
@@ -657,6 +607,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ShopPanel" type="Control" parent="MainPanel"]
+editor/display_folded = true
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -674,9 +625,10 @@ margin_top = -1640.0
 margin_right = 530.0
 margin_bottom = -10.0
 mouse_filter = 1
-custom_styles/panel = SubResource( 8 )
+custom_styles/panel = SubResource( 10 )
 
 [node name="HBC" type="VBoxContainer" parent="MainPanel/ShopPanel/BackPanel"]
+editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 
@@ -691,11 +643,11 @@ size_flags_stretch_ratio = 0.6
 [node name="Background" type="TextureRect" parent="MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-texture = ExtResource( 12 )
+texture = ExtResource( 11 )
 expand = true
 stretch_mode = 6
 
-[node name="ScarfButton" parent="MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel" instance=ExtResource( 13 )]
+[node name="ScarfButton" parent="MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel" instance=ExtResource( 12 )]
 margin_left = 67.0
 margin_top = -126.5
 margin_right = 337.0
@@ -703,7 +655,7 @@ margin_bottom = 212.5
 rect_pivot_offset = Vector2( 135, 160 )
 group = null
 
-[node name="HatButton" parent="MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel" instance=ExtResource( 13 )]
+[node name="HatButton" parent="MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel" instance=ExtResource( 12 )]
 editor/display_folded = true
 anchor_left = 1.0
 anchor_right = 1.0
@@ -713,13 +665,13 @@ margin_right = 0.0
 margin_bottom = 194.5
 rect_pivot_offset = Vector2( 100, 200 )
 group = null
-texture_normal = ExtResource( 14 )
-texture_pressed = ExtResource( 14 )
-texture_hover = ExtResource( 14 )
-texture_disabled = ExtResource( 14 )
-texture_focused = ExtResource( 14 )
+texture_normal = ExtResource( 13 )
+texture_pressed = ExtResource( 13 )
+texture_hover = ExtResource( 13 )
+texture_disabled = ExtResource( 13 )
+texture_focused = ExtResource( 13 )
 
-[node name="PatternButton" parent="MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel" instance=ExtResource( 13 )]
+[node name="PatternButton" parent="MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel" instance=ExtResource( 12 )]
 editor/display_folded = true
 material = SubResource( 12 )
 anchor_left = 0.0
@@ -730,15 +682,15 @@ margin_right = 250.0
 margin_bottom = 222.5
 rect_pivot_offset = Vector2( 120, 209.5 )
 group = null
-texture_normal = ExtResource( 15 )
-texture_pressed = ExtResource( 15 )
-texture_hover = ExtResource( 15 )
-texture_disabled = ExtResource( 15 )
-texture_focused = ExtResource( 15 )
+texture_normal = ExtResource( 14 )
+texture_pressed = ExtResource( 14 )
+texture_hover = ExtResource( 14 )
+texture_disabled = ExtResource( 14 )
+texture_focused = ExtResource( 14 )
 
-[node name="JetpackButton" parent="MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel" instance=ExtResource( 13 )]
+[node name="JetpackButton" parent="MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel" instance=ExtResource( 12 )]
 editor/display_folded = true
-material = SubResource( 14 )
+material = SubResource( 13 )
 anchor_left = 0.0
 anchor_right = 0.0
 margin_left = 397.531
@@ -748,15 +700,15 @@ margin_bottom = 299.385
 rect_rotation = 15.0
 rect_pivot_offset = Vector2( 108, 151.072 )
 group = null
-texture_normal = ExtResource( 16 )
-texture_pressed = ExtResource( 16 )
-texture_hover = ExtResource( 16 )
-texture_disabled = ExtResource( 16 )
-texture_focused = ExtResource( 16 )
+texture_normal = ExtResource( 15 )
+texture_pressed = ExtResource( 15 )
+texture_hover = ExtResource( 15 )
+texture_disabled = ExtResource( 15 )
+texture_focused = ExtResource( 15 )
 
-[node name="ColorButton" parent="MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel" instance=ExtResource( 13 )]
+[node name="ColorButton" parent="MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel" instance=ExtResource( 12 )]
 editor/display_folded = true
-material = SubResource( 14 )
+material = SubResource( 13 )
 anchor_left = 0.0
 anchor_right = 0.0
 margin_left = 220.0
@@ -765,11 +717,11 @@ margin_right = 417.0
 margin_bottom = 264.5
 rect_pivot_offset = Vector2( 90, 193 )
 group = null
-texture_normal = ExtResource( 17 )
-texture_pressed = ExtResource( 17 )
-texture_hover = ExtResource( 17 )
-texture_disabled = ExtResource( 17 )
-texture_focused = ExtResource( 17 )
+texture_normal = ExtResource( 16 )
+texture_pressed = ExtResource( 16 )
+texture_hover = ExtResource( 16 )
+texture_disabled = ExtResource( 16 )
+texture_focused = ExtResource( 16 )
 
 [node name="Player" type="Control" parent="MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel"]
 editor/display_folded = true
@@ -797,7 +749,7 @@ margin_bottom = 244.0
 mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-texture = ExtResource( 17 )
+texture = ExtResource( 16 )
 expand = true
 stretch_mode = 6
 
@@ -808,7 +760,7 @@ margin_left = -95.0
 margin_top = 20.0
 margin_right = 71.0
 margin_bottom = 186.0
-texture = ExtResource( 18 )
+texture = ExtResource( 17 )
 region_rect = Rect2( 0, 0, 32, 32 )
 
 [node name="Pattern" type="TextureRect" parent="MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/Player/Skin"]
@@ -857,7 +809,7 @@ margin_right = 467.0
 margin_bottom = 317.0
 rect_rotation = 15.0
 mouse_filter = 2
-texture = ExtResource( 16 )
+texture = ExtResource( 15 )
 expand = true
 stretch_mode = 6
 
@@ -870,7 +822,7 @@ mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="ItemPageGrid" parent="MainPanel/ShopPanel/BackPanel/HBC/PanelItems" instance=ExtResource( 19 )]
+[node name="ItemPageGrid" parent="MainPanel/ShopPanel/BackPanel/HBC/PanelItems" instance=ExtResource( 18 )]
 editor/display_folded = true
 margin_left = 18.0
 margin_top = 25.0
@@ -896,20 +848,20 @@ margin_right = 1024.0
 margin_bottom = 960.0
 
 [node name="Prev" parent="MainPanel/ShopPanel/BackPanel/HBC/PanelItems/ItemPageGrid/VBC/HBC" index="0"]
-margin_right = 338.0
+margin_right = 376.0
 margin_bottom = 87.0
 
 [node name="Page" parent="MainPanel/ShopPanel/BackPanel/HBC/PanelItems/ItemPageGrid/VBC/HBC" index="1"]
-margin_left = 342.0
-margin_right = 680.0
+margin_left = 380.0
+margin_right = 643.0
 margin_bottom = 87.0
 
 [node name="Next" parent="MainPanel/ShopPanel/BackPanel/HBC/PanelItems/ItemPageGrid/VBC/HBC" index="2"]
-margin_left = 684.0
+margin_left = 647.0
 margin_right = 1024.0
 margin_bottom = 87.0
 
-[node name="CustomColor" parent="MainPanel/ShopPanel/BackPanel/HBC/PanelItems" instance=ExtResource( 20 )]
+[node name="CustomColor" parent="MainPanel/ShopPanel/BackPanel/HBC/PanelItems" instance=ExtResource( 19 )]
 visible = false
 anchor_left = 0.5
 anchor_top = 0.5
@@ -935,7 +887,7 @@ expand = true
 stretch_mode = 5
 
 [node name="ShopPanelAnim" type="AnimationPlayer" parent="MainPanel/ShopPanel"]
-anims/Enter = SubResource( 19 )
+anims/Enter = SubResource( 14 )
 
 [node name="UpgradePanel" type="Control" parent="MainPanel"]
 editor/display_folded = true
@@ -954,16 +906,59 @@ margin_top = -1640.0
 margin_right = 530.0
 margin_bottom = -10.0
 mouse_filter = 1
-custom_styles/panel = SubResource( 17 )
+custom_styles/panel = SubResource( 15 )
 
-[node name="InitialDarker" parent="." instance=ExtResource( 21 )]
+[node name="Background" type="TextureRect" parent="MainPanel/UpgradePanel/BackPanel"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -500.0
+margin_top = -817.0
+margin_right = 500.0
+margin_bottom = 813.0
+texture = ExtResource( 20 )
+expand = true
+stretch_mode = 6
 
-[node name="TransitionScene" parent="." instance=ExtResource( 22 )]
+[node name="EngineButton" parent="MainPanel/UpgradePanel/BackPanel" instance=ExtResource( 12 )]
+margin_left = -403.0
+margin_top = -577.0
+margin_right = -33.0
+margin_bottom = -147.0
+rect_pivot_offset = Vector2( 185, 210 )
+group = SubResource( 17 )
+texture_normal = ExtResource( 21 )
+texture_pressed = ExtResource( 21 )
+texture_hover = ExtResource( 21 )
+texture_disabled = ExtResource( 21 )
+texture_focused = ExtResource( 21 )
+
+[node name="ChipButton" parent="MainPanel/UpgradePanel/BackPanel" instance=ExtResource( 12 )]
+margin_left = 30.0
+margin_top = -606.0
+margin_right = 470.0
+margin_bottom = -106.0
+rect_pivot_offset = Vector2( 190, 210 )
+group = SubResource( 17 )
+texture_normal = ExtResource( 22 )
+texture_pressed = ExtResource( 22 )
+texture_hover = ExtResource( 22 )
+texture_disabled = ExtResource( 22 )
+texture_focused = ExtResource( 22 )
+
+[node name="UpgradePanelAnim" type="AnimationPlayer" parent="MainPanel/UpgradePanel"]
+anims/Enter = SubResource( 16 )
+
+[node name="InitialDarker" parent="." instance=ExtResource( 23 )]
+
+[node name="TransitionScene" parent="." instance=ExtResource( 24 )]
 editor/display_folded = true
+
+[node name="ShopItemConfirmation" parent="." instance=ExtResource( 25 )]
 [connection signal="button_down" from="VBC/CurrencyInfo/HBC/ClosePanel/CloseButton" to="." method="_on_TextureButton_button_down"]
-[connection signal="button_down" from="VBC/Buttons/ShopButton" to="." method="_on_ShopButton_button_down"]
-[connection signal="animation_finished" from="VBC/Buttons/ShopButton/ShopButtonAnim" to="." method="_on_ShopButtonAnim_animation_finished"]
-[connection signal="button_down" from="VBC/Buttons/UpgradeButton" to="." method="_on_UpgradeButton_button_down"]
+[connection signal="button_clicked" from="VBC/Buttons/ShopButton" to="." method="_on_ShopButton_button_clicked"]
+[connection signal="button_clicked" from="VBC/Buttons/WorkshopButton" to="." method="_on_WorkshopButton_button_clicked"]
 [connection signal="button_down" from="MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/ScarfButton" to="." method="_on_ScarfButton_button_down"]
 [connection signal="button_down" from="MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/HatButton" to="." method="_on_HatButton_button_down"]
 [connection signal="button_down" from="MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/PatternButton" to="." method="_on_PatternButton_button_down"]
