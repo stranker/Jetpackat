@@ -1106,15 +1106,18 @@ height_tutorial = 15
 
 [node name="UI" type="Control" parent="UIGame"]
 pause_mode = 2
+editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 
 [node name="UpperPanel" type="Control" parent="UIGame/UI"]
+editor/display_folded = true
 anchor_right = 1.0
 margin_bottom = 284.0
 
 [node name="MeterPanel" type="Control" parent="UIGame/UI/UpperPanel"]
+editor/display_folded = true
 margin_left = -190.0
 margin_top = 10.0
 margin_right = 190.0
@@ -1219,6 +1222,7 @@ anims/Enter = SubResource( 10 )
 anims/Reset = SubResource( 11 )
 
 [node name="CoinPanel" type="Control" parent="UIGame/UI/UpperPanel"]
+editor/display_folded = true
 show_behind_parent = true
 anchor_left = 1.0
 anchor_right = 1.0
@@ -1235,7 +1239,7 @@ anchor_bottom = 0.5
 margin_left = -50.0
 margin_top = -44.0
 margin_right = -11.0
-margin_bottom = 44.0
+margin_bottom = 60.0
 grow_horizontal = 0
 grow_vertical = 0
 custom_fonts/font = SubResource( 12 )
@@ -1244,7 +1248,6 @@ align = 2
 valign = 1
 
 [node name="CoinControl" type="Control" parent="UIGame/UI/UpperPanel/CoinPanel/CoinLabel"]
-editor/display_folded = true
 anchor_top = 0.5
 anchor_bottom = 0.5
 margin_left = -70.0
@@ -1294,10 +1297,10 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-margin_left = -50.0
-margin_top = -49.5
-margin_right = -10.0
-margin_bottom = 38.5
+margin_left = -50.001
+margin_top = -49.0
+margin_right = -10.001
+margin_bottom = 51.0
 grow_horizontal = 0
 size_flags_vertical = 1
 custom_fonts/font = SubResource( 15 )
@@ -1736,9 +1739,9 @@ objects_scene_list = [ ExtResource( 36 ), ExtResource( 37 ), ExtResource( 38 ), 
 objects_number = 5
 [connection signal="screen_exited" from="House/VisibilityNotifier2D" to="House" method="_on_VisibilityNotifier2D_screen_exited"]
 [connection signal="current_height" from="Player" to="ParallaxBackground" method="_on_Player_current_height"]
-[connection signal="current_height" from="Player" to="." method="_on_Player_current_height"]
-[connection signal="current_height" from="Player" to="EnemySpawner" method="_on_Player_current_height"]
 [connection signal="current_height" from="Player" to="UIGame" method="_on_Player_current_height"]
+[connection signal="current_height" from="Player" to="EnemySpawner" method="_on_Player_current_height"]
+[connection signal="current_height" from="Player" to="." method="_on_Player_current_height"]
 [connection signal="dead" from="Player" to="." method="_on_Player_dead"]
 [connection signal="invencible" from="Player" to="EnemySpawner" method="_on_Player_invencible_Enemy_Spawner"]
 [connection signal="invencible" from="Player" to="CurrencySpawner" method="_on_Player_invencible"]

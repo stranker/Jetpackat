@@ -210,6 +210,8 @@ func unclick_other_buttons(current_button):
 
 func _on_CloseButton_button_down():
 	$MainPanel/ShopPanel/ShopPanelAnim.play_backwards('Enter')
+	if $ShopItemConfirmation.visible:
+		$ShopItemConfirmation.exit_viewport()
 	pass # Replace with function body.
 
 func _on_ShopButton_button_clicked():
@@ -222,6 +224,10 @@ func _on_WorkshopButton_button_clicked():
 
 func show_shop_confirmation(item_name, payment, price, panel_ref):
 	$ShopItemConfirmation.set_shop_info(item_name, payment, price, panel_ref)
+	pass
+
+func show_workshop_confirmation(item_name, cost):
+	$ShopItemConfirmation.set_workshop_info(item_name, cost)
 	pass"
 
 [sub_resource type="StyleBoxFlat" id=3]
@@ -594,6 +600,7 @@ text = "Workshop"
 animation_advance_time = 0.5
 
 [node name="MainPanel" type="Control" parent="."]
+editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -607,7 +614,6 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ShopPanel" type="Control" parent="MainPanel"]
-editor/display_folded = true
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
