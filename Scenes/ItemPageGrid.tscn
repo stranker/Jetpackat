@@ -29,6 +29,24 @@ func create_shop_items(data : Dictionary):
 	fill_shop_item_info()
 	pass
 
+func create_leader_items(data : Array):
+	total_pages = ceil(float(data.size()) / float(items_to_show))
+	actual_page = 0
+	grid_data = data
+	clear_previous_data()
+	instanciate_page()
+	fill_leader_info()
+	pass
+
+func fill_leader_info():
+	var panel_count = $VBC/Grid.get_child_count() 
+	var pos = actual_page * items_to_show + 1
+	for idx in range(panel_count):
+		var info = grid_data[actual_page * items_to_show + idx]
+		$VBC/Grid.get_child(idx).set_info(pos,info)
+		pos += 1
+	pass
+
 func fill_shop_item_info():
 	var panel_count = $VBC/Grid.get_child_count() 
 	for idx in range(panel_count):
@@ -63,6 +81,7 @@ func check_ui():
 func check_type():
 	match item_page_grid_type:
 		ItemGridType.Leaderboard:
+			fill_leader_info()
 			return
 		ItemGridType.ShopPanel:
 			fill_shop_item_info()
@@ -104,12 +123,12 @@ func _on_NextButton_button_down():
 	pass # Replace with function body."
 
 [sub_resource type="StyleBoxFlat" id=2]
-bg_color = Color( 0.345098, 0.25098, 1, 1 )
+bg_color = Color( 0.156863, 0.137255, 0.482353, 1 )
 border_width_left = 5
 border_width_top = 5
 border_width_right = 5
 border_width_bottom = 5
-border_color = Color( 0.345098, 0.25098, 1, 1 )
+border_color = Color( 0.156863, 0.137255, 0.482353, 1 )
 corner_radius_top_left = 40
 corner_radius_top_right = 40
 corner_radius_bottom_right = 40
@@ -119,12 +138,12 @@ shadow_color = Color( 0, 0, 0, 0.309804 )
 shadow_size = 8
 
 [sub_resource type="StyleBoxFlat" id=3]
-bg_color = Color( 0.25098, 0.505882, 1, 1 )
+bg_color = Color( 0.196078, 0.34902, 0.886275, 1 )
 border_width_left = 5
 border_width_top = 5
 border_width_right = 5
 border_width_bottom = 15
-border_color = Color( 0.345098, 0.25098, 1, 1 )
+border_color = Color( 0.156863, 0.137255, 0.482353, 1 )
 corner_radius_top_left = 40
 corner_radius_top_right = 40
 corner_radius_bottom_right = 40
@@ -141,12 +160,12 @@ use_filter = true
 font_data = ExtResource( 1 )
 
 [sub_resource type="StyleBoxFlat" id=5]
-bg_color = Color( 0.345098, 0.25098, 1, 1 )
+bg_color = Color( 0.423529, 0.203922, 0.615686, 1 )
 border_width_left = 5
 border_width_top = 5
 border_width_right = 5
 border_width_bottom = 15
-border_color = Color( 0.345098, 0.25098, 1, 1 )
+border_color = Color( 0.423529, 0.203922, 0.615686, 1 )
 corner_radius_top_left = 40
 corner_radius_top_right = 40
 corner_radius_bottom_right = 40
@@ -231,6 +250,7 @@ text = "1/1"
 align = 1
 
 [node name="Next" type="Control" parent="VBC/HBC"]
+editor/display_folded = true
 margin_left = 682.0
 margin_right = 1080.0
 margin_bottom = 89.0

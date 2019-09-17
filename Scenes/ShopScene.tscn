@@ -27,7 +27,7 @@
 [ext_resource path="res://Scenes/ShopScene/ShopItemConfirmation.tscn" type="PackedScene" id=25]
 
 [sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0.356863, 0.619608, 0.827451, 1 )
+bg_color = Color( 0.2, 0.647059, 1, 1 )
 
 [sub_resource type="GDScript" id=2]
 script/source = "extends Control
@@ -231,21 +231,19 @@ func show_workshop_confirmation(item_name, cost):
 	pass"
 
 [sub_resource type="StyleBoxFlat" id=3]
-bg_color = Color( 0.568627, 0.254902, 0.952941, 1 )
+bg_color = Color( 0.788235, 0.360784, 0.819608, 1 )
 border_width_left = 10
 border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
-border_color = Color( 0.427451, 0.121569, 0.8, 1 )
-corner_radius_top_left = 50
-corner_radius_top_right = 50
-corner_radius_bottom_right = 50
-corner_radius_bottom_left = 50
+border_color = Color( 0.423529, 0.203922, 0.615686, 1 )
+corner_radius_top_left = 40
+corner_radius_top_right = 40
+corner_radius_bottom_right = 40
+corner_radius_bottom_left = 40
 corner_detail = 2
-expand_margin_left = 5.0
-expand_margin_right = 5.0
-expand_margin_top = 5.0
-expand_margin_bottom = 5.0
+shadow_color = Color( 0, 0, 0, 0.309804 )
+shadow_size = 8
 
 [sub_resource type="DynamicFont" id=4]
 size = 60
@@ -291,12 +289,12 @@ shader = SubResource( 5 )
 shader_param/outline_width = 1.0
 shader_param/outline_color = Color( 1, 1, 1, 1 )
 
-[sub_resource type="StyleBoxFlat" id=10]
-bg_color = Color( 1, 0.705882, 0.00784314, 1 )
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 1, 0.301961, 0.301961, 1 )
 border_width_left = 7
 border_width_right = 7
 border_width_bottom = 20
-border_color = Color( 0.968627, 0.596078, 0.0117647, 1 )
+border_color = Color( 0.623529, 0.117647, 0.192157, 1 )
 corner_radius_top_left = 50
 corner_radius_top_right = 50
 corner_radius_bottom_right = 50
@@ -307,7 +305,7 @@ expand_margin_right = 5.0
 expand_margin_top = 5.0
 expand_margin_bottom = 5.0
 
-[sub_resource type="Shader" id=11]
+[sub_resource type="Shader" id=8]
 code = "shader_type canvas_item;
 
 uniform float outline_width = 2.0;
@@ -339,17 +337,17 @@ void fragment() {
 	COLOR = mix(col, outline_color, maxa - mina);
 }"
 
-[sub_resource type="ShaderMaterial" id=12]
-shader = SubResource( 11 )
+[sub_resource type="ShaderMaterial" id=9]
+shader = SubResource( 8 )
 shader_param/outline_width = 0.5
 shader_param/outline_color = Color( 1, 1, 1, 1 )
 
-[sub_resource type="ShaderMaterial" id=13]
-shader = SubResource( 11 )
+[sub_resource type="ShaderMaterial" id=10]
+shader = SubResource( 8 )
 shader_param/outline_width = 0.5
 shader_param/outline_color = Color( 1, 1, 1, 1 )
 
-[sub_resource type="Animation" id=14]
+[sub_resource type="Animation" id=11]
 resource_name = "Enter"
 length = 0.5
 step = 0.05
@@ -378,7 +376,7 @@ tracks/1/keys = {
 "values": [ false, true ]
 }
 
-[sub_resource type="StyleBoxFlat" id=15]
+[sub_resource type="StyleBoxFlat" id=12]
 bg_color = Color( 0.0901961, 0.721569, 0, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -395,9 +393,9 @@ expand_margin_right = 5.0
 expand_margin_top = 5.0
 expand_margin_bottom = 5.0
 
-[sub_resource type="ButtonGroup" id=17]
+[sub_resource type="ButtonGroup" id=13]
 
-[sub_resource type="Animation" id=16]
+[sub_resource type="Animation" id=14]
 resource_name = "Enter"
 length = 0.5
 step = 0.05
@@ -441,13 +439,11 @@ expand = true
 stretch_mode = 6
 
 [node name="VBC" type="VBoxContainer" parent="."]
-editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_constants/separation = 0
 
 [node name="CurrencyInfo" type="Control" parent="VBC"]
-editor/display_folded = true
 margin_right = 1080.0
 margin_bottom = 174.0
 mouse_filter = 2
@@ -466,14 +462,15 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Panel" type="Panel" parent="VBC/CurrencyInfo/HBC/Coins"]
+editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -171.0
-margin_top = -44.5
+margin_top = -47.0
 margin_right = 171.0
-margin_bottom = 44.5
+margin_bottom = 53.0
 custom_styles/panel = SubResource( 3 )
 
 [node name="Cuant" type="Label" parent="VBC/CurrencyInfo/HBC/Coins/Panel"]
@@ -518,9 +515,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -171.0
-margin_top = -44.5
-margin_right = 171.0
-margin_bottom = 44.5
+margin_top = -47.0
+margin_right = 167.0
+margin_bottom = 53.0
 custom_styles/panel = SubResource( 3 )
 
 [node name="Cuant" type="Label" parent="VBC/CurrencyInfo/HBC/Fish/Panel"]
@@ -576,6 +573,7 @@ expand = true
 stretch_mode = 5
 
 [node name="Buttons" type="Control" parent="VBC"]
+editor/display_folded = true
 margin_top = 174.0
 margin_right = 1080.0
 margin_bottom = 1920.0
@@ -614,7 +612,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ShopPanel" type="Control" parent="MainPanel"]
-visible = false
+editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 1600.0
@@ -631,14 +629,14 @@ margin_top = -1640.0
 margin_right = 530.0
 margin_bottom = -10.0
 mouse_filter = 1
-custom_styles/panel = SubResource( 10 )
+custom_styles/panel = SubResource( 7 )
 
 [node name="HBC" type="VBoxContainer" parent="MainPanel/ShopPanel/BackPanel"]
-editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="PlayerPanel" type="Control" parent="MainPanel/ShopPanel/BackPanel/HBC"]
+editor/display_folded = true
 margin_right = 1060.0
 margin_bottom = 609.0
 mouse_filter = 1
@@ -679,7 +677,7 @@ texture_focused = ExtResource( 13 )
 
 [node name="PatternButton" parent="MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel" instance=ExtResource( 12 )]
 editor/display_folded = true
-material = SubResource( 12 )
+material = SubResource( 9 )
 anchor_left = 0.0
 anchor_right = 0.0
 margin_left = 0.0
@@ -696,7 +694,7 @@ texture_focused = ExtResource( 14 )
 
 [node name="JetpackButton" parent="MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel" instance=ExtResource( 12 )]
 editor/display_folded = true
-material = SubResource( 13 )
+material = SubResource( 10 )
 anchor_left = 0.0
 anchor_right = 0.0
 margin_left = 397.531
@@ -714,7 +712,7 @@ texture_focused = ExtResource( 15 )
 
 [node name="ColorButton" parent="MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel" instance=ExtResource( 12 )]
 editor/display_folded = true
-material = SubResource( 13 )
+material = SubResource( 10 )
 anchor_left = 0.0
 anchor_right = 0.0
 margin_left = 220.0
@@ -820,6 +818,7 @@ expand = true
 stretch_mode = 6
 
 [node name="PanelItems" type="Control" parent="MainPanel/ShopPanel/BackPanel/HBC"]
+editor/display_folded = true
 margin_top = 613.0
 margin_right = 1060.0
 margin_bottom = 1630.0
@@ -848,7 +847,6 @@ grow_vertical = 2
 custom_constants/hseparation = 60
 
 [node name="HBC" parent="MainPanel/ShopPanel/BackPanel/HBC/PanelItems/ItemPageGrid/VBC" index="1"]
-editor/display_folded = true
 margin_top = 873.0
 margin_right = 1024.0
 margin_bottom = 960.0
@@ -893,7 +891,7 @@ expand = true
 stretch_mode = 5
 
 [node name="ShopPanelAnim" type="AnimationPlayer" parent="MainPanel/ShopPanel"]
-anims/Enter = SubResource( 14 )
+anims/Enter = SubResource( 11 )
 
 [node name="UpgradePanel" type="Control" parent="MainPanel"]
 editor/display_folded = true
@@ -912,7 +910,7 @@ margin_top = -1640.0
 margin_right = 530.0
 margin_bottom = -10.0
 mouse_filter = 1
-custom_styles/panel = SubResource( 15 )
+custom_styles/panel = SubResource( 12 )
 
 [node name="Background" type="TextureRect" parent="MainPanel/UpgradePanel/BackPanel"]
 anchor_left = 0.5
@@ -933,7 +931,7 @@ margin_top = -577.0
 margin_right = -33.0
 margin_bottom = -147.0
 rect_pivot_offset = Vector2( 185, 210 )
-group = SubResource( 17 )
+group = SubResource( 13 )
 texture_normal = ExtResource( 21 )
 texture_pressed = ExtResource( 21 )
 texture_hover = ExtResource( 21 )
@@ -946,7 +944,7 @@ margin_top = -606.0
 margin_right = 470.0
 margin_bottom = -106.0
 rect_pivot_offset = Vector2( 190, 210 )
-group = SubResource( 17 )
+group = SubResource( 13 )
 texture_normal = ExtResource( 22 )
 texture_pressed = ExtResource( 22 )
 texture_hover = ExtResource( 22 )
@@ -954,7 +952,7 @@ texture_disabled = ExtResource( 22 )
 texture_focused = ExtResource( 22 )
 
 [node name="UpgradePanelAnim" type="AnimationPlayer" parent="MainPanel/UpgradePanel"]
-anims/Enter = SubResource( 16 )
+anims/Enter = SubResource( 14 )
 
 [node name="InitialDarker" parent="." instance=ExtResource( 23 )]
 

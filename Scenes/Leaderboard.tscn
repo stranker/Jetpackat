@@ -1,11 +1,12 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Scenes/LeaderTest.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Ribbon/Ribbon.png" type="Texture" id=2]
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=3]
-[ext_resource path="res://Sprites/Cinematic/LeaderCat.png" type="Texture" id=4]
-[ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=5]
-[ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=6]
+[ext_resource path="res://Scenes/ItemPageGrid.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Sprites/Cinematic/LeaderCat.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=7]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.188235, 0.188235, 0.188235, 0.901961 )
@@ -22,31 +23,13 @@ func start():
 	$Anim.play('Enter')
 	pass
 
-func fill_leaderboard(data):
+func create_panels(data : Array):
 	if data:
 		$Leaders/State.hide()
-		var pos = 1
-		if typeof(data) == TYPE_DICTIONARY:
-			var l = leaderitem_scene.instance()
-			$Leaders/SC/ItemList.add_child(l)
-			l.set_info(pos,data)
-			pos += 1
-			if is_current_player(data):
-				l.change_to_player()
-		if typeof(data) == TYPE_ARRAY:
-			for i in data:
-				var l = leaderitem_scene.instance()
-				l.set_info(pos,i)
-				$Leaders/SC/ItemList.add_child(l)
-				if is_current_player(i):
-					l.change_to_player()
-				pos += 1
+		$Leaders/ItemPageGrid.create_leader_items(data)
 	else:
 		leader_empty()
 	pass
-
-func is_current_player(data):
-	return data['name'] == GameManager.nickname
 
 func leader_empty():
 	$Leaders/State.text = 'LEADERBOARD_EMPTY'
@@ -63,9 +46,8 @@ func _on_Anim_animation_finished(anim_name):
 	pass # Replace with function body.
 
 func _on_CloseLeaderButton_button_down():
+	$Leaders/ItemPageGrid.clear_previous_data()
 	$Anim.play_backwards('Enter')
-	for leader_item in $Leaders/SC/ItemList.get_children():
-		leader_item.queue_free()
 	emit_signal('leader_closed')
 	pass # Replace with function body.
 "
@@ -78,84 +60,27 @@ use_filter = true
 font_data = ExtResource( 3 )
 
 [sub_resource type="StyleBoxFlat" id=4]
-bg_color = Color( 1, 0.866667, 0, 1 )
+bg_color = Color( 1, 0.768627, 0.219608, 1 )
 border_width_left = 10
 border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
-border_color = Color( 0.913725, 0.662745, 0, 1 )
-corner_radius_top_left = 50
-corner_radius_top_right = 50
-corner_radius_bottom_right = 50
-corner_radius_bottom_left = 50
+border_color = Color( 0.941176, 0.423529, 0, 1 )
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+corner_detail = 2
 expand_margin_bottom = 5.0
 
-[sub_resource type="StyleBoxFlat" id=5]
-bg_color = Color( 0.0470588, 0, 0.462745, 1 )
-border_width_left = 5
-border_width_top = 5
-border_width_right = 5
-border_width_bottom = 5
-border_color = Color( 0, 0, 0, 1 )
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
-
-[sub_resource type="StyleBoxFlat" id=6]
-bg_color = Color( 0.00784314, 1, 0, 1 )
-border_width_left = 10
-border_width_top = 10
-border_width_right = 10
-border_width_bottom = 10
-border_color = Color( 0, 0, 0, 1 )
-corner_radius_top_left = 30
-corner_radius_top_right = 30
-corner_radius_bottom_right = 30
-corner_radius_bottom_left = 30
-expand_margin_left = 30.0
-
-[sub_resource type="StyleBoxFlat" id=7]
-bg_color = Color( 0.00784314, 1, 0, 1 )
-border_width_left = 10
-border_width_top = 10
-border_width_right = 10
-border_width_bottom = 10
-border_color = Color( 1, 1, 1, 1 )
-corner_radius_top_left = 30
-corner_radius_top_right = 30
-corner_radius_bottom_right = 30
-corner_radius_bottom_left = 30
-expand_margin_left = 30.0
-
-[sub_resource type="StyleBoxFlat" id=8]
-bg_color = Color( 0, 0.552941, 1, 1 )
-border_width_left = 5
-border_width_top = 5
-border_width_right = 5
-border_width_bottom = 5
-border_color = Color( 0, 0, 0, 1 )
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
-expand_margin_left = 30.0
-
-[sub_resource type="Theme" id=9]
-VScrollBar/styles/ = SubResource( 5 )
-VScrollBar/styles/grabber = SubResource( 6 )
-VScrollBar/styles/grabber_highlight = SubResource( 7 )
-VScrollBar/styles/grabber_pressed = SubResource( 7 )
-VScrollBar/styles/scroll = SubResource( 8 )
-
-[sub_resource type="DynamicFont" id=11]
+[sub_resource type="DynamicFont" id=10]
 size = 80
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 3 )
 
-[sub_resource type="Animation" id=12]
+[sub_resource type="Animation" id=11]
 resource_name = "Enter"
 length = 0.6
 tracks/0/type = "value"
@@ -254,7 +179,7 @@ leaderitem_scene = ExtResource( 1 )
 
 [node name="Ribbon" type="NinePatchRect" parent="."]
 editor/display_folded = true
-self_modulate = Color( 1, 0, 0, 1 )
+self_modulate = Color( 1, 0.301961, 0.301961, 1 )
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -1740.0
@@ -277,7 +202,7 @@ margin_bottom = 122.6
 rect_rotation = -180.0
 rect_pivot_offset = Vector2( 368, 72.5 )
 custom_fonts/font = SubResource( 3 )
-custom_colors/font_color = Color( 1, 0.741176, 0.133333, 1 )
+custom_colors/font_color = Color( 1, 0.768627, 0.219608, 1 )
 text = "LEADERBOARD"
 align = 1
 
@@ -293,22 +218,36 @@ margin_bottom = 2451.0
 mouse_filter = 1
 custom_styles/panel = SubResource( 4 )
 
-[node name="SC" type="ScrollContainer" parent="Leaders"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 44.0
-margin_top = 50.0
-margin_right = -51.0
-margin_bottom = -51.001
-mouse_filter = 1
-theme = SubResource( 9 )
-scroll_horizontal_enabled = false
+[node name="ItemPageGrid" parent="Leaders" instance=ExtResource( 4 )]
+editor/display_folded = true
+margin_bottom = 0.0
+packed_scene = ExtResource( 1 )
+items_to_show = 10
 
-[node name="ItemList" type="GridContainer" parent="Leaders/SC"]
-self_modulate = Color( 1, 1, 1, 0 )
-mouse_filter = 2
+[node name="Grid" parent="Leaders/ItemPageGrid/VBC" index="0"]
+margin_right = 942.0
+margin_bottom = 1188.0
 custom_constants/vseparation = 10
-custom_constants/hseparation = 0
+
+[node name="HBC" parent="Leaders/ItemPageGrid/VBC" index="1"]
+editor/display_folded = true
+margin_top = 1192.0
+margin_right = 942.0
+margin_bottom = 1311.0
+
+[node name="Prev" parent="Leaders/ItemPageGrid/VBC/HBC" index="0"]
+margin_right = 345.0
+margin_bottom = 119.0
+
+[node name="Page" parent="Leaders/ItemPageGrid/VBC/HBC" index="1"]
+margin_left = 349.0
+margin_right = 591.0
+margin_bottom = 119.0
+
+[node name="Next" parent="Leaders/ItemPageGrid/VBC/HBC" index="2"]
+margin_left = 595.0
+margin_right = 942.0
+margin_bottom = 119.0
 
 [node name="State" type="Label" parent="Leaders"]
 visible = false
@@ -320,7 +259,7 @@ margin_left = -440.0
 margin_top = -50.5
 margin_right = 440.0
 margin_bottom = 50.5
-custom_fonts/font = SubResource( 11 )
+custom_fonts/font = SubResource( 10 )
 align = 1
 
 [node name="LeaderCat" type="TextureRect" parent="Leaders"]
@@ -331,7 +270,7 @@ margin_left = -245.5
 margin_right = 245.5
 margin_bottom = 430.0
 rect_pivot_offset = Vector2( 250.801, 220 )
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 expand = true
 stretch_mode = 6
 
@@ -346,13 +285,15 @@ margin_right = -10.0
 margin_bottom = 130.0
 mouse_filter = 1
 disabled = true
-texture_normal = ExtResource( 5 )
-texture_pressed = ExtResource( 6 )
-texture_disabled = ExtResource( 6 )
+texture_normal = ExtResource( 6 )
+texture_pressed = ExtResource( 7 )
+texture_disabled = ExtResource( 7 )
 expand = true
 stretch_mode = 5
 
 [node name="Anim" type="AnimationPlayer" parent="."]
-anims/Enter = SubResource( 12 )
+anims/Enter = SubResource( 11 )
 [connection signal="button_down" from="CloseLeaderButton" to="." method="_on_CloseLeaderButton_button_down"]
 [connection signal="animation_finished" from="Anim" to="." method="_on_Anim_animation_finished"]
+
+[editable path="Leaders/ItemPageGrid"]

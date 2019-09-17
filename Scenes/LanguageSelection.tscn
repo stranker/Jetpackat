@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Groups/LanguageButtonGroup.tres" type="ButtonGroup" id=2]
@@ -6,21 +6,20 @@
 [ext_resource path="res://Sprites/UI/MainMenu/en_flag.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/UI/MainMenu/pt_flag.png" type="Texture" id=5]
 
-[sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0.541176, 0.164706, 0.772549, 1 )
+[sub_resource type="StyleBoxFlat" id=30]
+bg_color = Color( 0.447059, 0.796078, 0.145098, 1 )
 border_width_left = 10
 border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
-border_color = Color( 1, 1, 1, 1 )
-corner_radius_top_left = 40
-corner_radius_top_right = 40
-corner_radius_bottom_right = 40
-corner_radius_bottom_left = 40
-shadow_color = Color( 0, 0, 0, 0.258824 )
-shadow_size = 10
+border_color = Color( 0.137255, 0.521569, 0.192157, 1 )
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+corner_detail = 2
 
-[sub_resource type="GDScript" id=2]
+[sub_resource type="GDScript" id=26]
 script/source = "extends Panel
 
 signal language_selected(texture_button)
@@ -76,30 +75,14 @@ func _on_LanguageSelection_visibility_changed():
 	pass # Replace with function body.
 "
 
-[sub_resource type="StyleBoxFlat" id=3]
-bg_color = Color( 0, 0.694118, 1, 1 )
-border_width_left = 10
-border_width_top = 10
-border_width_right = 10
-border_width_bottom = 10
-border_color = Color( 1, 1, 1, 1 )
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
-expand_margin_top = 2.0
-expand_margin_bottom = 2.0
-shadow_color = Color( 0, 0, 0, 0.25098 )
-shadow_size = 10
-
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=28]
 size = 72
 outline_size = 7
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 1 )
 
-[sub_resource type="DynamicFont" id=5]
+[sub_resource type="DynamicFont" id=29]
 size = 46
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
@@ -115,28 +98,26 @@ margin_left = -1020.0
 margin_top = -1240.0
 margin_right = -57.0
 margin_bottom = -677.0
-custom_styles/panel = SubResource( 1 )
-script = SubResource( 2 )
+custom_styles/panel = SubResource( 30 )
+script = SubResource( 26 )
 button_list = [ NodePath("Flags/Espaniol/Es"), NodePath("Flags/English/En"), NodePath("Flags/Portugues/Pt") ]
 
 [node name="Title" type="Label" parent="."]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -514.5
+margin_left = -471.5
 margin_top = 40.0
-margin_right = 518.5
+margin_right = 468.5
 margin_bottom = 148.0
-custom_styles/normal = SubResource( 3 )
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 28 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_x = 9
 custom_constants/shadow_offset_y = 8
-text = "SELECT YOUR LANGUAGE"
+text = "SELECT_LANGUAGE"
 align = 1
 
 [node name="Flags" type="GridContainer" parent="."]
-editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -161,7 +142,7 @@ anchor_right = 0.5
 margin_left = -123.0
 margin_right = 125.0
 margin_bottom = 56.0
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 29 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.278431 )
 custom_constants/shadow_offset_x = 8
 custom_constants/shadow_offset_y = 8
@@ -212,7 +193,7 @@ anchor_right = 0.5
 margin_left = -123.0
 margin_right = 125.0
 margin_bottom = 56.0
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 29 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.278431 )
 custom_constants/shadow_offset_x = 8
 custom_constants/shadow_offset_y = 8
@@ -263,7 +244,7 @@ anchor_right = 0.5
 margin_left = -123.0
 margin_right = 125.0
 margin_bottom = 56.0
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 29 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.278431 )
 custom_constants/shadow_offset_x = 8
 custom_constants/shadow_offset_y = 8
