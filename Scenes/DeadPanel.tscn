@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Sprites/UI/ContinueButton.png" type="Texture" id=2]
@@ -8,12 +8,12 @@
 [ext_resource path="res://Sprites/Cat/CatPaws.png" type="Texture" id=6]
 
 [sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0.576471, 0, 0.901961, 1 )
+bg_color = Color( 0.705882, 0.137255, 0.0745098, 1 )
 border_width_left = 10
 border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
-border_color = Color( 1, 1, 1, 1 )
+border_color = Color( 0.407843, 0.0941176, 0.141176, 1 )
 corner_radius_top_left = 50
 corner_radius_top_right = 50
 corner_radius_bottom_right = 50
@@ -56,22 +56,7 @@ func generate_random_title(highscorepassed):
 		$Title.text = no_highscore_titles[randi() % no_highscore_titles.size()]
 	pass"
 
-[sub_resource type="StyleBoxFlat" id=3]
-bg_color = Color( 0.470588, 0, 0.705882, 1 )
-border_width_left = 10
-border_width_top = 10
-border_width_right = 10
-border_width_bottom = 10
-border_color = Color( 1, 1, 1, 1 )
-corner_radius_top_left = 50
-corner_radius_top_right = 50
-corner_radius_bottom_right = 50
-corner_radius_bottom_left = 50
-corner_detail = 2
-shadow_color = Color( 0, 0, 0, 0.207843 )
-shadow_size = 10
-
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=3]
 size = 80
 outline_size = 6
 outline_color = Color( 0, 0, 0, 1 )
@@ -79,20 +64,20 @@ use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 1 )
 
-[sub_resource type="StyleBoxFlat" id=5]
-bg_color = Color( 0.439216, 0, 0.686275, 1 )
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.972549, 0.6, 0.227451, 1 )
 border_width_left = 10
 border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
-border_color = Color( 0.396078, 0, 0.615686, 1 )
+border_color = Color( 0.956863, 0.407843, 0.0431373, 1 )
 corner_radius_top_left = 50
 corner_radius_top_right = 50
 corner_radius_bottom_right = 50
 corner_radius_bottom_left = 50
 corner_detail = 1
 
-[sub_resource type="DynamicFont" id=6]
+[sub_resource type="DynamicFont" id=5]
 size = 90
 outline_size = 6
 outline_color = Color( 0, 0, 0, 1 )
@@ -100,7 +85,7 @@ use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 1 )
 
-[sub_resource type="DynamicFont" id=7]
+[sub_resource type="DynamicFont" id=6]
 size = 50
 outline_size = 6
 outline_color = Color( 0, 0, 0, 1 )
@@ -108,7 +93,7 @@ use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 1 )
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=7]
 loop = true
 step = 0.25
 tracks/0/type = "value"
@@ -184,7 +169,7 @@ tracks/5/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=8]
 length = 0.6
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:rect_position")
@@ -235,7 +220,7 @@ tracks/3/keys = {
 "values": [ false, true ]
 }
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=9]
 length = 0.6
 tracks/0/type = "value"
 tracks/0/path = NodePath("Cathead:rect_position")
@@ -262,13 +247,12 @@ tracks/1/keys = {
 "values": [ false, true ]
 }
 
-[sub_resource type="Gradient" id=11]
+[sub_resource type="Gradient" id=10]
 offsets = PoolRealArray( 0, 0.82716, 1 )
 colors = PoolColorArray( 1, 0.866667, 0, 1, 1, 0.866667, 0, 1, 1, 0.866667, 0, 0 )
 
 [node name="DeadPanel" type="Panel"]
 pause_mode = 2
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -276,24 +260,23 @@ anchor_bottom = 0.5
 margin_left = -332.0
 margin_top = 1040.0
 margin_right = 332.0
-margin_bottom = 1679.0
+margin_bottom = 1630.0
 custom_styles/panel = SubResource( 1 )
 script = SubResource( 2 )
-no_highscore_titles = [ "TRY AGAIN!", "YOU CAN DO BETTER!" ]
-highscore_titles = [ "PERFECT!", "AMAZING!", "EXCELLENT!" ]
+no_highscore_titles = [ "TRY AGAIN!" ]
+highscore_titles = [ "PERFECT!", "AMAZING!", "EXCELLENT!", "GREAT!" ]
 
 [node name="Title" type="Label" parent="."]
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -360.0
-margin_top = 32.0
+margin_top = 22.678
 margin_right = 360.0
-margin_bottom = 149.0
+margin_bottom = 139.678
 grow_horizontal = 2
 grow_vertical = 2
 rect_pivot_offset = Vector2( 357.5, 50 )
-custom_styles/normal = SubResource( 3 )
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.235294 )
@@ -309,10 +292,10 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -306.0
-margin_top = -110.5
+margin_top = -139.5
 margin_right = 306.0
-margin_bottom = 92.5
-custom_styles/panel = SubResource( 5 )
+margin_bottom = 63.5
+custom_styles/panel = SubResource( 4 )
 
 [node name="Score" type="Label" parent="ScorePanel"]
 anchor_left = 0.5
@@ -324,7 +307,7 @@ margin_top = -84.0
 margin_right = 300.0
 margin_bottom = -11.0
 rect_pivot_offset = Vector2( 302.192, 60 )
-custom_fonts/font = SubResource( 6 )
+custom_fonts/font = SubResource( 5 )
 custom_colors/font_color = Color( 1, 0.988235, 0.945098, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
@@ -344,7 +327,7 @@ margin_right = 294.0
 margin_bottom = -20.119
 rect_rotation = 4.42979
 rect_pivot_offset = Vector2( 304.655, 30.8888 )
-custom_fonts/font = SubResource( 7 )
+custom_fonts/font = SubResource( 6 )
 custom_colors/font_color = Color( 1, 0.784314, 0, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
@@ -353,7 +336,7 @@ text = "NEW HIGHSCORE!"
 align = 1
 
 [node name="Anim" type="AnimationPlayer" parent="ScorePanel"]
-anims/Highscore = SubResource( 8 )
+anims/Highscore = SubResource( 7 )
 
 [node name="RestartButton" type="TextureButton" parent="."]
 anchor_left = 0.5
@@ -370,8 +353,8 @@ expand = true
 stretch_mode = 5
 
 [node name="Anim" type="AnimationPlayer" parent="."]
-anims/DeadPanel = SubResource( 9 )
-anims/InitDeadPanel = SubResource( 10 )
+anims/DeadPanel = SubResource( 8 )
+anims/InitDeadPanel = SubResource( 9 )
 
 [node name="Stars" type="CPUParticles2D" parent="."]
 visible = false
@@ -391,7 +374,7 @@ initial_velocity_random = 0.1
 angle = 360.0
 angle_random = 1.0
 scale_amount = 5.5
-color_ramp = SubResource( 11 )
+color_ramp = SubResource( 10 )
 
 [node name="Stars2" type="CPUParticles2D" parent="."]
 visible = false
@@ -411,7 +394,7 @@ initial_velocity_random = 0.1
 angle = 360.0
 angle_random = 1.0
 scale_amount = 5.5
-color_ramp = SubResource( 11 )
+color_ramp = SubResource( 10 )
 
 [node name="Cathead" type="TextureRect" parent="."]
 show_behind_parent = true

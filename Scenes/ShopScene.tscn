@@ -231,12 +231,12 @@ func show_workshop_confirmation(item_name, cost):
 	pass"
 
 [sub_resource type="StyleBoxFlat" id=3]
-bg_color = Color( 0.956863, 0.752941, 0.278431, 1 )
+bg_color = Color( 0.705882, 0.137255, 0.0745098, 1 )
 border_width_left = 10
 border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
-border_color = Color( 0.956863, 0.407843, 0.0431373, 1 )
+border_color = Color( 0.407843, 0.0941176, 0.141176, 1 )
 corner_radius_top_left = 40
 corner_radius_top_right = 40
 corner_radius_bottom_right = 40
@@ -439,12 +439,12 @@ expand = true
 stretch_mode = 6
 
 [node name="VBC" type="VBoxContainer" parent="."]
+editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_constants/separation = 0
 
 [node name="CurrencyInfo" type="Control" parent="VBC"]
-editor/display_folded = true
 margin_right = 1080.0
 margin_bottom = 174.0
 mouse_filter = 2
@@ -453,7 +453,6 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 0.1
 
 [node name="HBC" type="HBoxContainer" parent="VBC/CurrencyInfo"]
-editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 
@@ -600,6 +599,7 @@ text = "Workshop"
 animation_advance_time = 0.5
 
 [node name="MainPanel" type="Control" parent="."]
+editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5

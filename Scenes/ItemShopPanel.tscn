@@ -11,7 +11,7 @@ border_width_left = 10
 border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
-border_color = Color( 0.0980392, 0.0627451, 0.180392, 1 )
+border_color = Color( 0.105882, 0.0941176, 0.32549, 1 )
 corner_radius_top_left = 30
 corner_radius_top_right = 30
 corner_radius_bottom_right = 30
@@ -47,6 +47,7 @@ signal emit_confirmation(item_name, item_type, item_price, self_ref)
 
 func _ready():
 	use_button.hide()
+	create_scale_tween()
 	pass
 
 func set_item_info(iname:String,info : Dictionary):
@@ -164,6 +165,7 @@ func unequip_item():
 		GameManager.items_equipped.erase(type)
 		emit_signal('item_unequip',type)
 		$VBC/ItemPanel/Label.hide()
+		stop_scale_tween()
 	else:
 		equip_default_jetpack()
 	pass
@@ -180,6 +182,7 @@ func enable_use_button(val):
 			color_button.hide()
 	else:
 		$VBC/ItemPanel/Label.hide()
+		stop_scale_tween()
 	pass
 
 func _on_ColorButton_button_down():
@@ -195,8 +198,22 @@ func set_item_color(_color):
 func _on_PreviewButton_button_down():
 	emit_signal('item_preview',type,item_image.texture)
 	$VBC/ItemPanel/Label.show()
+	scale_tween()
 	pass # Replace with function body.
-"
+
+func create_scale_tween():
+	$Tween.interpolate_property($VBC/ItemPanel/ItemImage,'rect_scale',Vector2(1,1),Vector2(1.1,1.1),0.5,Tween.TRANS_LINEAR,Tween.EASE_OUT)
+	$Tween.interpolate_property($VBC/ItemPanel/ItemImage,'rect_scale',Vector2(1.1,1.1),Vector2(1,1),0.5,Tween.TRANS_LINEAR,Tween.EASE_OUT,0.5)
+	pass
+
+func scale_tween():
+	$Tween.resume_all()
+	pass
+
+func stop_scale_tween():
+	$Tween.stop_all()
+	$VBC/ItemPanel/ItemImage.rect_scale = Vector2(1,1)
+	pass"
 
 [sub_resource type="StyleBoxFlat" id=3]
 border_width_left = 5
@@ -293,7 +310,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="ItemPanel" type="Control" parent="VBC"]
-editor/display_folded = true
 margin_right = 300.0
 margin_bottom = 312.0
 mouse_filter = 2
@@ -316,10 +332,11 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -139.0
-margin_top = -146.0
-margin_right = 140.0
-margin_bottom = 151.0
+margin_left = -130.0
+margin_top = -136.0
+margin_right = 130.0
+margin_bottom = 144.0
+rect_pivot_offset = Vector2( 130, 170 )
 mouse_filter = 2
 expand = true
 stretch_mode = 6
@@ -367,8 +384,9 @@ editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 6.0
+margin_top = 12.0
 margin_right = -6.0
-margin_bottom = -10.0
+margin_bottom = 2.0
 rect_min_size = Vector2( 260, 64 )
 focus_mode = 0
 custom_styles/hover = SubResource( 5 )
@@ -417,8 +435,9 @@ editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 6.0
+margin_top = 12.0
 margin_right = -6.0
-margin_bottom = -10.0
+margin_bottom = 2.0
 rect_min_size = Vector2( 260, 64 )
 focus_mode = 0
 custom_styles/hover = SubResource( 9 )
@@ -443,6 +462,10 @@ custom_fonts/font = SubResource( 8 )
 text = "SHOPBUTTON_USE"
 align = 1
 valign = 1
+
+[node name="Tween" type="Tween" parent="."]
+repeat = true
+playback/repeat = true
 [connection signal="button_down" from="VBC/ItemPanel/PreviewButton" to="." method="_on_PreviewButton_button_down"]
 [connection signal="button_down" from="VBC/ItemPanel/ColorButton" to="." method="_on_ColorButton_button_down"]
 [connection signal="button_down" from="VBC/Buttons/BuyButton" to="." method="_on_BuyButton_button_down"]
