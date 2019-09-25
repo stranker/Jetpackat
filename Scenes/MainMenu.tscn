@@ -465,12 +465,12 @@ tracks/1/keys = {
 }
 
 [sub_resource type="StyleBoxFlat" id=15]
-bg_color = Color( 0.164706, 0.752941, 0.94902, 1 )
+bg_color = Color( 0.227451, 0.360784, 0.521569, 1 )
 border_width_left = 10
 border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
-border_color = Color( 0.145098, 0.192157, 0.368627, 1 )
+border_color = Color( 0.141176, 0.117647, 0.266667, 1 )
 corner_radius_top_left = 50
 corner_radius_top_right = 50
 corner_radius_bottom_right = 50
@@ -1163,8 +1163,8 @@ margin_right = 277.0
 margin_bottom = -29.999
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 5
-size_flags_vertical = 5
+size_flags_horizontal = 13
+size_flags_vertical = 13
 custom_styles/hover = SubResource( 19 )
 custom_styles/pressed = SubResource( 19 )
 custom_styles/focus = SubResource( 19 )

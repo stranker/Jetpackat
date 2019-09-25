@@ -4,7 +4,7 @@
 [ext_resource path="res://Sprites/Collectables/Fish.png" type="Texture" id=2]
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=3]
 
-[sub_resource type="GDScript" id=1]
+[sub_resource type="GDScript" id=16]
 script/source = "extends Control
 
 
@@ -70,27 +70,27 @@ func _on_CancelButton_button_down():
 	pass # Replace with function body.
 "
 
-[sub_resource type="StyleBoxFlat" id=2]
-bg_color = Color( 0.2, 0.647059, 1, 1 )
+[sub_resource type="StyleBoxFlat" id=15]
+bg_color = Color( 0.227451, 0.360784, 0.521569, 1 )
 border_width_left = 10
 border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
-border_color = Color( 0.196078, 0.34902, 0.886275, 1 )
+border_color = Color( 0.141176, 0.117647, 0.266667, 1 )
 corner_radius_top_left = 50
 corner_radius_top_right = 50
 corner_radius_bottom_right = 50
 corner_radius_bottom_left = 50
 corner_detail = 2
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=17]
 size = 54
 outline_size = 6
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 3 )
 
-[sub_resource type="StyleBoxFlat" id=4]
+[sub_resource type="StyleBoxFlat" id=18]
 bg_color = Color( 0.788235, 0.360784, 0.819608, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -105,7 +105,7 @@ corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.309804 )
 shadow_size = 8
 
-[sub_resource type="Shader" id=12]
+[sub_resource type="Shader" id=19]
 code = "shader_type canvas_item;
 
 uniform float outline_width = 2.0;
@@ -137,19 +137,19 @@ void fragment() {
 	COLOR = mix(col, outline_color, maxa - mina);
 }"
 
-[sub_resource type="ShaderMaterial" id=13]
-shader = SubResource( 12 )
+[sub_resource type="ShaderMaterial" id=20]
+shader = SubResource( 19 )
 shader_param/outline_width = 0.7
 shader_param/outline_color = Color( 1, 1, 1, 1 )
 
-[sub_resource type="DynamicFont" id=5]
+[sub_resource type="DynamicFont" id=21]
 size = 80
 outline_size = 4
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 3 )
 
-[sub_resource type="StyleBoxFlat" id=6]
+[sub_resource type="StyleBoxFlat" id=22]
 bg_color = Color( 0.137255, 0.521569, 0.192157, 1 )
 border_width_left = 10
 border_width_top = 5
@@ -164,7 +164,7 @@ corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.188235 )
 shadow_size = 8
 
-[sub_resource type="StyleBoxFlat" id=7]
+[sub_resource type="StyleBoxFlat" id=23]
 bg_color = Color( 0.447059, 0.796078, 0.145098, 1 )
 border_width_left = 10
 border_width_top = 5
@@ -179,14 +179,14 @@ corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.309804 )
 shadow_size = 8
 
-[sub_resource type="DynamicFont" id=8]
+[sub_resource type="DynamicFont" id=24]
 size = 80
 outline_size = 4
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 3 )
 
-[sub_resource type="StyleBoxFlat" id=9]
+[sub_resource type="StyleBoxFlat" id=25]
 bg_color = Color( 0.623529, 0.117647, 0.192157, 1 )
 border_width_left = 10
 border_width_top = 5
@@ -201,7 +201,7 @@ corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.188235 )
 shadow_size = 8
 
-[sub_resource type="StyleBoxFlat" id=10]
+[sub_resource type="StyleBoxFlat" id=26]
 bg_color = Color( 1, 0.301961, 0.301961, 1 )
 border_width_left = 10
 border_width_top = 5
@@ -216,7 +216,7 @@ corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.188235 )
 shadow_size = 8
 
-[sub_resource type="Animation" id=11]
+[sub_resource type="Animation" id=27]
 resource_name = "Enter"
 length = 0.5
 step = 0.05
@@ -233,28 +233,28 @@ tracks/0/keys = {
 "values": [ Vector2( 185, 2100 ), Vector2( 185, 640 ), Vector2( 185, 695 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Panel:visible")
+tracks/1/path = NodePath(".:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.05 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 0.1, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ false, true ]
+"values": [ false, true, true ]
 }
 
 [node name="ShopItemConfirmation" type="Control"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-script = SubResource( 1 )
+script = SubResource( 16 )
 coin_texture = ExtResource( 1 )
 fish_texture = ExtResource( 2 )
 
 [node name="Panel" type="Panel" parent="."]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -263,7 +263,7 @@ margin_left = -355.0
 margin_top = 1140.0
 margin_right = 355.0
 margin_bottom = 1670.0
-custom_styles/panel = SubResource( 2 )
+custom_styles/panel = SubResource( 15 )
 
 [node name="Title" type="Label" parent="Panel"]
 anchor_left = 0.5
@@ -271,7 +271,7 @@ anchor_right = 0.5
 margin_left = -355.0
 margin_right = 355.0
 margin_bottom = 180.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 17 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.129412 )
 custom_constants/shadow_offset_x = 8
 custom_constants/shadow_offset_y = 8
@@ -290,10 +290,10 @@ margin_left = -190.0
 margin_top = -65.0
 margin_right = 190.0
 margin_bottom = 45.0
-custom_styles/panel = SubResource( 4 )
+custom_styles/panel = SubResource( 18 )
 
 [node name="PaymentText" type="TextureRect" parent="Panel/CostPanel"]
-material = SubResource( 13 )
+material = SubResource( 20 )
 anchor_top = 0.5
 anchor_bottom = 0.5
 margin_left = 10.0
@@ -314,7 +314,7 @@ margin_left = -380.0
 margin_top = -48.5
 margin_right = -30.0
 margin_bottom = 48.5
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 21 )
 text = "999"
 align = 2
 
@@ -325,12 +325,12 @@ margin_left = 60.0
 margin_top = -170.0
 margin_right = 335.0
 margin_bottom = -30.0
-custom_styles/hover = SubResource( 6 )
-custom_styles/pressed = SubResource( 6 )
-custom_styles/focus = SubResource( 6 )
-custom_styles/disabled = SubResource( 6 )
-custom_styles/normal = SubResource( 7 )
-custom_fonts/font = SubResource( 8 )
+custom_styles/hover = SubResource( 22 )
+custom_styles/pressed = SubResource( 22 )
+custom_styles/focus = SubResource( 22 )
+custom_styles/disabled = SubResource( 22 )
+custom_styles/normal = SubResource( 23 )
+custom_fonts/font = SubResource( 24 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "YES"
 
@@ -343,16 +343,16 @@ margin_left = -330.0
 margin_top = -170.0
 margin_right = -55.0
 margin_bottom = -30.0
-custom_styles/hover = SubResource( 9 )
-custom_styles/pressed = SubResource( 9 )
-custom_styles/focus = SubResource( 9 )
-custom_styles/disabled = SubResource( 9 )
-custom_styles/normal = SubResource( 10 )
-custom_fonts/font = SubResource( 8 )
+custom_styles/hover = SubResource( 25 )
+custom_styles/pressed = SubResource( 25 )
+custom_styles/focus = SubResource( 25 )
+custom_styles/disabled = SubResource( 25 )
+custom_styles/normal = SubResource( 26 )
+custom_fonts/font = SubResource( 24 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "NO"
 
 [node name="Anim" type="AnimationPlayer" parent="."]
-anims/Enter = SubResource( 11 )
+anims/Enter = SubResource( 27 )
 [connection signal="button_down" from="Panel/ConfirmButton" to="." method="_on_ConfirmButton_button_down"]
 [connection signal="button_down" from="Panel/CancelButton" to="." method="_on_CancelButton_button_down"]

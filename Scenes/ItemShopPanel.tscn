@@ -21,15 +21,8 @@ corner_detail = 2
 [sub_resource type="GDScript" id=2]
 script/source = "extends Panel
 
-var id : int
-var item_name : String
-var type : String
-var price : int
-var payment : String
-var buyed : bool
-var color
+var item = null
 var using = false
-var has_color = false
 
 onready var color_button = get_node('VBC/ItemPanel/ColorButton')
 onready var item_image = get_node('VBC/ItemPanel/ItemImage')
@@ -37,37 +30,32 @@ onready var buy_button = get_node('VBC/Buttons/BuyButton')
 onready var use_button = get_node('VBC/Buttons/UseButton')
 onready var preview_button = get_node('VBC/ItemPanel/PreviewButton')
 
-signal item_buy(item_type,item_name)
-signal item_equip(item_type,item_name,item_color)
-signal item_unequip(item_type)
+signal item_buy(item)
+signal item_equip(item)
+signal item_unequip(item)
 signal on_color_button_pressed(item_panel)
 signal item_preview(item_type,item_texture)
 signal equip_default_jetpack()
-signal emit_confirmation(item_name, item_type, item_price, self_ref)
+signal emit_confirmation(item, self_ref)
 
 func _ready():
 	use_button.hide()
 	create_scale_tween()
 	pass
 
-func set_item_info(iname:String,info : Dictionary):
-	id = int(info['id'])
-	item_name = iname
-	type = info['type']
-	price = int(info['price'])
-	payment = info['payment']
-	buyed = bool(info['buyed'])
-	if info.has('color'):
-		has_color = true
-		set_item_color(info['color'])
-	if type == 'Pattern':
+func set_item_info(shop_item):
+	item = shop_item
+	if item.item_color != null:
+		set_item_color(item.item_color)
+	if item.item_type == ItemManager.ItemType.PATTERN:
 		$VBC/ItemPanel/SkinPlace.show()
-	connect('item_buy',GameManager,'buy_item')
+	connect('item_buy',ItemManager,'buy_item')
 	connect('item_buy',get_tree().root.get_node('ShopAndUpgradeScene'),'update_buttons_states')
 	connect('emit_confirmation',get_tree().root.get_node('ShopAndUpgradeScene'),'show_shop_confirmation')
 	connect('item_unequip',get_tree().root.get_node('ShopAndUpgradeScene'),'unequip_item')
+	connect('item_unequip',ItemManager,'unequip_item')
 	connect('item_preview',get_tree().root.get_node('ShopAndUpgradeScene'),'item_preview')
-	connect('item_equip',GameManager,'equip_item')
+	connect('item_equip',ItemManager,'equip_item')
 	connect('item_equip',get_tree().root.get_node('ShopAndUpgradeScene'),'equip_item')
 	connect('equip_default_jetpack',get_tree().root.get_node('ShopAndUpgradeScene'),'equip_default_jetpack')
 	connect('on_color_button_pressed',get_tree().root.get_node('ShopAndUpgradeScene'),'open_color_picker')
@@ -76,27 +64,23 @@ func set_item_info(iname:String,info : Dictionary):
 
 func update_color_button():
 	var style_box = color_button.get('custom_styles/normal').duplicate()
-	style_box.set_bg_color(color)
+	style_box.set_bg_color(item.item_color)
 	color_button.set('custom_styles/hover', style_box)
 	color_button.set('custom_styles/pressed', style_box)
 	color_button.set('custom_styles/focus', style_box)
 	color_button.set('custom_styles/disabled', style_box)
 	color_button.set('custom_styles/normal', style_box)
-	GameManager.item_data[type][item_name]['color'] = color
-	if GameManager.items_equipped.has(type):
-		if GameManager.items_equipped[type][0] == item_name:
-			GameManager.items_equipped[type][1] = color
 	pass
 
 func configure_panel():
-	item_image.texture = load('Sprites/Shop/Cat/'+type+'/'+item_name+'.png')
+	item_image.texture = load('Sprites/Shop/Cat/'+item.item_type+'/'+item.item_name+'.png')
 	check_item_state()
 	pass
 
 func check_item_state():
-	if !buyed:
-		buy_button.get_node('CC/HBC/PriceTag').text = str(price)
-		buy_button.get_node('CC/HBC/Payment').texture = load('Sprites/Collectables/'+payment+'.png')
+	if !item.item_buyed:
+		buy_button.get_node('CC/HBC/PriceTag').text = str(item.item_price)
+		buy_button.get_node('CC/HBC/Payment').texture = load('Sprites/Collectables/'+item.item_payment+'.png')
 		buy_button.disabled = check_button_available()
 		preview_button.show()
 	else:
@@ -104,36 +88,29 @@ func check_item_state():
 		use_button.show()
 		preview_button.hide()
 		preview_button.disabled = true
-	if GameManager.items_equipped.has(type):
-		if typeof(GameManager.items_equipped[type]) != TYPE_ARRAY:
-			if GameManager.items_equipped[type] == item_name:
-				equip_item()
-		else:
-			if GameManager.items_equipped[type][0] == item_name:
-				equip_item()
 	pass
 
 func check_button_color():
-	if has_color:
+	if item.item_color != null:
 		color_button.show()
 	pass
 
 func check_button_available():
 	var currency : int = 0
-	match payment:
-		\"Coin\":
+	match item.item_payment:
+		ItemManager.Payment.Coin:
 			currency = GameManager.coins
-		\"Fish\":
+		ItemManager.Payment.Fish:
 			currency = GameManager.fishes
-	return price > currency
+	return item.item_price > currency
 
 func _on_BuyButton_button_down():
-	emit_signal('emit_confirmation',item_name,payment,price,self)
+	emit_signal('emit_confirmation',item,self)
 	pass # Replace with function body.
 
 func change_to_buy_state():
-	emit_signal('item_buy',type,item_name)
-	buyed = !buyed
+	emit_signal('item_buy',item)
+	item.item_buyed = true
 	buy_button.hide()
 	use_button.show()
 	preview_button.hide()
@@ -152,18 +129,17 @@ func _on_UseButton_button_down():
 
 func equip_item():
 	using = true
-	emit_signal('item_equip',type,item_name,color)
+	emit_signal('item_equip',item)
 	check_button_color()
 	use_button.get_node('Text').text = tr(\"SHOPBUTTON_UNEQUIP\")
 	pass
 
 func unequip_item():
-	if type != 'Jetpack':
+	if item.item_type != ItemManager.ItemType.JETPACK:
 		using = false
 		use_button.get_node('Text').text = tr(\"SHOPBUTTON_USE\")
 		color_button.hide()
-		GameManager.items_equipped.erase(type)
-		emit_signal('item_unequip',type)
+		emit_signal('item_unequip',item)
 		$VBC/ItemPanel/Label.hide()
 		stop_scale_tween()
 	else:
@@ -175,7 +151,7 @@ func equip_default_jetpack():
 	pass
 
 func enable_use_button(val):
-	if buyed:
+	if item.item_buyed:
 		if val:
 			using = false
 			use_button.get_node('Text').text = tr(\"SHOPBUTTON_USE\")
@@ -190,13 +166,13 @@ func _on_ColorButton_button_down():
 	pass # Replace with function body.
 
 func set_item_color(_color):
-	color = _color
-	item_image.self_modulate = color
+	item.item_color = _color
+	item_image.self_modulate = _color
 	update_color_button()
 	pass
 
 func _on_PreviewButton_button_down():
-	emit_signal('item_preview',type,item_image.texture)
+	emit_signal('item_preview',item.item_type,item_image.texture)
 	$VBC/ItemPanel/Label.show()
 	scale_tween()
 	pass # Replace with function body.
