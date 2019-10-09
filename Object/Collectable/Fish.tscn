@@ -18,6 +18,7 @@ func _on_Fish_body_entered(body):
 		taked = !taked
 		$Anim.play('Taken')
 		emit_signal('taken',value)
+		$Sample.play()
 	pass # Replace with function body.
 
 func _on_Fish_area_entered(area):
@@ -88,18 +89,6 @@ tracks/1/keys = {
 "update": 1,
 "values": [ true ]
 }
-tracks/2/type = "value"
-tracks/2/path = NodePath("Sample:playing")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
-}
 
 [sub_resource type="Curve" id=6]
 _data = [ Vector2( 0, 1 ), 0.0, -1.00659, 0, 0, Vector2( 1, 0.3152 ), -0.222942, 0.0, 0, 0 ]
@@ -113,6 +102,7 @@ script = SubResource( 1 )
 speed = 500
 
 [node name="Sprite" type="Sprite" parent="."]
+self_modulate = Color( 1, 1, 1, 0 )
 material = SubResource( 2 )
 position = Vector2( 1.19748, 1.52588e-005 )
 rotation = -0.976112
@@ -149,6 +139,7 @@ color_ramp = SubResource( 7 )
 
 [node name="Sample" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 4 )
+volume_db = -14.0
 bus = "Sounds"
 [connection signal="active" from="." to="." method="_on_Fish_active"]
 [connection signal="area_entered" from="." to="." method="_on_Fish_area_entered"]

@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Cats Can Fly Theme final.ogg-62b8e9a7d621e3d1adbc63ce32501c78.oggstr"
+
+[deps]
+
+source_file="res://Sounds/Music/Cats Can Fly Theme final.ogg"
+dest_files=[ "res://.import/Cats Can Fly Theme final.ogg-62b8e9a7d621e3d1adbc63ce32501c78.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0
