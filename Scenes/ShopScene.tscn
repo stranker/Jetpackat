@@ -15,7 +15,7 @@
 [ext_resource path="res://Sprites/Shop/UI/HatButton.png" type="Texture" id=13]
 [ext_resource path="res://Sprites/Shop/UI/PatternButton.png" type="Texture" id=14]
 [ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=15]
-[ext_resource path="res://Sprites/Shop/Cat/Skin/Skin.png" type="Texture" id=16]
+[ext_resource path="res://Sprites/Shop/Cat/Skin/Normal.png" type="Texture" id=16]
 [ext_resource path="res://Sprites/Cat/Eyes.png" type="Texture" id=17]
 [ext_resource path="res://Scenes/ItemPageGrid.tscn" type="PackedScene" id=18]
 [ext_resource path="res://addons/PickerOfColors/CustomColor.tscn" type="PackedScene" id=19]
@@ -25,6 +25,7 @@
 [ext_resource path="res://Scenes/InitialDarker.tscn" type="PackedScene" id=23]
 [ext_resource path="res://Scenes/TransitionScene.tscn" type="PackedScene" id=24]
 [ext_resource path="res://Scenes/ShopScene/ShopItemConfirmation.tscn" type="PackedScene" id=25]
+
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.27451, 0.356863, 0.905882, 1 )
