@@ -50,7 +50,7 @@ func fill_leader_info():
 func fill_shop_item_info():
 	var panel_count = $VBC/Grid.get_child_count() 
 	for idx in range(panel_count):
-		$VBC/Grid.get_child(idx).set_item_info(ItemManager.item_data[actual_page * items_to_show + idx])
+		$VBC/Grid.get_child(idx).set_item_info(ItemManager.items_list[actual_page * items_to_show + idx])
 	pass
 
 func clear_previous_data():

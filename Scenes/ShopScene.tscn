@@ -26,7 +26,6 @@
 [ext_resource path="res://Scenes/TransitionScene.tscn" type="PackedScene" id=24]
 [ext_resource path="res://Scenes/ShopScene/ShopItemConfirmation.tscn" type="PackedScene" id=25]
 
-
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.27451, 0.356863, 0.905882, 1 )
 
@@ -77,27 +76,31 @@ func _on_TextureButton_button_down():
 	$TransitionScene.play_random()
 	pass
 
-func equip_item(type,item_name,color):
+func equip_item(item):
 	update_equipment()
-	enable_used_items(item_name)
+	enable_used_items(item)
 	pass
 
-func enable_used_items(item_name):
+func enable_used_items(item):
 	for i in item_list.get_children():
-		if i.item_name != item_name:
+		if i.item != item:
 			i.enable_use_button(true)
 	pass
 
 func update_equipment():
 	if !ItemManager.items_equipped.empty():
 		for item_equipped in ItemManager.items_equipped:
-			set_item_on_player(item_equipped)
+			set_item_on_player(item_equipped, ItemManager.items_equipped[item_equipped])
 	pass
 
-func set_item_on_player(item):
+func set_item_on_player(item_type, item_id):
+	var item = ItemManager.get_item_by_type_id(int(item_type),int(item_id))
 	if item.item_type != ItemManager.ItemType.SKIN:
-		player.get_node(item.item_type).texture = load('Sprites/Shop/Cat/'+item.item_type+'/'+item.item_name+'.png')
-		player.get_node(item.item_type).show()
+		var player_item = player.get_node(ItemManager.itemTypeToString[item.item_type])
+		player_item.texture = load(item.item_image_location)
+		if item.has_color():
+			player_item.self_modulate = item.item_color
+		player_item.show()
 	pass
 
 func open_color_picker(item_panel):
@@ -105,7 +108,7 @@ func open_color_picker(item_panel):
 	current_item_panel = item_panel
 	pass
 
-func update_buttons_states(type,item):
+func update_buttons_states(item):
 	for i in item_list.get_children():
 		i.check_item_state()
 	update_currency()
@@ -114,23 +117,19 @@ func update_buttons_states(type,item):
 func _on_CustomColor_value_changed(c):
 	if current_item_panel and typeof(current_item_panel) != TYPE_STRING:
 		current_item_panel.set_item_color(c)
-	else:
-		if player:
-			update_item_color(ItemManager.ItemType.SKIN,c)
 	pass # Replace with function body.
 
-func update_item_color(item, _color):
-	ItemManager.change_item_color(item, _color)
-	player.get_node(item.item_type).self_modulate = _color
+func change_color_item(item):
+	player.get_node(ItemManager.itemTypeToString.get(item.item_type)).self_modulate = item.item_color
 	pass
 
-func unequip_item(item_type):
-	player.get_node(item_type).texture = null
+func unequip_item(item):
+	player.get_node(ItemManager.itemTypeToString.get(item.item_type)).texture = null
 	pass
 
 func equip_default_jetpack():
 	for i in item_list.get_children():
-		if i.type == 'Jetpack' and i.item_name == 'Green':
+		if i.item_type == 'Jetpack' and i.item_name == 'Green':
 			i.equip_item()
 			break
 	pass
@@ -138,8 +137,8 @@ func equip_default_jetpack():
 func item_preview(item_type,item_texture):
 	for i in item_list.get_children():
 		i.unequip_item()
-	player.get_node(item_type).texture = item_texture
-	player.get_node(item_type).self_modulate = 'ffffff'
+	player.get_node(ItemManager.itemTypeToString.get(item_type)).texture = item_texture
+	player.get_node(ItemManager.itemTypeToString.get(item_type)).self_modulate = 'ffffff'
 	pass
 
 func _on_Anim_animation_finished(anim_name):
@@ -714,7 +713,6 @@ texture_disabled = ExtResource( 16 )
 texture_focused = ExtResource( 16 )
 
 [node name="Player" type="Control" parent="MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel"]
-editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5

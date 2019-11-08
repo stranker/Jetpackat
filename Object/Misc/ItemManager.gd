@@ -3,9 +3,7 @@ extends Node
 enum ItemType {HAT, SCARF, PATTERN, JETPACK, SKIN, LAST}
 enum Payment {COIN, FISH, LAST}
 
-var itemTypeByString = {"Hat":ItemType.HAT, "Scarf":ItemType.SCARF, 
-						"Pattern":ItemType.PATTERN, "Jetpack":ItemType.JETPACK, 
-						"Skin":ItemType.SKIN, "Last":ItemType.LAST}
+var itemTypeToString = {0:"Hat", 1:"Scarf",	2:"Pattern", 3:"Jetpack", 4:"Skin", 5:"Last"}
 
 class UpgradeItem:
 	var item_id : int
@@ -27,9 +25,9 @@ class UpgradeItem:
 class ShopItem:
 	var item_id : int
 	var item_name : String
-	var item_type = ItemType.LAST
+	var item_type : int = ItemType.LAST
 	var item_price : int
-	var item_payment = Payment.LAST
+	var item_payment : int = Payment.LAST
 	var item_buyed : bool
 	var item_using : bool
 	var item_color
@@ -38,9 +36,9 @@ class ShopItem:
 	func create_shop_item(i_id, i_n, i_t, i_pr, i_pa, i_b, i_c, i_l):
 		self.item_id = int(i_id)
 		self.item_name = String(i_n)
-		self.item_type = ItemType.get(i_t)
+		self.item_type = int(i_t)
 		self.item_price = int(i_pr)
-		self.item_payment = Payment.get(i_pa)
+		self.item_payment = int(i_pa)
 		self.item_buyed = bool(i_b)
 		self.item_color = i_c
 		self.item_image_location = i_l
@@ -61,40 +59,29 @@ class ShopItem:
 		item_color = col
 		pass
 
-var item_data : Array = []
+var items_list : Array = []
 var items_equipped : Dictionary = {}
 
 var res_data_path = 'res://Data/'
 var user_data_path = 'user://Saves/'
 
-func _ready():
-	load_data()
-	pass
-
-func load_data():
-	var dir = Directory.new()
-	# DIDN'T SAVE ANYTHING LATER
-	if !dir.dir_exists(user_data_path):
-		dir.make_dir(user_data_path)
-		load_data_from(res_data_path)
-	else:
-		load_data_from(user_data_path)
-	pass
 
 func load_data_from(dir : String):
-	var raw_item_data : Dictionary = try_load_file_data(dir + 'ItemShopData.dat')
+	var raw_items_list : Dictionary = try_load_file_data(dir + 'ItemShopData.dat')
 	var raw_items_equipped : Dictionary = try_load_file_data(dir + 'EquippedItemsData.dat')
-	create_shop_item(raw_item_data)
+	create_shop_item(raw_items_list)
+	items_equipped = raw_items_equipped
+	save_data()
 	pass
 
 func create_shop_item(dict : Dictionary):
 	for item_type in dict.keys():
-		for item_name in dict[item_type].keys():
+		for item_id in dict[item_type].keys():
 			var item = ShopItem.new()
-			var info : Dictionary = dict[item_type][item_name]
-			item.create_shop_item(info['id'],item_name, item_type, info['price'], info['payment'],
+			var info : Dictionary = dict[item_type][item_id]
+			item.create_shop_item(item_id,info['name'], info['type'], info['price'], info['payment'],
 								info['buyed'],info['color'] if info.has('color') else null, info['image_location'])
-			item_data.append(item)
+			items_list.append(item)
 	pass
 
 func try_load_file_data(res_path):
@@ -114,11 +101,28 @@ func save_data():
 func save_item_data(dir : String):
 	var file = File.new()
 	file.open(dir + 'ItemShopData.dat',File.WRITE)
-	if !item_data.empty():
-		file.store_line(to_json(item_data))
+	var data = shop_item_to_dictionary(items_list)
+	if !data.empty():
+		file.store_line(to_json(data))
 		file.store_line("")
 	file.close()
 	pass
+
+func shop_item_to_dictionary( data_list : Array):
+	var data : Dictionary = {}
+	for item in data_list:
+		var item_raw_data : Dictionary = {}
+		item_raw_data["name"] = item.item_name
+		item_raw_data["buyed"] = item.item_buyed
+		item_raw_data["color"] = item.item_color
+		item_raw_data["payment"] = item.item_payment
+		item_raw_data["price"] = item.item_price
+		item_raw_data["type"] = item.item_type
+		item_raw_data["image_location"] = item.item_image_location
+		if !data.has(itemTypeToString.get(item.item_type)):
+			data[itemTypeToString.get(item.item_type)] = {}
+		data[itemTypeToString.get(item.item_type)][item.item_id] = item_raw_data
+	return data
 
 func save_equipped_item(dir : String):
 	var file = File.new()
@@ -132,19 +136,16 @@ func save_equipped_item(dir : String):
 func get_equipped_items():
 	var item_list = []
 	for item_type in items_equipped.keys():
-		item_list.append(get_item_by_type_id(item_type,items_equipped[item_type]))
+		item_list.append(get_item_by_type_id(int(item_type),int(items_equipped[item_type])))
 	return item_list
 
-func buy_item(item_type,id):
-	for item in item_data:
-		if item.item_id == id and item.item_type == item_type:
-			item.item_buyed = true
-			break
+func buy_item(item):
+	item.item_buyed = true
 	save_data()
 	pass
 
 func equip_item(item):
-	items_equipped[item.item_type] = item.id
+	items_equipped[item.item_type] = item.item_id
 	save_data()
 	pass
 
@@ -153,7 +154,28 @@ func unequip_item(item):
 	save_data()
 	pass
 
-func get_item_by_type_id(item_type, id):
-	for item in item_data:
-		if item.type == item_type and item.id == id:
+func get_items_by_type( type : int ):
+	var items : Array
+	for item in items_list:
+		if item.item_type == type:
+			items.append(item)
+	return items
+
+func get_item_by_type_id(item_type : int, id : int):
+	for item in items_list:
+		if item.item_type == item_type and item.item_id == id:
 			return item
+
+func get_payment_texture( payment : int ):
+	match payment:
+		Payment.COIN:
+			return 'res://Sprites/Collectables/Coin.png'
+		Payment.FISH:
+			return 'res://Sprites/Collectables/Fish.png'
+	pass
+
+func change_color_item(item):
+	for i in items_list:
+		if i == item:
+			i.item_color = item.item_color
+			return

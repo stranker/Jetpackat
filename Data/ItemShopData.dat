@@ -1,95 +1,95 @@
 {
    "Hat":{
-		0:{
+		"0":{
 			"name":"Baseball",
 			"buyed":false,
 			"color":"ffffff",
 			"payment":0,
 			"price":350,
-			"type":"Hat",
-			"image_location":"Sprite/Shop/Cat/Hat/Baseball.png"
+			"type":0,
+			"image_location":"Sprites/Shop/Cat/Hat/Baseball.png"
 		},
-		1:{
+		"1":{
 			"name":"Bombin",
 			"buyed":false,
 			"payment":0,
 			"price":400,
-			"type":"Hat",
-			"image_location":"Sprite/Shop/Cat/Hat/Bombin.png"
+			"type":0,
+			"image_location":"Sprites/Shop/Cat/Hat/Bombin.png"
 		},
-		2:{
+		"2":{
 			"name":"Bonete",
 			"buyed":false,
 			"payment":0,
 			"price":200,
-			"type":"Hat",
-			"image_location":"Sprite/Shop/Cat/Hat/Bonete.png"
+			"type":0,
+			"image_location":"Sprites/Shop/Cat/Hat/Bonete.png"
 		},
-		3:{
+		"3":{
 			"name":"Cowboy",
 			"buyed":false,
 			"payment":1,
 			"price":100,
-			"type":"Hat",
-			"image_location":"Sprite/Shop/Cat/Hat/Cowboy.png"
-		}.
-		4:{
+			"type":0,
+			"image_location":"Sprites/Shop/Cat/Hat/Cowboy.png"
+		},
+		"4":{
 			"name":"Fedora",
 			"buyed":false,
 			"payment":1,
 			"price":100,
-			"type":"Hat",
-			"image_location":"Sprite/Shop/Cat/Hat/Fedora.png"
+			"type":0,
+			"image_location":"Sprites/Shop/Cat/Hat/Fedora.png"
 		}
 	},
 	"Pattern":{
-		0:{
+		"0":{
 			"name":"Tigger",
 			"buyed":true,
 			"color":"ffffff",
 			"payment":"Coin",
 			"price":0,
-			"type":"Pattern",
-			"image_location":"Sprite/Shop/Cat/Pattern/Tigger.png"
+			"type":2,
+			"image_location":"Sprites/Shop/Cat/Pattern/Tigger.png"
 		}
 	},
 	"Scarf":{
-		0:{
+		"0":{
 			"name":"GoldBlue",
 			"buyed":false,
 			"payment":"Coin",
 			"price":350,
-			"type":"Scarf",
-			"image_location":"Sprite/Shop/Cat/Scarf/GoldBlue.png"
+			"type":1,
+			"image_location":"Sprites/Shop/Cat/Scarf/GoldBlue.png"
 		}
 	},
 	"Skin":{
-		0:{
+		"0":{
 			"name":"Normal",
 			"buyed":true,
 			"color":"ffffff",
 			"payment":"Coin",
 			"price":0,
-			"type":"Skin",
-			"image_location":"Sprite/Shop/Cat/Skin/Normal.png"
+			"type":4,
+			"image_location":"Sprites/Shop/Cat/Skin/Normal.png"
 		}
 	},
 	"Jetpack":{
-		0:{
+		"0":{
 			"name":"Green",
 			"buyed":true,
 			"payment":"Coin",
 			"price":0,
-			"type":"Jetpack",
-			"image_location":"Sprite/Shop/Cat/Jetpack/Green.png"
+			"type":3,
+			"image_location":"Sprites/Shop/Cat/Jetpack/Green.png"
 		},
-		1:{
-			"name":"WhiteHearth"
+		"1":{
+			"name":"WhiteHearth",
 			"buyed":false,
 			"payment":"Fish",
 			"price":150,
-			"type":"Jetpack",
-			"image_location":"Sprite/Shop/Cat/Jetpack/WhiteHearth.png"
+			"type":3,
+			"image_location":"Sprites/Shop/Cat/Jetpack/WhiteHearth.png"
 		}
 	}
 }

@@ -25,6 +25,7 @@ func reset_stats():
 	pass
 
 func _ready():
+	load_data()
 	change_music_volume(game_info['MusicVolume'])
 	change_sound_volume(game_info['SoundVolume'])
 	change_language()
@@ -49,8 +50,10 @@ func load_data():
 	if !dir.dir_exists('user://Saves'):
 		dir.make_dir('user://Saves')
 		load_data_from('res://Data/')
+		ItemManager.load_data_from('res://Data/')
 	else:
 		load_data_from('user://Saves/')
+		ItemManager.load_data_from('user://Saves/')
 	pass
 
 func load_data_from(dir : String):

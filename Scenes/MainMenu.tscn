@@ -68,11 +68,11 @@ func set_items_equipped():
 	pass
 
 func set_player_menu_item(item):
-	if item.item_type != \"Skin\":
-		$Player/Skin.get_node(item.item_type).texture = load(item.item_image_location)
-		$Player/Skin.get_node(item.item_type).self_modulate = item.color if item.has_color() else \"ffffff\"
+	if item.item_type != ItemManager.ItemType.SKIN:
+		$Player/Skin.get_node(ItemManager.itemTypeToString.get(item.item_type)).texture = load(item.item_image_location)
+		$Player/Skin.get_node(ItemManager.itemTypeToString.get(item.item_type)).self_modulate = item.item_color if item.has_color() else \"ffffff\"
 	else:
-		$Player/Skin.self_modulate = item.color if item.has_color() else \"ffffff\"
+		$Player/Skin.self_modulate = item.item_color if item.has_color() else \"ffffff\"
 	pass
 
 func _on_StartButton_button_down():

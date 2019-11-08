@@ -34,6 +34,7 @@ signal item_buy(item)
 signal item_equip(item)
 signal item_unequip(item)
 signal on_color_button_pressed(item_panel)
+signal on_color_change(item)
 signal item_preview(item_type,item_texture)
 signal equip_default_jetpack()
 signal emit_confirmation(item, self_ref)
@@ -59,6 +60,8 @@ func set_item_info(shop_item):
 	connect('item_equip',get_tree().root.get_node('ShopAndUpgradeScene'),'equip_item')
 	connect('equip_default_jetpack',get_tree().root.get_node('ShopAndUpgradeScene'),'equip_default_jetpack')
 	connect('on_color_button_pressed',get_tree().root.get_node('ShopAndUpgradeScene'),'open_color_picker')
+	connect('on_color_change',get_tree().root.get_node('ShopAndUpgradeScene'),'change_color_item')
+	connect('on_color_change',ItemManager,'change_color_item')
 	configure_panel()
 	pass
 
@@ -70,17 +73,18 @@ func update_color_button():
 	color_button.set('custom_styles/focus', style_box)
 	color_button.set('custom_styles/disabled', style_box)
 	color_button.set('custom_styles/normal', style_box)
+	emit_signal('on_color_change',item)
 	pass
 
 func configure_panel():
-	item_image.texture = load('Sprites/Shop/Cat/'+item.item_type+'/'+item.item_name+'.png')
+	item_image.texture = load(item.item_image_location)
 	check_item_state()
 	pass
 
 func check_item_state():
 	if !item.item_buyed:
 		buy_button.get_node('CC/HBC/PriceTag').text = str(item.item_price)
-		buy_button.get_node('CC/HBC/Payment').texture = load('Sprites/Collectables/'+item.item_payment+'.png')
+		buy_button.get_node('CC/HBC/Payment').texture = load(ItemManager.get_payment_texture(item.item_payment))
 		buy_button.disabled = check_button_available()
 		preview_button.show()
 	else:
@@ -98,9 +102,9 @@ func check_button_color():
 func check_button_available():
 	var currency : int = 0
 	match item.item_payment:
-		ItemManager.Payment.Coin:
+		ItemManager.Payment.COIN:
 			currency = GameManager.coins
-		ItemManager.Payment.Fish:
+		ItemManager.Payment.FISH:
 			currency = GameManager.fishes
 	return item.item_price > currency
 
@@ -110,7 +114,6 @@ func _on_BuyButton_button_down():
 
 func change_to_buy_state():
 	emit_signal('item_buy',item)
-	item.item_buyed = true
 	buy_button.hide()
 	use_button.show()
 	preview_button.hide()
