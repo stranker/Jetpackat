@@ -59,8 +59,17 @@ class ShopItem:
 		item_color = col
 		pass
 
+class EquippedItem:
+	var item_type : int
+	var item_id : int
+	
+	func create_equipped_item(it,id):
+		self.item_type = int(it)
+		self.item_id = int(id)
+		pass
+
 var items_list : Array = []
-var items_equipped : Dictionary = {}
+var items_equipped : Array = []
 
 var res_data_path = 'res://Data/'
 var user_data_path = 'user://Saves/'
@@ -70,7 +79,7 @@ func load_data_from(dir : String):
 	var raw_items_list : Dictionary = try_load_file_data(dir + 'ItemShopData.dat')
 	var raw_items_equipped : Dictionary = try_load_file_data(dir + 'EquippedItemsData.dat')
 	create_shop_item(raw_items_list)
-	items_equipped = raw_items_equipped
+	create_equipped_items(raw_items_equipped)
 	save_data()
 	pass
 
@@ -82,6 +91,13 @@ func create_shop_item(dict : Dictionary):
 			item.create_shop_item(item_id,info['name'], info['type'], info['price'], info['payment'],
 								info['buyed'],info['color'] if info.has('color') else null, info['image_location'])
 			items_list.append(item)
+	pass
+
+func create_equipped_items(dict : Dictionary):
+	for item_type in dict.keys():
+		var item_equipped = EquippedItem.new()
+		item_equipped.create_equipped_item(item_type, dict[item_type])
+		items_equipped.append(item_equipped)
 	pass
 
 func try_load_file_data(res_path):
@@ -101,9 +117,8 @@ func save_data():
 func save_item_data(dir : String):
 	var file = File.new()
 	file.open(dir + 'ItemShopData.dat',File.WRITE)
-	var data = shop_item_to_dictionary(items_list)
-	if !data.empty():
-		file.store_line(to_json(data))
+	if !items_list.empty():
+		file.store_line(to_json(shop_item_to_dictionary(items_list)))
 		file.store_line("")
 	file.close()
 	pass
@@ -124,19 +139,25 @@ func shop_item_to_dictionary( data_list : Array):
 		data[itemTypeToString.get(item.item_type)][item.item_id] = item_raw_data
 	return data
 
+func equipped_item_to_dictionary( data_list : Array ):
+	var data : Dictionary = {}
+	for item in data_list:
+		data[item.item_type] = item.item_id
+	return data
+
 func save_equipped_item(dir : String):
 	var file = File.new()
 	file.open(dir + 'EquippedItemsData.dat',File.WRITE)
 	if !items_equipped.empty():
-		file.store_line(to_json(items_equipped))
+		file.store_line(to_json(equipped_item_to_dictionary(items_equipped)))
 		file.store_line("")
 	file.close()
 	pass
 
 func get_equipped_items():
-	var item_list = []
-	for item_type in items_equipped.keys():
-		item_list.append(get_item_by_type_id(int(item_type),int(items_equipped[item_type])))
+	var item_list : Array = []
+	for item_equipped in items_equipped:
+		item_list.append(get_item_by_type_id(int(item_equipped.item_type),int(item_equipped.item_id)))
 	return item_list
 
 func buy_item(item):
@@ -145,17 +166,26 @@ func buy_item(item):
 	pass
 
 func equip_item(item):
-	items_equipped[item.item_type] = item.item_id
+	for item_equipped in items_equipped:
+		if item_equipped.item_type == item.item_type:
+			items_equipped.erase(item_equipped)
+			item_equipped.unreference()
+	var new_item = EquippedItem.new()
+	new_item.create_equipped_item(item.item_type, item.item_id)
+	items_equipped.append(new_item)
 	save_data()
 	pass
 
 func unequip_item(item):
-	items_equipped.erase(item.item_type)
+	for item_equipped in items_equipped:
+		if item_equipped.item_type == item.item_type:
+			items_equipped.erase(item_equipped)
+			item_equipped.unreference()
 	save_data()
 	pass
 
-func get_items_by_type( type : int ):
-	var items : Array
+func get_items_by_type( type ):
+	var items : Array = []
 	for item in items_list:
 		if item.item_type == type:
 			items.append(item)
@@ -179,3 +209,9 @@ func change_color_item(item):
 		if i == item:
 			i.item_color = item.item_color
 			return
+
+func has_item_equipped(item):
+	for item_equipped in items_equipped:
+		if item_equipped.item_type == item.item_type and item_equipped.item_id == item.item_id:
+			return true
+	return false

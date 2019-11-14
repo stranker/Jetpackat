@@ -92,6 +92,12 @@ func check_item_state():
 		use_button.show()
 		preview_button.hide()
 		preview_button.disabled = true
+		check_if_item_equipped()
+	pass
+
+func check_if_item_equipped():
+	if ItemManager.has_item_equipped(item):
+		equip_item()
 	pass
 
 func check_button_color():
@@ -154,14 +160,15 @@ func equip_default_jetpack():
 	pass
 
 func enable_use_button(val):
-	if item.item_buyed:
-		if val:
-			using = false
-			use_button.get_node('Text').text = tr(\"SHOPBUTTON_USE\")
-			color_button.hide()
-	else:
-		$VBC/ItemPanel/Label.hide()
-		stop_scale_tween()
+	if item:
+		if item.item_buyed:
+			if val:
+				using = false
+				use_button.get_node('Text').text = tr(\"SHOPBUTTON_USE\")
+				color_button.hide()
+		else:
+			$VBC/ItemPanel/Label.hide()
+			stop_scale_tween()
 	pass
 
 func _on_ColorButton_button_down():

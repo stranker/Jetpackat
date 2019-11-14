@@ -42,7 +42,7 @@ onready var color_picker = get_node('MainPanel/ShopPanel/BackPanel/HBC/PanelItem
 
 func _ready():
 	update_currency()
-	update_equipment()
+	#update_equipment()
 	_on_HatButton_button_down()
 	$TransitionScene.play_random_backwards()
 	pass
@@ -90,11 +90,11 @@ func enable_used_items(item):
 func update_equipment():
 	if !ItemManager.items_equipped.empty():
 		for item_equipped in ItemManager.items_equipped:
-			set_item_on_player(item_equipped, ItemManager.items_equipped[item_equipped])
+			set_item_on_player(item_equipped)
 	pass
 
-func set_item_on_player(item_type, item_id):
-	var item = ItemManager.get_item_by_type_id(int(item_type),int(item_id))
+func set_item_on_player(item_equipped):
+	var item = ItemManager.get_item_by_type_id(int(item_equipped.item_type),int(item_equipped.item_id))
 	if item.item_type != ItemManager.ItemType.SKIN:
 		var player_item = player.get_node(ItemManager.itemTypeToString[item.item_type])
 		player_item.texture = load(item.item_image_location)
@@ -129,7 +129,7 @@ func unequip_item(item):
 
 func equip_default_jetpack():
 	for i in item_list.get_children():
-		if i.item_type == 'Jetpack' and i.item_name == 'Green':
+		if i.item.item_type == ItemManager.ItemType.JETPACK and i.item.item_name == 'Green':
 			i.equip_item()
 			break
 	pass
@@ -180,10 +180,14 @@ func _on_ScarfButton_button_down():
 	unclick_other_buttons($MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/ScarfButton)
 	pass # Replace with function body.
 
-func on_item_type_selected( type : int ):
-	var items : Array = ItemManager.get_items_by_type(type)
-	if !items.empty():
-		create_panels(items)
+func on_item_type_selected( type ):
+	if type != ItemManager.ItemType.SKIN:
+		var items : Array = ItemManager.get_items_by_type(type)
+		if !items.empty():
+			create_panels(items)
+	else:
+		current_item_panel == \"SKIN\"
+		open_color_picker(current_item_panel)
 	pass
 
 func unclick_other_buttons(current_button):
