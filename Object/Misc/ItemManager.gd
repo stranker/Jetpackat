@@ -215,3 +215,8 @@ func has_item_equipped(item):
 		if item_equipped.item_type == item.item_type and item_equipped.item_id == item.item_id:
 			return true
 	return false
+
+func set_skin_color(color):
+	var skin = get_item_by_type_id(ItemType.SKIN,0)
+	skin.set_color(color)
+	pass

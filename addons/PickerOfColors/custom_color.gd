@@ -1,7 +1,6 @@
 # #############################################################################
 # #############################################################################
 extends Panel
-tool 
 var ColorWheel = load('res://addons/PickerOfColors/color_wheel.gd')
 var _color = Color(1,1,1)
 export var size : int

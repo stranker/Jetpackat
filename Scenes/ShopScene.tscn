@@ -42,7 +42,7 @@ onready var color_picker = get_node('MainPanel/ShopPanel/BackPanel/HBC/PanelItem
 
 func _ready():
 	update_currency()
-	#update_equipment()
+	update_equipment()
 	_on_HatButton_button_down()
 	$TransitionScene.play_random_backwards()
 	pass
@@ -73,6 +73,7 @@ func create_panels(data : Array):
 	pass
 
 func _on_TextureButton_button_down():
+	ItemManager.save_data()
 	$TransitionScene.play_random()
 	pass
 
@@ -101,6 +102,10 @@ func set_item_on_player(item_equipped):
 		if item.has_color():
 			player_item.self_modulate = item.item_color
 		player_item.show()
+	else:
+		var skin = player.get_node('Skin')
+		skin.texture = load(item.item_image_location)
+		skin.self_modulate = item.item_color
 	pass
 
 func open_color_picker(item_panel):
@@ -115,12 +120,20 @@ func update_buttons_states(item):
 	pass
 
 func _on_CustomColor_value_changed(c):
-	if current_item_panel and typeof(current_item_panel) != TYPE_STRING:
-		current_item_panel.set_item_color(c)
+	if current_item_panel:
+		if typeof(current_item_panel) != TYPE_STRING:
+			current_item_panel.set_item_color(c)
+		else:
+			set_skin_color(c)
 	pass # Replace with function body.
 
 func change_color_item(item):
 	player.get_node(ItemManager.itemTypeToString.get(item.item_type)).self_modulate = item.item_color
+	pass
+
+func set_skin_color(color):
+	player.get_node('Skin').self_modulate = color
+	ItemManager.set_skin_color(color)
 	pass
 
 func unequip_item(item):
@@ -186,7 +199,7 @@ func on_item_type_selected( type ):
 		if !items.empty():
 			create_panels(items)
 	else:
-		current_item_panel == \"SKIN\"
+		current_item_panel = \"SKIN\"
 		open_color_picker(current_item_panel)
 	pass
 
@@ -448,6 +461,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="Coins" type="Control" parent="VBC/CurrencyInfo/HBC"]
+editor/display_folded = true
 margin_right = 466.0
 margin_bottom = 174.0
 size_flags_horizontal = 3
@@ -495,6 +509,7 @@ expand = true
 stretch_mode = 6
 
 [node name="Fish" type="Control" parent="VBC/CurrencyInfo/HBC"]
+editor/display_folded = true
 margin_left = 470.0
 margin_right = 936.0
 margin_bottom = 174.0
@@ -542,7 +557,6 @@ expand = true
 stretch_mode = 6
 
 [node name="ClosePanel" type="Control" parent="VBC/CurrencyInfo/HBC"]
-editor/display_folded = true
 margin_left = 940.0
 margin_right = 1080.0
 margin_bottom = 174.0
@@ -590,6 +604,7 @@ text = "Workshop"
 animation_advance_time = 0.5
 
 [node name="MainPanel" type="Control" parent="."]
+editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -626,6 +641,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="PlayerPanel" type="Control" parent="MainPanel/ShopPanel/BackPanel/HBC"]
+editor/display_folded = true
 margin_right = 1060.0
 margin_bottom = 609.0
 mouse_filter = 1
@@ -717,6 +733,7 @@ texture_disabled = ExtResource( 16 )
 texture_focused = ExtResource( 16 )
 
 [node name="Player" type="Control" parent="MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel"]
+editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -806,7 +823,6 @@ expand = true
 stretch_mode = 6
 
 [node name="PanelItems" type="Control" parent="MainPanel/ShopPanel/BackPanel/HBC"]
-editor/display_folded = true
 margin_top = 613.0
 margin_right = 1060.0
 margin_bottom = 1630.0
