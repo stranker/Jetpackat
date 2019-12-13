@@ -29,7 +29,7 @@ func create_shop_items(data : Array):
 	fill_shop_item_info()
 	pass
 
-func create_leader_items(data : Dictionary):
+func create_leader_items(data : Array):
 	total_pages = ceil(float(data.size()) / float(items_to_show))
 	actual_page = 0
 	grid_data = data

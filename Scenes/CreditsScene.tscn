@@ -27,24 +27,51 @@ func set_cat_equipment():
 	$Player/Scarf.self_modulate = 'ffffff'
 	$Player/Jetpack.self_modulate = 'ffffff'
 	$Player/Pattern.self_modulate = 'ffffff'
-	if !GameManager.items_equipped.keys().empty():
-		for i in GameManager.items_equipped.keys():
-			set_player_menu_item(i)
+	if !ItemManager.items_equipped.empty():
+		for item in ItemManager.items_equipped:
+			set_player_menu_item(ItemManager.get_item_by_type_id(item.item_type, item.item_id))
 	pass
 
-func set_player_menu_item(item_type):
-	var item_info = GameManager.items_equipped[item_type]
-	var texture_route = 'Sprites/Cat/'
-	if item_type != 'Skin' or item_type != 'Scarf':
-		texture_route = 'Sprites/Shop/Cat/'
-	if item_type == 'Skin':
-		$Player/Skin.self_modulate = item_info[1]
-	else:
-		if typeof(item_info) != TYPE_ARRAY:
-			$Player.get_node(item_type).texture = load(texture_route + item_type + '/' + item_info + '.png')
-		else:
-			$Player.get_node(item_type).texture = load(texture_route + item_type + '/' + item_info[0] + '.png')
-			$Player.get_node(item_type).self_modulate = item_info[1]
+func set_player_menu_item(item):
+	match item.item_type:
+		ItemManager.ItemType.HAT:
+			set_hat(item)
+		ItemManager.ItemType.JETPACK:
+			set_jetpack(item)
+		ItemManager.ItemType.PATTERN:
+			set_pattern(item)
+		ItemManager.ItemType.SCARF:
+			set_scarf(item)
+		ItemManager.ItemType.SKIN:
+			set_skin(item)
+	pass
+
+func set_pattern(item):
+	$Player/Skin.texture = load(item.item_image_location)
+	if item.has_color():
+		$Player/Skin.self_modulate = item.item_color
+	pass
+
+func set_hat(item):
+	$Player/Hat.texture = load(item.item_image_location)
+	if item.has_color():
+		$Player/Hat.self_modulate = item.item_color
+	pass
+
+func set_skin(item):
+	$Player/Skin.self_modulate = item.item_color
+	pass
+
+func set_scarf(item):
+	$Player/Scarf.texture = load(item.item_image_location)
+	if item.has_color():
+		$Player/Scarf.self_modulate = item.item_color
+	pass
+
+func set_jetpack(item):
+	$Player/Jetpack.texture = load(item.item_image_location)
+	if item.has_color():
+		$Player/Jetpack.self_modulate = item.item_color
 	pass
 
 func _on_BackButton_button_down():
@@ -354,7 +381,6 @@ expand = true
 stretch_mode = 5
 
 [node name="Player" type="Node2D" parent="."]
-editor/display_folded = true
 position = Vector2( -133.396, 494.541 )
 rotation = 0.242549
 scale = Vector2( -4, 4 )
