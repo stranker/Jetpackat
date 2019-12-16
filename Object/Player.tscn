@@ -264,11 +264,6 @@ func disable_tutorial():
 	$Visible/Arrow.hide()
 	pass
 
-func take_fuel():
-	if !has_magnet and !invencible:
-		$Anim.play('FuelTaken')
-	pass
-
 func _on_VisibilityNotifier2D_viewport_exited(viewport):
 	_on_VisibilityNotifier2D_screen_exited()
 	pass # Replace with function body.
@@ -1808,7 +1803,7 @@ one_shot = true
 
 [node name="Sample" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 12 )
-volume_db = -17.165
+volume_db = -25.0
 pitch_scale = 2.0
 bus = "Sounds"
 [connection signal="tween_completed" from="GameCamera/Tween" to="GameCamera" method="_on_Tween_tween_completed"]

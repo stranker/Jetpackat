@@ -29,7 +29,7 @@
 [ext_resource path="res://Scenes/ConfigPanel.tscn" type="PackedScene" id=27]
 [ext_resource path="res://Scenes/Leaderboard.tscn" type="PackedScene" id=28]
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=29]
-[ext_resource path="res://Sounds/Music/CCF Theme.ogg" type="AudioStream" id=30]
+[ext_resource path="res://Sounds/Music/Cats Can Fly Theme final.ogg" type="AudioStream" id=30]
 [ext_resource path="res://Scenes/TransitionScene.tscn" type="PackedScene" id=31]
 [ext_resource path="res://Scenes/InitialDarker.tscn" type="PackedScene" id=32]
 [ext_resource path="res://Scenes/LanguageSelection.tscn" type="PackedScene" id=33]
