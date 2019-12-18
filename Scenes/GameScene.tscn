@@ -40,7 +40,6 @@
 [ext_resource path="res://Object/Enemies/Condor.tscn" type="PackedScene" id=38]
 [ext_resource path="res://Object/Enemies/Ovni.tscn" type="PackedScene" id=39]
 
-
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node
 
@@ -870,7 +869,7 @@ export var min_height : int = 10
 export var invencible_decrease : int = 5
 var height_spawn : int
 var pos_player_last_spawn : int
-var num : float = 0
+var item_prob : float = 0
 var enemy_idx : int = 0
 export var tutorial_height : int = 0
 
@@ -899,14 +898,14 @@ func get_random_item():
 			return get_enemy()
 
 func get_collectable():
-	var item_name = ''
-	num = rand_range(0,1)
+	var item_name : String = ''
+	item_prob = rand_range(0,1)
 	for i in range(items.size()):
-		if num > items_prob[i]:
-			item_name = items[i - 1]
+		if item_prob < items_prob[i]:
+			item_name = items[i]
 			break
 	if item_name.empty():
-		item_name = items[0]
+		item_name = items[items.size()-1]
 	return item_name
 
 func get_enemy():
@@ -1091,11 +1090,13 @@ centered = false
 position = Vector2( 559.5, 830 )
 
 [node name="UIGame" type="CanvasLayer" parent="."]
+editor/display_folded = true
 script = SubResource( 6 )
 height_tutorial = 15
 
 [node name="UI" type="Control" parent="UIGame"]
 pause_mode = 2
+editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -1670,8 +1671,8 @@ position = Vector2( 120, -290 )
 
 [node name="CurrencySpawner" type="Node" parent="."]
 script = SubResource( 28 )
-items = [ "Coin", "Fish" ]
-items_prob = [ 1.0, 0.2 ]
+items = [ "Fish", "Coin" ]
+items_prob = [ 0.2, 1.0 ]
 pool_manager = NodePath("../CurrencyPool")
 parent_node = NodePath("../Collectables")
 spawn_points = NodePath("../SpawnPoints/Currency")
@@ -1729,8 +1730,8 @@ objects_number = 5
 [connection signal="current_height" from="Player" to="." method="_on_Player_current_height"]
 [connection signal="current_height" from="Player" to="EnemySpawner" method="_on_Player_current_height"]
 [connection signal="dead" from="Player" to="." method="_on_Player_dead"]
-[connection signal="invencible" from="Player" to="CurrencySpawner" method="_on_Player_invencible"]
 [connection signal="invencible" from="Player" to="EnemySpawner" method="_on_Player_invencible_Enemy_Spawner"]
+[connection signal="invencible" from="Player" to="CurrencySpawner" method="_on_Player_invencible"]
 [connection signal="magnet_time" from="Player" to="UIGame" method="_on_Player_magnet_time"]
 [connection signal="on_magnet" from="Player" to="UIGame" method="_on_Player_on_magnet"]
 [connection signal="start_playing" from="Player" to="." method="_on_Player_start_playing"]
