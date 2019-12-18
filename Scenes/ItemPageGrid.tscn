@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Sprites/Tutorial/JumpArrow.png" type="Texture" id=1]
+[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=2]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Control
@@ -147,13 +148,6 @@ corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.309804 )
 shadow_size = 8
 
-[sub_resource type="DynamicFont" id=4]
-size = 60
-outline_size = 5
-outline_color = Color( 0, 0, 0, 1 )
-use_filter = true
-font_data = ExtResource( 1 )
-
 [sub_resource type="StyleBoxFlat" id=5]
 bg_color = Color( 0.956863, 0.752941, 0.278431, 1 )
 border_width_left = 5
@@ -169,13 +163,21 @@ corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.309804 )
 shadow_size = 8
 
+[sub_resource type="DynamicFont" id=4]
+size = 50
+outline_size = 5
+outline_color = Color( 0, 0, 0, 1 )
+use_filter = true
+extra_spacing_bottom = 10
+font_data = ExtResource( 2 )
+
 [node name="ItemPageGrid" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_bottom = -940.0
 script = SubResource( 1 )
 
-[node name="VBC" type="VBoxContainer" parent="."]
+[node name="VBC" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 
@@ -194,30 +196,45 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 0.1
 
 [node name="Prev" type="Control" parent="VBC/HBC"]
+editor/display_folded = true
 margin_right = 397.0
 margin_bottom = 89.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="PrevButton" type="Button" parent="VBC/HBC/Prev"]
+visible = false
 anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
 margin_left = -208.0
 margin_top = -44.5
-margin_bottom = 44.5
+margin_bottom = 48.5
 rect_min_size = Vector2( 80, 80 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.2
 custom_styles/hover = SubResource( 2 )
 custom_styles/pressed = SubResource( 2 )
-custom_styles/focus = SubResource( 2 )
+custom_styles/focus = SubResource( 3 )
 custom_styles/disabled = SubResource( 2 )
 custom_styles/normal = SubResource( 3 )
-custom_fonts/font = SubResource( 4 )
-text = "<"
+
+[node name="Arrow" type="TextureRect" parent="VBC/HBC/Prev/PrevButton"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -33.0
+margin_top = -37.5
+margin_right = 32.0
+margin_bottom = 27.5
+rect_scale = Vector2( -1, 1 )
+rect_pivot_offset = Vector2( 32.5, 32.5 )
+texture = ExtResource( 1 )
+expand = true
+stretch_mode = 6
 
 [node name="Page" type="Control" parent="VBC/HBC"]
 margin_left = 401.0
@@ -232,9 +249,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -94.5
+margin_left = -102.5
 margin_top = -44.5
-margin_right = 94.5
+margin_right = 102.5
 margin_bottom = 44.5
 custom_styles/normal = SubResource( 5 )
 custom_fonts/font = SubResource( 4 )
@@ -243,7 +260,7 @@ custom_constants/shadow_offset_x = 6
 custom_constants/shadow_offset_y = 6
 text = "1 / 1"
 align = 1
-valign = 3
+valign = 1
 
 [node name="Next" type="Control" parent="VBC/HBC"]
 editor/display_folded = true
@@ -254,21 +271,34 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="NextButton" type="Button" parent="VBC/HBC/Next"]
+visible = false
 anchor_top = 0.5
 anchor_bottom = 0.5
 margin_top = -44.5
 margin_right = 198.0
-margin_bottom = 44.5
+margin_bottom = 48.5
 rect_min_size = Vector2( 80, 80 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.2
 custom_styles/hover = SubResource( 2 )
 custom_styles/pressed = SubResource( 2 )
-custom_styles/focus = SubResource( 2 )
+custom_styles/focus = SubResource( 3 )
 custom_styles/disabled = SubResource( 2 )
 custom_styles/normal = SubResource( 3 )
-custom_fonts/font = SubResource( 4 )
-text = ">"
+
+[node name="Arrow" type="TextureRect" parent="VBC/HBC/Next/NextButton"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -32.5
+margin_top = -37.5
+margin_right = 32.5
+margin_bottom = 27.5
+rect_pivot_offset = Vector2( 32.5, 32.5 )
+texture = ExtResource( 1 )
+expand = true
+stretch_mode = 6
 [connection signal="button_down" from="VBC/HBC/Prev/PrevButton" to="." method="_on_PrevButton_button_down"]
 [connection signal="button_down" from="VBC/HBC/Next/NextButton" to="." method="_on_NextButton_button_down"]
