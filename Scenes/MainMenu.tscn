@@ -62,24 +62,17 @@ func check_first_game():
 	pass
 
 func set_items_equipped():
-	if !GameManager.items_equipped.keys().empty():
-		for i in GameManager.items_equipped.keys():
-			set_player_menu_item(i)
+	if !ItemManager.items_equipped.empty():
+		for item in ItemManager.get_equipped_items():
+			set_player_menu_item(item)
 	pass
 
-func set_player_menu_item(item_type):
-	var item_info = GameManager.items_equipped[item_type]
-	var texture_route = 'Sprites/Cat/'
-	if item_type != 'Skin' or item_type != 'Scarf':
-		texture_route = 'Sprites/Shop/Cat/'
-	if item_type == 'Skin':
-		$Player/Skin.self_modulate = item_info[1]
+func set_player_menu_item(item):
+	if item.item_type != ItemManager.ItemType.SKIN:
+		$Player/Skin.get_node(ItemManager.itemTypeToString.get(item.item_type)).texture = load(item.item_image_location)
+		$Player/Skin.get_node(ItemManager.itemTypeToString.get(item.item_type)).self_modulate = item.item_color if item.has_color() else \"ffffff\"
 	else:
-		if typeof(item_info) != TYPE_ARRAY:
-			$Player/Skin.get_node(item_type).texture = load(texture_route + item_type + '/' + item_info + '.png')
-		else:
-			$Player/Skin.get_node(item_type).texture = load(texture_route + item_type + '/' + item_info[0] + '.png')
-			$Player/Skin.get_node(item_type).self_modulate = item_info[1]
+		$Player/Skin.self_modulate = item.item_color if item.has_color() else \"ffffff\"
 	pass
 
 func _on_StartButton_button_down():
@@ -465,12 +458,12 @@ tracks/1/keys = {
 }
 
 [sub_resource type="StyleBoxFlat" id=15]
-bg_color = Color( 0.164706, 0.752941, 0.94902, 1 )
+bg_color = Color( 0.227451, 0.360784, 0.521569, 1 )
 border_width_left = 10
 border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
-border_color = Color( 0.145098, 0.192157, 0.368627, 1 )
+border_color = Color( 0.141176, 0.117647, 0.266667, 1 )
 corner_radius_top_left = 50
 corner_radius_top_right = 50
 corner_radius_bottom_right = 50
@@ -1163,8 +1156,8 @@ margin_right = 277.0
 margin_bottom = -29.999
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 5
-size_flags_vertical = 5
+size_flags_horizontal = 13
+size_flags_vertical = 13
 custom_styles/hover = SubResource( 19 )
 custom_styles/pressed = SubResource( 19 )
 custom_styles/focus = SubResource( 19 )

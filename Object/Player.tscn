@@ -374,54 +374,53 @@ func _ready():
 	check_items_equipped()
 
 func check_items_equipped():
-	if !GameManager.items_equipped.keys().empty():
-		for item in GameManager.items_equipped.keys():
-			match item:
-				'Hat':
-					set_hat(GameManager.items_equipped[item])
-				'Skin':
-					set_skin(GameManager.items_equipped[item])
-				'Scarf':
-					set_scarf(GameManager.items_equipped[item])
-				'Jetpack':
-					set_jetpack(GameManager.items_equipped[item])
-				'Pattern':
-					set_pattern(GameManager.items_equipped[item])
+	if !ItemManager.items_equipped.empty():
+		for item in ItemManager.items_equipped:
+			equip_item(ItemManager.get_item_by_type_id(item.item_type,item.item_id))
+	pass
+
+func equip_item(item):
+	match item.item_type:
+		ItemManager.ItemType.HAT:
+			set_hat(item)
+		ItemManager.ItemType.JETPACK:
+			set_jetpack(item)
+		ItemManager.ItemType.PATTERN:
+			set_pattern(item)
+		ItemManager.ItemType.SCARF:
+			set_scarf(item)
+		ItemManager.ItemType.SKIN:
+			set_skin(item)
 	pass
 
 func set_pattern(item):
-	if typeof(item) != TYPE_ARRAY:
-		$Skin/Pattern.texture = load('Sprites/Shop/Cat/Pattern/'+item+'.png')
-	else:
-		$Skin/Pattern.texture = load('Sprites/Shop/Cat/Pattern/'+item[0]+'.png')
-		$Skin/Pattern.self_modulate = GameManager.items_equipped['Pattern'][1]
+	$Skin/Pattern.texture = load(item.item_image_location)
+	if item.has_color():
+		$Skin/Pattern.self_modulate = item.item_color
 	pass
 
 func set_hat(item):
-	if typeof(item) != TYPE_ARRAY:
-		$Skin/Hat.texture = load('Sprites/Shop/Cat/Hat/'+item+'.png')
-	else:
-		$Skin/Hat.texture = load('Sprites/Shop/Cat/Hat/'+item[0]+'.png')
-		$Skin/Hat.self_modulate = GameManager.items_equipped['Hat'][1]
+	$Skin/Hat.texture = load(item.item_image_location)
+	if item.has_color():
+		$Skin/Hat.self_modulate = item.item_color
+	pass
 
 func set_skin(item):
-	$Skin.self_modulate = GameManager.items_equipped['Skin'][1]
+	$Skin.self_modulate = item.item_color
+	pass
 
 func set_scarf(item):
-	if typeof(item) != TYPE_ARRAY:
-		$Scarf.texture = load('Sprites/Shop/Cat/Scarf/'+item+'.png')
-	else:
-		$Scarf.texture = load('Sprites/Shop/Cat/Scarf/'+item[0]+'.png')
-		$Scarf.self_modulate = GameManager.items_equipped['Scarf'][1]
+	$Scarf.texture = load(item.item_image_location)
+	if item.has_color():
+		$Scarf.self_modulate = item.item_color
 	$Scarf.color.a = 1
+	pass
 
 func set_jetpack(item):
-	if typeof(item) != TYPE_ARRAY:
-		$Jetpack.texture = load('Sprites/Shop/Cat/Jetpack/'+item+'.png')
-	else:
-		$Jetpack.texture = load('Sprites/Shop/Cat/Jetpack/'+item[0]+'.png')
-		$Jetpack.self_modulate = GameManager.items_equipped['Jetpack'][1]
-"
+	$Jetpack.texture = load(item.item_image_location)
+	if item.has_color():
+		$Jetpack.self_modulate = item.item_color
+	pass"
 
 [sub_resource type="ShaderMaterial" id=6]
 shader = ExtResource( 2 )
@@ -445,9 +444,6 @@ script/source = "extends CPUParticles2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	if GameManager.items_equipped.has('Thruster'):
-		modulate = Color(GameManager.item_data['Thruster'][GameManager.items_equipped['Thruster']]['color'])
-		texture = load('Sprites/Shop/Cat/Thruster/'+GameManager.items_equipped['Thruster']+'.png')
 	pass # Replace with function body."
 
 [sub_resource type="Animation" id=11]

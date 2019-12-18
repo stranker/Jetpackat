@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Sprites/UI/PawCatIcon.png" type="Texture" id=2]
@@ -61,7 +61,7 @@ func _on_CloseConfigButton_button_down():
 	pass # Replace with function body.
 "
 
-[sub_resource type="StyleBoxFlat" id=3]
+[sub_resource type="StyleBoxFlat" id=12]
 bg_color = Color( 0.27451, 0.356863, 0.905882, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -84,7 +84,7 @@ use_filter = true
 font_data = ExtResource( 1 )
 
 [sub_resource type="StyleBoxFlat" id=5]
-bg_color = Color( 0.972549, 0.6, 0.227451, 1 )
+bg_color = Color( 0.956863, 0.752941, 0.278431, 1 )
 border_width_left = 10
 border_width_top = 10
 border_width_right = 10
@@ -97,6 +97,21 @@ corner_radius_bottom_left = 70
 corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.184314 )
 shadow_size = 15
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.164706, 0.752941, 0.94902, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color( 0.133333, 0.176471, 0.505882, 1 )
+corner_radius_top_left = 60
+corner_radius_top_right = 60
+corner_radius_bottom_right = 60
+corner_radius_bottom_left = 60
+corner_detail = 2
+shadow_color = Color( 0, 0, 0, 0.25098 )
+shadow_size = 10
 
 [sub_resource type="DynamicFont" id=6]
 size = 72
@@ -145,7 +160,6 @@ expand_margin_bottom = 10.0
 shadow_size = 2
 
 [sub_resource type="Animation" id=9]
-resource_name = "Language"
 length = 0.6
 tracks/0/type = "value"
 tracks/0/path = NodePath("LanguageSelection:rect_position")
@@ -187,11 +201,9 @@ tracks/2/keys = {
 }
 
 [sub_resource type="Animation" id=10]
-resource_name = "LanguageOut"
 length = 0.6
 
 [sub_resource type="Animation" id=11]
-resource_name = "PauseIn"
 length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath("FrontPanel:rect_position")
@@ -299,7 +311,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 5
 size_flags_vertical = 5
-custom_styles/normal = SubResource( 3 )
+custom_styles/normal = SubResource( 12 )
 custom_fonts/font = SubResource( 4 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.294118 )
 custom_constants/shadow_offset_x = 8
@@ -308,6 +320,7 @@ text = "OPTIONS"
 align = 1
 
 [node name="FrontPanel" type="Panel" parent="."]
+editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5

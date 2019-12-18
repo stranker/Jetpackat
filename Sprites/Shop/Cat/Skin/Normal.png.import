@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Skin.png-9bc94e2d27f6f9cf4e3a35600473990e.stex"
+path="res://.import/Normal.png-7a6d2e12a61919265f7e4ffe77ef286f.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Shop/Cat/Skin/Skin.png"
-dest_files=[ "res://.import/Skin.png-9bc94e2d27f6f9cf4e3a35600473990e.stex" ]
+source_file="res://Sprites/Shop/Cat/Skin/Normal.png"
+dest_files=[ "res://.import/Normal.png-7a6d2e12a61919265f7e4ffe77ef286f.stex" ]
 
 [params]
 

@@ -178,6 +178,7 @@ script = SubResource( 2 )
 leaderitem_scene = ExtResource( 1 )
 
 [node name="Ribbon" type="NinePatchRect" parent="."]
+editor/display_folded = true
 self_modulate = Color( 0.705882, 0.137255, 0.0745098, 1 )
 anchor_left = 0.5
 anchor_right = 0.5
@@ -207,7 +208,6 @@ text = "LEADERBOARD"
 align = 1
 
 [node name="Leaders" type="Panel" parent="."]
-editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -220,14 +220,26 @@ mouse_filter = 1
 custom_styles/panel = SubResource( 4 )
 
 [node name="ItemPageGrid" parent="Leaders" instance=ExtResource( 4 )]
-editor/display_folded = true
 margin_bottom = 0.0
 packed_scene = ExtResource( 1 )
 items_to_show = 10
 
+[node name="VBC" parent="Leaders/ItemPageGrid" index="0"]
+editor/display_folded = true
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 5
+size_flags_vertical = 5
+
 [node name="Grid" parent="Leaders/ItemPageGrid/VBC" index="0"]
-margin_right = 942.0
-margin_bottom = 1188.0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -471.0
+margin_top = -605.5
+margin_right = 471.0
+margin_bottom = 536.5
 custom_constants/vseparation = 10
 
 [node name="HBC" parent="Leaders/ItemPageGrid/VBC" index="1"]

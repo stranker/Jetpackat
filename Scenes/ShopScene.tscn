@@ -15,7 +15,7 @@
 [ext_resource path="res://Sprites/Shop/UI/HatButton.png" type="Texture" id=13]
 [ext_resource path="res://Sprites/Shop/UI/PatternButton.png" type="Texture" id=14]
 [ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=15]
-[ext_resource path="res://Sprites/Shop/Cat/Skin/Skin.png" type="Texture" id=16]
+[ext_resource path="res://Sprites/Shop/Cat/Skin/Normal.png" type="Texture" id=16]
 [ext_resource path="res://Sprites/Cat/Eyes.png" type="Texture" id=17]
 [ext_resource path="res://Scenes/ItemPageGrid.tscn" type="PackedScene" id=18]
 [ext_resource path="res://addons/PickerOfColors/CustomColor.tscn" type="PackedScene" id=19]
@@ -34,7 +34,7 @@ script/source = "extends Control
 
 export (PackedScene) var item_shop_panel
 var current_item_panel
-onready var player = get_node('MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/Player/Skin')
+onready var player = get_node('MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/Player')
 onready var item_list = get_node('MainPanel/ShopPanel/BackPanel/HBC/PanelItems/ItemPageGrid/VBC/Grid')
 onready var coin_label = get_node('VBC/CurrencyInfo/HBC/Coins/Panel/Cuant')
 onready var fish_label = get_node('VBC/CurrencyInfo/HBC/Fish/Panel/Cuant')
@@ -68,40 +68,44 @@ func update_currency():
 	fish_label.text = str(GameManager.fishes)
 	pass
 
-func create_panels(data : Dictionary):
+func create_panels(data : Array):
 	$MainPanel/ShopPanel/BackPanel/HBC/PanelItems/ItemPageGrid.create_shop_items(data)
 	pass
 
 func _on_TextureButton_button_down():
+	ItemManager.save_data()
 	$TransitionScene.play_random()
 	pass
 
-func equip_item(type,item_name,color):
+func equip_item(item):
 	update_equipment()
-	enable_used_items(item_name)
+	enable_used_items(item)
 	pass
 
-func enable_used_items(item_name):
+func enable_used_items(item):
 	for i in item_list.get_children():
-		if i.item_name != item_name:
+		if i.item != item:
 			i.enable_use_button(true)
 	pass
 
 func update_equipment():
-	if !GameManager.items_equipped.keys().empty():
-		for item_type in GameManager.items_equipped.keys():
-			set_item_on_player(item_type)
-			update_item_color(item_type,GameManager.items_equipped[item_type])
+	if !ItemManager.items_equipped.empty():
+		for item_equipped in ItemManager.items_equipped:
+			set_item_on_player(item_equipped)
 	pass
 
-func set_item_on_player(item_type):
-	var item = GameManager.items_equipped[item_type]
-	if item_type != 'Skin':
-		if typeof(item) != TYPE_ARRAY:
-			player.get_node(item_type).texture = load('Sprites/Shop/Cat/'+item_type+'/'+item+'.png')
-		else:
-			player.get_node(item_type).texture = load('Sprites/Shop/Cat/'+item_type+'/'+item[0]+'.png')
-		player.get_node(item_type).show()
+func set_item_on_player(item_equipped):
+	var item = ItemManager.get_item_by_type_id(int(item_equipped.item_type),int(item_equipped.item_id))
+	if item.item_type != ItemManager.ItemType.SKIN:
+		var player_item = player.get_node(ItemManager.itemTypeToString[item.item_type])
+		player_item.texture = load(item.item_image_location)
+		if item.has_color():
+			player_item.self_modulate = item.item_color
+		player_item.show()
+	else:
+		var skin = player.get_node('Skin')
+		skin.texture = load(item.item_image_location)
+		skin.self_modulate = item.item_color
 	pass
 
 func open_color_picker(item_panel):
@@ -109,43 +113,36 @@ func open_color_picker(item_panel):
 	current_item_panel = item_panel
 	pass
 
-func update_buttons_states(type,item):
+func update_buttons_states(item):
 	for i in item_list.get_children():
 		i.check_item_state()
 	update_currency()
 	pass
 
 func _on_CustomColor_value_changed(c):
-	if current_item_panel and typeof(current_item_panel) != TYPE_STRING:
-		current_item_panel.set_item_color(c)
-		update_item_color(current_item_panel.type,c)
-	else:
-		if player:
-			update_item_color('Skin',c)
+	if current_item_panel:
+		if typeof(current_item_panel) != TYPE_STRING:
+			current_item_panel.set_item_color(c)
+		else:
+			set_skin_color(c)
 	pass # Replace with function body.
 
-func update_item_color(item_type, _color):
-	if typeof(GameManager.items_equipped[item_type]) == TYPE_ARRAY:
-		var color = _color
-		if typeof(_color) == TYPE_ARRAY:
-			color = _color[1]
-		if item_type != 'Skin':
-			player.get_node(item_type).self_modulate = color
-		else:
-			player.self_modulate = color
-			GameManager.items_equipped['Skin'][1] = color
-	else:
-		player.get_node(item_type).self_modulate = 'ffffff'
+func change_color_item(item):
+	player.get_node(ItemManager.itemTypeToString.get(item.item_type)).self_modulate = item.item_color
 	pass
 
+func set_skin_color(color):
+	player.get_node('Skin').self_modulate = color
+	ItemManager.set_skin_color(color)
+	pass
 
-func unequip_item(item_type):
-	player.get_node(item_type).texture = null
+func unequip_item(item):
+	player.get_node(ItemManager.itemTypeToString.get(item.item_type)).texture = null
 	pass
 
 func equip_default_jetpack():
 	for i in item_list.get_children():
-		if i.type == 'Jetpack' and i.item_name == 'Green':
+		if i.item.item_type == ItemManager.ItemType.JETPACK and i.item.item_name == 'Green':
 			i.equip_item()
 			break
 	pass
@@ -153,8 +150,8 @@ func equip_default_jetpack():
 func item_preview(item_type,item_texture):
 	for i in item_list.get_children():
 		i.unequip_item()
-	player.get_node(item_type).texture = item_texture
-	player.get_node(item_type).self_modulate = 'ffffff'
+	player.get_node(ItemManager.itemTypeToString.get(item_type)).texture = item_texture
+	player.get_node(ItemManager.itemTypeToString.get(item_type)).self_modulate = 'ffffff'
 	pass
 
 func _on_Anim_animation_finished(anim_name):
@@ -171,35 +168,40 @@ func _on_UpgradeButton_button_down():
 	$MainPanel/UpgradePanel.show()
 	pass # Replace with function body.
 
+func _on_SkinButton_button_down():
+	on_item_type_selected(ItemManager.ItemType.SKIN)
+	unclick_other_buttons($MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/HatButton)
+	pass # Replace with function body.
+
 func _on_HatButton_button_down():
-	on_item_type_selected('Hat')
+	on_item_type_selected(ItemManager.ItemType.HAT)
 	unclick_other_buttons($MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/HatButton)
 	pass # Replace with function body.
 
 func _on_PatternButton_button_down():
-	on_item_type_selected('Pattern')
+	on_item_type_selected(ItemManager.ItemType.PATTERN)
 	unclick_other_buttons($MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/PatternButton)
 	pass # Replace with function body.
 
 func _on_JetpackButton_button_down():
-	on_item_type_selected('Jetpack')
+	on_item_type_selected(ItemManager.ItemType.JETPACK)
 	unclick_other_buttons($MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/JetpackButton)
 	pass # Replace with function body.
 
 func _on_ScarfButton_button_down():
-	on_item_type_selected('Scarf')
+	on_item_type_selected(ItemManager.ItemType.SCARF)
 	unclick_other_buttons($MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/ScarfButton)
 	pass # Replace with function body.
 
-func on_item_type_selected( type : String):
-	if GameManager.item_data.has(type):
-		create_panels(GameManager.item_data[type])
+func on_item_type_selected( type ):
+	if type != ItemManager.ItemType.SKIN:
+		var items : Array = ItemManager.get_items_by_type(type)
+		if !items.empty():
+			create_panels(items)
+	else:
+		current_item_panel = \"SKIN\"
+		open_color_picker(current_item_panel)
 	pass
-
-func _on_ColorButton_button_down():
-	color_picker.show()
-	current_item_panel = 'Skin'
-	pass # Replace with function body.
 
 func unclick_other_buttons(current_button):
 	for button in $MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel.get_children():
@@ -222,13 +224,15 @@ func _on_ShopButton_button_clicked():
 func _on_WorkshopButton_button_clicked():
 	pass # Replace with function body.
 
-func show_shop_confirmation(item_name, payment, price, panel_ref):
-	$ShopItemConfirmation.set_shop_info(item_name, payment, price, panel_ref)
+func show_shop_confirmation(item, panel_ref):
+	$ShopItemConfirmation.set_shop_info(item.item_name, item.item_payment, item.item_price, panel_ref)
 	pass
 
-func show_workshop_confirmation(item_name, cost):
-	$ShopItemConfirmation.set_workshop_info(item_name, cost)
-	pass"
+func show_workshop_confirmation(item, cost):
+	$ShopItemConfirmation.set_workshop_info(item.item_name, cost)
+	pass
+
+"
 
 [sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.705882, 0.137255, 0.0745098, 1 )
@@ -457,6 +461,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="Coins" type="Control" parent="VBC/CurrencyInfo/HBC"]
+editor/display_folded = true
 margin_right = 466.0
 margin_bottom = 174.0
 size_flags_horizontal = 3
@@ -504,6 +509,7 @@ expand = true
 stretch_mode = 6
 
 [node name="Fish" type="Control" parent="VBC/CurrencyInfo/HBC"]
+editor/display_folded = true
 margin_left = 470.0
 margin_right = 936.0
 margin_bottom = 174.0
@@ -551,7 +557,6 @@ expand = true
 stretch_mode = 6
 
 [node name="ClosePanel" type="Control" parent="VBC/CurrencyInfo/HBC"]
-editor/display_folded = true
 margin_left = 940.0
 margin_right = 1080.0
 margin_bottom = 174.0
@@ -710,7 +715,7 @@ texture_hover = ExtResource( 15 )
 texture_disabled = ExtResource( 15 )
 texture_focused = ExtResource( 15 )
 
-[node name="ColorButton" parent="MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel" instance=ExtResource( 12 )]
+[node name="SkinButton" parent="MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel" instance=ExtResource( 12 )]
 editor/display_folded = true
 material = SubResource( 10 )
 anchor_left = 0.0
@@ -757,60 +762,60 @@ texture = ExtResource( 16 )
 expand = true
 stretch_mode = 6
 
-[node name="Eyes" type="NinePatchRect" parent="MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/Player/Skin"]
+[node name="Eyes" type="NinePatchRect" parent="MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/Player"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -95.0
-margin_top = 20.0
-margin_right = 71.0
-margin_bottom = 186.0
+margin_left = -320.0
+margin_top = 168.0
+margin_right = -154.0
+margin_bottom = 334.0
 texture = ExtResource( 17 )
 region_rect = Rect2( 0, 0, 32, 32 )
 
-[node name="Pattern" type="TextureRect" parent="MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/Player/Skin"]
+[node name="Pattern" type="TextureRect" parent="MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/Player"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -165.0
-margin_top = -175.0
-margin_right = 165.0
-margin_bottom = 175.0
+margin_left = -390.0
+margin_top = -106.0
+margin_right = -60.0
+margin_bottom = 244.0
 mouse_filter = 2
 expand = true
 stretch_mode = 6
 
-[node name="Scarf" type="TextureRect" parent="MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/Player/Skin"]
+[node name="Scarf" type="TextureRect" parent="MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/Player"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -77.0
-margin_top = -21.0
-margin_right = 70.0
-margin_bottom = 140.0
+margin_left = -302.0
+margin_top = 48.0
+margin_right = -155.0
+margin_bottom = 209.0
 mouse_filter = 2
 expand = true
 stretch_mode = 6
 
-[node name="Hat" type="TextureRect" parent="MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/Player/Skin"]
+[node name="Hat" type="TextureRect" parent="MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/Player"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -100.0
-margin_top = -128.0
-margin_right = 111.0
-margin_bottom = 88.0
+margin_left = -325.0
+margin_top = 20.0
+margin_right = -114.0
+margin_bottom = 236.0
 rect_rotation = 0.927213
 mouse_filter = 2
 expand = true
 stretch_mode = 6
 
-[node name="Jetpack" type="TextureRect" parent="MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/Player/Skin"]
+[node name="Jetpack" type="TextureRect" parent="MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/Player"]
 show_behind_parent = true
-margin_left = 260.0
-margin_top = 92.0
-margin_right = 467.0
-margin_bottom = 317.0
+margin_left = 370.0
+margin_top = 240.0
+margin_right = 577.0
+margin_bottom = 465.0
 rect_rotation = 15.0
 mouse_filter = 2
 texture = ExtResource( 15 )
@@ -837,6 +842,9 @@ item_page_grid_type = 1
 packed_scene = ExtResource( 1 )
 columns_number = 3
 items_to_show = 6
+
+[node name="VBC" parent="MainPanel/ShopPanel/BackPanel/HBC/PanelItems/ItemPageGrid" index="0"]
+editor/display_folded = true
 
 [node name="Grid" parent="MainPanel/ShopPanel/BackPanel/HBC/PanelItems/ItemPageGrid/VBC" index="0"]
 margin_right = 1024.0
@@ -966,7 +974,7 @@ editor/display_folded = true
 [connection signal="button_down" from="MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/HatButton" to="." method="_on_HatButton_button_down"]
 [connection signal="button_down" from="MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/PatternButton" to="." method="_on_PatternButton_button_down"]
 [connection signal="button_down" from="MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/JetpackButton" to="." method="_on_JetpackButton_button_down"]
-[connection signal="button_down" from="MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/ColorButton" to="." method="_on_ColorButton_button_down"]
+[connection signal="button_down" from="MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/SkinButton" to="." method="_on_SkinButton_button_down"]
 [connection signal="value_changed" from="MainPanel/ShopPanel/BackPanel/HBC/PanelItems/CustomColor" to="." method="_on_CustomColor_value_changed"]
 [connection signal="button_down" from="MainPanel/ShopPanel/CloseButton" to="." method="_on_CloseButton_button_down"]
 [connection signal="animation_finished" from="TransitionScene/Anim" to="." method="_on_Anim_animation_finished"]

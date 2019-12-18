@@ -23,11 +23,11 @@ func set_workshop_info(_name : String, _coin_cost : int):
 	$Anim.play('Enter')
 	pass
 
-func set_shop_info(_name : String, _payment : String, _cost : int, _panel_ref):
+func set_shop_info(_name : String, _payment : int, _cost : int, _panel_ref):
 	match _payment:
-		'Coin':
+		ItemManager.Payment.COIN:
 			item_gold_cost = _cost
-		'Fish':
+		ItemManager.Payment.FISH:
 			item_fish_cost = _cost
 	item_name = _name
 	panel_ref = _panel_ref
@@ -41,12 +41,12 @@ func update_workshop_ui():
 	$Panel/Title.text = 'DO YOU WANT TO UPGRADE \\n ' + item_name + '?'
 	pass
 
-func update_shop_ui(_payment : String, _cost):
+func update_shop_ui(_payment : int, _cost):
 	match _payment:
-		'Coin':
+		ItemManager.Payment.COIN:
 			$Panel/CostPanel/PaymentText.texture = coin_texture
 			$Panel/CostPanel/Cost.text = str(item_gold_cost)
-		'Fish':
+		ItemManager.Payment.FISH:
 			$Panel/CostPanel/PaymentText.texture = fish_texture
 			$Panel/CostPanel/Cost.text = str(item_fish_cost)
 	$Panel/Title.text = 'DO YOU WANT TO BUY \\n ' + item_name + '?'
@@ -71,12 +71,12 @@ func _on_CancelButton_button_down():
 "
 
 [sub_resource type="StyleBoxFlat" id=2]
-bg_color = Color( 0.2, 0.647059, 1, 1 )
+bg_color = Color( 0.227451, 0.360784, 0.521569, 1 )
 border_width_left = 10
 border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
-border_color = Color( 0.196078, 0.34902, 0.886275, 1 )
+border_color = Color( 0.141176, 0.117647, 0.266667, 1 )
 corner_radius_top_left = 50
 corner_radius_top_right = 50
 corner_radius_bottom_right = 50
@@ -105,7 +105,7 @@ corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.309804 )
 shadow_size = 8
 
-[sub_resource type="Shader" id=12]
+[sub_resource type="Shader" id=5]
 code = "shader_type canvas_item;
 
 uniform float outline_width = 2.0;
@@ -137,19 +137,19 @@ void fragment() {
 	COLOR = mix(col, outline_color, maxa - mina);
 }"
 
-[sub_resource type="ShaderMaterial" id=13]
-shader = SubResource( 12 )
+[sub_resource type="ShaderMaterial" id=6]
+shader = SubResource( 5 )
 shader_param/outline_width = 0.7
 shader_param/outline_color = Color( 1, 1, 1, 1 )
 
-[sub_resource type="DynamicFont" id=5]
+[sub_resource type="DynamicFont" id=7]
 size = 80
 outline_size = 4
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 3 )
 
-[sub_resource type="StyleBoxFlat" id=6]
+[sub_resource type="StyleBoxFlat" id=8]
 bg_color = Color( 0.137255, 0.521569, 0.192157, 1 )
 border_width_left = 10
 border_width_top = 5
@@ -164,7 +164,7 @@ corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.188235 )
 shadow_size = 8
 
-[sub_resource type="StyleBoxFlat" id=7]
+[sub_resource type="StyleBoxFlat" id=9]
 bg_color = Color( 0.447059, 0.796078, 0.145098, 1 )
 border_width_left = 10
 border_width_top = 5
@@ -179,14 +179,14 @@ corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.309804 )
 shadow_size = 8
 
-[sub_resource type="DynamicFont" id=8]
+[sub_resource type="DynamicFont" id=10]
 size = 80
 outline_size = 4
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 3 )
 
-[sub_resource type="StyleBoxFlat" id=9]
+[sub_resource type="StyleBoxFlat" id=11]
 bg_color = Color( 0.623529, 0.117647, 0.192157, 1 )
 border_width_left = 10
 border_width_top = 5
@@ -201,7 +201,7 @@ corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.188235 )
 shadow_size = 8
 
-[sub_resource type="StyleBoxFlat" id=10]
+[sub_resource type="StyleBoxFlat" id=12]
 bg_color = Color( 1, 0.301961, 0.301961, 1 )
 border_width_left = 10
 border_width_top = 5
@@ -216,7 +216,7 @@ corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.188235 )
 shadow_size = 8
 
-[sub_resource type="Animation" id=11]
+[sub_resource type="Animation" id=13]
 resource_name = "Enter"
 length = 0.5
 step = 0.05
@@ -233,19 +233,20 @@ tracks/0/keys = {
 "values": [ Vector2( 185, 2100 ), Vector2( 185, 640 ), Vector2( 185, 695 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Panel:visible")
+tracks/1/path = NodePath(".:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.05 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 0.1, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ false, true ]
+"values": [ false, true, true ]
 }
 
 [node name="ShopItemConfirmation" type="Control"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -254,7 +255,6 @@ coin_texture = ExtResource( 1 )
 fish_texture = ExtResource( 2 )
 
 [node name="Panel" type="Panel" parent="."]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -293,7 +293,7 @@ margin_bottom = 45.0
 custom_styles/panel = SubResource( 4 )
 
 [node name="PaymentText" type="TextureRect" parent="Panel/CostPanel"]
-material = SubResource( 13 )
+material = SubResource( 6 )
 anchor_top = 0.5
 anchor_bottom = 0.5
 margin_left = 10.0
@@ -314,7 +314,7 @@ margin_left = -380.0
 margin_top = -48.5
 margin_right = -30.0
 margin_bottom = 48.5
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 7 )
 text = "999"
 align = 2
 
@@ -325,12 +325,12 @@ margin_left = 60.0
 margin_top = -170.0
 margin_right = 335.0
 margin_bottom = -30.0
-custom_styles/hover = SubResource( 6 )
-custom_styles/pressed = SubResource( 6 )
-custom_styles/focus = SubResource( 6 )
-custom_styles/disabled = SubResource( 6 )
-custom_styles/normal = SubResource( 7 )
-custom_fonts/font = SubResource( 8 )
+custom_styles/hover = SubResource( 8 )
+custom_styles/pressed = SubResource( 8 )
+custom_styles/focus = SubResource( 8 )
+custom_styles/disabled = SubResource( 8 )
+custom_styles/normal = SubResource( 9 )
+custom_fonts/font = SubResource( 10 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "YES"
 
@@ -343,16 +343,16 @@ margin_left = -330.0
 margin_top = -170.0
 margin_right = -55.0
 margin_bottom = -30.0
-custom_styles/hover = SubResource( 9 )
-custom_styles/pressed = SubResource( 9 )
-custom_styles/focus = SubResource( 9 )
-custom_styles/disabled = SubResource( 9 )
-custom_styles/normal = SubResource( 10 )
-custom_fonts/font = SubResource( 8 )
+custom_styles/hover = SubResource( 11 )
+custom_styles/pressed = SubResource( 11 )
+custom_styles/focus = SubResource( 11 )
+custom_styles/disabled = SubResource( 11 )
+custom_styles/normal = SubResource( 12 )
+custom_fonts/font = SubResource( 10 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "NO"
 
 [node name="Anim" type="AnimationPlayer" parent="."]
-anims/Enter = SubResource( 11 )
+anims/Enter = SubResource( 13 )
 [connection signal="button_down" from="Panel/ConfirmButton" to="." method="_on_ConfirmButton_button_down"]
 [connection signal="button_down" from="Panel/CancelButton" to="." method="_on_CancelButton_button_down"]
