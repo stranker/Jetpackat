@@ -20,6 +20,7 @@
 		"2":{
 			"name":"Bonete",
 			"buyed":false,
+			"color":"ffffff",
 			"payment":0,
 			"price":200,
 			"type":0,
@@ -40,6 +41,47 @@
 			"price":100,
 			"type":0,
 			"image_location":"Sprites/Shop/Cat/Hat/Fedora.png"
+		},
+		"5":{
+			"name":"Medieval",
+			"buyed":false,
+			"payment":1,
+			"price":100,
+			"type":0,
+			"image_location":"Sprites/Shop/Cat/Hat/Medieval.png"
+		},
+		"6":{
+			"name":"TopHat",
+			"buyed":false,
+			"color":"ffffff",
+			"payment":1,
+			"price":100,
+			"type":0,
+			"image_location":"Sprites/Shop/Cat/Hat/TopHat.png"
+		},
+		"7":{
+			"name":"Unicorn",
+			"buyed":false,
+			"payment":1,
+			"price":100,
+			"type":0,
+			"image_location":"Sprites/Shop/Cat/Hat/Unicorn.png"
+		},
+		"8":{
+			"name":"Wizard",
+			"buyed":false,
+			"payment":1,
+			"price":100,
+			"type":0,
+			"image_location":"Sprites/Shop/Cat/Hat/Wizard.png"
+		},
+		"9":{
+			"name":"Wool",
+			"buyed":false,
+			"payment":1,
+			"price":100,
+			"type":0,
+			"image_location":"Sprites/Shop/Cat/Hat/Wool.png"
 		}
 	},
 	"Pattern":{
@@ -55,19 +97,36 @@
 	},
 	"Scarf":{
 		"0":{
-			"name":"GoldBlue",
+			"name":"Gold-Blue",
 			"buyed":false,
 			"payment":"Coin",
 			"price":350,
 			"type":1,
 			"image_location":"Sprites/Shop/Cat/Scarf/GoldBlue.png"
+		},
+		"1":{
+			"name":"Red-Cream",
+			"buyed":false,
+			"payment":1,
+			"price":100,
+			"type":1,
+			"image_location":"Sprites/Shop/Cat/Scarf/RedCream.png"
+		},
+		"2":{
+			"name":"Two Color",
+			"buyed":false,
+			"color":"ffffff",
+			"payment":1,
+			"price":100,
+			"type":1,
+			"image_location":"Sprites/Shop/Cat/Scarf/TwoColor.png"
 		}
 	},
 	"Skin":{
 		"0":{
 			"name":"Normal",
 			"buyed":true,
-			"color":"ffffff",
+			"color":"9b9b9b",
 			"payment":"Coin",
 			"price":0,
 			"type":4,
