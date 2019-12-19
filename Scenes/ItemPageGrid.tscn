@@ -66,7 +66,8 @@ func instanciate_page():
 			var scene = packed_scene.instance()
 			$VBC/Grid.add_child(scene)
 	else:
-		for i in range(grid_data.size() % items_to_show):
+		var cant = grid_data.size() % items_to_show if grid_data.size() % items_to_show != 0 else items_to_show
+		for i in range(cant):
 			var scene = packed_scene.instance()
 			$VBC/Grid.add_child(scene)
 	check_ui()
