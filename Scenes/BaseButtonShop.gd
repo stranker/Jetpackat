@@ -1,6 +1,7 @@
 extends TextureButton
 
 var clicked = false
+signal on_clicked
 
 func unclick_button():
 	$Anim.stop()
@@ -13,6 +14,7 @@ func _on_ButtonShop_button_down():
 	if !clicked:
 		$Anim.play('Clicked')
 		clicked = true
+		emit_signal("on_clicked")
 	pass # Replace with function body.
 
 

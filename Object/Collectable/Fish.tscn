@@ -13,6 +13,11 @@ var initial_pos : Vector2
 func _ready():
 	connect('taken',get_tree().root.get_node('GameScene'),'add_fish')
 
+func _process(delta):
+	if GameManager.player.invencible:
+		player_magnet = GameManager.player
+	pass
+
 func _on_Fish_body_entered(body):
 	if body.is_in_group('Player') and !taked and activated:
 		taked = !taked
