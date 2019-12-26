@@ -57,6 +57,7 @@ func add_currency():
 	GameManager.fishes = 99999
 	update_currency()
 	update_items_state()
+	pass
 
 func update_items_state():
 	for i in item_list.get_children():
@@ -310,7 +311,7 @@ expand_margin_right = 5.0
 expand_margin_top = 5.0
 expand_margin_bottom = 5.0
 
-[sub_resource type="Animation" id=11]
+[sub_resource type="Animation" id=8]
 resource_name = "Enter"
 length = 0.5
 step = 0.05
@@ -339,34 +340,68 @@ tracks/1/keys = {
 "values": [ false, true ]
 }
 
-[sub_resource type="GDScript" id=15]
+[sub_resource type="GDScript" id=9]
 script/source = "extends Control
 
 export (NodePath) var item_confirmation_path
 var item_confirmation
+var button_clicked_ref = null
 
 func _ready():
 	item_confirmation = get_node(item_confirmation_path)
-	pass # Replace with function body.
+	pass
 
 func enter():
 	$UpgradePanelAnim.play('Enter')
 	pass
 
-func _on_EngineButton_on_clicked():
+func _on_EngineButton_on_clicked(button_ref):
 	$BackPanel/ChipButton.unclick_button()
-	pass # Replace with function body.
+	var engine_data = ItemManager.get_upgrade_item_by_id(0)
+	set_item_confirmation(engine_data)
+	button_clicked_ref = button_ref
+	button_clicked_ref.set_item(engine_data)
+	pass
 
-func _on_ChipButton_on_clicked():
+func _on_ChipButton_on_clicked(button_ref):
 	$BackPanel/EngineButton.unclick_button()
-	pass # Replace with function body.
+	var magnetchip_data = ItemManager.get_upgrade_item_by_id(1)
+	set_item_confirmation(magnetchip_data)
+	button_clicked_ref = button_ref
+	button_clicked_ref.set_item(magnetchip_data)
+	pass
 
 func _on_UpgradeCloseButton_button_down():
 	$UpgradePanelAnim.play_backwards('Enter')
+	pass
+
+func set_item_confirmation(item):
+	var item_price_data = item.item_price_per_level[str(item.item_level + 1)] if item.item_price_per_level.keys().has(str(item.item_level + 1)) else null
+	if item_price_data:
+		item_confirmation.set_shop_info(item.item_name, item_price_data['payment'], item_price_data['price'], self)
+	pass
+
+func change_to_buy_state():
+	button_clicked_ref.upgrade_item()
+	update_ui()
+	pass
+
+func update_ui():
+	get_parent().get_parent().update_currency()
+	var engine = ItemManager.get_upgrade_item_by_id(0)
+	var magnet = ItemManager.get_upgrade_item_by_id(1)
+	$BackPanel/Background/EngineDescription/Level.text = 'LVL. ' + (str(engine.item_level) if engine.item_level != engine.item_price_per_level.size() else \"MAX\")
+	$BackPanel/Background/ChipDescription/Level.text = 'LVL. ' + (str(magnet.item_level) if magnet.item_level != magnet.item_price_per_level.size() else \"MAX\") 
+	$BackPanel/EngineButton.unclick_button()
+	$BackPanel/ChipButton.unclick_button()
+	pass
+
+func _on_ShopItemConfirmation_exit_viewport():
+	update_ui()
 	pass # Replace with function body.
 "
 
-[sub_resource type="StyleBoxFlat" id=12]
+[sub_resource type="StyleBoxFlat" id=10]
 bg_color = Color( 0.0901961, 0.721569, 0, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -383,7 +418,7 @@ expand_margin_right = 5.0
 expand_margin_top = 5.0
 expand_margin_bottom = 5.0
 
-[sub_resource type="StyleBoxFlat" id=16]
+[sub_resource type="StyleBoxFlat" id=11]
 bg_color = Color( 0.996078, 0.709804, 0.545098, 1 )
 border_width_left = 20
 border_width_top = 20
@@ -391,22 +426,21 @@ border_width_right = 20
 border_width_bottom = 20
 border_color = Color( 0.686275, 0.364706, 0.137255, 1 )
 
-[sub_resource type="DynamicFont" id=18]
+[sub_resource type="DynamicFont" id=12]
 size = 60
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 3 )
 
-[sub_resource type="DynamicFont" id=17]
+[sub_resource type="DynamicFont" id=13]
 size = 36
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 3 )
 
-[sub_resource type="ButtonGroup" id=13]
+[sub_resource type="ButtonGroup" id=14]
 
-[sub_resource type="Animation" id=14]
-resource_name = "Enter"
+[sub_resource type="Animation" id=15]
 length = 0.5
 step = 0.05
 tracks/0/type = "value"
@@ -918,14 +952,14 @@ expand = true
 stretch_mode = 5
 
 [node name="ShopPanelAnim" type="AnimationPlayer" parent="MainPanel/ShopPanel"]
-anims/Enter = SubResource( 11 )
+anims/Enter = SubResource( 8 )
 
 [node name="UpgradePanel" type="Control" parent="MainPanel"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 1
-script = SubResource( 15 )
+script = SubResource( 9 )
 item_confirmation_path = NodePath("../../ShopItemConfirmation")
 
 [node name="BackPanel" type="Panel" parent="MainPanel/UpgradePanel"]
@@ -938,10 +972,9 @@ margin_top = -1640.0
 margin_right = 2120.0
 margin_bottom = -10.0
 mouse_filter = 1
-custom_styles/panel = SubResource( 12 )
+custom_styles/panel = SubResource( 10 )
 
 [node name="Background" type="TextureRect" parent="MainPanel/UpgradePanel/BackPanel"]
-editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -955,14 +988,13 @@ expand = true
 stretch_mode = 6
 
 [node name="EngineDescription" type="Panel" parent="MainPanel/UpgradePanel/BackPanel/Background"]
-editor/display_folded = true
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -445.0
 margin_top = 93.0
 margin_right = 445.0
 margin_bottom = 263.0
-custom_styles/panel = SubResource( 16 )
+custom_styles/panel = SubResource( 11 )
 
 [node name="Title" type="Label" parent="MainPanel/UpgradePanel/BackPanel/Background/EngineDescription"]
 anchor_left = 0.5
@@ -973,9 +1005,9 @@ margin_left = -425.0
 margin_top = -65.0
 margin_right = 425.0
 margin_bottom = 5.0
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 12 )
 custom_colors/font_color = Color( 1, 0.654902, 0, 1 )
-text = "ENGINE"
+text = "ENGINE FILTER"
 align = 1
 valign = 1
 
@@ -988,13 +1020,28 @@ margin_left = -425.0
 margin_top = -5.0
 margin_right = 425.0
 margin_bottom = 65.0
-custom_fonts/font = SubResource( 17 )
+rect_pivot_offset = Vector2( 494.523, 31.8406 )
+custom_fonts/font = SubResource( 13 )
 text = "DECREASE FUEL CONSUMPTION"
 align = 1
 valign = 1
 
+[node name="Level" type="Label" parent="MainPanel/UpgradePanel/BackPanel/Background/EngineDescription"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -117.0
+margin_top = 20.0
+margin_right = -26.0
+margin_bottom = 90.0
+grow_horizontal = 0
+grow_vertical = 0
+rect_pivot_offset = Vector2( 45.5, 35 )
+custom_fonts/font = SubResource( 13 )
+text = "LVL.1"
+align = 1
+valign = 1
+
 [node name="ChipDescription" type="Panel" parent="MainPanel/UpgradePanel/BackPanel/Background"]
-editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1003,7 +1050,7 @@ margin_left = -445.0
 margin_top = -5.0
 margin_right = 445.0
 margin_bottom = 165.0
-custom_styles/panel = SubResource( 16 )
+custom_styles/panel = SubResource( 11 )
 
 [node name="Title" type="Label" parent="MainPanel/UpgradePanel/BackPanel/Background/ChipDescription"]
 anchor_left = 0.5
@@ -1014,7 +1061,7 @@ margin_left = -425.0
 margin_top = -65.0
 margin_right = 425.0
 margin_bottom = 8.0
-custom_fonts/font = SubResource( 18 )
+custom_fonts/font = SubResource( 12 )
 custom_colors/font_color = Color( 1, 0.654902, 0, 1 )
 text = "MAGNET CHIP"
 align = 1
@@ -1028,8 +1075,23 @@ anchor_bottom = 0.5
 margin_left = -425.0
 margin_right = 423.0
 margin_bottom = 65.0
-custom_fonts/font = SubResource( 17 )
+custom_fonts/font = SubResource( 13 )
 text = "INCREASE MAGNET AREA"
+align = 1
+valign = 1
+
+[node name="Level" type="Label" parent="MainPanel/UpgradePanel/BackPanel/Background/ChipDescription"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -115.0
+margin_top = 30.0
+margin_right = -24.0
+margin_bottom = 100.0
+grow_horizontal = 0
+grow_vertical = 0
+rect_pivot_offset = Vector2( 50, 35 )
+custom_fonts/font = SubResource( 13 )
+text = "LVL.1"
 align = 1
 valign = 1
 
@@ -1039,7 +1101,7 @@ margin_top = -587.0
 margin_right = 180.0
 margin_bottom = -157.0
 rect_pivot_offset = Vector2( 185, 210 )
-group = SubResource( 13 )
+group = SubResource( 14 )
 texture_normal = ExtResource( 21 )
 texture_pressed = ExtResource( 21 )
 texture_hover = ExtResource( 21 )
@@ -1052,7 +1114,7 @@ margin_top = 73.0
 margin_right = 240.0
 margin_bottom = 573.0
 rect_pivot_offset = Vector2( 230, 250 )
-group = SubResource( 13 )
+group = SubResource( 14 )
 texture_normal = ExtResource( 22 )
 texture_pressed = ExtResource( 22 )
 texture_hover = ExtResource( 22 )
@@ -1072,7 +1134,7 @@ expand = true
 stretch_mode = 5
 
 [node name="UpgradePanelAnim" type="AnimationPlayer" parent="MainPanel/UpgradePanel"]
-anims/Enter = SubResource( 14 )
+anims/Enter = SubResource( 15 )
 
 [node name="InitialDarker" parent="." instance=ExtResource( 23 )]
 
@@ -1096,6 +1158,7 @@ margin_bottom = -40.0
 [connection signal="on_clicked" from="MainPanel/UpgradePanel/BackPanel/ChipButton" to="MainPanel/UpgradePanel" method="_on_ChipButton_on_clicked"]
 [connection signal="button_down" from="MainPanel/UpgradePanel/BackPanel/UpgradeCloseButton" to="MainPanel/UpgradePanel" method="_on_UpgradeCloseButton_button_down"]
 [connection signal="animation_finished" from="TransitionScene/Anim" to="." method="_on_Anim_animation_finished"]
+[connection signal="exit_viewport" from="ShopItemConfirmation" to="MainPanel/UpgradePanel" method="_on_ShopItemConfirmation_exit_viewport"]
 
 [editable path="MainPanel/ShopPanel/BackPanel/HBC/PanelItems/ItemPageGrid"]
 

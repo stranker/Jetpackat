@@ -1,0 +1,39 @@
+{ 
+   "0":{ 
+      "name":"Engine",
+      "level":1,
+      "price_per_level":{ 
+         "1":{ 
+            "payment":0,
+            "price":100
+         },
+         "2":{ 
+            "payment":0,
+            "price":500
+         },
+         "3":{ 
+            "payment":0,
+            "price":1000
+         }
+      }
+   },
+   "1":{ 
+      "name":"Magnet Chip",
+      "level":1,
+      "price_per_level":{ 
+         "1":{ 
+            "payment":0,
+            "price":100
+         },
+         "2":{ 
+            "payment":0,
+            "price":500
+         },
+         "3":{ 
+            "payment":0,
+            "price":1000
+         }
+      }
+   }
+}
+

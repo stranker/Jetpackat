@@ -9,18 +9,19 @@ class UpgradeItem:
 	var item_id : int
 	var item_name : String
 	var item_level : int
-	var item_price : int
+	var item_price_per_level : Dictionary
 	
-	func create_upgrade_item(item_id, item_name, item_level, item_price):
-		self.item_id = item_id
-		self.item_name = item_name
-		self.item_level = item_level
-		self.item_price = item_price
+	func create_upgrade_item(item_id, item_name, item_level, item_price_per_level):
+		self.item_id = int(item_id)
+		self.item_name = str(item_name)
+		self.item_level = int(item_level)
+		self.item_price_per_level = item_price_per_level
 		pass
 	
-	func level_up():
-		item_level += 1
-		pass
+	func upgrade_item():
+		var has_next_level = item_price_per_level[str(item_level + 1)] if item_price_per_level.keys().has(str(item_level + 1)) else null
+		if has_next_level:
+			item_level += 1
 
 class ShopItem:
 	var item_id : int
@@ -68,8 +69,10 @@ class EquippedItem:
 		self.item_id = int(id)
 		pass
 
+
 var items_list : Array = []
 var items_equipped : Array = []
+var upgrade_items : Array = []
 
 var res_data_path = 'res://Data/'
 var user_data_path = 'user://Saves/'
@@ -78,8 +81,10 @@ var user_data_path = 'user://Saves/'
 func load_data_from(dir : String):
 	var raw_items_list : Dictionary = try_load_file_data(dir + 'ItemShopData.dat')
 	var raw_items_equipped : Dictionary = try_load_file_data(dir + 'EquippedItemsData.dat')
+	var raw_upgrade_items : Dictionary = try_load_file_data(dir + 'UpgradeItemsData.dat')
 	create_shop_item(raw_items_list)
 	create_equipped_items(raw_items_equipped)
+	create_upgrade_item(raw_upgrade_items)
 	save_data()
 	pass
 
@@ -100,6 +105,13 @@ func create_equipped_items(dict : Dictionary):
 		items_equipped.append(item_equipped)
 	pass
 
+func create_upgrade_item(dict : Dictionary):
+	for item_id in dict.keys():
+		var upgrade_item = UpgradeItem.new()
+		upgrade_item.create_upgrade_item(item_id, dict[item_id]['name'], dict[item_id]['level'],dict[item_id]['price_per_level'])
+		upgrade_items.append(upgrade_item)
+	pass
+
 func try_load_file_data(res_path):
 	var file = File.new()
 	var output : Dictionary = {}
@@ -110,49 +122,52 @@ func try_load_file_data(res_path):
 	return output
 
 func save_data():
-	save_item_data(user_data_path)
-	save_equipped_item(user_data_path)
+	save_data_to_file(user_data_path, 'ItemShopData.dat', items_list, 'shop_item_to_dictionary')
+	save_data_to_file(user_data_path, 'EquippedItemsData.dat', items_equipped,'equipped_item_to_dictionary')
+	save_data_to_file(user_data_path, 'UpgradeItemsData.dat', upgrade_items, 'upgrade_item_to_dictionary')
 	pass
 
-func save_item_data(dir : String):
+func save_data_to_file(dir : String, file_name : String, data, method):
 	var file = File.new()
-	file.open(dir + 'ItemShopData.dat',File.WRITE)
-	if !items_list.empty():
-		file.store_line(to_json(shop_item_to_dictionary(items_list)))
-		file.store_line("")
-	file.close()
+	file.open(dir + file_name,File.WRITE)
+	if !items_equipped.empty():
+		file.store_line(to_json(call(method,data)))
+	file.call_deferred('close')
 	pass
 
 func shop_item_to_dictionary( data_list : Array):
 	var data : Dictionary = {}
 	for item in data_list:
 		var item_raw_data : Dictionary = {}
-		item_raw_data["name"] = item.item_name
-		item_raw_data["buyed"] = item.item_buyed
-		item_raw_data["color"] = item.item_color
-		item_raw_data["payment"] = item.item_payment
-		item_raw_data["price"] = item.item_price
-		item_raw_data["type"] = item.item_type
-		item_raw_data["image_location"] = item.item_image_location
+		item_raw_data['name'] = item.item_name
+		item_raw_data['buyed'] = item.item_buyed
+		item_raw_data['color'] = item.item_color
+		item_raw_data['payment'] = item.item_payment
+		item_raw_data['price'] = item.item_price
+		item_raw_data['type'] = item.item_type
+		item_raw_data['image_location'] = item.item_image_location
 		if !data.has(itemTypeToString.get(item.item_type)):
 			data[itemTypeToString.get(item.item_type)] = {}
 		data[itemTypeToString.get(item.item_type)][item.item_id] = item_raw_data
 	return data
 
-func equipped_item_to_dictionary( data_list : Array ):
+func equipped_item_to_dictionary( data_list : Array):
 	var data : Dictionary = {}
 	for item in data_list:
 		data[item.item_type] = item.item_id
 	return data
 
-func save_equipped_item(dir : String):
-	var file = File.new()
-	file.open(dir + 'EquippedItemsData.dat',File.WRITE)
-	if !items_equipped.empty():
-		file.store_line(to_json(equipped_item_to_dictionary(items_equipped)))
-		file.store_line("")
-	file.close()
-	pass
+func upgrade_item_to_dictionary( data_list : Array):
+	var data : Dictionary = {}
+	for upgrade_item in data_list:
+		var upgrade_item_raw_data : Dictionary = {}
+		upgrade_item_raw_data['name'] = upgrade_item.item_name
+		upgrade_item_raw_data['level'] = upgrade_item.item_level
+		upgrade_item_raw_data['price_per_level'] = upgrade_item.item_price_per_level
+		data[upgrade_item.item_id] = upgrade_item_raw_data
+	return data
+
+
 
 func get_equipped_items():
 	var item_list : Array = []
@@ -220,3 +235,11 @@ func set_skin_color(color):
 	var skin = get_item_by_type_id(ItemType.SKIN,0)
 	skin.set_color(color)
 	pass
+
+func get_upgrade_item_by_id(id : int):
+	var item = null
+	for upgrade_item in upgrade_items:
+		if upgrade_item.item_id == id:
+			item = upgrade_item
+			break
+	return item

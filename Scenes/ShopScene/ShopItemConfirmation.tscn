@@ -14,6 +14,7 @@ var item_gold_cost : int = 0
 var item_fish_cost : int = 0
 var item_name : String = ''
 var panel_ref = null
+signal exit_viewport
 
 func set_shop_info(_name : String, _payment : int, _cost : int, _panel_ref):
 	match _payment:
@@ -39,16 +40,19 @@ func update_shop_ui(_payment : int, _cost):
 	pass
 
 func _on_ConfirmButton_button_down():
-	if GameManager.coins > item_gold_cost:
+	if GameManager.coins > item_gold_cost and item_gold_cost != 0:
 		GameManager.coins -= item_gold_cost
-	if GameManager.fishes > item_fish_cost:
+		panel_ref.change_to_buy_state()
+	if GameManager.fishes > item_fish_cost and item_fish_cost != 0:
 		GameManager.fishes -= item_fish_cost
+		panel_ref.change_to_buy_state()
 	$Anim.play_backwards('Enter')
-	panel_ref.change_to_buy_state()
+	emit_signal('exit_viewport')
 	pass # Replace with function body.
 
 func exit_viewport():
 	$Anim.play_backwards('Enter')
+	emit_signal('exit_viewport')
 	pass
 
 func _on_CancelButton_button_down():
