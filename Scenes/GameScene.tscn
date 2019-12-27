@@ -1680,8 +1680,8 @@ min_height = 8
 
 [node name="PowerUpSpawner" type="Node" parent="."]
 script = SubResource( 28 )
-items = [ "FuelCan", "Magnet", "AegisWings" ]
-items_prob = [ 1.0, 0.3, 0.1 ]
+items = [ "AegisWings", "Magnet", "FuelCan" ]
+items_prob = [ 0.1, 0.3, 1.0 ]
 pool_manager = NodePath("../PowerUpPool")
 parent_node = NodePath("../Collectables")
 spawn_points = NodePath("../SpawnPoints/PowerUps")
@@ -1726,9 +1726,9 @@ objects_scene_list = [ ExtResource( 36 ), ExtResource( 37 ), ExtResource( 38 ), 
 objects_number = 5
 [connection signal="screen_exited" from="House/VisibilityNotifier2D" to="House" method="_on_VisibilityNotifier2D_screen_exited"]
 [connection signal="current_height" from="Player" to="ParallaxBackground" method="_on_Player_current_height"]
+[connection signal="current_height" from="Player" to="EnemySpawner" method="_on_Player_current_height"]
 [connection signal="current_height" from="Player" to="UIGame" method="_on_Player_current_height"]
 [connection signal="current_height" from="Player" to="." method="_on_Player_current_height"]
-[connection signal="current_height" from="Player" to="EnemySpawner" method="_on_Player_current_height"]
 [connection signal="dead" from="Player" to="." method="_on_Player_dead"]
 [connection signal="invencible" from="Player" to="EnemySpawner" method="_on_Player_invencible_Enemy_Spawner"]
 [connection signal="invencible" from="Player" to="CurrencySpawner" method="_on_Player_invencible"]

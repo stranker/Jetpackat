@@ -200,6 +200,7 @@ func _on_AnimTrans_animation_finished(anim_name):
 
 func _on_LanguageSelection_language_selected(texture):
 	$UIAnimation.play('Nickname')
+	$NicknamePanel/Nickname.grab_focus()
 	pass # Replace with function body.
 
 func _on_ConfigPanel_config_panel_closed():
@@ -1094,7 +1095,6 @@ mouse_filter = 0
 texture = ExtResource( 2 )
 
 [node name="NicknamePanel" type="Panel" parent="."]
-editor/display_folded = true
 visible = false
 anchor_left = 0.5
 anchor_top = 0.5

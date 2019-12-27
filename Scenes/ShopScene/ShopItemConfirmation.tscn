@@ -37,6 +37,7 @@ func update_shop_ui(_payment : int, _cost):
 			$Panel/CostPanel/PaymentText.texture = fish_texture
 			$Panel/CostPanel/Cost.text = str(item_fish_cost)
 	$Panel/Title.text = 'DO YOU WANT TO BUY \\n ' + item_name + '?'
+	check_button_states(_cost)
 	pass
 
 func _on_ConfirmButton_button_down():
@@ -58,7 +59,12 @@ func exit_viewport():
 func _on_CancelButton_button_down():
 	exit_viewport()
 	pass # Replace with function body.
-"
+
+func check_button_states(cost : int):
+	var has_gold = GameManager.coins >= item_gold_cost and item_gold_cost != 0
+	var has_fish = GameManager.fishes >= item_gold_cost and item_fish_cost != 0
+	$Panel/ConfirmButton.disabled = !has_fish and !has_gold
+	pass"
 
 [sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.227451, 0.360784, 0.521569, 1 )

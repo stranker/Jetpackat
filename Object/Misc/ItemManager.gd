@@ -2,26 +2,37 @@ extends Node
 
 enum ItemType {HAT, SCARF, PATTERN, JETPACK, SKIN, LAST}
 enum Payment {COIN, FISH, LAST}
+enum UpgradeType {ENGINE, CHIP, LAST}
 
 var itemTypeToString = {0:"Hat", 1:"Scarf",	2:"Pattern", 3:"Jetpack", 4:"Skin", 5:"Last"}
 
 class UpgradeItem:
-	var item_id : int
+	var item_type : int
 	var item_name : String
 	var item_level : int
 	var item_price_per_level : Dictionary
 	
-	func create_upgrade_item(item_id, item_name, item_level, item_price_per_level):
-		self.item_id = int(item_id)
+	func create_upgrade_item(item_type, item_name, item_level, item_price_per_level):
+		self.item_type = int(item_type)
 		self.item_name = str(item_name)
 		self.item_level = int(item_level)
 		self.item_price_per_level = item_price_per_level
 		pass
 	
+	func get_next_level_info():
+		var info = null
+		if self.has_next_level():
+			info = item_price_per_level[str(item_level + 1)]
+		return info
+	
 	func upgrade_item():
-		var has_next_level = item_price_per_level[str(item_level + 1)] if item_price_per_level.keys().has(str(item_level + 1)) else null
-		if has_next_level:
+		if self.has_next_level():
 			item_level += 1
+		pass
+		
+	func has_next_level():
+		return item_price_per_level.keys().has(str(item_level + 1))
+
 
 class ShopItem:
 	var item_id : int
@@ -164,7 +175,7 @@ func upgrade_item_to_dictionary( data_list : Array):
 		upgrade_item_raw_data['name'] = upgrade_item.item_name
 		upgrade_item_raw_data['level'] = upgrade_item.item_level
 		upgrade_item_raw_data['price_per_level'] = upgrade_item.item_price_per_level
-		data[upgrade_item.item_id] = upgrade_item_raw_data
+		data[upgrade_item.item_type] = upgrade_item_raw_data
 	return data
 
 
@@ -236,10 +247,10 @@ func set_skin_color(color):
 	skin.set_color(color)
 	pass
 
-func get_upgrade_item_by_id(id : int):
+func get_upgrade_item_by_type(type : int):
 	var item = null
 	for upgrade_item in upgrade_items:
-		if upgrade_item.item_id == id:
+		if upgrade_item.item_type == type:
 			item = upgrade_item
 			break
 	return item

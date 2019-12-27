@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=2]
+[gd_scene load_steps=46 format=2]
 
 [ext_resource path="res://Scenes/ItemShopPanel.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Background/Bg3.png" type="Texture" id=2]
@@ -160,15 +160,6 @@ func _on_Anim_animation_finished(anim_name):
 		get_tree().change_scene('Scenes/MainMenu.tscn')
 	pass # Replace with function body.
 
-func _on_ShopButton_button_down():
-	$VBC/Buttons/ShopButton/ShopButtonAnim.play('Click')
-	pass # Replace with function body.
-
-func _on_UpgradeButton_button_down():
-	$MainPanel/ShopPanel.hide()
-	$MainPanel/UpgradePanel.show()
-	pass # Replace with function body.
-
 func _on_SkinButton_button_down():
 	on_item_type_selected(ItemManager.ItemType.SKIN)
 	unclick_other_buttons($MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/HatButton)
@@ -215,15 +206,18 @@ func _on_CloseButton_button_down():
 	$MainPanel/ShopPanel/ShopPanelAnim.play_backwards('Enter')
 	if $ShopItemConfirmation.visible:
 		$ShopItemConfirmation.exit_viewport()
+	$VBC/CurrencyInfo/HBC/ClosePanel/CloseButton/Anim.play('FadeInCloseButton')
 	pass # Replace with function body.
 
 func _on_ShopButton_button_clicked():
 	$MainPanel/ShopPanel/ShopPanelAnim.play('Enter')
 	$MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/HatButton._on_ButtonShop_button_down()
+	$VBC/CurrencyInfo/HBC/ClosePanel/CloseButton/Anim.play_backwards('FadeInCloseButton')
 	pass # Replace with function body.
 
 func _on_WorkshopButton_button_clicked():
 	$MainPanel/UpgradePanel.enter()
+	$VBC/CurrencyInfo/HBC/ClosePanel/CloseButton/Anim.play_backwards('FadeInCloseButton')
 	pass # Replace with function body.
 
 func show_shop_confirmation(item, panel_ref):
@@ -234,6 +228,9 @@ func show_workshop_confirmation(item, cost):
 	$ShopItemConfirmation.set_workshop_info(item.item_name, cost)
 	pass
 
+func _on_UpgradePanel_upgrade_closed():
+	$VBC/CurrencyInfo/HBC/ClosePanel/CloseButton/Anim.play('FadeInCloseButton')
+	pass # Replace with function body.
 "
 
 [sub_resource type="StyleBoxFlat" id=3]
@@ -295,6 +292,34 @@ shader = SubResource( 5 )
 shader_param/outline_width = 1.0
 shader_param/outline_color = Color( 1, 1, 1, 1 )
 
+[sub_resource type="Animation" id=20]
+resource_name = "FadeInCloseButton"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.4 ),
+"transitions": PoolRealArray( 0.5, 0.5, 0.5 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, true ]
+}
+
 [sub_resource type="StyleBoxFlat" id=7]
 bg_color = Color( 0.145098, 0.192157, 0.368627, 1 )
 border_width_left = 7
@@ -344,11 +369,19 @@ tracks/1/keys = {
 script/source = "extends Control
 
 export (NodePath) var item_confirmation_path
+export (NodePath) var engine_price_tag
+export (NodePath) var magnetchip_price_tag
+export (Texture) var coin_texture
+export (Texture) var fish_texture
+export (Color) var level_max_color
 var item_confirmation
 var button_clicked_ref = null
+signal upgrade_closed
 
 func _ready():
 	item_confirmation = get_node(item_confirmation_path)
+	update_price_tags()
+	hide()
 	pass
 
 func enter():
@@ -356,16 +389,16 @@ func enter():
 	pass
 
 func _on_EngineButton_on_clicked(button_ref):
-	$BackPanel/ChipButton.unclick_button()
-	var engine_data = ItemManager.get_upgrade_item_by_id(0)
+	$BackPanel/Background/ChipButton.unclick_button()
+	var engine_data = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.ENGINE)
 	set_item_confirmation(engine_data)
 	button_clicked_ref = button_ref
 	button_clicked_ref.set_item(engine_data)
 	pass
 
 func _on_ChipButton_on_clicked(button_ref):
-	$BackPanel/EngineButton.unclick_button()
-	var magnetchip_data = ItemManager.get_upgrade_item_by_id(1)
+	$BackPanel/Background/EngineButton.unclick_button()
+	var magnetchip_data = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.CHIP)
 	set_item_confirmation(magnetchip_data)
 	button_clicked_ref = button_ref
 	button_clicked_ref.set_item(magnetchip_data)
@@ -373,10 +406,11 @@ func _on_ChipButton_on_clicked(button_ref):
 
 func _on_UpgradeCloseButton_button_down():
 	$UpgradePanelAnim.play_backwards('Enter')
+	emit_signal('upgrade_closed')
 	pass
 
 func set_item_confirmation(item):
-	var item_price_data = item.item_price_per_level[str(item.item_level + 1)] if item.item_price_per_level.keys().has(str(item.item_level + 1)) else null
+	var item_price_data = item.get_next_level_info()
 	if item_price_data:
 		item_confirmation.set_shop_info(item.item_name, item_price_data['payment'], item_price_data['price'], self)
 	pass
@@ -388,18 +422,45 @@ func change_to_buy_state():
 
 func update_ui():
 	get_parent().get_parent().update_currency()
-	var engine = ItemManager.get_upgrade_item_by_id(0)
-	var magnet = ItemManager.get_upgrade_item_by_id(1)
+	var engine = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.ENGINE)
+	var magnet = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.CHIP)
 	$BackPanel/Background/EngineDescription/Level.text = 'LVL. ' + (str(engine.item_level) if engine.item_level != engine.item_price_per_level.size() else \"MAX\")
 	$BackPanel/Background/ChipDescription/Level.text = 'LVL. ' + (str(magnet.item_level) if magnet.item_level != magnet.item_price_per_level.size() else \"MAX\") 
-	$BackPanel/EngineButton.unclick_button()
-	$BackPanel/ChipButton.unclick_button()
+	$BackPanel/Background/EngineButton.unclick_button()
+	$BackPanel/Background/ChipButton.unclick_button()
+	update_price_tags()
 	pass
 
 func _on_ShopItemConfirmation_exit_viewport():
 	update_ui()
 	pass # Replace with function body.
-"
+
+func update_price_tags():
+	var engine_info : Dictionary = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.ENGINE).get_next_level_info()
+	var magnet_info : Dictionary = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.CHIP).get_next_level_info()
+	if engine_info:
+		get_node(engine_price_tag).get_node('Price/Payment').texture = get_payment_texture(engine_info['payment'])
+		get_node(engine_price_tag).get_node('Price').text = str(engine_info['price'])
+	else:
+		get_node(engine_price_tag).get_node('Price/SoldOut').show()
+		get_node(engine_price_tag).get_node('Price/Payment').texture = null
+		$BackPanel/Background/EngineDescription/Level.self_modulate = level_max_color
+	if magnet_info:
+		get_node(magnetchip_price_tag).get_node('Price/Payment').texture = get_payment_texture(magnet_info['payment'])
+		get_node(magnetchip_price_tag).get_node('Price').text = str(magnet_info['price'])
+	else:
+		get_node(magnetchip_price_tag).get_node('Price/Payment').texture = null
+		get_node(magnetchip_price_tag).get_node('Price/SoldOut').show()
+		$BackPanel/Background/ChipDescription/Level.self_modulate = level_max_color
+	pass
+
+func get_payment_texture(type : int):
+	match type:
+		ItemManager.Payment.COIN:
+			return coin_texture
+		ItemManager.Payment.FISH:
+			return fish_texture
+	pass"
 
 [sub_resource type="StyleBoxFlat" id=10]
 bg_color = Color( 0.0901961, 0.721569, 0, 1 )
@@ -436,6 +497,46 @@ font_data = ExtResource( 3 )
 size = 36
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 3 )
+
+[sub_resource type="StyleBoxFlat" id=16]
+bg_color = Color( 1, 0.992157, 0.941176, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color( 0.956863, 0.752941, 0.278431, 1 )
+expand_margin_left = 110.0
+expand_margin_right = 10.0
+expand_margin_top = 5.0
+expand_margin_bottom = 5.0
+shadow_color = Color( 0, 0, 0, 0.145098 )
+shadow_size = 10
+
+[sub_resource type="DynamicFont" id=17]
+size = 72
+outline_size = 5
+outline_color = Color( 0, 0, 0, 1 )
+use_filter = true
+font_data = ExtResource( 3 )
+
+[sub_resource type="StyleBoxFlat" id=19]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color( 0.956863, 0.215686, 0.0431373, 1 )
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="DynamicFont" id=18]
+size = 80
+outline_size = 5
+outline_color = Color( 0, 0, 0, 1 )
+use_filter = true
 font_data = ExtResource( 3 )
 
 [sub_resource type="ButtonGroup" id=14]
@@ -495,12 +596,12 @@ expand = true
 stretch_mode = 6
 
 [node name="VBC" type="VBoxContainer" parent="."]
+editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_constants/separation = 0
 
 [node name="CurrencyInfo" type="Control" parent="VBC"]
-editor/display_folded = true
 margin_right = 1080.0
 margin_bottom = 174.0
 mouse_filter = 2
@@ -609,7 +710,6 @@ expand = true
 stretch_mode = 6
 
 [node name="ClosePanel" type="Control" parent="VBC/CurrencyInfo/HBC"]
-editor/display_folded = true
 margin_left = 940.0
 margin_right = 1080.0
 margin_bottom = 174.0
@@ -619,6 +719,8 @@ size_flags_stretch_ratio = 0.3
 
 [node name="CloseButton" type="TextureButton" parent="VBC/CurrencyInfo/HBC/ClosePanel"]
 pause_mode = 1
+visible = false
+self_modulate = Color( 1, 1, 1, 0 )
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -130.0
@@ -630,6 +732,10 @@ texture_normal = ExtResource( 6 )
 texture_pressed = ExtResource( 7 )
 expand = true
 stretch_mode = 5
+
+[node name="Anim" type="AnimationPlayer" parent="VBC/CurrencyInfo/HBC/ClosePanel/CloseButton"]
+autoplay = "FadeInCloseButton"
+anims/FadeInCloseButton = SubResource( 20 )
 
 [node name="Buttons" type="Control" parent="VBC"]
 editor/display_folded = true
@@ -657,6 +763,7 @@ text = "Workshop"
 animation_advance_time = 0.5
 
 [node name="MainPanel" type="Control" parent="."]
+editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -941,10 +1048,8 @@ margin_bottom = 355.0
 pause_mode = 1
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -130.0
-margin_top = -10.0
-margin_right = -10.0
-margin_bottom = 110.0
+margin_left = -120.0
+margin_bottom = 120.0
 size_flags_vertical = 3
 texture_normal = ExtResource( 6 )
 texture_pressed = ExtResource( 7 )
@@ -955,12 +1060,17 @@ stretch_mode = 5
 anims/Enter = SubResource( 8 )
 
 [node name="UpgradePanel" type="Control" parent="MainPanel"]
-visible = false
+editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 1
 script = SubResource( 9 )
 item_confirmation_path = NodePath("../../ShopItemConfirmation")
+engine_price_tag = NodePath("BackPanel/Background/EngineDescription/PriceTag")
+magnetchip_price_tag = NodePath("BackPanel/Background/ChipDescription/PriceTag")
+coin_texture = ExtResource( 4 )
+fish_texture = ExtResource( 5 )
+level_max_color = Color( 0.956863, 0.215686, 0.0431373, 1 )
 
 [node name="BackPanel" type="Panel" parent="MainPanel/UpgradePanel"]
 anchor_left = 0.5
@@ -975,6 +1085,7 @@ mouse_filter = 1
 custom_styles/panel = SubResource( 10 )
 
 [node name="Background" type="TextureRect" parent="MainPanel/UpgradePanel/BackPanel"]
+editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -988,6 +1099,7 @@ expand = true
 stretch_mode = 6
 
 [node name="EngineDescription" type="Panel" parent="MainPanel/UpgradePanel/BackPanel/Background"]
+editor/display_folded = true
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -445.0
@@ -1037,11 +1149,65 @@ grow_horizontal = 0
 grow_vertical = 0
 rect_pivot_offset = Vector2( 45.5, 35 )
 custom_fonts/font = SubResource( 13 )
-text = "LVL.1"
+text = "LVL. 1"
 align = 1
 valign = 1
 
+[node name="PriceTag" type="Control" parent="MainPanel/UpgradePanel/BackPanel/Background/EngineDescription"]
+editor/display_folded = true
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -295.0
+margin_top = 342.0
+margin_right = -15.0
+margin_bottom = 443.0
+
+[node name="Price" type="Label" parent="MainPanel/UpgradePanel/BackPanel/Background/EngineDescription/PriceTag"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 216.0
+margin_top = -7.0
+grow_horizontal = 0
+grow_vertical = 0
+rect_pivot_offset = Vector2( 155, 55 )
+custom_styles/normal = SubResource( 16 )
+custom_fonts/font = SubResource( 17 )
+text = "99999"
+align = 2
+valign = 3
+
+[node name="Payment" type="TextureRect" parent="MainPanel/UpgradePanel/BackPanel/Background/EngineDescription/PriceTag/Price"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = -95.3691
+margin_top = -50.0
+margin_right = 1.63086
+margin_bottom = 50.0
+texture = ExtResource( 4 )
+expand = true
+stretch_mode = 7
+
+[node name="SoldOut" type="Label" parent="MainPanel/UpgradePanel/BackPanel/Background/EngineDescription/PriceTag/Price"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -232.5
+margin_top = -57.0
+margin_right = 150.5
+margin_bottom = 60.0
+rect_rotation = -15.0
+rect_pivot_offset = Vector2( 198.207, 48.4999 )
+custom_styles/normal = SubResource( 19 )
+custom_fonts/font = SubResource( 18 )
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+text = "SOLD OUT!"
+
 [node name="ChipDescription" type="Panel" parent="MainPanel/UpgradePanel/BackPanel/Background"]
+editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1091,15 +1257,67 @@ grow_horizontal = 0
 grow_vertical = 0
 rect_pivot_offset = Vector2( 50, 35 )
 custom_fonts/font = SubResource( 13 )
-text = "LVL.1"
+text = "LVL. 1"
 align = 1
 valign = 1
 
-[node name="EngineButton" parent="MainPanel/UpgradePanel/BackPanel" instance=ExtResource( 12 )]
+[node name="PriceTag" type="Control" parent="MainPanel/UpgradePanel/BackPanel/Background/ChipDescription"]
+editor/display_folded = true
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -295.0
+margin_top = 220.0
+margin_right = -15.0
+margin_bottom = 321.0
+
+[node name="Price" type="Label" parent="MainPanel/UpgradePanel/BackPanel/Background/ChipDescription/PriceTag"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 131.0
+grow_horizontal = 0
+grow_vertical = 0
+rect_pivot_offset = Vector2( 155, 55 )
+custom_styles/normal = SubResource( 16 )
+custom_fonts/font = SubResource( 17 )
+text = "1000"
+align = 2
+valign = 3
+
+[node name="Payment" type="TextureRect" parent="MainPanel/UpgradePanel/BackPanel/Background/ChipDescription/PriceTag/Price"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = -95.3691
+margin_top = -50.0
+margin_right = 1.63086
+margin_bottom = 50.0
+texture = ExtResource( 4 )
+expand = true
+stretch_mode = 7
+
+[node name="SoldOut" type="Label" parent="MainPanel/UpgradePanel/BackPanel/Background/ChipDescription/PriceTag/Price"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -254.5
+margin_top = -57.0
+margin_right = 128.5
+margin_bottom = 60.0
+rect_rotation = -15.0
+rect_pivot_offset = Vector2( 198.207, 48.4999 )
+custom_styles/normal = SubResource( 19 )
+custom_fonts/font = SubResource( 18 )
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+text = "SOLD OUT!"
+
+[node name="EngineButton" parent="MainPanel/UpgradePanel/BackPanel/Background" instance=ExtResource( 12 )]
 margin_left = -190.0
-margin_top = -587.0
+margin_top = -585.0
 margin_right = 180.0
-margin_bottom = -157.0
+margin_bottom = -155.0
 rect_pivot_offset = Vector2( 185, 210 )
 group = SubResource( 14 )
 texture_normal = ExtResource( 21 )
@@ -1108,11 +1326,11 @@ texture_hover = ExtResource( 21 )
 texture_disabled = ExtResource( 21 )
 texture_focused = ExtResource( 21 )
 
-[node name="ChipButton" parent="MainPanel/UpgradePanel/BackPanel" instance=ExtResource( 12 )]
+[node name="ChipButton" parent="MainPanel/UpgradePanel/BackPanel/Background" instance=ExtResource( 12 )]
 margin_left = -200.0
-margin_top = 73.0
+margin_top = 75.0
 margin_right = 240.0
-margin_bottom = 573.0
+margin_bottom = 575.0
 rect_pivot_offset = Vector2( 230, 250 )
 group = SubResource( 14 )
 texture_normal = ExtResource( 22 )
@@ -1125,8 +1343,10 @@ texture_focused = ExtResource( 22 )
 pause_mode = 1
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -120.0
-margin_bottom = 120.0
+margin_left = -105.0
+margin_top = -12.0
+margin_right = 15.0
+margin_bottom = 108.0
 size_flags_vertical = 3
 texture_normal = ExtResource( 6 )
 texture_pressed = ExtResource( 7 )
@@ -1154,8 +1374,9 @@ margin_bottom = -40.0
 [connection signal="button_down" from="MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/SkinButton" to="." method="_on_SkinButton_button_down"]
 [connection signal="value_changed" from="MainPanel/ShopPanel/BackPanel/HBC/PanelItems/CustomColor" to="." method="_on_CustomColor_value_changed"]
 [connection signal="button_down" from="MainPanel/ShopPanel/CloseButton" to="." method="_on_CloseButton_button_down"]
-[connection signal="on_clicked" from="MainPanel/UpgradePanel/BackPanel/EngineButton" to="MainPanel/UpgradePanel" method="_on_EngineButton_on_clicked"]
-[connection signal="on_clicked" from="MainPanel/UpgradePanel/BackPanel/ChipButton" to="MainPanel/UpgradePanel" method="_on_ChipButton_on_clicked"]
+[connection signal="upgrade_closed" from="MainPanel/UpgradePanel" to="." method="_on_UpgradePanel_upgrade_closed"]
+[connection signal="on_clicked" from="MainPanel/UpgradePanel/BackPanel/Background/EngineButton" to="MainPanel/UpgradePanel" method="_on_EngineButton_on_clicked"]
+[connection signal="on_clicked" from="MainPanel/UpgradePanel/BackPanel/Background/ChipButton" to="MainPanel/UpgradePanel" method="_on_ChipButton_on_clicked"]
 [connection signal="button_down" from="MainPanel/UpgradePanel/BackPanel/UpgradeCloseButton" to="MainPanel/UpgradePanel" method="_on_UpgradeCloseButton_button_down"]
 [connection signal="animation_finished" from="TransitionScene/Anim" to="." method="_on_Anim_animation_finished"]
 [connection signal="exit_viewport" from="ShopItemConfirmation" to="MainPanel/UpgradePanel" method="_on_ShopItemConfirmation_exit_viewport"]
