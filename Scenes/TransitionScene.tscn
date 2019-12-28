@@ -41,9 +41,9 @@ tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0, 0.6 ),
-"transitions": PoolRealArray( 2, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( -460, -1880 ), Vector2( 200, -990 ) ]
+"values": [ Vector2( -842.011, -2494.32 ), Vector2( -269.771, -1454.61 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("TransitionItems/TextureRect2:rect_position")
@@ -92,9 +92,9 @@ tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0, 0.6 ),
-"transitions": PoolRealArray( 2, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 1510, -1690 ), Vector2( 1570, -560 ) ]
+"values": [ Vector2( 1489.35, -2376.59 ), Vector2( 1647.43, -1308.54 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("TransitionItems/TextureRect:rect_rotation")
@@ -143,9 +143,9 @@ tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0, 0.6 ),
-"transitions": PoolRealArray( 2, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Vector2( 3240, -30 ), Vector2( 2450, -40 ) ]
+"values": [ Vector2( 3849.15, -489.446 ), Vector2( 3121.1, -566.556 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("TransitionItems/TextureRect2:rect_rotation")
@@ -169,7 +169,7 @@ tracks/2/keys = {
 "times": PoolRealArray( 0, 0.6 ),
 "transitions": PoolRealArray( 2, 1 ),
 "update": 0,
-"values": [ Vector2( -160, 1985 ), Vector2( 560, 2000 ) ]
+"values": [ Vector2( -160, 1985 ), Vector2( 570.325, 2067.11 ) ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("TransitionItems/TextureRect:rect_rotation")
@@ -194,10 +194,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.3, 0.5, 0.65 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 1680, -2520 ), Vector2( 1650, -2160 ), Vector2( 1660, -880 ), Vector2( 1660, -830 ) ]
+"times": PoolRealArray( 0, 0.3, 0.5, 0.65, 0.65 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ Vector2( 1649.03, -2716.17 ), Vector2( 1644.84, -2696.88 ), Vector2( 1943.93, -1561.43 ), Vector2( 1660, -830 ), Vector2( 1763.25, -1490.78 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("TransitionItems/TextureRect2:rect_rotation")
@@ -255,21 +255,21 @@ margin_bottom = 40.0
 
 [node name="TextureRect" type="TextureRect" parent="TransitionItems"]
 modulate = Color( 0, 0, 0, 1 )
-margin_left = -460.0
-margin_top = -1880.0
-margin_right = 1162.0
-margin_bottom = 231.0
-rect_rotation = 44.9999
+margin_left = -50.0
+margin_top = 1110.0
+margin_right = 2284.0
+margin_bottom = 3721.0
+rect_rotation = 180.0
 texture = ExtResource( 1 )
 expand = true
 
 [node name="TextureRect2" type="TextureRect" parent="TransitionItems"]
 modulate = Color( 0, 0, 0, 1 )
-margin_left = 1920.0
-margin_top = 1120.0
-margin_right = 3909.0
-margin_bottom = 3040.0
-rect_rotation = 44.9999
+margin_left = 1649.03
+margin_top = -2716.17
+margin_right = 4310.02
+margin_bottom = -132.166
+rect_rotation = 89.9999
 texture = ExtResource( 1 )
 expand = true
 [connection signal="animation_finished" from="Anim" to="." method="_on_Anim_animation_finished"]

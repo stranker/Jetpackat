@@ -30,16 +30,13 @@ var can_receive_damage : bool = true
 var dead : bool = false
 var has_magnet : bool = false
 var has_aegis : bool = false
-var magnet_time : int = 10
-var magnet_running_time : float = 0
-const initial_magnet_size : float = 117.5
 
 signal start_playing
 signal dead
-signal on_magnet(val)
-signal magnet_time(val)
 signal current_height(value)
 signal invencible(val)
+signal magnet_time(val)
+signal on_magnet
 
 func _ready():
 	initialize()
@@ -55,7 +52,6 @@ func initialize():
 	emit_signal('current_height',0)
 	$InvencibleTimer.wait_time = invencible_time
 	$Visible/Shield.hide()
-	$MagnetTimer.wait_time = magnet_time
 	pass
 
 func _physics_process(delta):
@@ -71,7 +67,6 @@ func _process(delta):
 	if activated:
 		check_boundaries()
 		process_animation()
-		check_magnet_time()
 		if !is_on_floor():
 			emit_signal('current_height',int(abs(position.y) * 0.01))
 		$Visible/Jetpack/Thruster.emitting = velocity.y < 0
@@ -103,10 +98,6 @@ func check_is_active():
 		$Visible/Scarf/Anim.play('Flying')
 	pass
 
-func check_magnet_time():
-	if has_magnet:
-		magnet_running_time = $MagnetTimer.time_left
-		emit_signal('magnet_time',magnet_running_time)
 
 func take_damage():
 	if has_aegis:
@@ -131,9 +122,9 @@ func height_damage():
 	pass
 
 func check_die_direction():
-	if global_position.x < get_viewport_rect().size.x/4:
+	if global_position.x < get_viewport_rect().size.x/2:
 		$Visible.scale.x = 1
-	elif global_position.x > get_viewport_rect().size.x - get_viewport_rect().size.x/4:
+	else:
 		$Visible.scale.x = -1
 	pass
 
@@ -264,6 +255,10 @@ func activate_magnet():
 	emit_signal('on_magnet',has_magnet)
 	$Visible/MagnetArea.activate()
 	pass
+
+func _on_MagnetArea_magnet_time(val):
+	emit_signal('magnet_time',val)
+	pass # Replace with function body.
 "
 
 [sub_resource type="CapsuleShape2D" id=2]
@@ -439,44 +434,61 @@ tracks/0/keys = {
 script/source = "extends Area2D
 
 var magnet_chip_data = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.CHIP)
-export var magnet_increment : float = 25.0
+export var magnet_increment : float = 2
+export var magnet_time_increment : float = 2
+export var magnet_base_time : float = 4
 onready var initial_magnet_scale = $Magnet.scale.x
-onready var initial_collision_radius = $CollisionShape2D.shape.radius
+onready var initial_collision_radius = $Collision.shape.radius
+export var activated : bool = false
+signal magnet_time(val)
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	update_magnet()
-	pass
-
-func _input(event):
-	if event.is_action_pressed('ui_up') and !event.is_echo():
-		magnet_chip_data.upgrade_item()
-		update_magnet()
+func _process(delta):
+	emit_signal('magnet_time',$MagnetTimer.time_left)
 	pass
 
 func activate():
-	show()
-	increase_size()
-	$MagnetTimer.start()
+	if !activated:
+		activated = true
+		show()
+		increase_size()
+		set_tween()
+	set_magnet_timer()
+	pass
+
+func set_tween():
+	$Magnet/Tween.stop_all()
+	$Magnet/Tween.interpolate_property($Magnet, 'scale', Vector2(0,0), Vector2.ONE * initial_magnet_scale * magnet_increment, 1,Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
+	$Magnet/Tween.start() 
 	pass
 
 func increase_size():
+	var new_magnet_size = $Collision.shape.duplicate()
+	new_magnet_size.radius *= magnet_increment
+	$Collision.shape = new_magnet_size
+	var magnet_scale_size = magnet_increment * initial_magnet_scale
+	$Magnet.scale = Vector2.ONE * magnet_scale_size
 	pass
 
-func update_magnet():
-	if magnet_chip_data.item_level != 1:
-		var new_circle_collision = $CollisionShape2D.shape.duplicate()
-		new_circle_collision.radius += magnet_chip_data.item_level * magnet_increment
-		$CollisionShape2D.shape = new_circle_collision
-		var magnet_scale = $Magnet.scale.x
-		magnet_scale += magnet_increment * magnet_scale / initial_collision_radius
-		$Magnet.scale = Vector2(magnet_scale,magnet_scale)
+func set_magnet_timer():
+	var magnet_info = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.CHIP)
+	var new_time = magnet_base_time + (magnet_info.item_level * magnet_increment)
+	$MagnetTimer.wait_time = new_time
+	$MagnetTimer.start()
 	pass
 
 func _on_MagnetTimer_timeout():
+	activated = false
+	decrease_size()
 	get_parent().get_parent().deactivate_magnet()
+	hide()
 	pass # Replace with function body.
-"
+
+func decrease_size():
+	var new_shape = $Collision.shape.duplicate()
+	new_shape.radius = initial_collision_radius
+	$Collision.shape = new_shape
+	$Magnet.scale = Vector2.ONE * initial_magnet_scale
+	pass"
 
 [sub_resource type="CircleShape2D" id=13]
 radius = 117.38
@@ -1093,7 +1105,7 @@ tracks/14/keys = {
 "values": [ 0, 2, 2 ]
 }
 tracks/15/type = "value"
-tracks/15/path = NodePath("Visible/MagnetArea/CollisionShape2D:shape:radius")
+tracks/15/path = NodePath("Visible/MagnetArea/Collision:shape:radius")
 tracks/15/interp = 1
 tracks/15/loop_wrap = true
 tracks/15/imported = false
@@ -1169,7 +1181,7 @@ tracks/4/keys = {
 "values": [ Vector2( -42.0043, -9.19867 ) ]
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("Visible/MagnetArea/CollisionShape2D:shape:radius")
+tracks/5/path = NodePath("Visible/MagnetArea/Collision:shape:radius")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -1208,7 +1220,7 @@ tracks/1/keys = {
 "values": [ 0, 6, 4, 0 ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Visible/MagnetArea/CollisionShape2D:shape:radius")
+tracks/2/path = NodePath("Visible/MagnetArea/Collision:shape:radius")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -1566,11 +1578,10 @@ visible = false
 show_behind_parent = true
 script = SubResource( 12 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Visible/MagnetArea"]
+[node name="Collision" type="CollisionShape2D" parent="Visible/MagnetArea"]
 shape = SubResource( 13 )
 
 [node name="Magnet" type="Sprite" parent="Visible/MagnetArea"]
-editor/display_folded = true
 self_modulate = Color( 0.980392, 0.823529, 0.45098, 0.470588 )
 scale = Vector2( 2.4, 2.4 )
 texture = ExtResource( 7 )
@@ -1824,7 +1835,7 @@ pitch_scale = 2.0
 bus = "Sounds"
 [connection signal="tween_completed" from="GameCamera/Tween" to="GameCamera" method="_on_Tween_tween_completed"]
 [connection signal="timeout" from="GameCamera/Timer" to="GameCamera" method="_on_Timer_timeout"]
-[connection signal="timeout" from="Visible/MagnetArea/MagnetTimer" to="." method="_on_MagnetTimer_timeout"]
+[connection signal="magnet_time" from="Visible/MagnetArea" to="." method="_on_MagnetArea_magnet_time"]
 [connection signal="timeout" from="Visible/MagnetArea/MagnetTimer" to="Visible/MagnetArea" method="_on_MagnetTimer_timeout"]
 [connection signal="animation_finished" from="Anim" to="." method="_on_Anim_animation_finished"]
 [connection signal="gui_input" from="ClickArea/HBC/Left" to="." method="_on_Left_gui_input"]

@@ -82,6 +82,14 @@
 			"price":100,
 			"type":0,
 			"image_location":"Sprites/Shop/Cat/Hat/Wool.png"
+		},
+		"10":{
+			"name":"Santa Hat",
+			"buyed":true,
+			"payment":1,
+			"price":0,
+			"type":0,
+			"image_location":"Sprites/Shop/Cat/Hat/Santa.png"
 		}
 	},
 	"Pattern":{
