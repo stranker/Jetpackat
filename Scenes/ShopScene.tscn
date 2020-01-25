@@ -292,7 +292,7 @@ shader = SubResource( 5 )
 shader_param/outline_width = 1.0
 shader_param/outline_color = Color( 1, 1, 1, 1 )
 
-[sub_resource type="Animation" id=20]
+[sub_resource type="Animation" id=7]
 resource_name = "FadeInCloseButton"
 length = 0.4
 tracks/0/type = "value"
@@ -320,7 +320,7 @@ tracks/1/keys = {
 "values": [ false, true, true ]
 }
 
-[sub_resource type="StyleBoxFlat" id=7]
+[sub_resource type="StyleBoxFlat" id=8]
 bg_color = Color( 0.145098, 0.192157, 0.368627, 1 )
 border_width_left = 7
 border_width_right = 7
@@ -336,8 +336,7 @@ expand_margin_right = 5.0
 expand_margin_top = 5.0
 expand_margin_bottom = 5.0
 
-[sub_resource type="Animation" id=8]
-resource_name = "Enter"
+[sub_resource type="Animation" id=9]
 length = 0.5
 step = 0.05
 tracks/0/type = "value"
@@ -365,11 +364,11 @@ tracks/1/keys = {
 "values": [ false, true ]
 }
 
-[sub_resource type="GDScript" id=9]
+[sub_resource type="GDScript" id=10]
 script/source = "extends Control
 
 export (NodePath) var item_confirmation_path
-export (NodePath) var engine_price_tag
+export (NodePath) var currency_multiplier_price_tag
 export (NodePath) var magnetchip_price_tag
 export (Texture) var coin_texture
 export (Texture) var fish_texture
@@ -388,16 +387,16 @@ func enter():
 	$UpgradePanelAnim.play('Enter')
 	pass
 
-func _on_EngineButton_on_clicked(button_ref):
+func _on_CurrencyButton_on_clicked(button_ref):
 	$BackPanel/Background/ChipButton.unclick_button()
-	var engine_data = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.ENGINE)
-	set_item_confirmation(engine_data)
+	var currency_data = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.CURRENCY)
+	set_item_confirmation(currency_data)
 	button_clicked_ref = button_ref
-	button_clicked_ref.set_item(engine_data)
+	button_clicked_ref.set_item(currency_data)
 	pass
 
 func _on_ChipButton_on_clicked(button_ref):
-	$BackPanel/Background/EngineButton.unclick_button()
+	$BackPanel/Background/CurrencyButton.unclick_button()
 	var magnetchip_data = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.CHIP)
 	set_item_confirmation(magnetchip_data)
 	button_clicked_ref = button_ref
@@ -422,11 +421,11 @@ func change_to_buy_state():
 
 func update_ui():
 	get_parent().get_parent().update_currency()
-	var engine = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.ENGINE)
+	var currency = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.CURRENCY)
 	var magnet = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.CHIP)
-	$BackPanel/Background/EngineDescription/Level.text = 'LVL. ' + (str(engine.item_level) if engine.item_level != engine.item_price_per_level.size() else \"MAX\")
+	$BackPanel/Background/CurrencyDescription/Level.text = 'LVL. ' + (str(currency.item_level) if currency.item_level != currency.item_price_per_level.size() else \"MAX\")
 	$BackPanel/Background/ChipDescription/Level.text = 'LVL. ' + (str(magnet.item_level) if magnet.item_level != magnet.item_price_per_level.size() else \"MAX\") 
-	$BackPanel/Background/EngineButton.unclick_button()
+	$BackPanel/Background/CurrencyButton.unclick_button()
 	$BackPanel/Background/ChipButton.unclick_button()
 	update_price_tags()
 	pass
@@ -436,15 +435,15 @@ func _on_ShopItemConfirmation_exit_viewport():
 	pass # Replace with function body.
 
 func update_price_tags():
-	var engine_info : Dictionary = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.ENGINE).get_next_level_info()
+	var currency_multiplier_info : Dictionary = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.CURRENCY).get_next_level_info()
 	var magnet_info : Dictionary = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.CHIP).get_next_level_info()
-	if engine_info:
-		get_node(engine_price_tag).get_node('Price/Payment').texture = get_payment_texture(engine_info['payment'])
-		get_node(engine_price_tag).get_node('Price').text = str(engine_info['price'])
+	if currency_multiplier_info:
+		get_node(currency_multiplier_price_tag).get_node('Price/Payment').texture = get_payment_texture(currency_multiplier_info['payment'])
+		get_node(currency_multiplier_price_tag).get_node('Price').text = str(currency_multiplier_info['price'])
 	else:
-		get_node(engine_price_tag).get_node('Price/SoldOut').show()
-		get_node(engine_price_tag).get_node('Price/Payment').texture = null
-		$BackPanel/Background/EngineDescription/Level.self_modulate = level_max_color
+		get_node(currency_multiplier_price_tag).get_node('Price/SoldOut').show()
+		get_node(currency_multiplier_price_tag).get_node('Price/Payment').texture = null
+		$BackPanel/Background/CurrencyDescription/Level.self_modulate = level_max_color
 	if magnet_info:
 		get_node(magnetchip_price_tag).get_node('Price/Payment').texture = get_payment_texture(magnet_info['payment'])
 		get_node(magnetchip_price_tag).get_node('Price').text = str(magnet_info['price'])
@@ -462,7 +461,7 @@ func get_payment_texture(type : int):
 			return fish_texture
 	pass"
 
-[sub_resource type="StyleBoxFlat" id=10]
+[sub_resource type="StyleBoxFlat" id=11]
 bg_color = Color( 0.0901961, 0.721569, 0, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -479,7 +478,7 @@ expand_margin_right = 5.0
 expand_margin_top = 5.0
 expand_margin_bottom = 5.0
 
-[sub_resource type="StyleBoxFlat" id=11]
+[sub_resource type="StyleBoxFlat" id=12]
 bg_color = Color( 0.996078, 0.709804, 0.545098, 1 )
 border_width_left = 20
 border_width_top = 20
@@ -487,19 +486,19 @@ border_width_right = 20
 border_width_bottom = 20
 border_color = Color( 0.686275, 0.364706, 0.137255, 1 )
 
-[sub_resource type="DynamicFont" id=12]
-size = 60
+[sub_resource type="DynamicFont" id=13]
+size = 52
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 3 )
 
-[sub_resource type="DynamicFont" id=13]
+[sub_resource type="DynamicFont" id=14]
 size = 36
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 3 )
 
-[sub_resource type="StyleBoxFlat" id=16]
+[sub_resource type="StyleBoxFlat" id=15]
 bg_color = Color( 1, 0.992157, 0.941176, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -513,14 +512,14 @@ expand_margin_bottom = 5.0
 shadow_color = Color( 0, 0, 0, 0.145098 )
 shadow_size = 10
 
-[sub_resource type="DynamicFont" id=17]
+[sub_resource type="DynamicFont" id=16]
 size = 72
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 3 )
 
-[sub_resource type="StyleBoxFlat" id=19]
+[sub_resource type="StyleBoxFlat" id=17]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 border_width_left = 10
 border_width_top = 10
@@ -539,9 +538,9 @@ outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 3 )
 
-[sub_resource type="ButtonGroup" id=14]
+[sub_resource type="ButtonGroup" id=19]
 
-[sub_resource type="Animation" id=15]
+[sub_resource type="Animation" id=20]
 length = 0.5
 step = 0.05
 tracks/0/type = "value"
@@ -735,7 +734,7 @@ stretch_mode = 5
 
 [node name="Anim" type="AnimationPlayer" parent="VBC/CurrencyInfo/HBC/ClosePanel/CloseButton"]
 autoplay = "FadeInCloseButton"
-anims/FadeInCloseButton = SubResource( 20 )
+anims/FadeInCloseButton = SubResource( 7 )
 
 [node name="Buttons" type="Control" parent="VBC"]
 editor/display_folded = true
@@ -763,7 +762,6 @@ text = "Workshop"
 animation_advance_time = 0.5
 
 [node name="MainPanel" type="Control" parent="."]
-editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -796,7 +794,7 @@ margin_top = -1640.0
 margin_right = 530.0
 margin_bottom = -10.0
 mouse_filter = 1
-custom_styles/panel = SubResource( 7 )
+custom_styles/panel = SubResource( 8 )
 
 [node name="HBC" type="VBoxContainer" parent="MainPanel/ShopPanel/BackPanel"]
 editor/display_folded = true
@@ -1057,22 +1055,23 @@ expand = true
 stretch_mode = 5
 
 [node name="ShopPanelAnim" type="AnimationPlayer" parent="MainPanel/ShopPanel"]
-anims/Enter = SubResource( 8 )
+anims/Enter = SubResource( 9 )
 
 [node name="UpgradePanel" type="Control" parent="MainPanel"]
 editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 1
-script = SubResource( 9 )
+script = SubResource( 10 )
 item_confirmation_path = NodePath("../../ShopItemConfirmation")
-engine_price_tag = NodePath("BackPanel/Background/EngineDescription/PriceTag")
+currency_multiplier_price_tag = NodePath("BackPanel/Background/CurrencyDescription/PriceTag")
 magnetchip_price_tag = NodePath("BackPanel/Background/ChipDescription/PriceTag")
 coin_texture = ExtResource( 4 )
 fish_texture = ExtResource( 5 )
 level_max_color = Color( 0.956863, 0.215686, 0.0431373, 1 )
 
 [node name="BackPanel" type="Panel" parent="MainPanel/UpgradePanel"]
+editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -1082,10 +1081,9 @@ margin_top = -1640.0
 margin_right = 2120.0
 margin_bottom = -10.0
 mouse_filter = 1
-custom_styles/panel = SubResource( 10 )
+custom_styles/panel = SubResource( 11 )
 
 [node name="Background" type="TextureRect" parent="MainPanel/UpgradePanel/BackPanel"]
-editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1098,17 +1096,16 @@ texture = ExtResource( 20 )
 expand = true
 stretch_mode = 6
 
-[node name="EngineDescription" type="Panel" parent="MainPanel/UpgradePanel/BackPanel/Background"]
-editor/display_folded = true
+[node name="CurrencyDescription" type="Panel" parent="MainPanel/UpgradePanel/BackPanel/Background"]
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -445.0
 margin_top = 93.0
 margin_right = 445.0
 margin_bottom = 263.0
-custom_styles/panel = SubResource( 11 )
+custom_styles/panel = SubResource( 12 )
 
-[node name="Title" type="Label" parent="MainPanel/UpgradePanel/BackPanel/Background/EngineDescription"]
+[node name="Title" type="Label" parent="MainPanel/UpgradePanel/BackPanel/Background/CurrencyDescription"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1117,13 +1114,13 @@ margin_left = -425.0
 margin_top = -65.0
 margin_right = 425.0
 margin_bottom = 5.0
-custom_fonts/font = SubResource( 12 )
+custom_fonts/font = SubResource( 13 )
 custom_colors/font_color = Color( 1, 0.654902, 0, 1 )
-text = "ENGINE FILTER"
+text = "CURRENCY MULTIPLIER"
 align = 1
 valign = 1
 
-[node name="Desc" type="Label" parent="MainPanel/UpgradePanel/BackPanel/Background/EngineDescription"]
+[node name="Desc" type="Label" parent="MainPanel/UpgradePanel/BackPanel/Background/CurrencyDescription"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1133,27 +1130,27 @@ margin_top = -5.0
 margin_right = 425.0
 margin_bottom = 65.0
 rect_pivot_offset = Vector2( 494.523, 31.8406 )
-custom_fonts/font = SubResource( 13 )
-text = "DECREASE FUEL CONSUMPTION"
+custom_fonts/font = SubResource( 14 )
+text = "INCREASE COINS VALUE"
 align = 1
 valign = 1
 
-[node name="Level" type="Label" parent="MainPanel/UpgradePanel/BackPanel/Background/EngineDescription"]
+[node name="Level" type="Label" parent="MainPanel/UpgradePanel/BackPanel/Background/CurrencyDescription"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -117.0
-margin_top = 20.0
-margin_right = -26.0
-margin_bottom = 90.0
+margin_left = -115.0
+margin_top = 27.0
+margin_right = -31.0
+margin_bottom = 97.0
 grow_horizontal = 0
 grow_vertical = 0
 rect_pivot_offset = Vector2( 45.5, 35 )
-custom_fonts/font = SubResource( 13 )
+custom_fonts/font = SubResource( 14 )
 text = "LVL. 1"
 align = 1
 valign = 1
 
-[node name="PriceTag" type="Control" parent="MainPanel/UpgradePanel/BackPanel/Background/EngineDescription"]
+[node name="PriceTag" type="Control" parent="MainPanel/UpgradePanel/BackPanel/Background/CurrencyDescription"]
 editor/display_folded = true
 anchor_left = 1.0
 anchor_top = 0.5
@@ -1164,7 +1161,7 @@ margin_top = 342.0
 margin_right = -15.0
 margin_bottom = 443.0
 
-[node name="Price" type="Label" parent="MainPanel/UpgradePanel/BackPanel/Background/EngineDescription/PriceTag"]
+[node name="Price" type="Label" parent="MainPanel/UpgradePanel/BackPanel/Background/CurrencyDescription/PriceTag"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 216.0
@@ -1172,13 +1169,13 @@ margin_top = -7.0
 grow_horizontal = 0
 grow_vertical = 0
 rect_pivot_offset = Vector2( 155, 55 )
-custom_styles/normal = SubResource( 16 )
-custom_fonts/font = SubResource( 17 )
+custom_styles/normal = SubResource( 15 )
+custom_fonts/font = SubResource( 16 )
 text = "99999"
 align = 2
 valign = 3
 
-[node name="Payment" type="TextureRect" parent="MainPanel/UpgradePanel/BackPanel/Background/EngineDescription/PriceTag/Price"]
+[node name="Payment" type="TextureRect" parent="MainPanel/UpgradePanel/BackPanel/Background/CurrencyDescription/PriceTag/Price"]
 anchor_top = 0.5
 anchor_bottom = 0.5
 margin_left = -95.3691
@@ -1189,7 +1186,7 @@ texture = ExtResource( 4 )
 expand = true
 stretch_mode = 7
 
-[node name="SoldOut" type="Label" parent="MainPanel/UpgradePanel/BackPanel/Background/EngineDescription/PriceTag/Price"]
+[node name="SoldOut" type="Label" parent="MainPanel/UpgradePanel/BackPanel/Background/CurrencyDescription/PriceTag/Price"]
 visible = false
 anchor_left = 0.5
 anchor_top = 0.5
@@ -1201,7 +1198,7 @@ margin_right = 150.5
 margin_bottom = 60.0
 rect_rotation = -15.0
 rect_pivot_offset = Vector2( 198.207, 48.4999 )
-custom_styles/normal = SubResource( 19 )
+custom_styles/normal = SubResource( 17 )
 custom_fonts/font = SubResource( 18 )
 custom_colors/font_color = Color( 1, 0, 0, 1 )
 text = "SOLD OUT!"
@@ -1216,7 +1213,7 @@ margin_left = -445.0
 margin_top = -5.0
 margin_right = 445.0
 margin_bottom = 165.0
-custom_styles/panel = SubResource( 11 )
+custom_styles/panel = SubResource( 12 )
 
 [node name="Title" type="Label" parent="MainPanel/UpgradePanel/BackPanel/Background/ChipDescription"]
 anchor_left = 0.5
@@ -1227,7 +1224,7 @@ margin_left = -425.0
 margin_top = -65.0
 margin_right = 425.0
 margin_bottom = 8.0
-custom_fonts/font = SubResource( 12 )
+custom_fonts/font = SubResource( 13 )
 custom_colors/font_color = Color( 1, 0.654902, 0, 1 )
 text = "MAGNET CHIP"
 align = 1
@@ -1241,7 +1238,7 @@ anchor_bottom = 0.5
 margin_left = -425.0
 margin_right = 423.0
 margin_bottom = 65.0
-custom_fonts/font = SubResource( 13 )
+custom_fonts/font = SubResource( 14 )
 text = "INCREASE MAGNET AREA"
 align = 1
 valign = 1
@@ -1256,7 +1253,7 @@ margin_bottom = 100.0
 grow_horizontal = 0
 grow_vertical = 0
 rect_pivot_offset = Vector2( 50, 35 )
-custom_fonts/font = SubResource( 13 )
+custom_fonts/font = SubResource( 14 )
 text = "LVL. 1"
 align = 1
 valign = 1
@@ -1279,8 +1276,8 @@ margin_left = 131.0
 grow_horizontal = 0
 grow_vertical = 0
 rect_pivot_offset = Vector2( 155, 55 )
-custom_styles/normal = SubResource( 16 )
-custom_fonts/font = SubResource( 17 )
+custom_styles/normal = SubResource( 15 )
+custom_fonts/font = SubResource( 16 )
 text = "1000"
 align = 2
 valign = 3
@@ -1308,23 +1305,37 @@ margin_right = 128.5
 margin_bottom = 60.0
 rect_rotation = -15.0
 rect_pivot_offset = Vector2( 198.207, 48.4999 )
-custom_styles/normal = SubResource( 19 )
+custom_styles/normal = SubResource( 17 )
 custom_fonts/font = SubResource( 18 )
 custom_colors/font_color = Color( 1, 0, 0, 1 )
 text = "SOLD OUT!"
 
-[node name="EngineButton" parent="MainPanel/UpgradePanel/BackPanel/Background" instance=ExtResource( 12 )]
+[node name="CurrencyButton" parent="MainPanel/UpgradePanel/BackPanel/Background" instance=ExtResource( 12 )]
+editor/display_folded = true
 margin_left = -190.0
 margin_top = -585.0
 margin_right = 180.0
 margin_bottom = -155.0
 rect_pivot_offset = Vector2( 185, 210 )
-group = SubResource( 14 )
+group = SubResource( 19 )
 texture_normal = ExtResource( 21 )
 texture_pressed = ExtResource( 21 )
 texture_hover = ExtResource( 21 )
 texture_disabled = ExtResource( 21 )
 texture_focused = ExtResource( 21 )
+
+[node name="TextureRect" type="TextureRect" parent="MainPanel/UpgradePanel/BackPanel/Background/CurrencyButton"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -85.0
+margin_top = -85.0
+margin_right = 85.0
+margin_bottom = 85.0
+texture = ExtResource( 4 )
+expand = true
+stretch_mode = 6
 
 [node name="ChipButton" parent="MainPanel/UpgradePanel/BackPanel/Background" instance=ExtResource( 12 )]
 margin_left = -200.0
@@ -1332,7 +1343,7 @@ margin_top = 75.0
 margin_right = 240.0
 margin_bottom = 575.0
 rect_pivot_offset = Vector2( 230, 250 )
-group = SubResource( 14 )
+group = SubResource( 19 )
 texture_normal = ExtResource( 22 )
 texture_pressed = ExtResource( 22 )
 texture_hover = ExtResource( 22 )
@@ -1354,7 +1365,7 @@ expand = true
 stretch_mode = 5
 
 [node name="UpgradePanelAnim" type="AnimationPlayer" parent="MainPanel/UpgradePanel"]
-anims/Enter = SubResource( 15 )
+anims/Enter = SubResource( 20 )
 
 [node name="InitialDarker" parent="." instance=ExtResource( 23 )]
 
@@ -1375,7 +1386,7 @@ margin_bottom = -40.0
 [connection signal="value_changed" from="MainPanel/ShopPanel/BackPanel/HBC/PanelItems/CustomColor" to="." method="_on_CustomColor_value_changed"]
 [connection signal="button_down" from="MainPanel/ShopPanel/CloseButton" to="." method="_on_CloseButton_button_down"]
 [connection signal="upgrade_closed" from="MainPanel/UpgradePanel" to="." method="_on_UpgradePanel_upgrade_closed"]
-[connection signal="on_clicked" from="MainPanel/UpgradePanel/BackPanel/Background/EngineButton" to="MainPanel/UpgradePanel" method="_on_EngineButton_on_clicked"]
+[connection signal="on_clicked" from="MainPanel/UpgradePanel/BackPanel/Background/CurrencyButton" to="MainPanel/UpgradePanel" method="_on_CurrencyButton_on_clicked"]
 [connection signal="on_clicked" from="MainPanel/UpgradePanel/BackPanel/Background/ChipButton" to="MainPanel/UpgradePanel" method="_on_ChipButton_on_clicked"]
 [connection signal="button_down" from="MainPanel/UpgradePanel/BackPanel/UpgradeCloseButton" to="MainPanel/UpgradePanel" method="_on_UpgradeCloseButton_button_down"]
 [connection signal="animation_finished" from="TransitionScene/Anim" to="." method="_on_Anim_animation_finished"]

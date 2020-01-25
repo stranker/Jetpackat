@@ -1,6 +1,6 @@
 { 
    "0":{ 
-      "name":"Engine",
+      "name":"Currency",
       "level":1,
       "price_per_level":{ 
          "1":{ 

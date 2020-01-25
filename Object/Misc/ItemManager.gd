@@ -2,7 +2,7 @@ extends Node
 
 enum ItemType {HAT, SCARF, PATTERN, JETPACK, SKIN, LAST}
 enum Payment {COIN, FISH, LAST}
-enum UpgradeType {ENGINE, CHIP, LAST}
+enum UpgradeType {CURRENCY, CHIP, LAST}
 
 var itemTypeToString = {0:"Hat", 1:"Scarf",	2:"Pattern", 3:"Jetpack", 4:"Skin", 5:"Last"}
 
@@ -177,8 +177,6 @@ func upgrade_item_to_dictionary( data_list : Array):
 		upgrade_item_raw_data['price_per_level'] = upgrade_item.item_price_per_level
 		data[upgrade_item.item_type] = upgrade_item_raw_data
 	return data
-
-
 
 func get_equipped_items():
 	var item_list : Array = []

@@ -20,6 +20,9 @@ func _process(delta):
 
 func initialize():
 	initial_pos = position
+	var currency = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.CURRENCY)
+	var currency_level = currency.item_level
+	value = currency_level
 	pass
 
 func _on_Coin_body_entered(body):

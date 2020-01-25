@@ -71,7 +71,7 @@ func _on_PosTween_tween_all_completed():
 	pass # Replace with function body.
 "
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=2]
 length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath("FuelPanel/FuelFire:rect_scale")
@@ -98,7 +98,7 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 0.470588, 0, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=3]
 length = 4.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("FuelPanel/FuelFire:rect_position")
@@ -125,7 +125,7 @@ tracks/1/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 1.2, 1.2 ), Vector2( 1, 1 ), Vector2( 0.95, 0.95 ), Vector2( 1, 1 ), Vector2( 1.05, 1 ), Vector2( 0.8, 1.2 ), Vector2( 1, 1 ), Vector2( 1.3, 1.3 ), Vector2( 1.1, 1.1 ), Vector2( 0.9, 0.9 ), Vector2( 1, 1 ), Vector2( 1.05, 1 ), Vector2( 0.9, 1.1 ), Vector2( 1, 1 ), Vector2( 1.1, 1.1 ), Vector2( 1.2, 0.9 ), Vector2( 0.9, 1.1 ), Vector2( 1, 1 ), Vector2( 1.1, 1.1 ), Vector2( 1, 1 ), Vector2( 0.95, 0.95 ), Vector2( 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=4]
 tracks/0/type = "value"
 tracks/0/path = NodePath("FuelPanel:rect_scale")
 tracks/0/interp = 1
@@ -307,7 +307,7 @@ expand = true
 stretch_mode = 6
 
 [node name="Anim" type="AnimationPlayer" parent="."]
-anims/AddFuel = SubResource( 3 )
-anims/FuelOut = SubResource( 4 )
-anims/Idle = SubResource( 5 )
+anims/AddFuel = SubResource( 2 )
+anims/FuelOut = SubResource( 3 )
+anims/Idle = SubResource( 4 )
 [connection signal="tween_all_completed" from="PosTween" to="." method="_on_PosTween_tween_all_completed"]
