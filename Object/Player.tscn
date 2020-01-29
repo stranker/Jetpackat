@@ -457,8 +457,11 @@ func activate():
 
 func set_tween():
 	$Magnet/Tween.stop_all()
-	$Magnet/Tween.interpolate_property($Magnet, 'scale', Vector2(0,0), Vector2.ONE * initial_magnet_scale * magnet_increment, 1,Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
-	$Magnet/Tween.start() 
+	$Magnet/Tween.remove_all()
+	var final_scale = Vector2.ONE * initial_magnet_scale * magnet_increment
+	$Magnet/Tween.interpolate_property($Magnet, 'scale', Vector2(0,0), final_scale, 0.5,Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
+	$Magnet/Tween.interpolate_property($Magnet, 'scale', final_scale, Vector2(0,0), 0.5,Tween.TRANS_CUBIC, Tween.EASE_IN_OUT,0.5)
+	$Magnet/Tween.start()
 	pass
 
 func increase_size():
