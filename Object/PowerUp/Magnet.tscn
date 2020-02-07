@@ -1,8 +1,7 @@
 [gd_scene load_steps=11 format=2]
 
-[ext_resource path="res://Shaders/outline.shader" type="Shader" id=1]
-[ext_resource path="res://Sprites/Collectables/Magnet.png" type="Texture" id=2]
-[ext_resource path="res://Sprites/Background/StarParticle.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/Collectables/MagnetOutlined.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/Particles/Cross.png" type="Texture" id=2]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends \"res://Object/Collectable/Collectable.gd\"
@@ -38,15 +37,47 @@ func _on_VisibilityNotifier2D_screen_exited():
 	pass # Replace with function body.
 "
 
-[sub_resource type="ShaderMaterial" id=2]
-shader = ExtResource( 1 )
-shader_param/outline_width = 0.7
-shader_param/outline_color = Color( 1, 1, 1, 0.0470588 )
+[sub_resource type="Shader" id=2]
+code = "shader_type canvas_item;
 
-[sub_resource type="CircleShape2D" id=3]
-radius = 40.1264
+uniform float outline_width = 2.0;
+uniform vec4 outline_color : hint_color;
 
-[sub_resource type="Animation" id=4]
+void fragment() {
+	vec4 col = texture(TEXTURE, UV);
+	vec2 ps = TEXTURE_PIXEL_SIZE;
+	float a;
+	float maxa = col.a;
+	float mina = col.a;
+
+	a = texture(TEXTURE, UV + vec2(0.0, -outline_width) * ps).a;
+	maxa = max(a, maxa);
+	mina = min(a, mina);
+
+	a = texture(TEXTURE, UV + vec2(0.0, outline_width) * ps).a;
+	maxa = max(a, maxa);
+	mina = min(a, mina);
+
+	a = texture(TEXTURE, UV + vec2(-outline_width, 0.0) * ps).a;
+	maxa = max(a, maxa);
+	mina = min(a, mina);
+
+	a = texture(TEXTURE, UV + vec2(outline_width, 0.0) * ps).a;
+	maxa = max(a, maxa);
+	mina = min(a, mina);
+
+	COLOR = mix(col, outline_color, maxa - mina);
+}"
+
+[sub_resource type="ShaderMaterial" id=3]
+shader = SubResource( 2 )
+shader_param/outline_width = 0.5
+shader_param/outline_color = Color( 1, 1, 1, 1 )
+
+[sub_resource type="CircleShape2D" id=4]
+radius = 71.6309
+
+[sub_resource type="Animation" id=5]
 length = 1.2
 loop = true
 tracks/0/type = "value"
@@ -57,7 +88,7 @@ tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0, 0.6 ),
-"transitions": PoolRealArray( 1, 1 ),
+"transitions": PoolRealArray( 0.5, 0.5 ),
 "update": 0,
 "values": [ 32.4491, -26.233 ]
 }
@@ -68,13 +99,13 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.3, 0.6, 0.9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.3, 0.6, 0.9, 1.2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 0.0470588 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.0235294 ), Color( 1, 1, 1, 1 ) ]
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=6]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:scale")
 tracks/0/interp = 1
@@ -85,7 +116,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.2, 0.4 ),
 "transitions": PoolRealArray( 0.5, 2, 1 ),
 "update": 0,
-"values": [ Vector2( 2, 2 ), Vector2( 3, 3 ), Vector2( 1, 1 ) ]
+"values": [ Vector2( 3, 3 ), Vector2( 4, 4 ), Vector2( 1, 1 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("Sprite:self_modulate")
@@ -124,33 +155,33 @@ tracks/3/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="Gradient" id=6]
-offsets = PoolRealArray( 0, 0.765432, 1 )
-colors = PoolColorArray( 0.211765, 0.223529, 0.85098, 1, 0.211765, 0.223529, 0.85098, 0.745098, 0.211765, 0.223529, 0.85098, 0 )
-
 [sub_resource type="Gradient" id=7]
-offsets = PoolRealArray( 0, 0.764368, 1 )
+offsets = PoolRealArray( 0, 0.765432, 1 )
+colors = PoolColorArray( 0.196078, 0.34902, 0.886275, 1, 0.211765, 0.223529, 0.85098, 0.745098, 0.211765, 0.223529, 0.85098, 0 )
+
+[sub_resource type="Gradient" id=8]
+offsets = PoolRealArray( 0, 0.753247, 1 )
 colors = PoolColorArray( 0.921569, 0.156863, 0.137255, 1, 0.921569, 0.156863, 0.137255, 0.768627, 0.921569, 0.156863, 0.137255, 0.14902 )
 
 [node name="Magnet" type="Area2D"]
 script = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-material = SubResource( 2 )
+self_modulate = Color( 1, 1, 1, 0 )
+material = SubResource( 3 )
 position = Vector2( -0.26564, -4.54848 )
 rotation = 0.566344
-scale = Vector2( 2, 2 )
-texture = ExtResource( 2 )
+texture = ExtResource( 1 )
 offset = Vector2( 0.26564, 4.54848 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( -1.26224, 7.25788 )
-shape = SubResource( 3 )
+shape = SubResource( 4 )
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Idle"
-anims/Idle = SubResource( 4 )
-anims/Taken = SubResource( 5 )
+anims/Idle = SubResource( 5 )
+anims/Taken = SubResource( 6 )
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 
@@ -159,34 +190,42 @@ emitting = false
 amount = 20
 one_shot = true
 explosiveness = 0.9
-texture = ExtResource( 3 )
+texture = ExtResource( 2 )
 emission_shape = 1
 emission_sphere_radius = 5.0
-spread = 180.0
+spread = 90.0
 gravity = Vector2( 0, 0 )
-initial_velocity = 150.0
-tangential_accel = -10.0
+initial_velocity = 200.0
+angular_velocity = 50.0
+angular_velocity_random = 1.0
+tangential_accel = -5.0
+tangential_accel_random = 0.2
 damping = 100.0
 angle = 360.0
 angle_random = 1.0
-color_ramp = SubResource( 6 )
+scale_amount = 1.5
+color_ramp = SubResource( 7 )
 
 [node name="RedParticles" type="CPUParticles2D" parent="."]
+rotation = 3.14159
 emitting = false
 amount = 20
 one_shot = true
 explosiveness = 0.9
-texture = ExtResource( 3 )
+texture = ExtResource( 2 )
 emission_shape = 1
 emission_sphere_radius = 5.0
-spread = 180.0
+spread = 90.0
 gravity = Vector2( 0, 0 )
-initial_velocity = 150.0
-tangential_accel = 10.0
+initial_velocity = 200.0
+angular_velocity = 50.0
+tangential_accel = -5.0
+tangential_accel_random = 0.2
 damping = 100.0
 angle = 360.0
 angle_random = 1.0
-color_ramp = SubResource( 7 )
+scale_amount = 1.5
+color_ramp = SubResource( 8 )
 [connection signal="active" from="." to="." method="_on_Magnet_active"]
 [connection signal="area_entered" from="." to="." method="_on_Magnet_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_Magnet_body_entered"]
