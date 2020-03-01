@@ -27,6 +27,7 @@ config/quit_on_go_back=false
 
 GameManager="*res://Object/Misc/GameManager.gd"
 ItemManager="*res://Object/Misc/ItemManager.gd"
+AudioManager="*res://Object/Misc/AudioManager.gd"
 
 [debug]
 

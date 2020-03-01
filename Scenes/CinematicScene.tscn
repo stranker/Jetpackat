@@ -22,6 +22,10 @@ script/source = "extends Control
 
 var next_scene = \"Scenes/MainMenu.tscn\"
 
+func _ready():
+	AudioManager.create_soundtrack()
+	pass
+
 func _on_CloseButton_button_down():
 	GameManager.intro_watched = true
 	if !$FadeOut/FadeOut.is_playing():

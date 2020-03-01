@@ -1,8 +1,9 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Shaders/outline.shader" type="Shader" id=1]
 [ext_resource path="res://Sprites/PowerUps/FuelCan.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/Background/StarParticle.png" type="Texture" id=3]
+[ext_resource path="res://Sounds/Sfx/FuelCan2.wav" type="AudioStream" id=4]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends \"res://Object/Collectable/Collectable.gd\"
@@ -12,7 +13,7 @@ func _ready():
 	pass
 
 func _process(delta):
-	if GameManager.player.invencible:
+	if GameManager.player.invencible and !taked:
 		dispose_object()
 
 func _on_FuelCan_body_entered(body):
@@ -20,6 +21,7 @@ func _on_FuelCan_body_entered(body):
 		taked = !taked
 		$Anim.play('Taken')
 		emit_signal('taken')
+		$Sound.play()
 	pass # Replace with function body.
 
 func _on_FuelCan_area_entered(area):
@@ -163,6 +165,11 @@ anims/Idle = SubResource( 6 )
 anims/Taken = SubResource( 7 )
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+
+[node name="Sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 4 )
+volume_db = -6.0
+bus = "Sounds"
 [connection signal="active" from="." to="." method="_on_FuelCan_active"]
 [connection signal="area_entered" from="." to="." method="_on_FuelCan_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_FuelCan_body_entered"]

@@ -1,0 +1,112 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Sprites/Collectables/MagnetArea.png" type="Texture" id=1]
+[ext_resource path="res://Sounds/Sfx/MagneticField.wav" type="AudioStream" id=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Area2D
+
+var magnet_chip_data = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.CHIP)
+export var magnet_increment : float = 2
+export var magnet_time_increment : float = 2
+export var magnet_base_time : float = 4
+onready var initial_magnet_scale = $Magnet.scale.x
+onready var initial_collision_radius = $Collision.shape.radius
+export var activated : bool = false
+signal magnet_time(val)
+
+func _process(delta):
+	emit_signal('magnet_time',$MagnetTimer.time_left)
+	pass
+
+func deactivate():
+	hide()
+	$Sample.stop()
+	pass
+
+func activate():
+	if !activated:
+		activated = true
+		show()
+		increase_size()
+		set_tween()
+		$Sample.play()
+	set_magnet_timer()
+	pass
+
+func set_tween():
+	$Magnet/Tween.stop_all()
+	$Magnet/Tween.remove_all()
+	var final_scale = Vector2.ONE * initial_magnet_scale * magnet_increment
+	$Magnet/Tween.interpolate_property($Magnet, 'scale', Vector2(0,0), final_scale, 0.5,Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
+	$Magnet/Tween.interpolate_property($Magnet, 'scale', final_scale, Vector2(0,0), 0.5,Tween.TRANS_CUBIC, Tween.EASE_IN_OUT,0.5)
+	$Magnet/Tween.start()
+	pass
+
+func increase_size():
+	var new_magnet_size = $Collision.shape.duplicate()
+	new_magnet_size.radius *= magnet_increment
+	$Collision.shape = new_magnet_size
+	var magnet_scale_size = magnet_increment * initial_magnet_scale
+	$Magnet.scale = Vector2.ONE * magnet_scale_size
+	pass
+
+func set_magnet_timer():
+	var magnet_info = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.CHIP)
+	var new_time = magnet_base_time + (magnet_info.item_level * magnet_increment)
+	$MagnetTimer.wait_time = new_time
+	$MagnetTimer.start()
+	pass
+
+func _on_MagnetTimer_timeout():
+	activated = false
+	decrease_size()
+	get_parent().get_parent().deactivate_magnet()
+	hide()
+	$Sample.stop()
+	pass # Replace with function body.
+
+func decrease_size():
+	var new_shape = $Collision.shape.duplicate()
+	new_shape.radius = initial_collision_radius
+	$Collision.shape = new_shape
+	$Magnet.scale = Vector2.ONE * initial_magnet_scale
+	pass
+
+func _on_Sample_finished():
+	if activated:
+		$Sample.play()
+	pass # Replace with function body.
+"
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 117.38
+
+[node name="MagnetArea" type="Area2D"]
+visible = false
+show_behind_parent = true
+script = SubResource( 1 )
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource( 2 )
+
+[node name="Magnet" type="Sprite" parent="."]
+editor/display_folded = true
+self_modulate = Color( 0.980392, 0.823529, 0.45098, 0.470588 )
+scale = Vector2( 2.4, 2.4 )
+texture = ExtResource( 1 )
+
+[node name="Tween" type="Tween" parent="Magnet"]
+repeat = true
+playback/repeat = true
+
+[node name="MagnetTimer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+
+[node name="Sample" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 2 )
+volume_db = -6.0
+bus = "Sounds"
+[connection signal="timeout" from="MagnetTimer" to="." method="_on_MagnetTimer_timeout"]
+[connection signal="finished" from="Sample" to="." method="_on_Sample_finished"]

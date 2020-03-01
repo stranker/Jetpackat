@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/MagneticField.wav-c2894da2bcba5ef9e28cd180228c929f.sample"
+
+[deps]
+
+source_file="res://Sounds/Sfx/MagneticField.wav"
+dest_files=[ "res://.import/MagneticField.wav-c2894da2bcba5ef9e28cd180228c929f.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=2]
+[gd_scene load_steps=42 format=2]
 
 [ext_resource path="res://Sprites/Effect/WindEffect.png" type="Texture" id=1]
 [ext_resource path="res://Shaders/outline.shader" type="Shader" id=2]
@@ -6,12 +6,15 @@
 [ext_resource path="res://Sprites/Cat/Eyes.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/Shop/Cat/Thruster/Smoke.png" type="Texture" id=6]
-[ext_resource path="res://Sprites/Collectables/MagnetArea.png" type="Texture" id=7]
+[ext_resource path="res://Object/MagnetArea.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Sprites/Tutorial/JumpArrow.png" type="Texture" id=8]
 [ext_resource path="res://Sprites/Cat/Shield.png" type="Texture" id=9]
 [ext_resource path="res://Sprites/PowerUps/AegisWings.png" type="Texture" id=10]
 [ext_resource path="res://Sprites/PowerUps/AegisFeathers.png" type="Texture" id=11]
 [ext_resource path="res://Sounds/Sfx/Jump.wav" type="AudioStream" id=12]
+[ext_resource path="res://Sounds/Sfx/Invencible.wav" type="AudioStream" id=13]
+[ext_resource path="res://Sounds/Sfx/Hit.wav" type="AudioStream" id=14]
+[ext_resource path="res://Sounds/Sfx/CatFalling.wav" type="AudioStream" id=15]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends KinematicBody2D
@@ -104,6 +107,7 @@ func take_damage():
 		set_aegis(false)
 	elif !invencible:
 		if !dead and can_receive_damage:
+			$Hit.play()
 			dead = !dead
 			check_die_direction()
 			set_physics_process(false)
@@ -114,11 +118,13 @@ func take_damage():
 
 func height_damage():
 	if !dead:
+		$Hit.play()
 		dead = !dead
 		check_die_direction()
 		set_physics_process(false)
 		$Anim.stop()
 		$Anim.play('Dead')
+		$Visible/MagnetArea.deactivate()
 	pass
 
 func check_die_direction():
@@ -186,6 +192,7 @@ func set_invencible(val):
 	invencible = val
 	$GameCamera.set_wind_effect(val)
 	if invencible:
+		$Invencible.play()
 		$Visible/Shield/Anim.play('ShieldOn')
 		$InvencibleTimer.start()
 		velocity.x = 0
@@ -430,73 +437,7 @@ tracks/0/keys = {
 "values": [ Vector2( 3.84464, 39.7731 ), Vector2( 7.04977, 38.0137 ), Vector2( -0.644684, 41.9775 ), Vector2( 3.2222, 40.4274 ), Vector2( 5.22339, 44.976 ), Vector2( 3.84464, 39.7731 ) ]
 }
 
-[sub_resource type="GDScript" id=12]
-script/source = "extends Area2D
-
-var magnet_chip_data = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.CHIP)
-export var magnet_increment : float = 2
-export var magnet_time_increment : float = 2
-export var magnet_base_time : float = 4
-onready var initial_magnet_scale = $Magnet.scale.x
-onready var initial_collision_radius = $Collision.shape.radius
-export var activated : bool = false
-signal magnet_time(val)
-
-func _process(delta):
-	emit_signal('magnet_time',$MagnetTimer.time_left)
-	pass
-
-func activate():
-	if !activated:
-		activated = true
-		show()
-		increase_size()
-		set_tween()
-	set_magnet_timer()
-	pass
-
-func set_tween():
-	$Magnet/Tween.stop_all()
-	$Magnet/Tween.remove_all()
-	var final_scale = Vector2.ONE * initial_magnet_scale * magnet_increment
-	$Magnet/Tween.interpolate_property($Magnet, 'scale', Vector2(0,0), final_scale, 0.5,Tween.TRANS_CUBIC, Tween.EASE_IN_OUT)
-	$Magnet/Tween.interpolate_property($Magnet, 'scale', final_scale, Vector2(0,0), 0.5,Tween.TRANS_CUBIC, Tween.EASE_IN_OUT,0.5)
-	$Magnet/Tween.start()
-	pass
-
-func increase_size():
-	var new_magnet_size = $Collision.shape.duplicate()
-	new_magnet_size.radius *= magnet_increment
-	$Collision.shape = new_magnet_size
-	var magnet_scale_size = magnet_increment * initial_magnet_scale
-	$Magnet.scale = Vector2.ONE * magnet_scale_size
-	pass
-
-func set_magnet_timer():
-	var magnet_info = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.CHIP)
-	var new_time = magnet_base_time + (magnet_info.item_level * magnet_increment)
-	$MagnetTimer.wait_time = new_time
-	$MagnetTimer.start()
-	pass
-
-func _on_MagnetTimer_timeout():
-	activated = false
-	decrease_size()
-	get_parent().get_parent().deactivate_magnet()
-	hide()
-	pass # Replace with function body.
-
-func decrease_size():
-	var new_shape = $Collision.shape.duplicate()
-	new_shape.radius = initial_collision_radius
-	$Collision.shape = new_shape
-	$Magnet.scale = Vector2.ONE * initial_magnet_scale
-	pass"
-
-[sub_resource type="CircleShape2D" id=13]
-radius = 117.38
-
-[sub_resource type="Animation" id=14]
+[sub_resource type="Animation" id=12]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:self_modulate")
@@ -511,7 +452,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 0.34902 ), Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="Animation" id=15]
+[sub_resource type="Animation" id=13]
 length = 0.8
 loop = true
 tracks/0/type = "value"
@@ -527,7 +468,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 0.34902 ), Color( 1, 1, 1, 0.717647 ), Color( 1, 1, 1, 0.34902 ) ]
 }
 
-[sub_resource type="Animation" id=16]
+[sub_resource type="Animation" id=14]
 length = 1.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("Skeleton/Bone2D/Bone2D2/Bone2D3:rotation_degrees")
@@ -566,7 +507,7 @@ tracks/2/keys = {
 "values": [ 6.06401, -20.8268, 32.9491, 86.1725, -73.9872, 32.9491, 86.1725, -73.9872, 86.1725 ]
 }
 
-[sub_resource type="Animation" id=17]
+[sub_resource type="Animation" id=15]
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Skeleton/Bone2D/Bone2D2:rotation_degrees")
@@ -617,7 +558,7 @@ tracks/3/keys = {
 "values": [ 6.06401, -70.6719, 54.2652, 7.53509 ]
 }
 
-[sub_resource type="Animation" id=18]
+[sub_resource type="Animation" id=16]
 length = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("Skeleton/Bone2D/Bone2D2:rotation_degrees")
@@ -668,7 +609,7 @@ tracks/3/keys = {
 "values": [ 6.06401 ]
 }
 
-[sub_resource type="Animation" id=19]
+[sub_resource type="Animation" id=17]
 length = 0.3
 loop = true
 tracks/0/type = "value"
@@ -768,7 +709,7 @@ tracks/7/keys = {
 "values": [ 38.6546, 36.8882, 42.7678 ]
 }
 
-[sub_resource type="Animation" id=20]
+[sub_resource type="Animation" id=18]
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Skeleton2D/M/LU:rotation_degrees")
@@ -879,7 +820,7 @@ tracks/8/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=21]
+[sub_resource type="Animation" id=19]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Feathers:emitting")
 tracks/0/interp = 1
@@ -917,11 +858,11 @@ tracks/2/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Gradient" id=22]
+[sub_resource type="Gradient" id=20]
 offsets = PoolRealArray( 0, 0.785276, 1 )
 colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0.635294, 1, 1, 1, 0 )
 
-[sub_resource type="Animation" id=23]
+[sub_resource type="Animation" id=21]
 length = 2.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Visible/Skin:position")
@@ -1119,8 +1060,20 @@ tracks/15/keys = {
 "update": 0,
 "values": [ 117.38 ]
 }
+tracks/16/type = "value"
+tracks/16/path = NodePath("Falling:playing")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/keys = {
+"times": PoolRealArray( 0, 0.5, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, false, true ]
+}
 
-[sub_resource type="Animation" id=24]
+[sub_resource type="Animation" id=22]
 length = 5.0
 loop = true
 tracks/0/type = "value"
@@ -1196,7 +1149,7 @@ tracks/5/keys = {
 "values": [ 117.38 ]
 }
 
-[sub_resource type="Animation" id=25]
+[sub_resource type="Animation" id=23]
 length = 1.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("Visible/Skin:frame")
@@ -1235,7 +1188,7 @@ tracks/2/keys = {
 "values": [ 117.38 ]
 }
 
-[sub_resource type="Animation" id=26]
+[sub_resource type="Animation" id=24]
 length = 6.0
 loop = true
 tracks/0/type = "value"
@@ -1263,7 +1216,7 @@ tracks/1/keys = {
 "values": [ 0, 1, 0, 1, 0 ]
 }
 
-[sub_resource type="Animation" id=27]
+[sub_resource type="Animation" id=25]
 length = 4.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Visible/Skin:frame")
@@ -1326,7 +1279,7 @@ tracks/4/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="Animation" id=28]
+[sub_resource type="Animation" id=26]
 length = 2.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("GameCamera:zoom")
@@ -1514,6 +1467,7 @@ one_shot = true
 anims/Wind = SubResource( 4 )
 
 [node name="Visible" type="Node2D" parent="."]
+editor/display_folded = true
 script = SubResource( 5 )
 
 [node name="Skin" type="Sprite" parent="Visible"]
@@ -1576,26 +1530,7 @@ script = SubResource( 10 )
 [node name="Anim" type="AnimationPlayer" parent="Visible/Jetpack"]
 anims/Propulsion = SubResource( 11 )
 
-[node name="MagnetArea" type="Area2D" parent="Visible"]
-visible = false
-show_behind_parent = true
-script = SubResource( 12 )
-
-[node name="Collision" type="CollisionShape2D" parent="Visible/MagnetArea"]
-shape = SubResource( 13 )
-
-[node name="Magnet" type="Sprite" parent="Visible/MagnetArea"]
-self_modulate = Color( 0.980392, 0.823529, 0.45098, 0.470588 )
-scale = Vector2( 2.4, 2.4 )
-texture = ExtResource( 7 )
-
-[node name="Tween" type="Tween" parent="Visible/MagnetArea/Magnet"]
-repeat = true
-playback/repeat = true
-
-[node name="MagnetTimer" type="Timer" parent="Visible/MagnetArea"]
-wait_time = 10.0
-one_shot = true
+[node name="MagnetArea" parent="Visible" instance=ExtResource( 7 )]
 
 [node name="Arrow" type="Sprite" parent="Visible"]
 editor/display_folded = true
@@ -1607,8 +1542,8 @@ flip_h = true
 
 [node name="Anim" type="AnimationPlayer" parent="Visible/Arrow"]
 autoplay = "Idle"
-anims/Hide = SubResource( 14 )
-anims/Idle = SubResource( 15 )
+anims/Hide = SubResource( 12 )
+anims/Idle = SubResource( 13 )
 
 [node name="Scarf" type="Polygon2D" parent="Visible"]
 editor/display_folded = true
@@ -1623,9 +1558,9 @@ bones = [ NodePath("Bone2D"), PoolRealArray( 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0,
 
 [node name="Anim" type="AnimationPlayer" parent="Visible/Scarf"]
 autoplay = "Idle"
-anims/Falling = SubResource( 16 )
-anims/Flying = SubResource( 17 )
-anims/Idle = SubResource( 18 )
+anims/Falling = SubResource( 14 )
+anims/Flying = SubResource( 15 )
+anims/Idle = SubResource( 16 )
 
 [node name="Skeleton" type="Skeleton2D" parent="Visible/Scarf"]
 editor/display_folded = true
@@ -1712,7 +1647,7 @@ rotation = -0.21599
 rest = Transform2D( 0.976765, -0.214314, 0.214314, 0.976765, 23.2403, -19.968 )
 
 [node name="Anim" type="AnimationPlayer" parent="Visible/Shield"]
-anims/ShieldOn = SubResource( 19 )
+anims/ShieldOn = SubResource( 17 )
 
 [node name="AegisWings" type="Polygon2D" parent="Visible"]
 editor/display_folded = true
@@ -1766,8 +1701,8 @@ rotation = 4.61884
 rest = Transform2D( -0.0400426, -0.999198, 0.999198, -0.0400426, 10.2345, -1.41992 )
 
 [node name="Anim" type="AnimationPlayer" parent="Visible/AegisWings"]
-anims/Idle = SubResource( 20 )
-anims/Used = SubResource( 21 )
+anims/Idle = SubResource( 18 )
+anims/Used = SubResource( 19 )
 
 [node name="Feathers" type="CPUParticles2D" parent="Visible/AegisWings"]
 position = Vector2( 27.4478, 13.603 )
@@ -1787,16 +1722,16 @@ angular_velocity = 200.0
 angular_velocity_random = 1.0
 angle = 360.0
 angle_random = 1.0
-color_ramp = SubResource( 22 )
+color_ramp = SubResource( 20 )
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Idle"
-anims/Dead = SubResource( 23 )
-anims/Flying = SubResource( 24 )
-anims/FuelTaken = SubResource( 25 )
-anims/Idle = SubResource( 26 )
-anims/Invencible = SubResource( 27 )
-anims/TimeOut = SubResource( 28 )
+anims/Dead = SubResource( 21 )
+anims/Flying = SubResource( 22 )
+anims/FuelTaken = SubResource( 23 )
+anims/Idle = SubResource( 24 )
+anims/Invencible = SubResource( 25 )
+anims/TimeOut = SubResource( 26 )
 
 [node name="ClickArea" type="CanvasLayer" parent="."]
 editor/display_folded = true
@@ -1806,6 +1741,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="HBC" type="HBoxContainer" parent="ClickArea"]
+editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 
@@ -1836,10 +1772,23 @@ stream = ExtResource( 12 )
 volume_db = -25.0
 pitch_scale = 2.0
 bus = "Sounds"
+
+[node name="Invencible" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 13 )
+volume_db = -6.0
+bus = "Sounds"
+
+[node name="Hit" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 14 )
+bus = "Sounds"
+
+[node name="Falling" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 15 )
+volume_db = -16.0
+bus = "Sounds"
 [connection signal="tween_completed" from="GameCamera/Tween" to="GameCamera" method="_on_Tween_tween_completed"]
 [connection signal="timeout" from="GameCamera/Timer" to="GameCamera" method="_on_Timer_timeout"]
 [connection signal="magnet_time" from="Visible/MagnetArea" to="." method="_on_MagnetArea_magnet_time"]
-[connection signal="timeout" from="Visible/MagnetArea/MagnetTimer" to="Visible/MagnetArea" method="_on_MagnetTimer_timeout"]
 [connection signal="animation_finished" from="Anim" to="." method="_on_Anim_animation_finished"]
 [connection signal="gui_input" from="ClickArea/HBC/Left" to="." method="_on_Left_gui_input"]
 [connection signal="gui_input" from="ClickArea/HBC/Right" to="." method="_on_Right_gui_input"]

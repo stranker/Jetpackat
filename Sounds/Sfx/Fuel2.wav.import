@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Fuel2.wav-13b1a832b7b6b04c743d4b5c644be978.sample"
+
+[deps]
+
+source_file="res://Sounds/Sfx/Fuel2.wav"
+dest_files=[ "res://.import/Fuel2.wav-13b1a832b7b6b04c743d4b5c644be978.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

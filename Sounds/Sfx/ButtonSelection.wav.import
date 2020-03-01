@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/ButtonSelection.wav-1a61c6a813da912bc5d4cc356039763a.sample"
+
+[deps]
+
+source_file="res://Sounds/Sfx/ButtonSelection.wav"
+dest_files=[ "res://.import/ButtonSelection.wav-1a61c6a813da912bc5d4cc356039763a.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

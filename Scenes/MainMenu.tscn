@@ -29,10 +29,10 @@
 [ext_resource path="res://Scenes/ConfigPanel.tscn" type="PackedScene" id=27]
 [ext_resource path="res://Scenes/Leaderboard.tscn" type="PackedScene" id=28]
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=29]
-[ext_resource path="res://Sounds/Music/Cats Can Fly Theme final.ogg" type="AudioStream" id=30]
-[ext_resource path="res://Scenes/TransitionScene.tscn" type="PackedScene" id=31]
-[ext_resource path="res://Scenes/InitialDarker.tscn" type="PackedScene" id=32]
-[ext_resource path="res://Scenes/LanguageSelection.tscn" type="PackedScene" id=33]
+[ext_resource path="res://Scenes/TransitionScene.tscn" type="PackedScene" id=30]
+[ext_resource path="res://Scenes/InitialDarker.tscn" type="PackedScene" id=31]
+[ext_resource path="res://Scenes/LanguageSelection.tscn" type="PackedScene" id=32]
+[ext_resource path="res://Sounds/Sfx/ButtonClick.wav" type="AudioStream" id=33]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Control
@@ -43,6 +43,7 @@ export (Texture) var house_broken
 
 func _ready():
 	randomize()
+	AudioManager.create_soundtrack()
 	$VersionLabel.text = \"VERSION 0.73\"
 	get_tree().paused = false
 	set_items_equipped()
@@ -76,6 +77,7 @@ func set_player_menu_item(item):
 	pass
 
 func _on_StartButton_button_down():
+	$Buttons.play()
 	$TransitionScene.play_random()
 	next_scene = 'Scenes/GameScene.tscn'
 	GameManager.save_game_data()
@@ -87,6 +89,7 @@ func _on_CloseButton_button_down():
 	pass # Replace with function body.
 
 func _on_CreditsButton_button_down():
+	$Buttons.play()
 	$TransitionScene.play_random()
 	next_scene = 'Scenes/CreditsScene.tscn'
 	pass # Replace with function body.
@@ -100,17 +103,20 @@ func _on_Anim_animation_finished(anim_name):
 	pass # Replace with function body.
 
 func _on_ConfigButton_button_down():
+	$Buttons.play()
 	$ConfigPanel.init()
 	set_disable_main_buttons(true)
 	pass # Replace with function body.
 
 func _on_ShopButton_button_down():
+	$Buttons.play()
 	GameManager.save_game_data()
 	$TransitionScene.play_random()
 	next_scene = 'Scenes/ShopScene.tscn'
 	pass # Replace with function body.
 
 func _on_LeaderboardButton_button_down():
+	$Buttons.play()
 	set_disable_main_buttons(true)
 	get_leaderboard_data()
 	$Leaderboard.start()
@@ -123,6 +129,7 @@ func get_leaderboard_data():
 	pass
 
 func _on_CloseLeaderButton_button_down():
+	$Buttons.play()
 	$UIAnimation.play_backwards('Leaderboard')
 	set_disable_main_buttons(false)
 	pass # Replace with function body.
@@ -142,6 +149,7 @@ func _on_LineEdit_text_changed(new_text):
 	pass # Replace with function body.
 
 func _on_AcceptButton_button_down():
+	$Buttons.play()
 	GameManager.nickname = $NicknamePanel/Nickname.text
 	$UIAnimation.play('NicknameAccepted')
 	set_disable_main_buttons(false)
@@ -1080,15 +1088,10 @@ anims/Easter = SubResource( 12 )
 anims/Idle = SubResource( 13 )
 anims/Start = SubResource( 14 )
 
-[node name="Music" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 30 )
-autoplay = true
-bus = "Music"
-
-[node name="TransitionScene" parent="." instance=ExtResource( 31 )]
+[node name="TransitionScene" parent="." instance=ExtResource( 30 )]
 editor/display_folded = true
 
-[node name="InitialDarker" parent="." instance=ExtResource( 32 )]
+[node name="InitialDarker" parent="." instance=ExtResource( 31 )]
 
 [node name="Darker" type="TextureRect" parent="."]
 modulate = Color( 0, 0, 0, 0.92549 )
@@ -1150,6 +1153,7 @@ caret_blink = true
 caret_blink_speed = 1.0
 
 [node name="AcceptButton" type="Button" parent="NicknamePanel"]
+visible = false
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -1171,7 +1175,7 @@ custom_fonts/font = SubResource( 21 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "NICKNAME_ACCEPT"
 
-[node name="LanguageSelection" parent="." instance=ExtResource( 33 )]
+[node name="LanguageSelection" parent="." instance=ExtResource( 32 )]
 visible = false
 anchor_top = 1.0
 anchor_bottom = 1.0
@@ -1186,6 +1190,10 @@ anims/Nickname = SubResource( 23 )
 anims/NicknameAccepted = SubResource( 24 )
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
+
+[node name="Buttons" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 33 )
+bus = "UI"
 [connection signal="tree_exiting" from="." to="." method="_on_MainMenu_tree_exiting"]
 [connection signal="timeout" from="Bird/BTimer" to="." method="_on_BTimer_timeout"]
 [connection signal="timeout" from="PaperPlane/PTimer" to="." method="_on_PTimer_timeout"]

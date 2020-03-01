@@ -10,6 +10,7 @@ script/source = "extends 'res://Object/Collectable/Collectable.gd'
 var initial_pos : Vector2
 
 func _ready():
+	randomize()
 	connect('taken',get_tree().root.get_node('GameScene'),'add_coin')
 	initialize()
 
@@ -205,7 +206,7 @@ color_ramp = SubResource( 6 )
 
 [node name="Sample" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 3 )
-volume_db = -14.0
+volume_db = -16.0
 bus = "Sounds"
 
 [node name="Anim" type="AnimationPlayer" parent="."]

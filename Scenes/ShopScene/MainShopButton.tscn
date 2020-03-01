@@ -16,6 +16,10 @@ func _ready():
 	$Text.text = text
 	$Anim.advance(animation_advance_time)
 
+func reset_animation(time):
+	$Anim.advance(time)
+	pass
+
 func _on_MainShopButton_button_down():
 	$Anim.play('Click')
 	pass # Replace with function body.
