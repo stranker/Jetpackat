@@ -31,8 +31,6 @@ signal restart_game
 export (Array, String) var no_highscore_titles = []
 export (Array, String) var highscore_titles = []
 
-
-
 func init(score,highscorepassed):
 	generate_random_title(highscorepassed)
 	$ScorePanel/Score.text = str(score) + 'M'
@@ -51,11 +49,13 @@ func _on_Anim_animation_finished(anim_name):
 
 func generate_random_title(highscorepassed):
 	if highscorepassed:
-		$Title.text = highscore_titles[randi() % highscore_titles.size()]
+		#$Title.text = tr(highscore_titles[randi() % highscore_titles.size()])
+		$Title.text = 'KEY_EXCELLENT'
 		$ScorePanel/Anim.play('Highscore')
 		$Sound.play()
 	else:
-		$Title.text = no_highscore_titles[randi() % no_highscore_titles.size()]
+		#$Title.text = tr(no_highscore_titles[randi() % no_highscore_titles.size()])
+		$Title.text = 'KEY_TRY_AGAIN'
 	pass"
 
 [sub_resource type="DynamicFont" id=3]
@@ -291,7 +291,6 @@ text = "KEY_PERFECT"
 align = 1
 
 [node name="ScorePanel" type="Panel" parent="."]
-editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -337,7 +336,7 @@ custom_colors/font_color = Color( 1, 0.784314, 0, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_as_outline = 1
-text = "KEY_NEW_HIGHSCORE"
+text = "NEW HIGHSCORE!"
 align = 1
 
 [node name="Anim" type="AnimationPlayer" parent="ScorePanel"]

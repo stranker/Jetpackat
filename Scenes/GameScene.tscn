@@ -115,6 +115,7 @@ func end_game():
 	$UIGame.show_deadpanel(player_height, highscore_passed)
 	if !GameManager.tutorial_done:
 		GameManager.tutorial_done = true
+		$UIGame.set_tutorial_done()
 	GameManager.save_game_data()
 	GameManager.player_height = 0
 	pass
@@ -1079,6 +1080,7 @@ centered = false
 position = Vector2( 559.5, 830 )
 
 [node name="UIGame" type="CanvasLayer" parent="."]
+editor/display_folded = true
 script = SubResource( 6 )
 height_tutorial = 15
 
@@ -1350,6 +1352,7 @@ margin_right = -1130.0
 
 [node name="PausePanel" type="Panel" parent="UIGame/UI"]
 pause_mode = 2
+editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1708,13 +1711,13 @@ script = SubResource( 29 )
 objects_scene_list = [ ExtResource( 35 ), ExtResource( 36 ), ExtResource( 37 ), ExtResource( 38 ) ]
 objects_number = 5
 [connection signal="screen_exited" from="House/VisibilityNotifier2D" to="House" method="_on_VisibilityNotifier2D_screen_exited"]
-[connection signal="current_height" from="Player" to="ParallaxBackground" method="_on_Player_current_height"]
 [connection signal="current_height" from="Player" to="UIGame" method="_on_Player_current_height"]
-[connection signal="current_height" from="Player" to="." method="_on_Player_current_height"]
 [connection signal="current_height" from="Player" to="EnemySpawner" method="_on_Player_current_height"]
+[connection signal="current_height" from="Player" to="." method="_on_Player_current_height"]
+[connection signal="current_height" from="Player" to="ParallaxBackground" method="_on_Player_current_height"]
 [connection signal="dead" from="Player" to="." method="_on_Player_dead"]
-[connection signal="invencible" from="Player" to="EnemySpawner" method="_on_Player_invencible_Enemy_Spawner"]
 [connection signal="invencible" from="Player" to="CurrencySpawner" method="_on_Player_invencible"]
+[connection signal="invencible" from="Player" to="EnemySpawner" method="_on_Player_invencible_Enemy_Spawner"]
 [connection signal="magnet_time" from="Player" to="UIGame" method="_on_Player_magnet_time"]
 [connection signal="on_magnet" from="Player" to="UIGame" method="_on_Player_on_magnet"]
 [connection signal="start_playing" from="Player" to="." method="_on_Player_start_playing"]

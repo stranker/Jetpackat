@@ -42,11 +42,11 @@ func update_shop_ui(_payment : int, _cost):
 	pass
 
 func _on_ConfirmButton_button_down():
-	if GameManager.coins > item_gold_cost and item_gold_cost != 0:
+	if GameManager.coins >= item_gold_cost and item_gold_cost != 0:
 		GameManager.coins -= item_gold_cost
 		panel_ref.change_to_buy_state()
 		$BuyItem.play()
-	if GameManager.fishes > item_fish_cost and item_fish_cost != 0:
+	if GameManager.fishes >= item_fish_cost and item_fish_cost != 0:
 		GameManager.fishes -= item_fish_cost
 		panel_ref.change_to_buy_state()
 		$BuyItem.play()
