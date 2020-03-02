@@ -1,12 +1,13 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Sprites/Collectables/Coin.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Collectables/Fish.png" type="Texture" id=2]
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://Sounds/Sfx/ButtonClick.wav" type="AudioStream" id=4]
+[ext_resource path="res://Sounds/Sfx/BuyItem.wav" type="AudioStream" id=5]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Control
-
 
 export (Texture) var coin_texture
 export (Texture) var fish_texture
@@ -44,9 +45,11 @@ func _on_ConfirmButton_button_down():
 	if GameManager.coins > item_gold_cost and item_gold_cost != 0:
 		GameManager.coins -= item_gold_cost
 		panel_ref.change_to_buy_state()
+		$BuyItem.play()
 	if GameManager.fishes > item_fish_cost and item_fish_cost != 0:
 		GameManager.fishes -= item_fish_cost
 		panel_ref.change_to_buy_state()
+		$BuyItem.play()
 	$Anim.play_backwards('Enter')
 	emit_signal('exit_viewport')
 	pass # Replace with function body.
@@ -350,5 +353,13 @@ text = "NO"
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 anims/Enter = SubResource( 13 )
+
+[node name="ButtonClick" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+bus = "UI"
+
+[node name="BuyItem" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+bus = "UI"
 [connection signal="button_down" from="Panel/ConfirmButton" to="." method="_on_ConfirmButton_button_down"]
 [connection signal="button_down" from="Panel/CancelButton" to="." method="_on_CancelButton_button_down"]

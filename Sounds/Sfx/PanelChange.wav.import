@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/PanelChange.wav-dc74557e775eb0881a669f8b13e4ebff.sample"
+
+[deps]
+
+source_file="res://Sounds/Sfx/PanelChange.wav"
+dest_files=[ "res://.import/PanelChange.wav-dc74557e775eb0881a669f8b13e4ebff.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

@@ -1,10 +1,12 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Groups/LanguageButtonGroup.tres" type="ButtonGroup" id=2]
 [ext_resource path="res://Sprites/UI/MainMenu/es_flag.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/UI/MainMenu/en_flag.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/UI/MainMenu/pt_flag.png" type="Texture" id=5]
+[ext_resource path="res://Sounds/Sfx/ButtonClick.wav" type="AudioStream" id=6]
+[ext_resource path="res://Sounds/Sfx/FlagPop.wav" type="AudioStream" id=7]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.227451, 0.360784, 0.521569, 1 )
@@ -33,14 +35,17 @@ func _ready():
 
 func _on_En_button_down():
 	on_translation_button_clicked('en',$Flags/English/En)
+	$ButtonClick.play()
 	pass # Replace with function body.
 
 func _on_Es_button_down():
 	on_translation_button_clicked('es',$Flags/Espaniol/Es)
+	$ButtonClick.play()
 	pass # Replace with function body.
 
 func _on_Pt_button_down():
 	on_translation_button_clicked('pt',$Flags/Portugues/Pt)
+	$ButtonClick.play()
 	pass # Replace with function body.
 
 func on_translation_button_clicked(lang,button):
@@ -72,6 +77,11 @@ func _on_LanguageSelection_visibility_changed():
 		for button in button_list:
 			get_node(button).rect_scale = Vector2(1,1)
 		button_clicked = null
+	pass # Replace with function body.
+
+
+func _on_Tween_tween_completed(object, key):
+	$FlagPop.play()
 	pass # Replace with function body.
 "
 
@@ -114,7 +124,7 @@ custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_x = 9
 custom_constants/shadow_offset_y = 8
-text = "SELECT_LANGUAGE"
+text = "KEY_SELECT_LANGUAGE"
 align = 1
 
 [node name="Flags" type="GridContainer" parent="."]
@@ -289,8 +299,17 @@ stretch_mode = 6
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.6
 one_shot = true
+
+[node name="ButtonClick" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
+bus = "UI"
+
+[node name="FlagPop" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
+bus = "UI"
 [connection signal="visibility_changed" from="." to="." method="_on_LanguageSelection_visibility_changed"]
 [connection signal="button_down" from="Flags/Espaniol/Es" to="." method="_on_Es_button_down"]
 [connection signal="button_down" from="Flags/English/En" to="." method="_on_En_button_down"]
 [connection signal="button_down" from="Flags/Portugues/Pt" to="." method="_on_Pt_button_down"]
+[connection signal="tween_completed" from="Tween" to="." method="_on_Tween_tween_completed"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

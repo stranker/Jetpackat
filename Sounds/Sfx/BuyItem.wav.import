@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/BuyItem.wav-8a8154320f8bd90e96a1d865a4905a6e.sample"
+
+[deps]
+
+source_file="res://Sounds/Sfx/BuyItem.wav"
+dest_files=[ "res://.import/BuyItem.wav-8a8154320f8bd90e96a1d865a4905a6e.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

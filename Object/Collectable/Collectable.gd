@@ -30,3 +30,8 @@ func set_active(val):
 func dispose_object():
 	if activated:
 		emit_signal('dispose',self)
+	pass
+
+func move_up():
+	position += Vector2(0,-160)
+	pass

@@ -28,6 +28,8 @@ func _on_FuelCan_area_entered(area):
 	if area.name == 'MagnetArea' and !on_magnet_area and activated:
 		player_magnet = area
 		on_magnet_area = !on_magnet_area
+	if area.name == 'Coin':
+		move_up()
 	pass # Replace with function body.
 
 func _on_FuelCan_active(val):
@@ -51,7 +53,7 @@ radius = 58.8121
 
 [sub_resource type="Curve" id=4]
 max_value = 6.0
-_data = [ Vector2( 0.00109641, 5.9106 ), 0.0, -6.11803, 0, 0, Vector2( 1, 3.6468 ), -0.502107, 0.0, 0, 0 ]
+_data = [ Vector2( 0.00109641, 5.9106 ), 0.0, -6.11803, 0, 0, Vector2( 0.998046, 1.4886 ), -0.502107, 0.0, 0, 0 ]
 
 [sub_resource type="Gradient" id=5]
 offsets = PoolRealArray( 0, 0.282209, 0.564417, 0.846626, 1 )
@@ -147,12 +149,13 @@ emission_sphere_radius = 3.0
 spread = 180.0
 flatness = 1.0
 gravity = Vector2( 0, 0 )
-initial_velocity = 200.0
+initial_velocity = 500.0
 initial_velocity_random = 0.3
 angular_velocity = 500.0
 angular_velocity_random = 1.0
 tangential_accel = 1.0
 tangential_accel_random = 1.0
+damping = 100.0
 angle = 360.0
 angle_random = 1.0
 scale_amount_random = 1.0

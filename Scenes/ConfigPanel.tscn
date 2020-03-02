@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Sprites/UI/PawCatIcon.png" type="Texture" id=2]
@@ -9,6 +9,8 @@
 [ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=7]
 [ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=8]
 [ext_resource path="res://Scenes/LanguageSelection.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Sounds/Sfx/Coin.wav" type="AudioStream" id=10]
+[ext_resource path="res://Sounds/Sfx/ButtonClick.wav" type="AudioStream" id=11]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.188235, 0.188235, 0.188235, 0.901961 )
@@ -17,10 +19,12 @@ bg_color = Color( 0.188235, 0.188235, 0.188235, 0.901961 )
 script/source = "extends Panel
 
 signal config_panel_closed
+var first_opened : bool = false
 
 func set_sliders():
 	$FrontPanel/VBC/Music/MusicSlider.value = GameManager.music_volume
 	$FrontPanel/VBC/Sound/SoundSlider.value = GameManager.sound_volume
+	pass
 
 func _on_MusicSlider_value_changed(value):
 	GameManager.change_music_volume(int(value))
@@ -28,6 +32,9 @@ func _on_MusicSlider_value_changed(value):
 
 func _on_SoundSlider_value_changed(value):
 	GameManager.change_sound_volume(int(value))
+	if first_opened:
+		$CoinSample.play()
+	first_opened = true
 	pass # Replace with function body.
 
 func _on_Mode_toggled(button_pressed):
@@ -40,6 +47,7 @@ func _on_LanguageButton_button_down():
 	$LanguageSelection/Tween.interpolate_property($FrontPanel/VBC/Language/LanguageButton,
 		'rect_scale',Vector2(0.5,0.5),Vector2(1,1),0.5,Tween.TRANS_BOUNCE,Tween.EASE_OUT)
 	$LanguageSelection/Tween.start()
+	$ButtonClick.play()
 	pass # Replace with function body.
 
 func _on_LanguageSelection_language_selected(texture):
@@ -52,16 +60,17 @@ func init():
 	$Anim.play('PauseIn')
 	set_sliders()
 	$FrontPanel/VBC/Language/LanguageButton.texture_normal = load('res://Sprites/UI/MainMenu/'+GameManager.language+'_flag.png')
-
+	pass
 
 func _on_CloseConfigButton_button_down():
 	$Anim.play_backwards('PauseIn')
 	GameManager.save_current_game_info()
 	emit_signal('config_panel_closed')
+	$ButtonClick.play()
 	pass # Replace with function body.
 "
 
-[sub_resource type="StyleBoxFlat" id=12]
+[sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.27451, 0.356863, 0.905882, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -98,7 +107,7 @@ corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.184314 )
 shadow_size = 15
 
-[sub_resource type="StyleBoxFlat" id=3]
+[sub_resource type="StyleBoxFlat" id=6]
 bg_color = Color( 0.164706, 0.752941, 0.94902, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -113,14 +122,14 @@ corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.25098 )
 shadow_size = 10
 
-[sub_resource type="DynamicFont" id=6]
+[sub_resource type="DynamicFont" id=7]
 size = 72
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 1 )
 
-[sub_resource type="StyleBoxFlat" id=7]
+[sub_resource type="StyleBoxFlat" id=8]
 bg_color = Color( 0.341176, 0.772549, 0.168627, 1 )
 border_width_left = 5
 border_width_top = 5
@@ -138,7 +147,7 @@ expand_margin_bottom = 20.0
 shadow_color = Color( 0, 0, 0, 0.403922 )
 shadow_size = 8
 
-[sub_resource type="StyleBoxFlat" id=8]
+[sub_resource type="StyleBoxFlat" id=9]
 content_margin_left = 1.0
 content_margin_right = 1.0
 content_margin_top = 1.0
@@ -159,7 +168,7 @@ expand_margin_top = 10.0
 expand_margin_bottom = 10.0
 shadow_size = 2
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=10]
 length = 0.6
 tracks/0/type = "value"
 tracks/0/path = NodePath("LanguageSelection:rect_position")
@@ -200,10 +209,10 @@ tracks/2/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=11]
 length = 0.6
 
-[sub_resource type="Animation" id=11]
+[sub_resource type="Animation" id=12]
 length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath("FrontPanel:rect_position")
@@ -311,12 +320,12 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 5
 size_flags_vertical = 5
-custom_styles/normal = SubResource( 12 )
+custom_styles/normal = SubResource( 3 )
 custom_fonts/font = SubResource( 4 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.294118 )
 custom_constants/shadow_offset_x = 8
 custom_constants/shadow_offset_y = 8
-text = "OPTIONS"
+text = "KEY_OPTIONS"
 align = 1
 
 [node name="FrontPanel" type="Panel" parent="."]
@@ -332,6 +341,7 @@ margin_bottom = 647.0
 custom_styles/panel = SubResource( 5 )
 
 [node name="VBC" type="VBoxContainer" parent="FrontPanel"]
+editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 
@@ -350,12 +360,12 @@ margin_left = -317.0
 margin_top = -94.5
 margin_right = 317.0
 margin_bottom = 13.5
-custom_styles/normal = SubResource( 3 )
-custom_fonts/font = SubResource( 6 )
+custom_styles/normal = SubResource( 6 )
+custom_fonts/font = SubResource( 7 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.376471 )
 custom_constants/shadow_offset_x = 8
 custom_constants/shadow_offset_y = 8
-text = "MUSIC_VOLUME"
+text = "KEY_MUSIC_VOLUME"
 align = 1
 
 [node name="MusicSlider" type="HSlider" parent="FrontPanel/VBC/Music"]
@@ -370,15 +380,14 @@ margin_bottom = 95.5
 size_flags_horizontal = 15
 custom_icons/grabber_highlight = ExtResource( 2 )
 custom_icons/grabber = ExtResource( 2 )
-custom_styles/slider = SubResource( 7 )
-custom_styles/grabber_area = SubResource( 8 )
+custom_styles/slider = SubResource( 8 )
+custom_styles/grabber_area = SubResource( 9 )
 max_value = 5.0
 value = 3.0
 tick_count = 5
 ticks_on_borders = true
 
 [node name="Sound" type="Control" parent="FrontPanel/VBC"]
-editor/display_folded = true
 margin_top = 343.0
 margin_right = 851.0
 margin_bottom = 682.0
@@ -394,12 +403,12 @@ margin_left = -317.0
 margin_top = -105.116
 margin_right = 317.0
 margin_bottom = 2.88397
-custom_styles/normal = SubResource( 3 )
-custom_fonts/font = SubResource( 6 )
+custom_styles/normal = SubResource( 6 )
+custom_fonts/font = SubResource( 7 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.376471 )
 custom_constants/shadow_offset_x = 8
 custom_constants/shadow_offset_y = 8
-text = "SOUND_VOLUME"
+text = "KEY_SOUND_VOLUME"
 align = 1
 
 [node name="SoundSlider" type="HSlider" parent="FrontPanel/VBC/Sound"]
@@ -413,15 +422,14 @@ margin_right = 219.5
 margin_bottom = 92.5
 custom_icons/grabber_highlight = ExtResource( 2 )
 custom_icons/grabber = ExtResource( 2 )
-custom_styles/slider = SubResource( 7 )
-custom_styles/grabber_area = SubResource( 8 )
+custom_styles/slider = SubResource( 8 )
+custom_styles/grabber_area = SubResource( 9 )
 max_value = 5.0
 value = 3.0
 tick_count = 5
 ticks_on_borders = true
 
 [node name="Language" type="Control" parent="FrontPanel/VBC"]
-editor/display_folded = true
 margin_top = 686.0
 margin_right = 851.0
 margin_bottom = 1027.0
@@ -437,12 +445,12 @@ margin_left = -320.0
 margin_top = -141.5
 margin_right = 314.0
 margin_bottom = -33.5
-custom_styles/normal = SubResource( 3 )
-custom_fonts/font = SubResource( 6 )
+custom_styles/normal = SubResource( 6 )
+custom_fonts/font = SubResource( 7 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.376471 )
 custom_constants/shadow_offset_x = 8
 custom_constants/shadow_offset_y = 8
-text = "LANGUAGE"
+text = "KEY_LANGUAGE"
 align = 1
 
 [node name="LanguageButton" type="TextureButton" parent="FrontPanel/VBC/Language"]
@@ -502,7 +510,7 @@ margin_left = -205.0
 margin_top = 135.0
 margin_right = 225.0
 margin_bottom = 199.0
-custom_fonts/font = SubResource( 6 )
+custom_fonts/font = SubResource( 7 )
 text = "LEFT MODE"
 align = 1
 
@@ -545,9 +553,18 @@ margin_right = 1604.0
 margin_bottom = 253.0
 
 [node name="Anim" type="AnimationPlayer" parent="."]
-anims/Language = SubResource( 9 )
-anims/LanguageOut = SubResource( 10 )
-anims/PauseIn = SubResource( 11 )
+anims/Language = SubResource( 10 )
+anims/LanguageOut = SubResource( 11 )
+anims/PauseIn = SubResource( 12 )
+
+[node name="CoinSample" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 10 )
+volume_db = -16.0
+bus = "Sounds"
+
+[node name="ButtonClick" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 11 )
+bus = "UI"
 [connection signal="value_changed" from="FrontPanel/VBC/Music/MusicSlider" to="." method="_on_MusicSlider_value_changed"]
 [connection signal="value_changed" from="FrontPanel/VBC/Sound/SoundSlider" to="." method="_on_SoundSlider_value_changed"]
 [connection signal="button_down" from="FrontPanel/VBC/Language/LanguageButton" to="." method="_on_LanguageButton_button_down"]

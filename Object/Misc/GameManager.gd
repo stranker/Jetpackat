@@ -59,6 +59,7 @@ func load_data():
 func load_data_from(dir : String):
 	game_info = try_load_file_data(dir + 'GameInfo.dat')
 	if !game_info.empty():
+		nickname = game_info['Nickname']
 		coins = game_info['Coins']
 		fishes = game_info['Fishes']
 		highscore = game_info['Highscore']
@@ -141,6 +142,8 @@ func change_sound_volume(value):
 	sound_volume = value
 	AudioServer.set_bus_volume_db(AudioServer.get_bus_index('Sounds'),-32 + 6.4 * value)
 	AudioServer.set_bus_mute(AudioServer.get_bus_index('Sounds'),value == 0)
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index('UI'),-32 + 6.4 * value)
+	AudioServer.set_bus_mute(AudioServer.get_bus_index('UI'),value == 0)
 	pass
 
 func change_language():

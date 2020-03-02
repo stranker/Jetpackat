@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=2]
+[gd_scene load_steps=43 format=2]
 
 [ext_resource path="res://Sprites/Effect/WindEffect.png" type="Texture" id=1]
 [ext_resource path="res://Shaders/outline.shader" type="Shader" id=2]
@@ -11,10 +11,11 @@
 [ext_resource path="res://Sprites/Cat/Shield.png" type="Texture" id=9]
 [ext_resource path="res://Sprites/PowerUps/AegisWings.png" type="Texture" id=10]
 [ext_resource path="res://Sprites/PowerUps/AegisFeathers.png" type="Texture" id=11]
-[ext_resource path="res://Sounds/Sfx/Jump.wav" type="AudioStream" id=12]
-[ext_resource path="res://Sounds/Sfx/Invencible.wav" type="AudioStream" id=13]
-[ext_resource path="res://Sounds/Sfx/Hit.wav" type="AudioStream" id=14]
-[ext_resource path="res://Sounds/Sfx/CatFalling.wav" type="AudioStream" id=15]
+[ext_resource path="res://Sounds/Sfx/AegisFall.wav" type="AudioStream" id=12]
+[ext_resource path="res://Sounds/Sfx/Jump.wav" type="AudioStream" id=13]
+[ext_resource path="res://Sounds/Sfx/Invencible.wav" type="AudioStream" id=14]
+[ext_resource path="res://Sounds/Sfx/Hit.wav" type="AudioStream" id=15]
+[ext_resource path="res://Sounds/Sfx/CatFalling.wav" type="AudioStream" id=16]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends KinematicBody2D
@@ -111,7 +112,7 @@ func take_damage():
 			dead = !dead
 			check_die_direction()
 			set_physics_process(false)
-			$Visible/MagnetArea.hide()
+			$Visible/MagnetArea.deactivate()
 			$Anim.stop()
 			$Anim.play('Dead')
 	pass
@@ -226,6 +227,7 @@ func set_aegis(val):
 		$Visible/AegisWings/Anim.play('Idle')
 	else:
 		$Visible/AegisWings/Anim.play('Used')
+		$Visible/AegisWings/Sample.play()
 	pass
 
 func disable_tutorial():
@@ -1724,6 +1726,10 @@ angle = 360.0
 angle_random = 1.0
 color_ramp = SubResource( 20 )
 
+[node name="Sample" type="AudioStreamPlayer2D" parent="Visible/AegisWings"]
+stream = ExtResource( 12 )
+volume_db = -6.0
+
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Idle"
 anims/Dead = SubResource( 21 )
@@ -1768,22 +1774,22 @@ one_shot = true
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 
 [node name="Sample" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 12 )
+stream = ExtResource( 13 )
 volume_db = -25.0
 pitch_scale = 2.0
 bus = "Sounds"
 
 [node name="Invencible" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 13 )
+stream = ExtResource( 14 )
 volume_db = -6.0
 bus = "Sounds"
 
 [node name="Hit" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 14 )
+stream = ExtResource( 15 )
 bus = "Sounds"
 
 [node name="Falling" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 15 )
+stream = ExtResource( 16 )
 volume_db = -16.0
 bus = "Sounds"
 [connection signal="tween_completed" from="GameCamera/Tween" to="GameCamera" method="_on_Tween_tween_completed"]

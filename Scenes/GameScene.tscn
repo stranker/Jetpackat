@@ -1350,7 +1350,6 @@ margin_right = -1130.0
 
 [node name="PausePanel" type="Panel" parent="UIGame/UI"]
 pause_mode = 2
-editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -1371,7 +1370,7 @@ margin_bottom = 149.0
 size_flags_horizontal = 5
 size_flags_vertical = 5
 custom_fonts/font = SubResource( 19 )
-text = "GAME_PAUSED"
+text = "KEY_GAME_PAUSED"
 align = 1
 
 [node name="HomeButton" type="TextureButton" parent="UIGame/UI/PausePanel"]

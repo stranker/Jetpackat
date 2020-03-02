@@ -44,7 +44,7 @@ export (Texture) var house_broken
 func _ready():
 	randomize()
 	AudioManager.create_soundtrack()
-	$VersionLabel.text = \"VERSION 0.73\"
+	$VersionLabel.text = \"VERSION 0.93\"
 	get_tree().paused = false
 	set_items_equipped()
 	check_first_game()
@@ -151,6 +151,7 @@ func _on_LineEdit_text_changed(new_text):
 func _on_AcceptButton_button_down():
 	$Buttons.play()
 	GameManager.nickname = $NicknamePanel/Nickname.text
+	GameManager.save_current_game_info()
 	$UIAnimation.play('NicknameAccepted')
 	set_disable_main_buttons(false)
 	pass # Replace with function body.
@@ -1101,7 +1102,6 @@ mouse_filter = 0
 texture = ExtResource( 2 )
 
 [node name="NicknamePanel" type="Panel" parent="."]
-editor/display_folded = true
 visible = false
 anchor_left = 0.5
 anchor_top = 0.5
@@ -1128,7 +1128,7 @@ custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_x = 9
 custom_constants/shadow_offset_y = 8
-text = "NICKNAME_TITLE"
+text = "KEY_NICKNAME_TITLE"
 align = 1
 
 [node name="Nickname" type="LineEdit" parent="NicknamePanel"]
@@ -1173,7 +1173,7 @@ custom_styles/disabled = SubResource( 19 )
 custom_styles/normal = SubResource( 20 )
 custom_fonts/font = SubResource( 21 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "NICKNAME_ACCEPT"
+text = "KEY_NICKNAME_ACCEPT"
 
 [node name="LanguageSelection" parent="." instance=ExtResource( 32 )]
 visible = false

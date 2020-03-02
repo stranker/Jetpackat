@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Scenes/LeaderTest.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Ribbon/Ribbon.png" type="Texture" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Sprites/Cinematic/LeaderCat.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=6]
 [ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=7]
+[ext_resource path="res://Sounds/Sfx/ButtonClick.wav" type="AudioStream" id=8]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.188235, 0.188235, 0.188235, 0.901961 )
@@ -32,15 +33,15 @@ func create_panels(data : Array):
 	pass
 
 func leader_empty():
-	$Leaders/State.text = 'LEADERBOARD_EMPTY'
+	$Leaders/State.text = 'KEY_LEADERBOARD_EMPTY'
 	pass
 
 func failed_to_connect():
-	$Leaders/State.text = 'LEADERBOARD_FAILED'
+	$Leaders/State.text = 'KEY_LEADERBOARD_FAILED'
 	pass
 
 func connecting():
-	$Leaders/State.text = tr('LEADERBOARD_CONNECTING')
+	$Leaders/State.text = tr('KEY_LEADERBOARD_CONNECTING')
 
 func _on_Anim_animation_finished(anim_name):
 	pass # Replace with function body.
@@ -49,6 +50,7 @@ func _on_CloseLeaderButton_button_down():
 	$Leaders/ItemPageGrid.clear_previous_data()
 	$Anim.play_backwards('Enter')
 	emit_signal('leader_closed')
+	$ButtonClick.play()
 	pass # Replace with function body.
 "
 
@@ -220,6 +222,7 @@ mouse_filter = 1
 custom_styles/panel = SubResource( 4 )
 
 [node name="ItemPageGrid" parent="Leaders" instance=ExtResource( 4 )]
+editor/display_folded = true
 margin_bottom = 0.0
 packed_scene = ExtResource( 1 )
 items_to_show = 10
@@ -306,6 +309,10 @@ stretch_mode = 5
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 anims/Enter = SubResource( 6 )
+
+[node name="ButtonClick" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 8 )
+bus = "UI"
 [connection signal="button_down" from="CloseLeaderButton" to="." method="_on_CloseLeaderButton_button_down"]
 [connection signal="animation_finished" from="Anim" to="." method="_on_Anim_animation_finished"]
 

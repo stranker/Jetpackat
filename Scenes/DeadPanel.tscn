@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Sprites/UI/ContinueButton.png" type="Texture" id=2]
@@ -37,7 +37,6 @@ func init(score,highscorepassed):
 	generate_random_title(highscorepassed)
 	$ScorePanel/Score.text = str(score) + 'M'
 	$Anim.play('DeadPanel')
-	$Sound.play()
 	pass
 
 func _on_RestartButton_button_down():
@@ -54,6 +53,7 @@ func generate_random_title(highscorepassed):
 	if highscorepassed:
 		$Title.text = highscore_titles[randi() % highscore_titles.size()]
 		$ScorePanel/Anim.play('Highscore')
+		$Sound.play()
 	else:
 		$Title.text = no_highscore_titles[randi() % no_highscore_titles.size()]
 	pass"
@@ -249,7 +249,10 @@ tracks/1/keys = {
 "values": [ false, true ]
 }
 
-[sub_resource type="Gradient" id=10]
+[sub_resource type="Curve" id=10]
+_data = [ Vector2( 0, 1 ), 0.0, -3.09235, 0, 0, Vector2( 1, 0.0215 ), -0.209348, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=11]
 offsets = PoolRealArray( 0, 0.82716, 1 )
 colors = PoolColorArray( 1, 0.866667, 0, 1, 1, 0.866667, 0, 1, 1, 0.866667, 0, 0 )
 
@@ -265,8 +268,8 @@ margin_right = 332.0
 margin_bottom = 1630.0
 custom_styles/panel = SubResource( 1 )
 script = SubResource( 2 )
-no_highscore_titles = [ "TRY AGAIN!" ]
-highscore_titles = [ "PERFECT!", "AMAZING!", "EXCELLENT!", "GREAT!" ]
+no_highscore_titles = [ "KEY_TRY_AGAIN" ]
+highscore_titles = [ "KEY_PERFECT", "KEY_AMAZING", "KEY_EXCELLENT", "KEY_GREAT" ]
 
 [node name="Title" type="Label" parent="."]
 anchor_left = 0.5
@@ -284,7 +287,7 @@ custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.235294 )
 custom_constants/shadow_offset_x = 8
 custom_constants/shadow_offset_y = 8
-text = "PERFECT!"
+text = "KEY_PERFECT"
 align = 1
 
 [node name="ScorePanel" type="Panel" parent="."]
@@ -334,7 +337,7 @@ custom_colors/font_color = Color( 1, 0.784314, 0, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_as_outline = 1
-text = "NEW HIGHSCORE!"
+text = "KEY_NEW_HIGHSCORE"
 align = 1
 
 [node name="Anim" type="AnimationPlayer" parent="ScorePanel"]
@@ -370,13 +373,14 @@ explosiveness = 0.75
 randomness = 0.5
 texture = ExtResource( 4 )
 spread = 40.0
-gravity = Vector2( -600, 0 )
+gravity = Vector2( -850, 0 )
 initial_velocity = 700.0
 initial_velocity_random = 0.1
 angle = 360.0
 angle_random = 1.0
 scale_amount = 5.5
-color_ramp = SubResource( 10 )
+scale_amount_curve = SubResource( 10 )
+color_ramp = SubResource( 11 )
 
 [node name="Stars2" type="CPUParticles2D" parent="."]
 visible = false
@@ -390,13 +394,14 @@ explosiveness = 0.75
 randomness = 0.5
 texture = ExtResource( 4 )
 spread = 40.0
-gravity = Vector2( -600, 0 )
+gravity = Vector2( -850, 0 )
 initial_velocity = 700.0
 initial_velocity_random = 0.1
 angle = 360.0
 angle_random = 1.0
 scale_amount = 5.5
-color_ramp = SubResource( 10 )
+scale_amount_curve = SubResource( 10 )
+color_ramp = SubResource( 11 )
 
 [node name="Cathead" type="TextureRect" parent="."]
 show_behind_parent = true
@@ -420,9 +425,11 @@ stretch_mode = 6
 
 [node name="Sound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 7 )
+bus = "Sounds"
 
 [node name="ButtonClick" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 8 )
 volume_db = -6.0
+bus = "UI"
 [connection signal="button_down" from="RestartButton" to="." method="_on_RestartButton_button_down"]
 [connection signal="animation_finished" from="Anim" to="." method="_on_Anim_animation_finished"]

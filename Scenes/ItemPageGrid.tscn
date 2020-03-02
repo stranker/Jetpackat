@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Sprites/Tutorial/JumpArrow.png" type="Texture" id=1]
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Sounds/Sfx/PanelChange.wav" type="AudioStream" id=3]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Control
@@ -117,10 +118,12 @@ func prev_page():
 
 func _on_PrevButton_button_down():
 	prev_page()
+	$PanelChange.play()
 	pass # Replace with function body.
 
 func _on_NextButton_button_down():
 	next_page()
+	$PanelChange.play()
 	pass # Replace with function body."
 
 [sub_resource type="StyleBoxFlat" id=2]
@@ -238,6 +241,7 @@ expand = true
 stretch_mode = 6
 
 [node name="Page" type="Control" parent="VBC/HBC"]
+editor/display_folded = true
 margin_left = 401.0
 margin_right = 678.0
 margin_bottom = 89.0
@@ -301,5 +305,10 @@ rect_pivot_offset = Vector2( 32.5, 32.5 )
 texture = ExtResource( 1 )
 expand = true
 stretch_mode = 6
+
+[node name="PanelChange" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+volume_db = -12.0
+bus = "UI"
 [connection signal="button_down" from="VBC/HBC/Prev/PrevButton" to="." method="_on_PrevButton_button_down"]
 [connection signal="button_down" from="VBC/HBC/Next/NextButton" to="." method="_on_NextButton_button_down"]
