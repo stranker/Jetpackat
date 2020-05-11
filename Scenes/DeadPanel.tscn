@@ -50,13 +50,14 @@ func _on_Anim_animation_finished(anim_name):
 func generate_random_title(highscorepassed):
 	if highscorepassed:
 		#$Title.text = tr(highscore_titles[randi() % highscore_titles.size()])
-		$Title.text = 'KEY_EXCELLENT'
+		$Title.text = 'PERFECT!'
 		$ScorePanel/Anim.play('Highscore')
 		$Sound.play()
 	else:
 		#$Title.text = tr(no_highscore_titles[randi() % no_highscore_titles.size()])
 		$Title.text = 'KEY_TRY_AGAIN'
-	pass"
+	pass
+"
 
 [sub_resource type="DynamicFont" id=3]
 size = 80
@@ -287,7 +288,7 @@ custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.235294 )
 custom_constants/shadow_offset_x = 8
 custom_constants/shadow_offset_y = 8
-text = "KEY_PERFECT"
+text = "PERFECT!"
 align = 1
 
 [node name="ScorePanel" type="Panel" parent="."]

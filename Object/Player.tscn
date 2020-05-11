@@ -1439,10 +1439,11 @@ script = SubResource( 1 )
 shape = SubResource( 2 )
 
 [node name="GameCamera" type="Camera2D" parent="."]
-editor/display_folded = true
 position = Vector2( -17.937, -546.416 )
 current = true
 limit_smoothed = true
+drag_margin_h_enabled = true
+drag_margin_v_enabled = true
 drag_margin_left = 1.0
 drag_margin_top = 0.3
 drag_margin_right = 1.0
@@ -1451,7 +1452,6 @@ editor_draw_drag_margin = true
 script = SubResource( 3 )
 
 [node name="CL" type="CanvasLayer" parent="GameCamera"]
-editor/display_folded = true
 
 [node name="WindEffect" type="Sprite" parent="GameCamera/CL"]
 self_modulate = Color( 1, 1, 1, 0 )
@@ -1469,11 +1469,9 @@ one_shot = true
 anims/Wind = SubResource( 4 )
 
 [node name="Visible" type="Node2D" parent="."]
-editor/display_folded = true
 script = SubResource( 5 )
 
 [node name="Skin" type="Sprite" parent="Visible"]
-editor/display_folded = true
 material = SubResource( 6 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 3 )
@@ -1493,7 +1491,6 @@ scale = Vector2( 0.6, 0.6 )
 offset = Vector2( -3.49275, -23.7578 )
 
 [node name="Jetpack" type="Sprite" parent="Visible"]
-editor/display_folded = true
 show_behind_parent = true
 material = SubResource( 7 )
 position = Vector2( 3.84464, 39.7731 )
@@ -1517,7 +1514,6 @@ emission_shape = 1
 emission_sphere_radius = 5.0
 flag_align_y = true
 spread = 30.0
-flatness = 1.0
 gravity = Vector2( 0, 0 )
 initial_velocity = 60.0
 initial_velocity_random = 0.5
@@ -1535,7 +1531,6 @@ anims/Propulsion = SubResource( 11 )
 [node name="MagnetArea" parent="Visible" instance=ExtResource( 7 )]
 
 [node name="Arrow" type="Sprite" parent="Visible"]
-editor/display_folded = true
 self_modulate = Color( 1, 1, 1, 0.634177 )
 position = Vector2( -109.113, 14.6102 )
 scale = Vector2( 4.78937, 4.78937 )
@@ -1548,7 +1543,6 @@ anims/Hide = SubResource( 12 )
 anims/Idle = SubResource( 13 )
 
 [node name="Scarf" type="Polygon2D" parent="Visible"]
-editor/display_folded = true
 position = Vector2( -39.8734, -10.5546 )
 scale = Vector2( 3, 3 )
 color = Color( 1, 1, 1, 0 )
@@ -1565,7 +1559,6 @@ anims/Flying = SubResource( 15 )
 anims/Idle = SubResource( 16 )
 
 [node name="Skeleton" type="Skeleton2D" parent="Visible/Scarf"]
-editor/display_folded = true
 position = Vector2( 3.53373, 2.46481 )
 rotation = 0.146013
 __meta__ = {
@@ -1603,7 +1596,6 @@ rest = Transform2D( 1, 0, 0, 1, 6.20966, 0.0968933 )
 default_length = 6.0
 
 [node name="Shield" type="Polygon2D" parent="Visible"]
-editor/display_folded = true
 visible = false
 self_modulate = Color( 1, 1, 1, 0.431373 )
 position = Vector2( -81.2247, -123.392 )
@@ -1652,7 +1644,6 @@ rest = Transform2D( 0.976765, -0.214314, 0.214314, 0.976765, 23.2403, -19.968 )
 anims/ShieldOn = SubResource( 17 )
 
 [node name="AegisWings" type="Polygon2D" parent="Visible"]
-editor/display_folded = true
 visible = false
 show_behind_parent = true
 position = Vector2( -82.3435, -50.809 )
@@ -1665,7 +1656,6 @@ polygons = [ PoolIntArray( 10, 9, 8, 7, 6 ), PoolIntArray( 10, 11, 6 ), PoolIntA
 bones = [ NodePath("M"), PoolRealArray( 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1 ), NodePath("M/LU"), PoolRealArray( 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0 ), NodePath("M/RU"), PoolRealArray( 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ), NodePath("M/LM"), PoolRealArray( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.5, 1, 1, 0, 0, 0 ), NodePath("M/RM"), PoolRealArray( 1, 1, 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ), NodePath("M/LB"), PoolRealArray( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0.5, 1, 1, 0, 0 ), NodePath("M/RB"), PoolRealArray( 1, 0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 ) ]
 
 [node name="Skeleton2D" type="Skeleton2D" parent="Visible/AegisWings"]
-editor/display_folded = true
 position = Vector2( 27.3715, 17.8969 )
 
 [node name="M" type="Bone2D" parent="Visible/AegisWings/Skeleton2D"]
@@ -1740,14 +1730,12 @@ anims/Invencible = SubResource( 25 )
 anims/TimeOut = SubResource( 26 )
 
 [node name="ClickArea" type="CanvasLayer" parent="."]
-editor/display_folded = true
 
 [node name="Area" type="Control" parent="ClickArea"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="HBC" type="HBoxContainer" parent="ClickArea"]
-editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 

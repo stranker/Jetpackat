@@ -1,13 +1,11 @@
-[gd_scene load_steps=58 format=2]
+[gd_scene load_steps=54 format=2]
 
 [ext_resource path="res://Sprites/Background/HouseBroken.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Background/Bg1.png" type="Texture" id=2]
-[ext_resource path="res://Sprites/Background/Star3.png" type="Texture" id=3]
-[ext_resource path="res://Sprites/Background/Star2.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/Background/House.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/Background/SmokeParticle.png" type="Texture" id=6]
 [ext_resource path="res://Sprites/Enemies/Bird.png" type="Texture" id=7]
-[ext_resource path="res://Fonts/Handsdown.ttf" type="DynamicFontData" id=8]
+[ext_resource path="res://Sprites/Background.png" type="Texture" id=8]
 [ext_resource path="res://Sprites/Enemies/PaperPlane.png" type="Texture" id=9]
 [ext_resource path="res://Sprites/UI/PawCat.png" type="Texture" id=10]
 [ext_resource path="res://Sprites/UI/ContinueButton.png" type="Texture" id=11]
@@ -221,47 +219,6 @@ func _on_Leaderboard_leader_closed():
 	pass # Replace with function body.
 "
 
-[sub_resource type="Animation" id=2]
-resource_name = "Cycle"
-length = 30.0
-loop = true
-tracks/0/type = "value"
-tracks/0/path = NodePath("Stars:self_modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 5, 10, 15, 22 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath(".:self_modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 5, 10, 15, 20, 26, 30 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 0.2, 0.647059, 1, 1 ), Color( 0.196078, 0.34902, 0.886275, 1 ), Color( 0.156863, 0.137255, 0.482353, 1 ), Color( 0.0901961, 0.0980392, 0.105882, 1 ), Color( 0.156863, 0.137255, 0.482353, 1 ), Color( 0.196078, 0.34902, 0.886275, 1 ), Color( 0.2, 0.647059, 1, 1 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Stars2:self_modulate")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 5, 8.5, 10, 15, 22 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
-}
-
 [sub_resource type="Gradient" id=3]
 colors = PoolColorArray( 0.671875, 0.671875, 0.671875, 1, 0, 0, 0, 0 )
 
@@ -273,7 +230,8 @@ offsets = PoolRealArray( 0, 0.7, 1 )
 colors = PoolColorArray( 0.734375, 0.180635, 0.123352, 1, 0.921875, 0.604191, 0.540161, 0.27451, 0.949219, 0.949219, 0.949219, 0 )
 
 [sub_resource type="Animation" id=6]
-length = 9.0
+length = 12.0
+loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:position")
 tracks/0/interp = 1
@@ -281,10 +239,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 2, 3.4, 4.5, 5.9, 7.4, 8.9 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 1.1, 2.2, 3.1, 4.5, 5.5, 6.8, 8, 8.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 1250.95, 284.798 ), Vector2( 958.941, 461.445 ), Vector2( 699.378, 292.008 ), Vector2( 475.865, 425.395 ), Vector2( 227.117, 288.403 ), Vector2( 3.60486, 418.185 ), Vector2( -230.723, 284.798 ) ]
+"values": [ Vector2( 1250.95, 284.798 ), Vector2( 958.941, 461.445 ), Vector2( 699.378, 292.008 ), Vector2( 475.865, 425.395 ), Vector2( 227.117, 288.403 ), Vector2( 3.60486, 418.185 ), Vector2( -230.723, 284.798 ), Vector2( 126.083, -378.289 ), Vector2( 1267.72, -182.559 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath(".:frame")
@@ -293,19 +251,11 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.8, 1.8, 1.9, 2.1, 2.5, 3, 4.2, 4.3, 4.4, 4.5, 4.7, 5.2, 5.8, 7.1, 7.2, 7.4 ),
+"times": PoolRealArray( 0, 0.5, 1, 1.1, 1.3, 1.7, 2.2, 2.8, 2.9, 3, 3.1, 3.3, 3.9, 4.5, 5.4, 5.5, 5.7 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 0, 1, 2, 4, 2, 1, 2, 1, 2, 3, 4, 2, 1, 2, 1, 3, 4 ]
 }
-
-[sub_resource type="DynamicFont" id=7]
-size = 200
-outline_size = 15
-outline_color = Color( 0.956863, 0.407843, 0.0431373, 1 )
-use_filter = true
-extra_spacing_bottom = 20
-font_data = ExtResource( 8 )
 
 [sub_resource type="Animation" id=8]
 length = 4.0
@@ -756,33 +706,20 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 script = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 house_broken = ExtResource( 1 )
 
 [node name="Background" type="TextureRect" parent="."]
-editor/display_folded = true
-self_modulate = Color( 0.27451, 0.356863, 0.905882, 1 )
 margin_right = 1080.0
 margin_bottom = 1920.0
-texture = ExtResource( 2 )
-
-[node name="Stars" type="TextureRect" parent="Background"]
-self_modulate = Color( 1, 1, 1, 0.533333 )
-margin_right = 1080.0
-margin_bottom = 1920.0
-texture = ExtResource( 3 )
-
-[node name="Stars2" type="TextureRect" parent="Background"]
-self_modulate = Color( 1, 1, 1, 0.533333 )
-margin_right = 1080.0
-margin_bottom = 1920.0
-texture = ExtResource( 4 )
-
-[node name="Anim" type="AnimationPlayer" parent="Background"]
-autoplay = "Cycle"
-anims/Cycle = SubResource( 2 )
+texture = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="House" type="TextureRect" parent="."]
-editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -842,40 +779,22 @@ scale_amount_curve = SubResource( 4 )
 color_ramp = SubResource( 5 )
 
 [node name="Bird" type="Sprite" parent="."]
-editor/display_folded = true
-position = Vector2( 577.462, 364.764 )
+position = Vector2( 834.839, -256.775 )
 rotation = -3.14159
 scale = Vector2( 4, -4 )
 texture = ExtResource( 7 )
 hframes = 5
-frame = 2
+frame = 4
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Bird"]
+autoplay = "Idle"
 anims/Idle = SubResource( 6 )
 
 [node name="BTimer" type="Timer" parent="Bird"]
 wait_time = 15.0
 autostart = true
 
-[node name="Title" type="Label" parent="."]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -535.0
-margin_top = 70.0
-margin_right = 536.0
-margin_bottom = 605.0
-custom_fonts/font = SubResource( 7 )
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-custom_constants/shadow_offset_x = 25
-custom_constants/shadow_offset_y = 25
-custom_constants/shadow_as_outline = 0
-text = "Cats Can
-Fly!"
-align = 1
-
 [node name="PaperPlane" type="Sprite" parent="."]
-editor/display_folded = true
 position = Vector2( 1230.88, 910.715 )
 rotation = 0.18602
 scale = Vector2( 2, 2 )
@@ -889,20 +808,22 @@ wait_time = 10.0
 autostart = true
 
 [node name="PawCat" type="TextureRect" parent="."]
-editor/display_folded = true
 self_modulate = Color( 0.133333, 0.176471, 0.505882, 1 )
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -379.0
-margin_top = -450.0
+margin_top = -328.748
 margin_right = 379.0
-margin_bottom = 300.0
+margin_bottom = 421.252
 mouse_filter = 2
 texture = ExtResource( 10 )
 expand = true
 stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="StartButton" type="TextureButton" parent="PawCat"]
 anchor_left = 0.5
@@ -1000,15 +921,13 @@ expand = true
 stretch_mode = 6
 
 [node name="Player" type="Node2D" parent="."]
-editor/display_folded = true
-position = Vector2( 593.928, 1409.32 )
-rotation = -0.401454
+position = Vector2( 781.834, 1559.8 )
+rotation = -0.288943
 __meta__ = {
 "_edit_lock_": true
 }
 
 [node name="Skin" type="Sprite" parent="Player"]
-editor/display_folded = true
 scale = Vector2( 10, 10 )
 texture = ExtResource( 23 )
 hframes = 2
@@ -1026,7 +945,6 @@ lifetime = 0.55
 local_coords = false
 texture = ExtResource( 25 )
 spread = 180.0
-flatness = 1.0
 gravity = Vector2( 0, 0 )
 initial_velocity = 20.0
 initial_velocity_random = 0.8
@@ -1045,11 +963,10 @@ position = Vector2( -0.0452498, -15.4829 )
 scale = Vector2( 1.00483, 1.00626 )
 texture = ExtResource( 26 )
 hframes = 7
-frame = 1
 
 [node name="Hat" type="Sprite" parent="Player/Skin"]
 position = Vector2( -0.0911903, -37.3138 )
-rotation = -2.48353e-008
+rotation = -2.48353e-08
 scale = Vector2( 0.6, 0.6 )
 
 [node name="PlayerEasterButton" type="TextureButton" parent="."]
@@ -1060,7 +977,6 @@ margin_bottom = 1889.95
 rect_rotation = -19.284
 
 [node name="ConfigPanel" parent="." instance=ExtResource( 27 )]
-editor/display_folded = true
 
 [node name="Leaderboard" parent="." instance=ExtResource( 28 )]
 anchor_left = 0.5
@@ -1090,27 +1006,25 @@ anims/Idle = SubResource( 13 )
 anims/Start = SubResource( 14 )
 
 [node name="TransitionScene" parent="." instance=ExtResource( 30 )]
-editor/display_folded = true
 
 [node name="InitialDarker" parent="." instance=ExtResource( 31 )]
 
 [node name="Darker" type="TextureRect" parent="."]
-modulate = Color( 0, 0, 0, 0.92549 )
+modulate = Color( 0, 0, 0, 0.952941 )
 margin_right = 40.0
 margin_bottom = 40.0
 mouse_filter = 0
 texture = ExtResource( 2 )
 
 [node name="NicknamePanel" type="Panel" parent="."]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -399.997
-margin_top = -235.001
-margin_right = 400.002
-margin_bottom = 284.998
+margin_left = -399.996
+margin_top = -235.028
+margin_right = 400.003
+margin_bottom = 284.975
 custom_styles/panel = SubResource( 15 )
 
 [node name="Title" type="Label" parent="NicknamePanel"]
@@ -1176,13 +1090,12 @@ custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "KEY_NICKNAME_ACCEPT"
 
 [node name="LanguageSelection" parent="." instance=ExtResource( 32 )]
-visible = false
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_left = -481.499
-margin_top = 130.0
-margin_right = 481.5
-margin_bottom = 692.995
+margin_left = -481.5
+margin_top = -1241.5
+margin_right = 481.499
+margin_bottom = -678.505
 
 [node name="UIAnimation" type="AnimationPlayer" parent="."]
 anims/Language = SubResource( 22 )
