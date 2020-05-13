@@ -241,9 +241,11 @@ colors = PoolColorArray( 1, 1, 1, 1, 1, 0.984375, 0, 1, 1, 0.0543213, 0.0078125,
 anchor_right = 1.0
 anchor_bottom = 1.0
 script = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Bg" type="TextureRect" parent="."]
-editor/display_folded = true
 self_modulate = Color( 0.168627, 0.0196078, 0.231373, 1 )
 margin_right = 40.0
 margin_bottom = 40.0
@@ -267,7 +269,6 @@ align = 1
 valign = 1
 
 [node name="ProgrammerTitle" type="Label" parent="."]
-editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -297,7 +298,6 @@ align = 1
 percent_visible = 0.0
 
 [node name="SoundTitle" type="Label" parent="."]
-editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -327,7 +327,6 @@ align = 1
 percent_visible = 0.0
 
 [node name="ArtistTitle" type="Label" parent="."]
-editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -357,7 +356,6 @@ align = 1
 percent_visible = 0.0
 
 [node name="FontTitle" type="Label" parent="."]
-editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -412,7 +410,6 @@ expand = true
 stretch_mode = 5
 
 [node name="Player" type="Node2D" parent="."]
-editor/display_folded = true
 position = Vector2( -133.396, 494.541 )
 rotation = 0.242548
 scale = Vector2( -4, 4 )
@@ -460,7 +457,6 @@ scale = Vector2( 0.6, 0.6 )
 [node name="InitialDarker" parent="." instance=ExtResource( 11 )]
 
 [node name="TransitionScene" parent="." instance=ExtResource( 12 )]
-editor/display_folded = true
 
 [node name="ButtonClick" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 13 )

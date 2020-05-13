@@ -19,7 +19,6 @@
 [ext_resource path="res://Sprites/Cat/Eyes.png" type="Texture" id=17]
 [ext_resource path="res://Scenes/ItemPageGrid.tscn" type="PackedScene" id=18]
 [ext_resource path="res://addons/PickerOfColors/CustomColor.tscn" type="PackedScene" id=19]
-[ext_resource path="res://Sprites/Shop/UI/BoardPanel.png" type="Texture" id=20]
 [ext_resource path="res://Sprites/Shop/UI/EngineButton.png" type="Texture" id=21]
 [ext_resource path="res://Sprites/Shop/UI/ChipButton.png" type="Texture" id=22]
 [ext_resource path="res://Scenes/InitialDarker.tscn" type="PackedScene" id=23]
@@ -27,7 +26,7 @@
 [ext_resource path="res://Scenes/ShopScene/ShopItemConfirmation.tscn" type="PackedScene" id=25]
 [ext_resource path="res://Sounds/Sfx/ButtonClick.wav" type="AudioStream" id=26]
 
-[sub_resource type="StyleBoxFlat" id=1]
+[sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.27451, 0.356863, 0.905882, 1 )
 
 [sub_resource type="GDScript" id=2]
@@ -49,9 +48,10 @@ func _ready():
 	pass
 
 func _input(event):
-	if event is InputEventKey and !event.is_echo() and event.is_pressed():
-		if event.scancode == KEY_1:
-			add_currency()
+	#if event is InputEventKey and !event.is_echo() and event.is_pressed():
+	#	if event.scancode == KEY_1:
+	#		add_currency()
+	pass
 
 func add_currency():
 	GameManager.coins = 99999
@@ -249,7 +249,7 @@ func _on_UpgradePanel_upgrade_closed():
 	pass # Replace with function body.
 "
 
-[sub_resource type="StyleBoxFlat" id=3]
+[sub_resource type="StyleBoxFlat" id=4]
 bg_color = Color( 0.705882, 0.137255, 0.0745098, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -264,14 +264,12 @@ corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.309804 )
 shadow_size = 8
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=5]
 size = 60
-outline_size = 4
-outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 3 )
 
-[sub_resource type="Shader" id=5]
+[sub_resource type="Shader" id=6]
 code = "shader_type canvas_item;
 
 uniform float outline_width = 2.0;
@@ -303,12 +301,12 @@ void fragment() {
 	COLOR = mix(col, outline_color, maxa - mina);
 }"
 
-[sub_resource type="ShaderMaterial" id=6]
-shader = SubResource( 5 )
+[sub_resource type="ShaderMaterial" id=7]
+shader = SubResource( 6 )
 shader_param/outline_width = 1.0
 shader_param/outline_color = Color( 1, 1, 1, 1 )
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=8]
 length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:self_modulate")
@@ -335,7 +333,7 @@ tracks/1/keys = {
 "values": [ false, true, true ]
 }
 
-[sub_resource type="StyleBoxFlat" id=8]
+[sub_resource type="StyleBoxFlat" id=9]
 bg_color = Color( 0.145098, 0.192157, 0.368627, 1 )
 border_width_left = 7
 border_width_right = 7
@@ -351,7 +349,7 @@ expand_margin_right = 5.0
 expand_margin_top = 5.0
 expand_margin_bottom = 5.0
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=10]
 length = 0.5
 step = 0.05
 tracks/0/type = "value"
@@ -379,7 +377,7 @@ tracks/1/keys = {
 "values": [ false, true ]
 }
 
-[sub_resource type="GDScript" id=10]
+[sub_resource type="GDScript" id=11]
 script/source = "extends Control
 
 export (NodePath) var item_confirmation_path
@@ -474,9 +472,10 @@ func get_payment_texture(type : int):
 			return coin_texture
 		ItemManager.Payment.FISH:
 			return fish_texture
-	pass"
+	pass
+"
 
-[sub_resource type="StyleBoxFlat" id=11]
+[sub_resource type="StyleBoxFlat" id=12]
 bg_color = Color( 0.0901961, 0.721569, 0, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -493,7 +492,20 @@ expand_margin_right = 5.0
 expand_margin_top = 5.0
 expand_margin_bottom = 5.0
 
-[sub_resource type="StyleBoxFlat" id=12]
+[sub_resource type="StyleBoxFlat" id=13]
+bg_color = Color( 0.905882, 0.74902, 0.333333, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.764706, 0.631373, 0.270588, 1 )
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+corner_detail = 2
+
+[sub_resource type="StyleBoxFlat" id=14]
 bg_color = Color( 0.996078, 0.709804, 0.545098, 1 )
 border_width_left = 20
 border_width_top = 20
@@ -501,19 +513,19 @@ border_width_right = 20
 border_width_bottom = 20
 border_color = Color( 0.686275, 0.364706, 0.137255, 1 )
 
-[sub_resource type="DynamicFont" id=13]
+[sub_resource type="DynamicFont" id=15]
 size = 52
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 3 )
 
-[sub_resource type="DynamicFont" id=14]
+[sub_resource type="DynamicFont" id=16]
 size = 36
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 3 )
 
-[sub_resource type="StyleBoxFlat" id=15]
+[sub_resource type="StyleBoxFlat" id=17]
 bg_color = Color( 1, 0.992157, 0.941176, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -527,14 +539,14 @@ expand_margin_bottom = 5.0
 shadow_color = Color( 0, 0, 0, 0.145098 )
 shadow_size = 10
 
-[sub_resource type="DynamicFont" id=16]
+[sub_resource type="DynamicFont" id=18]
 size = 72
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 3 )
 
-[sub_resource type="StyleBoxFlat" id=17]
+[sub_resource type="StyleBoxFlat" id=19]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 border_width_left = 10
 border_width_top = 10
@@ -546,16 +558,16 @@ corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
-[sub_resource type="DynamicFont" id=18]
+[sub_resource type="DynamicFont" id=20]
 size = 80
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 3 )
 
-[sub_resource type="ButtonGroup" id=19]
+[sub_resource type="ButtonGroup" id=21]
 
-[sub_resource type="Animation" id=20]
+[sub_resource type="Animation" id=22]
 length = 0.5
 step = 0.05
 tracks/0/type = "value"
@@ -598,7 +610,7 @@ tracks/2/keys = {
 [node name="ShopAndUpgradeScene" type="Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_styles/panel = SubResource( 1 )
+custom_styles/panel = SubResource( 3 )
 script = SubResource( 2 )
 item_shop_panel = ExtResource( 1 )
 
@@ -608,6 +620,9 @@ anchor_bottom = 1.0
 texture = ExtResource( 2 )
 expand = true
 stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="VBC" type="VBoxContainer" parent="."]
 anchor_right = 1.0
@@ -615,7 +630,6 @@ anchor_bottom = 1.0
 custom_constants/separation = 0
 
 [node name="CurrencyInfo" type="Control" parent="VBC"]
-editor/display_folded = true
 margin_right = 1080.0
 margin_bottom = 174.0
 mouse_filter = 2
@@ -628,14 +642,12 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="Coins" type="Control" parent="VBC/CurrencyInfo/HBC"]
-editor/display_folded = true
 margin_right = 466.0
 margin_bottom = 174.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Panel" type="Panel" parent="VBC/CurrencyInfo/HBC/Coins"]
-editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -644,7 +656,7 @@ margin_left = -171.0
 margin_top = -47.0
 margin_right = 171.0
 margin_bottom = 53.0
-custom_styles/panel = SubResource( 3 )
+custom_styles/panel = SubResource( 4 )
 
 [node name="Cuant" type="Label" parent="VBC/CurrencyInfo/HBC/Coins/Panel"]
 anchor_left = 1.0
@@ -655,7 +667,7 @@ margin_left = -282.0
 margin_top = -36.5
 margin_right = -20.0
 margin_bottom = 36.5
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 5 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.415686 )
 custom_constants/shadow_offset_x = 6
@@ -665,7 +677,7 @@ align = 2
 valign = 1
 
 [node name="CoinText" type="TextureRect" parent="VBC/CurrencyInfo/HBC/Coins"]
-material = SubResource( 6 )
+material = SubResource( 7 )
 anchor_top = 0.5
 anchor_bottom = 0.5
 margin_top = -67.5
@@ -676,7 +688,6 @@ expand = true
 stretch_mode = 6
 
 [node name="Fish" type="Control" parent="VBC/CurrencyInfo/HBC"]
-editor/display_folded = true
 margin_left = 470.0
 margin_right = 936.0
 margin_bottom = 174.0
@@ -692,7 +703,7 @@ margin_left = -171.0
 margin_top = -47.0
 margin_right = 167.0
 margin_bottom = 53.0
-custom_styles/panel = SubResource( 3 )
+custom_styles/panel = SubResource( 4 )
 
 [node name="Cuant" type="Label" parent="VBC/CurrencyInfo/HBC/Fish/Panel"]
 anchor_left = 1.0
@@ -703,7 +714,7 @@ margin_left = -271.0
 margin_top = -36.5
 margin_right = -21.0
 margin_bottom = 36.5
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 5 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.415686 )
 custom_constants/shadow_offset_x = 6
@@ -713,7 +724,7 @@ align = 2
 valign = 1
 
 [node name="FishText" type="TextureRect" parent="VBC/CurrencyInfo/HBC/Fish"]
-material = SubResource( 6 )
+material = SubResource( 7 )
 anchor_top = 0.5
 anchor_bottom = 0.5
 margin_top = -67.5
@@ -749,7 +760,7 @@ stretch_mode = 5
 
 [node name="Anim" type="AnimationPlayer" parent="VBC/CurrencyInfo/HBC/ClosePanel/CloseButton"]
 autoplay = "FadeInCloseButton"
-anims/FadeInCloseButton = SubResource( 7 )
+anims/FadeInCloseButton = SubResource( 8 )
 
 [node name="Buttons" type="Control" parent="VBC"]
 margin_top = 174.0
@@ -776,7 +787,6 @@ text = "Workshop"
 animation_advance_time = 0.5
 
 [node name="MainPanel" type="Control" parent="."]
-editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -790,7 +800,6 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ShopPanel" type="Control" parent="MainPanel"]
-editor/display_folded = true
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -799,7 +808,6 @@ margin_right = 1600.0
 mouse_filter = 1
 
 [node name="BackPanel" type="Panel" parent="MainPanel/ShopPanel"]
-editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -809,15 +817,13 @@ margin_top = -1640.0
 margin_right = 530.0
 margin_bottom = -10.0
 mouse_filter = 1
-custom_styles/panel = SubResource( 8 )
+custom_styles/panel = SubResource( 9 )
 
 [node name="HBC" type="VBoxContainer" parent="MainPanel/ShopPanel/BackPanel"]
-editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="PlayerPanel" type="Control" parent="MainPanel/ShopPanel/BackPanel/HBC"]
-editor/display_folded = true
 margin_right = 1060.0
 margin_bottom = 609.0
 mouse_filter = 1
@@ -841,7 +847,6 @@ rect_pivot_offset = Vector2( 135, 160 )
 group = null
 
 [node name="HatButton" parent="MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel" instance=ExtResource( 12 )]
-editor/display_folded = true
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -212.0
@@ -857,7 +862,6 @@ texture_disabled = ExtResource( 13 )
 texture_focused = ExtResource( 13 )
 
 [node name="PatternButton" parent="MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel" instance=ExtResource( 12 )]
-editor/display_folded = true
 anchor_left = 0.0
 anchor_right = 0.0
 margin_left = 0.0
@@ -873,7 +877,6 @@ texture_disabled = ExtResource( 14 )
 texture_focused = ExtResource( 14 )
 
 [node name="JetpackButton" parent="MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel" instance=ExtResource( 12 )]
-editor/display_folded = true
 anchor_left = 0.0
 anchor_right = 0.0
 margin_left = 397.531
@@ -890,7 +893,6 @@ texture_disabled = ExtResource( 15 )
 texture_focused = ExtResource( 15 )
 
 [node name="SkinButton" parent="MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel" instance=ExtResource( 12 )]
-editor/display_folded = true
 anchor_left = 0.0
 anchor_right = 0.0
 margin_left = 220.0
@@ -906,7 +908,6 @@ texture_disabled = ExtResource( 16 )
 texture_focused = ExtResource( 16 )
 
 [node name="Player" type="Control" parent="MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel"]
-editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -996,7 +997,6 @@ expand = true
 stretch_mode = 6
 
 [node name="PanelItems" type="Control" parent="MainPanel/ShopPanel/BackPanel/HBC"]
-editor/display_folded = true
 margin_top = 613.0
 margin_right = 1060.0
 margin_bottom = 1630.0
@@ -1006,7 +1006,6 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ItemPageGrid" parent="MainPanel/ShopPanel/BackPanel/HBC/PanelItems" instance=ExtResource( 18 )]
-editor/display_folded = true
 margin_left = 18.0
 margin_top = 25.0
 margin_right = -18.0
@@ -1016,9 +1015,6 @@ item_page_grid_type = 1
 packed_scene = ExtResource( 1 )
 columns_number = 3
 items_to_show = 6
-
-[node name="VBC" parent="MainPanel/ShopPanel/BackPanel/HBC/PanelItems/ItemPageGrid" index="0"]
-editor/display_folded = true
 
 [node name="Grid" parent="MainPanel/ShopPanel/BackPanel/HBC/PanelItems/ItemPageGrid/VBC" index="0"]
 margin_right = 1024.0
@@ -1070,15 +1066,13 @@ expand = true
 stretch_mode = 5
 
 [node name="ShopPanelAnim" type="AnimationPlayer" parent="MainPanel/ShopPanel"]
-anims/Enter = SubResource( 9 )
+anims/Enter = SubResource( 10 )
 
 [node name="UpgradePanel" type="Control" parent="MainPanel"]
-editor/display_folded = true
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 1
-script = SubResource( 10 )
+script = SubResource( 11 )
 item_confirmation_path = NodePath("../../ShopItemConfirmation")
 currency_multiplier_price_tag = NodePath("BackPanel/Background/CurrencyDescription/PriceTag")
 magnetchip_price_tag = NodePath("BackPanel/Background/ChipDescription/PriceTag")
@@ -1087,7 +1081,6 @@ fish_texture = ExtResource( 5 )
 level_max_color = Color( 0.956863, 0.215686, 0.0431373, 1 )
 
 [node name="BackPanel" type="Panel" parent="MainPanel/UpgradePanel"]
-editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -1097,20 +1090,18 @@ margin_top = -1640.0
 margin_right = 2120.0
 margin_bottom = -10.0
 mouse_filter = 1
-custom_styles/panel = SubResource( 11 )
+custom_styles/panel = SubResource( 12 )
 
-[node name="Background" type="TextureRect" parent="MainPanel/UpgradePanel/BackPanel"]
+[node name="Background" type="Panel" parent="MainPanel/UpgradePanel/BackPanel"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -500.0
-margin_top = -817.0
+margin_top = -767.0
 margin_right = 500.0
-margin_bottom = 813.0
-texture = ExtResource( 20 )
-expand = true
-stretch_mode = 6
+margin_bottom = 769.0
+custom_styles/panel = SubResource( 13 )
 
 [node name="CurrencyDescription" type="Panel" parent="MainPanel/UpgradePanel/BackPanel/Background"]
 anchor_left = 0.5
@@ -1119,7 +1110,10 @@ margin_left = -445.0
 margin_top = 93.0
 margin_right = 445.0
 margin_bottom = 263.0
-custom_styles/panel = SubResource( 12 )
+custom_styles/panel = SubResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Title" type="Label" parent="MainPanel/UpgradePanel/BackPanel/Background/CurrencyDescription"]
 anchor_left = 0.5
@@ -1130,9 +1124,9 @@ margin_left = -425.0
 margin_top = -65.0
 margin_right = 425.0
 margin_bottom = 5.0
-custom_fonts/font = SubResource( 13 )
+custom_fonts/font = SubResource( 15 )
 custom_colors/font_color = Color( 1, 0.654902, 0, 1 )
-text = "CURRENCY MULTIPLIER"
+text = "KEY_CURRENCY"
 align = 1
 valign = 1
 
@@ -1146,8 +1140,8 @@ margin_top = -5.0
 margin_right = 425.0
 margin_bottom = 65.0
 rect_pivot_offset = Vector2( 494.523, 31.8406 )
-custom_fonts/font = SubResource( 14 )
-text = "INCREASE COINS VALUE"
+custom_fonts/font = SubResource( 16 )
+text = "KEY_CURRENCY_DESC"
 align = 1
 valign = 1
 
@@ -1161,21 +1155,20 @@ margin_bottom = 97.0
 grow_horizontal = 0
 grow_vertical = 0
 rect_pivot_offset = Vector2( 45.5, 35 )
-custom_fonts/font = SubResource( 14 )
+custom_fonts/font = SubResource( 16 )
 text = "LVL. 1"
 align = 1
 valign = 1
 
 [node name="PriceTag" type="Control" parent="MainPanel/UpgradePanel/BackPanel/Background/CurrencyDescription"]
-editor/display_folded = true
 anchor_left = 1.0
-anchor_top = 0.5
+anchor_top = 1.0
 anchor_right = 1.0
-anchor_bottom = 0.5
-margin_left = -295.0
-margin_top = 342.0
-margin_right = -15.0
-margin_bottom = 443.0
+anchor_bottom = 1.0
+margin_left = -281.369
+margin_top = -20.0
+margin_right = -1.36914
+margin_bottom = 81.0
 
 [node name="Price" type="Label" parent="MainPanel/UpgradePanel/BackPanel/Background/CurrencyDescription/PriceTag"]
 anchor_right = 1.0
@@ -1185,8 +1178,8 @@ margin_top = -7.0
 grow_horizontal = 0
 grow_vertical = 0
 rect_pivot_offset = Vector2( 155, 55 )
-custom_styles/normal = SubResource( 15 )
-custom_fonts/font = SubResource( 16 )
+custom_styles/normal = SubResource( 17 )
+custom_fonts/font = SubResource( 18 )
 text = "99999"
 align = 2
 valign = 3
@@ -1214,22 +1207,50 @@ margin_right = 150.5
 margin_bottom = 60.0
 rect_rotation = -15.0
 rect_pivot_offset = Vector2( 198.207, 48.4999 )
-custom_styles/normal = SubResource( 17 )
-custom_fonts/font = SubResource( 18 )
+custom_styles/normal = SubResource( 19 )
+custom_fonts/font = SubResource( 20 )
 custom_colors/font_color = Color( 1, 0, 0, 1 )
 text = "SOLD OUT!"
 
+[node name="CurrencyButton" parent="MainPanel/UpgradePanel/BackPanel/Background" instance=ExtResource( 12 )]
+margin_left = -200.0
+margin_top = -525.0
+margin_right = 170.0
+margin_bottom = -95.0
+rect_pivot_offset = Vector2( 185, 210 )
+group = SubResource( 21 )
+texture_normal = ExtResource( 21 )
+texture_pressed = ExtResource( 21 )
+texture_hover = ExtResource( 21 )
+texture_disabled = ExtResource( 21 )
+texture_focused = ExtResource( 21 )
+
+[node name="TextureRect" type="TextureRect" parent="MainPanel/UpgradePanel/BackPanel/Background/CurrencyButton"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -85.0
+margin_top = -85.0
+margin_right = 85.0
+margin_bottom = 85.0
+texture = ExtResource( 4 )
+expand = true
+stretch_mode = 6
+
 [node name="ChipDescription" type="Panel" parent="MainPanel/UpgradePanel/BackPanel/Background"]
-editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -445.0
-margin_top = -5.0
+margin_top = 16.5446
 margin_right = 445.0
-margin_bottom = 165.0
-custom_styles/panel = SubResource( 12 )
+margin_bottom = 186.545
+custom_styles/panel = SubResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Title" type="Label" parent="MainPanel/UpgradePanel/BackPanel/Background/ChipDescription"]
 anchor_left = 0.5
@@ -1240,9 +1261,9 @@ margin_left = -425.0
 margin_top = -65.0
 margin_right = 425.0
 margin_bottom = 8.0
-custom_fonts/font = SubResource( 13 )
+custom_fonts/font = SubResource( 15 )
 custom_colors/font_color = Color( 1, 0.654902, 0, 1 )
-text = "MAGNET CHIP"
+text = "KEY_MAGNET"
 align = 1
 valign = 1
 
@@ -1254,8 +1275,8 @@ anchor_bottom = 0.5
 margin_left = -425.0
 margin_right = 423.0
 margin_bottom = 65.0
-custom_fonts/font = SubResource( 14 )
-text = "INCREASE MAGNET AREA"
+custom_fonts/font = SubResource( 16 )
+text = "KEY_MAGNET_DESC"
 align = 1
 valign = 1
 
@@ -1269,21 +1290,20 @@ margin_bottom = 100.0
 grow_horizontal = 0
 grow_vertical = 0
 rect_pivot_offset = Vector2( 50, 35 )
-custom_fonts/font = SubResource( 14 )
+custom_fonts/font = SubResource( 16 )
 text = "LVL. 1"
 align = 1
 valign = 1
 
 [node name="PriceTag" type="Control" parent="MainPanel/UpgradePanel/BackPanel/Background/ChipDescription"]
-editor/display_folded = true
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -295.0
-margin_top = 220.0
-margin_right = -15.0
-margin_bottom = 321.0
+margin_left = -281.369
+margin_top = -20.0
+margin_right = -1.36914
+margin_bottom = 81.0
 
 [node name="Price" type="Label" parent="MainPanel/UpgradePanel/BackPanel/Background/ChipDescription/PriceTag"]
 anchor_right = 1.0
@@ -1292,8 +1312,8 @@ margin_left = 131.0
 grow_horizontal = 0
 grow_vertical = 0
 rect_pivot_offset = Vector2( 155, 55 )
-custom_styles/normal = SubResource( 15 )
-custom_fonts/font = SubResource( 16 )
+custom_styles/normal = SubResource( 17 )
+custom_fonts/font = SubResource( 18 )
 text = "1000"
 align = 2
 valign = 3
@@ -1321,45 +1341,18 @@ margin_right = 128.5
 margin_bottom = 60.0
 rect_rotation = -15.0
 rect_pivot_offset = Vector2( 198.207, 48.4999 )
-custom_styles/normal = SubResource( 17 )
-custom_fonts/font = SubResource( 18 )
+custom_styles/normal = SubResource( 19 )
+custom_fonts/font = SubResource( 20 )
 custom_colors/font_color = Color( 1, 0, 0, 1 )
 text = "SOLD OUT!"
 
-[node name="CurrencyButton" parent="MainPanel/UpgradePanel/BackPanel/Background" instance=ExtResource( 12 )]
-editor/display_folded = true
-margin_left = -190.0
-margin_top = -585.0
-margin_right = 180.0
-margin_bottom = -155.0
-rect_pivot_offset = Vector2( 185, 210 )
-group = SubResource( 19 )
-texture_normal = ExtResource( 21 )
-texture_pressed = ExtResource( 21 )
-texture_hover = ExtResource( 21 )
-texture_disabled = ExtResource( 21 )
-texture_focused = ExtResource( 21 )
-
-[node name="TextureRect" type="TextureRect" parent="MainPanel/UpgradePanel/BackPanel/Background/CurrencyButton"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -85.0
-margin_top = -85.0
-margin_right = 85.0
-margin_bottom = 85.0
-texture = ExtResource( 4 )
-expand = true
-stretch_mode = 6
-
 [node name="ChipButton" parent="MainPanel/UpgradePanel/BackPanel/Background" instance=ExtResource( 12 )]
-margin_left = -200.0
-margin_top = 75.0
-margin_right = 240.0
-margin_bottom = 575.0
+margin_left = -215.0
+margin_top = 137.747
+margin_right = 235.0
+margin_bottom = 648.747
 rect_pivot_offset = Vector2( 230, 250 )
-group = SubResource( 19 )
+group = SubResource( 21 )
 texture_normal = ExtResource( 22 )
 texture_pressed = ExtResource( 22 )
 texture_hover = ExtResource( 22 )
@@ -1381,12 +1374,11 @@ expand = true
 stretch_mode = 5
 
 [node name="UpgradePanelAnim" type="AnimationPlayer" parent="MainPanel/UpgradePanel"]
-anims/Enter = SubResource( 20 )
+anims/Enter = SubResource( 22 )
 
 [node name="InitialDarker" parent="." instance=ExtResource( 23 )]
 
 [node name="TransitionScene" parent="." instance=ExtResource( 24 )]
-editor/display_folded = true
 margin_top = -40.0
 margin_bottom = -40.0
 

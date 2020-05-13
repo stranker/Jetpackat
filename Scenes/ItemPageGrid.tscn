@@ -169,7 +169,6 @@ shadow_size = 8
 
 [sub_resource type="DynamicFont" id=5]
 size = 50
-outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 extra_spacing_bottom = 10
@@ -200,7 +199,6 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 0.1
 
 [node name="Prev" type="Control" parent="VBC/HBC"]
-editor/display_folded = true
 margin_right = 397.0
 margin_bottom = 89.0
 size_flags_horizontal = 3
@@ -241,7 +239,6 @@ expand = true
 stretch_mode = 6
 
 [node name="Page" type="Control" parent="VBC/HBC"]
-editor/display_folded = true
 margin_left = 401.0
 margin_right = 678.0
 margin_bottom = 89.0
@@ -260,15 +257,18 @@ margin_right = 102.5
 margin_bottom = 44.5
 custom_styles/normal = SubResource( 4 )
 custom_fonts/font = SubResource( 5 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.364706 )
 custom_constants/shadow_offset_x = 6
 custom_constants/shadow_offset_y = 6
 text = "1 / 1"
 align = 1
 valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Next" type="Control" parent="VBC/HBC"]
-editor/display_folded = true
 margin_left = 682.0
 margin_right = 1080.0
 margin_bottom = 89.0

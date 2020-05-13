@@ -37,7 +37,7 @@ func update_shop_ui(_payment : int, _cost):
 		ItemManager.Payment.FISH:
 			$Panel/CostPanel/PaymentText.texture = fish_texture
 			$Panel/CostPanel/Cost.text = str(item_fish_cost)
-	$Panel/Title.text = 'DO YOU WANT TO BUY \\n ' + item_name + '?'
+	$Panel/Title.text = tr('KEY_SHOP_BUY') + '\\n ' + item_name + '?'
 	check_button_states(_cost)
 	pass
 
@@ -67,7 +67,8 @@ func check_button_states(cost : int):
 	var has_gold = GameManager.coins >= item_gold_cost and item_gold_cost != 0
 	var has_fish = GameManager.fishes >= item_gold_cost and item_fish_cost != 0
 	$Panel/ConfirmButton.disabled = !has_fish and !has_gold
-	pass"
+	pass
+"
 
 [sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.227451, 0.360784, 0.521569, 1 )
@@ -84,18 +85,17 @@ corner_detail = 2
 
 [sub_resource type="DynamicFont" id=3]
 size = 54
-outline_size = 6
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 3 )
 
 [sub_resource type="StyleBoxFlat" id=4]
-bg_color = Color( 0.788235, 0.360784, 0.819608, 1 )
+bg_color = Color( 0.196078, 0.34902, 0.886275, 1 )
 border_width_left = 10
 border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
-border_color = Color( 0.423529, 0.203922, 0.615686, 1 )
+border_color = Color( 0.156863, 0.137255, 0.482353, 1 )
 corner_radius_top_left = 40
 corner_radius_top_right = 40
 corner_radius_bottom_right = 40
@@ -143,7 +143,6 @@ shader_param/outline_color = Color( 1, 1, 1, 1 )
 
 [sub_resource type="DynamicFont" id=7]
 size = 80
-outline_size = 4
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 3 )
@@ -245,11 +244,13 @@ tracks/1/keys = {
 }
 
 [node name="ShopItemConfirmation" type="Control"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 script = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 coin_texture = ExtResource( 1 )
 fish_texture = ExtResource( 2 )
 
@@ -271,6 +272,7 @@ margin_left = -355.0
 margin_right = 355.0
 margin_bottom = 180.0
 custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 0.984314, 0.952941, 0.952941, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.129412 )
 custom_constants/shadow_offset_x = 8
 custom_constants/shadow_offset_y = 8
@@ -280,7 +282,6 @@ align = 1
 valign = 1
 
 [node name="CostPanel" type="Panel" parent="Panel"]
-editor/display_folded = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -295,11 +296,11 @@ custom_styles/panel = SubResource( 4 )
 material = SubResource( 6 )
 anchor_top = 0.5
 anchor_bottom = 0.5
-margin_left = 10.0
-margin_top = -52.5
-margin_right = 142.0
-margin_bottom = 52.5
-rect_pivot_offset = Vector2( 70, 55 )
+margin_left = 20.0
+margin_top = -44.0
+margin_right = 132.0
+margin_bottom = 45.0
+rect_pivot_offset = Vector2( 53.6715, 42.4951 )
 texture = ExtResource( 1 )
 expand = true
 stretch_mode = 6
@@ -314,8 +315,15 @@ margin_top = -48.5
 margin_right = -30.0
 margin_bottom = 48.5
 custom_fonts/font = SubResource( 7 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
+custom_constants/shadow_offset_x = 6
+custom_constants/shadow_offset_y = 6
 text = "999"
 align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="ConfirmButton" type="Button" parent="Panel"]
 anchor_top = 1.0
@@ -331,7 +339,8 @@ custom_styles/disabled = SubResource( 8 )
 custom_styles/normal = SubResource( 9 )
 custom_fonts/font = SubResource( 10 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "YES"
+text = "KEY_YES"
+clip_text = true
 
 [node name="CancelButton" type="Button" parent="Panel"]
 anchor_left = 1.0

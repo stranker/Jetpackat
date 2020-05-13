@@ -49,8 +49,7 @@ func _on_Anim_animation_finished(anim_name):
 
 func generate_random_title(highscorepassed):
 	if highscorepassed:
-		#$Title.text = tr(highscore_titles[randi() % highscore_titles.size()])
-		$Title.text = 'PERFECT!'
+		$Title.text = highscore_titles[randi() % highscore_titles.size()]
 		$ScorePanel/Anim.play('Highscore')
 		$Sound.play()
 	else:
@@ -61,8 +60,6 @@ func generate_random_title(highscorepassed):
 
 [sub_resource type="DynamicFont" id=3]
 size = 80
-outline_size = 6
-outline_color = Color( 0, 0, 0, 1 )
 use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 1 )
@@ -79,12 +76,11 @@ corner_radius_top_right = 50
 corner_radius_bottom_right = 50
 corner_radius_bottom_left = 50
 corner_detail = 1
+shadow_color = Color( 0, 0, 0, 0.168627 )
+shadow_size = 5
 
 [sub_resource type="DynamicFont" id=5]
 size = 90
-outline_size = 6
-outline_color = Color( 0, 0, 0, 1 )
-use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 1 )
 
@@ -276,20 +272,25 @@ highscore_titles = [ "KEY_PERFECT", "KEY_AMAZING", "KEY_EXCELLENT", "KEY_GREAT" 
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -360.0
-margin_top = 22.678
+margin_top = 24.0
 margin_right = 360.0
-margin_bottom = 139.678
+margin_bottom = 190.0
 grow_horizontal = 2
 grow_vertical = 2
-rect_pivot_offset = Vector2( 357.5, 50 )
+rect_pivot_offset = Vector2( 358.469, 84.4226 )
 custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 0.235294 )
-custom_constants/shadow_offset_x = 8
-custom_constants/shadow_offset_y = 8
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
+custom_constants/shadow_offset_x = 6
+custom_constants/shadow_offset_y = 6
 text = "PERFECT!"
 align = 1
+valign = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="ScorePanel" type="Panel" parent="."]
 anchor_left = 0.5
@@ -297,9 +298,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -306.0
-margin_top = -139.5
+margin_top = -101.5
 margin_right = 306.0
-margin_bottom = 63.5
+margin_bottom = 101.5
 custom_styles/panel = SubResource( 4 )
 
 [node name="Score" type="Label" parent="ScorePanel"]
@@ -315,8 +316,9 @@ rect_pivot_offset = Vector2( 302.192, 60 )
 custom_fonts/font = SubResource( 5 )
 custom_colors/font_color = Color( 1, 0.988235, 0.945098, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-custom_constants/shadow_as_outline = 1
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
+custom_constants/shadow_offset_x = 6
+custom_constants/shadow_offset_y = 6
 text = "9999M"
 align = 1
 
@@ -348,10 +350,10 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -100.0
-margin_top = -209.0
-margin_right = 100.0
-margin_bottom = -28.0
+margin_left = -84.0
+margin_top = -177.0
+margin_right = 84.0
+margin_bottom = -25.0
 texture_normal = ExtResource( 2 )
 texture_pressed = ExtResource( 3 )
 expand = true

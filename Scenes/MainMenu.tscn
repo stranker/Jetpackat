@@ -42,7 +42,7 @@ export (Texture) var house_broken
 func _ready():
 	randomize()
 	AudioManager.create_soundtrack()
-	$VersionLabel.text = \"VERSION 0.93a\"
+	$VersionLabel.text = \"VERSION 0.94\"
 	get_tree().paused = false
 	set_items_equipped()
 	check_first_game()
@@ -219,17 +219,17 @@ func _on_Leaderboard_leader_closed():
 	pass # Replace with function body.
 "
 
-[sub_resource type="Gradient" id=3]
+[sub_resource type="Gradient" id=2]
 colors = PoolColorArray( 0.671875, 0.671875, 0.671875, 1, 0, 0, 0, 0 )
 
-[sub_resource type="Curve" id=4]
+[sub_resource type="Curve" id=3]
 _data = [ Vector2( 0.494279, 1 ), 0.0, -0.769093, 0, 0, Vector2( 1, 0.6232 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="Gradient" id=5]
+[sub_resource type="Gradient" id=4]
 offsets = PoolRealArray( 0, 0.7, 1 )
 colors = PoolColorArray( 0.734375, 0.180635, 0.123352, 1, 0.921875, 0.604191, 0.540161, 0.27451, 0.949219, 0.949219, 0.949219, 0 )
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=5]
 length = 12.0
 loop = true
 tracks/0/type = "value"
@@ -257,7 +257,7 @@ tracks/1/keys = {
 "values": [ 0, 1, 2, 4, 2, 1, 2, 1, 2, 3, 4, 2, 1, 2, 1, 3, 4 ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=6]
 length = 4.0
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:position")
@@ -284,21 +284,21 @@ tracks/1/keys = {
 "values": [ 0.0, -19.5811, -36.3448, 22.6035, 7.34499, 10.6581 ]
 }
 
-[sub_resource type="Curve" id=9]
+[sub_resource type="Curve" id=7]
 _data = [ Vector2( 0, 0.412 ), 0.0, 0.138585, 0, 0, Vector2( 1, 0.7728 ), 1.51742, 0.0, 0, 0 ]
 
-[sub_resource type="Gradient" id=10]
+[sub_resource type="Gradient" id=8]
 offsets = PoolRealArray( 0, 0.211921, 0.476821, 0.688742, 1 )
 colors = PoolColorArray( 1, 1, 1, 1, 1, 0.960938, 0, 1, 1, 0.773438, 0, 1, 1, 0, 0, 1, 0.605469, 0, 0, 0 )
 
-[sub_resource type="DynamicFont" id=11]
+[sub_resource type="DynamicFont" id=9]
 size = 28
 outline_size = 3
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 29 )
 
-[sub_resource type="Animation" id=12]
+[sub_resource type="Animation" id=10]
 length = 8.8
 tracks/0/type = "value"
 tracks/0/path = NodePath("Player:position")
@@ -363,7 +363,7 @@ tracks/4/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=11]
 length = 4.5
 loop = true
 tracks/0/type = "value"
@@ -391,7 +391,7 @@ tracks/1/keys = {
 "values": [ 0, 1, 0, 1, 0 ]
 }
 
-[sub_resource type="Animation" id=14]
+[sub_resource type="Animation" id=12]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Player:position")
 tracks/0/interp = 1
@@ -417,7 +417,7 @@ tracks/1/keys = {
 "values": [ -36.1838, -16.5552 ]
 }
 
-[sub_resource type="StyleBoxFlat" id=15]
+[sub_resource type="StyleBoxFlat" id=13]
 bg_color = Color( 0.227451, 0.360784, 0.521569, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -430,14 +430,12 @@ corner_radius_bottom_right = 50
 corner_radius_bottom_left = 50
 corner_detail = 2
 
-[sub_resource type="DynamicFont" id=16]
+[sub_resource type="DynamicFont" id=14]
 size = 64
-outline_size = 7
-outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 29 )
 
-[sub_resource type="StyleBoxFlat" id=17]
+[sub_resource type="StyleBoxFlat" id=15]
 bg_color = Color( 0.27451, 0.356863, 0.905882, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -454,14 +452,14 @@ expand_margin_bottom = 2.0
 shadow_color = Color( 0, 0, 0, 0.25098 )
 shadow_size = 10
 
-[sub_resource type="DynamicFont" id=18]
+[sub_resource type="DynamicFont" id=16]
 size = 64
 outline_size = 10
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 29 )
 
-[sub_resource type="StyleBoxFlat" id=19]
+[sub_resource type="StyleBoxFlat" id=17]
 bg_color = Color( 0.0666667, 0.513726, 0.215686, 1 )
 border_width_left = 10
 border_width_top = 5
@@ -476,7 +474,7 @@ corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.188235 )
 shadow_size = 8
 
-[sub_resource type="StyleBoxFlat" id=20]
+[sub_resource type="StyleBoxFlat" id=18]
 bg_color = Color( 0.341176, 0.772549, 0.168627, 1 )
 border_width_left = 10
 border_width_top = 5
@@ -491,14 +489,14 @@ corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.309804 )
 shadow_size = 8
 
-[sub_resource type="DynamicFont" id=21]
+[sub_resource type="DynamicFont" id=19]
 size = 69
 outline_size = 8
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 29 )
 
-[sub_resource type="Animation" id=22]
+[sub_resource type="Animation" id=20]
 length = 0.6
 tracks/0/type = "value"
 tracks/0/path = NodePath("LanguageSelection:rect_position")
@@ -563,7 +561,7 @@ tracks/4/keys = {
 } ]
 }
 
-[sub_resource type="Animation" id=23]
+[sub_resource type="Animation" id=21]
 length = 0.8
 tracks/0/type = "value"
 tracks/0/path = NodePath("NicknamePanel:rect_position")
@@ -638,7 +636,7 @@ tracks/5/keys = {
 "values": [ true, true, false ]
 }
 
-[sub_resource type="Animation" id=24]
+[sub_resource type="Animation" id=22]
 length = 0.7
 tracks/0/type = "value"
 tracks/0/path = NodePath("NicknamePanel:rect_position")
@@ -752,7 +750,7 @@ angle = 360.0
 angle_random = 1.0
 scale_amount = 4.0
 scale_amount_random = 0.2
-color_ramp = SubResource( 3 )
+color_ramp = SubResource( 2 )
 
 [node name="RoofParticles" type="CPUParticles2D" parent="House"]
 position = Vector2( 946.338, 744.181 )
@@ -775,8 +773,8 @@ angle = 360.0
 angle_random = 1.0
 scale_amount = 5.0
 scale_amount_random = 0.2
-scale_amount_curve = SubResource( 4 )
-color_ramp = SubResource( 5 )
+scale_amount_curve = SubResource( 3 )
+color_ramp = SubResource( 4 )
 
 [node name="Bird" type="Sprite" parent="."]
 position = Vector2( 834.839, -256.775 )
@@ -788,7 +786,7 @@ frame = 4
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Bird"]
 autoplay = "Idle"
-anims/Idle = SubResource( 6 )
+anims/Idle = SubResource( 5 )
 
 [node name="BTimer" type="Timer" parent="Bird"]
 wait_time = 15.0
@@ -801,7 +799,7 @@ scale = Vector2( 2, 2 )
 texture = ExtResource( 9 )
 
 [node name="Anim" type="AnimationPlayer" parent="PaperPlane"]
-anims/Idle = SubResource( 8 )
+anims/Idle = SubResource( 6 )
 
 [node name="PTimer" type="Timer" parent="PaperPlane"]
 wait_time = 10.0
@@ -950,8 +948,8 @@ initial_velocity = 20.0
 initial_velocity_random = 0.8
 damping = 20.0
 scale_amount = 6.0
-scale_amount_curve = SubResource( 9 )
-color_ramp = SubResource( 10 )
+scale_amount_curve = SubResource( 7 )
+color_ramp = SubResource( 8 )
 
 [node name="Pattern" type="Sprite" parent="Player/Skin"]
 
@@ -995,15 +993,15 @@ margin_left = 5.0
 margin_top = -60.0
 margin_right = 395.0
 margin_bottom = -26.0
-custom_fonts/font = SubResource( 11 )
+custom_fonts/font = SubResource( 9 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "Version"
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Start"
-anims/Easter = SubResource( 12 )
-anims/Idle = SubResource( 13 )
-anims/Start = SubResource( 14 )
+anims/Easter = SubResource( 10 )
+anims/Idle = SubResource( 11 )
+anims/Start = SubResource( 12 )
 
 [node name="TransitionScene" parent="." instance=ExtResource( 30 )]
 
@@ -1015,6 +1013,9 @@ margin_right = 40.0
 margin_bottom = 40.0
 mouse_filter = 0
 texture = ExtResource( 2 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="NicknamePanel" type="Panel" parent="."]
 anchor_left = 0.5
@@ -1025,7 +1026,7 @@ margin_left = -399.996
 margin_top = -235.028
 margin_right = 400.003
 margin_bottom = 284.975
-custom_styles/panel = SubResource( 15 )
+custom_styles/panel = SubResource( 13 )
 
 [node name="Title" type="Label" parent="NicknamePanel"]
 anchor_left = 0.5
@@ -1033,14 +1034,14 @@ anchor_right = 0.5
 margin_left = -390.0
 margin_top = 38.0
 margin_right = 390.0
-margin_bottom = 178.0
+margin_bottom = 116.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 5
-custom_fonts/font = SubResource( 16 )
+custom_fonts/font = SubResource( 14 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-custom_constants/shadow_offset_x = 9
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
+custom_constants/shadow_offset_x = 8
 custom_constants/shadow_offset_y = 8
 text = "KEY_NICKNAME_TITLE"
 align = 1
@@ -1055,8 +1056,8 @@ margin_top = -74.9995
 margin_right = 373.0
 margin_bottom = 65.0005
 custom_icons/clear = ExtResource( 21 )
-custom_styles/normal = SubResource( 17 )
-custom_fonts/font = SubResource( 18 )
+custom_styles/normal = SubResource( 15 )
+custom_fonts/font = SubResource( 16 )
 custom_colors/font_color_selected = Color( 0, 0, 0, 1 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 align = 1
@@ -1080,12 +1081,12 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 13
 size_flags_vertical = 13
-custom_styles/hover = SubResource( 19 )
-custom_styles/pressed = SubResource( 19 )
-custom_styles/focus = SubResource( 19 )
-custom_styles/disabled = SubResource( 19 )
-custom_styles/normal = SubResource( 20 )
-custom_fonts/font = SubResource( 21 )
+custom_styles/hover = SubResource( 17 )
+custom_styles/pressed = SubResource( 17 )
+custom_styles/focus = SubResource( 17 )
+custom_styles/disabled = SubResource( 17 )
+custom_styles/normal = SubResource( 18 )
+custom_fonts/font = SubResource( 19 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "KEY_NICKNAME_ACCEPT"
 
@@ -1098,9 +1099,9 @@ margin_right = 481.499
 margin_bottom = -678.505
 
 [node name="UIAnimation" type="AnimationPlayer" parent="."]
-anims/Language = SubResource( 22 )
-anims/Nickname = SubResource( 23 )
-anims/NicknameAccepted = SubResource( 24 )
+anims/Language = SubResource( 20 )
+anims/Nickname = SubResource( 21 )
+anims/NicknameAccepted = SubResource( 22 )
 
 [node name="HTTPRequest" type="HTTPRequest" parent="."]
 
