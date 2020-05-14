@@ -1,0 +1,60 @@
+{
+    "logs": [
+        {
+            "outputFile": "C:\\Users\\Daniel\\Documents\\Proyectos\\Godot\\Jetpackat\\android\\build\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-pt-rPT\\values-pt-rPT.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\Daniel\\.gradle\\caches\\transforms-2\\files-2.1\\42f84c2912dd40a6e30f328064c670d1\\res\\values-pt-rPT\\values.xml",
+                    "from": {
+                        "startLines": "4,5,6,7,8,9,10",
+                        "startColumns": "0,0,0,0,0,0,0",
+                        "startOffsets": "201,272,402,467,532,616,733",
+                        "endColumns": "70,129,64,64,83,116,73",
+                        "endOffsets": "271,401,466,531,615,732,806"
+                    },
+                    "to": {
+                        "startLines": "3,4,5,6,7,8,9",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "309,384,518,587,656,744,865",
+                        "endColumns": "74,133,68,68,87,120,77",
+                        "endOffsets": "379,513,582,651,739,860,938"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Daniel\\.gradle\\caches\\transforms-2\\files-2.1\\775e39467dd02deb23a5d2cc26f07c03\\res\\values-pt-rPT\\values-pt-rPT.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "10",
+                        "startColumns": "4",
+                        "startOffsets": "943",
+                        "endColumns": "100",
+                        "endOffsets": "1039"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Daniel\\.gradle\\caches\\transforms-2\\files-2.1\\123abcfe4cc408b16ef126f0bce161a6\\res\\values-pt-rPT\\values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "251",
+                        "endColumns": "203",
+                        "endOffsets": "454"
+                    },
+                    "to": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "105",
+                        "endColumns": "203",
+                        "endOffsets": "304"
+                    }
+                }
+            ]
+        }
+    ]
+}

@@ -35,15 +35,10 @@ func _on_VisibilityNotifier2D_screen_exited():
 	dispose_object()
 	pass # Replace with function body."
 
-[sub_resource type="ShaderMaterial" id=2]
-shader = ExtResource( 1 )
-shader_param/outline_width = 0.7
-shader_param/outline_color = Color( 0.988235, 0.788235, 0.105882, 0.0470588 )
-
-[sub_resource type="RectangleShape2D" id=3]
+[sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 80, 60 )
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=3]
 resource_name = "Idle"
 length = 1.4
 loop = true
@@ -72,7 +67,7 @@ tracks/1/keys = {
 "values": [ Color( 0.988235, 0.788235, 0.105882, 0.0470588 ), Color( 0.988235, 0.788235, 0.105882, 1 ), Color( 0.988235, 0.788235, 0.105882, 1 ), Color( 0.988235, 0.788235, 0.105882, 0.0392157 ), Color( 0.988235, 0.788235, 0.105882, 1 ) ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=4]
 resource_name = "Taken"
 length = 2.5
 tracks/0/type = "value"
@@ -112,31 +107,30 @@ tracks/2/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="Curve" id=6]
+[sub_resource type="Curve" id=5]
 min_value = -10.0
 max_value = 10.0
 _data = [ Vector2( 0, -10 ), 0.0, -11.6663, 0, 0, Vector2( 0.986287, 9.856 ), -1.96364, 0.0, 0, 0 ]
 
-[sub_resource type="Gradient" id=7]
+[sub_resource type="Gradient" id=6]
 offsets = PoolRealArray( 0, 0.384106, 1 )
 colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0.803922, 1, 1, 1, 0 )
+
+[sub_resource type="ShaderMaterial" id=7]
+shader = ExtResource( 1 )
+shader_param/outline_width = 0.7
+shader_param/outline_color = Color( 0.988235, 0.788235, 0.105882, 0.0470588 )
 
 [node name="AegisWings" type="Area2D"]
 script = SubResource( 1 )
 
-[node name="Sprite" type="Sprite" parent="."]
-material = SubResource( 2 )
-rotation = 0.261799
-scale = Vector2( 3, 3 )
-texture = ExtResource( 2 )
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 3 )
+shape = SubResource( 2 )
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Idle"
-anims/Idle = SubResource( 4 )
-anims/Taken = SubResource( 5 )
+anims/Idle = SubResource( 3 )
+anims/Taken = SubResource( 4 )
 
 [node name="Feathers" type="CPUParticles2D" parent="."]
 rotation = 1.57079
@@ -151,7 +145,6 @@ texture = ExtResource( 3 )
 emission_shape = 1
 emission_sphere_radius = 20.0
 spread = 180.0
-flatness = 1.0
 gravity = Vector2( 0, 0 )
 initial_velocity = 200.0
 initial_velocity_random = 0.25
@@ -159,14 +152,14 @@ angular_velocity = 300.0
 angular_velocity_random = 0.3
 radial_accel = 50.0
 tangential_accel_random = 1.0
-tangential_accel_curve = SubResource( 6 )
+tangential_accel_curve = SubResource( 5 )
 damping = 100.0
 damping_random = 0.6
 angle = 360.0
 angle_random = 1.0
 scale_amount = 3.0
 scale_amount_random = 0.5
-color_ramp = SubResource( 7 )
+color_ramp = SubResource( 6 )
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 
@@ -174,6 +167,12 @@ color_ramp = SubResource( 7 )
 stream = ExtResource( 4 )
 volume_db = -6.0
 bus = "Sounds"
+
+[node name="Sprite" type="Sprite" parent="."]
+material = SubResource( 7 )
+rotation = 0.261799
+scale = Vector2( 3, 3 )
+texture = ExtResource( 2 )
 [connection signal="active" from="." to="." method="_on_AegisWings_active"]
 [connection signal="area_entered" from="." to="." method="_on_AegisWings_area_entered"]
 [connection signal="body_entered" from="." to="." method="_on_AegisWings_body_entered"]

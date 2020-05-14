@@ -30,6 +30,11 @@ script/source = "extends Panel
 signal restart_game
 export (Array, String) var no_highscore_titles = []
 export (Array, String) var highscore_titles = []
+var restart_pressed : bool = false
+
+func _ready():
+	visible = false
+	pass
 
 func init(score,highscorepassed):
 	generate_random_title(highscorepassed)
@@ -38,7 +43,9 @@ func init(score,highscorepassed):
 	pass
 
 func _on_RestartButton_button_down():
-	emit_signal('restart_game')
+	if !restart_pressed:
+		restart_pressed = true
+		emit_signal('restart_game')
 	pass # Replace with function body.
 
 
@@ -255,6 +262,7 @@ colors = PoolColorArray( 1, 0.866667, 0, 1, 1, 0.866667, 0, 1, 1, 0.866667, 0, 0
 
 [node name="DeadPanel" type="Panel"]
 pause_mode = 2
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5

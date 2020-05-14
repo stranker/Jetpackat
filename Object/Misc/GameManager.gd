@@ -19,6 +19,8 @@ var left_mode : bool = false
 var easter = false
 var tutorial_done : bool = false
 var language = ''
+var has_internet_connection : bool = false
+var runs_played : int = 0
 
 func reset_stats():
 	player_height = 0
@@ -107,6 +109,8 @@ func reset_game_state():
 	pass
 
 func upload_highscore():
+	if !has_internet_connection:
+		return
 	var http_client = HTTPClient.new()
 	http_client.connect_to_host('http://dreamlo.com',80)
 	var count = 0
@@ -149,3 +153,28 @@ func change_sound_volume(value):
 func change_language():
 	TranslationServer.set_locale(language.to_lower())
 	pass
+
+func on_connection_success():
+	has_internet_connection = true
+	Debug.debug("Internet connection success")
+	ConnectionDetection.stop_check()
+	pass
+
+func on_connection_error(error, message):
+	has_internet_connection = false
+	Debug.debug(message)
+	ConnectionDetection.stop_check()
+	pass
+
+func on_error_ssl_handshake():
+	has_internet_connection = false
+	Debug.debug("SSL Handshake error")
+	ConnectionDetection.stop_check()
+	pass
+
+func add_run():
+	runs_played += 1
+	pass
+
+func can_show_interstitial():
+	return runs_played % 3 == 0

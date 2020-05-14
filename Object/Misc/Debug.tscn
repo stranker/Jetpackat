@@ -1,0 +1,73 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends CanvasLayer
+
+func set_text(text):
+	$Control/Panel/Text.add_text(str(text))
+	$Control/Panel/Text.newline()
+	pass
+
+func _on_Console_button_down():
+	$Control/Panel.visible = !$Control/Panel.visible
+	pass # Replace with function body.
+
+
+func _on_Clear_button_down():
+	$Control/Panel/Text.clear()
+	pass # Replace with function body.
+"
+
+[node name="Debug" type="CanvasLayer"]
+layer = 2
+script = SubResource( 1 )
+
+[node name="Control" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="Control"]
+visible = false
+self_modulate = Color( 1, 1, 1, 0.262745 )
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -561.0
+margin_bottom = 645.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Clear" type="Button" parent="Control/Panel"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -116.0
+margin_top = 69.0
+margin_right = -1.0
+margin_bottom = 130.0
+text = "Clear"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Text" type="RichTextLabel" parent="Control/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+scroll_following = true
+
+[node name="Console" type="Button" parent="."]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -145.0
+margin_bottom = 61.0
+text = "Console"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="button_down" from="Control/Panel/Clear" to="." method="_on_Clear_button_down"]
+[connection signal="button_down" from="Console" to="." method="_on_Console_button_down"]

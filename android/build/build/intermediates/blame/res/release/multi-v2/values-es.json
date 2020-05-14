@@ -1,0 +1,77 @@
+{
+    "logs": [
+        {
+            "outputFile": "C:\\Users\\Daniel\\Documents\\Proyectos\\Godot\\Jetpackat\\android\\build\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-es\\values-es.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\Daniel\\.gradle\\caches\\transforms-2\\files-2.1\\123abcfe4cc408b16ef126f0bce161a6\\res\\values-es\\values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "247",
+                        "endColumns": "218",
+                        "endOffsets": "465"
+                    },
+                    "to": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "105",
+                        "endColumns": "218",
+                        "endOffsets": "319"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Daniel\\.gradle\\caches\\transforms-2\\files-2.1\\775e39467dd02deb23a5d2cc26f07c03\\res\\values-es\\values-es.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "11",
+                        "startColumns": "4",
+                        "startOffsets": "1028",
+                        "endColumns": "100",
+                        "endOffsets": "1124"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Daniel\\.gradle\\caches\\transforms-2\\files-2.1\\42f84c2912dd40a6e30f328064c670d1\\res\\values-es\\values.xml",
+                    "from": {
+                        "startLines": "4,5,6,7,8,9,10",
+                        "startColumns": "0,0,0,0,0,0,0",
+                        "startOffsets": "197,268,395,460,526,610,722",
+                        "endColumns": "70,126,64,65,83,111,74",
+                        "endOffsets": "267,394,459,525,609,721,796"
+                    },
+                    "to": {
+                        "startLines": "4,5,6,7,8,9,10",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "400,475,606,675,745,833,949",
+                        "endColumns": "74,130,68,69,87,115,78",
+                        "endOffsets": "470,601,670,740,828,944,1023"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Daniel\\.gradle\\caches\\transforms-2\\files-2.1\\85f7f44f750fe38fd50b39ace1dcf4c3\\res\\values-es\\values-es.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "75",
+                        "endOffsets": "126"
+                    },
+                    "to": {
+                        "startLines": "3",
+                        "startColumns": "4",
+                        "startOffsets": "324",
+                        "endColumns": "75",
+                        "endOffsets": "395"
+                    }
+                }
+            ]
+        }
+    ]
+}

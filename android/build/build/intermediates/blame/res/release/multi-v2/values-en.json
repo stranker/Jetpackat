@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "C:\\Users\\Daniel\\Documents\\Proyectos\\Godot\\Jetpackat\\android\\build\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-en\\values-en.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\Daniel\\.gradle\\caches\\transforms-2\\files-2.1\\85f7f44f750fe38fd50b39ace1dcf4c3\\res\\values-en\\values-en.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "75",
+                        "endOffsets": "126"
+                    }
+                }
+            ]
+        }
+    ]
+}

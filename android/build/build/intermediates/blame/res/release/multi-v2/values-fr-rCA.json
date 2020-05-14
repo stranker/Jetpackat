@@ -1,0 +1,60 @@
+{
+    "logs": [
+        {
+            "outputFile": "C:\\Users\\Daniel\\Documents\\Proyectos\\Godot\\Jetpackat\\android\\build\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-fr-rCA\\values-fr-rCA.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\Daniel\\.gradle\\caches\\transforms-2\\files-2.1\\42f84c2912dd40a6e30f328064c670d1\\res\\values-fr-rCA\\values.xml",
+                    "from": {
+                        "startLines": "4,5,6,7,8,9,10",
+                        "startColumns": "0,0,0,0,0,0,0",
+                        "startOffsets": "201,278,402,468,533,624,739",
+                        "endColumns": "76,123,65,64,90,114,69",
+                        "endOffsets": "277,401,467,532,623,738,808"
+                    },
+                    "to": {
+                        "startLines": "3,4,5,6,7,8,9",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "325,406,534,604,673,768,887",
+                        "endColumns": "80,127,69,68,94,118,73",
+                        "endOffsets": "401,529,599,668,763,882,956"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Daniel\\.gradle\\caches\\transforms-2\\files-2.1\\775e39467dd02deb23a5d2cc26f07c03\\res\\values-fr-rCA\\values-fr-rCA.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "10",
+                        "startColumns": "4",
+                        "startOffsets": "961",
+                        "endColumns": "100",
+                        "endOffsets": "1057"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Daniel\\.gradle\\caches\\transforms-2\\files-2.1\\123abcfe4cc408b16ef126f0bce161a6\\res\\values-fr-rCA\\values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "251",
+                        "endColumns": "219",
+                        "endOffsets": "470"
+                    },
+                    "to": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "105",
+                        "endColumns": "219",
+                        "endOffsets": "320"
+                    }
+                }
+            ]
+        }
+    ]
+}

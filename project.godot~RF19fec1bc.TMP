@@ -1,0 +1,97 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[  ]
+_global_script_class_icons={
+
+}
+
+[application]
+
+config/name="CatsCanFly"
+run/main_scene="res://Scenes/SplashScene.tscn"
+boot_splash/image="res://Sprites/Cinematic/TowerCodeLogo.png"
+boot_splash/fullsize=false
+boot_splash/bg_color=Color( 0.0705882, 0.0705882, 0.0705882, 1 )
+config/icon="res://Sprites/CatsCanFlyIcon.png"
+config/quit_on_go_back=false
+
+[autoload]
+
+GameManager="*res://Object/Misc/GameManager.gd"
+ItemManager="*res://Object/Misc/ItemManager.gd"
+AudioManager="*res://Object/Misc/AudioManager.gd"
+
+[debug]
+
+gdscript/warnings/enable=false
+
+[display]
+
+window/size/width=1080
+window/size/height=1920
+window/handheld/orientation="portrait"
+window/stretch/mode="viewport"
+window/stretch/aspect="keep"
+
+[editor]
+
+convert_text_resources_to_binary_on_export=true
+
+[importer_defaults]
+
+texture={
+"compress/bptc_ldr": 0,
+"compress/hdr_mode": 0,
+"compress/lossy_quality": 0.7,
+"compress/mode": 0,
+"compress/normal_map": 0,
+"detect_3d": true,
+"flags/anisotropic": false,
+"flags/filter": false,
+"flags/mipmaps": false,
+"flags/repeat": 0,
+"flags/srgb": 2,
+"process/HDR_as_SRGB": false,
+"process/fix_alpha_border": true,
+"process/invert_color": false,
+"process/premult_alpha": false,
+"size_limit": 0,
+"stream": false,
+"svg/scale": 1.0
+}
+
+[input_devices]
+
+pointing/emulate_touch_from_mouse=true
+
+[locale]
+
+translations=PoolStringArray( "res://Translations/CCFLocalization.en.translation", "res://Translations/CCFLocalization.es.translation", "res://Translations/CCFLocalization.pt.translation" )
+locale_filter=[ 1, [ "en_US", "es_AR", "pt_BR" ] ]
+
+[physics]
+
+2d/physics_engine="GodotPhysics"
+
+[rendering]
+
+quality/driver/driver_name="GLES2"
+quality/intended_usage/framebuffer_allocation=0
+quality/intended_usage/framebuffer_allocation.mobile=0
+vram_compression/import_etc=true
+vram_compression/import_etc2=false
+quality/directional_shadow/size=256
+quality/directional_shadow/size.mobile=256
+quality/shadows/filter_mode=0
+quality/reflections/texture_array_reflections=false
+quality/reflections/high_quality_ggx=false
+environment/default_environment="res://default_env.tres"
+quality/dynamic_fonts/use_oversampling=false

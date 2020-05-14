@@ -148,7 +148,7 @@ func _on_LineEdit_text_changed(new_text):
 
 func _on_AcceptButton_button_down():
 	$Buttons.play()
-	GameManager.nickname = $NicknamePanel/Nickname.text
+	GameManager.nickname = $NicknamePanel/Nickname.text.to_upper()
 	GameManager.save_current_game_info()
 	$UIAnimation.play('NicknameAccepted')
 	set_disable_main_buttons(false)

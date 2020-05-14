@@ -8,10 +8,19 @@
 
 config_version=4
 
-_global_script_classes=[  ]
+_global_script_classes=[ {
+"base": "Node",
+"class": "Admob",
+"language": "GDScript",
+"path": "res://admob-lib/admob.gd"
+} ]
 _global_script_class_icons={
-
+"Admob": "res://admob-lib/icon.png"
 }
+
+[android]
+
+modules="org/godotengine/godot/GodotAdMob"
 
 [application]
 
@@ -26,8 +35,11 @@ config/quit_on_go_back=false
 [autoload]
 
 GameManager="*res://Object/Misc/GameManager.gd"
+Debug="*res://Object/Misc/Debug.gd"
 ItemManager="*res://Object/Misc/ItemManager.gd"
+ConnectionDetection="*res://Object/Misc/ConnectionDetection.gd"
 AudioManager="*res://Object/Misc/AudioManager.gd"
+AdsManager="*res://Object/Misc/AdsManager.gd"
 
 [debug]
 
@@ -38,7 +50,7 @@ gdscript/warnings/enable=false
 window/size/width=1080
 window/size/height=1920
 window/handheld/orientation="portrait"
-window/stretch/mode="viewport"
+window/stretch/mode="2d"
 window/stretch/aspect="keep"
 
 [editor]
@@ -88,8 +100,6 @@ quality/intended_usage/framebuffer_allocation=0
 quality/intended_usage/framebuffer_allocation.mobile=0
 vram_compression/import_etc=true
 vram_compression/import_etc2=false
-quality/directional_shadow/size=256
-quality/directional_shadow/size.mobile=256
 quality/shadows/filter_mode=0
 quality/reflections/texture_array_reflections=false
 quality/reflections/high_quality_ggx=false

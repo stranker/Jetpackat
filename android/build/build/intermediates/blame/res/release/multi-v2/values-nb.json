@@ -1,0 +1,77 @@
+{
+    "logs": [
+        {
+            "outputFile": "C:\\Users\\Daniel\\Documents\\Proyectos\\Godot\\Jetpackat\\android\\build\\build\\intermediates\\incremental\\mergeReleaseResources\\merged.dir\\values-nb\\values-nb.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\Daniel\\.gradle\\caches\\transforms-2\\files-2.1\\42f84c2912dd40a6e30f328064c670d1\\res\\values-nb\\values.xml",
+                    "from": {
+                        "startLines": "4,5,6,7,8,9,10",
+                        "startColumns": "0,0,0,0,0,0,0",
+                        "startOffsets": "197,265,372,435,498,581,688",
+                        "endColumns": "67,106,62,62,82,106,68",
+                        "endOffsets": "264,371,434,497,580,687,756"
+                    },
+                    "to": {
+                        "startLines": "4,5,6,7,8,9,10",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "370,442,553,620,687,774,885",
+                        "endColumns": "71,110,66,66,86,110,72",
+                        "endOffsets": "437,548,615,682,769,880,953"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Daniel\\.gradle\\caches\\transforms-2\\files-2.1\\123abcfe4cc408b16ef126f0bce161a6\\res\\values-nb\\values.xml",
+                    "from": {
+                        "startLines": "4",
+                        "startColumns": "0",
+                        "startOffsets": "247",
+                        "endColumns": "188",
+                        "endOffsets": "435"
+                    },
+                    "to": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "105",
+                        "endColumns": "188",
+                        "endOffsets": "289"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Daniel\\.gradle\\caches\\transforms-2\\files-2.1\\775e39467dd02deb23a5d2cc26f07c03\\res\\values-nb\\values-nb.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "11",
+                        "startColumns": "4",
+                        "startOffsets": "958",
+                        "endColumns": "100",
+                        "endOffsets": "1054"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\Daniel\\.gradle\\caches\\transforms-2\\files-2.1\\85f7f44f750fe38fd50b39ace1dcf4c3\\res\\values-nb\\values-nb.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "75",
+                        "endOffsets": "126"
+                    },
+                    "to": {
+                        "startLines": "3",
+                        "startColumns": "4",
+                        "startOffsets": "294",
+                        "endColumns": "75",
+                        "endOffsets": "365"
+                    }
+                }
+            ]
+        }
+    ]
+}
