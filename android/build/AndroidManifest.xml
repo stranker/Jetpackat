@@ -65,6 +65,15 @@
 	<meta-data
 	        android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-5984635562124967~6141421966"/>
+      <provider
+          android:name="androidx.core.content.FileProvider"
+          android:grantUriPermissions="true"
+          android:exported="false"
+          android:authorities="${applicationId}">
+          <meta-data
+              android:name="android.support.FILE_PROVIDER_PATHS"
+              android:resource="@xml/file_provider_paths"/>
+      </provider>
 <!--CHUNK_APPLICATION_END-->
 
     </application>

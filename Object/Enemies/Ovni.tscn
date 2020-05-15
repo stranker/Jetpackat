@@ -16,8 +16,8 @@ var sprite_size : Vector2
 
 
 func _ready():
+	._ready()
 	sprite_size = $Sprite.texture.get_size() * $Sprite.scale * $Sprite.hframes
-	randomize()
 	current_patron = randi() % PATRON.size()
 	if rand_range(0,1) > 0.5:
 		change_direction()
@@ -60,16 +60,17 @@ func _on_PatrolTimer_timeout():
 	pass # Replace with function body.
 
 func _on_Ovni_body_entered(body):
-	if body.is_in_group('Player') and activated:
+	if is_player(body) and activated:
 		body.take_damage()
+		Debug.debug(\"Ovni\")
 	pass # Replace with function body.
 
 func _on_Ovni_active(val):
 	set_process(val)
-	pass # Replace with function body."
+	pass # Replace with function body.
+"
 
 [sub_resource type="Animation" id=2]
-resource_name = "Run"
 length = 2.0
 loop = true
 tracks/0/type = "value"
@@ -85,17 +86,19 @@ tracks/0/keys = {
 "values": [ 0, 2, 1, 0 ]
 }
 
-[node name="Ovni" type="Area2D"]
+[node name="Ovni" type="Node2D"]
 script = SubResource( 1 )
-increment = 200.0
 
 [node name="Sprite" type="Sprite" parent="."]
 rotation = -0.231232
 scale = Vector2( 2, 2 )
 texture = ExtResource( 1 )
 hframes = 3
+frame = 2
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+[node name="Ovni" type="Area2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Ovni"]
 rotation = -0.269674
 polygon = PoolVector2Array( -61.674, -55.2344, -35.6308, 23.2373, -84.8551, 47.5565, 7.01563, 66.5552, 81.947, 54.4289, 31.4723, 24.1303, 67.9194, -46.223, 4.26329, -69.0491 )
 
@@ -107,5 +110,5 @@ one_shot = true
 autoplay = "Run"
 anims/Run = SubResource( 2 )
 [connection signal="active" from="." to="." method="_on_Ovni_active"]
-[connection signal="body_entered" from="." to="." method="_on_Ovni_body_entered"]
-[connection signal="timeout" from="PatrolTimer" to="." method="_on_PatrolTimer_timeout"]
+[connection signal="body_entered" from="Ovni" to="." method="_on_Ovni_body_entered"]
+[connection signal="timeout" from="PatrolTimer" to="Ovni" method="_on_PatrolTimer_timeout"]

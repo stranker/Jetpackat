@@ -11,12 +11,11 @@ export var direction : int = 1
 var speed : float
 var velocity : Vector2
 var time : float
-var size_sprite : Vector2
+onready var size_sprite : Vector2 = $Sprite.texture.get_size() * $Sprite.scale / $Sprite.hframes
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	randomize()
-	size_sprite = $Sprite.texture.get_size() * $Sprite.scale / $Sprite.hframes
+	._ready()
 	speed = rand_range(max_speed,min_speed)
 	if rand_range(0,1) > 0.5:
 		direction = -direction
@@ -28,7 +27,7 @@ func _ready():
 func _process(delta):
 	if activated:
 		time += delta
-		velocity.y = sin(time * 2) * speed
+		velocity.y = sin(time * 2) * speed * 0.5
 		translate(velocity*delta)
 		check_boundaries()
 
@@ -45,7 +44,8 @@ func _on_Bird_body_entered(body):
 
 func _on_Bird_active(val):
 	set_process(val)
-	pass # Replace with function body."
+	pass # Replace with function body.
+"
 
 [sub_resource type="CapsuleShape2D" id=2]
 radius = 60.8486
@@ -56,7 +56,7 @@ resource_name = "Fly"
 length = 0.8
 loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:frame")
+tracks/0/path = NodePath("../Sprite:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -68,17 +68,20 @@ tracks/0/keys = {
 "values": [ 0, 1, 2, 3, 4, 3, 2, 1 ]
 }
 
-[node name="Bird" type="Area2D"]
+[node name="Bird" type="Node2D"]
 script = SubResource( 1 )
 max_speed = 500.0
-min_speed = 300.0
+min_speed = 400.0
 
 [node name="Sprite" type="Sprite" parent="."]
 scale = Vector2( 5, 5 )
 texture = ExtResource( 1 )
 hframes = 5
+frame = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="Bird" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Bird"]
 position = Vector2( -0.735077, -5.14565 )
 rotation = 1.5708
 shape = SubResource( 2 )
@@ -87,4 +90,4 @@ shape = SubResource( 2 )
 autoplay = "Fly"
 anims/Fly = SubResource( 3 )
 [connection signal="active" from="." to="." method="_on_Bird_active"]
-[connection signal="body_entered" from="." to="." method="_on_Bird_body_entered"]
+[connection signal="body_entered" from="Bird" to="." method="_on_Bird_body_entered"]

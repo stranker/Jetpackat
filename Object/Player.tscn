@@ -391,13 +391,15 @@ func set_scarf(item):
 	if item.has_color():
 		$Scarf.self_modulate = item.item_color
 	$Scarf.color.a = 1
+	$Scarf.visible = true
 	pass
 
 func set_jetpack(item):
 	$Jetpack.texture = load(item.item_image_location)
 	if item.has_color():
 		$Jetpack.self_modulate = item.item_color
-	pass"
+	pass
+"
 
 [sub_resource type="ShaderMaterial" id=6]
 shader = ExtResource( 2 )
@@ -1482,6 +1484,7 @@ anims/Hide = SubResource( 12 )
 anims/Idle = SubResource( 13 )
 
 [node name="Scarf" type="Polygon2D" parent="Visible"]
+visible = false
 position = Vector2( -39.8734, -10.5546 )
 scale = Vector2( 3, 3 )
 color = Color( 1, 1, 1, 0 )
@@ -1535,6 +1538,7 @@ rest = Transform2D( 1, 0, 0, 1, 6.20966, 0.0968933 )
 default_length = 6.0
 
 [node name="Shield" type="Sprite" parent="Visible"]
+visible = false
 self_modulate = Color( 1, 1, 1, 0.392157 )
 position = Vector2( 1.53555, 12.2667 )
 scale = Vector2( 2.71101, 2.90069 )

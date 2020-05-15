@@ -188,6 +188,10 @@
         "source": "C:\\Users\\Daniel\\.gradle\\caches\\transforms-2\\files-2.1\\85f7f44f750fe38fd50b39ace1dcf4c3\\res\\mipmap-xxhdpi-v4\\icon_background.png"
     },
     {
+        "merged": "C:\\Users\\Daniel\\Documents\\Proyectos\\Godot\\Jetpackat\\android\\build\\build\\intermediates\\res\\merged\\release\\xml_file_provider_paths.xml.flat",
+        "source": "C:\\Users\\Daniel\\Documents\\Proyectos\\Godot\\Jetpackat\\android\\share-plugin\\res\\xml\\file_provider_paths.xml"
+    },
+    {
         "merged": "C:\\Users\\Daniel\\Documents\\Proyectos\\Godot\\Jetpackat\\android\\build\\build\\intermediates\\res\\merged\\release\\layout_notification_template_big_media_narrow_custom.xml.flat",
         "source": "C:\\Users\\Daniel\\.gradle\\caches\\transforms-2\\files-2.1\\6c11d2f45a6dbf62b45369d6863aac99\\res\\layout\\notification_template_big_media_narrow_custom.xml"
     },

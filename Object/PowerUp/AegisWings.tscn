@@ -33,9 +33,10 @@ func _on_AegisWings_active(val):
 
 func _on_VisibilityNotifier2D_screen_exited():
 	dispose_object()
-	pass # Replace with function body."
+	pass # Replace with function body.
+"
 
-[sub_resource type="RectangleShape2D" id=2]
+[sub_resource type="RectangleShape2D" id=8]
 extents = Vector2( 80, 60 )
 
 [sub_resource type="Animation" id=3]
@@ -125,7 +126,7 @@ shader_param/outline_color = Color( 0.988235, 0.788235, 0.105882, 0.0470588 )
 script = SubResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 2 )
+shape = SubResource( 8 )
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Idle"

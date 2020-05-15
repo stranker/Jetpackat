@@ -136,6 +136,10 @@
         "source": "C:\\Users\\Daniel\\.gradle\\caches\\transforms-2\\files-2.1\\29b1044fa3ef8ae19bfe62ea32063090\\res\\mipmap-xhdpi-v4\\icon.png"
     },
     {
+        "merged": "C:\\Users\\Daniel\\Documents\\Proyectos\\Godot\\Jetpackat\\android\\build\\build\\intermediates\\res\\merged\\debug\\xml_file_provider_paths.xml.flat",
+        "source": "C:\\Users\\Daniel\\Documents\\Proyectos\\Godot\\Jetpackat\\android\\share-plugin\\res\\xml\\file_provider_paths.xml"
+    },
+    {
         "merged": "C:\\Users\\Daniel\\Documents\\Proyectos\\Godot\\Jetpackat\\android\\build\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4_notification_bg_low_pressed.9.png.flat",
         "source": "C:\\Users\\Daniel\\.gradle\\caches\\transforms-2\\files-2.1\\775e39467dd02deb23a5d2cc26f07c03\\res\\drawable-hdpi-v4\\notification_bg_low_pressed.9.png"
     },

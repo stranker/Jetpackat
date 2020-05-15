@@ -8,7 +8,7 @@ script/source = "extends \"res://Object/Enemies/Enemy.gd\"
 var direction : int = 1
 
 func _ready():
-	randomize()
+	._ready()
 	if rand_range(0,1) > 0.5:
 		change_direction()
 	$Anim.playback_speed = rand_range(1,1.2)
@@ -24,22 +24,23 @@ func change_direction():
 	$Anim.play('Attack')
 	pass
 
-func _on_Condor_body_entered(body):
-	if body.is_in_group('Player') and activated:
-		body.take_damage()
-	pass # Replace with function body.
-
 func _on_Anim_animation_finished(anim_name):
 	change_direction()
 	pass # Replace with function body.
-
 
 func _on_Condor_active(val):
 	if val:
 		$Anim.play('Attack')
 	else:
 		$Anim.stop()
-	pass # Replace with function body."
+	pass # Replace with function body.
+
+func _on_Area_body_entered(body):
+	if is_player(body) and activated:
+		body.take_damage()
+		Debug.debug(\"Condor\")
+	pass # Replace with function body.
+"
 
 [sub_resource type="Animation" id=2]
 length = 3.0
@@ -50,8 +51,8 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1, 1.5, 2.8, 3 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 1, 1.5, 2.4, 3 ),
+"transitions": PoolRealArray( 1, 1, 2, 1, 1 ),
 "update": 0,
 "values": [ Vector2( -125, 28 ), Vector2( 245, -282 ), Vector2( 215.179, -302 ), Vector2( 1100, 141 ), Vector2( 1195, 188 ) ]
 }
@@ -98,28 +99,32 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.5, 2.8, 2.9, 3, 3.1 ),
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.5, 2.1, 2.4, 2.6, 2.8 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 0, 1, 2, 3, 4, 3, 2, 1, 0, 1, 2, 0, 2, 2, 0, 1, 2 ]
 }
 
-[node name="Condor" type="Area2D"]
+[node name="Condor" type="Node2D"]
+position = Vector2( -47.4867, 986.428 )
 script = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 1195, 188 )
+position = Vector2( -125, 28 )
 scale = Vector2( 5.5, 5.5 )
 texture = ExtResource( 1 )
 hframes = 5
-frame = 1
 
-[node name="Collision" type="CollisionPolygon2D" parent="."]
-position = Vector2( 1195, 188 )
+[node name="Area" type="Area2D" parent="Sprite"]
+position = Vector2( 22.7273, -5.09091 )
+scale = Vector2( 0.181818, 0.181818 )
+
+[node name="Collision" type="CollisionPolygon2D" parent="Sprite/Area"]
+position = Vector2( -125, 28 )
 polygon = PoolVector2Array( -70, 10, 10, 50, 80, 0, 40, -30 )
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 anims/Attack = SubResource( 2 )
 [connection signal="active" from="." to="." method="_on_Condor_active"]
-[connection signal="body_entered" from="." to="." method="_on_Condor_body_entered"]
+[connection signal="body_entered" from="Sprite/Area" to="." method="_on_Area_body_entered"]
 [connection signal="animation_finished" from="Anim" to="." method="_on_Anim_animation_finished"]

@@ -45,6 +45,7 @@ dependencies {
     }
 //CHUNK_DEPENDENCIES_BEGIN
 api ('com.google.android.gms:play-services-ads:16.0.0') { exclude group: 'com.android.support' }
+api ('com.android.support:support-v4:28.+')
 //CHUNK_DEPENDENCIES_END
 }
 
@@ -84,11 +85,13 @@ android {
                     'src'
 //DIR_SRC_BEGIN
 ,'C:/Users/Daniel/Documents/Proyectos/Godot/Jetpackat/android/admob-plugin/src'
+,'C:/Users/Daniel/Documents/Proyectos/Godot/Jetpackat/android/share-plugin/src'
 //DIR_SRC_END
             ]
             res.srcDirs = [
                     'res'
 //DIR_RES_BEGIN
+,'C:/Users/Daniel/Documents/Proyectos/Godot/Jetpackat/android/share-plugin/res'
 //DIR_RES_END
             ]
             aidl.srcDirs = [

@@ -1,9 +1,13 @@
-extends Area2D
+extends Node2D
 
 signal active(val)
 signal dispose(obj)
 
 var activated : bool = false
+var can_attack : bool = true
+
+func _ready():
+	randomize()
 
 func _process(delta):
 	if activated:
@@ -17,3 +21,6 @@ func set_active(val):
 
 func dispose_object():
 	emit_signal('dispose',self)
+
+func is_player(body):
+	return body.is_in_group("Player")

@@ -83,6 +83,16 @@
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-5984635562124967~6141421966" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.towercodegames.catscanfly.game"
+            android:exported="false"
+            android:grantUriPermissions="true" >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_provider_paths" />
+        </provider>
         <!-- CHUNK_APPLICATION_END -->
 
         <service android:name="org.godotengine.godot.GodotDownloaderService" />
