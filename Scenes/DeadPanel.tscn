@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Sprites/UI/ContinueIcon.png" type="Texture" id=2]
@@ -8,6 +8,8 @@
 [ext_resource path="res://Sprites/Cat/CatPaws.png" type="Texture" id=6]
 [ext_resource path="res://Sounds/Sfx/Score.wav" type="AudioStream" id=7]
 [ext_resource path="res://Sounds/Sfx/ButtonClick.wav" type="AudioStream" id=8]
+[ext_resource path="res://Sprites/Ribbon/Emerald.png" type="Texture" id=9]
+[ext_resource path="res://Sprites/Particles/Confetti.png" type="Texture" id=10]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.705882, 0.137255, 0.0745098, 1 )
@@ -28,47 +30,59 @@ shadow_size = 5
 script/source = "extends Panel
 
 signal restart_game
-export (Array, String) var no_highscore_titles = []
 export (Array, String) var highscore_titles = []
 var restart_pressed : bool = false
-var share = null # our share singleton instance
+var share = null
 onready var image_save_path = OS.get_user_data_dir() + \"/CatsCanFlyScore.png\"
 var store_link = \"https://play.google.com/store/apps/details?id=com.towercodegames.catscanfly.game\"
+var screenshot_taken : bool = false
+var new_highscore : bool = false
 
 func _ready():
 	visible = false
-	# initialize the share singleton if it exists
+	set_particles(false)
 	if Engine.has_singleton(\"GodotShare\"):
 		share = Engine.get_singleton(\"GodotShare\")
 		Debug.debug(\"Godot Share ON!\")
 	pass
 
-func init(score,highscorepassed):
-	generate_random_title(highscorepassed)
-	$ScorePanel/Score.text = str(score) + 'M'
+func init(highscorepassed):
+	new_highscore = highscorepassed
+	generate_random_title(new_highscore)
+	$ScorePanel/Score.text = str(GameManager.player_height) + 'M'
 	$Anim.play('DeadPanel')
 	$Anim.queue('InitDeadPanel')
+	screenshot_taken = false
 	pass
 
 func _on_RestartButton_button_down():
 	if !restart_pressed:
 		restart_pressed = true
 		emit_signal('restart_game')
+		set_particles(false)
 	pass # Replace with function body.
 
 func _on_Anim_animation_finished(anim_name):
 	if anim_name == 'InitDeadPanel':
-		take_screenshot()
+		if new_highscore:
+			take_screenshot()
 	pass # Replace with function body.
 
 func generate_random_title(highscorepassed):
 	if highscorepassed:
-		$Title.text = highscore_titles[randi() % highscore_titles.size()]
+		var title = tr(highscore_titles[randi() % highscore_titles.size()])
+		$Title.text = title + \"!\"
 		$ScorePanel/Anim.play('Highscore')
 		$Sound.play()
+		set_particles(true)
 	else:
-		#$Title.text = tr(no_highscore_titles[randi() % no_highscore_titles.size()])
 		$Title.text = 'KEY_TRY_AGAIN'
+	pass
+
+func set_particles(value):
+	for particle in $Particles.get_children():
+		particle.visible = value
+		particle.emitting = value
 	pass
 
 func _on_ShareButton_button_down():
@@ -78,9 +92,12 @@ func _on_ShareButton_button_down():
 	var share_text = prev_text + \" \" + str(GameManager.highscore) + \" \" + points + \"! \" + post_text + \"? \\n\" + store_link
 	share.sharePic(image_save_path, \"Image Sharing\", \"Sharing image with GodotShare\", share_text)
 	take_screenshot()
-	pass # Replace with function body.
+	pass
 
 func take_screenshot():
+	if screenshot_taken:
+		return
+	screenshot_taken = true
 	get_viewport().set_clear_mode(Viewport.CLEAR_MODE_ONLY_NEXT_FRAME)
 	yield(get_tree(), \"idle_frame\")
 	yield(get_tree(), \"idle_frame\")
@@ -90,7 +107,6 @@ func take_screenshot():
 	var img_texture : ImageTexture = ImageTexture.new()
 	img_texture.create_from_image(img)
 	$ScreenShot/Image.texture = img_texture
-	$ScreenShot.show()
 	pass
 "
 
@@ -180,7 +196,7 @@ tracks/3/keys = {
 "values": [ true ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("../Stars:emitting")
+tracks/4/path = NodePath("../Particles/Stars:emitting")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
@@ -192,7 +208,7 @@ tracks/4/keys = {
 "values": [ true ]
 }
 tracks/5/type = "value"
-tracks/5/path = NodePath("../Stars2:emitting")
+tracks/5/path = NodePath("../Particles/Stars2:emitting")
 tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/imported = false
@@ -256,30 +272,6 @@ tracks/1/keys = {
 "update": 1,
 "values": [ false, true, true ]
 }
-tracks/2/type = "value"
-tracks/2/path = NodePath("Stars:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ false, true ]
-}
-tracks/3/type = "value"
-tracks/3/path = NodePath("Stars2:visible")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/keys = {
-"times": PoolRealArray( 0, 0.1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ false, true ]
-}
 
 [sub_resource type="Animation" id=11]
 length = 0.6
@@ -307,6 +299,18 @@ tracks/1/keys = {
 "update": 1,
 "values": [ false, true ]
 }
+tracks/2/type = "value"
+tracks/2/path = NodePath("Cathead:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
 
 [sub_resource type="Curve" id=12]
 _data = [ Vector2( 0, 1 ), 0.0, -3.09235, 0, 0, Vector2( 1, 0.0215 ), -0.209348, 0.0, 0, 0 ]
@@ -315,11 +319,35 @@ _data = [ Vector2( 0, 1 ), 0.0, -3.09235, 0, 0, Vector2( 1, 0.0215 ), -0.209348,
 offsets = PoolRealArray( 0, 0.82716, 1 )
 colors = PoolColorArray( 1, 0.866667, 0, 1, 1, 0.866667, 0, 1, 1, 0.866667, 0, 0 )
 
-[sub_resource type="StyleBoxFlat" id=14]
+[sub_resource type="Curve" id=14]
+_data = [ Vector2( 0, 0.5125 ), 0.0, -0.387931, 0, 0, Vector2( 1, 0.0670455 ), -5.22727, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=15]
+offsets = PoolRealArray( 0.646825, 0.992063 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="Gradient" id=16]
+offsets = PoolRealArray( 0, 0.742063, 1 )
+colors = PoolColorArray( 1, 0.301961, 0.301961, 1, 1, 0.329661, 0.329661, 0.960317, 1, 1, 1, 0 )
+
+[sub_resource type="Gradient" id=17]
+offsets = PoolRealArray( 0, 0.738095, 1 )
+colors = PoolColorArray( 0.447059, 0.796078, 0.145098, 1, 0.447059, 0.796078, 0.145098, 1, 1, 1, 1, 0 )
+
+[sub_resource type="Gradient" id=18]
+offsets = PoolRealArray( 0, 0.738095, 1 )
+colors = PoolColorArray( 0.196078, 0.34902, 0.886275, 1, 0.196078, 0.34902, 0.886275, 1, 1, 1, 1, 0 )
+
+[sub_resource type="Gradient" id=19]
+offsets = PoolRealArray( 0, 0.738095, 1 )
+colors = PoolColorArray( 0.956863, 0.752941, 0.278431, 1, 0.956863, 0.752941, 0.278431, 1, 1, 1, 1, 0 )
+
+[sub_resource type="StyleBoxFlat" id=20]
 bg_color = Color( 1, 1, 1, 1 )
 
 [node name="DeadPanel" type="Panel"]
 pause_mode = 2
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -333,7 +361,6 @@ script = SubResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-no_highscore_titles = [ "KEY_TRY_AGAIN" ]
 highscore_titles = [ "KEY_PERFECT", "KEY_AMAZING", "KEY_EXCELLENT", "KEY_GREAT" ]
 
 [node name="Title" type="Label" parent="."]
@@ -470,12 +497,15 @@ stretch_mode = 6
 anims/DeadPanel = SubResource( 10 )
 anims/InitDeadPanel = SubResource( 11 )
 
-[node name="Stars" type="CPUParticles2D" parent="."]
-visible = false
+[node name="Particles" type="Node2D" parent="."]
+show_behind_parent = true
+
+[node name="Stars" type="CPUParticles2D" parent="Particles"]
 show_behind_parent = true
 position = Vector2( 157.266, 23.6089 )
 rotation = -1.5708
 emitting = false
+amount = 20
 lifetime = 3.0
 speed_scale = 1.8
 explosiveness = 0.75
@@ -491,12 +521,12 @@ scale_amount = 5.5
 scale_amount_curve = SubResource( 12 )
 color_ramp = SubResource( 13 )
 
-[node name="Stars2" type="CPUParticles2D" parent="."]
-visible = false
+[node name="Stars2" type="CPUParticles2D" parent="Particles"]
 show_behind_parent = true
-position = Vector2( 516.254, 32.6972 )
+position = Vector2( 516.254, 32.6971 )
 rotation = -1.5708
 emitting = false
+amount = 20
 lifetime = 3.0
 speed_scale = 1.8
 explosiveness = 0.75
@@ -512,7 +542,198 @@ scale_amount = 5.5
 scale_amount_curve = SubResource( 12 )
 color_ramp = SubResource( 13 )
 
+[node name="Emeralds" type="CPUParticles2D" parent="Particles"]
+show_behind_parent = true
+position = Vector2( 328.365, 432.545 )
+rotation = 1.5708
+amount = 40
+lifetime = 0.8
+explosiveness = 0.5
+randomness = 1.0
+lifetime_randomness = 0.2
+texture = ExtResource( 9 )
+spread = 80.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 800.0
+initial_velocity_random = 0.2
+damping = 100.0
+angle = 360.0
+angle_random = 1.0
+scale_amount = 0.5
+scale_amount_random = 1.0
+scale_amount_curve = SubResource( 14 )
+color_ramp = SubResource( 15 )
+
+[node name="Confetti" type="CPUParticles2D" parent="Particles"]
+show_behind_parent = true
+position = Vector2( 184.32, 30.6674 )
+rotation = -2.31337
+amount = 10
+lifetime = 2.0
+texture = ExtResource( 10 )
+emission_shape = 1
+emission_sphere_radius = 100.0
+spread = 20.0
+gravity = Vector2( -500, -200 )
+initial_velocity = 500.0
+angular_velocity = 500.0
+angular_velocity_random = 1.0
+angle = 360.0
+angle_random = 1.0
+scale_amount = 2.0
+scale_amount_random = 1.0
+scale_amount_curve = SubResource( 14 )
+color_ramp = SubResource( 16 )
+
+[node name="Confetti3" type="CPUParticles2D" parent="Particles"]
+show_behind_parent = true
+position = Vector2( 207.703, 25.6568 )
+rotation = -2.31337
+amount = 10
+lifetime = 2.0
+texture = ExtResource( 10 )
+emission_shape = 1
+emission_sphere_radius = 100.0
+spread = 20.0
+gravity = Vector2( -500, -200 )
+initial_velocity = 500.0
+angular_velocity = 500.0
+angular_velocity_random = 1.0
+angle = 360.0
+angle_random = 1.0
+scale_amount = 2.0
+scale_amount_random = 1.0
+scale_amount_curve = SubResource( 14 )
+color_ramp = SubResource( 17 )
+
+[node name="Confetti5" type="CPUParticles2D" parent="Particles"]
+show_behind_parent = true
+position = Vector2( 207.703, 25.6568 )
+rotation = -2.31337
+amount = 10
+lifetime = 2.0
+texture = ExtResource( 10 )
+emission_shape = 1
+emission_sphere_radius = 100.0
+spread = 20.0
+gravity = Vector2( -500, -200 )
+initial_velocity = 500.0
+angular_velocity = 500.0
+angular_velocity_random = 1.0
+angle = 360.0
+angle_random = 1.0
+scale_amount = 2.0
+scale_amount_random = 1.0
+scale_amount_curve = SubResource( 14 )
+color_ramp = SubResource( 18 )
+
+[node name="Confetti7" type="CPUParticles2D" parent="Particles"]
+show_behind_parent = true
+position = Vector2( 207.703, 25.6568 )
+rotation = -2.31337
+amount = 10
+lifetime = 2.0
+texture = ExtResource( 10 )
+emission_shape = 1
+emission_sphere_radius = 100.0
+spread = 20.0
+gravity = Vector2( -500, -200 )
+initial_velocity = 500.0
+angular_velocity = 500.0
+angular_velocity_random = 1.0
+angle = 360.0
+angle_random = 1.0
+scale_amount = 2.0
+scale_amount_random = 1.0
+scale_amount_curve = SubResource( 14 )
+color_ramp = SubResource( 19 )
+
+[node name="Confetti2" type="CPUParticles2D" parent="Particles"]
+show_behind_parent = true
+position = Vector2( 476.56, 19.5129 )
+rotation = -0.832248
+amount = 10
+lifetime = 2.0
+texture = ExtResource( 10 )
+emission_shape = 1
+emission_sphere_radius = 100.0
+spread = 20.0
+gravity = Vector2( -500, 200 )
+initial_velocity = 500.0
+angular_velocity = 500.0
+angular_velocity_random = 1.0
+angle = 360.0
+angle_random = 1.0
+scale_amount = 2.0
+scale_amount_random = 1.0
+scale_amount_curve = SubResource( 14 )
+color = Color( 1, 0.301961, 0.301961, 1 )
+
+[node name="Confetti4" type="CPUParticles2D" parent="Particles"]
+show_behind_parent = true
+position = Vector2( 476.56, 19.5129 )
+rotation = -0.832248
+amount = 10
+lifetime = 2.0
+texture = ExtResource( 10 )
+emission_shape = 1
+emission_sphere_radius = 100.0
+spread = 20.0
+gravity = Vector2( -500, 200 )
+initial_velocity = 500.0
+angular_velocity = 500.0
+angular_velocity_random = 1.0
+angle = 360.0
+angle_random = 1.0
+scale_amount = 2.0
+scale_amount_random = 1.0
+scale_amount_curve = SubResource( 14 )
+color = Color( 0.447059, 0.796078, 0.145098, 1 )
+
+[node name="Confetti6" type="CPUParticles2D" parent="Particles"]
+show_behind_parent = true
+position = Vector2( 476.56, 19.5129 )
+rotation = -0.832248
+amount = 10
+lifetime = 2.0
+texture = ExtResource( 10 )
+emission_shape = 1
+emission_sphere_radius = 100.0
+spread = 20.0
+gravity = Vector2( -500, 200 )
+initial_velocity = 500.0
+angular_velocity = 500.0
+angular_velocity_random = 1.0
+angle = 360.0
+angle_random = 1.0
+scale_amount = 2.0
+scale_amount_random = 1.0
+scale_amount_curve = SubResource( 14 )
+color = Color( 0.196078, 0.34902, 0.886275, 1 )
+
+[node name="Confetti8" type="CPUParticles2D" parent="Particles"]
+show_behind_parent = true
+position = Vector2( 476.56, 19.5129 )
+rotation = -0.832248
+amount = 10
+lifetime = 2.0
+texture = ExtResource( 10 )
+emission_shape = 1
+emission_sphere_radius = 100.0
+spread = 20.0
+gravity = Vector2( -500, 200 )
+initial_velocity = 500.0
+angular_velocity = 500.0
+angular_velocity_random = 1.0
+angle = 360.0
+angle_random = 1.0
+scale_amount = 2.0
+scale_amount_random = 1.0
+scale_amount_curve = SubResource( 14 )
+color = Color( 0.956863, 0.752941, 0.278431, 1 )
+
 [node name="Cathead" type="TextureRect" parent="."]
+visible = false
 show_behind_parent = true
 margin_left = 165.0
 margin_top = 22.678
@@ -549,7 +770,7 @@ margin_right = 655.165
 margin_bottom = 257.837
 rect_rotation = -30.2993
 mouse_filter = 2
-custom_styles/panel = SubResource( 14 )
+custom_styles/panel = SubResource( 20 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

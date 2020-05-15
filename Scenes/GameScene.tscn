@@ -1,4 +1,4 @@
-[gd_scene load_steps=65 format=2]
+[gd_scene load_steps=66 format=2]
 
 [ext_resource path="res://Sprites/Background/HouseBroken.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Background/House.png" type="Texture" id=2]
@@ -21,6 +21,7 @@
 [ext_resource path="res://Sprites/PowerUps/AegisWings.png" type="Texture" id=19]
 [ext_resource path="res://Object/Enemies/Kite.tscn" type="PackedScene" id=20]
 [ext_resource path="res://Object/Enemies/Bulldog.tscn" type="PackedScene" id=21]
+[ext_resource path="res://Scenes/RecoverPanel.tscn" type="PackedScene" id=22]
 [ext_resource path="res://Scenes/ConfigPanel.tscn" type="PackedScene" id=24]
 [ext_resource path="res://Scenes/DeadPanel.tscn" type="PackedScene" id=25]
 [ext_resource path="res://Sprites/Tutorial/PawTutorial.png" type="Texture" id=26]
@@ -108,18 +109,9 @@ func _on_Player_current_height(value):
 	pass # Replace with function body.
 
 func end_game():
-	if GameManager.highscore < player_height:
-		GameManager.highscore = player_height
-		highscore_passed = true
 	GameManager.fuel = fuel
 	playing = !playing
-	$UIGame.show_deadpanel(player_height, highscore_passed)
-	if !GameManager.tutorial_done:
-		GameManager.tutorial_done = true
-		$UIGame.set_tutorial_done()
 	GameManager.save_game_data()
-	GameManager.player_height = 0
-	GameManager.upload_highscore()
 	pass
 
 func _on_Player_dead():
@@ -187,6 +179,7 @@ func _on_DeadPanel_restart_game():
 	pass # Replace with function body.
 
 func _on_RestAnim_animation_finished(anim_name):
+	end_game()
 	restart_game()
 	pass # Replace with function body.
 
@@ -202,6 +195,12 @@ func show_restart_anim():
 	$UIGame/UI/RestartTransition.show()
 	$UIGame/UI/RestartTransition/RestAnim.play('Start')
 	pass
+
+func _on_RecoverPanel_accept_recover():
+	playing = true
+	GameManager.player_height = player_height
+	$Player.recover()
+	pass # Replace with function body.
 "
 
 [sub_resource type="GDScript" id=2]
@@ -306,8 +305,13 @@ func set_pause_game(val):
 	get_tree().paused = val
 	pass
 
-func show_deadpanel(score, highscorepassed):
-	$UI/DeadPanel.init(score, highscorepassed)
+func show_deadpanel():
+	var highscore_passed : bool = false
+	if GameManager.highscore < GameManager.player_height:
+		GameManager.highscore = GameManager.player_height
+		highscore_passed = true
+	GameManager.upload_highscore()
+	$UI/DeadPanel.init(highscore_passed)
 	$UI/PauseButton.hide()
 	pass
 
@@ -376,6 +380,33 @@ func _on_Player_invencible(val):
 		$UI/UpperPanel/AegisPanel/Anim.play(\"Enter\")
 	else:
 		$UI/UpperPanel/AegisPanel/Anim.play_backwards(\"Enter\")
+	pass # Replace with function body.
+
+func check_tutorial():
+	if !GameManager.tutorial_done:
+		GameManager.tutorial_done = true
+		set_tutorial_done()
+	pass
+
+func show_recover_panel():
+	$UI/RecoverPanel.start()
+	pass
+
+func _on_RecoverPanel_cancel_recover():
+	show_deadpanel()
+	pass # Replace with function body.
+
+func _on_RecoverPanel_accept_recover():
+	get_tree().paused = true
+	$UI/PauseTimer/Anim.play('Countdown')
+	pass # Replace with function body.
+
+func _on_Player_show_dead_ui():
+	check_tutorial()
+	if GameManager.player.can_recover:
+		show_recover_panel()
+	else:
+		show_deadpanel()
 	pass # Replace with function body.
 "
 
@@ -1429,6 +1460,9 @@ rect_scale = Vector2( 0.2, 0.2 )
 custom_fonts/font = SubResource( 20 )
 text = "3"
 align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Anim" type="AnimationPlayer" parent="UIGame/UI/PauseTimer"]
 anims/Countdown = SubResource( 21 )
@@ -1437,6 +1471,8 @@ anims/Countdown = SubResource( 21 )
 visible = false
 
 [node name="DeadPanel" parent="UIGame/UI" instance=ExtResource( 25 )]
+
+[node name="RecoverPanel" parent="UIGame/UI" instance=ExtResource( 22 )]
 
 [node name="ComboButton" type="TextureButton" parent="UIGame/UI"]
 visible = false
@@ -1692,22 +1728,26 @@ script = SubResource( 28 )
 objects_scene_list = [ ExtResource( 35 ), ExtResource( 36 ), ExtResource( 37 ), ExtResource( 38 ), ExtResource( 20 ), ExtResource( 21 ) ]
 objects_number = 5
 [connection signal="screen_exited" from="House/VisibilityNotifier2D" to="House" method="_on_VisibilityNotifier2D_screen_exited"]
-[connection signal="current_height" from="Player" to="UIGame" method="_on_Player_current_height"]
-[connection signal="current_height" from="Player" to="ParallaxBackground" method="_on_Player_current_height"]
-[connection signal="current_height" from="Player" to="." method="_on_Player_current_height"]
 [connection signal="current_height" from="Player" to="EnemySpawner" method="_on_Player_current_height"]
+[connection signal="current_height" from="Player" to="ParallaxBackground" method="_on_Player_current_height"]
+[connection signal="current_height" from="Player" to="UIGame" method="_on_Player_current_height"]
+[connection signal="current_height" from="Player" to="." method="_on_Player_current_height"]
 [connection signal="dead" from="Player" to="." method="_on_Player_dead"]
-[connection signal="invencible" from="Player" to="UIGame" method="_on_Player_invencible"]
 [connection signal="invencible" from="Player" to="CurrencySpawner" method="_on_Player_invencible"]
 [connection signal="invencible" from="Player" to="EnemySpawner" method="_on_Player_invencible_Enemy_Spawner"]
+[connection signal="invencible" from="Player" to="UIGame" method="_on_Player_invencible"]
 [connection signal="magnet_time" from="Player" to="UIGame" method="_on_Player_magnet_time"]
 [connection signal="on_magnet" from="Player" to="UIGame" method="_on_Player_on_magnet"]
+[connection signal="show_dead_ui" from="Player" to="UIGame" method="_on_Player_show_dead_ui"]
 [connection signal="start_playing" from="Player" to="." method="_on_Player_start_playing"]
 [connection signal="button_down" from="UIGame/UI/PauseButton" to="UIGame" method="_on_PauseButton_button_down"]
 [connection signal="on_config" from="UIGame/UI/PausePanel" to="UIGame" method="_on_PausePanel_on_config"]
 [connection signal="on_continue" from="UIGame/UI/PausePanel" to="UIGame" method="_on_PausePanel_on_continue"]
 [connection signal="on_home" from="UIGame/UI/PausePanel" to="UIGame" method="_on_PausePanel_on_home"]
 [connection signal="restart_game" from="UIGame/UI/DeadPanel" to="." method="_on_DeadPanel_restart_game"]
+[connection signal="accept_recover" from="UIGame/UI/RecoverPanel" to="UIGame" method="_on_RecoverPanel_accept_recover"]
+[connection signal="accept_recover" from="UIGame/UI/RecoverPanel" to="." method="_on_RecoverPanel_accept_recover"]
+[connection signal="cancel_recover" from="UIGame/UI/RecoverPanel" to="UIGame" method="_on_RecoverPanel_cancel_recover"]
 [connection signal="button_down" from="UIGame/UI/ComboButton" to="." method="_on_ComboButton_button_down"]
 [connection signal="finished" from="UIGame/UI/TransitionScene" to="UIGame" method="_on_TransitionScene_finished"]
 [connection signal="animation_finished" from="UIGame/UI/TransitionScene/Anim" to="UIGame" method="_on_Anim_animation_finished"]

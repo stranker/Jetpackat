@@ -1,0 +1,276 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Sprites/UI/AdsIcon.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/UI/CloseIcon.png" type="Texture" id=3]
+
+[sub_resource type="GDScript" id=4]
+script/source = "extends Control
+
+signal cancel_recover
+signal accept_recover
+
+func _ready():
+	$Panel.visible = false
+	$Panel/Title.text = tr(\"KEY_RECOVER\") + \"!\"
+	AdsManager.connect(\"reward_success\",self, \"on_reward\")
+	AdsManager.connect(\"reward_closed\",self, \"on_closed\")
+	AdsManager.connect(\"reward_failed\",self, \"on_failed\")
+	pass # Replace with function body.
+
+func on_reward():
+	emit_signal(\"accept_recover\")
+	$Anim.play_backwards(\"Enter\")
+	pass
+
+func on_closed():
+	emit_signal(\"cancel_recover\")
+	$Anim.play_backwards(\"Enter\")
+	pass
+
+func on_failed():
+	emit_signal(\"cancel_recover\")
+	$Anim.play_backwards(\"Enter\")
+	pass
+
+func _on_AdsButton_button_down():
+	AdsManager.show_reward()
+	pass # Replace with function body.
+
+func start():
+	$Anim.play(\"Enter\")
+
+func _on_CancelButton_button_down():
+	emit_signal(\"cancel_recover\")
+	$Anim.play_backwards(\"Enter\")
+	pass # Replace with function body.
+"
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0.956863, 0.752941, 0.278431, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color( 0.972549, 0.6, 0.227451, 1 )
+corner_radius_top_left = 40
+corner_radius_top_right = 40
+corner_radius_bottom_right = 40
+corner_radius_bottom_left = 40
+corner_detail = 2
+
+[sub_resource type="DynamicFont" id=3]
+size = 80
+use_mipmaps = true
+use_filter = true
+font_data = ExtResource( 1 )
+
+[sub_resource type="StyleBoxFlat" id=6]
+bg_color = Color( 0.156863, 0.137255, 0.482353, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 20
+border_color = Color( 0.156863, 0.137255, 0.482353, 1 )
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+corner_detail = 2
+shadow_color = Color( 0, 0, 0, 0.211765 )
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 0.196078, 0.34902, 0.886275, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 20
+border_color = Color( 0.156863, 0.137255, 0.482353, 1 )
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+corner_detail = 2
+shadow_color = Color( 0, 0, 0, 0.211765 )
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id=8]
+bg_color = Color( 0.623529, 0.117647, 0.192157, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 20
+border_color = Color( 0.623529, 0.117647, 0.192157, 1 )
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+corner_detail = 2
+shadow_color = Color( 0, 0, 0, 0.211765 )
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id=9]
+bg_color = Color( 0.705882, 0.137255, 0.0745098, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 20
+border_color = Color( 0.623529, 0.117647, 0.192157, 1 )
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+corner_detail = 2
+shadow_color = Color( 0, 0, 0, 0.211765 )
+shadow_size = 5
+
+[sub_resource type="Animation" id=10]
+resource_name = "Enter"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/path = NodePath("Panel:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 0.6 ),
+"transitions": PoolRealArray( 0.5, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1200, 701 ), Vector2( 200, 701 ), Vector2( 237, 701 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Panel:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+
+[node name="RecoverPanel" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+script = SubResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 660.0
+margin_top = -259.0
+margin_right = 1266.0
+margin_bottom = 259.0
+custom_styles/panel = SubResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 13.0
+margin_top = 6.0
+margin_right = -12.0
+margin_bottom = -249.0
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
+custom_constants/shadow_offset_x = 6
+custom_constants/shadow_offset_y = 6
+text = "REVIVE A TU GATO!"
+align = 1
+autowrap = true
+
+[node name="VBC" type="VBoxContainer" parent="Panel"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -226.0
+margin_top = -320.0
+margin_right = 226.0
+margin_bottom = -11.0
+
+[node name="ADS" type="Control" parent="Panel/VBC"]
+margin_right = 452.0
+margin_bottom = 168.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.23
+
+[node name="AdsButton" type="Button" parent="Panel/VBC/ADS"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_styles/hover = SubResource( 6 )
+custom_styles/pressed = SubResource( 6 )
+custom_styles/focus = SubResource( 6 )
+custom_styles/disabled = SubResource( 6 )
+custom_styles/normal = SubResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Icon" type="TextureRect" parent="Panel/VBC/ADS/AdsButton"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -151.0
+margin_top = -62.0
+margin_right = 150.0
+margin_bottom = 51.0
+texture = ExtResource( 2 )
+expand = true
+stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Cancel" type="Control" parent="Panel/VBC"]
+margin_top = 172.0
+margin_right = 452.0
+margin_bottom = 309.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="CancelButton" type="Button" parent="Panel/VBC/Cancel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_styles/hover = SubResource( 8 )
+custom_styles/pressed = SubResource( 8 )
+custom_styles/focus = SubResource( 8 )
+custom_styles/disabled = SubResource( 8 )
+custom_styles/normal = SubResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Icon" type="TextureRect" parent="Panel/VBC/Cancel/CancelButton"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -111.0
+margin_top = -49.5
+margin_right = 110.0
+margin_bottom = 37.5
+texture = ExtResource( 3 )
+expand = true
+stretch_mode = 6
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+anims/Enter = SubResource( 10 )
+[connection signal="button_down" from="Panel/VBC/ADS/AdsButton" to="." method="_on_AdsButton_button_down"]
+[connection signal="button_down" from="Panel/VBC/Cancel/CancelButton" to="." method="_on_CancelButton_button_down"]
