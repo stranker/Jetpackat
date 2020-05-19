@@ -21,6 +21,7 @@ var tutorial_done : bool = false
 var language = ''
 var has_internet_connection : bool = false
 var runs_played : int = 0
+export var min_ad_height : int = 100
 
 func reset_stats():
 	player_height = 0
@@ -173,8 +174,9 @@ func on_error_ssl_handshake():
 	pass
 
 func add_run():
-	runs_played += 1
+	if player_height >= min_ad_height:
+		runs_played += 1
 	pass
 
 func can_show_interstitial():
-	return runs_played % 3 == 0
+	return runs_played % 3 == 0 and runs_played != 0

@@ -1,0 +1,249 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=2]
+[ext_resource path="res://Sounds/Sfx/ButtonClick.wav" type="AudioStream" id=3]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Control
+
+signal on_accept_nickname(nickname)
+
+func _ready():
+	$Panel/AcceptButton.hide()
+	pass
+
+func start():
+	$Anim.play(\"Enter\")
+	$Panel/Nickname.grab_focus()
+	pass
+
+func _on_Nickname_text_changed(new_text):
+	$Panel/AcceptButton.visible = new_text != \"\"
+	pass # Replace with function body.
+
+func _on_AcceptButton_button_down():
+	var nickname = $Panel/Nickname.text
+	emit_signal(\"on_accept_nickname\", nickname.to_upper())
+	$Anim.play_backwards(\"Enter\")
+	$Button.play()
+	pass # Replace with function body.
+"
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.227451, 0.360784, 0.521569, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color( 0.141176, 0.117647, 0.266667, 1 )
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+corner_detail = 2
+
+[sub_resource type="DynamicFont" id=3]
+size = 64
+use_filter = true
+font_data = ExtResource( 1 )
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.27451, 0.356863, 0.905882, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color( 0, 0, 0, 1 )
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+corner_detail = 2
+expand_margin_top = 2.0
+expand_margin_bottom = 2.0
+shadow_color = Color( 0, 0, 0, 0.25098 )
+shadow_size = 10
+
+[sub_resource type="DynamicFont" id=5]
+size = 64
+use_filter = true
+font_data = ExtResource( 1 )
+
+[sub_resource type="StyleBoxFlat" id=6]
+bg_color = Color( 0.0666667, 0.513726, 0.215686, 1 )
+border_width_left = 10
+border_width_top = 5
+border_width_right = 10
+border_width_bottom = 15
+border_color = Color( 0.137255, 0.521569, 0.192157, 1 )
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+corner_detail = 2
+shadow_color = Color( 0, 0, 0, 0.188235 )
+shadow_size = 8
+
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 0.341176, 0.772549, 0.168627, 1 )
+border_width_left = 10
+border_width_top = 5
+border_width_right = 10
+border_width_bottom = 15
+border_color = Color( 0.0666667, 0.513726, 0.215686, 1 )
+corner_radius_top_left = 40
+corner_radius_top_right = 40
+corner_radius_bottom_right = 40
+corner_radius_bottom_left = 40
+corner_detail = 2
+shadow_color = Color( 0, 0, 0, 0.309804 )
+shadow_size = 8
+
+[sub_resource type="DynamicFont" id=8]
+size = 69
+use_filter = true
+font_data = ExtResource( 1 )
+
+[sub_resource type="Animation" id=9]
+resource_name = "Enter"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/path = NodePath("Panel:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 0.6 ),
+"transitions": PoolRealArray( 0.5, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1200, 699.999 ), Vector2( 120, 699.999 ), Vector2( 140, 699.999 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Panel:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+
+[node name="NicknamePanel" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+script = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 660.0
+margin_top = -260.001
+margin_right = 1460.0
+margin_bottom = 260.002
+custom_styles/panel = SubResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="Panel"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -390.0
+margin_top = 38.0
+margin_right = 390.0
+margin_bottom = 116.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 5
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
+custom_constants/shadow_offset_x = 8
+custom_constants/shadow_offset_y = 8
+text = "KEY_NICKNAME_TITLE"
+align = 1
+
+[node name="Nickname" type="LineEdit" parent="Panel"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -372.0
+margin_top = -101.002
+margin_right = 373.0
+margin_bottom = 75.9984
+custom_icons/clear = ExtResource( 2 )
+custom_styles/normal = SubResource( 4 )
+custom_fonts/font = SubResource( 5 )
+custom_colors/font_color_selected = Color( 0, 0, 0, 1 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+align = 1
+max_length = 30
+placeholder_text = "NICKNAME"
+placeholder_alpha = 0.451
+caret_blink = true
+caret_blink_speed = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AcceptButton" type="Button" parent="Panel"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -173.0
+margin_top = -165.003
+margin_right = 173.0
+margin_bottom = -40.0032
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 13
+size_flags_vertical = 13
+custom_styles/hover = SubResource( 6 )
+custom_styles/pressed = SubResource( 6 )
+custom_styles/focus = SubResource( 6 )
+custom_styles/disabled = SubResource( 6 )
+custom_styles/normal = SubResource( 7 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+clip_text = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Panel/AcceptButton"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -160.0
+margin_top = -55.0
+margin_right = 160.0
+margin_bottom = 55.0
+custom_fonts/font = SubResource( 8 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
+custom_constants/shadow_offset_x = 6
+custom_constants/shadow_offset_y = 6
+text = "KEY_NICKNAME_ACCEPT"
+align = 1
+clip_text = true
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+anims/Enter = SubResource( 9 )
+
+[node name="Button" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+[connection signal="text_changed" from="Panel/Nickname" to="." method="_on_Nickname_text_changed"]
+[connection signal="button_down" from="Panel/AcceptButton" to="." method="_on_AcceptButton_button_down"]

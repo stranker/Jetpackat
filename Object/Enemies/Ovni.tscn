@@ -52,7 +52,6 @@ func change_direction():
 	direction = -direction
 	$Sprite.scale.x *= -1
 	$Sprite.rotation = -$Sprite.rotation
-	$CollisionPolygon2D.rotation = -$CollisionPolygon2D.rotation
 	pass
 
 func _on_PatrolTimer_timeout():
@@ -96,9 +95,11 @@ texture = ExtResource( 1 )
 hframes = 3
 frame = 2
 
-[node name="Ovni" type="Area2D" parent="."]
+[node name="Ovni" type="Area2D" parent="Sprite"]
+rotation = 0.231232
+scale = Vector2( 0.5, 0.5 )
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Ovni"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Sprite/Ovni"]
 rotation = -0.269674
 polygon = PoolVector2Array( -61.674, -55.2344, -35.6308, 23.2373, -84.8551, 47.5565, 7.01563, 66.5552, 81.947, 54.4289, 31.4723, 24.1303, 67.9194, -46.223, 4.26329, -69.0491 )
 
@@ -110,5 +111,5 @@ one_shot = true
 autoplay = "Run"
 anims/Run = SubResource( 2 )
 [connection signal="active" from="." to="." method="_on_Ovni_active"]
-[connection signal="body_entered" from="Ovni" to="." method="_on_Ovni_body_entered"]
-[connection signal="timeout" from="PatrolTimer" to="Ovni" method="_on_PatrolTimer_timeout"]
+[connection signal="body_entered" from="Sprite/Ovni" to="." method="_on_Ovni_body_entered"]
+[connection signal="timeout" from="PatrolTimer" to="Sprite/Ovni" method="_on_PatrolTimer_timeout"]

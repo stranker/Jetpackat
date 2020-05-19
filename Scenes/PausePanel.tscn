@@ -5,6 +5,39 @@
 [ext_resource path="res://Sprites/UI/ConfigIcon.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/UI/HomeIcon.png" type="Texture" id=4]
 
+[sub_resource type="GDScript" id=12]
+script/source = "extends Control
+
+signal on_continue
+signal on_config
+signal on_home
+
+func _ready():
+	$Panel.visible = false
+
+func _on_ContinueButton_button_down():
+	emit_signal(\"on_continue\")
+	$Anim.play_backwards(\"Enter\")
+	pass # Replace with function body.
+
+func _on_ConfigButton_button_down():
+	emit_signal(\"on_config\")
+	pass # Replace with function body.
+
+func _on_HomeButton_button_down():
+	emit_signal(\"on_home\")
+	pass # Replace with function body.
+
+func _on_PauseButton_button_down():
+	$Anim.play(\"Enter\")
+	get_tree().paused = true
+	pass # Replace with function body.
+
+func _on_Anim_animation_finished(anim_name):
+	Debug.debug(\"Pause completo\")
+	pass # Replace with function body.
+"
+
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.705882, 0.137255, 0.0745098, 1 )
 border_width_left = 10
@@ -18,63 +51,10 @@ corner_radius_bottom_right = 50
 corner_radius_bottom_left = 50
 corner_detail = 2
 
-[sub_resource type="GDScript" id=2]
-script/source = "extends Panel
-
-signal on_continue
-signal on_config
-signal on_home
-
-func _ready():
-	visible = false
-	pass
-
-func _on_ContinueButton_button_down():
-	emit_signal(\"on_continue\")
-	pass # Replace with function body.
-
-
-func _on_ConfigButton_button_down():
-	emit_signal(\"on_config\")
-	pass # Replace with function body.
-
-
-func _on_HomeButton_button_down():
-	emit_signal(\"on_home\")
-	pass # Replace with function body.
-"
-
 [sub_resource type="DynamicFont" id=3]
 size = 80
 use_filter = true
 font_data = ExtResource( 1 )
-
-[sub_resource type="Animation" id=4]
-length = 0.6
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:rect_position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.6 ),
-"transitions": PoolRealArray( 0.5, 1 ),
-"update": 0,
-"values": [ Vector2( 166, 2000 ), Vector2( 166, 639.5 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath(".:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.1, 0.6 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, true ]
-}
 
 [sub_resource type="StyleBoxFlat" id=5]
 bg_color = Color( 0.137255, 0.521569, 0.192157, 1 )
@@ -154,30 +134,67 @@ corner_radius_bottom_right = 40
 corner_radius_bottom_left = 40
 corner_detail = 2
 
-[node name="PausePanel" type="Panel"]
+[sub_resource type="Animation" id=11]
+resource_name = "Enter"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/path = NodePath("Panel:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 0.6 ),
+"transitions": PoolRealArray( 0.5, 0.5, 1 ),
+"update": 0,
+"values": [ Vector2( 184.5, 2000 ), Vector2( 184.5, 600 ), Vector2( 184.5, 641 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Panel:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+
+[node name="PausePanel" type="Control"]
+pause_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+script = SubResource( 12 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="."]
 pause_mode = 2
 visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -374.0
+margin_left = -355.5
 margin_top = 1040.0
-margin_right = 374.0
-margin_bottom = 1681.0
+margin_right = 355.5
+margin_bottom = 1678.0
 custom_styles/panel = SubResource( 1 )
-script = SubResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="PauseLabel" type="Label" parent="."]
+[node name="PauseLabel" type="Label" parent="Panel"]
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -330.0
-margin_top = 45.0
+margin_top = 41.1229
 margin_right = 337.0
-margin_bottom = 162.0
+margin_bottom = 158.123
 size_flags_horizontal = 5
 size_flags_vertical = 5
 custom_fonts/font = SubResource( 3 )
@@ -187,16 +204,17 @@ custom_constants/shadow_offset_x = 6
 custom_constants/shadow_offset_y = 6
 text = "KEY_GAME_PAUSED"
 align = 1
+clip_text = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="DebugButton" type="TextureButton" parent="."]
+[node name="DebugButton" type="TextureButton" parent="Panel"]
 visible = false
 margin_right = 98.0
 margin_bottom = 104.0
 
-[node name="Anim" type="AnimationPlayer" parent="."]
-anims/PausePanel = SubResource( 4 )
-
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBC" type="VBoxContainer" parent="Panel"]
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -210,14 +228,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Continue" type="Control" parent="VBoxContainer"]
+[node name="Continue" type="Control" parent="Panel/VBC"]
 margin_right = 453.0
 margin_bottom = 180.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 1.5
 
-[node name="ContinueButton" type="Button" parent="VBoxContainer/Continue"]
+[node name="ContinueButton" type="Button" parent="Panel/VBC/Continue"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
@@ -231,7 +249,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Icon" type="TextureRect" parent="VBoxContainer/Continue/ContinueButton"]
+[node name="Icon" type="TextureRect" parent="Panel/VBC/Continue/ContinueButton"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -247,18 +265,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Config" type="Control" parent="VBoxContainer"]
+[node name="Config" type="Control" parent="Panel/VBC"]
 margin_top = 190.0
 margin_right = 453.0
 margin_bottom = 310.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="ConfigButton" type="Button" parent="VBoxContainer/Config"]
+[node name="ConfigButton" type="Button" parent="Panel/VBC/Config"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 100.0
-margin_right = -100.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_styles/hover = SubResource( 7 )
@@ -270,7 +286,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Icon" type="TextureRect" parent="VBoxContainer/Config/ConfigButton"]
+[node name="Icon" type="TextureRect" parent="Panel/VBC/Config/ConfigButton"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 20.0
@@ -284,18 +300,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Home" type="Control" parent="VBoxContainer"]
+[node name="Home" type="Control" parent="Panel/VBC"]
 margin_top = 320.0
 margin_right = 453.0
 margin_bottom = 442.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="HomeButton" type="Button" parent="VBoxContainer/Home"]
+[node name="HomeButton" type="Button" parent="Panel/VBC/Home"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 100.0
-margin_right = -100.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_styles/hover = SubResource( 9 )
@@ -307,7 +321,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Icon" type="TextureRect" parent="VBoxContainer/Home/HomeButton"]
+[node name="Icon" type="TextureRect" parent="Panel/VBC/Home/HomeButton"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 20.0
@@ -320,6 +334,11 @@ stretch_mode = 6
 __meta__ = {
 "_edit_use_anchors_": false
 }
-[connection signal="button_down" from="VBoxContainer/Continue/ContinueButton" to="." method="_on_ContinueButton_button_down"]
-[connection signal="button_down" from="VBoxContainer/Config/ConfigButton" to="." method="_on_ConfigButton_button_down"]
-[connection signal="button_down" from="VBoxContainer/Home/HomeButton" to="." method="_on_HomeButton_button_down"]
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+pause_mode = 2
+anims/Enter = SubResource( 11 )
+[connection signal="button_down" from="Panel/VBC/Continue/ContinueButton" to="." method="_on_ContinueButton_button_down"]
+[connection signal="button_down" from="Panel/VBC/Config/ConfigButton" to="." method="_on_ConfigButton_button_down"]
+[connection signal="button_down" from="Panel/VBC/Home/HomeButton" to="." method="_on_HomeButton_button_down"]
+[connection signal="animation_finished" from="Anim" to="." method="_on_Anim_animation_finished"]

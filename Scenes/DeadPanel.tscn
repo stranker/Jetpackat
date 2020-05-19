@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Sprites/UI/ContinueIcon.png" type="Texture" id=2]
@@ -8,10 +8,96 @@
 [ext_resource path="res://Sprites/Cat/CatPaws.png" type="Texture" id=6]
 [ext_resource path="res://Sounds/Sfx/Score.wav" type="AudioStream" id=7]
 [ext_resource path="res://Sounds/Sfx/ButtonClick.wav" type="AudioStream" id=8]
-[ext_resource path="res://Sprites/Ribbon/Emerald.png" type="Texture" id=9]
 [ext_resource path="res://Sprites/Particles/Confetti.png" type="Texture" id=10]
 
-[sub_resource type="StyleBoxFlat" id=1]
+[sub_resource type="GDScript" id=1]
+script/source = "extends Control
+
+signal restart_game
+export (Array, String) var highscore_titles = []
+var restart_pressed : bool = false
+var share = null
+onready var image_save_path = OS.get_user_data_dir() + \"/CatsCanFlyScore.png\"
+var store_link = \"https://play.google.com/store/apps/details?id=com.towercodegames.catscanfly.game\"
+var screenshot_taken : bool = false
+var new_highscore : bool = false
+
+func _ready():
+	$Panel.visible = false
+	set_particles(false)
+	if Engine.has_singleton(\"GodotShare\"):
+		share = Engine.get_singleton(\"GodotShare\")
+	pass
+
+func init(highscorepassed):
+	new_highscore = highscorepassed
+	generate_random_title(new_highscore)
+	$Panel/ScorePanel/Score.text = str(GameManager.player_height) + 'M'
+	$Anim.play(\"Enter\")
+	screenshot_taken = false
+	pass
+
+func _on_RestartButton_button_down():
+	if !restart_pressed:
+		restart_pressed = true
+		emit_signal('restart_game')
+		set_particles(false)
+		$Anim.play_backwards(\"Enter\")
+	pass
+
+func _on_Anim_animation_finished(anim_name):
+	if anim_name == 'Enter':
+		if new_highscore:
+			take_screenshot()
+	pass
+
+func generate_random_title(highscorepassed):
+	if highscorepassed:
+		var title = tr(highscore_titles[randi() % highscore_titles.size()])
+		$Panel/Title.text = title + \"!\"
+		$Panel/ScorePanel/Anim.play('Highscore')
+		$Sound.play()
+		set_particles(true)
+	else:
+		$Panel/Title.text = 'KEY_TRY_AGAIN'
+	pass
+
+func set_particles(value):
+	for particle in $Panel/Particles.get_children():
+		particle.visible = value
+		particle.emitting = value
+	pass
+
+func _on_ShareButton_button_down():
+	if !share:
+		return
+	var prev_text = tr(\"KEY_SHARE_PREV_DESC\")
+	var post_text = tr(\"KEY_SHARE_POST_DESC\")
+	var points = tr(\"KEY_POINTS\")
+	var share_text = prev_text + \" \" + str(GameManager.highscore) + \" \" + points + \"! \" + post_text + \"? #CatsCanFly \\n\" + store_link
+	share.sharePic(image_save_path, \"Image Sharing\", \"Sharing image with GodotShare\", share_text)
+	pass
+
+func take_screenshot():
+	if screenshot_taken:
+		return
+	screenshot_taken = true
+	var clear_mode = get_viewport().get_clear_mode()
+	get_viewport().set_clear_mode(Viewport.CLEAR_MODE_ONLY_NEXT_FRAME)
+	yield(get_tree(), \"idle_frame\")
+	yield(get_tree(), \"idle_frame\")
+	var image : Image = get_viewport().get_texture().get_data()
+	image.flip_y()
+	image.save_png(image_save_path)
+	var image_texture : ImageTexture = ImageTexture.new()
+	image_texture.create_from_image(image)
+	get_viewport().set_clear_mode(clear_mode)
+	$Panel/ScreenShot/Image.texture = image_texture
+	$Panel/ScreenShot.show()
+	pass
+"
+
+[sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.705882, 0.137255, 0.0745098, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -25,90 +111,6 @@ corner_radius_bottom_left = 50
 corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.219608 )
 shadow_size = 5
-
-[sub_resource type="GDScript" id=2]
-script/source = "extends Panel
-
-signal restart_game
-export (Array, String) var highscore_titles = []
-var restart_pressed : bool = false
-var share = null
-onready var image_save_path = OS.get_user_data_dir() + \"/CatsCanFlyScore.png\"
-var store_link = \"https://play.google.com/store/apps/details?id=com.towercodegames.catscanfly.game\"
-var screenshot_taken : bool = false
-var new_highscore : bool = false
-
-func _ready():
-	visible = false
-	set_particles(false)
-	if Engine.has_singleton(\"GodotShare\"):
-		share = Engine.get_singleton(\"GodotShare\")
-		Debug.debug(\"Godot Share ON!\")
-	pass
-
-func init(highscorepassed):
-	new_highscore = highscorepassed
-	generate_random_title(new_highscore)
-	$ScorePanel/Score.text = str(GameManager.player_height) + 'M'
-	$Anim.play('DeadPanel')
-	$Anim.queue('InitDeadPanel')
-	screenshot_taken = false
-	pass
-
-func _on_RestartButton_button_down():
-	if !restart_pressed:
-		restart_pressed = true
-		emit_signal('restart_game')
-		set_particles(false)
-	pass # Replace with function body.
-
-func _on_Anim_animation_finished(anim_name):
-	if anim_name == 'InitDeadPanel':
-		if new_highscore:
-			take_screenshot()
-	pass # Replace with function body.
-
-func generate_random_title(highscorepassed):
-	if highscorepassed:
-		var title = tr(highscore_titles[randi() % highscore_titles.size()])
-		$Title.text = title + \"!\"
-		$ScorePanel/Anim.play('Highscore')
-		$Sound.play()
-		set_particles(true)
-	else:
-		$Title.text = 'KEY_TRY_AGAIN'
-	pass
-
-func set_particles(value):
-	for particle in $Particles.get_children():
-		particle.visible = value
-		particle.emitting = value
-	pass
-
-func _on_ShareButton_button_down():
-	var prev_text = tr(\"KEY_SHARE_PREV_DESC\")
-	var post_text = tr(\"KEY_SHARE_POST_DESC\")
-	var points = tr(\"KEY_POINTS\")
-	var share_text = prev_text + \" \" + str(GameManager.highscore) + \" \" + points + \"! \" + post_text + \"? \\n\" + store_link
-	share.sharePic(image_save_path, \"Image Sharing\", \"Sharing image with GodotShare\", share_text)
-	take_screenshot()
-	pass
-
-func take_screenshot():
-	if screenshot_taken:
-		return
-	screenshot_taken = true
-	get_viewport().set_clear_mode(Viewport.CLEAR_MODE_ONLY_NEXT_FRAME)
-	yield(get_tree(), \"idle_frame\")
-	yield(get_tree(), \"idle_frame\")
-	var img : Image = get_viewport().get_texture().get_data()
-	img.flip_y()
-	img.save_png(image_save_path)
-	var img_texture : ImageTexture = ImageTexture.new()
-	img_texture.create_from_image(img)
-	$ScreenShot/Image.texture = img_texture
-	pass
-"
 
 [sub_resource type="DynamicFont" id=3]
 size = 80
@@ -246,108 +248,144 @@ corner_radius_bottom_right = 30
 corner_radius_bottom_left = 30
 corner_detail = 2
 
-[sub_resource type="Animation" id=10]
-length = 0.6
+[sub_resource type="Curve" id=10]
+_data = [ Vector2( 0, 1 ), 0.0, -3.09235, 0, 0, Vector2( 1, 0.0215 ), -0.209348, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=11]
+offsets = PoolRealArray( 0, 0.82716, 1 )
+colors = PoolColorArray( 1, 0.866667, 0, 1, 1, 0.866667, 0, 1, 1, 0.866667, 0, 0 )
+
+[sub_resource type="Gradient" id=12]
+offsets = PoolRealArray( 0, 0.246988, 0.759036, 0.992063 )
+colors = PoolColorArray( 0.0470588, 0.0470588, 0.0470588, 0, 0.196078, 0.34902, 0.886275, 1, 0.196078, 0.34902, 0.886275, 1, 1, 1, 1, 0 )
+
+[sub_resource type="Gradient" id=22]
+offsets = PoolRealArray( 0, 0.246988, 0.759036, 0.992063 )
+colors = PoolColorArray( 0.0470588, 0.0470588, 0.0470588, 0, 0.705882, 0.137255, 0.0745098, 1, 0.705882, 0.137255, 0.0745098, 1, 1, 1, 1, 0 )
+
+[sub_resource type="Gradient" id=23]
+offsets = PoolRealArray( 0, 0.246988, 0.759036, 0.992063 )
+colors = PoolColorArray( 0.0470588, 0.0470588, 0.0470588, 0, 0.956863, 0.752941, 0.278431, 1, 0.956863, 0.752941, 0.278431, 1, 1, 1, 1, 0 )
+
+[sub_resource type="Curve" id=13]
+_data = [ Vector2( 0, 0.5125 ), 0.0, -0.387931, 0, 0, Vector2( 1, 1 ), -5.22727, 0.0, 0, 0 ]
+
+[sub_resource type="Gradient" id=14]
+offsets = PoolRealArray( 0, 0.742063, 1 )
+colors = PoolColorArray( 1, 0.301961, 0.301961, 1, 1, 0.329661, 0.329661, 0.960317, 1, 1, 1, 0 )
+
+[sub_resource type="Gradient" id=15]
+offsets = PoolRealArray( 0, 0.738095, 1 )
+colors = PoolColorArray( 0.447059, 0.796078, 0.145098, 1, 0.447059, 0.796078, 0.145098, 1, 1, 1, 1, 0 )
+
+[sub_resource type="Gradient" id=16]
+offsets = PoolRealArray( 0, 0.738095, 1 )
+colors = PoolColorArray( 0.196078, 0.34902, 0.886275, 1, 0.196078, 0.34902, 0.886275, 1, 1, 1, 1, 0 )
+
+[sub_resource type="Gradient" id=17]
+offsets = PoolRealArray( 0, 0.738095, 1 )
+colors = PoolColorArray( 0.956863, 0.752941, 0.278431, 1, 0.956863, 0.752941, 0.278431, 1, 1, 1, 1, 0 )
+
+[sub_resource type="StyleBoxFlat" id=18]
+bg_color = Color( 1, 1, 1, 1 )
+
+[sub_resource type="DynamicFont" id=20]
+size = 32
+font_data = ExtResource( 1 )
+
+[sub_resource type="Animation" id=21]
+resource_name = "ShareLabel"
+loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath(".:rect_position")
+tracks/0/path = NodePath(".:rect_rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ -5.0, 5.0 ]
+}
+
+[sub_resource type="Animation" id=19]
+resource_name = "Enter"
+length = 0.8
+tracks/0/type = "value"
+tracks/0/path = NodePath("Panel:rect_position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0, 0.5, 0.6 ),
-"transitions": PoolRealArray( 0.5, 1, 1 ),
+"transitions": PoolRealArray( 0.5, 0.5, 1 ),
 "update": 0,
-"values": [ Vector2( 208, 2000 ), Vector2( 208, 620 ), Vector2( 208, 641 ) ]
+"values": [ Vector2( 208, 2000 ), Vector2( 208, 630 ), Vector2( 208, 665 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath(".:visible")
+tracks/1/path = NodePath("Panel/Cathead:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.1, 0.598656 ),
+"times": PoolRealArray( 0, 0.5, 0.6 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ false, true, true ]
-}
-
-[sub_resource type="Animation" id=11]
-length = 0.6
-tracks/0/type = "value"
-tracks/0/path = NodePath("Cathead:rect_position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.6 ),
-"transitions": PoolRealArray( -2, 1 ),
-"update": 0,
-"values": [ Vector2( 165, 22.678 ), Vector2( 152, -340 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("CatPaws:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ false, true ]
+"values": [ false, false, true ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Cathead:visible")
+tracks/2/path = NodePath("Panel/CatPaws:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.3 ),
+"times": PoolRealArray( 0, 0.7, 0.8 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, false, true ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Panel/Cathead:rect_position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.6, 0.8 ),
+"transitions": PoolRealArray( 0.5, 1 ),
+"update": 0,
+"values": [ Vector2( 162, 9.56677 ), Vector2( 154.825, -339.621 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Panel:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.1 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ false, true ]
 }
 
-[sub_resource type="Curve" id=12]
-_data = [ Vector2( 0, 1 ), 0.0, -3.09235, 0, 0, Vector2( 1, 0.0215 ), -0.209348, 0.0, 0, 0 ]
-
-[sub_resource type="Gradient" id=13]
-offsets = PoolRealArray( 0, 0.82716, 1 )
-colors = PoolColorArray( 1, 0.866667, 0, 1, 1, 0.866667, 0, 1, 1, 0.866667, 0, 0 )
-
-[sub_resource type="Curve" id=14]
-_data = [ Vector2( 0, 0.5125 ), 0.0, -0.387931, 0, 0, Vector2( 1, 0.0670455 ), -5.22727, 0.0, 0, 0 ]
-
-[sub_resource type="Gradient" id=15]
-offsets = PoolRealArray( 0.646825, 0.992063 )
-colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
-
-[sub_resource type="Gradient" id=16]
-offsets = PoolRealArray( 0, 0.742063, 1 )
-colors = PoolColorArray( 1, 0.301961, 0.301961, 1, 1, 0.329661, 0.329661, 0.960317, 1, 1, 1, 0 )
-
-[sub_resource type="Gradient" id=17]
-offsets = PoolRealArray( 0, 0.738095, 1 )
-colors = PoolColorArray( 0.447059, 0.796078, 0.145098, 1, 0.447059, 0.796078, 0.145098, 1, 1, 1, 1, 0 )
-
-[sub_resource type="Gradient" id=18]
-offsets = PoolRealArray( 0, 0.738095, 1 )
-colors = PoolColorArray( 0.196078, 0.34902, 0.886275, 1, 0.196078, 0.34902, 0.886275, 1, 1, 1, 1, 0 )
-
-[sub_resource type="Gradient" id=19]
-offsets = PoolRealArray( 0, 0.738095, 1 )
-colors = PoolColorArray( 0.956863, 0.752941, 0.278431, 1, 0.956863, 0.752941, 0.278431, 1, 1, 1, 1, 0 )
-
-[sub_resource type="StyleBoxFlat" id=20]
-bg_color = Color( 1, 1, 1, 1 )
-
-[node name="DeadPanel" type="Panel"]
+[node name="DeadPanel" type="Control"]
 pause_mode = 2
-visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+script = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+highscore_titles = [ "KEY_PERFECT", "KEY_AMAZING", "KEY_EXCELLENT" ]
+
+[node name="Panel" type="Panel" parent="."]
+pause_mode = 2
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -355,15 +393,13 @@ anchor_bottom = 0.5
 margin_left = -332.0
 margin_top = 1040.0
 margin_right = 332.0
-margin_bottom = 1630.0
-custom_styles/panel = SubResource( 1 )
-script = SubResource( 2 )
+margin_bottom = 1630.01
+custom_styles/panel = SubResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-highscore_titles = [ "KEY_PERFECT", "KEY_AMAZING", "KEY_EXCELLENT", "KEY_GREAT" ]
 
-[node name="Title" type="Label" parent="."]
+[node name="Title" type="Label" parent="Panel"]
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -360.0
@@ -387,7 +423,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ScorePanel" type="Panel" parent="."]
+[node name="ScorePanel" type="Panel" parent="Panel"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -401,7 +437,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Score" type="Label" parent="ScorePanel"]
+[node name="Score" type="Label" parent="Panel/ScorePanel"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -420,7 +456,7 @@ custom_constants/shadow_offset_y = 6
 text = "9999M"
 align = 1
 
-[node name="NewHighscore" type="Label" parent="ScorePanel"]
+[node name="NewHighscore" type="Label" parent="Panel/ScorePanel"]
 visible = false
 anchor_left = 0.5
 anchor_top = 1.0
@@ -440,10 +476,10 @@ custom_constants/shadow_as_outline = 1
 text = "NEW HIGHSCORE!"
 align = 1
 
-[node name="Anim" type="AnimationPlayer" parent="ScorePanel"]
+[node name="Anim" type="AnimationPlayer" parent="Panel/ScorePanel"]
 anims/Highscore = SubResource( 7 )
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel"]
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -456,13 +492,13 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Continue" type="Control" parent="HBoxContainer"]
+[node name="Continue" type="Control" parent="Panel/HBoxContainer"]
 margin_right = 664.0
 margin_bottom = 145.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="RestartButton" type="Button" parent="HBoxContainer/Continue"]
+[node name="RestartButton" type="Button" parent="Panel/HBoxContainer/Continue"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -480,7 +516,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Icon" type="TextureRect" parent="HBoxContainer/Continue/RestartButton"]
+[node name="Icon" type="TextureRect" parent="Panel/HBoxContainer/Continue/RestartButton"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -493,14 +529,10 @@ texture = ExtResource( 2 )
 expand = true
 stretch_mode = 6
 
-[node name="Anim" type="AnimationPlayer" parent="."]
-anims/DeadPanel = SubResource( 10 )
-anims/InitDeadPanel = SubResource( 11 )
-
-[node name="Particles" type="Node2D" parent="."]
+[node name="Particles" type="Node2D" parent="Panel"]
 show_behind_parent = true
 
-[node name="Stars" type="CPUParticles2D" parent="Particles"]
+[node name="Stars" type="CPUParticles2D" parent="Panel/Particles"]
 show_behind_parent = true
 position = Vector2( 157.266, 23.6089 )
 rotation = -1.5708
@@ -518,10 +550,10 @@ initial_velocity_random = 0.1
 angle = 360.0
 angle_random = 1.0
 scale_amount = 5.5
-scale_amount_curve = SubResource( 12 )
-color_ramp = SubResource( 13 )
+scale_amount_curve = SubResource( 10 )
+color_ramp = SubResource( 11 )
 
-[node name="Stars2" type="CPUParticles2D" parent="Particles"]
+[node name="Stars2" type="CPUParticles2D" parent="Panel/Particles"]
 show_behind_parent = true
 position = Vector2( 516.254, 32.6971 )
 rotation = -1.5708
@@ -539,32 +571,82 @@ initial_velocity_random = 0.1
 angle = 360.0
 angle_random = 1.0
 scale_amount = 5.5
-scale_amount_curve = SubResource( 12 )
-color_ramp = SubResource( 13 )
+scale_amount_curve = SubResource( 10 )
+color_ramp = SubResource( 11 )
 
-[node name="Emeralds" type="CPUParticles2D" parent="Particles"]
+[node name="RainConfetti" type="CPUParticles2D" parent="Panel/Particles"]
 show_behind_parent = true
-position = Vector2( 328.365, 432.545 )
+position = Vector2( 329.777, -785.25 )
 rotation = 1.5708
-amount = 40
-lifetime = 0.8
-explosiveness = 0.5
+amount = 30
+lifetime = 4.0
+explosiveness = 0.1
 randomness = 1.0
 lifetime_randomness = 0.2
-texture = ExtResource( 9 )
-spread = 80.0
+texture = ExtResource( 10 )
+emission_shape = 2
+emission_rect_extents = Vector2( 0, 400 )
+spread = 10.0
 gravity = Vector2( 0, 0 )
 initial_velocity = 800.0
 initial_velocity_random = 0.2
 damping = 100.0
 angle = 360.0
 angle_random = 1.0
-scale_amount = 0.5
+scale_amount = 3.0
 scale_amount_random = 1.0
-scale_amount_curve = SubResource( 14 )
-color_ramp = SubResource( 15 )
+color_ramp = SubResource( 12 )
+hue_variation_random = 1.0
 
-[node name="Confetti" type="CPUParticles2D" parent="Particles"]
+[node name="RainConfetti2" type="CPUParticles2D" parent="Panel/Particles"]
+show_behind_parent = true
+position = Vector2( 329.777, -785.25 )
+rotation = 1.5708
+amount = 30
+lifetime = 4.0
+explosiveness = 0.1
+randomness = 1.0
+lifetime_randomness = 0.2
+texture = ExtResource( 10 )
+emission_shape = 2
+emission_rect_extents = Vector2( 0, 400 )
+spread = 10.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 800.0
+initial_velocity_random = 0.2
+damping = 100.0
+angle = 360.0
+angle_random = 1.0
+scale_amount = 3.0
+scale_amount_random = 1.0
+color_ramp = SubResource( 22 )
+hue_variation_random = 1.0
+
+[node name="RainConfetti3" type="CPUParticles2D" parent="Panel/Particles"]
+show_behind_parent = true
+position = Vector2( 329.777, -785.25 )
+rotation = 1.5708
+amount = 30
+lifetime = 4.0
+explosiveness = 0.1
+randomness = 1.0
+lifetime_randomness = 0.2
+texture = ExtResource( 10 )
+emission_shape = 2
+emission_rect_extents = Vector2( 0, 400 )
+spread = 10.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 800.0
+initial_velocity_random = 0.2
+damping = 100.0
+angle = 360.0
+angle_random = 1.0
+scale_amount = 3.0
+scale_amount_random = 1.0
+color_ramp = SubResource( 23 )
+hue_variation_random = 1.0
+
+[node name="Confetti" type="CPUParticles2D" parent="Panel/Particles"]
 show_behind_parent = true
 position = Vector2( 184.32, 30.6674 )
 rotation = -2.31337
@@ -582,10 +664,52 @@ angle = 360.0
 angle_random = 1.0
 scale_amount = 2.0
 scale_amount_random = 1.0
-scale_amount_curve = SubResource( 14 )
+scale_amount_curve = SubResource( 13 )
+color_ramp = SubResource( 14 )
+
+[node name="Confetti3" type="CPUParticles2D" parent="Panel/Particles"]
+show_behind_parent = true
+position = Vector2( 207.703, 25.6568 )
+rotation = -2.31337
+amount = 10
+lifetime = 2.0
+texture = ExtResource( 10 )
+emission_shape = 1
+emission_sphere_radius = 100.0
+spread = 20.0
+gravity = Vector2( -500, -200 )
+initial_velocity = 500.0
+angular_velocity = 500.0
+angular_velocity_random = 1.0
+angle = 360.0
+angle_random = 1.0
+scale_amount = 2.0
+scale_amount_random = 1.0
+scale_amount_curve = SubResource( 13 )
+color_ramp = SubResource( 15 )
+
+[node name="Confetti5" type="CPUParticles2D" parent="Panel/Particles"]
+show_behind_parent = true
+position = Vector2( 207.703, 25.6568 )
+rotation = -2.31337
+amount = 10
+lifetime = 2.0
+texture = ExtResource( 10 )
+emission_shape = 1
+emission_sphere_radius = 100.0
+spread = 20.0
+gravity = Vector2( -500, -200 )
+initial_velocity = 500.0
+angular_velocity = 500.0
+angular_velocity_random = 1.0
+angle = 360.0
+angle_random = 1.0
+scale_amount = 2.0
+scale_amount_random = 1.0
+scale_amount_curve = SubResource( 13 )
 color_ramp = SubResource( 16 )
 
-[node name="Confetti3" type="CPUParticles2D" parent="Particles"]
+[node name="Confetti7" type="CPUParticles2D" parent="Panel/Particles"]
 show_behind_parent = true
 position = Vector2( 207.703, 25.6568 )
 rotation = -2.31337
@@ -603,52 +727,10 @@ angle = 360.0
 angle_random = 1.0
 scale_amount = 2.0
 scale_amount_random = 1.0
-scale_amount_curve = SubResource( 14 )
+scale_amount_curve = SubResource( 13 )
 color_ramp = SubResource( 17 )
 
-[node name="Confetti5" type="CPUParticles2D" parent="Particles"]
-show_behind_parent = true
-position = Vector2( 207.703, 25.6568 )
-rotation = -2.31337
-amount = 10
-lifetime = 2.0
-texture = ExtResource( 10 )
-emission_shape = 1
-emission_sphere_radius = 100.0
-spread = 20.0
-gravity = Vector2( -500, -200 )
-initial_velocity = 500.0
-angular_velocity = 500.0
-angular_velocity_random = 1.0
-angle = 360.0
-angle_random = 1.0
-scale_amount = 2.0
-scale_amount_random = 1.0
-scale_amount_curve = SubResource( 14 )
-color_ramp = SubResource( 18 )
-
-[node name="Confetti7" type="CPUParticles2D" parent="Particles"]
-show_behind_parent = true
-position = Vector2( 207.703, 25.6568 )
-rotation = -2.31337
-amount = 10
-lifetime = 2.0
-texture = ExtResource( 10 )
-emission_shape = 1
-emission_sphere_radius = 100.0
-spread = 20.0
-gravity = Vector2( -500, -200 )
-initial_velocity = 500.0
-angular_velocity = 500.0
-angular_velocity_random = 1.0
-angle = 360.0
-angle_random = 1.0
-scale_amount = 2.0
-scale_amount_random = 1.0
-scale_amount_curve = SubResource( 14 )
-color_ramp = SubResource( 19 )
-
-[node name="Confetti2" type="CPUParticles2D" parent="Particles"]
+[node name="Confetti2" type="CPUParticles2D" parent="Panel/Particles"]
 show_behind_parent = true
 position = Vector2( 476.56, 19.5129 )
 rotation = -0.832248
@@ -666,10 +748,10 @@ angle = 360.0
 angle_random = 1.0
 scale_amount = 2.0
 scale_amount_random = 1.0
-scale_amount_curve = SubResource( 14 )
+scale_amount_curve = SubResource( 13 )
 color = Color( 1, 0.301961, 0.301961, 1 )
 
-[node name="Confetti4" type="CPUParticles2D" parent="Particles"]
+[node name="Confetti4" type="CPUParticles2D" parent="Panel/Particles"]
 show_behind_parent = true
 position = Vector2( 476.56, 19.5129 )
 rotation = -0.832248
@@ -687,10 +769,10 @@ angle = 360.0
 angle_random = 1.0
 scale_amount = 2.0
 scale_amount_random = 1.0
-scale_amount_curve = SubResource( 14 )
+scale_amount_curve = SubResource( 13 )
 color = Color( 0.447059, 0.796078, 0.145098, 1 )
 
-[node name="Confetti6" type="CPUParticles2D" parent="Particles"]
+[node name="Confetti6" type="CPUParticles2D" parent="Panel/Particles"]
 show_behind_parent = true
 position = Vector2( 476.56, 19.5129 )
 rotation = -0.832248
@@ -708,10 +790,10 @@ angle = 360.0
 angle_random = 1.0
 scale_amount = 2.0
 scale_amount_random = 1.0
-scale_amount_curve = SubResource( 14 )
+scale_amount_curve = SubResource( 13 )
 color = Color( 0.196078, 0.34902, 0.886275, 1 )
 
-[node name="Confetti8" type="CPUParticles2D" parent="Particles"]
+[node name="Confetti8" type="CPUParticles2D" parent="Panel/Particles"]
 show_behind_parent = true
 position = Vector2( 476.56, 19.5129 )
 rotation = -0.832248
@@ -729,21 +811,23 @@ angle = 360.0
 angle_random = 1.0
 scale_amount = 2.0
 scale_amount_random = 1.0
-scale_amount_curve = SubResource( 14 )
+scale_amount_curve = SubResource( 13 )
 color = Color( 0.956863, 0.752941, 0.278431, 1 )
 
-[node name="Cathead" type="TextureRect" parent="."]
+[node name="Cathead" type="TextureRect" parent="Panel"]
 visible = false
 show_behind_parent = true
-margin_left = 165.0
-margin_top = 22.678
-margin_right = 505.0
-margin_bottom = 362.678
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -170.0
+margin_top = 9.56615
+margin_right = 170.0
+margin_bottom = 349.567
 texture = ExtResource( 5 )
 expand = true
 stretch_mode = 6
 
-[node name="CatPaws" type="TextureRect" parent="."]
+[node name="CatPaws" type="TextureRect" parent="Panel"]
 visible = false
 margin_left = 152.0
 margin_top = -51.0
@@ -753,37 +837,26 @@ texture = ExtResource( 6 )
 expand = true
 stretch_mode = 6
 
-[node name="Sound" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 7 )
-bus = "Sounds"
-
-[node name="ButtonClick" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 8 )
-volume_db = -6.0
-bus = "UI"
-
-[node name="ScreenShot" type="Panel" parent="."]
+[node name="ScreenShot" type="Panel" parent="Panel"]
 visible = false
-margin_left = 378.165
-margin_top = -225.163
-margin_right = 655.165
-margin_bottom = 257.837
+margin_left = 419.95
+margin_top = -132.354
+margin_right = 635.95
+margin_bottom = 243.646
 rect_rotation = -30.2993
 mouse_filter = 2
-custom_styles/panel = SubResource( 20 )
+custom_styles/panel = SubResource( 18 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Image" type="TextureRect" parent="ScreenShot"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -134.5
-margin_top = -235.5
-margin_right = 135.5
-margin_bottom = 234.5
+[node name="Image" type="TextureRect" parent="Panel/ScreenShot"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 5.0
+margin_right = -5.0
+margin_bottom = -5.0
 mouse_filter = 2
 texture = ExtResource( 3 )
 expand = true
@@ -792,7 +865,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ShareButton" type="TextureButton" parent="ScreenShot/Image"]
+[node name="ShareButton" type="TextureButton" parent="Panel/ScreenShot/Image"]
 margin_left = -4.0
 margin_top = -6.0
 margin_right = 273.0
@@ -800,6 +873,44 @@ margin_bottom = 478.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
-[connection signal="button_down" from="HBoxContainer/Continue/RestartButton" to="." method="_on_RestartButton_button_down"]
+
+[node name="Label" type="Label" parent="Panel/ScreenShot"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -129.506
+margin_top = -50.5306
+margin_right = 120.494
+margin_bottom = -10.5306
+rect_rotation = 0.644314
+rect_pivot_offset = Vector2( 125, 20 )
+custom_fonts/font = SubResource( 20 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
+custom_constants/shadow_offset_x = 4
+custom_constants/shadow_offset_y = 4
+text = "KEY_SHARE"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Anim" type="AnimationPlayer" parent="Panel/ScreenShot/Label"]
+autoplay = "ShareLabel"
+anims/ShareLabel = SubResource( 21 )
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+pause_mode = 2
+anims/Enter = SubResource( 19 )
+
+[node name="Sound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
+bus = "Sounds"
+
+[node name="ButtonClick" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 8 )
+volume_db = -6.0
+bus = "UI"
+[connection signal="button_down" from="Panel/HBoxContainer/Continue/RestartButton" to="." method="_on_RestartButton_button_down"]
+[connection signal="button_down" from="Panel/ScreenShot/Image/ShareButton" to="." method="_on_ShareButton_button_down"]
 [connection signal="animation_finished" from="Anim" to="." method="_on_Anim_animation_finished"]
-[connection signal="button_down" from="ScreenShot/Image/ShareButton" to="." method="_on_ShareButton_button_down"]

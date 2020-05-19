@@ -1,14 +1,42 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Groups/LanguageButtonGroup.tres" type="ButtonGroup" id=2]
-[ext_resource path="res://Sprites/UI/MainMenu/es_flag.png" type="Texture" id=3]
-[ext_resource path="res://Sprites/UI/MainMenu/en_flag.png" type="Texture" id=4]
-[ext_resource path="res://Sprites/UI/MainMenu/pt_flag.png" type="Texture" id=5]
 [ext_resource path="res://Sounds/Sfx/ButtonClick.wav" type="AudioStream" id=6]
-[ext_resource path="res://Sounds/Sfx/FlagPop.wav" type="AudioStream" id=7]
 
-[sub_resource type="StyleBoxFlat" id=1]
+[sub_resource type="GDScript" id=1]
+script/source = "extends Control
+
+signal on_language_selected
+var language_selected : bool = false
+
+func _on_En_button_down():
+	on_translation_button_clicked('en')
+	$ButtonClick.play()
+	pass # Replace with function body.
+
+func _on_Es_button_down():
+	on_translation_button_clicked('es')
+	$ButtonClick.play()
+	pass # Replace with function body.
+
+func on_translation_button_clicked(lang):
+	if language_selected:
+		return
+	language_selected = true
+	TranslationServer.set_locale(lang)
+	GameManager.language = lang
+	emit_signal(\"on_language_selected\")
+	$Anim.play_backwards(\"Enter\")
+	pass
+
+func start():
+	$Anim.play(\"Enter\")
+	language_selected = false
+	pass
+"
+
+[sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.227451, 0.360784, 0.521569, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -21,100 +49,101 @@ corner_radius_bottom_right = 50
 corner_radius_bottom_left = 50
 corner_detail = 2
 
-[sub_resource type="GDScript" id=2]
-script/source = "extends Panel
-
-signal language_selected(texture_button)
-onready var initial_button_scale = Vector2(0.4,0.3)
-export (Array, NodePath) var button_list
-var button_clicked = null
-
-func _ready():
-	randomize()
-	pass
-
-func _on_En_button_down():
-	on_translation_button_clicked('en',$Flags/English/En)
-	$ButtonClick.play()
-	pass # Replace with function body.
-
-func _on_Es_button_down():
-	on_translation_button_clicked('es',$Flags/Espaniol/Es)
-	$ButtonClick.play()
-	pass # Replace with function body.
-
-func _on_Pt_button_down():
-	on_translation_button_clicked('pt',$Flags/Portugues/Pt)
-	$ButtonClick.play()
-	pass # Replace with function body.
-
-func on_translation_button_clicked(lang,button):
-	button_clicked = button
-	TranslationServer.set_locale(lang)
-	GameManager.language = lang
-	$Tween.remove_all()
-	$Tween.interpolate_property(button,'rect_scale', initial_button_scale, Vector2(1.2,1.2), 0.5,
-		 Tween.TRANS_ELASTIC,Tween.EASE_OUT)
-	$Tween.start()
-	$Timer.start()
-	pass
-
-func on_animation_end():
-	if !button_clicked:
-		$Tween.remove_all()
-		for button in button_list:
-			$Tween.interpolate_property(get_node(button),'rect_scale', initial_button_scale, Vector2(1,1), 0.4,
-			 Tween.TRANS_ELASTIC,Tween.EASE_OUT, rand_range(0.05,0.25))
-		$Tween.start()
-	pass
-
-func _on_Timer_timeout():
-	emit_signal('language_selected',button_clicked.texture_normal)
-	pass # Replace with function body.
-
-func _on_LanguageSelection_visibility_changed():
-	if !visible:
-		for button in button_list:
-			get_node(button).rect_scale = Vector2(1,1)
-		button_clicked = null
-	pass # Replace with function body.
-
-
-func _on_Tween_tween_completed(object, key):
-	$FlagPop.play()
-	pass # Replace with function body.
-"
-
 [sub_resource type="DynamicFont" id=3]
 size = 72
 use_filter = true
 font_data = ExtResource( 1 )
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.156863, 0.137255, 0.482353, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 20
+border_color = Color( 0.156863, 0.137255, 0.482353, 1 )
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+corner_detail = 2
+
+[sub_resource type="StyleBoxFlat" id=5]
+bg_color = Color( 0.196078, 0.34902, 0.886275, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 20
+border_color = Color( 0.156863, 0.137255, 0.482353, 1 )
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+corner_detail = 2
+
+[sub_resource type="DynamicFont" id=6]
 size = 46
 use_filter = true
 font_data = ExtResource( 1 )
 
-[node name="LanguageSelection" type="Panel"]
+[sub_resource type="Animation" id=7]
+resource_name = "Enter"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/path = NodePath("Panel:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5, 0.6 ),
+"transitions": PoolRealArray( 0.5, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1200, 746.5 ), Vector2( 100, 746.5 ), Vector2( 135, 746.5 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Panel:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+
+[node name="LanguageSelection" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+script = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="."]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -1020.0
-margin_top = -1240.0
-margin_right = -57.0
-margin_bottom = -677.0
-custom_styles/panel = SubResource( 1 )
-script = SubResource( 2 )
-button_list = [ NodePath("Flags/Espaniol/Es"), NodePath("Flags/English/En"), NodePath("Flags/Portugues/Pt") ]
+margin_left = 660.0
+margin_top = -213.5
+margin_right = 1470.0
+margin_bottom = 213.5
+custom_styles/panel = SubResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Title" type="Label" parent="."]
+[node name="Title" type="Label" parent="Panel"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -471.5
-margin_top = 40.0
-margin_right = 468.5
-margin_bottom = 148.0
+margin_left = -421.5
+margin_top = 33.0
+margin_right = 426.5
+margin_bottom = 195.0
 custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
@@ -122,195 +151,124 @@ custom_constants/shadow_offset_x = 8
 custom_constants/shadow_offset_y = 8
 text = "KEY_SELECT_LANGUAGE"
 align = 1
-
-[node name="Flags" type="GridContainer" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -400.5
-margin_top = -72.5
-margin_right = 399.5
-margin_bottom = 197.5
-custom_constants/hseparation = 100
-columns = 3
+autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Espaniol" type="Control" parent="Flags"]
-margin_right = 200.0
-margin_bottom = 200.0
+[node name="Languages" type="HBoxContainer" parent="Panel"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -398.0
+margin_top = -279.0
+margin_right = 389.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Espaniol" type="Control" parent="Panel/Languages"]
+margin_right = 391.0
+margin_bottom = 279.0
 grow_horizontal = 2
 grow_vertical = 2
 rect_min_size = Vector2( 200, 200 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
-[node name="LanguageLabel" type="Label" parent="Flags/Espaniol"]
+[node name="Es" type="Button" parent="Panel/Languages/Espaniol"]
 anchor_left = 0.5
+anchor_top = 0.5
 anchor_right = 0.5
-margin_left = -123.0
-margin_right = 125.0
-margin_bottom = 56.0
-custom_fonts/font = SubResource( 4 )
+anchor_bottom = 0.5
+margin_left = -163.5
+margin_top = -74.5
+margin_right = 166.5
+margin_bottom = 75.5
+grow_horizontal = 2
+grow_vertical = 2
+custom_styles/hover = SubResource( 4 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/focus = SubResource( 4 )
+custom_styles/disabled = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
+group = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="LanguageLabel" type="Label" parent="Panel/Languages/Espaniol/Es"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -124.0
+margin_top = -34.3175
+margin_right = 124.0
+margin_bottom = 21.6825
+custom_fonts/font = SubResource( 6 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
-custom_constants/shadow_offset_x = 8
-custom_constants/shadow_offset_y = 8
+custom_constants/shadow_offset_x = 6
+custom_constants/shadow_offset_y = 6
 text = "ESPAÑOL"
 align = 1
 
-[node name="Es" type="TextureButton" parent="Flags/Espaniol"]
+[node name="English" type="Control" parent="Panel/Languages"]
+margin_left = 395.0
+margin_right = 787.0
+margin_bottom = 279.0
+rect_min_size = Vector2( 200, 200 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="En" type="Button" parent="Panel/Languages/English"]
 anchor_left = 0.5
-anchor_top = 1.0
+anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -100.0
-margin_top = -156.0
-margin_right = 100.0
+anchor_bottom = 0.5
+margin_left = -165.0
+margin_top = -75.0
+margin_right = 165.0
+margin_bottom = 75.0
 grow_horizontal = 2
 grow_vertical = 2
-rect_min_size = Vector2( 200, 156 )
-rect_pivot_offset = Vector2( 100, 78 )
+custom_styles/hover = SubResource( 4 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/focus = SubResource( 4 )
+custom_styles/disabled = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
 group = ExtResource( 2 )
-texture_normal = ExtResource( 3 )
-texture_pressed = ExtResource( 3 )
-texture_hover = ExtResource( 3 )
-texture_focused = ExtResource( 3 )
-expand = true
-stretch_mode = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="Shadow" type="TextureRect" parent="Flags/Espaniol/Es"]
-self_modulate = Color( 0, 0, 0, 0.262745 )
-show_behind_parent = true
-margin_left = 3.20532
-margin_top = 19.384
-margin_right = 204.205
-margin_bottom = 149.384
-mouse_filter = 2
-texture = ExtResource( 3 )
-expand = true
-stretch_mode = 6
-
-[node name="English" type="Control" parent="Flags"]
-margin_left = 300.0
-margin_right = 500.0
-margin_bottom = 200.0
-rect_min_size = Vector2( 200, 200 )
-
-[node name="LanguageLabel" type="Label" parent="Flags/English"]
+[node name="LanguageLabel" type="Label" parent="Panel/Languages/English/En"]
 anchor_left = 0.5
+anchor_top = 0.5
 anchor_right = 0.5
-margin_left = -123.0
-margin_right = 125.0
-margin_bottom = 56.0
-custom_fonts/font = SubResource( 4 )
+anchor_bottom = 0.5
+margin_left = -124.0
+margin_top = -34.3175
+margin_right = 124.0
+margin_bottom = 21.6825
+custom_fonts/font = SubResource( 6 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
-custom_constants/shadow_offset_x = 8
-custom_constants/shadow_offset_y = 8
+custom_constants/shadow_offset_x = 6
+custom_constants/shadow_offset_y = 6
 text = "ENGLISH"
 align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="En" type="TextureButton" parent="Flags/English"]
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -100.0
-margin_top = -156.0
-margin_right = 100.0
-grow_horizontal = 2
-grow_vertical = 2
-rect_min_size = Vector2( 200, 156 )
-rect_pivot_offset = Vector2( 110, 76 )
-group = ExtResource( 2 )
-texture_normal = ExtResource( 4 )
-texture_pressed = ExtResource( 4 )
-texture_hover = ExtResource( 4 )
-texture_focused = ExtResource( 4 )
-expand = true
-stretch_mode = 5
-
-[node name="Shadow" type="TextureRect" parent="Flags/English/En"]
-self_modulate = Color( 0, 0, 0, 0.262745 )
-show_behind_parent = true
-margin_left = 3.20532
-margin_top = 19.384
-margin_right = 204.205
-margin_bottom = 149.384
-mouse_filter = 2
-texture = ExtResource( 3 )
-expand = true
-stretch_mode = 6
-
-[node name="Portugues" type="Control" parent="Flags"]
-margin_left = 600.0
-margin_right = 800.0
-margin_bottom = 200.0
-rect_min_size = Vector2( 200, 200 )
-
-[node name="LanguageLabel" type="Label" parent="Flags/Portugues"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -123.0
-margin_right = 125.0
-margin_bottom = 56.0
-custom_fonts/font = SubResource( 4 )
-custom_colors/font_color = Color( 1, 1, 1, 1 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
-custom_constants/shadow_offset_x = 8
-custom_constants/shadow_offset_y = 8
-text = "PORTUGUES"
-align = 1
-
-[node name="Pt" type="TextureButton" parent="Flags/Portugues"]
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -100.0
-margin_top = -156.0
-margin_right = 100.0
-grow_horizontal = 2
-grow_vertical = 2
-rect_min_size = Vector2( 200, 156 )
-rect_pivot_offset = Vector2( 100, 78 )
-group = ExtResource( 2 )
-texture_normal = ExtResource( 5 )
-texture_pressed = ExtResource( 5 )
-texture_hover = ExtResource( 5 )
-texture_focused = ExtResource( 5 )
-expand = true
-stretch_mode = 5
-
-[node name="Shadow" type="TextureRect" parent="Flags/Portugues/Pt"]
-self_modulate = Color( 0, 0, 0, 0.262745 )
-show_behind_parent = true
-margin_left = 3.20532
-margin_top = 19.384
-margin_right = 204.205
-margin_bottom = 149.384
-mouse_filter = 2
-texture = ExtResource( 3 )
-expand = true
-stretch_mode = 6
-
-[node name="Tween" type="Tween" parent="."]
-
-[node name="Timer" type="Timer" parent="."]
-wait_time = 0.6
-one_shot = true
+[node name="Anim" type="AnimationPlayer" parent="."]
+anims/Enter = SubResource( 7 )
 
 [node name="ButtonClick" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 6 )
 bus = "UI"
-
-[node name="FlagPop" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 7 )
-bus = "UI"
-[connection signal="visibility_changed" from="." to="." method="_on_LanguageSelection_visibility_changed"]
-[connection signal="button_down" from="Flags/Espaniol/Es" to="." method="_on_Es_button_down"]
-[connection signal="button_down" from="Flags/English/En" to="." method="_on_En_button_down"]
-[connection signal="button_down" from="Flags/Portugues/Pt" to="." method="_on_Pt_button_down"]
-[connection signal="tween_completed" from="Tween" to="." method="_on_Tween_tween_completed"]
-[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[connection signal="button_down" from="Panel/Languages/Espaniol/Es" to="." method="_on_Es_button_down"]
+[connection signal="button_down" from="Panel/Languages/English/En" to="." method="_on_En_button_down"]

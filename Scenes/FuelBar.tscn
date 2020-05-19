@@ -13,6 +13,7 @@ export var fuel_time : int
 export (Array, Color) var colors
 export var fuel_counter : int = 0
 export var can_tween : bool = true
+export var max_fuel : int = 10
 
 func _ready():
 	initialize_tween()
@@ -46,6 +47,8 @@ func add_fuel():
 	$GridContainer.get_child($GridContainer.get_child_count()-fuel_counter).self_modulate = colors[fuel_counter-1]
 	start_tween()
 	$Anim.play('AddFuel')
+	$Anim.queue(\"Idle\")
+	$Anim.playback_speed = 1 + fuel_counter / max_fuel * 0.5
 	pass
 
 func remove_fuel():
@@ -62,11 +65,12 @@ func remove_fuel():
 	$ColorTween.start()
 	$Anim.play('FuelOut')
 	$Anim.queue('Idle')
+	$Anim.playback_speed = 1
 	pass
 
 func _on_PosTween_tween_all_completed():
 	can_tween = true
-	if fuel_counter >= 10:
+	if fuel_counter >= max_fuel:
 		remove_fuel()
 	pass # Replace with function body.
 "
@@ -101,24 +105,12 @@ tracks/1/keys = {
 [sub_resource type="Animation" id=3]
 length = 4.0
 tracks/0/type = "value"
-tracks/0/path = NodePath("FuelPanel/FuelFire:rect_position")
+tracks/0/path = NodePath("FuelPanel/FuelFire:rect_scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 3.9892 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Vector2( -6.1311, -90.7737 ), Vector2( -6.1311, -90.7737 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("FuelPanel/FuelFire:rect_scale")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
 "times": PoolRealArray( 0, 0.2, 0.4, 0.5, 0.6, 0.8, 1, 1.1, 1.2, 1.4, 1.5, 1.6, 1.8, 2, 2.2, 2.3, 2.5, 2.7, 3, 3.4, 3.6, 3.7, 3.9 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
@@ -126,6 +118,7 @@ tracks/1/keys = {
 }
 
 [sub_resource type="Animation" id=4]
+loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("FuelPanel:rect_scale")
 tracks/0/interp = 1
@@ -150,8 +143,45 @@ tracks/1/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
+tracks/2/type = "value"
+tracks/2/path = NodePath("FuelPanel/FuelFire:rect_position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.3, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -14.0922, -100.062 ), Vector2( -16, -101 ), Vector2( -16, -87.068 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("FuelPanel/FuelFire:rect_scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.3, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 0.9, 1.1 ), Vector2( 1.1, 0.9 ) ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("FuelPanel/FuelFire:flip_h")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
 
 [node name="FuelBar" type="Control"]
+modulate = Color( 1, 1, 1, 0.670588 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 20.0
@@ -160,7 +190,8 @@ margin_right = -960.0
 margin_bottom = -720.0
 script = SubResource( 1 )
 __meta__ = {
-"_edit_horizontal_guides_": [  ]
+"_edit_horizontal_guides_": [  ],
+"_edit_use_anchors_": false
 }
 delay_between_cells = 0.05
 delay_between_tween = 0.2
@@ -168,7 +199,6 @@ fuel_time = 20
 colors = [ Color( 0.909804, 0, 0, 1 ), Color( 1, 0.203922, 0.0470588, 1 ), Color( 1, 0.376471, 0, 1 ), Color( 1, 0.560784, 0, 1 ), Color( 1, 0.678431, 0, 1 ), Color( 1, 0.772549, 0, 1 ), Color( 1, 0.913725, 0, 1 ), Color( 0.976471, 1, 0.223529, 1 ), Color( 1, 0.972549, 0.545098, 1 ), Color( 1, 0.968627, 0.721569, 1 ) ]
 
 [node name="GridContainer" type="GridContainer" parent="."]
-editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_constants/vseparation = -70
@@ -287,26 +317,30 @@ stretch_mode = 6
 [node name="ColorTween" type="Tween" parent="."]
 
 [node name="FuelPanel" type="TextureRect" parent="."]
-editor/display_folded = true
 show_behind_parent = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 texture = ExtResource( 2 )
 expand = true
 stretch_mode = 7
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="FuelFire" type="TextureRect" parent="FuelPanel"]
 show_behind_parent = true
-margin_left = -6.1311
-margin_top = -90.7737
-margin_right = 103.869
-margin_bottom = 19.2263
-rect_pivot_offset = Vector2( 55, 60 )
+margin_left = -16.0
+margin_top = -95.622
+margin_right = 114.0
+margin_bottom = 34.378
+rect_scale = Vector2( 0.977204, 1.0228 )
+rect_pivot_offset = Vector2( 65, 65 )
 texture = ExtResource( 3 )
 expand = true
 stretch_mode = 6
 
 [node name="Anim" type="AnimationPlayer" parent="."]
+autoplay = "Idle"
 anims/AddFuel = SubResource( 2 )
 anims/FuelOut = SubResource( 3 )
 anims/Idle = SubResource( 4 )

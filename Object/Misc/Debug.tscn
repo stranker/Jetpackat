@@ -12,13 +12,13 @@ func _on_Console_button_down():
 	$Control/Panel.visible = !$Control/Panel.visible
 	pass # Replace with function body.
 
-
 func _on_Clear_button_down():
 	$Control/Panel/Text.clear()
 	pass # Replace with function body.
 "
 
 [node name="Debug" type="CanvasLayer"]
+pause_mode = 2
 layer = 2
 script = SubResource( 1 )
 

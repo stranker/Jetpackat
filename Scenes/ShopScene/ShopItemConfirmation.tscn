@@ -244,6 +244,7 @@ tracks/1/keys = {
 }
 
 [node name="ShopItemConfirmation" type="Control"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -358,7 +359,8 @@ custom_styles/disabled = SubResource( 11 )
 custom_styles/normal = SubResource( 12 )
 custom_fonts/font = SubResource( 10 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "NO"
+text = "KEY_NO"
+clip_text = true
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 anims/Enter = SubResource( 13 )

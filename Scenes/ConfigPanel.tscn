@@ -2,7 +2,6 @@
 
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Sprites/UI/PawCatIcon.png" type="Texture" id=2]
-[ext_resource path="res://Sprites/UI/MainMenu/es_flag.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/Cinematic/OptionCat.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/UI/LeftyOffButton.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/UI/LeftyOnButton.png" type="Texture" id=6]
@@ -19,7 +18,14 @@ bg_color = Color( 0.188235, 0.188235, 0.188235, 0.901961 )
 script/source = "extends Panel
 
 signal config_panel_closed
-var first_opened : bool = false
+
+var first_fx_sound : bool = false
+
+func _ready():
+	set_sliders()
+	GameManager.change_music_volume(int(GameManager.music_volume))
+	GameManager.change_sound_volume(int(GameManager.sound_volume))
+	pass
 
 func set_sliders():
 	$FrontPanel/VBC/Music/MusicSlider.value = GameManager.music_volume
@@ -32,41 +38,38 @@ func _on_MusicSlider_value_changed(value):
 
 func _on_SoundSlider_value_changed(value):
 	GameManager.change_sound_volume(int(value))
-	if first_opened:
+	if first_fx_sound:
 		$CoinSample.play()
-	first_opened = true
+	first_fx_sound = true
 	pass # Replace with function body.
 
 func _on_Mode_toggled(button_pressed):
 	GameManager.left_mode = button_pressed
 	pass # Replace with function body.
 
-func _on_LanguageButton_button_down():
-	$Anim.play('Language')
-	$CloseConfigButton.disabled = true
-	$LanguageSelection/Tween.interpolate_property($FrontPanel/VBC/Language/LanguageButton,
-		'rect_scale',Vector2(0.5,0.5),Vector2(1,1),0.5,Tween.TRANS_BOUNCE,Tween.EASE_OUT)
-	$LanguageSelection/Tween.start()
-	$ButtonClick.play()
-	pass # Replace with function body.
-
 func _on_LanguageSelection_language_selected(texture):
-	$FrontPanel/VBC/Language/LanguageButton.texture_normal = texture
-	$Anim.play_backwards('Language')
 	$CloseConfigButton.disabled = false
 	pass # Replace with function body.
 
-func init():
-	$Anim.play('PauseIn')
-	set_sliders()
-	$FrontPanel/VBC/Language/LanguageButton.texture_normal = load('res://Sprites/UI/MainMenu/'+GameManager.language+'_flag.png')
+func start():
+	$Anim.play(\"Enter\")
 	pass
 
 func _on_CloseConfigButton_button_down():
-	$Anim.play_backwards('PauseIn')
 	GameManager.save_current_game_info()
 	emit_signal('config_panel_closed')
 	$ButtonClick.play()
+	$Anim.play_backwards(\"Enter\")
+	pass # Replace with function body.
+
+func _on_Language_button_down():
+	$CloseConfigButton.hide()
+	$ButtonClick.play()
+	$LanguageSelection.start()
+	pass # Replace with function body.
+
+func _on_LanguageSelection_on_language_selected():
+	$CloseConfigButton.show()
 	pass # Replace with function body.
 "
 
@@ -164,51 +167,39 @@ expand_margin_top = 10.0
 expand_margin_bottom = 10.0
 shadow_size = 2
 
-[sub_resource type="Animation" id=10]
-length = 0.6
-tracks/0/type = "value"
-tracks/0/path = NodePath("LanguageSelection:rect_position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.6 ),
-"transitions": PoolRealArray( 0.5, 1 ),
-"update": 0,
-"values": [ Vector2( 1181, 650 ), Vector2( 58.5001, 650 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath("LanguageSelection:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.1, 0.594174 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, true ]
-}
-tracks/2/type = "method"
-tracks/2/path = NodePath("LanguageSelection")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0.6 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "on_animation_end"
-} ]
-}
+[sub_resource type="StyleBoxFlat" id=13]
+bg_color = Color( 0.156863, 0.137255, 0.482353, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 20
+border_color = Color( 0.156863, 0.137255, 0.482353, 1 )
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+corner_detail = 2
 
-[sub_resource type="Animation" id=11]
-length = 0.6
+[sub_resource type="StyleBoxFlat" id=14]
+bg_color = Color( 0.196078, 0.34902, 0.886275, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 20
+border_color = Color( 0.156863, 0.137255, 0.482353, 1 )
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+corner_detail = 2
+
+[sub_resource type="DynamicFont" id=15]
+size = 80
+use_filter = true
+font_data = ExtResource( 1 )
 
 [sub_resource type="Animation" id=12]
+resource_name = "Enter"
 length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath("FrontPanel:rect_position")
@@ -313,7 +304,7 @@ anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -285.0
 margin_top = -300.0
-margin_right = 285.0
+margin_right = 322.0
 margin_bottom = -160.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -347,7 +338,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="Music" type="Control" parent="FrontPanel/VBC"]
-margin_right = 851.0
+margin_right = 850.0
 margin_bottom = 339.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -390,7 +381,7 @@ ticks_on_borders = true
 
 [node name="Sound" type="Control" parent="FrontPanel/VBC"]
 margin_top = 343.0
-margin_right = 851.0
+margin_right = 850.0
 margin_bottom = 682.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -432,60 +423,40 @@ ticks_on_borders = true
 
 [node name="Language" type="Control" parent="FrontPanel/VBC"]
 margin_top = 686.0
-margin_right = 851.0
+margin_right = 850.0
 margin_bottom = 1027.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Language" type="Label" parent="FrontPanel/VBC/Language"]
+[node name="Language" type="Button" parent="FrontPanel/VBC/Language"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -320.0
-margin_top = -141.5
-margin_right = 314.0
-margin_bottom = -33.5
-custom_styles/normal = SubResource( 6 )
-custom_fonts/font = SubResource( 7 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 0.376471 )
-custom_constants/shadow_offset_x = 8
-custom_constants/shadow_offset_y = 8
-text = "KEY_LANGUAGE"
-align = 1
+margin_left = -274.5
+margin_top = -127.5
+margin_right = 274.5
+margin_bottom = 79.5
+custom_styles/hover = SubResource( 13 )
+custom_styles/pressed = SubResource( 13 )
+custom_styles/focus = SubResource( 13 )
+custom_styles/disabled = SubResource( 13 )
+custom_styles/normal = SubResource( 14 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="LanguageButton" type="TextureButton" parent="FrontPanel/VBC/Language"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -91.0
-margin_top = -1.5
-margin_right = 91.0
-margin_bottom = 108.5
-grow_horizontal = 2
-grow_vertical = 2
-rect_pivot_offset = Vector2( 91, 55 )
-size_flags_horizontal = 3
-size_flags_vertical = 3
-texture_normal = ExtResource( 3 )
-expand = true
-stretch_mode = 5
-
-[node name="BackShadow" type="TextureRect" parent="FrontPanel/VBC/Language/LanguageButton"]
-modulate = Color( 0, 0, 0, 0.305882 )
-show_behind_parent = true
+[node name="Label" type="Label" parent="FrontPanel/VBC/Language/Language"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = -2.0
-margin_right = 3.0
-margin_bottom = 7.0
-rect_pivot_offset = Vector2( 73, 45 )
-texture = ExtResource( 3 )
-expand = true
-stretch_mode = 6
-
-[node name="Tween" type="Tween" parent="FrontPanel/VBC/Language"]
+custom_fonts/font = SubResource( 15 )
+text = "KEY_LANGUAGE"
+align = 1
+valign = 1
+clip_text = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Cat" type="TextureRect" parent="FrontPanel"]
 show_behind_parent = true
@@ -498,6 +469,9 @@ rect_pivot_offset = Vector2( 200, 188.5 )
 texture = ExtResource( 4 )
 expand = true
 stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="LeftMode" type="Label" parent="."]
 visible = false
@@ -529,7 +503,7 @@ custom_icons/on = ExtResource( 6 )
 
 [node name="CloseConfigButton" type="TextureButton" parent="."]
 visible = false
-modulate = Color( 1, 1, 1, 0 )
+modulate = Color( 1, 1, 1, 0.0833229 )
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -130.0
@@ -545,16 +519,9 @@ expand = true
 stretch_mode = 5
 
 [node name="LanguageSelection" parent="." instance=ExtResource( 9 )]
-visible = false
-margin_left = 641.0
-margin_top = -310.0
-margin_right = 1604.0
-margin_bottom = 253.0
 
 [node name="Anim" type="AnimationPlayer" parent="."]
-anims/Language = SubResource( 10 )
-anims/LanguageOut = SubResource( 11 )
-anims/PauseIn = SubResource( 12 )
+anims/Enter = SubResource( 12 )
 
 [node name="CoinSample" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 10 )
@@ -566,7 +533,7 @@ stream = ExtResource( 11 )
 bus = "UI"
 [connection signal="value_changed" from="FrontPanel/VBC/Music/MusicSlider" to="." method="_on_MusicSlider_value_changed"]
 [connection signal="value_changed" from="FrontPanel/VBC/Sound/SoundSlider" to="." method="_on_SoundSlider_value_changed"]
-[connection signal="button_down" from="FrontPanel/VBC/Language/LanguageButton" to="." method="_on_LanguageButton_button_down"]
+[connection signal="button_down" from="FrontPanel/VBC/Language/Language" to="." method="_on_Language_button_down"]
 [connection signal="toggled" from="LeftMode/Mode" to="." method="_on_Mode_toggled"]
 [connection signal="button_down" from="CloseConfigButton" to="." method="_on_CloseConfigButton_button_down"]
-[connection signal="language_selected" from="LanguageSelection" to="." method="_on_LanguageSelection_language_selected"]
+[connection signal="on_language_selected" from="LanguageSelection" to="." method="_on_LanguageSelection_on_language_selected"]

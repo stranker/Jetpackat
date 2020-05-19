@@ -20,6 +20,7 @@ export var actual_page : int = 0
 func _ready():
 	$VBC/Grid.columns = columns_number
 	$VBC/HBC/Page/PageText.text = ''
+	$VBC/HBC.hide()
 	pass # Replace with function body.
 
 func create_shop_items(data : Array):
@@ -47,12 +48,14 @@ func fill_leader_info():
 		var info = grid_data[actual_page * items_to_show + idx]
 		$VBC/Grid.get_child(idx).set_info(pos,info)
 		pos += 1
+	$VBC/HBC.show()
 	pass
 
 func fill_shop_item_info():
 	var panel_count = $VBC/Grid.get_child_count() 
 	for idx in range(panel_count):
 		$VBC/Grid.get_child(idx).set_item_info(grid_data[actual_page * items_to_show + idx])
+	$VBC/HBC.show()
 	pass
 
 func clear_previous_data():
@@ -124,7 +127,8 @@ func _on_PrevButton_button_down():
 func _on_NextButton_button_down():
 	next_page()
 	$PanelChange.play()
-	pass # Replace with function body."
+	pass # Replace with function body.
+"
 
 [sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.227451, 0.360784, 0.521569, 1 )

@@ -24,6 +24,7 @@ export var jump_speed : float = 700
 export var horizontal_jump_speed : float = 300
 export var slide_speed : float = 400
 export var invencible_time : float = 4
+export var min_recover_height : int = 500
 var velocity : Vector2
 var jump_direction : int = 1
 var GRAVITY = 1600
@@ -35,7 +36,7 @@ var dead : bool = false
 var has_magnet : bool = false
 var has_aegis : bool = false
 var die_position : Vector2
-var can_recover : bool = true
+var can_recover : bool = false
 
 signal start_playing
 signal dead
@@ -80,7 +81,11 @@ func _process(delta):
 		check_boundaries()
 		process_animation()
 		if !is_on_floor():
-			emit_signal('current_height',int(abs(position.y) * 0.01))
+			var height = int(abs(position.y) * 0.01)
+			emit_signal('current_height', height)
+			if !can_recover:
+				if height > min_recover_height:
+					can_recover = true
 		$Visible/Jetpack/Thruster.emitting = velocity.y < 0
 	pass
 
