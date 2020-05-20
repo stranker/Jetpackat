@@ -22,9 +22,12 @@ var language = ''
 var has_internet_connection : bool = false
 var runs_played : int = 0
 export var min_ad_height : int = 100
+export var min_recover_height : int = 500
+var can_revive : bool = true
 
 func reset_stats():
 	player_height = 0
+	can_revive = true
 	pass
 
 func _ready():
@@ -178,5 +181,12 @@ func add_run():
 		runs_played += 1
 	pass
 
+func can_show_recover():
+	return can_revive and player_height >= min_recover_height and AdsManager.is_reward_loaded()
+
 func can_show_interstitial():
-	return runs_played % 3 == 0 and runs_played != 0
+	return runs_played % 3 == 0 and runs_played != 0 and AdsManager.is_interstitial_loaded()
+
+func on_player_recover():
+	can_revive = false
+	pass

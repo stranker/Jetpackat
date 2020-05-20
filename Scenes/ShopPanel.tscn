@@ -1,0 +1,436 @@
+[gd_scene load_steps=23 format=2]
+
+[ext_resource path="res://Scenes/ShopPanel.gd" type="Script" id=1]
+[ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/Cat/Eyes.png" type="Texture" id=4]
+[ext_resource path="res://Scenes/ItemPageGrid.tscn" type="PackedScene" id=5]
+[ext_resource path="res://addons/PickerOfColors/CustomColor.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Scenes/ItemShopPanel.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Scenes/BaseButtonShop.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=9]
+[ext_resource path="res://Sprites/Shop/UI/Background.png" type="Texture" id=10]
+[ext_resource path="res://Sprites/Shop/UI/HatButton.png" type="Texture" id=11]
+[ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=13]
+[ext_resource path="res://Sprites/Shop/UI/PatternButton.png" type="Texture" id=14]
+[ext_resource path="res://Sprites/Shop/Cat/Skin/Normal.png" type="Texture" id=15]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.145098, 0.192157, 0.368627, 1 )
+border_width_left = 7
+border_width_right = 7
+border_width_bottom = 20
+border_color = Color( 0.0980392, 0.0627451, 0.180392, 1 )
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+corner_detail = 2
+expand_margin_left = 5.0
+expand_margin_right = 5.0
+expand_margin_top = 5.0
+expand_margin_bottom = 5.0
+
+[sub_resource type="ButtonGroup" id=2]
+
+[sub_resource type="ButtonGroup" id=3]
+
+[sub_resource type="ButtonGroup" id=4]
+
+[sub_resource type="ButtonGroup" id=5]
+
+[sub_resource type="ButtonGroup" id=6]
+
+[sub_resource type="GDScript" id=7]
+script/source = "extends Control
+
+enum ItemGridType {Leaderboard, ShopPanel}
+export (ItemGridType) var item_page_grid_type
+export (PackedScene) var packed_scene
+export (int) var columns_number = 1
+var grid_data
+export (int) var items_to_show
+var total_pages : int
+export var actual_page : int = 0
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	$VBC/Grid.columns = columns_number
+	$VBC/HBC/Page/PageText.text = ''
+	$VBC/HBC.hide()
+	pass # Replace with function body.
+
+func create_shop_items(data : Array):
+	total_pages = ceil(float(data.size()) / float(items_to_show))
+	actual_page = 0
+	grid_data = data
+	clear_previous_data()
+	instanciate_page()
+	fill_shop_item_info()
+	pass
+
+func create_leader_items(data : Array):
+	total_pages = ceil(float(data.size()) / float(items_to_show))
+	actual_page = 0
+	grid_data = data
+	clear_previous_data()
+	instanciate_page()
+	fill_leader_info()
+	pass
+
+func fill_leader_info():
+	var panel_count = $VBC/Grid.get_child_count() 
+	var pos = actual_page * items_to_show + 1
+	for idx in range(panel_count):
+		var info = grid_data[actual_page * items_to_show + idx]
+		$VBC/Grid.get_child(idx).set_info(pos,info)
+		pos += 1
+	$VBC/HBC.show()
+	pass
+
+func fill_shop_item_info():
+	var panel_count = $VBC/Grid.get_child_count() 
+	for idx in range(panel_count):
+		$VBC/Grid.get_child(idx).set_item_info(grid_data[actual_page * items_to_show + idx])
+	$VBC/HBC.show()
+	pass
+
+func clear_previous_data():
+	for item in $VBC/Grid.get_children():
+		$VBC/Grid.remove_child(item)
+		item.queue_free()
+	pass
+
+func instanciate_page():
+	if actual_page != total_pages - 1:
+		for i in range(items_to_show):
+			var scene = packed_scene.instance()
+			$VBC/Grid.add_child(scene)
+	else:
+		var cant = grid_data.size() % items_to_show if grid_data.size() % items_to_show != 0 else items_to_show
+		for i in range(cant):
+			var scene = packed_scene.instance()
+			$VBC/Grid.add_child(scene)
+	check_ui()
+	pass
+
+func check_ui():
+	$VBC/HBC/Page/PageText.text = str(actual_page + 1) + ' / ' + str(total_pages)
+	$VBC/HBC/Next/NextButton.visible = actual_page != total_pages - 1
+	$VBC/HBC/Prev/PrevButton.visible = actual_page != 0
+	pass
+
+func check_type():
+	match item_page_grid_type:
+		ItemGridType.Leaderboard:
+			fill_leader_info()
+			return
+		ItemGridType.ShopPanel:
+			fill_shop_item_info()
+			return
+	pass
+
+func check_next():
+	if actual_page != total_pages - 1:
+		actual_page += 1
+		actual_page = clamp(actual_page, 0, total_pages)
+	pass
+
+func check_prev():
+	if actual_page != 0:
+		actual_page -= 1
+		actual_page = clamp(actual_page, 0, total_pages)
+	pass
+
+func next_page():
+	check_next()
+	clear_previous_data()
+	instanciate_page()
+	check_type()
+	pass
+
+func prev_page():
+	check_prev()
+	clear_previous_data()
+	instanciate_page()
+	check_type()
+	pass
+
+func _on_PrevButton_button_down():
+	prev_page()
+	$PanelChange.play()
+	pass # Replace with function body.
+
+func _on_NextButton_button_down():
+	next_page()
+	$PanelChange.play()
+	pass # Replace with function body.
+"
+
+[sub_resource type="StyleBoxFlat" id=8]
+bg_color = Color( 0.686275, 0.364706, 0.137255, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color( 0.454902, 0.203922, 0.101961, 1 )
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+corner_detail = 2
+
+[sub_resource type="Animation" id=9]
+length = 0.5
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4, 0.5 ),
+"transitions": PoolRealArray( 0.5, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1600, 0 ), Vector2( -20, 0 ), Vector2( 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.05 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+
+[node name="ShopPanel" type="Control" groups=[
+"ShopPanel",
+]]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 0.000244141
+mouse_filter = 1
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BackPanel" type="Panel" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -530.0
+margin_top = -1640.0
+margin_right = 530.0
+margin_bottom = -10.0
+mouse_filter = 1
+custom_styles/panel = SubResource( 1 )
+
+[node name="HBC" type="VBoxContainer" parent="BackPanel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="PlayerPanel" type="Control" parent="BackPanel/HBC"]
+margin_right = 1060.0
+margin_bottom = 609.0
+rect_clip_content = true
+mouse_filter = 1
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.6
+
+[node name="Background" type="TextureRect" parent="BackPanel/HBC/PlayerPanel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 10 )
+expand = true
+stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PatternButton" parent="BackPanel/HBC/PlayerPanel" instance=ExtResource( 8 )]
+anchor_left = 0.0
+anchor_right = 0.0
+margin_left = -17.0
+margin_top = -232.5
+margin_right = 314.0
+margin_bottom = 229.5
+rect_pivot_offset = Vector2( 159.045, 233.222 )
+group = SubResource( 2 )
+texture_normal = ExtResource( 14 )
+texture_pressed = ExtResource( 14 )
+texture_hover = ExtResource( 14 )
+texture_disabled = ExtResource( 14 )
+texture_focused = ExtResource( 14 )
+button_texture = ExtResource( 14 )
+
+[node name="JetpackButton" parent="BackPanel/HBC/PlayerPanel" instance=ExtResource( 8 )]
+margin_left = -119.682
+margin_top = -20.4299
+margin_right = 75.3179
+margin_bottom = 263.57
+rect_rotation = 15.0
+rect_pivot_offset = Vector2( 108, 151.072 )
+group = SubResource( 3 )
+texture_normal = ExtResource( 3 )
+texture_pressed = ExtResource( 3 )
+texture_hover = ExtResource( 3 )
+texture_disabled = ExtResource( 3 )
+texture_focused = ExtResource( 3 )
+button_texture = ExtResource( 3 )
+
+[node name="SkinButton" parent="BackPanel/HBC/PlayerPanel" instance=ExtResource( 8 )]
+anchor_left = 0.0
+anchor_right = 0.0
+margin_left = 251.798
+margin_top = -114.227
+margin_right = 444.798
+margin_bottom = 238.773
+rect_pivot_offset = Vector2( 90, 193 )
+group = SubResource( 4 )
+texture_normal = ExtResource( 15 )
+texture_pressed = ExtResource( 15 )
+texture_hover = ExtResource( 15 )
+texture_disabled = ExtResource( 15 )
+texture_focused = ExtResource( 15 )
+button_texture = ExtResource( 15 )
+
+[node name="Pattern" type="TextureRect" parent="BackPanel/HBC/PlayerPanel/SkinButton"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+expand = true
+stretch_mode = 6
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Eyes" type="NinePatchRect" parent="BackPanel/HBC/PlayerPanel/SkinButton"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -100.5
+margin_top = 20.0
+margin_right = 73.5
+margin_bottom = 187.0
+texture = ExtResource( 4 )
+region_rect = Rect2( 0, 0, 32, 32 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Scarf" type="TextureRect" parent="BackPanel/HBC/PlayerPanel/SkinButton"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -73.5
+margin_top = -25.5
+margin_right = 64.5
+margin_bottom = 135.5
+mouse_filter = 2
+expand = true
+stretch_mode = 6
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Hat" type="TextureRect" parent="BackPanel/HBC/PlayerPanel/SkinButton"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -103.5
+margin_top = -128.0
+margin_right = 107.5
+margin_bottom = 88.0
+rect_rotation = 0.927213
+mouse_filter = 2
+expand = true
+stretch_mode = 6
+__meta__ = {
+"_edit_lock_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="HatButton" parent="BackPanel/HBC/PlayerPanel" instance=ExtResource( 8 )]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -223.492
+margin_top = -231.224
+margin_right = -15.4917
+margin_bottom = 213.776
+rect_pivot_offset = Vector2( 100, 200 )
+group = SubResource( 5 )
+texture_normal = ExtResource( 11 )
+texture_pressed = ExtResource( 11 )
+texture_hover = ExtResource( 11 )
+texture_disabled = ExtResource( 11 )
+texture_focused = ExtResource( 11 )
+button_texture = ExtResource( 11 )
+
+[node name="ScarfButton" parent="BackPanel/HBC/PlayerPanel" instance=ExtResource( 8 )]
+margin_left = 83.8008
+margin_top = -93.0865
+margin_right = 308.801
+margin_bottom = 204.913
+rect_pivot_offset = Vector2( 135, 160 )
+group = SubResource( 6 )
+
+[node name="PanelItems" type="Control" parent="BackPanel/HBC"]
+margin_top = 613.0
+margin_right = 1060.0
+margin_bottom = 1630.0
+rect_min_size = Vector2( 0, 950 )
+mouse_filter = 1
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ItemPageGrid" parent="BackPanel/HBC/PanelItems" instance=ExtResource( 5 )]
+margin_left = 18.0
+margin_top = 25.0
+margin_right = -18.0
+margin_bottom = -32.0
+mouse_filter = 1
+script = SubResource( 7 )
+item_page_grid_type = 1
+packed_scene = ExtResource( 7 )
+columns_number = 3
+items_to_show = 6
+
+[node name="CustomColor" parent="BackPanel/HBC/PanelItems" instance=ExtResource( 6 )]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -282.202
+margin_top = -780.227
+margin_right = 277.798
+margin_bottom = -70.2274
+custom_styles/panel = SubResource( 8 )
+
+[node name="CloseButton" type="TextureButton" parent="."]
+pause_mode = 1
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -120.0
+margin_bottom = 120.0
+size_flags_vertical = 3
+texture_normal = ExtResource( 13 )
+texture_pressed = ExtResource( 9 )
+expand = true
+stretch_mode = 5
+
+[node name="ShopPanelAnim" type="AnimationPlayer" parent="."]
+anims/Enter = SubResource( 9 )
+[connection signal="on_clicked" from="BackPanel/HBC/PlayerPanel/PatternButton" to="." method="_on_PatternButton_on_clicked"]
+[connection signal="on_clicked" from="BackPanel/HBC/PlayerPanel/JetpackButton" to="." method="_on_JetpackButton_on_clicked"]
+[connection signal="on_clicked" from="BackPanel/HBC/PlayerPanel/SkinButton" to="." method="_on_SkinButton_on_clicked"]
+[connection signal="on_clicked" from="BackPanel/HBC/PlayerPanel/HatButton" to="." method="_on_HatButton_on_clicked"]
+[connection signal="on_clicked" from="BackPanel/HBC/PlayerPanel/ScarfButton" to="." method="_on_ScarfButton_on_clicked"]
+[connection signal="value_changed" from="BackPanel/HBC/PanelItems/CustomColor" to="." method="_on_CustomColor_value_changed"]

@@ -24,7 +24,7 @@ export var jump_speed : float = 700
 export var horizontal_jump_speed : float = 300
 export var slide_speed : float = 400
 export var invencible_time : float = 4
-export var min_recover_height : int = 500
+export var min_recover_height : int = 10
 var velocity : Vector2
 var jump_direction : int = 1
 var GRAVITY = 1600
@@ -203,7 +203,7 @@ func _on_Anim_animation_finished(anim_name):
 		if !dead:
 			$Falling.volume_db = -16
 			emit_signal(\"on_recover\")
-			yield(get_tree().create_timer(3),\"timeout\")
+			yield(get_tree().create_timer(1),\"timeout\")
 			can_receive_damage = true
 			set_physics_process(true)
 	pass # Replace with function body.

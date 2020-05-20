@@ -48,7 +48,8 @@ func add_fuel():
 	start_tween()
 	$Anim.play('AddFuel')
 	$Anim.queue(\"Idle\")
-	$Anim.playback_speed = 1 + fuel_counter / max_fuel * 0.5
+	$Anim.playback_speed = 1 + float(fuel_counter) / float(max_fuel)
+	Debug.debug(\"Playback speed:\" + str($Anim.playback_speed))
 	pass
 
 func remove_fuel():
@@ -87,7 +88,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.1, 0.4 ),
 "transitions": PoolRealArray( 0.5, 2, 1 ),
 "update": 0,
-"values": [ Vector2( 1, 1 ), Vector2( 1.2, 1.2 ), Vector2( 1, 1 ) ]
+"values": [ Vector2( 1, 1 ), Vector2( 1.5, 1.5 ), Vector2( 1, 1 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("FuelPanel/FuelFire:self_modulate")
@@ -115,6 +116,18 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 1, 1 ), Vector2( 1.2, 1.2 ), Vector2( 1, 1 ), Vector2( 0.95, 0.95 ), Vector2( 1, 1 ), Vector2( 1.05, 1 ), Vector2( 0.8, 1.2 ), Vector2( 1, 1 ), Vector2( 1.3, 1.3 ), Vector2( 1.1, 1.1 ), Vector2( 0.9, 0.9 ), Vector2( 1, 1 ), Vector2( 1.05, 1 ), Vector2( 0.9, 1.1 ), Vector2( 1, 1 ), Vector2( 1.1, 1.1 ), Vector2( 1.2, 0.9 ), Vector2( 0.9, 1.1 ), Vector2( 1, 1 ), Vector2( 1.1, 1.1 ), Vector2( 1, 1 ), Vector2( 0.95, 0.95 ), Vector2( 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("FuelPanel/FuelFire:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.3, 0.5, 0.8, 1, 1.3, 1.5, 1.6, 1.8, 2.1, 2.3, 2.4, 2.6, 2.8, 3, 3.4, 3.5, 3.7, 3.9 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false, true, false ]
 }
 
 [sub_resource type="Animation" id=4]
@@ -144,7 +157,7 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("FuelPanel/FuelFire:rect_position")
+tracks/2/path = NodePath("FuelPanel/FuelFire:rect_scale")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -153,27 +166,15 @@ tracks/2/keys = {
 "times": PoolRealArray( 0, 0.3, 0.7 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( -14.0922, -100.062 ), Vector2( -16, -101 ), Vector2( -16, -87.068 ) ]
+"values": [ Vector2( 1, 1 ), Vector2( 0.9, 1.1 ), Vector2( 1.1, 0.9 ) ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("FuelPanel/FuelFire:rect_scale")
+tracks/3/path = NodePath("FuelPanel/FuelFire:flip_h")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 0.3, 0.7 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 1, 1 ), Vector2( 0.9, 1.1 ), Vector2( 1.1, 0.9 ) ]
-}
-tracks/4/type = "value"
-tracks/4/path = NodePath("FuelPanel/FuelFire:flip_h")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
 "times": PoolRealArray( 0, 0.5 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
@@ -328,16 +329,19 @@ __meta__ = {
 }
 
 [node name="FuelFire" type="TextureRect" parent="FuelPanel"]
-show_behind_parent = true
-margin_left = -16.0
-margin_top = -95.622
-margin_right = 114.0
-margin_bottom = 34.378
-rect_scale = Vector2( 0.977204, 1.0228 )
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -64.3698
+margin_top = -106.514
+margin_right = 65.6302
+margin_bottom = 23.4864
 rect_pivot_offset = Vector2( 65, 65 )
 texture = ExtResource( 3 )
 expand = true
 stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Idle"

@@ -4,6 +4,8 @@ var admob : Admob = null
 var interstitial_id = "ca-app-pub-5984635562124967/3443106433"
 var rewarded_id = "ca-app-pub-5984635562124967/4062053536"
 
+var reward : bool = false
+
 signal interstitial_closed
 signal interstitial_loaded
 signal interstitial_failed
@@ -38,6 +40,12 @@ func create_admob():
 	load_interstitial()
 	load_reward()
 	pass
+
+func set_reward(val):
+	reward = val
+
+func is_rewarded():
+	return reward
 
 func on_reward_failed(error_code):
 	Debug.debug("Failed Loading Reward:" + str(error_code))
@@ -87,6 +95,9 @@ func show_reward():
 
 func is_interstitial_loaded():
 	return admob.is_interstitial_loaded()
+
+func is_reward_loaded():
+	return admob.is_rewarded_video_loaded()
 
 func on_connection_success():
 	if showing_interstitial and is_interstitial_loaded():

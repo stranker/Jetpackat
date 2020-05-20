@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/EngineButton.png-af42f1bed12d0cdab1304fd1bf02fb42.stex"
+path="res://.import/ChipUpgrade.png-97a4c3c71e27756c6329ad57455a24fe.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Shop/UI/EngineButton.png"
-dest_files=[ "res://.import/EngineButton.png-af42f1bed12d0cdab1304fd1bf02fb42.stex" ]
+source_file="res://Sprites/Shop/UI/ChipUpgrade.png"
+dest_files=[ "res://.import/ChipUpgrade.png-97a4c3c71e27756c6329ad57455a24fe.stex" ]
 
 [params]
 

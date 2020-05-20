@@ -259,42 +259,41 @@ colors = PoolColorArray( 1, 0.866667, 0, 1, 1, 0.866667, 0, 1, 1, 0.866667, 0, 0
 offsets = PoolRealArray( 0, 0.246988, 0.759036, 0.992063 )
 colors = PoolColorArray( 0.0470588, 0.0470588, 0.0470588, 0, 0.196078, 0.34902, 0.886275, 1, 0.196078, 0.34902, 0.886275, 1, 1, 1, 1, 0 )
 
-[sub_resource type="Gradient" id=22]
+[sub_resource type="Gradient" id=13]
 offsets = PoolRealArray( 0, 0.246988, 0.759036, 0.992063 )
 colors = PoolColorArray( 0.0470588, 0.0470588, 0.0470588, 0, 0.705882, 0.137255, 0.0745098, 1, 0.705882, 0.137255, 0.0745098, 1, 1, 1, 1, 0 )
 
-[sub_resource type="Gradient" id=23]
+[sub_resource type="Gradient" id=14]
 offsets = PoolRealArray( 0, 0.246988, 0.759036, 0.992063 )
 colors = PoolColorArray( 0.0470588, 0.0470588, 0.0470588, 0, 0.956863, 0.752941, 0.278431, 1, 0.956863, 0.752941, 0.278431, 1, 1, 1, 1, 0 )
 
-[sub_resource type="Curve" id=13]
+[sub_resource type="Curve" id=15]
 _data = [ Vector2( 0, 0.5125 ), 0.0, -0.387931, 0, 0, Vector2( 1, 1 ), -5.22727, 0.0, 0, 0 ]
 
-[sub_resource type="Gradient" id=14]
+[sub_resource type="Gradient" id=16]
 offsets = PoolRealArray( 0, 0.742063, 1 )
 colors = PoolColorArray( 1, 0.301961, 0.301961, 1, 1, 0.329661, 0.329661, 0.960317, 1, 1, 1, 0 )
 
-[sub_resource type="Gradient" id=15]
+[sub_resource type="Gradient" id=17]
 offsets = PoolRealArray( 0, 0.738095, 1 )
 colors = PoolColorArray( 0.447059, 0.796078, 0.145098, 1, 0.447059, 0.796078, 0.145098, 1, 1, 1, 1, 0 )
 
-[sub_resource type="Gradient" id=16]
+[sub_resource type="Gradient" id=18]
 offsets = PoolRealArray( 0, 0.738095, 1 )
 colors = PoolColorArray( 0.196078, 0.34902, 0.886275, 1, 0.196078, 0.34902, 0.886275, 1, 1, 1, 1, 0 )
 
-[sub_resource type="Gradient" id=17]
+[sub_resource type="Gradient" id=19]
 offsets = PoolRealArray( 0, 0.738095, 1 )
 colors = PoolColorArray( 0.956863, 0.752941, 0.278431, 1, 0.956863, 0.752941, 0.278431, 1, 1, 1, 1, 0 )
 
-[sub_resource type="StyleBoxFlat" id=18]
+[sub_resource type="StyleBoxFlat" id=20]
 bg_color = Color( 1, 1, 1, 1 )
 
-[sub_resource type="DynamicFont" id=20]
+[sub_resource type="DynamicFont" id=21]
 size = 32
 font_data = ExtResource( 1 )
 
-[sub_resource type="Animation" id=21]
-resource_name = "ShareLabel"
+[sub_resource type="Animation" id=22]
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:rect_rotation")
@@ -309,8 +308,7 @@ tracks/0/keys = {
 "values": [ -5.0, 5.0 ]
 }
 
-[sub_resource type="Animation" id=19]
-resource_name = "Enter"
+[sub_resource type="Animation" id=23]
 length = 0.8
 tracks/0/type = "value"
 tracks/0/path = NodePath("Panel:rect_position")
@@ -580,6 +578,7 @@ position = Vector2( 329.777, -785.25 )
 rotation = 1.5708
 amount = 30
 lifetime = 4.0
+preprocess = 600.0
 explosiveness = 0.1
 randomness = 1.0
 lifetime_randomness = 0.2
@@ -604,6 +603,7 @@ position = Vector2( 329.777, -785.25 )
 rotation = 1.5708
 amount = 30
 lifetime = 4.0
+preprocess = 600.0
 explosiveness = 0.1
 randomness = 1.0
 lifetime_randomness = 0.2
@@ -619,7 +619,7 @@ angle = 360.0
 angle_random = 1.0
 scale_amount = 3.0
 scale_amount_random = 1.0
-color_ramp = SubResource( 22 )
+color_ramp = SubResource( 13 )
 hue_variation_random = 1.0
 
 [node name="RainConfetti3" type="CPUParticles2D" parent="Panel/Particles"]
@@ -628,6 +628,7 @@ position = Vector2( 329.777, -785.25 )
 rotation = 1.5708
 amount = 30
 lifetime = 4.0
+preprocess = 600.0
 explosiveness = 0.1
 randomness = 1.0
 lifetime_randomness = 0.2
@@ -643,7 +644,7 @@ angle = 360.0
 angle_random = 1.0
 scale_amount = 3.0
 scale_amount_random = 1.0
-color_ramp = SubResource( 23 )
+color_ramp = SubResource( 14 )
 hue_variation_random = 1.0
 
 [node name="Confetti" type="CPUParticles2D" parent="Panel/Particles"]
@@ -664,8 +665,8 @@ angle = 360.0
 angle_random = 1.0
 scale_amount = 2.0
 scale_amount_random = 1.0
-scale_amount_curve = SubResource( 13 )
-color_ramp = SubResource( 14 )
+scale_amount_curve = SubResource( 15 )
+color_ramp = SubResource( 16 )
 
 [node name="Confetti3" type="CPUParticles2D" parent="Panel/Particles"]
 show_behind_parent = true
@@ -685,8 +686,8 @@ angle = 360.0
 angle_random = 1.0
 scale_amount = 2.0
 scale_amount_random = 1.0
-scale_amount_curve = SubResource( 13 )
-color_ramp = SubResource( 15 )
+scale_amount_curve = SubResource( 15 )
+color_ramp = SubResource( 17 )
 
 [node name="Confetti5" type="CPUParticles2D" parent="Panel/Particles"]
 show_behind_parent = true
@@ -706,8 +707,8 @@ angle = 360.0
 angle_random = 1.0
 scale_amount = 2.0
 scale_amount_random = 1.0
-scale_amount_curve = SubResource( 13 )
-color_ramp = SubResource( 16 )
+scale_amount_curve = SubResource( 15 )
+color_ramp = SubResource( 18 )
 
 [node name="Confetti7" type="CPUParticles2D" parent="Panel/Particles"]
 show_behind_parent = true
@@ -727,8 +728,8 @@ angle = 360.0
 angle_random = 1.0
 scale_amount = 2.0
 scale_amount_random = 1.0
-scale_amount_curve = SubResource( 13 )
-color_ramp = SubResource( 17 )
+scale_amount_curve = SubResource( 15 )
+color_ramp = SubResource( 19 )
 
 [node name="Confetti2" type="CPUParticles2D" parent="Panel/Particles"]
 show_behind_parent = true
@@ -748,7 +749,7 @@ angle = 360.0
 angle_random = 1.0
 scale_amount = 2.0
 scale_amount_random = 1.0
-scale_amount_curve = SubResource( 13 )
+scale_amount_curve = SubResource( 15 )
 color = Color( 1, 0.301961, 0.301961, 1 )
 
 [node name="Confetti4" type="CPUParticles2D" parent="Panel/Particles"]
@@ -769,7 +770,7 @@ angle = 360.0
 angle_random = 1.0
 scale_amount = 2.0
 scale_amount_random = 1.0
-scale_amount_curve = SubResource( 13 )
+scale_amount_curve = SubResource( 15 )
 color = Color( 0.447059, 0.796078, 0.145098, 1 )
 
 [node name="Confetti6" type="CPUParticles2D" parent="Panel/Particles"]
@@ -790,7 +791,7 @@ angle = 360.0
 angle_random = 1.0
 scale_amount = 2.0
 scale_amount_random = 1.0
-scale_amount_curve = SubResource( 13 )
+scale_amount_curve = SubResource( 15 )
 color = Color( 0.196078, 0.34902, 0.886275, 1 )
 
 [node name="Confetti8" type="CPUParticles2D" parent="Panel/Particles"]
@@ -811,7 +812,7 @@ angle = 360.0
 angle_random = 1.0
 scale_amount = 2.0
 scale_amount_random = 1.0
-scale_amount_curve = SubResource( 13 )
+scale_amount_curve = SubResource( 15 )
 color = Color( 0.956863, 0.752941, 0.278431, 1 )
 
 [node name="Cathead" type="TextureRect" parent="Panel"]
@@ -845,7 +846,7 @@ margin_right = 635.95
 margin_bottom = 243.646
 rect_rotation = -30.2993
 mouse_filter = 2
-custom_styles/panel = SubResource( 18 )
+custom_styles/panel = SubResource( 20 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -883,7 +884,7 @@ margin_right = 120.494
 margin_bottom = -10.5306
 rect_rotation = 0.644314
 rect_pivot_offset = Vector2( 125, 20 )
-custom_fonts/font = SubResource( 20 )
+custom_fonts/font = SubResource( 21 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
 custom_constants/shadow_offset_x = 4
@@ -897,11 +898,11 @@ __meta__ = {
 
 [node name="Anim" type="AnimationPlayer" parent="Panel/ScreenShot/Label"]
 autoplay = "ShareLabel"
-anims/ShareLabel = SubResource( 21 )
+anims/ShareLabel = SubResource( 22 )
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 pause_mode = 2
-anims/Enter = SubResource( 19 )
+anims/Enter = SubResource( 23 )
 
 [node name="Sound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 7 )

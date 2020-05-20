@@ -4,11 +4,13 @@
 [ext_resource path="res://Sprites/UI/AdsIcon.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/UI/CloseIcon.png" type="Texture" id=3]
 
-[sub_resource type="GDScript" id=4]
+[sub_resource type="GDScript" id=1]
 script/source = "extends Control
 
 signal cancel_recover
 signal accept_recover
+
+var rewared : bool = false
 
 func _ready():
 	$Panel.visible = false
@@ -19,12 +21,14 @@ func _ready():
 	pass # Replace with function body.
 
 func on_reward():
+	if !AdsManager.is_rewarded():
+		AdsManager.set_reward(true)
 	emit_signal(\"accept_recover\")
-	$Anim.play_backwards(\"Enter\")
 	pass
 
 func on_closed():
-	emit_signal(\"cancel_recover\")
+	if !AdsManager.is_rewarded():
+		emit_signal(\"cancel_recover\")
 	$Anim.play_backwards(\"Enter\")
 	pass
 
@@ -46,7 +50,7 @@ func _on_CancelButton_button_down():
 	pass # Replace with function body.
 "
 
-[sub_resource type="StyleBoxFlat" id=5]
+[sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.956863, 0.752941, 0.278431, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -65,7 +69,7 @@ use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 1 )
 
-[sub_resource type="StyleBoxFlat" id=6]
+[sub_resource type="StyleBoxFlat" id=4]
 bg_color = Color( 0.156863, 0.137255, 0.482353, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -80,7 +84,7 @@ corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.211765 )
 shadow_size = 5
 
-[sub_resource type="StyleBoxFlat" id=7]
+[sub_resource type="StyleBoxFlat" id=5]
 bg_color = Color( 0.196078, 0.34902, 0.886275, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -95,7 +99,7 @@ corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.211765 )
 shadow_size = 5
 
-[sub_resource type="StyleBoxFlat" id=8]
+[sub_resource type="StyleBoxFlat" id=6]
 bg_color = Color( 0.623529, 0.117647, 0.192157, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -110,7 +114,7 @@ corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.211765 )
 shadow_size = 5
 
-[sub_resource type="StyleBoxFlat" id=9]
+[sub_resource type="StyleBoxFlat" id=7]
 bg_color = Color( 0.705882, 0.137255, 0.0745098, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -125,7 +129,7 @@ corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.211765 )
 shadow_size = 5
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=8]
 resource_name = "Enter"
 length = 0.6
 tracks/0/type = "value"
@@ -157,7 +161,7 @@ tracks/1/keys = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-script = SubResource( 4 )
+script = SubResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -172,7 +176,7 @@ margin_left = 660.0
 margin_top = -259.0
 margin_right = 1266.0
 margin_bottom = 259.0
-custom_styles/panel = SubResource( 5 )
+custom_styles/panel = SubResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -213,11 +217,11 @@ size_flags_stretch_ratio = 1.23
 [node name="AdsButton" type="Button" parent="Panel/VBC/ADS"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_styles/hover = SubResource( 6 )
-custom_styles/pressed = SubResource( 6 )
-custom_styles/focus = SubResource( 6 )
-custom_styles/disabled = SubResource( 6 )
-custom_styles/normal = SubResource( 7 )
+custom_styles/hover = SubResource( 4 )
+custom_styles/pressed = SubResource( 4 )
+custom_styles/focus = SubResource( 4 )
+custom_styles/disabled = SubResource( 4 )
+custom_styles/normal = SubResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -248,11 +252,11 @@ size_flags_vertical = 3
 [node name="CancelButton" type="Button" parent="Panel/VBC/Cancel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_styles/hover = SubResource( 8 )
-custom_styles/pressed = SubResource( 8 )
-custom_styles/focus = SubResource( 8 )
-custom_styles/disabled = SubResource( 8 )
-custom_styles/normal = SubResource( 9 )
+custom_styles/hover = SubResource( 6 )
+custom_styles/pressed = SubResource( 6 )
+custom_styles/focus = SubResource( 6 )
+custom_styles/disabled = SubResource( 6 )
+custom_styles/normal = SubResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -271,6 +275,6 @@ expand = true
 stretch_mode = 6
 
 [node name="Anim" type="AnimationPlayer" parent="."]
-anims/Enter = SubResource( 10 )
+anims/Enter = SubResource( 8 )
 [connection signal="button_down" from="Panel/VBC/ADS/AdsButton" to="." method="_on_AdsButton_button_down"]
 [connection signal="button_down" from="Panel/VBC/Cancel/CancelButton" to="." method="_on_CancelButton_button_down"]

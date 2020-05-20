@@ -1,0 +1,607 @@
+[gd_scene load_steps=23 format=2]
+
+[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Sprites/Shop/UI/CurrencyUpgrade.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/Shop/UI/ChipUpgrade.png" type="Texture" id=4]
+[ext_resource path="res://Scenes/BaseButtonShop.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/Collectables/Coin.png" type="Texture" id=7]
+[ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=8]
+[ext_resource path="res://Sprites/Collectables/Fish.png" type="Texture" id=9]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Control
+
+export (NodePath) var item_confirmation_path
+onready var currency_price_tag = $BackPanel/Background/CurrencyDescription/PriceTag/Price
+onready var chip_price_tag = $BackPanel/Background/ChipDescription/PriceTag/Price
+onready var chip_btn = $BackPanel/Background/ChipButton
+onready var chip_level = $BackPanel/Background/ChipDescription/Level
+onready var currency_btn = $BackPanel/Background/CurrencyButton
+onready var currency_level = $BackPanel/Background/CurrencyDescription/Level
+onready var anim = $Anim
+export (Texture) var coin_texture
+export (Texture) var fish_texture
+export (Color) var level_max_color
+onready var item_confirmation
+var button_clicked_ref = null
+
+signal upgrade_closed
+signal on_show_confirmation_panel(item, cost)
+signal update_currency
+
+func _ready():
+	update_price_tags()
+	hide()
+	pass
+
+func enter():
+	anim.play('Enter')
+	pass
+
+func _on_CurrencyButton_on_clicked(button_ref):
+	chip_btn.unclick_button()
+	var currency_data = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.CURRENCY)
+	set_item_confirmation(currency_data)
+	button_clicked_ref = button_ref
+	button_clicked_ref.set_item(currency_data)
+	pass
+
+func _on_ChipButton_on_clicked(button_ref):
+	currency_btn.unclick_button()
+	var magnetchip_data = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.CHIP)
+	set_item_confirmation(magnetchip_data)
+	button_clicked_ref = button_ref
+	button_clicked_ref.set_item(magnetchip_data)
+	pass
+
+func _on_UpgradeCloseButton_button_down():
+	anim.play_backwards('Enter')
+	emit_signal('upgrade_closed')
+	pass
+
+func set_item_confirmation(item):
+	var item_price_data = item.get_next_level_info()
+	if item_price_data:
+		item_confirmation.set_shop_info(item.item_name, item_price_data['payment'], item_price_data['price'], self)
+	pass
+
+func change_to_buy_state():
+	button_clicked_ref.upgrade_item()
+	update_ui()
+	pass
+
+func update_ui():
+	emit_signal(\"update_currency\")
+	var currency = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.CURRENCY)
+	var magnet = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.CHIP)
+	currency_level.text = 'LVL. ' + (str(currency.item_level) if currency.item_level != currency.item_price_per_level.size() else \"MAX\")
+	chip_level.text = 'LVL. ' + (str(magnet.item_level) if magnet.item_level != magnet.item_price_per_level.size() else \"MAX\") 
+	currency_btn.unclick_button()
+	chip_btn.unclick_button()
+	update_price_tags()
+	pass
+
+func _on_ShopItemConfirmation_exit_viewport():
+	update_ui()
+	pass # Replace with function body.
+
+func update_price_tags():
+	var currency_multiplier_info : Dictionary = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.CURRENCY).get_next_level_info()
+	var magnet_info : Dictionary = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.CHIP).get_next_level_info()
+	if currency_multiplier_info:
+		chip_price_tag.get_node('Price/Payment').texture = get_payment_texture(currency_multiplier_info['payment'])
+		currency_price_tag.text = str(currency_multiplier_info['price'])
+	else:
+		currency_price_tag.get_node('Price/SoldOut').show()
+		currency_price_tag.get_node('Price/Payment').texture = null
+		currency_level.self_modulate = level_max_color
+	if magnet_info:
+		chip_price_tag.get_node('Price/Payment').texture = get_payment_texture(magnet_info['payment'])
+		chip_price_tag.get_node('Price').text = str(magnet_info['price'])
+	else:
+		chip_price_tag.get_node('Price/Payment').texture = null
+		chip_price_tag.get_node('Price/SoldOut').show()
+		chip_level.self_modulate = level_max_color
+	pass
+
+func get_payment_texture(type : int):
+	match type:
+		ItemManager.Payment.COIN:
+			return coin_texture
+		ItemManager.Payment.FISH:
+			return fish_texture
+	pass
+"
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.0901961, 0.721569, 0, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color( 0.0941176, 0.627451, 0.0156863, 1 )
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+corner_detail = 2
+expand_margin_left = 5.0
+expand_margin_right = 5.0
+expand_margin_top = 5.0
+expand_margin_bottom = 5.0
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 0.905882, 0.74902, 0.333333, 1 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.764706, 0.631373, 0.270588, 1 )
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+corner_detail = 2
+
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.996078, 0.709804, 0.545098, 1 )
+border_width_left = 20
+border_width_top = 20
+border_width_right = 20
+border_width_bottom = 20
+border_color = Color( 0.686275, 0.364706, 0.137255, 1 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 52
+outline_size = 5
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 36
+outline_size = 5
+outline_color = Color( 0, 0, 0, 1 )
+font_data = ExtResource( 2 )
+
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 1, 0.992157, 0.941176, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color( 0.956863, 0.752941, 0.278431, 1 )
+expand_margin_left = 110.0
+expand_margin_right = 10.0
+expand_margin_top = 5.0
+expand_margin_bottom = 5.0
+shadow_color = Color( 0, 0, 0, 0.145098 )
+shadow_size = 10
+
+[sub_resource type="DynamicFont" id=8]
+size = 72
+outline_size = 5
+outline_color = Color( 0, 0, 0, 1 )
+use_filter = true
+font_data = ExtResource( 2 )
+
+[sub_resource type="StyleBoxFlat" id=9]
+bg_color = Color( 0.6, 0.6, 0.6, 0 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color( 0.956863, 0.215686, 0.0431373, 1 )
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="DynamicFont" id=10]
+size = 80
+outline_size = 5
+outline_color = Color( 0, 0, 0, 1 )
+use_filter = true
+font_data = ExtResource( 2 )
+
+[sub_resource type="Shader" id=11]
+code = "shader_type canvas_item;
+
+uniform float outline_width = 2.0;
+uniform vec4 outline_color : hint_color;
+
+void fragment() {
+	vec4 col = texture(TEXTURE, UV);
+	vec2 ps = TEXTURE_PIXEL_SIZE;
+	float a;
+	float maxa = col.a;
+	float mina = col.a;
+
+	a = texture(TEXTURE, UV + vec2(0.0, -outline_width) * ps).a;
+	maxa = max(a, maxa);
+	mina = min(a, mina);
+
+	a = texture(TEXTURE, UV + vec2(0.0, outline_width) * ps).a;
+	maxa = max(a, maxa);
+	mina = min(a, mina);
+
+	a = texture(TEXTURE, UV + vec2(-outline_width, 0.0) * ps).a;
+	maxa = max(a, maxa);
+	mina = min(a, mina);
+
+	a = texture(TEXTURE, UV + vec2(outline_width, 0.0) * ps).a;
+	maxa = max(a, maxa);
+	mina = min(a, mina);
+
+	COLOR = mix(col, outline_color, maxa - mina);
+}"
+
+[sub_resource type="ShaderMaterial" id=12]
+shader = SubResource( 11 )
+shader_param/outline_width = 0.5
+shader_param/outline_color = Color( 1, 1, 1, 0.198637 )
+
+[sub_resource type="ButtonGroup" id=13]
+
+[sub_resource type="Animation" id=14]
+length = 0.5
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("BackPanel:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4, 0.5 ),
+"transitions": PoolRealArray( 0.5, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1600, 2 ), Vector2( -20, 2 ), Vector2( 10, 2 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("BackPanel:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.05 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath(".:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.05 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+
+[node name="UpgradePanel" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 1
+script = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+item_confirmation_path = NodePath("../../ShopItemConfirmation")
+coin_texture = ExtResource( 7 )
+fish_texture = ExtResource( 9 )
+level_max_color = Color( 0.956863, 0.215686, 0.0431373, 1 )
+
+[node name="BackPanel" type="Panel" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -530.0
+margin_top = -1918.0
+margin_right = 530.0
+margin_bottom = -288.0
+mouse_filter = 1
+custom_styles/panel = SubResource( 2 )
+
+[node name="Background" type="Panel" parent="BackPanel"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -500.0
+margin_top = -767.0
+margin_right = 500.0
+margin_bottom = 769.0
+custom_styles/panel = SubResource( 3 )
+
+[node name="CurrencyDescription" type="Panel" parent="BackPanel/Background"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -445.0
+margin_top = 93.0
+margin_right = 445.0
+margin_bottom = 263.0
+custom_styles/panel = SubResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="BackPanel/Background/CurrencyDescription"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -425.0
+margin_top = -65.0
+margin_right = 425.0
+margin_bottom = 5.0
+custom_fonts/font = SubResource( 5 )
+custom_colors/font_color = Color( 1, 0.654902, 0, 1 )
+text = "KEY_CURRENCY"
+align = 1
+valign = 1
+
+[node name="Desc" type="Label" parent="BackPanel/Background/CurrencyDescription"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -425.0
+margin_top = -5.0
+margin_right = 425.0
+margin_bottom = 65.0
+rect_pivot_offset = Vector2( 494.523, 31.8406 )
+custom_fonts/font = SubResource( 6 )
+text = "KEY_CURRENCY_DESC"
+align = 1
+valign = 1
+
+[node name="Level" type="Label" parent="BackPanel/Background/CurrencyDescription"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -115.0
+margin_top = 27.0
+margin_right = -31.0
+margin_bottom = 97.0
+grow_horizontal = 0
+grow_vertical = 0
+rect_pivot_offset = Vector2( 45.5, 35 )
+custom_fonts/font = SubResource( 6 )
+text = "LVL. 1"
+align = 1
+valign = 1
+
+[node name="PriceTag" type="Control" parent="BackPanel/Background/CurrencyDescription"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -281.369
+margin_top = -20.0
+margin_right = -1.36914
+margin_bottom = 81.0
+
+[node name="Price" type="Label" parent="BackPanel/Background/CurrencyDescription/PriceTag"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 216.0
+margin_top = -7.0
+grow_horizontal = 0
+grow_vertical = 0
+rect_pivot_offset = Vector2( 155, 55 )
+custom_styles/normal = SubResource( 7 )
+custom_fonts/font = SubResource( 8 )
+text = "99999"
+align = 2
+valign = 3
+
+[node name="Payment" type="TextureRect" parent="BackPanel/Background/CurrencyDescription/PriceTag/Price"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = -95.3691
+margin_top = -50.0
+margin_right = 1.63086
+margin_bottom = 50.0
+texture = ExtResource( 7 )
+expand = true
+stretch_mode = 7
+
+[node name="SoldOut" type="Label" parent="BackPanel/Background/CurrencyDescription/PriceTag/Price"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -232.5
+margin_top = -57.0
+margin_right = 150.5
+margin_bottom = 60.0
+rect_rotation = -15.0
+rect_pivot_offset = Vector2( 198.207, 48.4999 )
+custom_styles/normal = SubResource( 9 )
+custom_fonts/font = SubResource( 10 )
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+text = "SOLD OUT!"
+
+[node name="CurrencyButton" parent="BackPanel/Background" instance=ExtResource( 5 )]
+material = SubResource( 12 )
+margin_left = -200.0
+margin_top = -525.0
+margin_right = 170.0
+margin_bottom = -95.0
+rect_pivot_offset = Vector2( 185, 210 )
+group = SubResource( 13 )
+texture_normal = ExtResource( 3 )
+texture_pressed = ExtResource( 3 )
+texture_hover = ExtResource( 3 )
+texture_disabled = ExtResource( 3 )
+texture_focused = ExtResource( 3 )
+button_texture = ExtResource( 3 )
+
+[node name="TextureRect" type="TextureRect" parent="BackPanel/Background/CurrencyButton"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -85.0
+margin_top = -85.0
+margin_right = 85.0
+margin_bottom = 85.0
+texture = ExtResource( 7 )
+expand = true
+stretch_mode = 6
+
+[node name="ChipDescription" type="Panel" parent="BackPanel/Background"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -445.0
+margin_top = 16.5446
+margin_right = 445.0
+margin_bottom = 186.545
+custom_styles/panel = SubResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="BackPanel/Background/ChipDescription"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -425.0
+margin_top = -65.0
+margin_right = 425.0
+margin_bottom = 8.0
+custom_fonts/font = SubResource( 5 )
+custom_colors/font_color = Color( 1, 0.654902, 0, 1 )
+text = "KEY_MAGNET"
+align = 1
+valign = 1
+
+[node name="Desc" type="Label" parent="BackPanel/Background/ChipDescription"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -425.0
+margin_right = 423.0
+margin_bottom = 65.0
+custom_fonts/font = SubResource( 6 )
+text = "KEY_MAGNET_DESC"
+align = 1
+valign = 1
+
+[node name="Level" type="Label" parent="BackPanel/Background/ChipDescription"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -115.0
+margin_top = 30.0
+margin_right = -24.0
+margin_bottom = 100.0
+grow_horizontal = 0
+grow_vertical = 0
+rect_pivot_offset = Vector2( 50, 35 )
+custom_fonts/font = SubResource( 6 )
+text = "LVL. 1"
+align = 1
+valign = 1
+
+[node name="PriceTag" type="Control" parent="BackPanel/Background/ChipDescription"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -281.369
+margin_top = -20.0
+margin_right = -1.36914
+margin_bottom = 81.0
+
+[node name="Price" type="Label" parent="BackPanel/Background/ChipDescription/PriceTag"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 131.0
+grow_horizontal = 0
+grow_vertical = 0
+rect_pivot_offset = Vector2( 155, 55 )
+custom_styles/normal = SubResource( 7 )
+custom_fonts/font = SubResource( 8 )
+text = "1000"
+align = 2
+valign = 3
+
+[node name="Payment" type="TextureRect" parent="BackPanel/Background/ChipDescription/PriceTag/Price"]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = -95.3691
+margin_top = -50.0
+margin_right = 1.63086
+margin_bottom = 50.0
+texture = ExtResource( 7 )
+expand = true
+stretch_mode = 7
+
+[node name="SoldOut" type="Label" parent="BackPanel/Background/ChipDescription/PriceTag/Price"]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -254.5
+margin_top = -57.0
+margin_right = 128.5
+margin_bottom = 60.0
+rect_rotation = -15.0
+rect_pivot_offset = Vector2( 198.207, 48.4999 )
+custom_styles/normal = SubResource( 9 )
+custom_fonts/font = SubResource( 10 )
+custom_colors/font_color = Color( 1, 0, 0, 1 )
+text = "SOLD OUT!"
+
+[node name="ChipButton" parent="BackPanel/Background" instance=ExtResource( 5 )]
+material = SubResource( 12 )
+margin_left = -215.0
+margin_top = 137.747
+margin_right = 235.0
+margin_bottom = 648.747
+rect_pivot_offset = Vector2( 230, 250 )
+group = SubResource( 13 )
+texture_normal = ExtResource( 4 )
+texture_pressed = ExtResource( 4 )
+texture_hover = ExtResource( 4 )
+texture_disabled = ExtResource( 4 )
+texture_focused = ExtResource( 4 )
+button_texture = ExtResource( 4 )
+
+[node name="CloseButton" type="TextureButton" parent="BackPanel"]
+pause_mode = 1
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -105.0
+margin_top = -12.0
+margin_right = 15.0
+margin_bottom = 108.0
+size_flags_vertical = 3
+texture_normal = ExtResource( 8 )
+texture_pressed = ExtResource( 6 )
+expand = true
+stretch_mode = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+anims/Enter = SubResource( 14 )
+[connection signal="mouse_entered" from="BackPanel/Background/CurrencyButton" to="BackPanel/Background/CurrencyButton" method="_on_ButtonShop_mouse_entered"]
+[connection signal="mouse_exited" from="BackPanel/Background/CurrencyButton" to="BackPanel/Background/CurrencyButton" method="_on_ButtonShop_mouse_exited"]
+[connection signal="on_clicked" from="BackPanel/Background/CurrencyButton" to="." method="_on_CurrencyButton_on_clicked"]
+[connection signal="mouse_entered" from="BackPanel/Background/ChipButton" to="BackPanel/Background/ChipButton" method="_on_ButtonShop_mouse_entered"]
+[connection signal="mouse_exited" from="BackPanel/Background/ChipButton" to="BackPanel/Background/ChipButton" method="_on_ButtonShop_mouse_exited"]
+[connection signal="on_clicked" from="BackPanel/Background/ChipButton" to="." method="_on_ChipButton_on_clicked"]
+[connection signal="button_down" from="BackPanel/CloseButton" to="." method="_on_UpgradeCloseButton_button_down"]

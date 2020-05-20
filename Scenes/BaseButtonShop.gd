@@ -3,6 +3,23 @@ extends TextureButton
 var clicked = false
 signal on_clicked(self_ref)
 var ref_item = null
+export (Texture) var button_texture
+
+func _ready():
+	if !button_texture:
+		return
+	set_textures(button_texture)
+	$Shadow.texture = button_texture
+	rect_pivot_offset = rect_size * 0.5
+	pass
+
+func set_textures(new_texture : Texture):
+	texture_pressed = new_texture
+	texture_disabled = new_texture
+	texture_focused = new_texture
+	texture_hover = new_texture
+	texture_normal = new_texture
+	pass
 
 func unclick_button():
 	$Anim.stop()
@@ -18,16 +35,6 @@ func _on_ButtonShop_button_down():
 		emit_signal("on_clicked",self)
 	pass # Replace with function body.
 
-
-func _on_ButtonShop_mouse_entered():
-	rect_scale = Vector2(1.2,1.2)
-	pass # Replace with function body.
-
-
-func _on_ButtonShop_mouse_exited():
-	rect_scale = Vector2(1,1)
-	pass # Replace with function body.
-
 func set_item(item):
 	ref_item = item
 	pass
@@ -35,3 +42,7 @@ func set_item(item):
 func upgrade_item():
 	ref_item.upgrade_item()
 	pass
+
+func _on_ButtonShop_resized():
+	rect_pivot_offset = rect_size * 0.5
+	pass # Replace with function body.

@@ -25,11 +25,11 @@ script/source = "extends Panel
 var item = null
 var using = false
 
-onready var color_button = get_node('VBC/ItemPanel/ColorButton')
-onready var item_image = get_node('VBC/ItemPanel/ItemImage')
-onready var buy_button = get_node('VBC/Buttons/BuyButton')
-onready var use_button = get_node('VBC/Buttons/UseButton')
-onready var preview_button = get_node('VBC/ItemPanel/PreviewButton')
+onready var color_button = $VBC/ItemPanel/ColorButton
+onready var item_image = $VBC/ItemPanel/ItemImage
+onready var buy_button = $VBC/Buttons/BuyButton
+onready var use_button = $VBC/Buttons/UseButton
+onready var preview_button = $VBC/ItemPanel/PreviewButton
 
 signal item_buy(item)
 signal item_equip(item)
@@ -46,22 +46,23 @@ func _ready():
 	pass
 
 func set_item_info(shop_item):
+	var shop_scene = get_tree().get_nodes_in_group(\"ShopPanel\")[0]
 	item = shop_item
 	if item.item_color != null:
 		set_item_color(item.item_color)
 	if item.item_type == ItemManager.ItemType.PATTERN:
 		$VBC/ItemPanel/SkinPlace.show()
 	connect('item_buy',ItemManager,'buy_item')
-	connect('item_buy',get_tree().root.get_node('ShopAndUpgradeScene'),'update_buttons_states')
-	connect('emit_confirmation',get_tree().root.get_node('ShopAndUpgradeScene'),'show_shop_confirmation')
-	connect('item_unequip',get_tree().root.get_node('ShopAndUpgradeScene'),'unequip_item')
+	connect('item_buy',shop_scene,'update_buttons_states')
+	connect('emit_confirmation',shop_scene,'show_shop_confirmation')
+	connect('item_unequip',shop_scene,'unequip_item')
 	connect('item_unequip',ItemManager,'unequip_item')
-	connect('item_preview',get_tree().root.get_node('ShopAndUpgradeScene'),'item_preview')
+	connect('item_preview',shop_scene,'item_preview')
 	connect('item_equip',ItemManager,'equip_item')
-	connect('item_equip',get_tree().root.get_node('ShopAndUpgradeScene'),'equip_item')
-	connect('equip_default_jetpack',get_tree().root.get_node('ShopAndUpgradeScene'),'equip_default_jetpack')
-	connect('on_color_button_pressed',get_tree().root.get_node('ShopAndUpgradeScene'),'open_color_picker')
-	connect('on_color_change',get_tree().root.get_node('ShopAndUpgradeScene'),'change_color_item')
+	connect('item_equip',shop_scene,'equip_item')
+	connect('equip_default_jetpack',shop_scene,'equip_default_jetpack')
+	connect('on_color_button_pressed',shop_scene,'open_color_picker')
+	connect('on_color_change',shop_scene,'change_color_item')
 	connect('on_color_change',ItemManager,'change_color_item')
 	configure_panel()
 	pass
@@ -199,7 +200,8 @@ func scale_tween():
 func stop_scale_tween():
 	$Tween.stop_all()
 	$VBC/ItemPanel/ItemImage.rect_scale = Vector2(1,1)
-	pass"
+	pass
+"
 
 [sub_resource type="StyleBoxFlat" id=3]
 border_width_left = 5
@@ -364,7 +366,6 @@ custom_styles/disabled = SubResource( 3 )
 custom_styles/normal = SubResource( 3 )
 
 [node name="Buttons" type="Control" parent="VBC"]
-editor/display_folded = true
 margin_top = 316.0
 margin_right = 300.0
 margin_bottom = 420.0
@@ -372,7 +373,6 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="BuyButton" type="Button" parent="VBC/Buttons"]
-editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 6.0
@@ -389,14 +389,12 @@ custom_styles/normal = SubResource( 5 )
 enabled_focus_mode = 0
 
 [node name="CC" type="CenterContainer" parent="VBC/Buttons/BuyButton"]
-editor/display_folded = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_bottom = -4.0
 mouse_filter = 2
 
 [node name="HBC" type="HBoxContainer" parent="VBC/Buttons/BuyButton/CC"]
-editor/display_folded = true
 margin_left = 52.0
 margin_right = 235.0
 margin_bottom = 90.0
