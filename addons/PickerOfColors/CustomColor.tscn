@@ -17,17 +17,18 @@ corner_radius_bottom_right = 50
 corner_radius_bottom_left = 50
 corner_detail = 2
 
-[sub_resource type="StyleBoxFlat" id=7]
+[sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.341176, 0.772549, 0.168627, 1 )
 border_width_left = 5
 border_width_top = 5
 border_width_right = 5
 border_width_bottom = 5
-border_color = Color( 0.0352941, 0.286275, 0.247059, 1 )
+border_color = Color( 0.137255, 0.521569, 0.192157, 1 )
 corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
+corner_detail = 2
 expand_margin_left = 20.0
 expand_margin_right = 20.0
 expand_margin_top = 20.0
@@ -35,21 +36,22 @@ expand_margin_bottom = 20.0
 shadow_color = Color( 0, 0, 0, 0.403922 )
 shadow_size = 8
 
-[sub_resource type="StyleBoxFlat" id=8]
+[sub_resource type="StyleBoxFlat" id=3]
 content_margin_left = 1.0
 content_margin_right = 1.0
 content_margin_top = 1.0
 content_margin_bottom = 1.0
-bg_color = Color( 0.705882, 0.137255, 0.0745098, 1 )
+bg_color = Color( 0.156863, 0.137255, 0.482353, 1 )
 border_width_left = 5
 border_width_top = 5
 border_width_right = 5
 border_width_bottom = 5
-border_color = Color( 0.407843, 0.0941176, 0.141176, 1 )
+border_color = Color( 0.156863, 0.137255, 0.482353, 1 )
 corner_radius_top_left = 10
 corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
+corner_detail = 2
 expand_margin_left = 10.0
 expand_margin_right = 10.0
 expand_margin_top = 10.0
@@ -69,7 +71,7 @@ corner_radius_bottom_right = 40
 corner_radius_bottom_left = 40
 corner_detail = 2
 
-[sub_resource type="StyleBoxFlat" id=9]
+[sub_resource type="StyleBoxFlat" id=5]
 bg_color = Color( 0.341176, 0.772549, 0.168627, 1 )
 border_width_left = 5
 border_width_top = 5
@@ -111,8 +113,8 @@ margin_bottom = 205.0
 custom_icons/grabber_disabled = ExtResource( 2 )
 custom_icons/grabber_highlight = ExtResource( 2 )
 custom_icons/grabber = ExtResource( 2 )
-custom_styles/slider = SubResource( 7 )
-custom_styles/grabber_area = SubResource( 8 )
+custom_styles/slider = SubResource( 2 )
+custom_styles/grabber_area = SubResource( 3 )
 max_value = 1.0
 step = 0.1
 value = 1.0
@@ -123,17 +125,18 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -135.0
-margin_top = -120.0
-margin_right = 135.0
-margin_bottom = -20.0
+margin_left = -130.5
+margin_top = -122.563
+margin_right = 130.5
+margin_bottom = -22.5625
 custom_styles/hover = SubResource( 4 )
 custom_styles/pressed = SubResource( 4 )
 custom_styles/focus = SubResource( 4 )
 custom_styles/disabled = SubResource( 4 )
-custom_styles/normal = SubResource( 9 )
+custom_styles/normal = SubResource( 5 )
 custom_fonts/font = SubResource( 6 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
-text = "SELECT"
+text = "KEY_ACCEPT"
+clip_text = true
 [connection signal="value_changed" from="HSlider" to="." method="_on_HSlider_value_changed"]
 [connection signal="button_down" from="SelectButton" to="." method="_on_SelectButton_button_down"]

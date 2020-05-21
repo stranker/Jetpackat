@@ -4,7 +4,7 @@ enum ItemType {HAT, SCARF, PATTERN, JETPACK, SKIN, LAST}
 enum Payment {COIN, FISH, LAST}
 enum UpgradeType {CURRENCY, CHIP, LAST}
 
-var itemTypeToString = {0:"Hat", 1:"Scarf",	2:"Pattern", 3:"Jetpack", 4:"Skin", 5:"Last"}
+var itemTypeToString = {0:"Hat", 1:"Scarf", 2:"Pattern", 3:"Jetpack", 4:"Skin", 5:"Last"}
 
 class UpgradeItem:
 	var item_type : int

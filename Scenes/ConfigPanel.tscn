@@ -167,7 +167,7 @@ expand_margin_top = 10.0
 expand_margin_bottom = 10.0
 shadow_size = 2
 
-[sub_resource type="StyleBoxFlat" id=13]
+[sub_resource type="StyleBoxFlat" id=10]
 bg_color = Color( 0.156863, 0.137255, 0.482353, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -180,7 +180,7 @@ corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 corner_detail = 2
 
-[sub_resource type="StyleBoxFlat" id=14]
+[sub_resource type="StyleBoxFlat" id=11]
 bg_color = Color( 0.196078, 0.34902, 0.886275, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -193,13 +193,12 @@ corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 corner_detail = 2
 
-[sub_resource type="DynamicFont" id=15]
+[sub_resource type="DynamicFont" id=12]
 size = 80
 use_filter = true
 font_data = ExtResource( 1 )
 
-[sub_resource type="Animation" id=12]
-resource_name = "Enter"
+[sub_resource type="Animation" id=13]
 length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath("FrontPanel:rect_position")
@@ -338,7 +337,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="Music" type="Control" parent="FrontPanel/VBC"]
-margin_right = 850.0
+margin_right = 851.0
 margin_bottom = 339.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -381,7 +380,7 @@ ticks_on_borders = true
 
 [node name="Sound" type="Control" parent="FrontPanel/VBC"]
 margin_top = 343.0
-margin_right = 850.0
+margin_right = 851.0
 margin_bottom = 682.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -423,7 +422,7 @@ ticks_on_borders = true
 
 [node name="Language" type="Control" parent="FrontPanel/VBC"]
 margin_top = 686.0
-margin_right = 850.0
+margin_right = 851.0
 margin_bottom = 1027.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -437,11 +436,11 @@ margin_left = -274.5
 margin_top = -127.5
 margin_right = 274.5
 margin_bottom = 79.5
-custom_styles/hover = SubResource( 13 )
-custom_styles/pressed = SubResource( 13 )
-custom_styles/focus = SubResource( 13 )
-custom_styles/disabled = SubResource( 13 )
-custom_styles/normal = SubResource( 14 )
+custom_styles/hover = SubResource( 10 )
+custom_styles/pressed = SubResource( 10 )
+custom_styles/focus = SubResource( 10 )
+custom_styles/disabled = SubResource( 10 )
+custom_styles/normal = SubResource( 11 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -449,7 +448,7 @@ __meta__ = {
 [node name="Label" type="Label" parent="FrontPanel/VBC/Language/Language"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_fonts/font = SubResource( 15 )
+custom_fonts/font = SubResource( 12 )
 text = "KEY_LANGUAGE"
 align = 1
 valign = 1
@@ -519,9 +518,10 @@ expand = true
 stretch_mode = 5
 
 [node name="LanguageSelection" parent="." instance=ExtResource( 9 )]
+visible = false
 
 [node name="Anim" type="AnimationPlayer" parent="."]
-anims/Enter = SubResource( 12 )
+anims/Enter = SubResource( 13 )
 
 [node name="CoinSample" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 10 )

@@ -1,11 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Groups/ShopButtonGroup.tres" type="ButtonGroup" id=1]
 [ext_resource path="res://Sprites/Shop/UI/ScarfButton.png" type="Texture" id=2]
 [ext_resource path="res://Scenes/BaseButtonShop.gd" type="Script" id=3]
 
 [sub_resource type="Animation" id=1]
-length = 0.3
+loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:rect_scale")
 tracks/0/interp = 1
@@ -13,10 +13,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.3 ),
-"transitions": PoolRealArray( 0.5, 2, 1 ),
+"times": PoolRealArray( 0, 0.5, 1 ),
+"transitions": PoolRealArray( -2, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 1, 1 ), Vector2( 1.2, 1.2 ), Vector2( 1, 1 ) ]
+"values": [ Vector2( 1, 1 ), Vector2( 1.1, 1.1 ), Vector2( 1, 1 ) ]
 }
 
 [sub_resource type="Animation" id=2]
@@ -35,6 +35,22 @@ tracks/0/keys = {
 "values": [ Vector2( 1, 1 ) ]
 }
 
+[sub_resource type="Animation" id=3]
+resource_name = "OnClick"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.3 ),
+"transitions": PoolRealArray( 0.5, 0.5, 1 ),
+"update": 0,
+"values": [ Vector2( 0.6, 0.6 ), Vector2( 1.2, 1.2 ), Vector2( 1, 1 ) ]
+}
+
 [node name="ButtonShop" type="TextureButton"]
 anchor_left = 0.5
 anchor_top = 0.5
@@ -44,7 +60,7 @@ margin_left = -540.0
 margin_top = -960.0
 margin_right = -381.0
 margin_bottom = -650.0
-rect_pivot_offset = Vector2( 160, 160 )
+rect_pivot_offset = Vector2( 78.9584, 140.503 )
 mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -83,5 +99,7 @@ __meta__ = {
 autoplay = "Idle"
 anims/Clicked = SubResource( 1 )
 anims/Idle = SubResource( 2 )
+anims/OnClick = SubResource( 3 )
 [connection signal="button_down" from="." to="." method="_on_ButtonShop_button_down"]
 [connection signal="resized" from="." to="." method="_on_ButtonShop_resized"]
+[connection signal="animation_finished" from="Anim" to="." method="_on_Anim_animation_finished"]

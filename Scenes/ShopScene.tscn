@@ -1,7 +1,7 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Scenes/ItemShopPanel.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Sprites/Background/Bg3.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/BackgroundMini.png" type="Texture" id=2]
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://Sprites/Collectables/Coin.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/Collectables/Fish.png" type="Texture" id=5]
@@ -17,16 +17,18 @@
 [ext_resource path="res://Scenes/ShopScene/ShopItemConfirmation.tscn" type="PackedScene" id=25]
 [ext_resource path="res://Sounds/Sfx/ButtonClick.wav" type="AudioStream" id=26]
 
-[sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0.27451, 0.356863, 0.905882, 1 )
-
-[sub_resource type="GDScript" id=2]
+[sub_resource type="GDScript" id=1]
 script/source = "extends Control
 
 export (PackedScene) var item_shop_panel
 
+onready var shop_panel = $ShopPanel
+onready var upgrade_panel = $UpgradePanel
 onready var coin_label = $VBC/CurrencyInfo/HBC/Coins/Panel/Cuant
 onready var fish_label = $VBC/CurrencyInfo/HBC/Fish/Panel/Cuant
+onready var close_button = $VBC/CurrencyInfo/HBC/ClosePanel/CloseButton
+onready var shop_item_confirmation = $ShopItemConfirmation
+
 
 func _ready():
 	update_currency()
@@ -38,30 +40,15 @@ func update_currency():
 	fish_label.text = str(GameManager.fishes)
 	pass
 
-func _on_TextureButton_button_down():
-	ItemManager.save_data()
-	$TransitionScene.play_random()
-	$ButtonClick.play()
-	pass
-
 func _on_Anim_animation_finished(anim_name):
 	if !$TransitionScene.has_played:
 		get_tree().change_scene('Scenes/MainMenu.tscn')
 	pass # Replace with function body.
 
-func _on_CloseButton_button_down():
-	$MainPanel/ShopPanel/ShopPanelAnim.play_backwards('Enter')
-	if $ShopItemConfirmation.visible:
-		$ShopItemConfirmation.exit_viewport()
-	$VBC/CurrencyInfo/HBC/ClosePanel/CloseButton/Anim.play('FadeInCloseButton')
-	$ButtonClick.play()
-	pass # Replace with function body.
-
 func _on_ShopButton_button_clicked():
 	reset_button_animations()
-	$MainPanel/ShopPanel/ShopPanelAnim.play('Enter')
-	$MainPanel/ShopPanel/BackPanel/HBC/PlayerPanel/HatButton._on_ButtonShop_button_down()
-	$VBC/CurrencyInfo/HBC/ClosePanel/CloseButton/Anim.play_backwards('FadeInCloseButton')
+	close_button.hide()
+	shop_panel.start()
 	pass # Replace with function body.
 
 func reset_button_animations():
@@ -70,38 +57,42 @@ func reset_button_animations():
 	pass
 
 func _on_WorkshopButton_button_clicked():
-	$MainPanel/UpgradePanel.enter()
-	$VBC/CurrencyInfo/HBC/ClosePanel/CloseButton/Anim.play_backwards('FadeInCloseButton')
+	reset_button_animations()
+	close_button.hide()
+	upgrade_panel.start()
 	pass # Replace with function body.
-
-func show_shop_confirmation(item, panel_ref):
-	$ShopItemConfirmation.set_shop_info(item.item_name, item.item_payment, item.item_price, panel_ref)
-	$ButtonClick.play()
-	pass
-
-func show_workshop_confirmation(item, cost):
-	$ShopItemConfirmation.set_workshop_info(item.item_name, cost)
-	$ButtonClick.play()
-	pass
-
-func _on_UpgradePanel_upgrade_closed():
-	$VBC/CurrencyInfo/HBC/ClosePanel/CloseButton/Anim.play('FadeInCloseButton')
-	pass # Replace with function body.
-
 
 func _on_ShopPanel_on_show_confirmation_panel(item, panel_ref):
-	$ShopItemConfirmation.set_shop_info(item.item_name, item.item_payment, item.item_price, panel_ref)
+	shop_item_confirmation.set_shop_info(item.item_name, item.item_payment, item.item_price, panel_ref)
 	$ButtonClick.play()
 	pass # Replace with function body.
 
 
-func _on_UpgradePanel_on_show_confirmation_panel(item, cost):
-	$ShopItemConfirmation.set_workshop_info(item.item_name, cost)
+func _on_UpgradePanel_on_show_confirmation_panel(item, panel_ref):
+	var item_price_data = item.get_next_level_info()
+	if item_price_data:
+		shop_item_confirmation.set_shop_info(item.item_name, item_price_data['payment'], item_price_data['price'], self)
+	$ButtonClick.play()
+	pass # Replace with function body.
+
+func _on_ShopPanel_closed():
+	close_button.show()
+	shop_item_confirmation.close()
+	pass # Replace with function body.
+
+func _on_UpgradePanel_closed():
+	close_button.show()
+	shop_item_confirmation.close()
+	pass # Replace with function body.
+
+func _on_CloseButton_button_down():
+	ItemManager.save_data()
+	$TransitionScene.play_random()
 	$ButtonClick.play()
 	pass # Replace with function body.
 "
 
-[sub_resource type="StyleBoxFlat" id=3]
+[sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.705882, 0.137255, 0.0745098, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -116,12 +107,12 @@ corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.309804 )
 shadow_size = 8
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=3]
 size = 60
 use_filter = true
 font_data = ExtResource( 3 )
 
-[sub_resource type="Shader" id=5]
+[sub_resource type="Shader" id=4]
 code = "shader_type canvas_item;
 
 uniform float outline_width = 2.0;
@@ -153,43 +144,18 @@ void fragment() {
 	COLOR = mix(col, outline_color, maxa - mina);
 }"
 
-[sub_resource type="ShaderMaterial" id=6]
-shader = SubResource( 5 )
+[sub_resource type="ShaderMaterial" id=5]
+shader = SubResource( 4 )
 shader_param/outline_width = 1.0
 shader_param/outline_color = Color( 1, 1, 1, 1 )
 
-[sub_resource type="Animation" id=7]
-length = 0.4
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:self_modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.4 ),
-"transitions": PoolRealArray( 0.5, 0.5, 0.5 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
-}
-tracks/1/type = "value"
-tracks/1/path = NodePath(".:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 0, 0.1, 0.4 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 1,
-"values": [ false, true, true ]
-}
-
-[node name="ShopAndUpgradeScene" type="Panel"]
+[node name="ShopScene" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_styles/panel = SubResource( 1 )
-script = SubResource( 2 )
+script = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 item_shop_panel = ExtResource( 1 )
 
 [node name="BG" type="TextureRect" parent="."]
@@ -234,7 +200,7 @@ margin_left = -171.0
 margin_top = -47.0
 margin_right = 171.0
 margin_bottom = 53.0
-custom_styles/panel = SubResource( 3 )
+custom_styles/panel = SubResource( 2 )
 
 [node name="Cuant" type="Label" parent="VBC/CurrencyInfo/HBC/Coins/Panel"]
 anchor_left = 1.0
@@ -245,7 +211,7 @@ margin_left = -282.0
 margin_top = -36.5
 margin_right = -20.0
 margin_bottom = 36.5
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.415686 )
 custom_constants/shadow_offset_x = 6
@@ -255,7 +221,7 @@ align = 2
 valign = 1
 
 [node name="CoinText" type="TextureRect" parent="VBC/CurrencyInfo/HBC/Coins"]
-material = SubResource( 6 )
+material = SubResource( 5 )
 anchor_top = 0.5
 anchor_bottom = 0.5
 margin_top = -67.5
@@ -281,7 +247,7 @@ margin_left = -171.0
 margin_top = -47.0
 margin_right = 167.0
 margin_bottom = 53.0
-custom_styles/panel = SubResource( 3 )
+custom_styles/panel = SubResource( 2 )
 
 [node name="Cuant" type="Label" parent="VBC/CurrencyInfo/HBC/Fish/Panel"]
 anchor_left = 1.0
@@ -292,7 +258,7 @@ margin_left = -271.0
 margin_top = -36.5
 margin_right = -21.0
 margin_bottom = 36.5
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.415686 )
 custom_constants/shadow_offset_x = 6
@@ -302,7 +268,7 @@ align = 2
 valign = 1
 
 [node name="FishText" type="TextureRect" parent="VBC/CurrencyInfo/HBC/Fish"]
-material = SubResource( 6 )
+material = SubResource( 5 )
 anchor_top = 0.5
 anchor_bottom = 0.5
 margin_top = -67.5
@@ -322,8 +288,6 @@ size_flags_stretch_ratio = 0.3
 
 [node name="CloseButton" type="TextureButton" parent="VBC/CurrencyInfo/HBC/ClosePanel"]
 pause_mode = 1
-visible = false
-self_modulate = Color( 1, 1, 1, 0 )
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -130.0
@@ -335,10 +299,9 @@ texture_normal = ExtResource( 6 )
 texture_pressed = ExtResource( 7 )
 expand = true
 stretch_mode = 5
-
-[node name="Anim" type="AnimationPlayer" parent="VBC/CurrencyInfo/HBC/ClosePanel/CloseButton"]
-autoplay = "FadeInCloseButton"
-anims/FadeInCloseButton = SubResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Buttons" type="Control" parent="VBC"]
 margin_top = 174.0
@@ -364,22 +327,9 @@ texture_focused = ExtResource( 10 )
 text = "Workshop"
 animation_advance_time = 0.5
 
-[node name="MainPanel" type="Control" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -540.0
-margin_top = -750.0
-margin_right = 540.0
-margin_bottom = 892.0
-mouse_filter = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
+[node name="ShopPanel" parent="." instance=ExtResource( 11 )]
 
-[node name="ShopPanel" parent="MainPanel" instance=ExtResource( 11 )]
-
-[node name="UpgradePanel" parent="MainPanel" instance=ExtResource( 12 )]
+[node name="UpgradePanel" parent="." instance=ExtResource( 12 )]
 
 [node name="InitialDarker" parent="." instance=ExtResource( 23 )]
 
@@ -391,12 +341,16 @@ margin_bottom = -40.0
 
 [node name="ButtonClick" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 26 )
+volume_db = -32.0
 bus = "UI"
+[connection signal="button_down" from="VBC/CurrencyInfo/HBC/ClosePanel/CloseButton" to="." method="_on_CloseButton_button_down"]
 [connection signal="button_down" from="VBC/CurrencyInfo/HBC/ClosePanel/CloseButton" to="." method="_on_TextureButton_button_down"]
 [connection signal="button_clicked" from="VBC/Buttons/ShopButton" to="." method="_on_ShopButton_button_clicked"]
 [connection signal="button_clicked" from="VBC/Buttons/WorkshopButton" to="." method="_on_WorkshopButton_button_clicked"]
-[connection signal="on_show_confirmation_panel" from="MainPanel/ShopPanel" to="." method="_on_ShopPanel_on_show_confirmation_panel"]
-[connection signal="on_show_confirmation_panel" from="MainPanel/UpgradePanel" to="." method="_on_UpgradePanel_on_show_confirmation_panel"]
+[connection signal="closed" from="ShopPanel" to="." method="_on_ShopPanel_closed"]
+[connection signal="on_show_confirmation_panel" from="ShopPanel" to="." method="_on_ShopPanel_on_show_confirmation_panel"]
+[connection signal="closed" from="UpgradePanel" to="." method="_on_UpgradePanel_closed"]
+[connection signal="on_show_confirmation_panel" from="UpgradePanel" to="." method="_on_UpgradePanel_on_show_confirmation_panel"]
 [connection signal="animation_finished" from="TransitionScene/Anim" to="." method="_on_Anim_animation_finished"]
 
 [editable path="TransitionScene"]

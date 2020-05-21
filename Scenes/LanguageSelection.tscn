@@ -10,6 +10,9 @@ script/source = "extends Control
 signal on_language_selected
 var language_selected : bool = false
 
+func _ready():
+	$Panel.visible = false
+
 func _on_En_button_down():
 	on_translation_button_clicked('en')
 	$ButtonClick.play()
@@ -123,7 +126,6 @@ __meta__ = {
 }
 
 [node name="Panel" type="Panel" parent="."]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5

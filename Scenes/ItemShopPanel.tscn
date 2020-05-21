@@ -297,17 +297,20 @@ tracks/0/keys = {
 [node name="ItemShopPanel" type="Panel"]
 margin_right = 300.0
 margin_bottom = 420.0
-rect_min_size = Vector2( 300, 420 )
+rect_min_size = Vector2( 320, 420 )
 mouse_filter = 2
 custom_styles/panel = SubResource( 1 )
 script = SubResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="VBC" type="VBoxContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 
 [node name="ItemPanel" type="Control" parent="VBC"]
-margin_right = 300.0
+margin_right = 320.0
 margin_bottom = 312.0
 mouse_filter = 2
 size_flags_horizontal = 3
@@ -367,7 +370,7 @@ custom_styles/normal = SubResource( 3 )
 
 [node name="Buttons" type="Control" parent="VBC"]
 margin_top = 316.0
-margin_right = 300.0
+margin_right = 320.0
 margin_bottom = 420.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -395,8 +398,8 @@ margin_bottom = -4.0
 mouse_filter = 2
 
 [node name="HBC" type="HBoxContainer" parent="VBC/Buttons/BuyButton/CC"]
-margin_left = 52.0
-margin_right = 235.0
+margin_left = 62.0
+margin_right = 245.0
 margin_bottom = 90.0
 rect_min_size = Vector2( 0, 90 )
 mouse_filter = 2
@@ -459,6 +462,7 @@ playback/repeat = true
 
 [node name="ButtonClick" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
+volume_db = -32.0
 bus = "UI"
 
 [node name="Anim" type="AnimationPlayer" parent="."]

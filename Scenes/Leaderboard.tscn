@@ -9,8 +9,8 @@
 [ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=7]
 [ext_resource path="res://Sounds/Sfx/ButtonClick.wav" type="AudioStream" id=8]
 
-[sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 0.188235, 0.188235, 0.188235, 0.901961 )
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 0.172549, 0.172549, 0.172549, 1 )
 
 [sub_resource type="GDScript" id=2]
 script/source = "extends Panel
@@ -20,8 +20,16 @@ export (PackedScene) var leaderitem_scene
 signal leader_closed
 
 func start():
+	get_leaderboard_data()
 	$Leaders/State.show()
 	$Anim.play('Enter')
+	$Timer.start()
+	pass
+
+func get_leaderboard_data():
+	var public_url = 'http://dreamlo.com/lb/5cba6e4a3eba5e041c24a2b4/json'
+	$HTTPRequest.request(public_url,[],true,HTTPClient.METHOD_GET)
+	connecting()
 	pass
 
 func create_panels(data):
@@ -57,6 +65,21 @@ func _on_CloseLeaderButton_button_down():
 	$Anim.play_backwards('Enter')
 	emit_signal('leader_closed')
 	$ButtonClick.play()
+	pass # Replace with function body.
+
+func _on_HTTPRequest_request_completed(result, response_code, headers, body):
+	if result == HTTPRequest.RESULT_SUCCESS and !$Timer.is_stopped():
+		var leaderboard_data = JSON.parse(body.get_string_from_utf8()).result
+		var leaderboard_list : Dictionary = leaderboard_data['dreamlo']['leaderboard']
+		create_panels(leaderboard_list['entry'])
+		$Timer.stop()
+	else:
+		failed_to_connect()
+	pass # Replace with function body.
+
+
+func _on_Timer_timeout():
+	failed_to_connect()
 	pass # Replace with function body.
 "
 
@@ -181,7 +204,7 @@ self_modulate = Color( 1, 1, 1, 0 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-custom_styles/panel = SubResource( 1 )
+custom_styles/panel = SubResource( 7 )
 script = SubResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -233,6 +256,7 @@ custom_styles/panel = SubResource( 4 )
 margin_bottom = 0.0
 packed_scene = ExtResource( 1 )
 items_to_show = 10
+h_separation = 0
 
 [node name="VBC" parent="Leaders/ItemPageGrid" index="0"]
 grow_horizontal = 2
@@ -257,17 +281,15 @@ margin_right = 942.0
 margin_bottom = 1311.0
 
 [node name="Prev" parent="Leaders/ItemPageGrid/VBC/HBC" index="0"]
-margin_right = 345.0
 margin_bottom = 119.0
 
 [node name="Page" parent="Leaders/ItemPageGrid/VBC/HBC" index="1"]
-margin_left = 349.0
-margin_right = 591.0
+margin_right = 537.0
 margin_bottom = 119.0
 
 [node name="Next" parent="Leaders/ItemPageGrid/VBC/HBC" index="2"]
-margin_left = 595.0
-margin_right = 942.0
+margin_left = 541.0
+margin_right = 941.0
 margin_bottom = 119.0
 
 [node name="State" type="Label" parent="Leaders"]
@@ -318,7 +340,13 @@ anims/Enter = SubResource( 6 )
 [node name="ButtonClick" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 8 )
 bus = "UI"
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
 [connection signal="button_down" from="CloseLeaderButton" to="." method="_on_CloseLeaderButton_button_down"]
 [connection signal="animation_finished" from="Anim" to="." method="_on_Anim_animation_finished"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 
 [editable path="Leaders/ItemPageGrid"]

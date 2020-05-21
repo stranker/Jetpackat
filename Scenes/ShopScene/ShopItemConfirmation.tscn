@@ -15,7 +15,9 @@ var item_gold_cost : int = 0
 var item_fish_cost : int = 0
 var item_name : String = ''
 var panel_ref = null
-signal exit_viewport
+
+func _ready():
+	$Panel.visible = false
 
 func set_shop_info(_name : String, _payment : int, _cost : int, _panel_ref):
 	match _payment:
@@ -29,6 +31,11 @@ func set_shop_info(_name : String, _payment : int, _cost : int, _panel_ref):
 	$Anim.play('Enter')
 	pass
 
+func close():
+	if $Panel.visible:
+		$Anim.play_backwards('Enter')
+	pass
+
 func update_shop_ui(_payment : int, _cost):
 	match _payment:
 		ItemManager.Payment.COIN:
@@ -37,7 +44,7 @@ func update_shop_ui(_payment : int, _cost):
 		ItemManager.Payment.FISH:
 			$Panel/CostPanel/PaymentText.texture = fish_texture
 			$Panel/CostPanel/Cost.text = str(item_fish_cost)
-	$Panel/Title.text = tr('KEY_SHOP_BUY') + '\\n ' + item_name + '?'
+	$Panel/Title.text = tr('KEY_SHOP_BUY') + '\\n ' + tr(item_name) + '?'
 	check_button_states(_cost)
 	pass
 
@@ -50,17 +57,12 @@ func _on_ConfirmButton_button_down():
 		GameManager.fishes -= item_fish_cost
 		panel_ref.change_to_buy_state()
 		$BuyItem.play()
-	$Anim.play_backwards('Enter')
-	emit_signal('exit_viewport')
+	close()
 	pass # Replace with function body.
 
-func exit_viewport():
-	$Anim.play_backwards('Enter')
-	emit_signal('exit_viewport')
-	pass
 
 func _on_CancelButton_button_down():
-	exit_viewport()
+	close()
 	pass # Replace with function body.
 
 func check_button_states(cost : int):
@@ -84,7 +86,7 @@ corner_radius_bottom_left = 50
 corner_detail = 2
 
 [sub_resource type="DynamicFont" id=3]
-size = 54
+size = 50
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 3 )
@@ -231,20 +233,19 @@ tracks/0/keys = {
 "values": [ Vector2( 185, 2100 ), Vector2( 185, 640 ), Vector2( 185, 695 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath(".:visible")
+tracks/1/path = NodePath("Panel:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.1, 0.5 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.05 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ false, true, true ]
+"values": [ false, true ]
 }
 
 [node name="ShopItemConfirmation" type="Control"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -261,17 +262,21 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -355.0
-margin_top = 1140.0
-margin_right = 355.0
-margin_bottom = 1670.0
+margin_top = 797.813
+margin_right = 406.0
+margin_bottom = 1339.81
 custom_styles/panel = SubResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Title" type="Label" parent="Panel"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -355.0
-margin_right = 355.0
-margin_bottom = 180.0
+margin_left = -362.5
+margin_top = 31.0
+margin_right = 363.5
+margin_bottom = 184.0
 custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 0.984314, 0.952941, 0.952941, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.129412 )
@@ -280,7 +285,12 @@ custom_constants/shadow_offset_y = 8
 text = "DO YOU WANT TO UPGRADE
 ENGINE?"
 align = 1
-valign = 1
+autowrap = true
+clip_text = true
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="CostPanel" type="Panel" parent="Panel"]
 anchor_left = 0.5
@@ -305,6 +315,9 @@ rect_pivot_offset = Vector2( 53.6715, 42.4951 )
 texture = ExtResource( 1 )
 expand = true
 stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Cost" type="Label" parent="Panel/CostPanel"]
 anchor_left = 1.0
@@ -329,9 +342,9 @@ __meta__ = {
 [node name="ConfirmButton" type="Button" parent="Panel"]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_left = 60.0
-margin_top = -170.0
-margin_right = 335.0
+margin_left = 44.1333
+margin_top = -194.0
+margin_right = 366.133
 margin_bottom = -30.0
 custom_styles/hover = SubResource( 8 )
 custom_styles/pressed = SubResource( 8 )
@@ -348,9 +361,9 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -330.0
-margin_top = -170.0
-margin_right = -55.0
+margin_left = -361.547
+margin_top = -194.0
+margin_right = -39.5465
 margin_bottom = -30.0
 custom_styles/hover = SubResource( 11 )
 custom_styles/pressed = SubResource( 11 )
@@ -367,10 +380,12 @@ anims/Enter = SubResource( 13 )
 
 [node name="ButtonClick" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )
+volume_db = -32.0
 bus = "UI"
 
 [node name="BuyItem" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
+volume_db = -16.0
 bus = "UI"
 [connection signal="button_down" from="Panel/ConfirmButton" to="." method="_on_ConfirmButton_button_down"]
 [connection signal="button_down" from="Panel/CancelButton" to="." method="_on_CancelButton_button_down"]

@@ -15,12 +15,14 @@ var grid_data
 export (int) var items_to_show
 var total_pages : int
 export var actual_page : int = 0
+export var h_separation : int = 1
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$VBC/Grid.columns = columns_number
 	$VBC/HBC/Page/PageText.text = ''
 	$VBC/HBC.hide()
+	$VBC/Grid.set(\"custom_constants/hseparation\", h_separation)
 	pass # Replace with function body.
 
 func create_shop_items(data : Array):
@@ -193,6 +195,9 @@ margin_right = 1080.0
 margin_bottom = 887.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="HBC" type="HBoxContainer" parent="VBC"]
 margin_top = 891.0
@@ -203,8 +208,9 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 0.1
 
 [node name="Prev" type="Control" parent="VBC/HBC"]
-margin_right = 397.0
+margin_right = 400.0
 margin_bottom = 89.0
+rect_min_size = Vector2( 400, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -243,8 +249,8 @@ expand = true
 stretch_mode = 6
 
 [node name="Page" type="Control" parent="VBC/HBC"]
-margin_left = 401.0
-margin_right = 678.0
+margin_left = 404.0
+margin_right = 675.0
 margin_bottom = 89.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -273,9 +279,10 @@ __meta__ = {
 }
 
 [node name="Next" type="Control" parent="VBC/HBC"]
-margin_left = 682.0
-margin_right = 1080.0
+margin_left = 679.0
+margin_right = 1079.0
 margin_bottom = 89.0
+rect_min_size = Vector2( 400, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -312,7 +319,7 @@ stretch_mode = 6
 
 [node name="PanelChange" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
-volume_db = -12.0
+volume_db = -24.0
 bus = "UI"
 [connection signal="button_down" from="VBC/HBC/Prev/PrevButton" to="." method="_on_PrevButton_button_down"]
 [connection signal="button_down" from="VBC/HBC/Next/NextButton" to="." method="_on_NextButton_button_down"]

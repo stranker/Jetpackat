@@ -203,7 +203,7 @@ func _on_Anim_animation_finished(anim_name):
 		if !dead:
 			$Falling.volume_db = -16
 			emit_signal(\"on_recover\")
-			yield(get_tree().create_timer(1),\"timeout\")
+			yield(get_tree().create_timer(2.2),\"timeout\")
 			can_receive_damage = true
 			set_physics_process(true)
 	pass # Replace with function body.

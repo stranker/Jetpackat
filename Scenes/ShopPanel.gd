@@ -5,7 +5,7 @@ onready var jetpack_btn = $BackPanel/HBC/PlayerPanel/JetpackButton
 onready var skin_btn = $BackPanel/HBC/PlayerPanel/SkinButton
 onready var hat_btn = $BackPanel/HBC/PlayerPanel/HatButton
 onready var scarf_btn = $BackPanel/HBC/PlayerPanel/ScarfButton
-onready var color_picker = $BackPanel/HBC/PanelItems/CustomColor
+onready var color_picker = $BackPanel/CustomColor
 onready var item_page_grid = $BackPanel/HBC/PanelItems/ItemPageGrid
 onready var player_panel = $BackPanel/HBC/PlayerPanel
 onready var item_list = $BackPanel/HBC/PanelItems/ItemPageGrid/VBC/Grid
@@ -13,11 +13,16 @@ onready var item_list = $BackPanel/HBC/PanelItems/ItemPageGrid/VBC/Grid
 var current_item_panel
 
 signal on_show_confirmation_panel(item, panel_ref)
+signal closed
 
 func _ready():
 	update_equipment()
 	_on_HatButton_on_clicked(hat_btn)
-	#$TransitionScene.play_random_backwards()
+	$BackPanel.visible = false
+	pass
+
+func start():
+	$Anim.play("Enter")
 	pass
 
 func update_equipment():
@@ -144,3 +149,9 @@ func item_preview(item_type,item_texture):
 func show_shop_confirmation(item, panel_ref):
 	emit_signal("on_show_confirmation_panel", item, panel_ref)
 	pass
+
+
+func _on_CloseButton_button_down():
+	$Anim.play_backwards("Enter")
+	emit_signal("closed")
+	pass # Replace with function body.

@@ -84,6 +84,9 @@ texture_focused = ExtResource( 2 )
 expand = true
 stretch_mode = 5
 script = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Text" type="Label" parent="."]
 anchor_left = 0.5

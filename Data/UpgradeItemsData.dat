@@ -1,6 +1,6 @@
 { 
    "0":{ 
-      "name":"Currency",
+      "name":"KEY_COIN_MULTIPLIER",
       "level":1,
       "price_per_level":{ 
          "1":{ 
@@ -18,7 +18,7 @@
       }
    },
    "1":{ 
-      "name":"Magnet Chip",
+      "name":"KEY_MAGNET_CHIP",
       "level":1,
       "price_per_level":{ 
          "1":{ 

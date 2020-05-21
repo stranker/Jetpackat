@@ -4,6 +4,7 @@ var clicked = false
 signal on_clicked(self_ref)
 var ref_item = null
 export (Texture) var button_texture
+export var can_rescale : bool = false
 
 func _ready():
 	if !button_texture:
@@ -30,7 +31,9 @@ func unclick_button():
 
 func _on_ButtonShop_button_down():
 	if !clicked:
-		$Anim.play('Clicked')
+		$Anim.play("OnClick")
+		if can_rescale:
+			$Anim.queue("Clicked")
 		clicked = true
 		emit_signal("on_clicked",self)
 	pass # Replace with function body.
@@ -45,4 +48,11 @@ func upgrade_item():
 
 func _on_ButtonShop_resized():
 	rect_pivot_offset = rect_size * 0.5
+	pass # Replace with function body.
+
+
+func _on_Anim_animation_finished(anim_name):
+	if anim_name == "OnClick":
+		if clicked:
+			clicked = false
 	pass # Replace with function body.

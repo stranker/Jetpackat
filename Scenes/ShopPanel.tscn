@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Scenes/ShopPanel.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=3]
@@ -40,133 +40,7 @@ expand_margin_bottom = 5.0
 
 [sub_resource type="ButtonGroup" id=6]
 
-[sub_resource type="GDScript" id=7]
-script/source = "extends Control
-
-enum ItemGridType {Leaderboard, ShopPanel}
-export (ItemGridType) var item_page_grid_type
-export (PackedScene) var packed_scene
-export (int) var columns_number = 1
-var grid_data
-export (int) var items_to_show
-var total_pages : int
-export var actual_page : int = 0
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	$VBC/Grid.columns = columns_number
-	$VBC/HBC/Page/PageText.text = ''
-	$VBC/HBC.hide()
-	pass # Replace with function body.
-
-func create_shop_items(data : Array):
-	total_pages = ceil(float(data.size()) / float(items_to_show))
-	actual_page = 0
-	grid_data = data
-	clear_previous_data()
-	instanciate_page()
-	fill_shop_item_info()
-	pass
-
-func create_leader_items(data : Array):
-	total_pages = ceil(float(data.size()) / float(items_to_show))
-	actual_page = 0
-	grid_data = data
-	clear_previous_data()
-	instanciate_page()
-	fill_leader_info()
-	pass
-
-func fill_leader_info():
-	var panel_count = $VBC/Grid.get_child_count() 
-	var pos = actual_page * items_to_show + 1
-	for idx in range(panel_count):
-		var info = grid_data[actual_page * items_to_show + idx]
-		$VBC/Grid.get_child(idx).set_info(pos,info)
-		pos += 1
-	$VBC/HBC.show()
-	pass
-
-func fill_shop_item_info():
-	var panel_count = $VBC/Grid.get_child_count() 
-	for idx in range(panel_count):
-		$VBC/Grid.get_child(idx).set_item_info(grid_data[actual_page * items_to_show + idx])
-	$VBC/HBC.show()
-	pass
-
-func clear_previous_data():
-	for item in $VBC/Grid.get_children():
-		$VBC/Grid.remove_child(item)
-		item.queue_free()
-	pass
-
-func instanciate_page():
-	if actual_page != total_pages - 1:
-		for i in range(items_to_show):
-			var scene = packed_scene.instance()
-			$VBC/Grid.add_child(scene)
-	else:
-		var cant = grid_data.size() % items_to_show if grid_data.size() % items_to_show != 0 else items_to_show
-		for i in range(cant):
-			var scene = packed_scene.instance()
-			$VBC/Grid.add_child(scene)
-	check_ui()
-	pass
-
-func check_ui():
-	$VBC/HBC/Page/PageText.text = str(actual_page + 1) + ' / ' + str(total_pages)
-	$VBC/HBC/Next/NextButton.visible = actual_page != total_pages - 1
-	$VBC/HBC/Prev/PrevButton.visible = actual_page != 0
-	pass
-
-func check_type():
-	match item_page_grid_type:
-		ItemGridType.Leaderboard:
-			fill_leader_info()
-			return
-		ItemGridType.ShopPanel:
-			fill_shop_item_info()
-			return
-	pass
-
-func check_next():
-	if actual_page != total_pages - 1:
-		actual_page += 1
-		actual_page = clamp(actual_page, 0, total_pages)
-	pass
-
-func check_prev():
-	if actual_page != 0:
-		actual_page -= 1
-		actual_page = clamp(actual_page, 0, total_pages)
-	pass
-
-func next_page():
-	check_next()
-	clear_previous_data()
-	instanciate_page()
-	check_type()
-	pass
-
-func prev_page():
-	check_prev()
-	clear_previous_data()
-	instanciate_page()
-	check_type()
-	pass
-
-func _on_PrevButton_button_down():
-	prev_page()
-	$PanelChange.play()
-	pass # Replace with function body.
-
-func _on_NextButton_button_down():
-	next_page()
-	$PanelChange.play()
-	pass # Replace with function body.
-"
-
-[sub_resource type="StyleBoxFlat" id=8]
+[sub_resource type="StyleBoxFlat" id=7]
 bg_color = Color( 0.686275, 0.364706, 0.137255, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -179,23 +53,23 @@ corner_radius_bottom_right = 50
 corner_radius_bottom_left = 50
 corner_detail = 2
 
-[sub_resource type="Animation" id=9]
-length = 0.5
+[sub_resource type="Animation" id=8]
+length = 0.4
 step = 0.05
 tracks/0/type = "value"
-tracks/0/path = NodePath(".:rect_position")
+tracks/0/path = NodePath("BackPanel:rect_position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.4, 0.5 ),
-"transitions": PoolRealArray( 0.5, 1, 1 ),
+"times": PoolRealArray( 0, 0.3, 0.4 ),
+"transitions": PoolRealArray( 0.5, 0.5, 1 ),
 "update": 0,
-"values": [ Vector2( 1600, 0 ), Vector2( -20, 0 ), Vector2( 0, 0 ) ]
+"values": [ Vector2( 1200, 217 ), Vector2( -10, 217 ), Vector2( 9.99976, 217 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath(".:visible")
+tracks/1/path = NodePath("BackPanel:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -212,8 +86,7 @@ tracks/1/keys = {
 ]]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = 0.000244141
-mouse_filter = 1
+mouse_filter = 2
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -221,15 +94,18 @@ __meta__ = {
 
 [node name="BackPanel" type="Panel" parent="."]
 anchor_left = 0.5
-anchor_top = 1.0
+anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 1.0
+anchor_bottom = 0.5
 margin_left = -530.0
-margin_top = -1640.0
+margin_top = -743.0
 margin_right = 530.0
-margin_bottom = -10.0
+margin_bottom = 887.0
 mouse_filter = 1
 custom_styles/panel = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="HBC" type="VBoxContainer" parent="BackPanel"]
 anchor_right = 1.0
@@ -269,6 +145,7 @@ texture_hover = ExtResource( 14 )
 texture_disabled = ExtResource( 14 )
 texture_focused = ExtResource( 14 )
 button_texture = ExtResource( 14 )
+can_rescale = true
 
 [node name="JetpackButton" parent="BackPanel/HBC/PlayerPanel" instance=ExtResource( 8 )]
 margin_left = -119.682
@@ -284,6 +161,7 @@ texture_hover = ExtResource( 3 )
 texture_disabled = ExtResource( 3 )
 texture_focused = ExtResource( 3 )
 button_texture = ExtResource( 3 )
+can_rescale = true
 
 [node name="SkinButton" parent="BackPanel/HBC/PlayerPanel" instance=ExtResource( 8 )]
 anchor_left = 0.0
@@ -372,6 +250,7 @@ texture_hover = ExtResource( 11 )
 texture_disabled = ExtResource( 11 )
 texture_focused = ExtResource( 11 )
 button_texture = ExtResource( 11 )
+can_rescale = true
 
 [node name="ScarfButton" parent="BackPanel/HBC/PlayerPanel" instance=ExtResource( 8 )]
 margin_left = 83.8008
@@ -380,6 +259,7 @@ margin_right = 308.801
 margin_bottom = 204.913
 rect_pivot_offset = Vector2( 135, 160 )
 group = SubResource( 6 )
+can_rescale = true
 
 [node name="PanelItems" type="Control" parent="BackPanel/HBC"]
 margin_top = 613.0
@@ -391,46 +271,50 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ItemPageGrid" parent="BackPanel/HBC/PanelItems" instance=ExtResource( 5 )]
-margin_left = 18.0
-margin_top = 25.0
-margin_right = -18.0
-margin_bottom = -32.0
-mouse_filter = 1
-script = SubResource( 7 )
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
 item_page_grid_type = 1
 packed_scene = ExtResource( 7 )
 columns_number = 3
 items_to_show = 6
+h_separation = 50
 
-[node name="CustomColor" parent="BackPanel/HBC/PanelItems" instance=ExtResource( 6 )]
+[node name="CustomColor" parent="BackPanel" instance=ExtResource( 6 )]
 visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -282.202
-margin_top = -780.227
+margin_top = -473.727
 margin_right = 277.798
-margin_bottom = -70.2274
-custom_styles/panel = SubResource( 8 )
+margin_bottom = 236.272
+custom_styles/panel = SubResource( 7 )
 
-[node name="CloseButton" type="TextureButton" parent="."]
+[node name="CloseButton" type="TextureButton" parent="BackPanel"]
 pause_mode = 1
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -120.0
-margin_bottom = 120.0
+margin_left = -96.0238
+margin_right = -2.0238
+margin_bottom = 94.0
 size_flags_vertical = 3
 texture_normal = ExtResource( 13 )
 texture_pressed = ExtResource( 9 )
 expand = true
 stretch_mode = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="ShopPanelAnim" type="AnimationPlayer" parent="."]
-anims/Enter = SubResource( 9 )
+[node name="Anim" type="AnimationPlayer" parent="."]
+anims/Enter = SubResource( 8 )
 [connection signal="on_clicked" from="BackPanel/HBC/PlayerPanel/PatternButton" to="." method="_on_PatternButton_on_clicked"]
 [connection signal="on_clicked" from="BackPanel/HBC/PlayerPanel/JetpackButton" to="." method="_on_JetpackButton_on_clicked"]
 [connection signal="on_clicked" from="BackPanel/HBC/PlayerPanel/SkinButton" to="." method="_on_SkinButton_on_clicked"]
 [connection signal="on_clicked" from="BackPanel/HBC/PlayerPanel/HatButton" to="." method="_on_HatButton_on_clicked"]
 [connection signal="on_clicked" from="BackPanel/HBC/PlayerPanel/ScarfButton" to="." method="_on_ScarfButton_on_clicked"]
-[connection signal="value_changed" from="BackPanel/HBC/PanelItems/CustomColor" to="." method="_on_CustomColor_value_changed"]
+[connection signal="value_changed" from="BackPanel/CustomColor" to="." method="_on_CustomColor_value_changed"]
+[connection signal="button_down" from="BackPanel/CloseButton" to="." method="_on_CloseButton_button_down"]

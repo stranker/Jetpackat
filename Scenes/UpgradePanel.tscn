@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://Sprites/Shop/UI/CurrencyUpgrade.png" type="Texture" id=3]
@@ -26,44 +26,39 @@ export (Color) var level_max_color
 onready var item_confirmation
 var button_clicked_ref = null
 
-signal upgrade_closed
 signal on_show_confirmation_panel(item, cost)
 signal update_currency
+signal closed
 
 func _ready():
 	update_price_tags()
-	hide()
+	$BackPanel.visible = false
 	pass
 
-func enter():
+func start():
 	anim.play('Enter')
 	pass
 
 func _on_CurrencyButton_on_clicked(button_ref):
 	chip_btn.unclick_button()
-	var currency_data = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.CURRENCY)
-	set_item_confirmation(currency_data)
-	button_clicked_ref = button_ref
-	button_clicked_ref.set_item(currency_data)
+	on_button_clicked(button_ref, ItemManager.UpgradeType.CURRENCY)
 	pass
 
 func _on_ChipButton_on_clicked(button_ref):
 	currency_btn.unclick_button()
-	var magnetchip_data = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.CHIP)
-	set_item_confirmation(magnetchip_data)
+	on_button_clicked(button_ref, ItemManager.UpgradeType.CHIP)
+	pass
+
+func on_button_clicked(button_ref, item_type):
+	var item = ItemManager.get_upgrade_item_by_type(item_type)
 	button_clicked_ref = button_ref
-	button_clicked_ref.set_item(magnetchip_data)
+	button_clicked_ref.set_item(item)
+	emit_signal(\"on_show_confirmation_panel\", item, self)
 	pass
 
 func _on_UpgradeCloseButton_button_down():
 	anim.play_backwards('Enter')
-	emit_signal('upgrade_closed')
-	pass
-
-func set_item_confirmation(item):
-	var item_price_data = item.get_next_level_info()
-	if item_price_data:
-		item_confirmation.set_shop_info(item.item_name, item_price_data['payment'], item_price_data['price'], self)
+	emit_signal('closed')
 	pass
 
 func change_to_buy_state():
@@ -90,18 +85,18 @@ func update_price_tags():
 	var currency_multiplier_info : Dictionary = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.CURRENCY).get_next_level_info()
 	var magnet_info : Dictionary = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.CHIP).get_next_level_info()
 	if currency_multiplier_info:
-		chip_price_tag.get_node('Price/Payment').texture = get_payment_texture(currency_multiplier_info['payment'])
+		chip_price_tag.get_node('Payment').texture = get_payment_texture(currency_multiplier_info['payment'])
 		currency_price_tag.text = str(currency_multiplier_info['price'])
 	else:
-		currency_price_tag.get_node('Price/SoldOut').show()
-		currency_price_tag.get_node('Price/Payment').texture = null
+		currency_price_tag.get_node('SoldOut').show()
+		currency_price_tag.get_node('Payment').texture = null
 		currency_level.self_modulate = level_max_color
 	if magnet_info:
-		chip_price_tag.get_node('Price/Payment').texture = get_payment_texture(magnet_info['payment'])
-		chip_price_tag.get_node('Price').text = str(magnet_info['price'])
+		chip_price_tag.get_node('Payment').texture = get_payment_texture(magnet_info['payment'])
+		chip_price_tag.text = str(magnet_info['price'])
 	else:
-		chip_price_tag.get_node('Price/Payment').texture = null
-		chip_price_tag.get_node('Price/SoldOut').show()
+		chip_price_tag.get_node('Payment').texture = null
+		chip_price_tag.get_node('SoldOut').show()
 		chip_level.self_modulate = level_max_color
 	pass
 
@@ -132,7 +127,7 @@ expand_margin_top = 5.0
 expand_margin_bottom = 5.0
 
 [sub_resource type="StyleBoxFlat" id=3]
-bg_color = Color( 0.905882, 0.74902, 0.333333, 1 )
+bg_color = Color( 0.137255, 0.521569, 0.192157, 1 )
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
@@ -204,47 +199,10 @@ outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 2 )
 
-[sub_resource type="Shader" id=11]
-code = "shader_type canvas_item;
+[sub_resource type="ButtonGroup" id=11]
 
-uniform float outline_width = 2.0;
-uniform vec4 outline_color : hint_color;
-
-void fragment() {
-	vec4 col = texture(TEXTURE, UV);
-	vec2 ps = TEXTURE_PIXEL_SIZE;
-	float a;
-	float maxa = col.a;
-	float mina = col.a;
-
-	a = texture(TEXTURE, UV + vec2(0.0, -outline_width) * ps).a;
-	maxa = max(a, maxa);
-	mina = min(a, mina);
-
-	a = texture(TEXTURE, UV + vec2(0.0, outline_width) * ps).a;
-	maxa = max(a, maxa);
-	mina = min(a, mina);
-
-	a = texture(TEXTURE, UV + vec2(-outline_width, 0.0) * ps).a;
-	maxa = max(a, maxa);
-	mina = min(a, mina);
-
-	a = texture(TEXTURE, UV + vec2(outline_width, 0.0) * ps).a;
-	maxa = max(a, maxa);
-	mina = min(a, mina);
-
-	COLOR = mix(col, outline_color, maxa - mina);
-}"
-
-[sub_resource type="ShaderMaterial" id=12]
-shader = SubResource( 11 )
-shader_param/outline_width = 0.5
-shader_param/outline_color = Color( 1, 1, 1, 0.198637 )
-
-[sub_resource type="ButtonGroup" id=13]
-
-[sub_resource type="Animation" id=14]
-length = 0.5
+[sub_resource type="Animation" id=12]
+length = 0.4
 step = 0.05
 tracks/0/type = "value"
 tracks/0/path = NodePath("BackPanel:rect_position")
@@ -253,10 +211,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.4, 0.5 ),
-"transitions": PoolRealArray( 0.5, 1, 1 ),
+"times": PoolRealArray( 0, 0.3, 0.4 ),
+"transitions": PoolRealArray( 0.5, 0.5, 1 ),
 "update": 0,
-"values": [ Vector2( 1600, 2 ), Vector2( -20, 2 ), Vector2( 10, 2 ) ]
+"values": [ Vector2( 1200, 207 ), Vector2( -10, 207 ), Vector2( 10, 207 ) ]
 }
 tracks/1/type = "value"
 tracks/1/path = NodePath("BackPanel:visible")
@@ -270,23 +228,11 @@ tracks/1/keys = {
 "update": 1,
 "values": [ false, true ]
 }
-tracks/2/type = "value"
-tracks/2/path = NodePath(".:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.05 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ false, true ]
-}
 
 [node name="UpgradePanel" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-mouse_filter = 1
+mouse_filter = 2
 script = SubResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -297,16 +243,21 @@ fish_texture = ExtResource( 9 )
 level_max_color = Color( 0.956863, 0.215686, 0.0431373, 1 )
 
 [node name="BackPanel" type="Panel" parent="."]
+visible = false
 anchor_left = 0.5
-anchor_top = 1.0
+anchor_top = 0.5
 anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -530.0
-margin_top = -1918.0
-margin_right = 530.0
-margin_bottom = -288.0
+anchor_bottom = 0.5
+margin_left = 660.0
+margin_top = -753.0
+margin_right = 1720.0
+margin_bottom = 877.0
+rect_min_size = Vector2( 1060, 1630 )
 mouse_filter = 1
 custom_styles/panel = SubResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Background" type="Panel" parent="BackPanel"]
 anchor_left = 0.5
@@ -318,6 +269,9 @@ margin_top = -767.0
 margin_right = 500.0
 margin_bottom = 769.0
 custom_styles/panel = SubResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="CurrencyDescription" type="Panel" parent="BackPanel/Background"]
 anchor_left = 0.5
@@ -429,13 +383,12 @@ custom_colors/font_color = Color( 1, 0, 0, 1 )
 text = "SOLD OUT!"
 
 [node name="CurrencyButton" parent="BackPanel/Background" instance=ExtResource( 5 )]
-material = SubResource( 12 )
 margin_left = -200.0
 margin_top = -525.0
 margin_right = 170.0
 margin_bottom = -95.0
 rect_pivot_offset = Vector2( 185, 210 )
-group = SubResource( 13 )
+group = SubResource( 11 )
 texture_normal = ExtResource( 3 )
 texture_pressed = ExtResource( 3 )
 texture_hover = ExtResource( 3 )
@@ -565,13 +518,12 @@ custom_colors/font_color = Color( 1, 0, 0, 1 )
 text = "SOLD OUT!"
 
 [node name="ChipButton" parent="BackPanel/Background" instance=ExtResource( 5 )]
-material = SubResource( 12 )
 margin_left = -215.0
 margin_top = 137.747
 margin_right = 235.0
 margin_bottom = 648.747
 rect_pivot_offset = Vector2( 230, 250 )
-group = SubResource( 13 )
+group = SubResource( 11 )
 texture_normal = ExtResource( 4 )
 texture_pressed = ExtResource( 4 )
 texture_hover = ExtResource( 4 )
@@ -583,10 +535,10 @@ button_texture = ExtResource( 4 )
 pause_mode = 1
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -105.0
+margin_left = -86.0
 margin_top = -12.0
-margin_right = 15.0
-margin_bottom = 108.0
+margin_right = 8.0
+margin_bottom = 82.0
 size_flags_vertical = 3
 texture_normal = ExtResource( 8 )
 texture_pressed = ExtResource( 6 )
@@ -597,11 +549,7 @@ __meta__ = {
 }
 
 [node name="Anim" type="AnimationPlayer" parent="."]
-anims/Enter = SubResource( 14 )
-[connection signal="mouse_entered" from="BackPanel/Background/CurrencyButton" to="BackPanel/Background/CurrencyButton" method="_on_ButtonShop_mouse_entered"]
-[connection signal="mouse_exited" from="BackPanel/Background/CurrencyButton" to="BackPanel/Background/CurrencyButton" method="_on_ButtonShop_mouse_exited"]
+anims/Enter = SubResource( 12 )
 [connection signal="on_clicked" from="BackPanel/Background/CurrencyButton" to="." method="_on_CurrencyButton_on_clicked"]
-[connection signal="mouse_entered" from="BackPanel/Background/ChipButton" to="BackPanel/Background/ChipButton" method="_on_ButtonShop_mouse_entered"]
-[connection signal="mouse_exited" from="BackPanel/Background/ChipButton" to="BackPanel/Background/ChipButton" method="_on_ButtonShop_mouse_exited"]
 [connection signal="on_clicked" from="BackPanel/Background/ChipButton" to="." method="_on_ChipButton_on_clicked"]
 [connection signal="button_down" from="BackPanel/CloseButton" to="." method="_on_UpgradeCloseButton_button_down"]

@@ -37,6 +37,8 @@ script/source = "extends Control
 
 var next_scene = ''
 var easter_cont : int = 0
+onready var leaderboard = $Leaderboard
+onready var player_skin = $Player/Skin
 export (Texture) var house_broken
 
 func _ready():
@@ -66,10 +68,10 @@ func set_items_equipped():
 
 func set_player_menu_item(item):
 	if item.item_type != ItemManager.ItemType.SKIN:
-		$Player/Skin.get_node(ItemManager.itemTypeToString.get(item.item_type)).texture = load(item.item_image_location)
-		$Player/Skin.get_node(ItemManager.itemTypeToString.get(item.item_type)).self_modulate = item.item_color if item.has_color() else \"ffffff\"
+		player_skin.get_node(ItemManager.itemTypeToString.get(item.item_type)).texture = load(item.item_image_location)
+		player_skin.get_node(ItemManager.itemTypeToString.get(item.item_type)).self_modulate = item.item_color if item.has_color() else \"ffffff\"
 	else:
-		$Player/Skin.self_modulate = item.item_color if item.has_color() else \"ffffff\"
+		player_skin.self_modulate = item.item_color if item.has_color() else \"ffffff\"
 	pass
 
 func _on_StartButton_button_down():
@@ -114,29 +116,7 @@ func _on_ShopButton_button_down():
 func _on_LeaderboardButton_button_down():
 	$Buttons.play()
 	set_disable_main_buttons(true)
-	get_leaderboard_data()
-	$Leaderboard.start()
-	pass # Replace with function body.
-
-func get_leaderboard_data():
-	var public_url = 'http://dreamlo.com/lb/5cba6e4a3eba5e041c24a2b4/json'
-	$HTTPRequest.request(public_url,[],true,HTTPClient.METHOD_GET)
-	$Leaderboard.connecting()
-	pass
-
-func _on_CloseLeaderButton_button_down():
-	$Buttons.play()
-	$UIAnimation.play_backwards('Leaderboard')
-	set_disable_main_buttons(false)
-	pass # Replace with function body.
-
-func _on_HTTPRequest_request_completed(result, response_code, headers, body):
-	if result == HTTPRequest.RESULT_SUCCESS:
-		var leaderboard_data = JSON.parse(body.get_string_from_utf8()).result
-		var leaderboard_list : Dictionary = leaderboard_data['dreamlo']['leaderboard']
-		$Leaderboard.create_panels(leaderboard_list['entry'])
-	else:
-		$Leaderboard.failed_to_connect()
+	leaderboard.start()
 	pass # Replace with function body.
 
 func set_disable_main_buttons(val):
@@ -206,7 +186,6 @@ colors = PoolColorArray( 0.734375, 0.180635, 0.123352, 1, 0.921875, 0.604191, 0.
 
 [sub_resource type="Animation" id=5]
 length = 12.0
-loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:position")
 tracks/0/interp = 1
@@ -470,12 +449,12 @@ scale_amount_curve = SubResource( 3 )
 color_ramp = SubResource( 4 )
 
 [node name="Bird" type="Sprite" parent="."]
-position = Vector2( 834.839, -256.775 )
+position = Vector2( 1118.22, 365.092 )
 rotation = -3.14159
 scale = Vector2( 4, -4 )
 texture = ExtResource( 7 )
 hframes = 5
-frame = 4
+frame = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Bird"]
 autoplay = "Idle"
@@ -486,12 +465,13 @@ wait_time = 15.0
 autostart = true
 
 [node name="PaperPlane" type="Sprite" parent="."]
-position = Vector2( 1230.88, 910.715 )
-rotation = 0.18602
+position = Vector2( -60.0127, 980.87 )
+rotation = -0.0284796
 scale = Vector2( 2, 2 )
 texture = ExtResource( 9 )
 
 [node name="Anim" type="AnimationPlayer" parent="PaperPlane"]
+autoplay = "Idle"
 anims/Idle = SubResource( 6 )
 
 [node name="PTimer" type="Timer" parent="PaperPlane"]
@@ -714,8 +694,6 @@ __meta__ = {
 
 [node name="LanguageSelection" parent="." instance=ExtResource( 32 )]
 
-[node name="HTTPRequest" type="HTTPRequest" parent="."]
-
 [node name="Buttons" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 33 )
 bus = "UI"
@@ -735,6 +713,5 @@ bus = "UI"
 [connection signal="animation_finished" from="TransitionScene/Anim" to="." method="_on_AnimTrans_animation_finished"]
 [connection signal="on_accept_nickname" from="NicknamePanel" to="." method="_on_NicknamePanel_on_accept_nickname"]
 [connection signal="on_language_selected" from="LanguageSelection" to="." method="_on_LanguageSelection_on_language_selected"]
-[connection signal="request_completed" from="HTTPRequest" to="." method="_on_HTTPRequest_request_completed"]
 
 [editable path="TransitionScene"]
