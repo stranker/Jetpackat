@@ -14,9 +14,12 @@ onready var bucket_pos : Position2D = get_node(\"Visible/Sprite/Pos\")
 export var min_time : float = 1
 export var max_time : float = 4
 var direction : int = 1
+var my_bucket = null
 
 func _ready():
 	._ready()
+	my_bucket = bucket_scene.instance()
+	get_tree().root.add_child(my_bucket)
 	$Timer.wait_time = rand_range(min_time, max_time)
 	pass # Replace with function body.
 
@@ -40,15 +43,12 @@ func _on_Area2D_body_entered(body):
 	pass # Replace with function body.
 
 func drop_bucket():
-	var bucket = bucket_scene.instance()
-	get_tree().root.add_child(bucket)
-	bucket.global_position = bucket_pos.global_position
-	bucket.drop()
+	my_bucket.global_position = bucket_pos.global_position
+	my_bucket.drop()
 	fake_bucket.hide()
 	pass
 
 func _on_Timer_timeout():
-	Debug.debug(\"Drop Bucket\")
 	drop_bucket()
 	pass # Replace with function body.
 
@@ -58,7 +58,6 @@ func _on_Anim_animation_finished(anim_name):
 
 func _on_Bulldog_active(val):
 	if val:
-		Debug.debug(\"Bulldog\")
 		$Timer.start()
 		if rand_range(0,1) > 0.5:
 			change_direction()

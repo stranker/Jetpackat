@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://Sprites/Shop/UI/CurrencyUpgrade.png" type="Texture" id=3]
@@ -26,12 +26,15 @@ export (Color) var level_max_color
 onready var item_confirmation
 var button_clicked_ref = null
 
+onready var currency_ref = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.CURRENCY)
+onready var magnet_ref = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.CHIP)
+
 signal on_show_confirmation_panel(item, cost)
 signal update_currency
 signal closed
 
 func _ready():
-	update_price_tags()
+	update_ui()
 	$BackPanel.visible = false
 	pass
 
@@ -53,7 +56,7 @@ func on_button_clicked(button_ref, item_type):
 	var item = ItemManager.get_upgrade_item_by_type(item_type)
 	button_clicked_ref = button_ref
 	button_clicked_ref.set_item(item)
-	emit_signal(\"on_show_confirmation_panel\", item, self)
+	emit_signal(\"on_show_confirmation_panel\", item, button_ref)
 	pass
 
 func _on_UpgradeCloseButton_button_down():
@@ -61,43 +64,32 @@ func _on_UpgradeCloseButton_button_down():
 	emit_signal('closed')
 	pass
 
-func change_to_buy_state():
-	button_clicked_ref.upgrade_item()
-	update_ui()
-	pass
-
 func update_ui():
-	emit_signal(\"update_currency\")
-	var currency = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.CURRENCY)
-	var magnet = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.CHIP)
-	currency_level.text = 'LVL. ' + (str(currency.item_level) if currency.item_level != currency.item_price_per_level.size() else \"MAX\")
-	chip_level.text = 'LVL. ' + (str(magnet.item_level) if magnet.item_level != magnet.item_price_per_level.size() else \"MAX\") 
-	currency_btn.unclick_button()
-	chip_btn.unclick_button()
+	currency_level.text = 'LVL. ' + (str(currency_ref.item_level) if currency_ref.item_level < currency_ref.item_max_level else \"MAX\")
+	chip_level.text = 'LVL. ' + (str(magnet_ref.item_level) if magnet_ref.item_level < magnet_ref.item_max_level else \"MAX\") 
 	update_price_tags()
 	pass
 
-func _on_ShopItemConfirmation_exit_viewport():
-	update_ui()
-	pass # Replace with function body.
+func update_price():
+	pass
 
 func update_price_tags():
-	var currency_multiplier_info : Dictionary = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.CURRENCY).get_next_level_info()
-	var magnet_info : Dictionary = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.CHIP).get_next_level_info()
-	if currency_multiplier_info:
-		chip_price_tag.get_node('Payment').texture = get_payment_texture(currency_multiplier_info['payment'])
-		currency_price_tag.text = str(currency_multiplier_info['price'])
+	var currency_info = currency_ref.get_next_level_info()
+	var magnet_info = magnet_ref.get_next_level_info()
+	if currency_info:
+		currency_price_tag.get_node('Payment').texture = get_payment_texture(currency_info['payment'])
+		currency_price_tag.text = str(currency_info['price'])
 	else:
 		currency_price_tag.get_node('SoldOut').show()
 		currency_price_tag.get_node('Payment').texture = null
-		currency_level.self_modulate = level_max_color
+		currency_level.set(\"custom_colors/font_color\", level_max_color)
 	if magnet_info:
 		chip_price_tag.get_node('Payment').texture = get_payment_texture(magnet_info['payment'])
 		chip_price_tag.text = str(magnet_info['price'])
 	else:
 		chip_price_tag.get_node('Payment').texture = null
 		chip_price_tag.get_node('SoldOut').show()
-		chip_level.self_modulate = level_max_color
+		chip_level.set(\"custom_colors/font_color\", level_max_color)
 	pass
 
 func get_payment_texture(type : int):
@@ -107,6 +99,22 @@ func get_payment_texture(type : int):
 		ItemManager.Payment.FISH:
 			return fish_texture
 	pass
+
+func _on_ShopItemConfirmation_update_ui():
+	if button_clicked_ref:
+		button_clicked_ref.upgrade_item()
+		button_clicked_ref = null
+	update_ui()
+	emit_signal(\"update_currency\")
+	currency_btn.unclick_button()
+	chip_btn.unclick_button()
+	pass # Replace with function body.
+
+
+func _on_ShopItemConfirmation_on_closed():
+	currency_btn.unclick_button()
+	chip_btn.unclick_button()
+	pass # Replace with function body.
 "
 
 [sub_resource type="StyleBoxFlat" id=2]
@@ -139,7 +147,9 @@ corner_radius_bottom_right = 50
 corner_radius_bottom_left = 50
 corner_detail = 2
 
-[sub_resource type="StyleBoxFlat" id=4]
+[sub_resource type="ButtonGroup" id=4]
+
+[sub_resource type="StyleBoxFlat" id=5]
 bg_color = Color( 0.996078, 0.709804, 0.545098, 1 )
 border_width_left = 20
 border_width_top = 20
@@ -147,19 +157,35 @@ border_width_right = 20
 border_width_bottom = 20
 border_color = Color( 0.686275, 0.364706, 0.137255, 1 )
 
-[sub_resource type="DynamicFont" id=5]
+[sub_resource type="DynamicFont" id=6]
 size = 52
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 2 )
 
-[sub_resource type="DynamicFont" id=6]
+[sub_resource type="DynamicFont" id=7]
 size = 36
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 2 )
 
-[sub_resource type="StyleBoxFlat" id=7]
+[sub_resource type="StyleBoxFlat" id=8]
+bg_color = Color( 0.196078, 0.34902, 0.886275, 1 )
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color( 0.156863, 0.137255, 0.482353, 1 )
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+corner_detail = 3
+expand_margin_left = 10.0
+expand_margin_right = 10.0
+expand_margin_top = 10.0
+
+[sub_resource type="StyleBoxFlat" id=9]
 bg_color = Color( 1, 0.992157, 0.941176, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -173,14 +199,14 @@ expand_margin_bottom = 5.0
 shadow_color = Color( 0, 0, 0, 0.145098 )
 shadow_size = 10
 
-[sub_resource type="DynamicFont" id=8]
+[sub_resource type="DynamicFont" id=10]
 size = 72
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 2 )
 
-[sub_resource type="StyleBoxFlat" id=9]
+[sub_resource type="StyleBoxFlat" id=11]
 bg_color = Color( 0.6, 0.6, 0.6, 0 )
 border_width_left = 10
 border_width_top = 10
@@ -192,16 +218,14 @@ corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
-[sub_resource type="DynamicFont" id=10]
-size = 80
+[sub_resource type="DynamicFont" id=12]
+size = 72
 outline_size = 5
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 2 )
 
-[sub_resource type="ButtonGroup" id=11]
-
-[sub_resource type="Animation" id=12]
+[sub_resource type="Animation" id=13]
 length = 0.4
 step = 0.05
 tracks/0/type = "value"
@@ -243,7 +267,6 @@ fish_texture = ExtResource( 9 )
 level_max_color = Color( 0.956863, 0.215686, 0.0431373, 1 )
 
 [node name="BackPanel" type="Panel" parent="."]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -273,6 +296,34 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="CurrencyButton" parent="BackPanel/Background" instance=ExtResource( 5 )]
+margin_left = -200.0
+margin_top = -525.0
+margin_right = 170.0
+margin_bottom = -95.0
+rect_pivot_offset = Vector2( 185, 210 )
+group = SubResource( 4 )
+texture_normal = ExtResource( 3 )
+texture_pressed = ExtResource( 3 )
+texture_hover = ExtResource( 3 )
+texture_disabled = ExtResource( 3 )
+texture_focused = ExtResource( 3 )
+button_texture = ExtResource( 3 )
+can_rescale = true
+
+[node name="TextureRect" type="TextureRect" parent="BackPanel/Background/CurrencyButton"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -85.0
+margin_top = -85.0
+margin_right = 85.0
+margin_bottom = 85.0
+texture = ExtResource( 7 )
+expand = true
+stretch_mode = 6
+
 [node name="CurrencyDescription" type="Panel" parent="BackPanel/Background"]
 anchor_left = 0.5
 anchor_right = 0.5
@@ -280,7 +331,7 @@ margin_left = -445.0
 margin_top = 93.0
 margin_right = 445.0
 margin_bottom = 263.0
-custom_styles/panel = SubResource( 4 )
+custom_styles/panel = SubResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -294,7 +345,7 @@ margin_left = -425.0
 margin_top = -65.0
 margin_right = 425.0
 margin_bottom = 5.0
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 6 )
 custom_colors/font_color = Color( 1, 0.654902, 0, 1 )
 text = "KEY_CURRENCY"
 align = 1
@@ -310,7 +361,7 @@ margin_top = -5.0
 margin_right = 425.0
 margin_bottom = 65.0
 rect_pivot_offset = Vector2( 494.523, 31.8406 )
-custom_fonts/font = SubResource( 6 )
+custom_fonts/font = SubResource( 7 )
 text = "KEY_CURRENCY_DESC"
 align = 1
 valign = 1
@@ -318,41 +369,49 @@ valign = 1
 [node name="Level" type="Label" parent="BackPanel/Background/CurrencyDescription"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -115.0
-margin_top = 27.0
-margin_right = -31.0
-margin_bottom = 97.0
+margin_left = -275.0
+margin_top = 186.702
+margin_right = -172.0
+margin_bottom = 256.702
 grow_horizontal = 0
 grow_vertical = 0
 rect_pivot_offset = Vector2( 45.5, 35 )
-custom_fonts/font = SubResource( 6 )
+custom_styles/normal = SubResource( 8 )
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "LVL. 1"
 align = 1
-valign = 1
 
 [node name="PriceTag" type="Control" parent="BackPanel/Background/CurrencyDescription"]
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -281.369
-margin_top = -20.0
-margin_right = -1.36914
-margin_bottom = 81.0
+margin_left = -292.129
+margin_top = 280.0
+margin_right = -12.1289
+margin_bottom = 380.0
 
 [node name="Price" type="Label" parent="BackPanel/Background/CurrencyDescription/PriceTag"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 216.0
-margin_top = -7.0
+margin_left = 104.0
+margin_top = -8.0
 grow_horizontal = 0
 grow_vertical = 0
 rect_pivot_offset = Vector2( 155, 55 )
-custom_styles/normal = SubResource( 7 )
-custom_fonts/font = SubResource( 8 )
-text = "99999"
+custom_styles/normal = SubResource( 9 )
+custom_fonts/font = SubResource( 10 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
+custom_constants/shadow_offset_x = 6
+custom_constants/shadow_offset_y = 6
+text = "9999"
 align = 2
 valign = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Payment" type="TextureRect" parent="BackPanel/Background/CurrencyDescription/PriceTag/Price"]
 anchor_top = 0.5
@@ -363,7 +422,7 @@ margin_right = 1.63086
 margin_bottom = 50.0
 texture = ExtResource( 7 )
 expand = true
-stretch_mode = 7
+stretch_mode = 6
 
 [node name="SoldOut" type="Label" parent="BackPanel/Background/CurrencyDescription/PriceTag/Price"]
 visible = false
@@ -371,43 +430,34 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -232.5
-margin_top = -57.0
-margin_right = 150.5
-margin_bottom = 60.0
+margin_left = -297.854
+margin_top = -53.3535
+margin_right = 193.146
+margin_bottom = 56.6465
 rect_rotation = -15.0
-rect_pivot_offset = Vector2( 198.207, 48.4999 )
-custom_styles/normal = SubResource( 9 )
-custom_fonts/font = SubResource( 10 )
+rect_pivot_offset = Vector2( 215.846, 55 )
+custom_styles/normal = SubResource( 11 )
+custom_fonts/font = SubResource( 12 )
 custom_colors/font_color = Color( 1, 0, 0, 1 )
-text = "SOLD OUT!"
+text = "KEY_SOLD_OUT"
+align = 1
+autowrap = true
+clip_text = true
 
-[node name="CurrencyButton" parent="BackPanel/Background" instance=ExtResource( 5 )]
-margin_left = -200.0
-margin_top = -525.0
-margin_right = 170.0
-margin_bottom = -95.0
-rect_pivot_offset = Vector2( 185, 210 )
-group = SubResource( 11 )
-texture_normal = ExtResource( 3 )
-texture_pressed = ExtResource( 3 )
-texture_hover = ExtResource( 3 )
-texture_disabled = ExtResource( 3 )
-texture_focused = ExtResource( 3 )
-button_texture = ExtResource( 3 )
-
-[node name="TextureRect" type="TextureRect" parent="BackPanel/Background/CurrencyButton"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -85.0
-margin_top = -85.0
-margin_right = 85.0
-margin_bottom = 85.0
-texture = ExtResource( 7 )
-expand = true
-stretch_mode = 6
+[node name="ChipButton" parent="BackPanel/Background" instance=ExtResource( 5 )]
+margin_left = -215.0
+margin_top = 137.747
+margin_right = 235.0
+margin_bottom = 648.747
+rect_pivot_offset = Vector2( 230, 250 )
+group = SubResource( 4 )
+texture_normal = ExtResource( 4 )
+texture_pressed = ExtResource( 4 )
+texture_hover = ExtResource( 4 )
+texture_disabled = ExtResource( 4 )
+texture_focused = ExtResource( 4 )
+button_texture = ExtResource( 4 )
+can_rescale = true
 
 [node name="ChipDescription" type="Panel" parent="BackPanel/Background"]
 anchor_left = 0.5
@@ -418,7 +468,7 @@ margin_left = -445.0
 margin_top = 16.5446
 margin_right = 445.0
 margin_bottom = 186.545
-custom_styles/panel = SubResource( 4 )
+custom_styles/panel = SubResource( 5 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -432,7 +482,7 @@ margin_left = -425.0
 margin_top = -65.0
 margin_right = 425.0
 margin_bottom = 8.0
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 6 )
 custom_colors/font_color = Color( 1, 0.654902, 0, 1 )
 text = "KEY_MAGNET"
 align = 1
@@ -446,7 +496,7 @@ anchor_bottom = 0.5
 margin_left = -425.0
 margin_right = 423.0
 margin_bottom = 65.0
-custom_fonts/font = SubResource( 6 )
+custom_fonts/font = SubResource( 7 )
 text = "KEY_MAGNET_DESC"
 align = 1
 valign = 1
@@ -454,40 +504,50 @@ valign = 1
 [node name="Level" type="Label" parent="BackPanel/Background/ChipDescription"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -115.0
-margin_top = 30.0
-margin_right = -24.0
-margin_bottom = 100.0
+margin_left = -267.0
+margin_top = 188.042
+margin_right = -173.0
+margin_bottom = 258.042
 grow_horizontal = 0
 grow_vertical = 0
 rect_pivot_offset = Vector2( 50, 35 )
-custom_fonts/font = SubResource( 6 )
+custom_styles/normal = SubResource( 8 )
+custom_fonts/font = SubResource( 7 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "LVL. 1"
 align = 1
-valign = 1
 
 [node name="PriceTag" type="Control" parent="BackPanel/Background/ChipDescription"]
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -281.369
-margin_top = -20.0
-margin_right = -1.36914
-margin_bottom = 81.0
+margin_left = -292.129
+margin_top = 312.443
+margin_right = -12.1289
+margin_bottom = 420.443
 
 [node name="Price" type="Label" parent="BackPanel/Background/ChipDescription/PriceTag"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 131.0
+margin_left = 112.0
+margin_right = 2.0
+margin_bottom = 7.62939e-06
 grow_horizontal = 0
 grow_vertical = 0
 rect_pivot_offset = Vector2( 155, 55 )
-custom_styles/normal = SubResource( 7 )
-custom_fonts/font = SubResource( 8 )
+custom_styles/normal = SubResource( 9 )
+custom_fonts/font = SubResource( 10 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
+custom_constants/shadow_offset_x = 6
+custom_constants/shadow_offset_y = 6
 text = "1000"
 align = 2
 valign = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Payment" type="TextureRect" parent="BackPanel/Background/ChipDescription/PriceTag/Price"]
 anchor_top = 0.5
@@ -498,38 +558,27 @@ margin_right = 1.63086
 margin_bottom = 50.0
 texture = ExtResource( 7 )
 expand = true
-stretch_mode = 7
+stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="SoldOut" type="Label" parent="BackPanel/Background/ChipDescription/PriceTag/Price"]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -254.5
-margin_top = -57.0
-margin_right = 128.5
-margin_bottom = 60.0
+margin_left = -317.421
+margin_top = -46.0
+margin_right = 171.579
+margin_bottom = 71.0
 rect_rotation = -15.0
 rect_pivot_offset = Vector2( 198.207, 48.4999 )
-custom_styles/normal = SubResource( 9 )
-custom_fonts/font = SubResource( 10 )
+custom_styles/normal = SubResource( 11 )
+custom_fonts/font = SubResource( 12 )
 custom_colors/font_color = Color( 1, 0, 0, 1 )
-text = "SOLD OUT!"
-
-[node name="ChipButton" parent="BackPanel/Background" instance=ExtResource( 5 )]
-margin_left = -215.0
-margin_top = 137.747
-margin_right = 235.0
-margin_bottom = 648.747
-rect_pivot_offset = Vector2( 230, 250 )
-group = SubResource( 11 )
-texture_normal = ExtResource( 4 )
-texture_pressed = ExtResource( 4 )
-texture_hover = ExtResource( 4 )
-texture_disabled = ExtResource( 4 )
-texture_focused = ExtResource( 4 )
-button_texture = ExtResource( 4 )
+text = "KEY_SOLD_OUT"
+align = 1
 
 [node name="CloseButton" type="TextureButton" parent="BackPanel"]
 pause_mode = 1
@@ -549,7 +598,7 @@ __meta__ = {
 }
 
 [node name="Anim" type="AnimationPlayer" parent="."]
-anims/Enter = SubResource( 12 )
+anims/Enter = SubResource( 13 )
 [connection signal="on_clicked" from="BackPanel/Background/CurrencyButton" to="." method="_on_CurrencyButton_on_clicked"]
 [connection signal="on_clicked" from="BackPanel/Background/ChipButton" to="." method="_on_ChipButton_on_clicked"]
 [connection signal="button_down" from="BackPanel/CloseButton" to="." method="_on_UpgradeCloseButton_button_down"]

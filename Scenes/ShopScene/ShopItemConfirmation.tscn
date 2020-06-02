@@ -16,6 +16,9 @@ var item_fish_cost : int = 0
 var item_name : String = ''
 var panel_ref = null
 
+signal update_ui
+signal on_closed
+
 func _ready():
 	$Panel.visible = false
 
@@ -32,6 +35,7 @@ func set_shop_info(_name : String, _payment : int, _cost : int, _panel_ref):
 	pass
 
 func close():
+	emit_signal(\"on_closed\")
 	if $Panel.visible:
 		$Anim.play_backwards('Enter')
 	pass
@@ -57,9 +61,11 @@ func _on_ConfirmButton_button_down():
 		GameManager.fishes -= item_fish_cost
 		panel_ref.change_to_buy_state()
 		$BuyItem.play()
+	emit_signal(\"update_ui\")
 	close()
+	item_gold_cost = 0
+	item_fish_cost = 0
 	pass # Replace with function body.
-
 
 func _on_CancelButton_button_down():
 	close()
@@ -302,6 +308,9 @@ margin_top = -65.0
 margin_right = 190.0
 margin_bottom = 45.0
 custom_styles/panel = SubResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="PaymentText" type="TextureRect" parent="Panel/CostPanel"]
 material = SubResource( 6 )
@@ -355,6 +364,9 @@ custom_fonts/font = SubResource( 10 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "KEY_YES"
 clip_text = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="CancelButton" type="Button" parent="Panel"]
 anchor_left = 1.0
@@ -374,6 +386,9 @@ custom_fonts/font = SubResource( 10 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "KEY_NO"
 clip_text = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 anims/Enter = SubResource( 13 )

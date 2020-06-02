@@ -4,12 +4,13 @@
 [ext_resource path="res://Sprites/Ribbon/Ribbon.png" type="Texture" id=2]
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://Scenes/ItemPageGrid.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Sprites/Cinematic/LeaderCat.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/UI/LeaderCat.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=6]
 [ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=7]
 [ext_resource path="res://Sounds/Sfx/ButtonClick.wav" type="AudioStream" id=8]
 
-[sub_resource type="StyleBoxFlat" id=7]
+
+[sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.172549, 0.172549, 0.172549, 1 )
 
 [sub_resource type="GDScript" id=2]
@@ -204,7 +205,7 @@ self_modulate = Color( 1, 1, 1, 0 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-custom_styles/panel = SubResource( 7 )
+custom_styles/panel = SubResource( 1 )
 script = SubResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -347,6 +348,7 @@ bus = "UI"
 wait_time = 5.0
 [connection signal="button_down" from="CloseLeaderButton" to="." method="_on_CloseLeaderButton_button_down"]
 [connection signal="animation_finished" from="Anim" to="." method="_on_Anim_animation_finished"]
+[connection signal="request_completed" from="HTTPRequest" to="." method="_on_HTTPRequest_request_completed"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 
 [editable path="Leaders/ItemPageGrid"]

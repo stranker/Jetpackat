@@ -6,6 +6,7 @@ var player_magnet = null
 export var value : int = 1
 export var speed : int = 1000
 var on_magnet_area : bool = false
+onready var game_scene = get_tree().root.get_node('GameScene')
 
 signal taken(val)
 signal active(val)
@@ -33,5 +34,8 @@ func dispose_object():
 	pass
 
 func move_up():
-	position += Vector2(0,-160)
+	global_position += Vector2(0,-500)
+	pass
+
+func on_take():
 	pass

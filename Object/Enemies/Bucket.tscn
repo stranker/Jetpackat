@@ -9,20 +9,23 @@ var gravity = 10
 var acc = 1
 
 func _ready():
+	hide()
 	set_process(false)
 	pass # Replace with function body.
 
 func _on_Area2D_body_entered(body):
 	if is_player(body) and activated:
 		body.take_damage()
-		Debug.debug(\"Bucket\")
 	pass # Replace with function body.
 
 func _process(delta):
 	acc += delta * gravity
 	position.y += acc
+	if position.y > get_viewport_rect().size.y + 100:
+		hide()
 
 func drop():
+	show()
 	set_process(true)
 	pass
 "

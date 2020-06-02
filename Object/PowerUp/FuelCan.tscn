@@ -9,20 +9,26 @@
 script/source = "extends \"res://Object/Collectable/Collectable.gd\"
 
 func _ready():
-	connect('taken',get_tree().root.get_node('GameScene'),'add_fuel')
+	connect('taken',game_scene,'add_fuel')
 	pass
 
 func _process(delta):
-	if GameManager.player.invencible and !taked:
+	if GameManager.is_player_invencible() and !taked:
 		dispose_object()
 
 func _on_FuelCan_body_entered(body):
-	if body.is_in_group('Player') and !taked and activated:
-		taked = !taked
-		$Anim.play('Taken')
-		emit_signal('taken')
-		$Sound.play()
+	if body.is_in_group('Player'):
+		on_take()
 	pass # Replace with function body.
+
+func on_take():
+	if taked or !activated:
+		return
+	taked = !taked
+	$Anim.play('Taken')
+	emit_signal('taken')
+	$Sound.play()
+	pass
 
 func _on_FuelCan_area_entered(area):
 	if area.name == 'MagnetArea' and !on_magnet_area and activated:
@@ -41,7 +47,8 @@ func _on_FuelCan_active(val):
 
 func _on_VisibilityNotifier2D_screen_exited():
 	dispose_object()
-	pass # Replace with function body."
+	pass # Replace with function body.
+"
 
 [sub_resource type="ShaderMaterial" id=2]
 shader = ExtResource( 1 )
@@ -147,7 +154,6 @@ texture = ExtResource( 3 )
 emission_shape = 1
 emission_sphere_radius = 3.0
 spread = 180.0
-flatness = 1.0
 gravity = Vector2( 0, 0 )
 initial_velocity = 500.0
 initial_velocity_random = 0.3

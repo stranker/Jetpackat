@@ -1,15 +1,14 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Sprites/UI/PawCatIcon.png" type="Texture" id=2]
-[ext_resource path="res://Sprites/Cinematic/OptionCat.png" type="Texture" id=4]
-[ext_resource path="res://Sprites/UI/LeftyOffButton.png" type="Texture" id=5]
-[ext_resource path="res://Sprites/UI/LeftyOnButton.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/UI/OptionCat.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=7]
 [ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=8]
 [ext_resource path="res://Scenes/LanguageSelection.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Sounds/Sfx/Coin.wav" type="AudioStream" id=10]
 [ext_resource path="res://Sounds/Sfx/ButtonClick.wav" type="AudioStream" id=11]
+
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.188235, 0.188235, 0.188235, 0.901961 )
@@ -18,7 +17,10 @@ bg_color = Color( 0.188235, 0.188235, 0.188235, 0.901961 )
 script/source = "extends Panel
 
 signal config_panel_closed
-
+onready var close_button = $CloseButton
+onready var language_selection = $LanguageSelection
+onready var music_slider = $FrontPanel/VBC/Music/MusicSlider
+onready var sound_slider = $FrontPanel/VBC/Sound/SoundSlider
 var first_fx_sound : bool = false
 
 func _ready():
@@ -28,8 +30,8 @@ func _ready():
 	pass
 
 func set_sliders():
-	$FrontPanel/VBC/Music/MusicSlider.value = GameManager.music_volume
-	$FrontPanel/VBC/Sound/SoundSlider.value = GameManager.sound_volume
+	music_slider.value = GameManager.music_volume
+	sound_slider.value = GameManager.sound_volume
 	pass
 
 func _on_MusicSlider_value_changed(value):
@@ -48,7 +50,7 @@ func _on_Mode_toggled(button_pressed):
 	pass # Replace with function body.
 
 func _on_LanguageSelection_language_selected(texture):
-	$CloseConfigButton.disabled = false
+	close_button.disabled = false
 	pass # Replace with function body.
 
 func start():
@@ -63,13 +65,13 @@ func _on_CloseConfigButton_button_down():
 	pass # Replace with function body.
 
 func _on_Language_button_down():
-	$CloseConfigButton.hide()
+	close_button.hide()
 	$ButtonClick.play()
-	$LanguageSelection.start()
+	language_selection.start()
 	pass # Replace with function body.
 
 func _on_LanguageSelection_on_language_selected():
-	$CloseConfigButton.show()
+	close_button.show()
 	pass # Replace with function body.
 "
 
@@ -213,7 +215,7 @@ tracks/0/keys = {
 "values": [ Vector2( 1200, 580 ), Vector2( 90, 580 ), Vector2( 110, 580 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("CloseConfigButton:modulate")
+tracks/1/path = NodePath("CloseButton:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -225,7 +227,7 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("CloseConfigButton:disabled")
+tracks/2/path = NodePath("CloseButton:disabled")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -237,7 +239,7 @@ tracks/2/keys = {
 "values": [ true, false ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("CloseConfigButton:visible")
+tracks/3/path = NodePath("CloseButton:visible")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -472,35 +474,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LeftMode" type="Label" parent="."]
-visible = false
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -205.0
-margin_top = 135.0
-margin_right = 225.0
-margin_bottom = 199.0
-custom_fonts/font = SubResource( 7 )
-text = "LEFT MODE"
-align = 1
-
-[node name="Mode" type="CheckButton" parent="LeftMode"]
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -65.0
-margin_top = 6.0
-margin_right = 57.0
-margin_bottom = 86.0
-rect_scale = Vector2( 1.5, 1.5 )
-rect_pivot_offset = Vector2( 61, 0 )
-custom_icons/off = ExtResource( 5 )
-custom_icons/on = ExtResource( 6 )
-
-[node name="CloseConfigButton" type="TextureButton" parent="."]
+[node name="CloseButton" type="TextureButton" parent="."]
 visible = false
 modulate = Color( 1, 1, 1, 0.0833229 )
 anchor_left = 1.0
@@ -518,7 +492,6 @@ expand = true
 stretch_mode = 5
 
 [node name="LanguageSelection" parent="." instance=ExtResource( 9 )]
-visible = false
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 anims/Enter = SubResource( 13 )
@@ -534,6 +507,5 @@ bus = "UI"
 [connection signal="value_changed" from="FrontPanel/VBC/Music/MusicSlider" to="." method="_on_MusicSlider_value_changed"]
 [connection signal="value_changed" from="FrontPanel/VBC/Sound/SoundSlider" to="." method="_on_SoundSlider_value_changed"]
 [connection signal="button_down" from="FrontPanel/VBC/Language/Language" to="." method="_on_Language_button_down"]
-[connection signal="toggled" from="LeftMode/Mode" to="." method="_on_Mode_toggled"]
-[connection signal="button_down" from="CloseConfigButton" to="." method="_on_CloseConfigButton_button_down"]
+[connection signal="button_down" from="CloseButton" to="." method="_on_CloseConfigButton_button_down"]
 [connection signal="on_language_selected" from="LanguageSelection" to="." method="_on_LanguageSelection_on_language_selected"]

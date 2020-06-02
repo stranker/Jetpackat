@@ -8,11 +8,17 @@
 [sub_resource type="GDScript" id=1]
 script/source = "extends \"res://Object/Collectable/Collectable.gd\"
 
+export var invencible_time : float = 8
+signal on_aegis(time)
+
+func _ready():
+	connect(\"on_aegis\", GameManager, \"set_aegis_time\")
+
 func _on_AegisWings_area_entered(area):
 	if area.name == 'MagnetArea' and !on_magnet_area and activated:
 		player_magnet = area
 		on_magnet_area = !on_magnet_area
-	if area.name == 'Coin':
+	if area.name == 'Coin' or area.name == \"Fish\":
 		move_up()
 	pass # Replace with function body.
 
@@ -20,8 +26,8 @@ func _on_AegisWings_body_entered(body):
 	if body.is_in_group('Player') and !taked and activated:
 		taked = !taked
 		$Anim.play('Taken')
-		body.set_aegis(taked)
 		$Sample.play()
+		emit_signal(\"on_aegis\", invencible_time)
 	pass # Replace with function body.
 
 func _on_AegisWings_active(val):
@@ -36,7 +42,7 @@ func _on_VisibilityNotifier2D_screen_exited():
 	pass # Replace with function body.
 "
 
-[sub_resource type="RectangleShape2D" id=8]
+[sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 80, 60 )
 
 [sub_resource type="Animation" id=3]
@@ -126,7 +132,7 @@ shader_param/outline_color = Color( 0.988235, 0.788235, 0.105882, 0.0470588 )
 script = SubResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 8 )
+shape = SubResource( 2 )
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Idle"

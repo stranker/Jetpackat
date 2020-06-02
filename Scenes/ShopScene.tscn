@@ -1,7 +1,7 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Scenes/ItemShopPanel.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Sprites/BackgroundMini.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Background/BackgroundMini.png" type="Texture" id=2]
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://Sprites/Collectables/Coin.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/Collectables/Fish.png" type="Texture" id=5]
@@ -28,7 +28,8 @@ onready var coin_label = $VBC/CurrencyInfo/HBC/Coins/Panel/Cuant
 onready var fish_label = $VBC/CurrencyInfo/HBC/Fish/Panel/Cuant
 onready var close_button = $VBC/CurrencyInfo/HBC/ClosePanel/CloseButton
 onready var shop_item_confirmation = $ShopItemConfirmation
-
+onready var shop_button = $VBC/Buttons/ShopButton
+onready var upgrade_button = $VBC/Buttons/WorkshopButton
 
 func _ready():
 	update_currency()
@@ -52,8 +53,8 @@ func _on_ShopButton_button_clicked():
 	pass # Replace with function body.
 
 func reset_button_animations():
-	$VBC/Buttons/ShopButton.reset_animation(0)
-	$VBC/Buttons/WorkshopButton.reset_animation(1)
+	shop_button.reset_animation(0)
+	upgrade_button.reset_animation(1)
 	pass
 
 func _on_WorkshopButton_button_clicked():
@@ -64,15 +65,12 @@ func _on_WorkshopButton_button_clicked():
 
 func _on_ShopPanel_on_show_confirmation_panel(item, panel_ref):
 	shop_item_confirmation.set_shop_info(item.item_name, item.item_payment, item.item_price, panel_ref)
-	$ButtonClick.play()
 	pass # Replace with function body.
-
 
 func _on_UpgradePanel_on_show_confirmation_panel(item, panel_ref):
 	var item_price_data = item.get_next_level_info()
 	if item_price_data:
-		shop_item_confirmation.set_shop_info(item.item_name, item_price_data['payment'], item_price_data['price'], self)
-	$ButtonClick.play()
+		shop_item_confirmation.set_shop_info(item.item_name, item_price_data['payment'], item_price_data['price'], panel_ref)
 	pass # Replace with function body.
 
 func _on_ShopPanel_closed():
@@ -89,6 +87,20 @@ func _on_CloseButton_button_down():
 	ItemManager.save_data()
 	$TransitionScene.play_random()
 	$ButtonClick.play()
+	pass # Replace with function body.
+
+
+func _on_Button_button_down():
+	add_currency()
+	pass # Replace with function body.
+
+func add_currency():
+	GameManager.add_currency()
+	update_currency()
+	pass
+
+func _on_ShopItemConfirmation_update_ui():
+	update_currency()
 	pass # Replace with function body.
 "
 
@@ -112,42 +124,7 @@ size = 60
 use_filter = true
 font_data = ExtResource( 3 )
 
-[sub_resource type="Shader" id=4]
-code = "shader_type canvas_item;
-
-uniform float outline_width = 2.0;
-uniform vec4 outline_color : hint_color;
-
-void fragment() {
-	vec4 col = texture(TEXTURE, UV);
-	vec2 ps = TEXTURE_PIXEL_SIZE;
-	float a;
-	float maxa = col.a;
-	float mina = col.a;
-
-	a = texture(TEXTURE, UV + vec2(0.0, -outline_width) * ps).a;
-	maxa = max(a, maxa);
-	mina = min(a, mina);
-
-	a = texture(TEXTURE, UV + vec2(0.0, outline_width) * ps).a;
-	maxa = max(a, maxa);
-	mina = min(a, mina);
-
-	a = texture(TEXTURE, UV + vec2(-outline_width, 0.0) * ps).a;
-	maxa = max(a, maxa);
-	mina = min(a, mina);
-
-	a = texture(TEXTURE, UV + vec2(outline_width, 0.0) * ps).a;
-	maxa = max(a, maxa);
-	mina = min(a, mina);
-
-	COLOR = mix(col, outline_color, maxa - mina);
-}"
-
-[sub_resource type="ShaderMaterial" id=5]
-shader = SubResource( 4 )
-shader_param/outline_width = 1.0
-shader_param/outline_color = Color( 1, 1, 1, 1 )
+[sub_resource type="ShaderMaterial" id=4]
 
 [node name="ShopScene" type="Control"]
 anchor_right = 1.0
@@ -221,7 +198,7 @@ align = 2
 valign = 1
 
 [node name="CoinText" type="TextureRect" parent="VBC/CurrencyInfo/HBC/Coins"]
-material = SubResource( 5 )
+material = SubResource( 4 )
 anchor_top = 0.5
 anchor_bottom = 0.5
 margin_top = -67.5
@@ -248,6 +225,9 @@ margin_top = -47.0
 margin_right = 167.0
 margin_bottom = 53.0
 custom_styles/panel = SubResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Cuant" type="Label" parent="VBC/CurrencyInfo/HBC/Fish/Panel"]
 anchor_left = 1.0
@@ -268,15 +248,21 @@ align = 2
 valign = 1
 
 [node name="FishText" type="TextureRect" parent="VBC/CurrencyInfo/HBC/Fish"]
-material = SubResource( 5 )
+material = SubResource( 4 )
 anchor_top = 0.5
 anchor_bottom = 0.5
-margin_top = -67.5
-margin_right = 137.0
-margin_bottom = 67.5
+margin_left = 25.0724
+margin_top = -74.0
+margin_right = 157.072
+margin_bottom = 72.0
+rect_rotation = 30.0
+rect_pivot_offset = Vector2( 68.5, 67.5 )
 texture = ExtResource( 5 )
 expand = true
 stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="ClosePanel" type="Control" parent="VBC/CurrencyInfo/HBC"]
 margin_left = 940.0
@@ -333,11 +319,18 @@ animation_advance_time = 0.5
 
 [node name="InitialDarker" parent="." instance=ExtResource( 23 )]
 
+[node name="ShopItemConfirmation" parent="." instance=ExtResource( 25 )]
+
+[node name="Button" type="Button" parent="."]
+margin_right = 90.0
+margin_bottom = 54.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="TransitionScene" parent="." instance=ExtResource( 24 )]
 margin_top = -40.0
 margin_bottom = -40.0
-
-[node name="ShopItemConfirmation" parent="." instance=ExtResource( 25 )]
 
 [node name="ButtonClick" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 26 )
@@ -351,6 +344,10 @@ bus = "UI"
 [connection signal="on_show_confirmation_panel" from="ShopPanel" to="." method="_on_ShopPanel_on_show_confirmation_panel"]
 [connection signal="closed" from="UpgradePanel" to="." method="_on_UpgradePanel_closed"]
 [connection signal="on_show_confirmation_panel" from="UpgradePanel" to="." method="_on_UpgradePanel_on_show_confirmation_panel"]
+[connection signal="on_closed" from="ShopItemConfirmation" to="UpgradePanel" method="_on_ShopItemConfirmation_on_closed"]
+[connection signal="update_ui" from="ShopItemConfirmation" to="." method="_on_ShopItemConfirmation_update_ui"]
+[connection signal="update_ui" from="ShopItemConfirmation" to="UpgradePanel" method="_on_ShopItemConfirmation_update_ui"]
+[connection signal="button_down" from="Button" to="." method="_on_Button_button_down"]
 [connection signal="animation_finished" from="TransitionScene/Anim" to="." method="_on_Anim_animation_finished"]
 
 [editable path="TransitionScene"]

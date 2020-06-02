@@ -47,7 +47,14 @@ var fuel : int = 0
 var end_play : bool = false
 var highscore_passed : bool = false
 
+export var fuel_master_time : float = 5
+var fuel_master_timer : Timer = Timer.new()
+
 onready var tutorial_done : bool = GameManager.tutorial_done
+
+signal on_fuel_completed()
+signal on_fuel_depleted()
+signal on_fuel_time(time)
 
 func _ready():
 	AudioManager.create_soundtrack()
@@ -59,6 +66,15 @@ func _ready():
 		$UIGame.set_tutorial_done()
 	AdsManager.connect(\"interstitial_closed\", self, \"on_interstitial_closed\")
 	AdsManager.connect(\"interstitial_failed\", self, \"on_interstitial_failed\")
+	add_child(fuel_master_timer)
+	fuel_master_timer.wait_time = fuel_master_time
+	fuel_master_timer.connect(\"timeout\", self, \"on_fuel_timeout\")
+	fuel_master_timer.one_shot = true
+	pass
+
+func _process(delta):
+	if !fuel_master_timer.is_stopped():
+		emit_signal(\"on_fuel_time\", fuel_master_timer.time_left)
 	pass
 
 func _input(event):
@@ -80,8 +96,13 @@ func add_fuel():
 	fuel += 1
 	if fuel % 10 == 0 and fuel > 1:
 		fuel = 0
-		$Player.fuel_master()
+		fuel_master_timer.start()
+		emit_signal(\"on_fuel_completed\")
 	$UIGame.add_fuel(fuel)
+	pass
+
+func on_fuel_timeout():
+	emit_signal(\"on_fuel_depleted\")
 	pass
 
 func add_fish(val):
@@ -280,9 +301,15 @@ var fuel_count : int = 0
 export var height_tutorial: int
 var tutorial_done : bool = false
 var prev_player_magnet = false
+var prev_player_invencible : bool = false
+
+var invencible_list : Dictionary = {}
+var major_timer : String = \"\"
 
 func _ready():
 	$UI/TransitionScene.play_random_backwards()
+	GameManager.connect(\"on_player_aegis\",self, \"on_player_invencible\")
+	GameManager.connect(\"on_invencible_time\",self, \"on_invencible_time\")
 	pass
 
 func update_coin_label():
@@ -310,7 +337,6 @@ func _on_PauseButton_button_down():
 	pass # Replace with function body.
 
 func show_deadpanel():
-	Debug.debug(\"Dead panel showing on UIGame\")
 	var highscore_passed : bool = false
 	if GameManager.highscore < GameManager.player_height:
 		GameManager.highscore = GameManager.player_height
@@ -407,12 +433,61 @@ func _on_RecoverPanel_accept_recover():
 func _on_Player_show_dead_ui():
 	check_tutorial()
 	if GameManager.can_show_recover():
-		Debug.debug(\"Show recover\")
 		show_recover_panel()
 	else:
-		Debug.debug(\"Show dead\")
 		show_deadpanel()
 	pass # Replace with function body.
+
+func _on_GameScene_on_fuel_completed():
+	invencible_list[\"fuel\"] = -1
+	if !$UI/UpperPanel/AegisPanel/Anim.is_playing() and !prev_player_invencible:
+		prev_player_invencible = true
+		$UI/UpperPanel/AegisPanel/Anim.play(\"Enter\")
+	pass # Replace with function body.
+
+func _on_GameScene_on_fuel_depleted():
+	invencible_list.erase(\"fuel\")
+	if invencible_list.empty():
+		$UI/UpperPanel/AegisPanel/Anim.play_backwards(\"Enter\")
+		prev_player_invencible = false
+	pass # Replace with function body.
+
+func _on_GameScene_on_fuel_time(time):
+	invencible_list[\"fuel\"] = time
+	pass # Replace with function body.
+
+func on_player_invencible(value):
+	if value:
+		invencible_list[\"aegis\"] = -1
+		if !$UI/UpperPanel/AegisPanel/Anim.is_playing() and !prev_player_invencible:
+			prev_player_invencible = true
+			$UI/UpperPanel/AegisPanel/Anim.play(\"Enter\")
+	else:
+		invencible_list.erase(\"aegis\")
+		if invencible_list.empty():
+			$UI/UpperPanel/AegisPanel/Anim.play_backwards(\"Enter\")
+			prev_player_invencible = false
+	pass
+	
+func on_invencible_time(time):
+	invencible_list[\"aegis\"] = time
+	pass
+
+func _process(delta):
+	if invencible_list.empty():
+		return
+	if invencible_list.size() > 1:
+		get_major_time()
+	else:
+		major_timer = invencible_list.keys()[0]
+	$UI/UpperPanel/AegisPanel/Panel/Label.text = str(floor(invencible_list[major_timer]))
+
+func get_major_time():
+	var major : float = -1
+	for type in invencible_list.keys():
+		if invencible_list[type] > major:
+			major_timer = type
+	pass
 "
 
 [sub_resource type="DynamicFont" id=7]
@@ -421,11 +496,11 @@ use_filter = true
 font_data = ExtResource( 11 )
 
 [sub_resource type="StyleBoxFlat" id=8]
-bg_color = Color( 0.705882, 0.137255, 0.0745098, 1 )
+bg_color = Color( 0.447059, 0.796078, 0.145098, 1 )
 border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
-border_color = Color( 0.407843, 0.0941176, 0.141176, 1 )
+border_color = Color( 0.137255, 0.521569, 0.192157, 1 )
 corner_radius_top_right = 50
 corner_radius_bottom_right = 50
 corner_detail = 2
@@ -435,11 +510,11 @@ shadow_color = Color( 0, 0, 0, 0.235294 )
 shadow_size = 6
 
 [sub_resource type="StyleBoxFlat" id=9]
-bg_color = Color( 0.705882, 0.137255, 0.0745098, 1 )
+bg_color = Color( 0.447059, 0.796078, 0.145098, 1 )
 border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
-border_color = Color( 0.407843, 0.0941176, 0.141176, 1 )
+border_color = Color( 0.137255, 0.521569, 0.192157, 1 )
 corner_radius_top_right = 50
 corner_radius_bottom_right = 50
 corner_detail = 2
@@ -546,11 +621,11 @@ tracks/0/keys = {
 }
 
 [sub_resource type="StyleBoxFlat" id=16]
-bg_color = Color( 0.705882, 0.137255, 0.0745098, 1 )
+bg_color = Color( 0.447059, 0.796078, 0.145098, 1 )
 border_width_left = 10
 border_width_top = 10
 border_width_bottom = 10
-border_color = Color( 0.407843, 0.0941176, 0.141176, 1 )
+border_color = Color( 0.137255, 0.521569, 0.192157, 1 )
 corner_radius_top_left = 50
 corner_radius_bottom_left = 50
 corner_detail = 2
@@ -941,11 +1016,11 @@ func _on_Player_invencible(val):
 	else:
 		max_height += invencible_decrease
 		min_height += invencible_decrease
-	pass # Replace with function body.
+	pass
 
 func _on_Player_current_height(value):
 	update_enemy_index(value)
-	pass # Replace with function body.
+	pass
 
 func update_enemy_index(player_height):
 	if player_height > items_max_height[enemy_idx]:
@@ -956,7 +1031,7 @@ func update_enemy_index(player_height):
 
 func _on_Player_invencible_Enemy_Spawner(val):
 	activated = !val
-	pass # Replace with function body.
+	pass
 "
 
 [sub_resource type="GDScript" id=28]
@@ -1113,6 +1188,9 @@ __meta__ = {
 anchor_right = 1.0
 margin_bottom = 284.0
 mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="MeterPanel" type="Control" parent="UIGame/UI/UpperPanel"]
 margin_left = -190.0
@@ -1211,6 +1289,9 @@ custom_constants/shadow_offset_x = 6
 custom_constants/shadow_offset_y = 6
 text = "9"
 valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Icon" type="TextureRect" parent="UIGame/UI/UpperPanel/MagnetPanel/Panel/Label"]
 anchor_left = 1.0
@@ -1259,17 +1340,35 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Icon" type="TextureRect" parent="UIGame/UI/UpperPanel/AegisPanel/Panel"]
-anchor_left = 0.5
+[node name="Label" type="Label" parent="UIGame/UI/UpperPanel/AegisPanel/Panel"]
 anchor_top = 0.5
-anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -58.0
 margin_top = -51.5
-margin_right = 19.0
-margin_bottom = 20.5
-rect_rotation = -44.9999
-rect_pivot_offset = Vector2( 58, 54.5 )
+margin_right = 101.0
+margin_bottom = 51.5
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = SubResource( 10 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
+custom_constants/shadow_offset_x = 6
+custom_constants/shadow_offset_y = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Icon" type="TextureRect" parent="UIGame/UI/UpperPanel/AegisPanel/Panel/Label"]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -36.7854
+margin_top = -45.6541
+margin_right = 63.2146
+margin_bottom = 47.3459
+rect_rotation = 30.0
+rect_pivot_offset = Vector2( 50, 53.2836 )
 texture = ExtResource( 19 )
 expand = true
 stretch_mode = 6
@@ -1288,6 +1387,9 @@ margin_left = 120.0
 margin_top = 10.0
 margin_right = 402.0
 margin_bottom = 110.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="CoinLabel" type="Label" parent="UIGame/UI/UpperPanel/CoinPanel"]
 anchor_left = 1.0
@@ -1322,8 +1424,8 @@ anchor_top = 0.5
 anchor_bottom = 0.5
 margin_left = -28.0
 margin_top = -47.0
-margin_right = 68.0
-margin_bottom = 49.0
+margin_right = 63.0
+margin_bottom = 44.0
 grow_horizontal = 2
 grow_vertical = 2
 rect_min_size = Vector2( 76, 76 )
@@ -1331,6 +1433,9 @@ rect_pivot_offset = Vector2( 46.5341, 48.5427 )
 texture = ExtResource( 13 )
 expand = true
 stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Anim" type="AnimationPlayer" parent="UIGame/UI/UpperPanel/CoinPanel/CoinLabel/CoinControl"]
 anims/AddCoin = SubResource( 15 )
@@ -1342,6 +1447,9 @@ anchor_bottom = 1.0
 grow_horizontal = 0
 grow_vertical = 0
 custom_styles/panel = SubResource( 16 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="FishPanel" type="Control" parent="UIGame/UI/UpperPanel"]
 anchor_left = 1.0
@@ -1352,6 +1460,9 @@ margin_left = 120.0
 margin_top = -144.0
 margin_right = 402.001
 margin_bottom = -44.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="FishLabel" type="Label" parent="UIGame/UI/UpperPanel/FishPanel"]
 anchor_left = 1.0
@@ -1386,10 +1497,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -48.0
-margin_top = -48.0
-margin_right = 48.0
-margin_bottom = 48.0
+margin_left = -58.7526
+margin_top = -57.0
+margin_right = 54.2474
+margin_bottom = 56.0
 grow_horizontal = 2
 grow_vertical = 2
 rect_min_size = Vector2( 96, 96 )
@@ -1463,15 +1574,6 @@ __meta__ = {
 anims/Countdown = SubResource( 21 )
 
 [node name="ConfigPanel" parent="UIGame/UI" instance=ExtResource( 24 )]
-
-[node name="Music" parent="UIGame/UI/ConfigPanel/FrontPanel/VBC" index="0"]
-margin_right = 851.0
-
-[node name="Sound" parent="UIGame/UI/ConfigPanel/FrontPanel/VBC" index="1"]
-margin_right = 851.0
-
-[node name="Language" parent="UIGame/UI/ConfigPanel/FrontPanel/VBC" index="2"]
-margin_right = 851.0
 
 [node name="DeadPanel" parent="UIGame/UI" instance=ExtResource( 25 )]
 
@@ -1644,44 +1746,39 @@ text = "X"
 position = Vector2( 550, -340 )
 
 [node name="Position2D12" type="Position2D" parent="SpawnPoints/Enemies"]
-position = Vector2( 260, -335 )
+position = Vector2( 302, -340 )
 
 [node name="Position2D13" type="Position2D" parent="SpawnPoints/Enemies"]
 position = Vector2( 800, -340 )
 
 [node name="Currency" type="Node2D" parent="SpawnPoints"]
+position = Vector2( 0, 1 )
 
 [node name="Position2D11" type="Position2D" parent="SpawnPoints/Currency"]
 position = Vector2( 549.258, -430 )
-
-[node name="Position2D12" type="Position2D" parent="SpawnPoints/Currency"]
-position = Vector2( 400, -290 )
-
-[node name="Position2D13" type="Position2D" parent="SpawnPoints/Currency"]
-position = Vector2( 690, -290 )
 
 [node name="Position2D14" type="Position2D" parent="SpawnPoints/Currency"]
 position = Vector2( 900, -420 )
 
 [node name="Position2D15" type="Position2D" parent="SpawnPoints/Currency"]
-position = Vector2( 190, -411.253 )
+position = Vector2( 189, -412.253 )
 
 [node name="PowerUps" type="Node2D" parent="SpawnPoints"]
 
 [node name="Position2D11" type="Position2D" parent="SpawnPoints/PowerUps"]
-position = Vector2( 550, -290 )
+position = Vector2( 551.298, -221.982 )
 
 [node name="Position2D12" type="Position2D" parent="SpawnPoints/PowerUps"]
-position = Vector2( 360, -360 )
+position = Vector2( 371.298, -221.982 )
 
 [node name="Position2D13" type="Position2D" parent="SpawnPoints/PowerUps"]
-position = Vector2( 720, -360 )
+position = Vector2( 711.298, -221.982 )
 
 [node name="Position2D14" type="Position2D" parent="SpawnPoints/PowerUps"]
-position = Vector2( 930, -280 )
+position = Vector2( 863.298, -221.982 )
 
 [node name="Position2D15" type="Position2D" parent="SpawnPoints/PowerUps"]
-position = Vector2( 160, -280 )
+position = Vector2( 214, -221.982 )
 
 [node name="CurrencySpawner" type="Node" parent="."]
 script = SubResource( 27 )
@@ -1695,12 +1792,12 @@ min_height = 8
 [node name="PowerUpSpawner" type="Node" parent="."]
 script = SubResource( 27 )
 items = [ "AegisWings", "Magnet", "FuelCan" ]
-items_prob = [ 0.01, 0.22, 1.0 ]
+items_prob = [ 0.01, 0.1, 1.0 ]
 pool_manager = NodePath("../PowerUpPool")
 parent_node = NodePath("../Collectables")
 spawn_points = NodePath("../SpawnPoints/PowerUps")
 max_height = 18
-min_height = 12
+min_height = 14
 
 [node name="EnemySpawner" type="Node" parent="."]
 script = SubResource( 27 )
@@ -1732,28 +1829,30 @@ objects_number = 3
 script = SubResource( 28 )
 objects_scene_list = [ ExtResource( 35 ), ExtResource( 36 ), ExtResource( 37 ), ExtResource( 38 ), ExtResource( 20 ), ExtResource( 21 ) ]
 objects_number = 5
+[connection signal="on_fuel_completed" from="." to="UIGame" method="_on_GameScene_on_fuel_completed"]
+[connection signal="on_fuel_completed" from="." to="Player" method="_on_GameScene_on_fuel_completed"]
+[connection signal="on_fuel_depleted" from="." to="UIGame" method="_on_GameScene_on_fuel_depleted"]
+[connection signal="on_fuel_depleted" from="." to="Player" method="_on_GameScene_on_fuel_depleted"]
+[connection signal="on_fuel_time" from="." to="UIGame" method="_on_GameScene_on_fuel_time"]
 [connection signal="screen_exited" from="House/VisibilityNotifier2D" to="House" method="_on_VisibilityNotifier2D_screen_exited"]
+[connection signal="current_height" from="Player" to="UIGame" method="_on_Player_current_height"]
+[connection signal="current_height" from="Player" to="." method="_on_Player_current_height"]
 [connection signal="current_height" from="Player" to="ParallaxBackground" method="_on_Player_current_height"]
 [connection signal="current_height" from="Player" to="EnemySpawner" method="_on_Player_current_height"]
-[connection signal="current_height" from="Player" to="." method="_on_Player_current_height"]
-[connection signal="current_height" from="Player" to="UIGame" method="_on_Player_current_height"]
 [connection signal="dead" from="Player" to="." method="_on_Player_dead"]
-[connection signal="invencible" from="Player" to="EnemySpawner" method="_on_Player_invencible_Enemy_Spawner"]
-[connection signal="invencible" from="Player" to="CurrencySpawner" method="_on_Player_invencible"]
-[connection signal="invencible" from="Player" to="UIGame" method="_on_Player_invencible"]
 [connection signal="magnet_time" from="Player" to="UIGame" method="_on_Player_magnet_time"]
 [connection signal="on_magnet" from="Player" to="UIGame" method="_on_Player_on_magnet"]
 [connection signal="show_dead_ui" from="Player" to="UIGame" method="_on_Player_show_dead_ui"]
 [connection signal="start_playing" from="Player" to="." method="_on_Player_start_playing"]
-[connection signal="button_down" from="UIGame/UI/PauseButton" to="UIGame/UI/PausePanel" method="_on_PauseButton_button_down"]
 [connection signal="button_down" from="UIGame/UI/PauseButton" to="UIGame" method="_on_PauseButton_button_down"]
+[connection signal="button_down" from="UIGame/UI/PauseButton" to="UIGame/UI/PausePanel" method="_on_PauseButton_button_down"]
 [connection signal="on_config" from="UIGame/UI/PausePanel" to="UIGame" method="_on_PausePanel_on_config"]
 [connection signal="on_continue" from="UIGame/UI/PausePanel" to="UIGame" method="_on_PausePanel_on_continue"]
 [connection signal="on_home" from="UIGame/UI/PausePanel" to="UIGame" method="_on_PausePanel_on_home"]
 [connection signal="animation_finished" from="UIGame/UI/PauseTimer/Anim" to="." method="_on_Anim_animation_finished"]
 [connection signal="restart_game" from="UIGame/UI/DeadPanel" to="." method="_on_DeadPanel_restart_game"]
-[connection signal="accept_recover" from="UIGame/UI/RecoverPanel" to="." method="_on_RecoverPanel_accept_recover"]
 [connection signal="accept_recover" from="UIGame/UI/RecoverPanel" to="UIGame" method="_on_RecoverPanel_accept_recover"]
+[connection signal="accept_recover" from="UIGame/UI/RecoverPanel" to="." method="_on_RecoverPanel_accept_recover"]
 [connection signal="cancel_recover" from="UIGame/UI/RecoverPanel" to="UIGame" method="_on_RecoverPanel_cancel_recover"]
 [connection signal="button_down" from="UIGame/UI/ComboButton" to="." method="_on_ComboButton_button_down"]
 [connection signal="finished" from="UIGame/UI/TransitionScene" to="UIGame" method="_on_TransitionScene_finished"]

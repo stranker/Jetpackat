@@ -10,29 +10,35 @@ class UpgradeItem:
 	var item_type : int
 	var item_name : String
 	var item_level : int
+	var item_max_level : int
 	var item_price_per_level : Dictionary
 	
-	func create_upgrade_item(item_type, item_name, item_level, item_price_per_level):
+	func create_upgrade_item(item_type, item_name, item_level, item_max_level, item_price_per_level):
 		self.item_type = int(item_type)
 		self.item_name = str(item_name)
 		self.item_level = int(item_level)
+		self.item_max_level = int(item_max_level)
 		self.item_price_per_level = item_price_per_level
 		pass
 	
 	func get_next_level_info():
 		var info = null
-		if self.has_next_level():
+		if item_level < item_max_level:
 			info = item_price_per_level[str(item_level + 1)]
 		return info
 	
 	func upgrade_item():
-		if self.has_next_level():
+		if item_level < item_max_level:
 			item_level += 1
 		pass
-		
-	func has_next_level():
-		return item_price_per_level.keys().has(str(item_level + 1))
 
+func can_buy_item(item):
+	match item.item_payment:
+		ItemManager.Payment.COIN:
+			return item.item_price >= GameManager.coins
+		ItemManager.Payment.FISH:
+			return item.item_price >= GameManager.fishes
+	pass
 
 class ShopItem:
 	var item_id : int
@@ -119,7 +125,8 @@ func create_equipped_items(dict : Dictionary):
 func create_upgrade_item(dict : Dictionary):
 	for item_id in dict.keys():
 		var upgrade_item = UpgradeItem.new()
-		upgrade_item.create_upgrade_item(item_id, dict[item_id]['name'], dict[item_id]['level'],dict[item_id]['price_per_level'])
+		var item_info = dict[item_id]
+		upgrade_item.create_upgrade_item(item_id, item_info['name'], item_info['level'], item_info['max_level'], item_info['price_per_level'])
 		upgrade_items.append(upgrade_item)
 	pass
 
@@ -174,6 +181,7 @@ func upgrade_item_to_dictionary( data_list : Array):
 		var upgrade_item_raw_data : Dictionary = {}
 		upgrade_item_raw_data['name'] = upgrade_item.item_name
 		upgrade_item_raw_data['level'] = upgrade_item.item_level
+		upgrade_item_raw_data['max_level'] = upgrade_item.item_max_level
 		upgrade_item_raw_data['price_per_level'] = upgrade_item.item_price_per_level
 		data[upgrade_item.item_type] = upgrade_item_raw_data
 	return data

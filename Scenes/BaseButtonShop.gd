@@ -10,7 +10,6 @@ func _ready():
 	if !button_texture:
 		return
 	set_textures(button_texture)
-	$Shadow.texture = button_texture
 	rect_pivot_offset = rect_size * 0.5
 	pass
 
@@ -20,6 +19,7 @@ func set_textures(new_texture : Texture):
 	texture_focused = new_texture
 	texture_hover = new_texture
 	texture_normal = new_texture
+	$Shadow.texture = new_texture
 	pass
 
 func unclick_button():
@@ -37,6 +37,10 @@ func _on_ButtonShop_button_down():
 		clicked = true
 		emit_signal("on_clicked",self)
 	pass # Replace with function body.
+
+func change_to_buy_state():
+	$Anim.play("Idle")
+	pass
 
 func set_item(item):
 	ref_item = item

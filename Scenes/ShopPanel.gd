@@ -150,6 +150,11 @@ func show_shop_confirmation(item, panel_ref):
 	emit_signal("on_show_confirmation_panel", item, panel_ref)
 	pass
 
+func update_buttons_states(item):
+	for item_panel in item_list.get_children():
+		if item_panel.item != item:
+			item_panel.check_item_state()
+	pass
 
 func _on_CloseButton_button_down():
 	$Anim.play_backwards("Enter")

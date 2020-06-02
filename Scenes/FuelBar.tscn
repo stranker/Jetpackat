@@ -49,7 +49,6 @@ func add_fuel():
 	$Anim.play('AddFuel')
 	$Anim.queue(\"Idle\")
 	$Anim.playback_speed = 1 + float(fuel_counter) / float(max_fuel)
-	Debug.debug(\"Playback speed:\" + str($Anim.playback_speed))
 	pass
 
 func remove_fuel():

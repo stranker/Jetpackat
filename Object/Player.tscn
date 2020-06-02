@@ -41,7 +41,6 @@ var can_recover : bool = false
 signal start_playing
 signal dead
 signal current_height(value)
-signal invencible(val)
 signal magnet_time(val)
 signal on_magnet
 signal on_recover
@@ -63,8 +62,8 @@ func initialize():
 	GameManager.player = self
 	set_physics_process(activated)
 	emit_signal('current_height',0)
-	$InvencibleTimer.wait_time = invencible_time
 	$Visible/Shield.hide()
+	GameManager.connect(\"on_player_aegis\", self, \"on_aegis\")
 	pass
 
 func _physics_process(delta):
@@ -116,9 +115,7 @@ func check_is_active():
 	pass
 
 func take_damage():
-	if has_aegis:
-		set_aegis(false)
-	elif !invencible:
+	if !invencible and !has_aegis:
 		if !dead and can_receive_damage:
 			on_dead()
 	pass
@@ -212,35 +209,25 @@ func impulse(force):
 	velocity.y = -force
 	pass
 
-func _on_InvencibleTimer_timeout():
-	set_invencible(false)
-	$CollisionShape2D.disabled = true
-	$Visible/Shield.hide()
-	$NoColliderTimer.start()
-	$Anim.play('Flying')
-	pass # Replace with function body.
+func on_aegis(value : bool):
+	has_aegis = value
+	if has_aegis:
+		$Visible/AegisWings/Anim.play(\"Idle\")
+	else:
+		$Visible/AegisWings/Anim.play(\"Used\")
+	pass
 
-func set_invencible(val):
-	invencible = val
-	$GameCamera.set_wind_effect(val)
-	if invencible:
+func on_fuel_master(value : bool):
+	invencible = value
+	$Visible/Shield.visible = value
+	$GameCamera.set_wind_effect(value)
+	if value:
 		$Invencible.play()
-		$Visible/Shield/Anim.play('ShieldOn')
-		$InvencibleTimer.start()
-		velocity.x = 0
 		$Anim.play('Invencible')
+		$Visible/Shield/Anim.play('ShieldOn')
 		impulse(1500)
 	else:
 		$Visible/Shield/Anim.stop()
-	emit_signal('invencible',invencible)
-	pass
-
-func _on_NoColliderTimer_timeout():
-	$CollisionShape2D.disabled = false
-	pass # Replace with function body.
-
-func fuel_master():
-	set_invencible(true)
 	pass
 
 func hide_tutorial_arrow():
@@ -250,15 +237,6 @@ func hide_tutorial_arrow():
 func _on_Invencible_toggled(button_pressed):
 	can_receive_damage = !button_pressed
 	pass # Replace with function body.
-
-func set_aegis(val):
-	has_aegis = val
-	if has_aegis:
-		$Visible/AegisWings/Anim.play('Idle')
-	else:
-		$Visible/AegisWings/Anim.play('Used')
-		$Visible/AegisWings/Sample.play()
-	pass
 
 func disable_tutorial():
 	$Visible/Arrow.hide()
@@ -297,6 +275,14 @@ func activate_magnet():
 
 func _on_MagnetArea_magnet_time(val):
 	emit_signal('magnet_time',val)
+	pass # Replace with function body.
+
+func _on_GameScene_on_fuel_completed():
+	on_fuel_master(true)
+	pass # Replace with function body.
+
+func _on_GameScene_on_fuel_depleted():
+	on_fuel_master(false)
 	pass # Replace with function body.
 "
 
@@ -1628,6 +1614,9 @@ anims/TimeOut = SubResource( 26 )
 [node name="Area" type="Control" parent="ClickArea"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="HBC" type="HBoxContainer" parent="ClickArea"]
 anchor_right = 1.0
@@ -1645,13 +1634,6 @@ margin_right = 1080.0
 margin_bottom = 1920.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-
-[node name="InvencibleTimer" type="Timer" parent="."]
-wait_time = 4.0
-one_shot = true
-
-[node name="NoColliderTimer" type="Timer" parent="."]
-one_shot = true
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 
@@ -1683,7 +1665,5 @@ bus = "Sounds"
 [connection signal="animation_finished" from="Anim" to="." method="_on_Anim_animation_finished"]
 [connection signal="gui_input" from="ClickArea/HBC/Left" to="." method="_on_Left_gui_input"]
 [connection signal="gui_input" from="ClickArea/HBC/Right" to="." method="_on_Right_gui_input"]
-[connection signal="timeout" from="InvencibleTimer" to="." method="_on_InvencibleTimer_timeout"]
-[connection signal="timeout" from="NoColliderTimer" to="." method="_on_NoColliderTimer_timeout"]
 [connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]
 [connection signal="viewport_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_viewport_exited"]

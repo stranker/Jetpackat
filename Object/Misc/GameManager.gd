@@ -24,10 +24,27 @@ var runs_played : int = 0
 export var min_ad_height : int = 100
 export var min_recover_height : int = 500
 var can_revive : bool = true
+var invencible_timer : Timer
+var player_aegis : bool = false
+
+signal on_player_aegis(invencible)
+signal on_invencible_time(time)
+
+func add_currency():
+	coins = 99999
+	fishes = 99999
+	pass
 
 func reset_stats():
 	player_height = 0
 	can_revive = true
+	pass
+
+func set_aegis_time(time : float):
+	player_aegis = true
+	invencible_timer.wait_time = time
+	invencible_timer.start()
+	emit_signal("on_player_aegis", player_aegis)
 	pass
 
 func _ready():
@@ -35,11 +52,28 @@ func _ready():
 	change_music_volume(game_info['MusicVolume'])
 	change_sound_volume(game_info['SoundVolume'])
 	change_language()
+	create_invencible_timer()
+	pass
+
+func create_invencible_timer():
+	invencible_timer = Timer.new()
+	invencible_timer.one_shot = true
+	invencible_timer.connect("timeout", self, "on_invencible_timeout")
+	add_child(invencible_timer)
+	pass
+
+func on_invencible_timeout():
+	player_aegis = false
+	invencible_timer.stop()
+	emit_signal("on_player_aegis", player_aegis)
 	pass
 
 func _process(delta):
 	if get_tree().is_queued_for_deletion():
 		save_game_data()
+	if player_aegis:
+		emit_signal("on_invencible_time", invencible_timer.time_left)
+	pass
 
 func try_load_file_data(res_path):
 	var file = File.new()
@@ -190,3 +224,8 @@ func can_show_interstitial():
 func on_player_recover():
 	can_revive = false
 	pass
+
+func is_player_invencible():
+	if !player:
+		return false
+	return player.invencible

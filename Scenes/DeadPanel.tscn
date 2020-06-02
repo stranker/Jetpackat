@@ -1,13 +1,14 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Sprites/UI/ContinueIcon.png" type="Texture" id=2]
-[ext_resource path="res://Sprites/Background.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/UI/share_screen.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/Background/StarParticle.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/Cat/CatHead.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/Cat/CatPaws.png" type="Texture" id=6]
 [ext_resource path="res://Sounds/Sfx/Score.wav" type="AudioStream" id=7]
 [ext_resource path="res://Sounds/Sfx/ButtonClick.wav" type="AudioStream" id=8]
+[ext_resource path="res://Scenes/ShareScreen.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Sprites/Particles/Confetti.png" type="Texture" id=10]
 
 [sub_resource type="GDScript" id=1]
@@ -22,17 +23,36 @@ var store_link = \"https://play.google.com/store/apps/details?id=com.towercodega
 var screenshot_taken : bool = false
 var new_highscore : bool = false
 
+export (PackedScene) var share_creen_scene
+var font = load(\"res://Fonts/test_font.tres\")
+
+var vport
+var vport_img
+var share_screen
+
 func _ready():
 	$Panel.visible = false
 	set_particles(false)
 	if Engine.has_singleton(\"GodotShare\"):
 		share = Engine.get_singleton(\"GodotShare\")
+	create_viewport_screenshare()
+	pass
+
+func create_viewport_screenshare():
+	vport = Viewport.new()
+	vport.size = Vector2.ONE * 300
+	vport.render_target_update_mode = Viewport.UPDATE_ALWAYS 
+	add_child(vport)
+	share_screen = share_creen_scene.instance()
+	share_screen.rect_min_size = Vector2.ONE * 300
+	vport.add_child(share_screen)
 	pass
 
 func init(highscorepassed):
 	new_highscore = highscorepassed
 	generate_random_title(new_highscore)
 	$Panel/ScorePanel/Score.text = str(GameManager.player_height) + 'M'
+	share_screen.set_score(GameManager.player_height)
 	$Anim.play(\"Enter\")
 	screenshot_taken = false
 	pass
@@ -82,16 +102,16 @@ func take_screenshot():
 	if screenshot_taken:
 		return
 	screenshot_taken = true
-	var clear_mode = get_viewport().get_clear_mode()
-	get_viewport().set_clear_mode(Viewport.CLEAR_MODE_ONLY_NEXT_FRAME)
+	var clear_mode = vport.get_clear_mode()
+	vport.set_clear_mode(Viewport.CLEAR_MODE_ONLY_NEXT_FRAME)
 	yield(get_tree(), \"idle_frame\")
 	yield(get_tree(), \"idle_frame\")
-	var image : Image = get_viewport().get_texture().get_data()
+	var image : Image = vport.get_texture().get_data()
 	image.flip_y()
 	image.save_png(image_save_path)
 	var image_texture : ImageTexture = ImageTexture.new()
 	image_texture.create_from_image(image)
-	get_viewport().set_clear_mode(clear_mode)
+	vport.set_clear_mode(clear_mode)
 	$Panel/ScreenShot/Image.texture = image_texture
 	$Panel/ScreenShot.show()
 	pass
@@ -381,6 +401,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 highscore_titles = [ "KEY_PERFECT", "KEY_AMAZING", "KEY_EXCELLENT" ]
+share_creen_scene = ExtResource( 9 )
 
 [node name="Panel" type="Panel" parent="."]
 pause_mode = 2
@@ -400,9 +421,9 @@ __meta__ = {
 [node name="Title" type="Label" parent="Panel"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -360.0
+margin_left = -320.0
 margin_top = 24.0
-margin_right = 360.0
+margin_right = 318.0
 margin_bottom = 190.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -850,10 +871,10 @@ stretch_mode = 6
 
 [node name="ScreenShot" type="Panel" parent="Panel"]
 visible = false
-margin_left = 419.95
-margin_top = -132.354
-margin_right = 635.95
-margin_bottom = 243.646
+margin_left = 434.982
+margin_top = -73.8967
+margin_right = 734.982
+margin_bottom = 226.103
 rect_rotation = -30.2993
 mouse_filter = 2
 custom_styles/panel = SubResource( 20 )
@@ -877,10 +898,8 @@ __meta__ = {
 }
 
 [node name="ShareButton" type="TextureButton" parent="Panel/ScreenShot/Image"]
-margin_left = -4.0
-margin_top = -6.0
-margin_right = 273.0
-margin_bottom = 478.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }

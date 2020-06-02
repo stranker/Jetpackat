@@ -2,36 +2,46 @@
    "0":{ 
       "name":"KEY_COIN_MULTIPLIER",
       "level":1,
+	  "max_level":4,
       "price_per_level":{ 
          "1":{ 
             "payment":0,
-            "price":100
+            "price":0
          },
          "2":{ 
             "payment":0,
-            "price":500
+            "price":1500
          },
          "3":{ 
             "payment":0,
-            "price":1000
+            "price":4000
+         },
+         "4":{ 
+            "payment":1,
+            "price":300
          }
       }
    },
    "1":{ 
       "name":"KEY_MAGNET_CHIP",
       "level":1,
+	  "max_level":4,
       "price_per_level":{ 
          "1":{ 
             "payment":0,
-            "price":100
+            "price":0
          },
          "2":{ 
             "payment":0,
-            "price":500
+            "price":1500
          },
          "3":{ 
             "payment":0,
-            "price":1000
+            "price":4000
+         },
+         "4":{ 
+            "payment":1,
+            "price":300
          }
       }
    }

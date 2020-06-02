@@ -34,7 +34,6 @@ func _on_PauseButton_button_down():
 	pass # Replace with function body.
 
 func _on_Anim_animation_finished(anim_name):
-	Debug.debug(\"Pause completo\")
 	pass # Replace with function body.
 "
 
