@@ -1,13 +1,14 @@
 [gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Scenes/Leaderpanel.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Sprites/Ribbon/Ribbon.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/Misc/Ribbon.png" type="Texture" id=2]
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://Scenes/ItemPageGrid.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Sprites/UI/LeaderCat.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=6]
 [ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=7]
 [ext_resource path="res://Sounds/Sfx/ButtonClick.wav" type="AudioStream" id=8]
+
 
 
 [sub_resource type="StyleBoxFlat" id=1]

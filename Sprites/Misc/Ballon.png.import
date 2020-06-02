@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Emerald.png-51e87107e32a84e1d712ed2c35b2e7d7.stex"
+path="res://.import/Ballon.png-c15c302c6b4074ac848953d01e0185c3.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Ribbon/Emerald.png"
-dest_files=[ "res://.import/Emerald.png-51e87107e32a84e1d712ed2c35b2e7d7.stex" ]
+source_file="res://Sprites/Misc/Ballon.png"
+dest_files=[ "res://.import/Ballon.png-c15c302c6b4074ac848953d01e0185c3.stex" ]
 
 [params]
 

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Ribbon.png-28ff9b40d2eb9b2fcd9c27be403793f8.stex"
+path="res://.import/Ribbon.png-057f99e5765b7caafdc9355bf857f225.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Ribbon/Ribbon.png"
-dest_files=[ "res://.import/Ribbon.png-28ff9b40d2eb9b2fcd9c27be403793f8.stex" ]
+source_file="res://Sprites/Misc/Ribbon.png"
+dest_files=[ "res://.import/Ribbon.png-057f99e5765b7caafdc9355bf857f225.stex" ]
 
 [params]
 
