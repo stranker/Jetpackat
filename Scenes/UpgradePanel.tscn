@@ -1,12 +1,13 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=23 format=2]
 
+[ext_resource path="res://Sprites/UI/NormalButton.png" type="Texture" id=1]
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://Sprites/Shop/UI/CurrencyUpgrade.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/Shop/UI/ChipUpgrade.png" type="Texture" id=4]
 [ext_resource path="res://Scenes/BaseButtonShop.tscn" type="PackedScene" id=5]
-[ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/UI/CloseIcon.png" type="Texture" id=6]
 [ext_resource path="res://Sprites/Collectables/Coin.png" type="Texture" id=7]
-[ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=8]
+[ext_resource path="res://Sprites/UI/ButtonPressed.png" type="Texture" id=8]
 [ext_resource path="res://Sprites/Collectables/Fish.png" type="Texture" id=9]
 
 [sub_resource type="GDScript" id=1]
@@ -316,10 +317,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -85.0
-margin_top = -85.0
-margin_right = 85.0
-margin_bottom = 85.0
+margin_left = -45.0
+margin_top = -45.0
+margin_right = 45.0
+margin_bottom = 45.0
 texture = ExtResource( 7 )
 expand = true
 stretch_mode = 6
@@ -564,6 +565,7 @@ __meta__ = {
 }
 
 [node name="SoldOut" type="Label" parent="BackPanel/Background/ChipDescription/PriceTag/Price"]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -582,20 +584,32 @@ align = 1
 
 [node name="CloseButton" type="TextureButton" parent="BackPanel"]
 pause_mode = 1
+self_modulate = Color( 0.894118, 0.176471, 0.0980392, 1 )
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -86.0
-margin_top = -12.0
-margin_right = 8.0
-margin_bottom = 82.0
+margin_left = -94.0
+margin_bottom = 94.0
 size_flags_vertical = 3
-texture_normal = ExtResource( 8 )
-texture_pressed = ExtResource( 6 )
+texture_normal = ExtResource( 1 )
+texture_pressed = ExtResource( 8 )
 expand = true
 stretch_mode = 5
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="TextureRect" type="TextureRect" parent="BackPanel/CloseButton"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -29.0
+margin_top = -34.0
+margin_right = 30.0
+margin_bottom = 25.0
+texture = ExtResource( 6 )
+expand = true
+stretch_mode = 6
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 anims/Enter = SubResource( 13 )

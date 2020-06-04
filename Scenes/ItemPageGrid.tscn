@@ -135,10 +135,10 @@ func _on_NextButton_button_down():
 [sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.227451, 0.360784, 0.521569, 1 )
 border_color = Color( 0.227451, 0.360784, 0.521569, 1 )
-corner_radius_top_left = 40
-corner_radius_top_right = 40
-corner_radius_bottom_right = 40
-corner_radius_bottom_left = 40
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
 corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.309804 )
 shadow_size = 8
@@ -150,10 +150,10 @@ border_width_top = 5
 border_width_right = 5
 border_width_bottom = 15
 border_color = Color( 0.227451, 0.360784, 0.521569, 1 )
-corner_radius_top_left = 40
-corner_radius_top_right = 40
-corner_radius_bottom_right = 40
-corner_radius_bottom_left = 40
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
 corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.309804 )
 shadow_size = 8
@@ -164,11 +164,11 @@ border_width_left = 5
 border_width_top = 5
 border_width_right = 5
 border_width_bottom = 5
-border_color = Color( 0.0117647, 0.156863, 0.168627, 1 )
-corner_radius_top_left = 40
-corner_radius_top_right = 40
-corner_radius_bottom_right = 40
-corner_radius_bottom_left = 40
+border_color = Color( 0.972549, 0.6, 0.227451, 1 )
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
 corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.309804 )
 shadow_size = 8
@@ -185,6 +185,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_bottom = -940.0
 script = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="VBC" type="Control" parent="."]
 anchor_right = 1.0
@@ -205,24 +208,25 @@ margin_right = 1080.0
 margin_bottom = 980.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-size_flags_stretch_ratio = 0.1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Prev" type="Control" parent="VBC/HBC"]
-margin_right = 400.0
-margin_bottom = 89.0
-rect_min_size = Vector2( 400, 0 )
+margin_right = 357.0
+margin_bottom = 90.0
+rect_min_size = Vector2( 350, 90 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="PrevButton" type="Button" parent="VBC/HBC/Prev"]
-visible = false
 anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-margin_left = -208.0
-margin_top = -44.5
-margin_bottom = 48.5
+margin_left = -170.0
+margin_top = -47.5
+margin_bottom = 47.5
 rect_min_size = Vector2( 80, 80 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -232,6 +236,9 @@ custom_styles/pressed = SubResource( 2 )
 custom_styles/focus = SubResource( 3 )
 custom_styles/disabled = SubResource( 2 )
 custom_styles/normal = SubResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Arrow" type="TextureRect" parent="VBC/HBC/Prev/PrevButton"]
 anchor_left = 0.5
@@ -249,12 +256,10 @@ expand = true
 stretch_mode = 6
 
 [node name="Page" type="Control" parent="VBC/HBC"]
-margin_left = 404.0
-margin_right = 675.0
-margin_bottom = 89.0
+margin_left = 361.0
+margin_right = 718.0
+margin_bottom = 90.0
 size_flags_horizontal = 3
-size_flags_vertical = 3
-size_flags_stretch_ratio = 0.7
 
 [node name="PageText" type="Label" parent="VBC/HBC/Page"]
 anchor_left = 0.5
@@ -271,7 +276,7 @@ custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.364706 )
 custom_constants/shadow_offset_x = 6
 custom_constants/shadow_offset_y = 6
-text = "1 / 1"
+text = "99 / 99"
 align = 1
 valign = 1
 __meta__ = {
@@ -279,20 +284,18 @@ __meta__ = {
 }
 
 [node name="Next" type="Control" parent="VBC/HBC"]
-margin_left = 679.0
-margin_right = 1079.0
-margin_bottom = 89.0
-rect_min_size = Vector2( 400, 0 )
-size_flags_horizontal = 3
-size_flags_vertical = 3
+margin_left = 722.0
+margin_right = 1072.0
+margin_bottom = 90.0
+rect_min_size = Vector2( 350, 90 )
+size_flags_horizontal = 2
 
 [node name="NextButton" type="Button" parent="VBC/HBC/Next"]
-visible = false
 anchor_top = 0.5
 anchor_bottom = 0.5
 margin_top = -44.5
-margin_right = 198.0
-margin_bottom = 48.5
+margin_right = 170.0
+margin_bottom = 50.5
 rect_min_size = Vector2( 80, 80 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -316,6 +319,9 @@ rect_pivot_offset = Vector2( 32.5, 32.5 )
 texture = ExtResource( 1 )
 expand = true
 stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="PanelChange" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )

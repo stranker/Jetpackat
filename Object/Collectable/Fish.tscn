@@ -19,12 +19,19 @@ func _process(delta):
 	pass
 
 func _on_Fish_body_entered(body):
-	if body.is_in_group('Player') and !taked and activated:
-		taked = !taked
-		$Anim.play('Taken')
-		emit_signal('taken',value)
-		$Sample.play()
+	if body.is_in_group('Player'):
+		on_take()
 	pass # Replace with function body.
+
+func on_take():
+	if !can_be_taked():
+		return
+	taked = true
+	$Anim.play('Taken')
+	emit_signal('taken',value)
+	$Sample.play()
+	$Particles2D.restart()
+	pass
 
 func _on_Fish_area_entered(area):
 	if area.name == 'MagnetArea' and !on_magnet_area and activated:
@@ -32,14 +39,10 @@ func _on_Fish_area_entered(area):
 		on_magnet_area = !on_magnet_area
 	pass # Replace with function body.
 
-func initialize():
-	initial_pos = position
-
 func _on_Fish_active(val):
 	if val:
 		$Anim.queue('Idle')
 	else:
-		position = initial_pos
 		$Anim.play_backwards('Taken')
 	pass # Replace with function body.
 "
@@ -47,7 +50,7 @@ func _on_Fish_active(val):
 [sub_resource type="ShaderMaterial" id=2]
 shader = ExtResource( 1 )
 shader_param/outline_width = 0.7
-shader_param/outline_color = Color( 1, 1, 1, 0.25413 )
+shader_param/outline_color = Color( 1, 1, 1, 1 )
 
 [sub_resource type="CircleShape2D" id=3]
 radius = 50.4194
@@ -94,24 +97,24 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Particles2D:emitting")
+tracks/1/path = NodePath("Sprite:scale")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ true ]
+"times": PoolRealArray( 0, 0.1, 0.3 ),
+"transitions": PoolRealArray( 0.5, 0.5, 1 ),
+"update": 0,
+"values": [ Vector2( 2, 2 ), Vector2( 2.5, 2.5 ), Vector2( 0.5, 0.5 ) ]
 }
 
 [sub_resource type="Curve" id=6]
-_data = [ Vector2( 0, 1 ), 0.0, -1.00659, 0, 0, Vector2( 1, 0.3152 ), -0.222942, 0.0, 0, 0 ]
+_data = [ Vector2( 0, 1 ), 0.0, -1.00659, 0, 0, Vector2( 0.746032, 0.0545454 ), -1.89, 0.0, 0, 0 ]
 
 [sub_resource type="Gradient" id=7]
-offsets = PoolRealArray( 0, 0.715232, 1 )
-colors = PoolColorArray( 0.207184, 0.726563, 0.337029, 1, 0.163277, 0.78451, 0.278902, 0.78808, 0, 1, 0.0627451, 0 )
+offsets = PoolRealArray( 0, 0.240964, 0.46988, 0.771084, 1 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 1, 0.47461, 0.2046, 0.62, 1, 0.321569, 0.356863, 0.619608, 0.878431, 0.2046, 0.47461, 0.62, 0 )
 
 [node name="Fish" type="Area2D"]
 script = SubResource( 1 )
@@ -120,7 +123,7 @@ speed = 500
 [node name="Sprite" type="Sprite" parent="."]
 material = SubResource( 2 )
 position = Vector2( 1.19748, 1.52588e-05 )
-rotation = -0.19925
+rotation = 0.261799
 scale = Vector2( 2, 2 )
 texture = ExtResource( 2 )
 
@@ -135,19 +138,20 @@ anims/Taken = SubResource( 5 )
 [node name="Particles2D" type="CPUParticles2D" parent="."]
 z_index = 12
 emitting = false
-amount = 20
-lifetime = 1.5
+amount = 40
+lifetime = 0.7
 one_shot = true
-speed_scale = 3.0
 explosiveness = 0.9
+randomness = 1.0
+lifetime_randomness = 1.0
 texture = ExtResource( 3 )
+direction = Vector2( 0, 0 )
 spread = 180.0
 gravity = Vector2( 0, 0 )
-initial_velocity = 100.0
-angular_velocity = 200.0
+initial_velocity = 400.0
 angle = 360.0
 angle_random = 1.0
-scale_amount = 2.0
+scale_amount = 3.0
 scale_amount_random = 0.2
 scale_amount_curve = SubResource( 6 )
 color_ramp = SubResource( 7 )

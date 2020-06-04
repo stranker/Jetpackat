@@ -1,14 +1,14 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Sprites/UI/PawCatIcon.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/UI/NormalButton.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/UI/OptionCat.png" type="Texture" id=4]
-[ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=7]
-[ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=8]
+[ext_resource path="res://Sprites/UI/CloseIcon.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/UI/ButtonPressed.png" type="Texture" id=6]
 [ext_resource path="res://Scenes/LanguageSelection.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Sounds/Sfx/Coin.wav" type="AudioStream" id=10]
 [ext_resource path="res://Sounds/Sfx/ButtonClick.wav" type="AudioStream" id=11]
-
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.188235, 0.188235, 0.188235, 0.901961 )
@@ -125,12 +125,12 @@ corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.25098 )
 shadow_size = 10
 
-[sub_resource type="DynamicFont" id=7]
+[sub_resource type="DynamicFont" id=14]
 size = 72
 use_filter = true
 font_data = ExtResource( 1 )
 
-[sub_resource type="StyleBoxFlat" id=8]
+[sub_resource type="StyleBoxFlat" id=15]
 bg_color = Color( 0.956863, 0.752941, 0.278431, 1 )
 border_width_left = 5
 border_width_top = 5
@@ -284,10 +284,10 @@ tracks/6/keys = {
 "times": PoolRealArray( 0, 0.4 ),
 "transitions": PoolRealArray( 0.5, 1 ),
 "update": 0,
-"values": [ Vector2( 272, 0 ), Vector2( 200, -360 ) ]
+"values": [ Vector2( 272, 0 ), Vector2( 272, -290 ) ]
 }
 
-[node name="OptionPanel" type="Panel"]
+[node name="ConfigPanel" type="Panel"]
 pause_mode = 2
 self_modulate = Color( 1, 1, 1, 0 )
 anchor_right = 1.0
@@ -354,7 +354,7 @@ margin_top = -94.5
 margin_right = 317.0
 margin_bottom = 13.5
 custom_styles/normal = SubResource( 6 )
-custom_fonts/font = SubResource( 7 )
+custom_fonts/font = SubResource( 14 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.376471 )
 custom_constants/shadow_offset_x = 6
 custom_constants/shadow_offset_y = 6
@@ -373,7 +373,7 @@ margin_bottom = 95.5
 size_flags_horizontal = 15
 custom_icons/grabber_highlight = ExtResource( 2 )
 custom_icons/grabber = ExtResource( 2 )
-custom_styles/slider = SubResource( 8 )
+custom_styles/slider = SubResource( 15 )
 custom_styles/grabber_area = SubResource( 9 )
 max_value = 5.0
 value = 3.0
@@ -397,7 +397,7 @@ margin_top = -105.116
 margin_right = 317.0
 margin_bottom = 2.88397
 custom_styles/normal = SubResource( 6 )
-custom_fonts/font = SubResource( 7 )
+custom_fonts/font = SubResource( 14 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.376471 )
 custom_constants/shadow_offset_x = 8
 custom_constants/shadow_offset_y = 8
@@ -415,7 +415,7 @@ margin_right = 219.5
 margin_bottom = 92.5
 custom_icons/grabber_highlight = ExtResource( 2 )
 custom_icons/grabber = ExtResource( 2 )
-custom_styles/slider = SubResource( 8 )
+custom_styles/slider = SubResource( 15 )
 custom_styles/grabber_area = SubResource( 9 )
 max_value = 5.0
 value = 3.0
@@ -462,11 +462,13 @@ __meta__ = {
 [node name="Cat" type="TextureRect" parent="FrontPanel"]
 show_behind_parent = true
 anchor_left = 0.5
+anchor_top = 0.5
 anchor_right = 0.5
+anchor_bottom = 0.5
 margin_left = -153.5
-margin_right = 225.5
-margin_bottom = 377.0
-rect_pivot_offset = Vector2( 200, 188.5 )
+margin_top = -513.5
+margin_right = 151.5
+margin_bottom = -210.5
 texture = ExtResource( 4 )
 expand = true
 stretch_mode = 6
@@ -476,7 +478,8 @@ __meta__ = {
 
 [node name="CloseButton" type="TextureButton" parent="."]
 visible = false
-modulate = Color( 1, 1, 1, 0.0833229 )
+modulate = Color( 1, 1, 1, 0.00149016 )
+self_modulate = Color( 0.705882, 0.137255, 0.0745098, 1 )
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -130.0
@@ -484,12 +487,23 @@ margin_top = 10.0
 margin_right = -10.0
 margin_bottom = 130.0
 disabled = true
-texture_normal = ExtResource( 7 )
-texture_pressed = ExtResource( 8 )
-texture_disabled = ExtResource( 7 )
-texture_focused = ExtResource( 7 )
+texture_normal = ExtResource( 3 )
+texture_pressed = ExtResource( 6 )
 expand = true
 stretch_mode = 5
+
+[node name="TextureRect" type="TextureRect" parent="CloseButton"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -36.0
+margin_top = -42.0
+margin_right = 37.0
+margin_bottom = 31.0
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 6
 
 [node name="LanguageSelection" parent="." instance=ExtResource( 9 )]
 

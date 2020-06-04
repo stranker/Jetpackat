@@ -29,16 +29,16 @@
 		"3":{
 			"name":"KEY_COWBOY",
 			"buyed":false,
-			"payment":1,
-			"price":100,
+			"payment":0,
+			"price":500,
 			"type":0,
 			"image_location":"Sprites/Shop/Cat/Hat/Cowboy.png"
 		},
 		"4":{
 			"name":"KEY_FEDORA",
 			"buyed":false,
-			"payment":1,
-			"price":100,
+			"payment":0,
+			"price":500,
 			"type":0,
 			"image_location":"Sprites/Shop/Cat/Hat/Fedora.png"
 		},
@@ -101,9 +101,9 @@
 		},
 		"12":{
 			"name":"KEY_POLICE",
-			"buyed":true,
+			"buyed":false,
 			"payment":1,
-			"price":0,
+			"price":250,
 			"type":0,
 			"image_location":"Sprites/Shop/Cat/Hat/Police.png"
 		},
@@ -193,7 +193,7 @@
 		"1":{
 			"name":"Gold Blue",
 			"buyed":false,
-			"payment":1,
+			"payment":0,
 			"price":500,
 			"type":1,
 			"image_location":"Sprites/Shop/Cat/Scarf/GoldBlue.png"

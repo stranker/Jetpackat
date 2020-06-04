@@ -239,14 +239,14 @@ corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.309804 )
 shadow_size = 8
 
-[sub_resource type="DynamicFont" id=7]
+[sub_resource type="DynamicFont" id=6]
 size = 60
 outline_size = 3
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 4 )
 
-[sub_resource type="StyleBoxFlat" id=8]
+[sub_resource type="StyleBoxFlat" id=7]
 bg_color = Color( 0.133333, 0.176471, 0.505882, 1 )
 border_color = Color( 0.133333, 0.176471, 0.505882, 1 )
 corner_radius_top_left = 10
@@ -257,7 +257,7 @@ corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.309804 )
 shadow_size = 8
 
-[sub_resource type="StyleBoxFlat" id=9]
+[sub_resource type="StyleBoxFlat" id=8]
 bg_color = Color( 0.27451, 0.356863, 0.905882, 1 )
 border_width_left = 5
 border_width_top = 5
@@ -272,7 +272,7 @@ corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.309804 )
 shadow_size = 8
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=9]
 resource_name = "idle"
 loop = true
 tracks/0/type = "value"
@@ -438,7 +438,7 @@ margin_top = 8.0
 margin_right = 183.0
 margin_bottom = 81.0
 rect_min_size = Vector2( 0, 60 )
-custom_fonts/font = SubResource( 7 )
+custom_fonts/font = SubResource( 6 )
 text = "999"
 valign = 1
 
@@ -451,11 +451,11 @@ margin_right = -17.0
 margin_bottom = -14.0
 rect_min_size = Vector2( 260, 64 )
 focus_mode = 0
-custom_styles/hover = SubResource( 8 )
-custom_styles/pressed = SubResource( 8 )
-custom_styles/focus = SubResource( 8 )
-custom_styles/disabled = SubResource( 8 )
-custom_styles/normal = SubResource( 9 )
+custom_styles/hover = SubResource( 7 )
+custom_styles/pressed = SubResource( 7 )
+custom_styles/focus = SubResource( 7 )
+custom_styles/disabled = SubResource( 7 )
+custom_styles/normal = SubResource( 8 )
 shortcut_in_tooltip = false
 enabled_focus_mode = 0
 __meta__ = {
@@ -474,7 +474,7 @@ margin_bottom = 26.0
 grow_horizontal = 2
 grow_vertical = 2
 rect_min_size = Vector2( 0, 64 )
-custom_fonts/font = SubResource( 7 )
+custom_fonts/font = SubResource( 6 )
 text = "KEY_SHOPBUTTON_USE"
 align = 1
 valign = 1
@@ -492,7 +492,7 @@ bus = "UI"
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "idle"
-anims/idle = SubResource( 10 )
+anims/idle = SubResource( 9 )
 [connection signal="button_down" from="VBC/ItemPanel/PreviewButton" to="." method="_on_PreviewButton_button_down"]
 [connection signal="button_down" from="VBC/ItemPanel/ColorButton" to="." method="_on_ColorButton_button_down"]
 [connection signal="button_down" from="VBC/Buttons/BuyButton" to="." method="_on_BuyButton_button_down"]

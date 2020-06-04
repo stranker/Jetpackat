@@ -1,7 +1,7 @@
 [gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=1]
-[ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/UI/NormalButton.png" type="Texture" id=2]
 [ext_resource path="res://Sounds/Sfx/ButtonClick.wav" type="AudioStream" id=3]
 [ext_resource path="res://Resources/Buttons/GreenButtonClicked.tres" type="StyleBox" id=4]
 [ext_resource path="res://Resources/Buttons/GreenButton.tres" type="StyleBox" id=5]
@@ -79,12 +79,12 @@ size = 72
 use_filter = true
 font_data = ExtResource( 1 )
 
-[sub_resource type="DynamicFont" id=8]
+[sub_resource type="DynamicFont" id=6]
 size = 69
 use_filter = true
 font_data = ExtResource( 1 )
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=7]
 resource_name = "Enter"
 length = 0.6
 tracks/0/type = "value"
@@ -210,7 +210,7 @@ margin_left = -160.0
 margin_top = -55.0
 margin_right = 160.0
 margin_bottom = 55.0
-custom_fonts/font = SubResource( 8 )
+custom_fonts/font = SubResource( 6 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
 custom_constants/shadow_offset_x = 6
@@ -223,7 +223,7 @@ __meta__ = {
 }
 
 [node name="Anim" type="AnimationPlayer" parent="."]
-anims/Enter = SubResource( 9 )
+anims/Enter = SubResource( 7 )
 
 [node name="Button" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )

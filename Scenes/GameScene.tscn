@@ -1,4 +1,4 @@
-[gd_scene load_steps=66 format=2]
+[gd_scene load_steps=68 format=2]
 
 [ext_resource path="res://Sprites/Background/HouseBroken.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Background/House.png" type="Texture" id=2]
@@ -22,6 +22,7 @@
 [ext_resource path="res://Object/Enemies/Kite.tscn" type="PackedScene" id=20]
 [ext_resource path="res://Object/Enemies/Bulldog.tscn" type="PackedScene" id=21]
 [ext_resource path="res://Scenes/RecoverPanel.tscn" type="PackedScene" id=22]
+[ext_resource path="res://Object/Misc/PoolManager.gd" type="Script" id=23]
 [ext_resource path="res://Scenes/ConfigPanel.tscn" type="PackedScene" id=24]
 [ext_resource path="res://Scenes/DeadPanel.tscn" type="PackedScene" id=25]
 [ext_resource path="res://Sprites/Tutorial/PawTutorial.png" type="Texture" id=26]
@@ -37,6 +38,9 @@
 [ext_resource path="res://Object/Enemies/Bird.tscn" type="PackedScene" id=36]
 [ext_resource path="res://Object/Enemies/Condor.tscn" type="PackedScene" id=37]
 [ext_resource path="res://Object/Enemies/Ovni.tscn" type="PackedScene" id=38]
+[ext_resource path="res://Object/Misc/EnemySpawner.tscn" type="PackedScene" id=39]
+[ext_resource path="res://Object/Misc/CurrencySpawner.tscn" type="PackedScene" id=40]
+[ext_resource path="res://Object/Misc/PowerUpSpawner.tscn" type="PackedScene" id=41]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node
@@ -474,6 +478,11 @@ func on_invencible_time(time):
 	pass
 
 func _process(delta):
+	process_invencible()
+	pass
+
+
+func process_invencible():
 	if invencible_list.empty():
 		return
 	if invencible_list.size() > 1:
@@ -481,6 +490,7 @@ func _process(delta):
 	else:
 		major_timer = invencible_list.keys()[0]
 	$UI/UpperPanel/AegisPanel/Panel/Label.text = str(floor(invencible_list[major_timer]))
+	pass
 
 func get_major_time():
 	var major : float = -1
@@ -939,141 +949,6 @@ font_data = ExtResource( 11 )
 size = 32
 font_data = ExtResource( 11 )
 
-[sub_resource type="GDScript" id=27]
-script/source = "extends Node
-
-enum SPAWN_TYPE {COLLECTABLE, ENEMY}
-export (SPAWN_TYPE) var spawn_type
-export (Array, String) var items
-export (Array, float) var items_prob
-export (Array, int) var items_max_height
-export (NodePath) var pool_manager
-export (NodePath) var parent_node
-export (NodePath) var spawn_points
-export var activated : bool = true
-export var max_height : int = 14
-export var min_height : int = 10
-export var invencible_decrease : int = 5
-var height_spawn : int
-var pos_player_last_spawn : int
-var item_prob : float = 0
-var enemy_idx : int = 0
-export var tutorial_height : int = 0
-
-func _process(delta):
-	if check_can_spawn():
-		spawn_item()
-	pass
-
-func spawn_item():
-	var item_pos : Vector2 = get_node(spawn_points).get_children()[randi()%get_node(spawn_points).get_child_count()].position
-	item_pos.y = GameManager.camera.global_position.y - get_viewport().get_visible_rect().size.y
-	pos_player_last_spawn = GameManager.player_height
-	var item = get_node(pool_manager).get_object_by_name(get_random_item())
-	if item:
-		item.call_deferred('set_global_position',item_pos)
-		get_node(parent_node).add_child(item)
-		item.set_active(true)
-		get_new_height()
-	pass
-
-func get_random_item():
-	match spawn_type:
-		SPAWN_TYPE.COLLECTABLE:
-			return get_collectable()
-		SPAWN_TYPE.ENEMY:
-			return get_enemy()
-
-func get_collectable():
-	var item_name : String = ''
-	item_prob = rand_range(0,1)
-	for i in range(items.size()):
-		if item_prob < items_prob[i]:
-			item_name = items[i]
-			break
-	if item_name.empty():
-		item_name = items[items.size()-1]
-	return item_name
-
-func get_enemy():
-	return items[enemy_idx]
-
-func get_new_height():
-	height_spawn = min_height + randi() % max_height
-	pass
-
-func check_can_spawn(): 
-	return activated and GameManager.player_height > height_spawn + pos_player_last_spawn and GameManager.player_height > tutorial_height
-
-func set_can_spawn():
-	activated = !activated
-	pass
-
-func _on_Player_invencible(val):
-	if val:
-		max_height -= invencible_decrease
-		min_height -= invencible_decrease
-	else:
-		max_height += invencible_decrease
-		min_height += invencible_decrease
-	pass
-
-func _on_Player_current_height(value):
-	update_enemy_index(value)
-	pass
-
-func update_enemy_index(player_height):
-	if player_height > items_max_height[enemy_idx]:
-		enemy_idx += 1
-	if enemy_idx >= items.size():
-		enemy_idx -= 1
-	pass
-
-func _on_Player_invencible_Enemy_Spawner(val):
-	activated = !val
-	pass
-"
-
-[sub_resource type="GDScript" id=28]
-script/source = "extends Node2D
-
-export (Array, PackedScene) var objects_scene_list
-export var objects_number : int
-
-func _ready():
-	create_objects()
-	pass
-
-func create_objects():
-	if !objects_scene_list.empty():
-		for object_scene in objects_scene_list:
-			for i in range(objects_number):
-				var object = object_scene.instance()
-				call_deferred('add_child',object)
-				object.call_deferred('set_active',false)
-				object.call_deferred('set_global_position',Vector2(-900,-900))
-				object.connect('dispose',self,'return_object')
-	pass
-
-func get_object_by_name(obj_name : String):
-	var object = null
-	var children_list = get_children()
-	children_list.shuffle()
-	for obj in children_list:
-		if obj.name.find(obj_name) >= 0 and !obj.activated:
-			object = obj
-			break
-	if object:
-		remove_child(object)
-	return object
-
-func return_object(obj):
-	obj.get_parent().call_deferred('remove_child',obj)
-	obj.set_active(false)
-	obj.call_deferred('set_global_position',Vector2(-900,-900))
-	call_deferred('add_child',obj)
-"
-
 [node name="GameScene" type="Node"]
 script = SubResource( 1 )
 
@@ -1141,11 +1016,12 @@ texture = ExtResource( 5 )
 centered = false
 
 [node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
-motion_scale = Vector2( 1, 0.2 )
+motion_scale = Vector2( 1, 0.05 )
 motion_mirroring = Vector2( 0, 1920 )
 
 [node name="Cloud1" type="Sprite" parent="ParallaxBackground/ParallaxLayer2"]
-texture = ExtResource( 6 )
+self_modulate = Color( 1, 1, 1, 0.533333 )
+texture = ExtResource( 8 )
 centered = false
 
 [node name="Star1" type="Sprite" parent="ParallaxBackground/ParallaxLayer2"]
@@ -1154,11 +1030,12 @@ texture = ExtResource( 7 )
 centered = false
 
 [node name="ParallaxLayer3" type="ParallaxLayer" parent="ParallaxBackground"]
-motion_scale = Vector2( 1, 0.3 )
+motion_scale = Vector2( 1, 0.1 )
 motion_mirroring = Vector2( 0, 1920 )
 
 [node name="Cloud2" type="Sprite" parent="ParallaxBackground/ParallaxLayer3"]
-texture = ExtResource( 8 )
+self_modulate = Color( 1, 1, 1, 0.533333 )
+texture = ExtResource( 6 )
 centered = false
 
 [node name="Star2" type="Sprite" parent="ParallaxBackground/ParallaxLayer3"]
@@ -1780,65 +1657,55 @@ position = Vector2( 863.298, -221.982 )
 [node name="Position2D15" type="Position2D" parent="SpawnPoints/PowerUps"]
 position = Vector2( 214, -221.982 )
 
-[node name="CurrencySpawner" type="Node" parent="."]
-script = SubResource( 27 )
-items = [ "Fish", "Coin" ]
-items_prob = [ 0.2, 1.0 ]
-pool_manager = NodePath("../CurrencyPool")
-parent_node = NodePath("../Collectables")
-spawn_points = NodePath("../SpawnPoints/Currency")
-min_height = 8
-
-[node name="PowerUpSpawner" type="Node" parent="."]
-script = SubResource( 27 )
-items = [ "AegisWings", "Magnet", "FuelCan" ]
-items_prob = [ 0.01, 0.1, 1.0 ]
-pool_manager = NodePath("../PowerUpPool")
-parent_node = NodePath("../Collectables")
-spawn_points = NodePath("../SpawnPoints/PowerUps")
-max_height = 18
-min_height = 14
-
-[node name="EnemySpawner" type="Node" parent="."]
-script = SubResource( 27 )
-spawn_type = 1
-items = [ "PaperPlane", "Kite", "Bulldog", "Bird", "Condor", "Ovni" ]
-items_max_height = [ 600, 1000, 1400, 1600, 2000, 3000 ]
-pool_manager = NodePath("../EnemyPool")
-parent_node = NodePath("../Enemies")
-spawn_points = NodePath("../SpawnPoints/Enemies")
-max_height = 11
-min_height = 8
-tutorial_height = 20
-
-[node name="Collectables" type="Node2D" parent="."]
-
-[node name="Enemies" type="Node2D" parent="."]
-
 [node name="CurrencyPool" type="Node2D" parent="."]
-script = SubResource( 28 )
+script = ExtResource( 23 )
 objects_scene_list = [ ExtResource( 30 ), ExtResource( 31 ) ]
 objects_number = 8
 
 [node name="PowerUpPool" type="Node2D" parent="."]
-script = SubResource( 28 )
+script = ExtResource( 23 )
 objects_scene_list = [ ExtResource( 32 ), ExtResource( 33 ), ExtResource( 34 ) ]
 objects_number = 3
 
 [node name="EnemyPool" type="Node2D" parent="."]
-script = SubResource( 28 )
+script = ExtResource( 23 )
 objects_scene_list = [ ExtResource( 35 ), ExtResource( 36 ), ExtResource( 37 ), ExtResource( 38 ), ExtResource( 20 ), ExtResource( 21 ) ]
 objects_number = 5
-[connection signal="on_fuel_completed" from="." to="UIGame" method="_on_GameScene_on_fuel_completed"]
+
+[node name="CurrencySpawner" parent="." instance=ExtResource( 40 )]
+item_list = [ "Fish", "CoinCluster" ]
+spawn_points_node = NodePath("../SpawnPoints/Currency")
+pool_manager = NodePath("../CurrencyPool")
+min_height = 12.0
+max_height = 18.0
+fix_collision_height = 0
+min_height_tutorial = 0
+item_probability = [ 0.1, 1.0 ]
+
+[node name="PowerUpSpawner" parent="." instance=ExtResource( 41 )]
+item_list = [ "AegisWings", "Magnet", "FuelCan" ]
+spawn_points_node = NodePath("../SpawnPoints/PowerUps")
+pool_manager = NodePath("../PowerUpPool")
+spawn_type = 0
+fix_collision_height = 300
+min_height_tutorial = 0
+item_probability = [ 0.01, 0.12, 1.0 ]
+
+[node name="EnemySpawner" parent="." instance=ExtResource( 39 )]
+spawn_points_node = NodePath("../SpawnPoints/Enemies")
+pool_manager = NodePath("../EnemyPool")
+fix_collision_height = 50
+min_height_tutorial = 15
+items_max_height = [ 800, 1400, 1800, 2200, 3000, 9999999 ]
 [connection signal="on_fuel_completed" from="." to="Player" method="_on_GameScene_on_fuel_completed"]
-[connection signal="on_fuel_depleted" from="." to="UIGame" method="_on_GameScene_on_fuel_depleted"]
+[connection signal="on_fuel_completed" from="." to="UIGame" method="_on_GameScene_on_fuel_completed"]
 [connection signal="on_fuel_depleted" from="." to="Player" method="_on_GameScene_on_fuel_depleted"]
+[connection signal="on_fuel_depleted" from="." to="UIGame" method="_on_GameScene_on_fuel_depleted"]
 [connection signal="on_fuel_time" from="." to="UIGame" method="_on_GameScene_on_fuel_time"]
 [connection signal="screen_exited" from="House/VisibilityNotifier2D" to="House" method="_on_VisibilityNotifier2D_screen_exited"]
 [connection signal="current_height" from="Player" to="UIGame" method="_on_Player_current_height"]
-[connection signal="current_height" from="Player" to="." method="_on_Player_current_height"]
 [connection signal="current_height" from="Player" to="ParallaxBackground" method="_on_Player_current_height"]
-[connection signal="current_height" from="Player" to="EnemySpawner" method="_on_Player_current_height"]
+[connection signal="current_height" from="Player" to="." method="_on_Player_current_height"]
 [connection signal="dead" from="Player" to="." method="_on_Player_dead"]
 [connection signal="magnet_time" from="Player" to="UIGame" method="_on_Player_magnet_time"]
 [connection signal="on_magnet" from="Player" to="UIGame" method="_on_Player_on_magnet"]

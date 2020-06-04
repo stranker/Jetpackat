@@ -1,8 +1,9 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Sprites/UI/AdsIcon.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/UI/CloseIcon.png" type="Texture" id=3]
+[ext_resource path="res://Sounds/Sfx/ButtonClick.wav" type="AudioStream" id=4]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Control
@@ -39,6 +40,7 @@ func on_failed():
 
 func _on_AdsButton_button_down():
 	AdsManager.show_reward()
+	$ButtonClick.play()
 	pass # Replace with function body.
 
 func start():
@@ -47,6 +49,7 @@ func start():
 func _on_CancelButton_button_down():
 	emit_signal(\"cancel_recover\")
 	$Anim.play_backwards(\"Enter\")
+	$ButtonClick.play()
 	pass # Replace with function body.
 "
 
@@ -275,5 +278,10 @@ stretch_mode = 6
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 anims/Enter = SubResource( 8 )
+
+[node name="ButtonClick" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+volume_db = -6.0
+bus = "UI"
 [connection signal="button_down" from="Panel/VBC/ADS/AdsButton" to="." method="_on_AdsButton_button_down"]
 [connection signal="button_down" from="Panel/VBC/Cancel/CancelButton" to="." method="_on_CancelButton_button_down"]

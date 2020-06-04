@@ -32,11 +32,11 @@ func _on_Coin_body_entered(body):
 	pass
 
 func on_take():
-	if taked or !activated:
+	if !can_be_taked():
 		return
-	taked = !taked
+	taked = true
 	emit_signal('taken', value)
-	$Particles.emitting = true
+	$Particles.restart()
 	$Anim.play('Taken')
 	$Sample.play()
 	pass
@@ -161,7 +161,7 @@ material = SubResource( 3 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 1 )
 hframes = 8
-frame = 7
+frame = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 4 )

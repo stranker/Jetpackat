@@ -30,13 +30,17 @@ func unclick_button():
 	pass
 
 func _on_ButtonShop_button_down():
+	click_button()
+	pass # Replace with function body.
+
+func click_button():
 	if !clicked:
 		$Anim.play("OnClick")
 		if can_rescale:
 			$Anim.queue("Clicked")
 		clicked = true
 		emit_signal("on_clicked",self)
-	pass # Replace with function body.
+	pass
 
 func change_to_buy_state():
 	$Anim.play("Idle")
@@ -53,7 +57,6 @@ func upgrade_item():
 func _on_ButtonShop_resized():
 	rect_pivot_offset = rect_size * 0.5
 	pass # Replace with function body.
-
 
 func _on_Anim_animation_finished(anim_name):
 	if anim_name == "OnClick":

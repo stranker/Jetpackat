@@ -1,15 +1,14 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Scenes/Leaderpanel.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Misc/Ribbon.png" type="Texture" id=2]
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://Scenes/ItemPageGrid.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Sprites/UI/LeaderCat.png" type="Texture" id=5]
-[ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=6]
-[ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=7]
+[ext_resource path="res://Sprites/UI/NormalButton.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/UI/CloseIcon.png" type="Texture" id=7]
 [ext_resource path="res://Sounds/Sfx/ButtonClick.wav" type="AudioStream" id=8]
-
-
+[ext_resource path="res://Sprites/UI/ButtonPressed.png" type="Texture" id=9]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.172549, 0.172549, 0.172549, 1 )
@@ -141,7 +140,7 @@ tracks/1/keys = {
 "values": [ Vector2( 69.199, 2100 ), Vector2( 70, 440 ), Vector2( 70, 480 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("CloseLeaderButton:self_modulate")
+tracks/2/path = NodePath("CloseLeaderButton:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -196,9 +195,9 @@ tracks/6/imported = false
 tracks/6/enabled = true
 tracks/6/keys = {
 "times": PoolRealArray( 0, 0.5, 0.6 ),
-"transitions": PoolRealArray( 0.5, 1, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 225.5, 0 ), Vector2( 225.5, -450 ), Vector2( 225.5, -400 ) ]
+"values": [ Vector2( 276, 0 ), Vector2( 289.936, -296.26 ), Vector2( 289.936, -280.26 ) ]
 }
 
 [node name="Leaderboard" type="Panel"]
@@ -283,16 +282,24 @@ margin_right = 942.0
 margin_bottom = 1311.0
 
 [node name="Prev" parent="Leaders/ItemPageGrid/VBC/HBC" index="0"]
+margin_right = 350.0
 margin_bottom = 119.0
 
+[node name="PrevButton" parent="Leaders/ItemPageGrid/VBC/HBC/Prev" index="0"]
+visible = false
+
 [node name="Page" parent="Leaders/ItemPageGrid/VBC/HBC" index="1"]
-margin_right = 537.0
+margin_left = 354.0
+margin_right = 588.0
 margin_bottom = 119.0
 
 [node name="Next" parent="Leaders/ItemPageGrid/VBC/HBC" index="2"]
-margin_left = 541.0
-margin_right = 941.0
+margin_left = 592.0
+margin_right = 942.0
 margin_bottom = 119.0
+
+[node name="NextButton" parent="Leaders/ItemPageGrid/VBC/HBC/Next" index="0"]
+visible = false
 
 [node name="State" type="Label" parent="Leaders"]
 visible = false
@@ -311,17 +318,20 @@ align = 1
 show_behind_parent = true
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -245.5
-margin_right = 245.5
-margin_bottom = 430.0
-rect_pivot_offset = Vector2( 250.801, 220 )
+margin_left = -195.0
+margin_right = 146.0
+margin_bottom = 298.0
 texture = ExtResource( 5 )
 expand = true
 stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="CloseLeaderButton" type="TextureButton" parent="."]
 visible = false
-self_modulate = Color( 1, 1, 1, 0 )
+modulate = Color( 1, 1, 1, 0 )
+self_modulate = Color( 0.894118, 0.176471, 0.0980392, 1 )
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -130.0
@@ -331,10 +341,25 @@ margin_bottom = 130.0
 mouse_filter = 1
 disabled = true
 texture_normal = ExtResource( 6 )
-texture_pressed = ExtResource( 7 )
-texture_disabled = ExtResource( 7 )
+texture_pressed = ExtResource( 9 )
 expand = true
 stretch_mode = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="CloseLeaderButton"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -37.0
+margin_top = -43.0
+margin_right = 37.0
+margin_bottom = 31.0
+texture = ExtResource( 7 )
+expand = true
+stretch_mode = 6
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 anims/Enter = SubResource( 6 )

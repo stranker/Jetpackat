@@ -17,7 +17,6 @@
 [ext_resource path="res://Sounds/Sfx/Hit.wav" type="AudioStream" id=15]
 [ext_resource path="res://Sounds/Sfx/CatFalling.wav" type="AudioStream" id=16]
 
-
 [sub_resource type="GDScript" id=1]
 script/source = "extends KinematicBody2D
 
@@ -340,17 +339,22 @@ func set_wind_effect(val):
 		$Wind.start()
 	pass
 
-func _on_Tween_tween_completed(object, key):
-	if object == $CL/WindEffect:
-		if $CL/WindEffect.self_modulate.a == 0:
-			$Anim.stop()
-	pass # Replace with function body.
-
 func _on_Player_on_recover():
 	$Tween.remove_all()
 	$Tween.interpolate_property(self, 'zoom', Vector2(0.5,0.5), Vector2.ONE , 0.5,Tween.TRANS_EXPO,Tween.EASE_OUT)
 	$Tween.interpolate_property(self,'position',position,initial_pos, 0.5, Tween.TRANS_LINEAR, Tween.EASE_OUT)
 	$Tween.start()
+	pass # Replace with function body.
+
+
+func _on_Wind_tween_completed(object, key):
+	if $CL/WindEffect.self_modulate.a == 0:
+		$Anim.stop()
+	pass # Replace with function body.
+
+
+func _on_Tween_tween_completed(object, key):
+	position = initial_pos
 	pass # Replace with function body.
 "
 
@@ -1660,7 +1664,7 @@ bus = "Sounds"
 [connection signal="dead" from="." to="GameCamera" method="_on_Player_dead"]
 [connection signal="on_recover" from="." to="GameCamera" method="_on_Player_on_recover"]
 [connection signal="tween_completed" from="GameCamera/Tween" to="GameCamera" method="_on_Tween_tween_completed"]
-[connection signal="tween_completed" from="GameCamera/Wind" to="GameCamera" method="_on_Tween_tween_completed"]
+[connection signal="tween_completed" from="GameCamera/Wind" to="GameCamera" method="_on_Wind_tween_completed"]
 [connection signal="timeout" from="GameCamera/Timer" to="GameCamera" method="_on_Timer_timeout"]
 [connection signal="magnet_time" from="Visible/MagnetArea" to="." method="_on_MagnetArea_magnet_time"]
 [connection signal="animation_finished" from="Anim" to="." method="_on_Anim_animation_finished"]

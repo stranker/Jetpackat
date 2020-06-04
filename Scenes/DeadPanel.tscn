@@ -63,6 +63,7 @@ func _on_RestartButton_button_down():
 		emit_signal('restart_game')
 		set_particles(false)
 		$Anim.play_backwards(\"Enter\")
+		$ButtonClick.play()
 	pass
 
 func _on_Anim_animation_finished(anim_name):
@@ -96,6 +97,7 @@ func _on_ShareButton_button_down():
 	var points = tr(\"KEY_POINTS\")
 	var share_text = prev_text + \" \" + str(GameManager.highscore) + \" \" + points + \"! \" + post_text + \"? #CatsCanFly \\n\" + store_link
 	share.sharePic(image_save_path, \"Image Sharing\", \"Sharing image with GodotShare\", share_text)
+	$ButtonClick.play()
 	pass
 
 func take_screenshot():
@@ -104,8 +106,6 @@ func take_screenshot():
 	screenshot_taken = true
 	var clear_mode = vport.get_clear_mode()
 	vport.set_clear_mode(Viewport.CLEAR_MODE_ONLY_NEXT_FRAME)
-	yield(get_tree(), \"idle_frame\")
-	yield(get_tree(), \"idle_frame\")
 	var image : Image = vport.get_texture().get_data()
 	image.flip_y()
 	image.save_png(image_save_path)
@@ -326,6 +326,18 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ -5.0, 5.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("..:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.196078 ) ]
 }
 
 [sub_resource type="Animation" id=23]
@@ -871,10 +883,10 @@ stretch_mode = 6
 
 [node name="ScreenShot" type="Panel" parent="Panel"]
 visible = false
-margin_left = 434.982
-margin_top = -73.8967
-margin_right = 734.982
-margin_bottom = 226.103
+margin_left = 448.274
+margin_top = -182.102
+margin_right = 748.274
+margin_bottom = 117.897
 rect_rotation = -30.2993
 mouse_filter = 2
 custom_styles/panel = SubResource( 20 )
@@ -911,7 +923,7 @@ margin_left = -129.506
 margin_top = -50.5306
 margin_right = 120.494
 margin_bottom = -10.5306
-rect_rotation = 0.644314
+rect_rotation = -5.0
 rect_pivot_offset = Vector2( 125, 20 )
 custom_fonts/font = SubResource( 21 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )

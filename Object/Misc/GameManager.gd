@@ -1,31 +1,38 @@
 extends Node
 
 var nickname : String = ''
+var highscore : int = 0
+
 var coins : int = 0
 var fishes : int = 0
+var fuel : int = 0
+
 var playing : bool = false
 var player_height : int = 0
-var fuel : int = 0
-var camera : Camera2D = null
-var highscore : int = 0
+var player_aegis : bool = false
+var runs_played : int = 0
+
 var player = null
+var camera : Camera2D = null
+
 var sound_volume : int = 0 
 var music_volume : int = 0 
+
 var game_info : Dictionary = {}
-var timer : float = 0
-var intro_watched : bool = false
+
 var private_url = 'A_qF1JJVd0iy5GKQGTuHjAXVoYJ4ml3kq7N2E5W0B16g'
-var left_mode : bool = false
+
 var easter = false
 var tutorial_done : bool = false
+
 var language = ''
+
 var has_internet_connection : bool = false
-var runs_played : int = 0
-export var min_ad_height : int = 100
-export var min_recover_height : int = 500
+
+var min_ad_height : int = 100
+var min_recover_height : int = 500
 var can_revive : bool = true
 var invencible_timer : Timer
-var player_aegis : bool = false
 
 signal on_player_aegis(invencible)
 signal on_invencible_time(time)
@@ -106,7 +113,6 @@ func load_data_from(dir : String):
 		fuel = game_info['Fuel']
 		music_volume = game_info['MusicVolume']
 		sound_volume = game_info['SoundVolume']
-		left_mode = game_info['LeftMode']
 		tutorial_done = game_info['Tutorial']
 		language = game_info['Language']
 	save_game_data()
@@ -124,10 +130,8 @@ func save_current_game_info():
 	game_info['Fishes'] = fishes
 	game_info['Highscore'] = highscore
 	game_info['Fuel'] = fuel
-	game_info['IntroWatched'] = intro_watched
 	game_info['MusicVolume'] = music_volume
 	game_info['SoundVolume'] = sound_volume
-	game_info['LeftMode'] = left_mode
 	game_info['Tutorial'] = tutorial_done
 	game_info['Language'] = language
 	if !game_info.empty():

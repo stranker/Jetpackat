@@ -1,11 +1,11 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Sprites/Background/Bg1.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Background/Star2.png" type="Texture" id=2]
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://Fonts/overload burn.ttf" type="DynamicFontData" id=4]
-[ext_resource path="res://Sprites/UI/BackButton.png" type="Texture" id=5]
-[ext_resource path="res://Sprites/UI/BackButtonPressed.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/UI/BackIcon.png" type="Texture" id=5]
+[ext_resource path="res://Sprites/UI/NormalButton.png" type="Texture" id=6]
 [ext_resource path="res://Sprites/Cat/Skin/Skin.png" type="Texture" id=7]
 [ext_resource path="res://Sprites/Cat/Eyes.png" type="Texture" id=8]
 [ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=9]
@@ -13,6 +13,7 @@
 [ext_resource path="res://Scenes/InitialDarker.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Scenes/TransitionScene.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Sounds/Sfx/ButtonClick.wav" type="AudioStream" id=13]
+[ext_resource path="res://Sprites/UI/ButtonPressed.png" type="Texture" id=14]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Control
@@ -149,88 +150,88 @@ tracks/2/keys = {
 "values": [ 0.0, 0.0, 0.1, 1.0, 1.0 ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("BackButton:self_modulate")
+tracks/3/path = NodePath("BackButton:disabled")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 6, 6.5 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
-}
-tracks/4/type = "value"
-tracks/4/path = NodePath("BackButton:disabled")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/keys = {
 "times": PoolRealArray( 6, 6.5 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ true, false ]
 }
-tracks/5/type = "value"
-tracks/5/path = NodePath("Player:position")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/keys = {
+tracks/4/type = "value"
+tracks/4/path = NodePath("Player:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
 "times": PoolRealArray( 0, 0.4, 1, 1.5, 2.2, 2.5, 2.7, 3.1, 3.7, 7 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( -133.396, 494.541 ), Vector2( 208.228, 501.049 ), Vector2( 930.519, 543.345 ), Vector2( 1050.9, 527.077 ), Vector2( 159.425, 536.838 ), Vector2( 104.114, 523.824 ), Vector2( 113.875, 533.584 ), Vector2( 107.368, 520.57 ), Vector2( 322.796, 880.629 ), Vector2( 1947.29, 1670 ) ]
 }
-tracks/6/type = "value"
-tracks/6/path = NodePath("Player:rotation_degrees")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/keys = {
+tracks/5/type = "value"
+tracks/5/path = NodePath("Player:rotation_degrees")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
 "times": PoolRealArray( 0, 0.4, 1, 1.5, 2.2, 2.5, 2.7, 3.1, 3.5, 6, 7 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ 13.897, 13.897, 13.897, -10.1824, -22.1191, 4.57528, 4.57528, 4.57528, 4.57528, 4.57528, 4.57528 ]
 }
-tracks/7/type = "value"
-tracks/7/path = NodePath("Player:scale")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/keys = {
+tracks/6/type = "value"
+tracks/6/path = NodePath("Player:scale")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
 "times": PoolRealArray( 0, 3.1, 6, 7 ),
 "transitions": PoolRealArray( 1, 0.840897, 0.5, 0.5 ),
 "update": 0,
 "values": [ Vector2( -4, 4 ), Vector2( -4, 4 ), Vector2( -30, 30 ), Vector2( -30, 30 ) ]
 }
-tracks/8/type = "value"
-tracks/8/path = NodePath("Player/Jetpack/CPUParticles2D:scale_amount")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/keys = {
+tracks/7/type = "value"
+tracks/7/path = NodePath("Player/Jetpack/CPUParticles2D:scale_amount")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
 "times": PoolRealArray( -0.1, 3.1, 3.5, 6 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
 "values": [ 3.0, 3.0, 10.0, 20.0 ]
 }
+tracks/8/type = "value"
+tracks/8/path = NodePath("SoundTitle/ArtistLabel:percent_visible")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0, 3.4, 4.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0, 1.0 ]
+}
 tracks/9/type = "value"
-tracks/9/path = NodePath("SoundTitle/ArtistLabel:percent_visible")
+tracks/9/path = NodePath("BackButton:modulate")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/imported = false
 tracks/9/enabled = true
 tracks/9/keys = {
-"times": PoolRealArray( 0, 3.4, 4.4 ),
+"times": PoolRealArray( 0, 6, 6.5 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ 0.0, 0.0, 1.0 ]
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
 
 [sub_resource type="Gradient" id=7]
@@ -295,7 +296,6 @@ custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 0.988235, 0.635294, 0.027451, 1 )
 text = "DANIEL H. NATARELLI"
 align = 1
-percent_visible = 0.0
 
 [node name="SoundTitle" type="Label" parent="."]
 anchor_left = 0.5
@@ -324,7 +324,6 @@ custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 0.137255, 0.670588, 0.835294, 1 )
 text = "Nicolas La Gioia"
 align = 1
-percent_visible = 0.0
 
 [node name="ArtistTitle" type="Label" parent="."]
 anchor_left = 0.5
@@ -353,7 +352,6 @@ custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 0.4, 0.776471, 0.113725, 1 )
 text = "DANIEL H NATARELLI"
 align = 1
-percent_visible = 0.0
 
 [node name="FontTitle" type="Label" parent="."]
 anchor_left = 0.5
@@ -388,14 +386,13 @@ Overload
 by
 Ray Larabie"
 align = 1
-percent_visible = 0.0
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Start"
 anims/Start = SubResource( 6 )
 
 [node name="BackButton" type="TextureButton" parent="."]
-self_modulate = Color( 1, 1, 1, 0 )
+self_modulate = Color( 0.972549, 0.6, 0.227451, 1 )
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -404,15 +401,34 @@ margin_left = -70.0
 margin_top = -190.0
 margin_right = 95.0
 margin_bottom = -30.0
-texture_normal = ExtResource( 5 )
-texture_pressed = ExtResource( 6 )
+texture_normal = ExtResource( 6 )
+texture_pressed = ExtResource( 14 )
 expand = true
 stretch_mode = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="BackButton"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -64.5
+margin_top = -69.5
+margin_right = 64.5
+margin_bottom = 59.5
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Player" type="Node2D" parent="."]
-position = Vector2( -133.396, 494.541 )
-rotation = 0.242548
-scale = Vector2( -4, 4 )
+position = Vector2( 1947.29, 1670 )
+rotation = 0.0798537
+scale = Vector2( -30, 30 )
 
 [node name="Skin" type="Sprite" parent="Player"]
 texture = ExtResource( 7 )
@@ -447,7 +463,7 @@ gravity = Vector2( 0, 0 )
 initial_velocity = 40.0
 angle = 360.0
 angle_random = 1.0
-scale_amount = 3.0
+scale_amount = 20.0
 color_ramp = SubResource( 7 )
 
 [node name="Hat" type="Sprite" parent="Player"]

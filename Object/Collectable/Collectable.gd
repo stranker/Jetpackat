@@ -28,6 +28,12 @@ func set_active(val):
 	call_deferred('visible',val)
 	pass
 
+func is_currency(area):
+	return area.name == 'Coin' or area.name == 'Fish'
+
+func can_be_taked():
+	return !taked and activated
+
 func dispose_object():
 	if activated:
 		emit_signal('dispose',self)

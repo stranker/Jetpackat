@@ -17,6 +17,7 @@ signal closed
 
 func _ready():
 	update_equipment()
+	hat_btn.click_button()
 	_on_HatButton_on_clicked(hat_btn)
 	$BackPanel.visible = false
 	pass

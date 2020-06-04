@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Shaders/outline.shader" type="Shader" id=1]
 [ext_resource path="res://Sprites/PowerUps/FuelCan.png" type="Texture" id=2]
-[ext_resource path="res://Sprites/Background/StarParticle.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/Background/SmokeParticle.png" type="Texture" id=3]
 [ext_resource path="res://Sounds/Sfx/FuelCan2.wav" type="AudioStream" id=4]
 
 [sub_resource type="GDScript" id=1]
@@ -22,20 +22,19 @@ func _on_FuelCan_body_entered(body):
 	pass # Replace with function body.
 
 func on_take():
-	if taked or !activated:
+	if !can_be_taked():
 		return
-	taked = !taked
+	taked = true
 	$Anim.play('Taken')
 	emit_signal('taken')
 	$Sound.play()
+	$Particles.restart()
 	pass
 
 func _on_FuelCan_area_entered(area):
 	if area.name == 'MagnetArea' and !on_magnet_area and activated:
 		player_magnet = area
 		on_magnet_area = !on_magnet_area
-	if area.name == 'Coin':
-		move_up()
 	pass # Replace with function body.
 
 func _on_FuelCan_active(val):
@@ -60,11 +59,11 @@ radius = 58.8121
 
 [sub_resource type="Curve" id=4]
 max_value = 6.0
-_data = [ Vector2( 0.00109641, 5.9106 ), 0.0, -6.11803, 0, 0, Vector2( 0.998046, 1.4886 ), -0.502107, 0.0, 0, 0 ]
+_data = [ Vector2( 0, 6 ), 0.0, -4.61196, 0, 0, Vector2( 1, 1.41818 ), -9.3719, 0.0, 0, 0 ]
 
 [sub_resource type="Gradient" id=5]
-offsets = PoolRealArray( 0, 0.282209, 0.564417, 0.846626, 1 )
-colors = PoolColorArray( 1, 1, 1, 1, 1, 0.960938, 0, 1, 0.992188, 0.711833, 0.228668, 1, 1, 0.242188, 0.242188, 0.588235, 0.359375, 0.359375, 0.359375, 0 )
+offsets = PoolRealArray( 0, 0.506024, 0.668675, 0.783133, 0.951807 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 0.960938, 0, 1, 0.992188, 0.711833, 0.228668, 1, 1, 0.242188, 0.242188, 0.588235, 0, 0, 0, 0 )
 
 [sub_resource type="Animation" id=6]
 loop = true
@@ -119,27 +118,16 @@ tracks/1/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
-tracks/2/type = "value"
-tracks/2/path = NodePath("Particles:emitting")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 0.7 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, false ]
-}
 
 [node name="FuelCan" type="Area2D"]
 z_index = 12
 script = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
+self_modulate = Color( 1, 1, 1, 0 )
 material = SubResource( 2 )
 rotation = 0.261799
-scale = Vector2( 2, 2 )
+scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -148,19 +136,18 @@ shape = SubResource( 3 )
 [node name="Particles" type="CPUParticles2D" parent="."]
 emitting = false
 amount = 40
+lifetime = 0.7
 one_shot = true
 explosiveness = 0.9
+randomness = 1.0
+lifetime_randomness = 0.5
 texture = ExtResource( 3 )
 emission_shape = 1
 emission_sphere_radius = 3.0
 spread = 180.0
 gravity = Vector2( 0, 0 )
-initial_velocity = 500.0
+initial_velocity = 400.0
 initial_velocity_random = 0.3
-angular_velocity = 500.0
-angular_velocity_random = 1.0
-tangential_accel = 1.0
-tangential_accel_random = 1.0
 damping = 100.0
 angle = 360.0
 angle_random = 1.0

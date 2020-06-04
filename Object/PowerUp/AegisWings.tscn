@@ -18,23 +18,29 @@ func _on_AegisWings_area_entered(area):
 	if area.name == 'MagnetArea' and !on_magnet_area and activated:
 		player_magnet = area
 		on_magnet_area = !on_magnet_area
-	if area.name == 'Coin' or area.name == \"Fish\":
-		move_up()
 	pass # Replace with function body.
 
 func _on_AegisWings_body_entered(body):
-	if body.is_in_group('Player') and !taked and activated:
-		taked = !taked
-		$Anim.play('Taken')
-		$Sample.play()
-		emit_signal(\"on_aegis\", invencible_time)
+	if body.is_in_group('Player'):
+		on_take()
 	pass # Replace with function body.
+
+func on_take():
+	if !can_be_taked():
+		return
+	taked = true
+	$Anim.play('Taken')
+	$Sample.play()
+	$Feathers.restart()
+	emit_signal(\"on_aegis\", invencible_time)
+	pass
 
 func _on_AegisWings_active(val):
 	if val:
 		$Anim.queue('Idle')
 	else:
 		$Anim.play_backwards('Taken')
+		$Feathers.emitting = false
 	pass # Replace with function body.
 
 func _on_VisibilityNotifier2D_screen_exited():
@@ -76,7 +82,7 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id=4]
 resource_name = "Taken"
-length = 2.5
+length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:scale")
 tracks/0/interp = 1
@@ -100,18 +106,6 @@ tracks/1/keys = {
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
-}
-tracks/2/type = "value"
-tracks/2/path = NodePath("Feathers:emitting")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/keys = {
-"times": PoolRealArray( 0, 2.5 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, false ]
 }
 
 [sub_resource type="Curve" id=5]
@@ -176,9 +170,9 @@ volume_db = -6.0
 bus = "Sounds"
 
 [node name="Sprite" type="Sprite" parent="."]
+self_modulate = Color( 1, 1, 1, 0 )
 material = SubResource( 7 )
 rotation = 0.261799
-scale = Vector2( 3, 3 )
 texture = ExtResource( 2 )
 [connection signal="active" from="." to="." method="_on_AegisWings_active"]
 [connection signal="area_entered" from="." to="." method="_on_AegisWings_area_entered"]

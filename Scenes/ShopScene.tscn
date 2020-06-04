@@ -1,17 +1,18 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Scenes/ItemShopPanel.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Background/BackgroundMini.png" type="Texture" id=2]
 [ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://Sprites/Collectables/Coin.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/Collectables/Fish.png" type="Texture" id=5]
-[ext_resource path="res://Sprites/UI/CloseButton.png" type="Texture" id=6]
-[ext_resource path="res://Sprites/UI/CloseButtonPressed.png" type="Texture" id=7]
+[ext_resource path="res://Sprites/UI/NormalButton.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/UI/ButtonPressed.png" type="Texture" id=7]
 [ext_resource path="res://Scenes/ShopScene/MainShopButton.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Sprites/Shop/UI/WorkshopButton.png" type="Texture" id=9]
 [ext_resource path="res://Sprites/Shop/UI/WorkshopButton_Pressed.png" type="Texture" id=10]
 [ext_resource path="res://Scenes/ShopPanel.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Scenes/UpgradePanel.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Sprites/UI/CloseIcon.png" type="Texture" id=13]
 [ext_resource path="res://Scenes/InitialDarker.tscn" type="PackedScene" id=23]
 [ext_resource path="res://Scenes/TransitionScene.tscn" type="PackedScene" id=24]
 [ext_resource path="res://Scenes/ShopScene/ShopItemConfirmation.tscn" type="PackedScene" id=25]
@@ -89,7 +90,6 @@ func _on_CloseButton_button_down():
 	$ButtonClick.play()
 	pass # Replace with function body.
 
-
 func _on_Button_button_down():
 	add_currency()
 	pass # Replace with function body.
@@ -105,12 +105,12 @@ func _on_ShopItemConfirmation_update_ui():
 "
 
 [sub_resource type="StyleBoxFlat" id=2]
-bg_color = Color( 0.705882, 0.137255, 0.0745098, 1 )
+bg_color = Color( 0.137255, 0.521569, 0.192157, 1 )
 border_width_left = 10
 border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
-border_color = Color( 0.407843, 0.0941176, 0.141176, 1 )
+border_color = Color( 0.447059, 0.796078, 0.145098, 1 )
 corner_radius_top_left = 40
 corner_radius_top_right = 40
 corner_radius_bottom_right = 40
@@ -131,6 +131,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 script = SubResource( 1 )
 __meta__ = {
+"_edit_horizontal_guides_": [ -528.992 ],
 "_edit_use_anchors_": false
 }
 item_shop_panel = ExtResource( 1 )
@@ -201,9 +202,11 @@ valign = 1
 material = SubResource( 4 )
 anchor_top = 0.5
 anchor_bottom = 0.5
-margin_top = -67.5
-margin_right = 137.0
-margin_bottom = 67.5
+margin_left = 81.0
+margin_top = -36.0
+margin_right = 160.0
+margin_bottom = 42.0
+rect_pivot_offset = Vector2( 41, 39 )
 texture = ExtResource( 4 )
 expand = true
 stretch_mode = 6
@@ -251,12 +254,12 @@ valign = 1
 material = SubResource( 4 )
 anchor_top = 0.5
 anchor_bottom = 0.5
-margin_left = 25.0724
-margin_top = -74.0
-margin_right = 157.072
-margin_bottom = 72.0
+margin_left = 74.0271
+margin_top = -53.7273
+margin_right = 179.027
+margin_bottom = 62.2727
 rect_rotation = 30.0
-rect_pivot_offset = Vector2( 68.5, 67.5 )
+rect_pivot_offset = Vector2( 52.4999, 58 )
 texture = ExtResource( 5 )
 expand = true
 stretch_mode = 6
@@ -274,6 +277,7 @@ size_flags_stretch_ratio = 0.3
 
 [node name="CloseButton" type="TextureButton" parent="VBC/CurrencyInfo/HBC/ClosePanel"]
 pause_mode = 1
+self_modulate = Color( 0.894118, 0.176471, 0.0980392, 1 )
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -130.0
@@ -288,6 +292,19 @@ stretch_mode = 5
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="TextureRect" type="TextureRect" parent="VBC/CurrencyInfo/HBC/ClosePanel/CloseButton"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -36.0
+margin_top = -42.0
+margin_right = 37.0
+margin_bottom = 31.0
+texture = ExtResource( 13 )
+expand = true
+stretch_mode = 6
 
 [node name="Buttons" type="Control" parent="VBC"]
 margin_top = 174.0
@@ -337,7 +354,6 @@ stream = ExtResource( 26 )
 volume_db = -32.0
 bus = "UI"
 [connection signal="button_down" from="VBC/CurrencyInfo/HBC/ClosePanel/CloseButton" to="." method="_on_CloseButton_button_down"]
-[connection signal="button_down" from="VBC/CurrencyInfo/HBC/ClosePanel/CloseButton" to="." method="_on_TextureButton_button_down"]
 [connection signal="button_clicked" from="VBC/Buttons/ShopButton" to="." method="_on_ShopButton_button_clicked"]
 [connection signal="button_clicked" from="VBC/Buttons/WorkshopButton" to="." method="_on_WorkshopButton_button_clicked"]
 [connection signal="closed" from="ShopPanel" to="." method="_on_ShopPanel_closed"]

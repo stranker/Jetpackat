@@ -11,8 +11,6 @@ script/source = "extends Control
 
 func _on_Anim_animation_finished(anim_name):
 	var next_scene = 'Scenes/CinematicScene.tscn' 
-	if GameManager.intro_watched:
-		next_scene = 'Scenes/MainMenu.tscn'
 	get_tree().change_scene(next_scene)
 	pass
 "
