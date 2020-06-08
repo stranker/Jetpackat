@@ -26,10 +26,9 @@ modules="org/godotengine/godot/GodotAdMob,org/godotengine/godot/GodotShare"
 
 config/name="CatsCanFly"
 run/main_scene="res://Scenes/SplashScene.tscn"
-boot_splash/image="res://Sprites/Cinematic/TowerCodeLogo.png"
 boot_splash/fullsize=false
-boot_splash/bg_color=Color( 0.12549, 0.0156863, 0.168627, 1 )
-config/icon="res://Sprites/Icons/CatsCanFlyIcon.png"
+boot_splash/bg_color=Color( 0, 0, 0, 1 )
+config/icon="res://Sprites/Icons/catscanfly_foreground.png"
 config/quit_on_go_back=false
 
 [autoload]

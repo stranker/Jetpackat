@@ -1,8 +1,9 @@
 { 
    "0":{ 
       "name":"KEY_COIN_MULTIPLIER",
+	  "desc":"KEY_CURRENCY_DESC"
       "level":1,
-	  "max_level":4,
+	  "max_level":5,
       "price_per_level":{ 
          "1":{ 
             "payment":0,
@@ -18,14 +19,19 @@
          },
          "4":{ 
             "payment":1,
-            "price":300
+            "price":50
+         },
+         "5":{ 
+            "payment":1,
+            "price":100
          }
       }
    },
    "1":{ 
       "name":"KEY_MAGNET_CHIP",
+	  "desc":"KEY_MAGNET_DESC",
       "level":1,
-	  "max_level":4,
+	  "max_level":5,
       "price_per_level":{ 
          "1":{ 
             "payment":0,
@@ -41,7 +47,39 @@
          },
          "4":{ 
             "payment":1,
-            "price":300
+            "price":50
+         },
+         "5":{ 
+            "payment":1,
+            "price":100
+         }
+      }
+   },
+   "2":{ 
+      "name":"KEY_AEGIS_WINGS",
+	  "desc":"KEY_AEGIS_WINGS",
+      "level":1,
+	  "max_level":5,
+      "price_per_level":{ 
+         "1":{ 
+            "payment":0,
+            "price":0
+         },
+         "2":{ 
+            "payment":0,
+            "price":3000
+         },
+         "3":{ 
+            "payment":0,
+            "price":7000
+         },
+         "4":{ 
+            "payment":1,
+            "price":100
+         },
+         "5":{ 
+            "payment":1,
+            "price":150
          }
       }
    }

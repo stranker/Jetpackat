@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/1280px-Godot_logo.svg.png-f6486b9611128e76ee5f5a31ee3435c5.stex"
+path="res://.import/CatsCanFlyTitle.png-0ea96d2b6b4aa63a51910ac8cbd8572b.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Cinematic/1280px-Godot_logo.svg.png"
-dest_files=[ "res://.import/1280px-Godot_logo.svg.png-f6486b9611128e76ee5f5a31ee3435c5.stex" ]
+source_file="res://Sprites/Cinematic/CatsCanFlyTitle.png"
+dest_files=[ "res://.import/CatsCanFlyTitle.png-0ea96d2b6b4aa63a51910ac8cbd8572b.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=true
+flags/filter=false
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2
