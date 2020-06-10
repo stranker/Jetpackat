@@ -1,8 +1,8 @@
 [gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Sprites/Shop/Cat/Skin/Normal.png" type="Texture" id=1]
+[ext_resource path="res://Fonts/retron2000.regular.ttf" type="DynamicFontData" id=2]
 [ext_resource path="res://Sprites/Collectables/Fish.png" type="Texture" id=3]
-[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=4]
 [ext_resource path="res://Sounds/Sfx/ButtonSelection.wav" type="AudioStream" id=5]
 [ext_resource path="res://Sprites/Shop/Cat/Pattern/Tigger.png" type="Texture" id=6]
 
@@ -242,9 +242,8 @@ shadow_size = 8
 [sub_resource type="DynamicFont" id=6]
 size = 60
 outline_size = 3
-outline_color = Color( 0, 0, 0, 1 )
-use_filter = true
-font_data = ExtResource( 4 )
+outline_color = Color( 0, 0, 0, 0.784314 )
+font_data = ExtResource( 2 )
 
 [sub_resource type="StyleBoxFlat" id=7]
 bg_color = Color( 0.133333, 0.176471, 0.505882, 1 )
@@ -401,8 +400,8 @@ __meta__ = {
 }
 
 [node name="HBC" type="HBoxContainer" parent="VBC/Buttons/BuyButton/CC"]
-margin_left = 50.0
-margin_right = 233.0
+margin_left = 39.0
+margin_right = 243.0
 margin_bottom = 90.0
 rect_min_size = Vector2( 0, 90 )
 mouse_filter = 2
@@ -434,13 +433,12 @@ __meta__ = {
 
 [node name="PriceTag" type="Label" parent="VBC/Buttons/BuyButton/CC/HBC"]
 margin_left = 84.0
-margin_top = 8.0
-margin_right = 183.0
-margin_bottom = 81.0
+margin_top = 4.0
+margin_right = 204.0
+margin_bottom = 85.0
 rect_min_size = Vector2( 0, 60 )
 custom_fonts/font = SubResource( 6 )
 text = "999"
-valign = 1
 
 [node name="UseButton" type="Button" parent="VBC/Buttons"]
 visible = false
@@ -463,23 +461,21 @@ __meta__ = {
 }
 
 [node name="Text" type="Label" parent="VBC/Buttons/UseButton"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -131.5
-margin_top = -38.0
-margin_right = 131.5
-margin_bottom = 26.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -4.0
+margin_bottom = -7.0
 grow_horizontal = 2
 grow_vertical = 2
 rect_min_size = Vector2( 0, 64 )
 custom_fonts/font = SubResource( 6 )
 text = "KEY_SHOPBUTTON_USE"
 align = 1
-valign = 1
 autowrap = true
 clip_text = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Tween" type="Tween" parent="."]
 repeat = true

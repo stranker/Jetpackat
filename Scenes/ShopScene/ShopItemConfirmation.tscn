@@ -1,10 +1,11 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Sprites/Collectables/Coin.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Collectables/Fish.png" type="Texture" id=2]
-[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://Fonts/retron_80.tres" type="DynamicFont" id=3]
 [ext_resource path="res://Sounds/Sfx/ButtonClick.wav" type="AudioStream" id=4]
 [ext_resource path="res://Sounds/Sfx/BuyItem.wav" type="AudioStream" id=5]
+[ext_resource path="res://Fonts/retron_52.tres" type="DynamicFont" id=6]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Control
@@ -91,13 +92,7 @@ corner_radius_bottom_right = 50
 corner_radius_bottom_left = 50
 corner_detail = 2
 
-[sub_resource type="DynamicFont" id=3]
-size = 50
-outline_color = Color( 0, 0, 0, 1 )
-use_filter = true
-font_data = ExtResource( 3 )
-
-[sub_resource type="StyleBoxFlat" id=4]
+[sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.196078, 0.34902, 0.886275, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -112,117 +107,67 @@ corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.309804 )
 shadow_size = 8
 
-[sub_resource type="Shader" id=5]
-code = "shader_type canvas_item;
-
-uniform float outline_width = 2.0;
-uniform vec4 outline_color : hint_color;
-
-void fragment() {
-	vec4 col = texture(TEXTURE, UV);
-	vec2 ps = TEXTURE_PIXEL_SIZE;
-	float a;
-	float maxa = col.a;
-	float mina = col.a;
-
-	a = texture(TEXTURE, UV + vec2(0.0, -outline_width) * ps).a;
-	maxa = max(a, maxa);
-	mina = min(a, mina);
-
-	a = texture(TEXTURE, UV + vec2(0.0, outline_width) * ps).a;
-	maxa = max(a, maxa);
-	mina = min(a, mina);
-
-	a = texture(TEXTURE, UV + vec2(-outline_width, 0.0) * ps).a;
-	maxa = max(a, maxa);
-	mina = min(a, mina);
-
-	a = texture(TEXTURE, UV + vec2(outline_width, 0.0) * ps).a;
-	maxa = max(a, maxa);
-	mina = min(a, mina);
-
-	COLOR = mix(col, outline_color, maxa - mina);
-}"
-
-[sub_resource type="ShaderMaterial" id=6]
-shader = SubResource( 5 )
-shader_param/outline_width = 0.7
-shader_param/outline_color = Color( 1, 1, 1, 1 )
-
-[sub_resource type="DynamicFont" id=7]
-size = 80
-outline_color = Color( 0, 0, 0, 1 )
-use_filter = true
-font_data = ExtResource( 3 )
-
-[sub_resource type="StyleBoxFlat" id=8]
+[sub_resource type="StyleBoxFlat" id=7]
 bg_color = Color( 0.137255, 0.521569, 0.192157, 1 )
 border_width_left = 10
 border_width_top = 5
 border_width_right = 10
 border_width_bottom = 15
 border_color = Color( 0.137255, 0.521569, 0.192157, 1 )
-corner_radius_top_left = 50
-corner_radius_top_right = 50
-corner_radius_bottom_right = 50
-corner_radius_bottom_left = 50
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
 corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.188235 )
 shadow_size = 8
 
-[sub_resource type="StyleBoxFlat" id=9]
+[sub_resource type="StyleBoxFlat" id=8]
 bg_color = Color( 0.447059, 0.796078, 0.145098, 1 )
 border_width_left = 10
 border_width_top = 5
 border_width_right = 10
 border_width_bottom = 15
 border_color = Color( 0.137255, 0.521569, 0.192157, 1 )
-corner_radius_top_left = 40
-corner_radius_top_right = 40
-corner_radius_bottom_right = 40
-corner_radius_bottom_left = 40
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
 corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.309804 )
 shadow_size = 8
 
-[sub_resource type="DynamicFont" id=10]
-size = 80
-outline_size = 4
-outline_color = Color( 0, 0, 0, 1 )
-use_filter = true
-font_data = ExtResource( 3 )
-
-[sub_resource type="StyleBoxFlat" id=11]
+[sub_resource type="StyleBoxFlat" id=10]
 bg_color = Color( 0.623529, 0.117647, 0.192157, 1 )
 border_width_left = 10
 border_width_top = 5
 border_width_right = 10
 border_width_bottom = 15
 border_color = Color( 0.623529, 0.117647, 0.192157, 1 )
-corner_radius_top_left = 40
-corner_radius_top_right = 40
-corner_radius_bottom_right = 40
-corner_radius_bottom_left = 40
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
 corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.188235 )
 shadow_size = 8
 
-[sub_resource type="StyleBoxFlat" id=12]
+[sub_resource type="StyleBoxFlat" id=11]
 bg_color = Color( 1, 0.301961, 0.301961, 1 )
 border_width_left = 10
 border_width_top = 5
 border_width_right = 10
 border_width_bottom = 15
 border_color = Color( 0.623529, 0.117647, 0.192157, 1 )
-corner_radius_top_left = 50
-corner_radius_top_right = 50
-corner_radius_bottom_right = 50
-corner_radius_bottom_left = 50
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
 corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.188235 )
 shadow_size = 8
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=12]
 resource_name = "Enter"
 length = 0.5
 step = 0.05
@@ -283,7 +228,7 @@ margin_left = -362.5
 margin_top = 31.0
 margin_right = 363.5
 margin_bottom = 184.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = ExtResource( 6 )
 custom_colors/font_color = Color( 0.984314, 0.952941, 0.952941, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.129412 )
 custom_constants/shadow_offset_x = 8
@@ -303,23 +248,22 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -190.0
-margin_top = -65.0
-margin_right = 190.0
-margin_bottom = 45.0
-custom_styles/panel = SubResource( 4 )
+margin_left = -154.5
+margin_top = -64.9985
+margin_right = 190.5
+margin_bottom = 45.0015
+custom_styles/panel = SubResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="PaymentText" type="TextureRect" parent="Panel/CostPanel"]
-material = SubResource( 6 )
 anchor_top = 0.5
 anchor_bottom = 0.5
-margin_left = 20.0
-margin_top = -44.0
-margin_right = 132.0
-margin_bottom = 45.0
+margin_left = 8.1225
+margin_top = -44.5
+margin_right = 120.122
+margin_bottom = 44.5
 rect_pivot_offset = Vector2( 53.6715, 42.4951 )
 texture = ExtResource( 1 )
 expand = true
@@ -333,16 +277,16 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-margin_left = -380.0
-margin_top = -48.5
-margin_right = -30.0
-margin_bottom = 48.5
-custom_fonts/font = SubResource( 7 )
+margin_left = -376.0
+margin_top = -60.0
+margin_right = -26.0
+margin_bottom = 47.0
+custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
 custom_constants/shadow_offset_x = 6
 custom_constants/shadow_offset_y = 6
-text = "999"
+text = "9999"
 align = 2
 __meta__ = {
 "_edit_use_anchors_": false
@@ -355,12 +299,12 @@ margin_left = 44.1333
 margin_top = -194.0
 margin_right = 366.133
 margin_bottom = -30.0
-custom_styles/hover = SubResource( 8 )
-custom_styles/pressed = SubResource( 8 )
-custom_styles/focus = SubResource( 8 )
-custom_styles/disabled = SubResource( 8 )
-custom_styles/normal = SubResource( 9 )
-custom_fonts/font = SubResource( 10 )
+custom_styles/hover = SubResource( 7 )
+custom_styles/pressed = SubResource( 7 )
+custom_styles/focus = SubResource( 7 )
+custom_styles/disabled = SubResource( 7 )
+custom_styles/normal = SubResource( 8 )
+custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "KEY_YES"
 clip_text = true
@@ -373,16 +317,16 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -361.547
+margin_left = -364.467
 margin_top = -194.0
-margin_right = -39.5465
+margin_right = -42.4665
 margin_bottom = -30.0
-custom_styles/hover = SubResource( 11 )
-custom_styles/pressed = SubResource( 11 )
-custom_styles/focus = SubResource( 11 )
-custom_styles/disabled = SubResource( 11 )
-custom_styles/normal = SubResource( 12 )
-custom_fonts/font = SubResource( 10 )
+custom_styles/hover = SubResource( 10 )
+custom_styles/pressed = SubResource( 10 )
+custom_styles/focus = SubResource( 10 )
+custom_styles/disabled = SubResource( 10 )
+custom_styles/normal = SubResource( 11 )
+custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "KEY_NO"
 clip_text = true
@@ -391,7 +335,7 @@ __meta__ = {
 }
 
 [node name="Anim" type="AnimationPlayer" parent="."]
-anims/Enter = SubResource( 13 )
+anims/Enter = SubResource( 12 )
 
 [node name="ButtonClick" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )

@@ -13,6 +13,8 @@ signal on_aegis(time)
 
 func _ready():
 	connect(\"on_aegis\", GameManager, \"set_aegis_time\")
+	set_active(true)
+	pass
 
 func _on_AegisWings_area_entered(area):
 	if area.name == 'MagnetArea' and !on_magnet_area and activated:

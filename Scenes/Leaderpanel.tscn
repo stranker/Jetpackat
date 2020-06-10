@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Sprites/UI/GoldCup.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/UI/SilverCup.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/UI/BronceCup.png" type="Texture" id=3]
-[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://Fonts/retron_42.tres" type="DynamicFont" id=4]
+[ext_resource path="res://Fonts/retron_52.tres" type="DynamicFont" id=5]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Control
@@ -37,10 +38,10 @@ border_width_top = 8
 border_width_right = 8
 border_width_bottom = 8
 border_color = Color( 0.196078, 0.34902, 0.886275, 1 )
-corner_radius_top_left = 30
-corner_radius_top_right = 30
-corner_radius_bottom_right = 30
-corner_radius_bottom_left = 30
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
 corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.172549 )
 shadow_size = 8
@@ -52,22 +53,11 @@ border_width_top = 2
 border_width_right = 5
 border_width_bottom = 5
 border_color = Color( 0.152941, 0.470588, 0.721569, 1 )
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 20
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
 corner_detail = 2
-
-[sub_resource type="DynamicFont" id=4]
-size = 56
-use_filter = true
-font_data = ExtResource( 4 )
-
-[sub_resource type="DynamicFont" id=5]
-size = 40
-outline_color = Color( 0, 0, 0, 1 )
-use_filter = true
-font_data = ExtResource( 4 )
 
 [node name="Leaderpanel" type="Control"]
 anchor_left = 0.5
@@ -82,7 +72,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 cup_textures = [ ExtResource( 1 ), ExtResource( 2 ), ExtResource( 3 ) ]
-player_color = Color( 0.972549, 0.6, 0.227451, 1 )
+player_color = Color( 0.972549, 0.52549, 0.227451, 1 )
 
 [node name="Panel" type="Panel" parent="."]
 anchor_left = 0.5
@@ -116,8 +106,9 @@ custom_constants/separation = 5
 alignment = 1
 
 [node name="Pos" type="Control" parent="Panel/MC/HBC"]
-margin_right = 156.0
+margin_right = 150.0
 margin_bottom = 100.0
+rect_min_size = Vector2( 150, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.3
@@ -141,18 +132,18 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -60.0
-margin_top = -37.5
-margin_right = 60.0
-margin_bottom = 37.5
+margin_left = -72.0
+margin_top = -39.9275
+margin_right = 68.0
+margin_bottom = 30.0725
 size_flags_horizontal = 3
 size_flags_vertical = 0
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
-custom_constants/shadow_offset_x = 6
-custom_constants/shadow_offset_y = 6
-text = "9999"
+custom_constants/shadow_offset_x = 3
+custom_constants/shadow_offset_y = 3
+text = "1"
 align = 2
 valign = 1
 __meta__ = {
@@ -162,10 +153,10 @@ __meta__ = {
 [node name="Cup" type="TextureRect" parent="Panel/MC/HBC/Pos/Panel/Position"]
 anchor_top = 0.5
 anchor_bottom = 0.5
-margin_left = 9.78242
-margin_top = -30.9275
-margin_right = 69.7824
-margin_bottom = 29.0725
+margin_left = 35.1793
+margin_top = -26.5239
+margin_right = 95.1793
+margin_bottom = 33.4761
 rect_min_size = Vector2( 0, 60 )
 rect_pivot_offset = Vector2( 30, 30 )
 size_flags_horizontal = 13
@@ -176,21 +167,19 @@ __meta__ = {
 }
 
 [node name="Name" type="Control" parent="Panel/MC/HBC"]
-margin_left = 161.0
-margin_right = 681.0
+margin_left = 155.0
+margin_right = 656.0
 margin_bottom = 100.0
+rect_min_size = Vector2( 500, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Panel" type="Panel" parent="Panel/MC/HBC/Name"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -260.0
-margin_top = -38.0
-margin_right = 260.0
-margin_bottom = 38.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 12.0
+margin_right = -3.05176e-05
+margin_bottom = -12.0
 custom_styles/panel = SubResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -201,19 +190,18 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -249.5
-margin_top = -37.5
-margin_right = 249.5
-margin_bottom = 37.5
+margin_left = -239.0
+margin_top = -33.0
+margin_right = 244.0
+margin_bottom = 24.0
 size_flags_horizontal = 3
 size_flags_vertical = 2
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = ExtResource( 4 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
-custom_constants/shadow_offset_x = 4
-custom_constants/shadow_offset_y = 4
+custom_constants/shadow_offset_x = 3
+custom_constants/shadow_offset_y = 3
 text = "PLACEHOLDER"
-valign = 1
 clip_text = true
 uppercase = true
 __meta__ = {
@@ -221,22 +209,21 @@ __meta__ = {
 }
 
 [node name="Score" type="Control" parent="Panel/MC/HBC"]
-margin_left = 686.0
-margin_right = 842.0
+margin_left = 661.0
+margin_right = 841.0
 margin_bottom = 100.0
+rect_min_size = Vector2( 180, 0 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.3
 
 [node name="Panel" type="Panel" parent="Panel/MC/HBC/Score"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -78.0
-margin_top = -37.0
-margin_right = 78.0
-margin_bottom = 39.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 12.0
+margin_right = 14.0
+margin_bottom = -12.0
 custom_styles/panel = SubResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -247,17 +234,17 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -79.0
-margin_top = -37.5
-margin_right = 79.0
-margin_bottom = 37.5
+margin_left = -89.5
+margin_top = -40.9275
+margin_right = 85.5
+margin_bottom = 34.0725
 size_flags_vertical = 2
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = ExtResource( 5 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
-custom_constants/shadow_offset_x = 6
-custom_constants/shadow_offset_y = 6
-text = "9999"
+custom_constants/shadow_offset_x = 3
+custom_constants/shadow_offset_y = 3
+text = "99999"
 align = 1
 valign = 1
 __meta__ = {

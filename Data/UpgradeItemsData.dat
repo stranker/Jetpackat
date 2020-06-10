@@ -1,85 +1,133 @@
 { 
    "0":{ 
-      "name":"KEY_COIN_MULTIPLIER",
-	  "desc":"KEY_CURRENCY_DESC"
+	  "desc":"KEY_CURRENCY_DESC",
+	  "image_location": "res://Sprites/Shop/UI/upgrade_coin_icon.png",
       "level":1,
 	  "max_level":5,
-      "price_per_level":{ 
+      "info_per_level":{ 
          "1":{ 
             "payment":0,
-            "price":0
+            "price":0,
+			"modifier": 10
          },
          "2":{ 
             "payment":0,
-            "price":1500
+            "price":1500,
+			"modifier": 15
          },
          "3":{ 
             "payment":0,
-            "price":4000
+            "price":4000,
+			"modifier": 20
          },
          "4":{ 
             "payment":1,
-            "price":50
+            "price":50,
+			"modifier": 25
          },
          "5":{ 
             "payment":1,
-            "price":100
+            "price":100,
+			"modifier": 30
          }
       }
    },
    "1":{ 
-      "name":"KEY_MAGNET_CHIP",
 	  "desc":"KEY_MAGNET_DESC",
+	  "image_location": "res://Sprites/Shop/UI/upgrade_magnet_icon.png",
       "level":1,
 	  "max_level":5,
-      "price_per_level":{ 
+      "info_per_level":{ 
          "1":{ 
             "payment":0,
-            "price":0
+            "price":0,
+			"modifier": 6
          },
          "2":{ 
             "payment":0,
-            "price":1500
+            "price":1500,
+			"modifier": 8
          },
          "3":{ 
             "payment":0,
-            "price":4000
+            "price":4000,
+			"modifier": 10
          },
          "4":{ 
             "payment":1,
-            "price":50
+            "price":50,
+			"modifier": 14
          },
          "5":{ 
             "payment":1,
-            "price":100
+            "price":100,
+			"modifier": 18
          }
       }
    },
    "2":{ 
-      "name":"KEY_AEGIS_WINGS",
-	  "desc":"KEY_AEGIS_WINGS",
+	  "desc":"KEY_ON_FUEL",
+	  "image_location": "res://Sprites/Shop/UI/upgrade_fuel_icon.png",
       "level":1,
 	  "max_level":5,
-      "price_per_level":{ 
+      "info_per_level":{ 
          "1":{ 
             "payment":0,
-            "price":0
+            "price":0,
+			"modifier": 6
          },
          "2":{ 
             "payment":0,
-            "price":3000
+            "price":1000,
+			"modifier": 8
          },
          "3":{ 
             "payment":0,
-            "price":7000
+            "price":4000,
+			"modifier": 10
          },
          "4":{ 
             "payment":1,
-            "price":100
+            "price":50,
+			"modifier": 14
          },
          "5":{ 
             "payment":1,
-            "price":150
+            "price":100,
+			"modifier": 18
+         }
+      }
+   },
+   "3":{ 
+	  "desc":"KEY_AEGIS_WINGS_DESC",
+	  "image_location": "res://Sprites/Shop/UI/upgrade_aegis_icon.png",
+      "level":1,
+	  "max_level":5,
+      "info_per_level":{ 
+         "1":{ 
+            "payment":0,
+            "price":0,
+			"modifier": 10
+         },
+         "2":{ 
+            "payment":0,
+            "price":3000,
+			"modifier": 12
+         },
+         "3":{ 
+            "payment":0,
+            "price":7000,
+			"modifier": 14
+         },
+         "4":{ 
+            "payment":1,
+            "price":100,
+			"modifier": 16
+         },
+         "5":{ 
+            "payment":1,
+            "price":150,
+			"modifier": 20
          }
       }
    }

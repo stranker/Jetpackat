@@ -51,7 +51,7 @@ func _ready():
 	pass
 
 func _input(event):
-	if event.is_action_pressed(\"ui_up\"):
+	if event.is_action_pressed(\"ui_up\") and !event.is_echo():
 		recover()
 
 func initialize():
@@ -210,6 +210,7 @@ func impulse(force):
 	pass
 
 func on_aegis(value : bool):
+	Debug.debug(\"Aegis value\" + str(value))
 	has_aegis = value
 	if has_aegis:
 		$Visible/AegisWings/Anim.play(\"Idle\")
@@ -219,6 +220,7 @@ func on_aegis(value : bool):
 
 func on_fuel_master(value : bool):
 	invencible = value
+	Debug.debug(\"Fuel master value\" + str(value))
 	$Visible/Shield.visible = value
 	$GameCamera.set_wind_effect(value)
 	if value:

@@ -1,14 +1,15 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Scenes/Leaderpanel.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Misc/Ribbon.png" type="Texture" id=2]
-[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://Fonts/retron_80_outlined.tres" type="DynamicFont" id=3]
 [ext_resource path="res://Scenes/ItemPageGrid.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Sprites/UI/LeaderCat.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/UI/NormalButton.png" type="Texture" id=6]
 [ext_resource path="res://Sprites/UI/CloseIcon.png" type="Texture" id=7]
 [ext_resource path="res://Sounds/Sfx/ButtonClick.wav" type="AudioStream" id=8]
 [ext_resource path="res://Sprites/UI/ButtonPressed.png" type="Texture" id=9]
+[ext_resource path="res://Fonts/retron_90.tres" type="DynamicFont" id=10]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.172549, 0.172549, 0.172549, 1 )
@@ -84,13 +85,6 @@ func _on_Timer_timeout():
 	pass # Replace with function body.
 "
 
-[sub_resource type="DynamicFont" id=3]
-size = 120
-outline_size = 10
-outline_color = Color( 0, 0, 0, 1 )
-use_filter = true
-font_data = ExtResource( 3 )
-
 [sub_resource type="StyleBoxFlat" id=4]
 bg_color = Color( 0.956863, 0.752941, 0.278431, 1 )
 border_width_left = 10
@@ -104,13 +98,6 @@ corner_radius_bottom_right = 100
 corner_radius_bottom_left = 100
 corner_detail = 2
 expand_margin_bottom = 5.0
-
-[sub_resource type="DynamicFont" id=5]
-size = 80
-outline_size = 5
-outline_color = Color( 0, 0, 0, 1 )
-use_filter = true
-font_data = ExtResource( 3 )
 
 [sub_resource type="Animation" id=6]
 resource_name = "Enter"
@@ -226,17 +213,13 @@ rect_pivot_offset = Vector2( 510.5, 148 )
 texture = ExtResource( 2 )
 
 [node name="Title" type="Label" parent="Ribbon"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -368.956
-margin_top = -22.3998
-margin_right = 367.044
-margin_bottom = 122.6
+margin_left = 209.0
+margin_top = 103.0
+margin_right = 1087.0
+margin_bottom = 223.0
 rect_rotation = -180.0
 rect_pivot_offset = Vector2( 368, 72.5 )
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = ExtResource( 10 )
 custom_colors/font_color = Color( 0.956863, 0.752941, 0.278431, 1 )
 text = "LEADERBOARD"
 align = 1
@@ -302,7 +285,6 @@ margin_bottom = 119.0
 visible = false
 
 [node name="State" type="Label" parent="Leaders"]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -311,7 +293,10 @@ margin_left = -440.0
 margin_top = -50.5
 margin_right = 440.0
 margin_bottom = 50.5
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
+custom_constants/shadow_offset_x = 4
+custom_constants/shadow_offset_y = 4
 align = 1
 
 [node name="LeaderCat" type="TextureRect" parent="Leaders"]

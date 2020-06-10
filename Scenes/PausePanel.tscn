@@ -1,6 +1,6 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=15 format=2]
 
-[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Fonts/retron_72.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Sprites/UI/ContinueIcon.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/UI/ConfigIcon.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/UI/HomeIcon.png" type="Texture" id=4]
@@ -51,90 +51,97 @@ corner_radius_bottom_right = 50
 corner_radius_bottom_left = 50
 corner_detail = 2
 
-[sub_resource type="DynamicFont" id=3]
-size = 80
-use_filter = true
-font_data = ExtResource( 1 )
-
-[sub_resource type="StyleBoxFlat" id=4]
-bg_color = Color( 0.137255, 0.521569, 0.192157, 1 )
-border_width_left = 10
-border_width_top = 10
-border_width_right = 10
-border_width_bottom = 20
-border_color = Color( 0.137255, 0.521569, 0.192157, 1 )
-corner_radius_top_left = 40
-corner_radius_top_right = 40
-corner_radius_bottom_right = 40
-corner_radius_bottom_left = 40
-corner_detail = 2
-
-[sub_resource type="StyleBoxFlat" id=5]
-bg_color = Color( 0.447059, 0.796078, 0.145098, 1 )
-border_width_left = 10
-border_width_top = 10
-border_width_right = 10
-border_width_bottom = 20
-border_color = Color( 0.137255, 0.521569, 0.192157, 1 )
-corner_radius_top_left = 40
-corner_radius_top_right = 40
-corner_radius_bottom_right = 40
-corner_radius_bottom_left = 40
-corner_detail = 2
-
-[sub_resource type="StyleBoxFlat" id=6]
+[sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.972549, 0.6, 0.227451, 1 )
 border_width_left = 10
 border_width_top = 10
 border_width_right = 10
 border_width_bottom = 20
 border_color = Color( 0.972549, 0.6, 0.227451, 1 )
-corner_radius_top_left = 40
-corner_radius_top_right = 40
-corner_radius_bottom_right = 40
-corner_radius_bottom_left = 40
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
 corner_detail = 2
+shadow_color = Color( 0, 0, 0, 0.25098 )
+shadow_size = 6
 
-[sub_resource type="StyleBoxFlat" id=7]
+[sub_resource type="StyleBoxFlat" id=4]
 bg_color = Color( 0.956863, 0.752941, 0.278431, 1 )
 border_width_left = 10
 border_width_top = 10
 border_width_right = 10
 border_width_bottom = 20
 border_color = Color( 0.972549, 0.6, 0.227451, 1 )
-corner_radius_top_left = 40
-corner_radius_top_right = 40
-corner_radius_bottom_right = 40
-corner_radius_bottom_left = 40
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
 corner_detail = 2
+shadow_color = Color( 0, 0, 0, 0.25098 )
+shadow_size = 6
 
-[sub_resource type="StyleBoxFlat" id=8]
+[sub_resource type="StyleBoxFlat" id=5]
 bg_color = Color( 0.156863, 0.137255, 0.482353, 1 )
 border_width_left = 10
 border_width_top = 10
 border_width_right = 10
 border_width_bottom = 20
 border_color = Color( 0.156863, 0.137255, 0.482353, 1 )
-corner_radius_top_left = 40
-corner_radius_top_right = 40
-corner_radius_bottom_right = 40
-corner_radius_bottom_left = 40
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
 corner_detail = 2
+shadow_color = Color( 0, 0, 0, 0.25098 )
+shadow_size = 6
 
-[sub_resource type="StyleBoxFlat" id=9]
+[sub_resource type="StyleBoxFlat" id=6]
 bg_color = Color( 0.27451, 0.356863, 0.905882, 1 )
 border_width_left = 10
 border_width_top = 10
 border_width_right = 10
 border_width_bottom = 20
 border_color = Color( 0.156863, 0.137255, 0.482353, 1 )
-corner_radius_top_left = 40
-corner_radius_top_right = 40
-corner_radius_bottom_right = 40
-corner_radius_bottom_left = 40
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
 corner_detail = 2
+shadow_color = Color( 0, 0, 0, 0.25098 )
+shadow_size = 6
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 0.137255, 0.521569, 0.192157, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 20
+border_color = Color( 0.137255, 0.521569, 0.192157, 1 )
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+corner_detail = 2
+shadow_color = Color( 0, 0, 0, 0.25098 )
+shadow_size = 6
+
+[sub_resource type="StyleBoxFlat" id=8]
+bg_color = Color( 0.447059, 0.796078, 0.145098, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 20
+border_color = Color( 0.137255, 0.521569, 0.192157, 1 )
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+corner_detail = 2
+shadow_color = Color( 0, 0, 0, 0.25098 )
+shadow_size = 6
+
+[sub_resource type="Animation" id=9]
 resource_name = "Enter"
 length = 0.6
 tracks/0/type = "value"
@@ -174,15 +181,14 @@ __meta__ = {
 
 [node name="Panel" type="Panel" parent="."]
 pause_mode = 2
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -355.5
-margin_top = 1040.0
-margin_right = 355.5
-margin_bottom = 1678.0
+margin_left = -355.0
+margin_top = -338.0
+margin_right = 356.0
+margin_bottom = 277.0
 custom_styles/panel = SubResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -191,13 +197,13 @@ __meta__ = {
 [node name="PauseLabel" type="Label" parent="Panel"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -330.0
-margin_top = 41.1229
-margin_right = 337.0
-margin_bottom = 158.123
+margin_left = -341.5
+margin_top = 31.0
+margin_right = 341.5
+margin_bottom = 158.0
 size_flags_horizontal = 5
 size_flags_vertical = 5
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = ExtResource( 1 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
 custom_constants/shadow_offset_x = 6
@@ -214,61 +220,23 @@ visible = false
 margin_right = 98.0
 margin_bottom = 104.0
 
-[node name="VBC" type="VBoxContainer" parent="Panel"]
+[node name="VBC" type="HBoxContainer" parent="Panel"]
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -221.0
-margin_top = -479.0
-margin_right = 232.0
-margin_bottom = -36.0004
-custom_constants/separation = 10
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Continue" type="Control" parent="Panel/VBC"]
-margin_right = 453.0
-margin_bottom = 180.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-size_flags_stretch_ratio = 1.5
-
-[node name="ContinueButton" type="Button" parent="Panel/VBC/Continue"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_styles/hover = SubResource( 4 )
-custom_styles/pressed = SubResource( 4 )
-custom_styles/focus = SubResource( 4 )
-custom_styles/disabled = SubResource( 4 )
-custom_styles/normal = SubResource( 5 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Icon" type="TextureRect" parent="Panel/VBC/Continue/ContinueButton"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -162.5
-margin_top = -55.5
-margin_right = 162.5
-margin_bottom = 55.5
-texture = ExtResource( 2 )
-expand = true
-stretch_mode = 6
+margin_left = -248.5
+margin_top = -246.0
+margin_right = 249.5
+margin_bottom = -39.0
+custom_constants/separation = 5
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Config" type="Control" parent="Panel/VBC"]
-margin_top = 190.0
-margin_right = 453.0
-margin_bottom = 310.0
+margin_right = 246.0
+margin_bottom = 207.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -277,11 +245,11 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/hover = SubResource( 6 )
-custom_styles/pressed = SubResource( 6 )
-custom_styles/focus = SubResource( 6 )
-custom_styles/disabled = SubResource( 6 )
-custom_styles/normal = SubResource( 7 )
+custom_styles/hover = SubResource( 3 )
+custom_styles/pressed = SubResource( 3 )
+custom_styles/focus = SubResource( 3 )
+custom_styles/disabled = SubResource( 3 )
+custom_styles/normal = SubResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -301,9 +269,9 @@ __meta__ = {
 }
 
 [node name="Home" type="Control" parent="Panel/VBC"]
-margin_top = 320.0
-margin_right = 453.0
-margin_bottom = 442.0
+margin_left = 251.0
+margin_right = 498.0
+margin_bottom = 207.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -312,11 +280,11 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_styles/hover = SubResource( 8 )
-custom_styles/pressed = SubResource( 8 )
-custom_styles/focus = SubResource( 8 )
-custom_styles/disabled = SubResource( 8 )
-custom_styles/normal = SubResource( 9 )
+custom_styles/hover = SubResource( 5 )
+custom_styles/pressed = SubResource( 5 )
+custom_styles/focus = SubResource( 5 )
+custom_styles/disabled = SubResource( 5 )
+custom_styles/normal = SubResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -335,14 +303,65 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Continue" type="Control" parent="Panel"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -269.0
+margin_top = -149.5
+margin_right = 270.0
+margin_bottom = 81.5
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ContinueButton" type="Button" parent="Panel/Continue"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -248.5
+margin_top = -115.5
+margin_right = 249.5
+margin_bottom = 95.5
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/hover = SubResource( 7 )
+custom_styles/pressed = SubResource( 7 )
+custom_styles/focus = SubResource( 7 )
+custom_styles/disabled = SubResource( 7 )
+custom_styles/normal = SubResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Icon" type="TextureRect" parent="Panel/Continue/ContinueButton"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -162.5
+margin_top = -55.5
+margin_right = 162.5
+margin_bottom = 55.5
+texture = ExtResource( 2 )
+expand = true
+stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Anim" type="AnimationPlayer" parent="."]
 pause_mode = 2
-anims/Enter = SubResource( 10 )
+anims/Enter = SubResource( 9 )
 
 [node name="ButtonClick" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
 volume_db = -6.0
 bus = "UI"
-[connection signal="button_down" from="Panel/VBC/Continue/ContinueButton" to="." method="_on_ContinueButton_button_down"]
 [connection signal="button_down" from="Panel/VBC/Config/ConfigButton" to="." method="_on_ConfigButton_button_down"]
 [connection signal="button_down" from="Panel/VBC/Home/HomeButton" to="." method="_on_HomeButton_button_down"]
+[connection signal="button_down" from="Panel/Continue/ContinueButton" to="." method="_on_ContinueButton_button_down"]

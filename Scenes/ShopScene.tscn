@@ -1,8 +1,7 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Scenes/ItemShopPanel.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Sprites/Background/BackgroundMini.png" type="Texture" id=2]
-[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://Sprites/Collectables/Coin.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/Collectables/Fish.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/UI/NormalButton.png" type="Texture" id=6]
@@ -13,6 +12,7 @@
 [ext_resource path="res://Scenes/ShopPanel.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Scenes/UpgradePanel.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Sprites/UI/CloseIcon.png" type="Texture" id=13]
+[ext_resource path="res://Fonts/retron_60.tres" type="DynamicFont" id=14]
 [ext_resource path="res://Scenes/InitialDarker.tscn" type="PackedScene" id=23]
 [ext_resource path="res://Scenes/TransitionScene.tscn" type="PackedScene" id=24]
 [ext_resource path="res://Scenes/ShopScene/ShopItemConfirmation.tscn" type="PackedScene" id=25]
@@ -105,26 +105,21 @@ func _on_ShopItemConfirmation_update_ui():
 "
 
 [sub_resource type="StyleBoxFlat" id=2]
-bg_color = Color( 0.137255, 0.521569, 0.192157, 1 )
+bg_color = Color( 0.196078, 0.34902, 0.886275, 1 )
 border_width_left = 10
 border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
-border_color = Color( 0.447059, 0.796078, 0.145098, 1 )
-corner_radius_top_left = 40
-corner_radius_top_right = 40
-corner_radius_bottom_right = 40
-corner_radius_bottom_left = 40
+border_color = Color( 0.156863, 0.137255, 0.482353, 1 )
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
 corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.309804 )
 shadow_size = 8
 
-[sub_resource type="DynamicFont" id=3]
-size = 60
-use_filter = true
-font_data = ExtResource( 3 )
-
-[sub_resource type="ShaderMaterial" id=4]
+[sub_resource type="ShaderMaterial" id=3]
 
 [node name="ShopScene" type="Control"]
 anchor_right = 1.0
@@ -179,17 +174,20 @@ margin_top = -47.0
 margin_right = 171.0
 margin_bottom = 53.0
 custom_styles/panel = SubResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Cuant" type="Label" parent="VBC/CurrencyInfo/HBC/Coins/Panel"]
 anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-margin_left = -282.0
-margin_top = -36.5
-margin_right = -20.0
-margin_bottom = 36.5
-custom_fonts/font = SubResource( 3 )
+margin_left = -279.605
+margin_top = -46.0798
+margin_right = -17.605
+margin_bottom = 34.9202
+custom_fonts/font = ExtResource( 14 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.415686 )
 custom_constants/shadow_offset_x = 6
@@ -199,7 +197,7 @@ align = 2
 valign = 1
 
 [node name="CoinText" type="TextureRect" parent="VBC/CurrencyInfo/HBC/Coins"]
-material = SubResource( 4 )
+material = SubResource( 3 )
 anchor_top = 0.5
 anchor_bottom = 0.5
 margin_left = 81.0
@@ -237,11 +235,11 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-margin_left = -271.0
-margin_top = -36.5
-margin_right = -21.0
-margin_bottom = 36.5
-custom_fonts/font = SubResource( 3 )
+margin_left = -268.605
+margin_top = -44.8824
+margin_right = -18.605
+margin_bottom = 36.1176
+custom_fonts/font = ExtResource( 14 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.415686 )
 custom_constants/shadow_offset_x = 6
@@ -251,7 +249,7 @@ align = 2
 valign = 1
 
 [node name="FishText" type="TextureRect" parent="VBC/CurrencyInfo/HBC/Fish"]
-material = SubResource( 4 )
+material = SubResource( 3 )
 anchor_top = 0.5
 anchor_bottom = 0.5
 margin_left = 74.0271
@@ -315,7 +313,6 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ShopButton" parent="VBC/Buttons" instance=ExtResource( 8 )]
-text = "Shop"
 
 [node name="WorkshopButton" parent="VBC/Buttons" instance=ExtResource( 8 )]
 anchor_top = 1.0
@@ -327,7 +324,7 @@ texture_pressed = ExtResource( 10 )
 texture_hover = ExtResource( 10 )
 texture_disabled = ExtResource( 10 )
 texture_focused = ExtResource( 10 )
-text = "Workshop"
+text = "KEY_WORKSHOP"
 animation_advance_time = 0.5
 
 [node name="ShopPanel" parent="." instance=ExtResource( 11 )]
@@ -359,10 +356,9 @@ bus = "UI"
 [connection signal="closed" from="ShopPanel" to="." method="_on_ShopPanel_closed"]
 [connection signal="on_show_confirmation_panel" from="ShopPanel" to="." method="_on_ShopPanel_on_show_confirmation_panel"]
 [connection signal="closed" from="UpgradePanel" to="." method="_on_UpgradePanel_closed"]
-[connection signal="on_show_confirmation_panel" from="UpgradePanel" to="." method="_on_UpgradePanel_on_show_confirmation_panel"]
 [connection signal="on_closed" from="ShopItemConfirmation" to="UpgradePanel" method="_on_ShopItemConfirmation_on_closed"]
-[connection signal="update_ui" from="ShopItemConfirmation" to="." method="_on_ShopItemConfirmation_update_ui"]
 [connection signal="update_ui" from="ShopItemConfirmation" to="UpgradePanel" method="_on_ShopItemConfirmation_update_ui"]
+[connection signal="update_ui" from="ShopItemConfirmation" to="." method="_on_ShopItemConfirmation_update_ui"]
 [connection signal="button_down" from="Button" to="." method="_on_Button_button_down"]
 [connection signal="animation_finished" from="TransitionScene/Anim" to="." method="_on_Anim_animation_finished"]
 

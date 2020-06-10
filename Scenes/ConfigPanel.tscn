@@ -1,11 +1,13 @@
 [gd_scene load_steps=23 format=2]
 
-[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Fonts/retron_100.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Sprites/UI/PawCatIcon.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/UI/NormalButton.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/UI/OptionCat.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/UI/CloseIcon.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/UI/ButtonPressed.png" type="Texture" id=6]
+[ext_resource path="res://Fonts/retron_72.tres" type="DynamicFont" id=7]
+[ext_resource path="res://Fonts/retron2000.regular.ttf" type="DynamicFontData" id=8]
 [ext_resource path="res://Scenes/LanguageSelection.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Sounds/Sfx/Coin.wav" type="AudioStream" id=10]
 [ext_resource path="res://Sounds/Sfx/ButtonClick.wav" type="AudioStream" id=11]
@@ -82,18 +84,14 @@ border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
 border_color = Color( 0.133333, 0.176471, 0.505882, 1 )
-corner_radius_top_left = 60
-corner_radius_top_right = 60
-corner_radius_bottom_right = 60
-corner_radius_bottom_left = 60
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
 corner_detail = 2
+expand_margin_bottom = 10.0
 shadow_color = Color( 0, 0, 0, 0.25098 )
 shadow_size = 10
-
-[sub_resource type="DynamicFont" id=4]
-size = 100
-use_filter = true
-font_data = ExtResource( 1 )
 
 [sub_resource type="StyleBoxFlat" id=5]
 bg_color = Color( 0.956863, 0.752941, 0.278431, 1 )
@@ -117,20 +115,15 @@ border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
 border_color = Color( 0.133333, 0.176471, 0.505882, 1 )
-corner_radius_top_left = 60
-corner_radius_top_right = 60
-corner_radius_bottom_right = 60
-corner_radius_bottom_left = 60
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
 corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.25098 )
 shadow_size = 10
 
-[sub_resource type="DynamicFont" id=14]
-size = 72
-use_filter = true
-font_data = ExtResource( 1 )
-
-[sub_resource type="StyleBoxFlat" id=15]
+[sub_resource type="StyleBoxFlat" id=7]
 bg_color = Color( 0.956863, 0.752941, 0.278431, 1 )
 border_width_left = 5
 border_width_top = 5
@@ -148,7 +141,7 @@ expand_margin_bottom = 20.0
 shadow_color = Color( 0, 0, 0, 0.403922 )
 shadow_size = 8
 
-[sub_resource type="StyleBoxFlat" id=9]
+[sub_resource type="StyleBoxFlat" id=8]
 content_margin_left = 1.0
 content_margin_right = 1.0
 content_margin_top = 1.0
@@ -195,10 +188,12 @@ corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 corner_detail = 2
 
-[sub_resource type="DynamicFont" id=12]
+[sub_resource type="DynamicFont" id=14]
 size = 80
+outline_size = 5
+outline_color = Color( 0, 0, 0, 0.784314 )
 use_filter = true
-font_data = ExtResource( 1 )
+font_data = ExtResource( 8 )
 
 [sub_resource type="Animation" id=13]
 length = 0.4
@@ -312,7 +307,7 @@ grow_vertical = 2
 size_flags_horizontal = 5
 size_flags_vertical = 5
 custom_styles/normal = SubResource( 3 )
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = ExtResource( 1 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
 custom_constants/shadow_offset_x = 8
@@ -349,17 +344,19 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -317.0
-margin_top = -94.5
-margin_right = 317.0
-margin_bottom = 13.5
+margin_left = -386.5
+margin_top = -95.5
+margin_right = 384.5
+margin_bottom = 36.5
 custom_styles/normal = SubResource( 6 )
-custom_fonts/font = SubResource( 14 )
+custom_fonts/font = ExtResource( 7 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.376471 )
 custom_constants/shadow_offset_x = 6
 custom_constants/shadow_offset_y = 6
 text = "KEY_MUSIC_VOLUME"
 align = 1
+autowrap = true
+clip_text = true
 
 [node name="MusicSlider" type="HSlider" parent="FrontPanel/VBC/Music"]
 anchor_left = 0.5
@@ -367,14 +364,14 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -220.0
-margin_top = 55.5
+margin_top = 62.5
 margin_right = 219.0
-margin_bottom = 95.5
+margin_bottom = 117.5
 size_flags_horizontal = 15
 custom_icons/grabber_highlight = ExtResource( 2 )
 custom_icons/grabber = ExtResource( 2 )
-custom_styles/slider = SubResource( 15 )
-custom_styles/grabber_area = SubResource( 9 )
+custom_styles/slider = SubResource( 7 )
+custom_styles/grabber_area = SubResource( 8 )
 max_value = 5.0
 value = 3.0
 tick_count = 5
@@ -392,17 +389,22 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -317.0
-margin_top = -105.116
-margin_right = 317.0
-margin_bottom = 2.88397
+margin_left = -386.5
+margin_top = -105.5
+margin_right = 384.5
+margin_bottom = 26.5
 custom_styles/normal = SubResource( 6 )
-custom_fonts/font = SubResource( 14 )
+custom_fonts/font = ExtResource( 7 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.376471 )
 custom_constants/shadow_offset_x = 8
 custom_constants/shadow_offset_y = 8
 text = "KEY_SOUND_VOLUME"
 align = 1
+autowrap = true
+clip_text = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="SoundSlider" type="HSlider" parent="FrontPanel/VBC/Sound"]
 anchor_left = 0.5
@@ -410,13 +412,13 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 margin_left = -219.5
-margin_top = 42.5
+margin_top = 52.5
 margin_right = 219.5
-margin_bottom = 92.5
+margin_bottom = 107.5
 custom_icons/grabber_highlight = ExtResource( 2 )
 custom_icons/grabber = ExtResource( 2 )
-custom_styles/slider = SubResource( 15 )
-custom_styles/grabber_area = SubResource( 9 )
+custom_styles/slider = SubResource( 7 )
+custom_styles/grabber_area = SubResource( 8 )
 max_value = 5.0
 value = 3.0
 tick_count = 5
@@ -450,7 +452,11 @@ __meta__ = {
 [node name="Label" type="Label" parent="FrontPanel/VBC/Language/Language"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_fonts/font = SubResource( 12 )
+margin_bottom = -14.0
+custom_fonts/font = SubResource( 14 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
+custom_constants/shadow_offset_x = 6
+custom_constants/shadow_offset_y = 6
 text = "KEY_LANGUAGE"
 align = 1
 valign = 1

@@ -1,4 +1,4 @@
-[gd_scene load_steps=68 format=2]
+[gd_scene load_steps=66 format=2]
 
 [ext_resource path="res://Sprites/Background/HouseBroken.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Background/House.png" type="Texture" id=2]
@@ -41,6 +41,8 @@
 [ext_resource path="res://Object/Misc/EnemySpawner.tscn" type="PackedScene" id=39]
 [ext_resource path="res://Object/Misc/CurrencySpawner.tscn" type="PackedScene" id=40]
 [ext_resource path="res://Object/Misc/PowerUpSpawner.tscn" type="PackedScene" id=41]
+[ext_resource path="res://Fonts/retron_90.tres" type="DynamicFont" id=42]
+[ext_resource path="res://Fonts/retron_80_outlined.tres" type="DynamicFont" id=44]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node
@@ -310,6 +312,21 @@ var prev_player_invencible : bool = false
 var invencible_list : Dictionary = {}
 var major_timer : String = \"\"
 
+onready var coin_anim = $UI/UpperPanel/CoinPanel/CoinLabel/CoinControl/Anim
+onready var coin_label = $UI/UpperPanel/CoinPanel/CoinLabel
+
+onready var fish_anim = $UI/UpperPanel/FishPanel/FishLabel/FishControl/Anim
+onready var fish_label = $UI/UpperPanel/FishPanel/FishLabel
+
+onready var magnet_anim = $UI/UpperPanel/MagnetPanel/Anim
+onready var magnet_label = $UI/UpperPanel/MagnetPanel/Label
+
+onready var aegis_anim = $UI/UpperPanel/AegisPanel/Anim
+onready var aegis_label = $UI/UpperPanel/AegisPanel/Label
+
+onready var meter_label = $UI/UpperPanel/MeterPanel/MeterLabel
+
+
 func _ready():
 	$UI/TransitionScene.play_random_backwards()
 	GameManager.connect(\"on_player_aegis\",self, \"on_player_invencible\")
@@ -317,17 +334,17 @@ func _ready():
 	pass
 
 func update_coin_label():
-	$UI/UpperPanel/CoinPanel/CoinLabel.text = str(GameManager.coins)
-	$UI/UpperPanel/CoinPanel/CoinLabel/CoinControl/Anim.play('AddCoin')
+	coin_label.text = str(GameManager.coins)
+	coin_anim.play('AddCoin')
 	pass
 
 func update_fishes_label():
-	$UI/UpperPanel/FishPanel/FishLabel.text = str(GameManager.fishes)
-	$UI/UpperPanel/FishPanel/FishLabel/FishControl/Anim.play('AddFish')
+	fish_label.text = str(GameManager.fishes)
+	fish_anim.play('AddFish')
 	pass
 
 func update_meters_label():
-	$UI/UpperPanel/MeterPanel/MeterLabel.text = str(GameManager.player_height)
+	meter_label.text = str(GameManager.player_height)
 	pass
 
 func update_UI_labels():
@@ -380,16 +397,16 @@ func _on_Player_on_magnet(val):
 	if val:
 		if !prev_player_magnet:
 			prev_player_magnet = true
-			$UI/UpperPanel/MagnetPanel/Anim.play('Enter')
+			magnet_anim.play('Enter')
 		else:
-			$UI/UpperPanel/MagnetPanel/Anim.play('Reset')
+			magnet_anim.play('Reset')
 	else:
-		$UI/UpperPanel/MagnetPanel/Anim.play_backwards('Enter')
+		magnet_anim.play_backwards('Enter')
 		prev_player_magnet = false
 	pass # Replace with function body.
 
 func _on_Player_magnet_time(val):
-	$UI/UpperPanel/MagnetPanel/Panel/Label.text = str(floor(val))
+	magnet_label.text = str(floor(val))
 	pass # Replace with function body.
 
 func _on_TransitionScene_finished():
@@ -410,9 +427,9 @@ func _on_PausePanel_on_config():
 
 func _on_Player_invencible(val):
 	if val:
-		$UI/UpperPanel/AegisPanel/Anim.play(\"Enter\")
+		aegis_anim.play(\"Enter\")
 	else:
-		$UI/UpperPanel/AegisPanel/Anim.play_backwards(\"Enter\")
+		aegis_anim.play_backwards(\"Enter\")
 	pass # Replace with function body.
 
 func check_tutorial():
@@ -444,15 +461,15 @@ func _on_Player_show_dead_ui():
 
 func _on_GameScene_on_fuel_completed():
 	invencible_list[\"fuel\"] = -1
-	if !$UI/UpperPanel/AegisPanel/Anim.is_playing() and !prev_player_invencible:
+	if !aegis_anim.is_playing() and !prev_player_invencible:
 		prev_player_invencible = true
-		$UI/UpperPanel/AegisPanel/Anim.play(\"Enter\")
+		aegis_anim.play(\"Enter\")
 	pass # Replace with function body.
 
 func _on_GameScene_on_fuel_depleted():
 	invencible_list.erase(\"fuel\")
 	if invencible_list.empty():
-		$UI/UpperPanel/AegisPanel/Anim.play_backwards(\"Enter\")
+		aegis_anim.play_backwards(\"Enter\")
 		prev_player_invencible = false
 	pass # Replace with function body.
 
@@ -463,13 +480,13 @@ func _on_GameScene_on_fuel_time(time):
 func on_player_invencible(value):
 	if value:
 		invencible_list[\"aegis\"] = -1
-		if !$UI/UpperPanel/AegisPanel/Anim.is_playing() and !prev_player_invencible:
+		if !aegis_anim.is_playing() and !prev_player_invencible:
 			prev_player_invencible = true
-			$UI/UpperPanel/AegisPanel/Anim.play(\"Enter\")
+			aegis_anim.play(\"Enter\")
 	else:
 		invencible_list.erase(\"aegis\")
 		if invencible_list.empty():
-			$UI/UpperPanel/AegisPanel/Anim.play_backwards(\"Enter\")
+			aegis_anim.play_backwards(\"Enter\")
 			prev_player_invencible = false
 	pass
 	
@@ -489,7 +506,7 @@ func process_invencible():
 		get_major_time()
 	else:
 		major_timer = invencible_list.keys()[0]
-	$UI/UpperPanel/AegisPanel/Panel/Label.text = str(floor(invencible_list[major_timer]))
+	aegis_label.text = str(floor(invencible_list[major_timer]))
 	pass
 
 func get_major_time():
@@ -500,10 +517,19 @@ func get_major_time():
 	pass
 "
 
-[sub_resource type="DynamicFont" id=7]
-size = 86
-use_filter = true
-font_data = ExtResource( 11 )
+[sub_resource type="StyleBoxFlat" id=7]
+bg_color = Color( 0.447059, 0.796078, 0.145098, 1 )
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color( 0.137255, 0.521569, 0.192157, 1 )
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_detail = 2
+expand_margin_left = 30.0
+expand_margin_right = 110.0
+shadow_color = Color( 0, 0, 0, 0.235294 )
+shadow_size = 6
 
 [sub_resource type="StyleBoxFlat" id=8]
 bg_color = Color( 0.447059, 0.796078, 0.145098, 1 )
@@ -511,38 +537,18 @@ border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
 border_color = Color( 0.137255, 0.521569, 0.192157, 1 )
-corner_radius_top_right = 50
-corner_radius_bottom_right = 50
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
 corner_detail = 2
-expand_margin_left = 30.0
-expand_margin_right = 110.0
+expand_margin_left = 20.0
+expand_margin_right = 60.0
 shadow_color = Color( 0, 0, 0, 0.235294 )
 shadow_size = 6
 
-[sub_resource type="StyleBoxFlat" id=9]
-bg_color = Color( 0.447059, 0.796078, 0.145098, 1 )
-border_width_top = 10
-border_width_right = 10
-border_width_bottom = 10
-border_color = Color( 0.137255, 0.521569, 0.192157, 1 )
-corner_radius_top_right = 50
-corner_radius_bottom_right = 50
-corner_detail = 2
-expand_margin_left = 30.0
-expand_margin_right = 40.0
-shadow_color = Color( 0, 0, 0, 0.235294 )
-shadow_size = 6
-
-[sub_resource type="DynamicFont" id=10]
-size = 80
-use_filter = true
-extra_spacing_top = 6
-font_data = ExtResource( 11 )
-
-[sub_resource type="Animation" id=11]
+[sub_resource type="Animation" id=9]
 length = 0.6
 tracks/0/type = "value"
-tracks/0/path = NodePath("Panel:rect_position")
+tracks/0/path = NodePath("Label:rect_position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -551,13 +557,13 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.5, 0.6 ),
 "transitions": PoolRealArray( 0.5, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 29.5, 9 ), Vector2( 240, 9 ), Vector2( 230, 9 ) ]
+"values": [ Vector2( 27, 3 ), Vector2( 229, 3 ), Vector2( 216, 3 ) ]
 }
 
-[sub_resource type="Animation" id=12]
+[sub_resource type="Animation" id=10]
 length = 0.5
 tracks/0/type = "value"
-tracks/0/path = NodePath("Panel/Label/Icon:rect_size")
+tracks/0/path = NodePath("Label/Panel/Icon:rect_size")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -566,10 +572,10 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.2, 0.5 ),
 "transitions": PoolRealArray( 0.5, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 77, 72 ), Vector2( 150, 150 ), Vector2( 77, 72 ) ]
+"values": [ Vector2( 77, 67 ), Vector2( 150, 150 ), Vector2( 72, 67 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Panel/Label/Icon:rect_rotation")
+tracks/1/path = NodePath("Label/Panel/Icon:rect_rotation")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -581,7 +587,7 @@ tracks/1/keys = {
 "values": [ -44.9999, -15.0, -44.9999 ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Panel/Label:custom_colors/font_color")
+tracks/2/path = NodePath("Label:custom_colors/font_color")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -593,10 +599,10 @@ tracks/2/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 0.654902, 0, 1 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=11]
 length = 0.6
 tracks/0/type = "value"
-tracks/0/path = NodePath("Panel:rect_position")
+tracks/0/path = NodePath("Label:rect_position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -605,17 +611,10 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.5, 0.6 ),
 "transitions": PoolRealArray( 0.5, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 29.5, 9 ), Vector2( 240, 9 ), Vector2( 230, 9 ) ]
+"values": [ Vector2( 27, 5 ), Vector2( 229, 5 ), Vector2( 216, 5 ) ]
 }
 
-[sub_resource type="DynamicFont" id=14]
-size = 72
-outline_color = Color( 0, 0, 0, 1 )
-use_filter = true
-extra_spacing_char = 2
-font_data = ExtResource( 11 )
-
-[sub_resource type="Animation" id=15]
+[sub_resource type="Animation" id=12]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("Coin:rect_scale")
@@ -630,14 +629,14 @@ tracks/0/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 1.8, 1.8 ), Vector2( 1, 1 ) ]
 }
 
-[sub_resource type="StyleBoxFlat" id=16]
+[sub_resource type="StyleBoxFlat" id=13]
 bg_color = Color( 0.447059, 0.796078, 0.145098, 1 )
 border_width_left = 10
 border_width_top = 10
 border_width_bottom = 10
 border_color = Color( 0.137255, 0.521569, 0.192157, 1 )
-corner_radius_top_left = 50
-corner_radius_bottom_left = 50
+corner_radius_top_left = 20
+corner_radius_bottom_left = 20
 corner_detail = 2
 expand_margin_left = 120.0
 expand_margin_right = 30.0
@@ -646,13 +645,7 @@ expand_margin_bottom = 6.0
 shadow_color = Color( 0, 0, 0, 0.215686 )
 shadow_size = 6
 
-[sub_resource type="DynamicFont" id=17]
-size = 72
-use_filter = true
-extra_spacing_char = 2
-font_data = ExtResource( 11 )
-
-[sub_resource type="Animation" id=18]
+[sub_resource type="Animation" id=14]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("Fish:rect_scale")
@@ -667,7 +660,7 @@ tracks/0/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 1.8, 1.8 ), Vector2( 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=19]
+[sub_resource type="Animation" id=15]
 tracks/0/type = "value"
 tracks/0/path = NodePath("MeterPanel:rect_position")
 tracks/0/interp = 1
@@ -717,14 +710,14 @@ tracks/3/keys = {
 "values": [ Vector2( -150, 700 ), Vector2( -150, 700 ), Vector2( 20, 700 ), Vector2( 10, 700 ) ]
 }
 
-[sub_resource type="DynamicFont" id=20]
+[sub_resource type="DynamicFont" id=16]
 size = 400
 outline_size = 20
 outline_color = Color( 0, 0, 0, 1 )
 use_filter = true
 font_data = ExtResource( 11 )
 
-[sub_resource type="Animation" id=21]
+[sub_resource type="Animation" id=17]
 length = 3.5
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:text")
@@ -787,7 +780,7 @@ tracks/4/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="Animation" id=22]
+[sub_resource type="Animation" id=18]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("LPaw:self_modulate")
@@ -814,7 +807,7 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 0.67451 ), Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="Animation" id=23]
+[sub_resource type="Animation" id=19]
 length = 0.7
 loop = true
 tracks/0/type = "value"
@@ -890,7 +883,7 @@ tracks/5/keys = {
 "values": [ 0, 1, 0 ]
 }
 
-[sub_resource type="Animation" id=24]
+[sub_resource type="Animation" id=20]
 length = 1.6
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:rotation_degrees")
@@ -941,11 +934,11 @@ tracks/3/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="DynamicFont" id=25]
+[sub_resource type="DynamicFont" id=21]
 size = 32
 font_data = ExtResource( 11 )
 
-[sub_resource type="DynamicFont" id=26]
+[sub_resource type="DynamicFont" id=22]
 size = 32
 font_data = ExtResource( 11 )
 
@@ -1066,6 +1059,7 @@ anchor_right = 1.0
 margin_bottom = 284.0
 mouse_filter = 2
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -1076,6 +1070,9 @@ margin_right = 190.0
 margin_bottom = 150.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="MeterLabel" type="Label" parent="UIGame/UI/UpperPanel/MeterPanel"]
 anchor_top = 0.5
@@ -1086,13 +1083,12 @@ margin_right = 70.0
 margin_bottom = 59.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 7 )
+custom_fonts/font = ExtResource( 42 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
-custom_constants/shadow_offset_x = 6
-custom_constants/shadow_offset_y = 6
+custom_constants/shadow_offset_x = 4
+custom_constants/shadow_offset_y = 4
 text = "0"
-valign = 1
 
 [node name="MLabel" type="Label" parent="UIGame/UI/UpperPanel/MeterPanel/MeterLabel"]
 self_modulate = Color( 1, 0.843137, 0, 1 )
@@ -1100,19 +1096,18 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-margin_left = 20.0
-margin_top = -67.5
-margin_right = 78.0
-margin_bottom = 67.5
+margin_left = 13.0
+margin_top = -63.0
+margin_right = 73.0
+margin_bottom = 57.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 7 )
+custom_fonts/font = ExtResource( 42 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
-custom_constants/shadow_offset_x = 6
-custom_constants/shadow_offset_y = 6
+custom_constants/shadow_offset_x = 4
+custom_constants/shadow_offset_y = 4
 text = "M"
-valign = 1
 
 [node name="MeterPanel" type="Panel" parent="UIGame/UI/UpperPanel/MeterPanel/MeterLabel"]
 show_behind_parent = true
@@ -1120,7 +1115,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 0
 grow_vertical = 0
-custom_styles/panel = SubResource( 8 )
+custom_styles/panel = SubResource( 7 )
 
 [node name="MagnetPanel" type="Control" parent="UIGame/UI/UpperPanel"]
 margin_left = -211.298
@@ -1130,64 +1125,65 @@ margin_bottom = 275.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
-[node name="Panel" type="Panel" parent="UIGame/UI/UpperPanel/MagnetPanel"]
-show_behind_parent = true
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -182.5
-margin_top = -53.0
-margin_right = -42.5
-margin_bottom = 56.0
-grow_horizontal = 0
-grow_vertical = 0
-custom_styles/panel = SubResource( 9 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Label" type="Label" parent="UIGame/UI/UpperPanel/MagnetPanel/Panel"]
+[node name="Label" type="Label" parent="UIGame/UI/UpperPanel/MagnetPanel"]
 anchor_top = 0.5
 anchor_bottom = 0.5
-margin_top = -51.5
-margin_right = 99.0
-margin_bottom = 51.5
+margin_left = 27.0
+margin_top = -59.0
+margin_right = 80.0
+margin_bottom = 48.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 10 )
+custom_fonts/font = ExtResource( 44 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
-custom_constants/shadow_offset_x = 6
-custom_constants/shadow_offset_y = 6
+custom_constants/shadow_offset_x = 4
+custom_constants/shadow_offset_y = 4
 text = "9"
-valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Icon" type="TextureRect" parent="UIGame/UI/UpperPanel/MagnetPanel/Panel/Label"]
+[node name="Panel" type="Panel" parent="UIGame/UI/UpperPanel/MagnetPanel/Label"]
+show_behind_parent = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 6.0
+margin_right = 21.0
+margin_bottom = 6.0
+grow_horizontal = 0
+grow_vertical = 0
+custom_styles/panel = SubResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Icon" type="TextureRect" parent="UIGame/UI/UpperPanel/MagnetPanel/Label/Panel"]
 anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-margin_left = -46.6911
-margin_top = -39.5
-margin_right = 30.3089
-margin_bottom = 32.5
+margin_left = -18.702
+margin_top = -39.0
+margin_right = 58.298
+margin_bottom = 28.0
 rect_rotation = -44.9999
 rect_pivot_offset = Vector2( 41, 40 )
 texture = ExtResource( 12 )
 expand = true
 stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Anim" type="AnimationPlayer" parent="UIGame/UI/UpperPanel/MagnetPanel"]
-anims/Enter = SubResource( 11 )
-anims/Reset = SubResource( 12 )
+anims/Enter = SubResource( 9 )
+anims/Reset = SubResource( 10 )
 
 [node name="AegisPanel" type="Control" parent="UIGame/UI/UpperPanel"]
 margin_left = -211.298
@@ -1197,55 +1193,55 @@ margin_bottom = 399.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
-[node name="Panel" type="Panel" parent="UIGame/UI/UpperPanel/AegisPanel"]
-show_behind_parent = true
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -182.5
-margin_top = -53.0
-margin_right = -42.5
-margin_bottom = 56.0
-grow_horizontal = 0
-grow_vertical = 0
-custom_styles/panel = SubResource( 9 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Label" type="Label" parent="UIGame/UI/UpperPanel/AegisPanel/Panel"]
+[node name="Label" type="Label" parent="UIGame/UI/UpperPanel/AegisPanel"]
 anchor_top = 0.5
 anchor_bottom = 0.5
-margin_top = -51.5
-margin_right = 101.0
-margin_bottom = 51.5
+margin_left = 27.0
+margin_top = -57.0
+margin_right = 80.0
+margin_bottom = 50.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 10 )
+custom_fonts/font = ExtResource( 44 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
-custom_constants/shadow_offset_x = 6
-custom_constants/shadow_offset_y = 6
+custom_constants/shadow_offset_x = 4
+custom_constants/shadow_offset_y = 4
+text = "9"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Icon" type="TextureRect" parent="UIGame/UI/UpperPanel/AegisPanel/Panel/Label"]
+[node name="Panel" type="Panel" parent="UIGame/UI/UpperPanel/AegisPanel/Label"]
+show_behind_parent = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 6.0
+margin_right = 21.0
+margin_bottom = 6.0
+grow_horizontal = 0
+grow_vertical = 0
+custom_styles/panel = SubResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Icon" type="TextureRect" parent="UIGame/UI/UpperPanel/AegisPanel/Label/Panel"]
 anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-margin_left = -36.7854
-margin_top = -45.6541
-margin_right = 63.2146
-margin_bottom = 47.3459
-rect_rotation = 30.0
-rect_pivot_offset = Vector2( 50, 53.2836 )
+margin_left = -37.702
+margin_top = -31.6409
+margin_right = 60.298
+margin_bottom = 34.3591
+rect_scale = Vector2( 0.7, 1 )
+rect_pivot_offset = Vector2( 66, 44.5 )
 texture = ExtResource( 19 )
 expand = true
 stretch_mode = 6
@@ -1254,7 +1250,7 @@ __meta__ = {
 }
 
 [node name="Anim" type="AnimationPlayer" parent="UIGame/UI/UpperPanel/AegisPanel"]
-anims/Enter = SubResource( 13 )
+anims/Enter = SubResource( 11 )
 
 [node name="CoinPanel" type="Control" parent="UIGame/UI/UpperPanel"]
 show_behind_parent = true
@@ -1265,6 +1261,7 @@ margin_top = 10.0
 margin_right = 402.0
 margin_bottom = 110.0
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -1279,14 +1276,13 @@ margin_right = -11.0
 margin_bottom = 60.0
 grow_horizontal = 0
 grow_vertical = 0
-custom_fonts/font = SubResource( 14 )
+custom_fonts/font = ExtResource( 44 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
 custom_constants/shadow_offset_x = 6
 custom_constants/shadow_offset_y = 6
 text = "9"
 align = 2
-valign = 1
 
 [node name="CoinControl" type="Control" parent="UIGame/UI/UpperPanel/CoinPanel/CoinLabel"]
 anchor_top = 0.5
@@ -1315,7 +1311,7 @@ __meta__ = {
 }
 
 [node name="Anim" type="AnimationPlayer" parent="UIGame/UI/UpperPanel/CoinPanel/CoinLabel/CoinControl"]
-anims/AddCoin = SubResource( 15 )
+anims/AddCoin = SubResource( 12 )
 
 [node name="CoinPanel" type="Panel" parent="UIGame/UI/UpperPanel/CoinPanel/CoinLabel"]
 show_behind_parent = true
@@ -1323,7 +1319,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 0
 grow_vertical = 0
-custom_styles/panel = SubResource( 16 )
+custom_styles/panel = SubResource( 13 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -1338,6 +1334,7 @@ margin_top = -144.0
 margin_right = 402.001
 margin_bottom = -44.0
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -1352,7 +1349,7 @@ margin_right = -10.001
 margin_bottom = 51.0
 grow_horizontal = 0
 size_flags_vertical = 1
-custom_fonts/font = SubResource( 17 )
+custom_fonts/font = ExtResource( 44 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
 custom_constants/shadow_offset_x = 6
@@ -1387,7 +1384,7 @@ expand = true
 stretch_mode = 6
 
 [node name="Anim" type="AnimationPlayer" parent="UIGame/UI/UpperPanel/FishPanel/FishLabel/FishControl"]
-anims/AddFish = SubResource( 18 )
+anims/AddFish = SubResource( 14 )
 
 [node name="FishPanel" type="Panel" parent="UIGame/UI/UpperPanel/FishPanel/FishLabel"]
 show_behind_parent = true
@@ -1395,10 +1392,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 0
 grow_vertical = 0
-custom_styles/panel = SubResource( 16 )
+custom_styles/panel = SubResource( 13 )
 
 [node name="Anim" type="AnimationPlayer" parent="UIGame/UI/UpperPanel"]
-anims/StartRound = SubResource( 19 )
+anims/StartRound = SubResource( 15 )
 
 [node name="PauseButton" type="TextureButton" parent="UIGame/UI"]
 pause_mode = 2
@@ -1440,7 +1437,7 @@ margin_top = -180.0
 margin_right = 262.258
 margin_bottom = 300.0
 rect_scale = Vector2( 0.2, 0.2 )
-custom_fonts/font = SubResource( 20 )
+custom_fonts/font = SubResource( 16 )
 text = "3"
 align = 1
 __meta__ = {
@@ -1448,7 +1445,7 @@ __meta__ = {
 }
 
 [node name="Anim" type="AnimationPlayer" parent="UIGame/UI/PauseTimer"]
-anims/Countdown = SubResource( 21 )
+anims/Countdown = SubResource( 17 )
 
 [node name="ConfigPanel" parent="UIGame/UI" instance=ExtResource( 24 )]
 
@@ -1468,6 +1465,9 @@ visible = false
 margin_right = 40.0
 margin_bottom = 40.0
 mouse_filter = 2
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="InitialTap" type="Control" parent="UIGame/UI/Tutorial"]
 margin_right = 40.0
@@ -1475,8 +1475,8 @@ margin_bottom = 40.0
 
 [node name="Anim" type="AnimationPlayer" parent="UIGame/UI/Tutorial/InitialTap"]
 autoplay = "Start"
-anims/End = SubResource( 22 )
-anims/Start = SubResource( 23 )
+anims/End = SubResource( 18 )
+anims/Start = SubResource( 19 )
 
 [node name="LPaw" type="Sprite" parent="UIGame/UI/Tutorial/InitialTap"]
 self_modulate = Color( 1, 1, 1, 0.67451 )
@@ -1512,7 +1512,7 @@ __meta__ = {
 }
 
 [node name="RestAnim" type="AnimationPlayer" parent="UIGame/UI/RestartTransition"]
-anims/Start = SubResource( 24 )
+anims/Start = SubResource( 20 )
 
 [node name="Sprite" type="Sprite" parent="UIGame/UI/RestartTransition"]
 position = Vector2( 530, 950 )
@@ -1539,7 +1539,7 @@ margin_bottom = 134.0
 rect_min_size = Vector2( 0, 64 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 25 )
+custom_fonts/font = SubResource( 21 )
 toggle_mode = true
 text = "ON/OFF INVENCIBLE"
 
@@ -1550,7 +1550,7 @@ margin_bottom = 272.0
 rect_min_size = Vector2( 0, 64 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 26 )
+custom_fonts/font = SubResource( 22 )
 text = "Currency"
 
 [node name="ResetGame" type="Button" parent="UIGame/DebugPanel/VBoxContainer"]
@@ -1560,7 +1560,7 @@ margin_bottom = 410.0
 rect_min_size = Vector2( 0, 64 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 26 )
+custom_fonts/font = SubResource( 22 )
 text = "RESET GAME STATE"
 
 [node name="ToggleCollectables" type="Button" parent="UIGame/DebugPanel/VBoxContainer"]
@@ -1570,7 +1570,7 @@ margin_bottom = 548.0
 rect_min_size = Vector2( 0, 64 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 26 )
+custom_fonts/font = SubResource( 22 )
 toggle_mode = true
 pressed = true
 text = "ON/OFF COLLECT"
@@ -1582,7 +1582,7 @@ margin_bottom = 686.0
 rect_min_size = Vector2( 0, 64 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 26 )
+custom_fonts/font = SubResource( 22 )
 toggle_mode = true
 pressed = true
 text = "ON/OFF ENEMIES"
@@ -1594,7 +1594,7 @@ margin_bottom = 824.0
 rect_min_size = Vector2( 0, 64 )
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/font = SubResource( 26 )
+custom_fonts/font = SubResource( 22 )
 toggle_mode = true
 text = "Music NEW/OLD"
 
@@ -1697,22 +1697,25 @@ pool_manager = NodePath("../EnemyPool")
 fix_collision_height = 50
 min_height_tutorial = 15
 items_max_height = [ 800, 1400, 1800, 2200, 3000, 9999999 ]
+
+[node name="AegisWings" parent="." instance=ExtResource( 34 )]
+position = Vector2( 711.298, -783.977 )
 [connection signal="on_fuel_completed" from="." to="Player" method="_on_GameScene_on_fuel_completed"]
 [connection signal="on_fuel_completed" from="." to="UIGame" method="_on_GameScene_on_fuel_completed"]
 [connection signal="on_fuel_depleted" from="." to="Player" method="_on_GameScene_on_fuel_depleted"]
 [connection signal="on_fuel_depleted" from="." to="UIGame" method="_on_GameScene_on_fuel_depleted"]
 [connection signal="on_fuel_time" from="." to="UIGame" method="_on_GameScene_on_fuel_time"]
 [connection signal="screen_exited" from="House/VisibilityNotifier2D" to="House" method="_on_VisibilityNotifier2D_screen_exited"]
-[connection signal="current_height" from="Player" to="UIGame" method="_on_Player_current_height"]
 [connection signal="current_height" from="Player" to="ParallaxBackground" method="_on_Player_current_height"]
+[connection signal="current_height" from="Player" to="UIGame" method="_on_Player_current_height"]
 [connection signal="current_height" from="Player" to="." method="_on_Player_current_height"]
 [connection signal="dead" from="Player" to="." method="_on_Player_dead"]
 [connection signal="magnet_time" from="Player" to="UIGame" method="_on_Player_magnet_time"]
 [connection signal="on_magnet" from="Player" to="UIGame" method="_on_Player_on_magnet"]
 [connection signal="show_dead_ui" from="Player" to="UIGame" method="_on_Player_show_dead_ui"]
 [connection signal="start_playing" from="Player" to="." method="_on_Player_start_playing"]
-[connection signal="button_down" from="UIGame/UI/PauseButton" to="UIGame" method="_on_PauseButton_button_down"]
 [connection signal="button_down" from="UIGame/UI/PauseButton" to="UIGame/UI/PausePanel" method="_on_PauseButton_button_down"]
+[connection signal="button_down" from="UIGame/UI/PauseButton" to="UIGame" method="_on_PauseButton_button_down"]
 [connection signal="on_config" from="UIGame/UI/PausePanel" to="UIGame" method="_on_PausePanel_on_config"]
 [connection signal="on_continue" from="UIGame/UI/PausePanel" to="UIGame" method="_on_PausePanel_on_continue"]
 [connection signal="on_home" from="UIGame/UI/PausePanel" to="UIGame" method="_on_PausePanel_on_home"]

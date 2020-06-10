@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/ChipUpgrade.png-97a4c3c71e27756c6329ad57455a24fe.stex"
+path="res://.import/upgrade_coin_icon.png-aff142a9c9c489f7a9d10c8a608e6b96.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Shop/UI/ChipUpgrade.png"
-dest_files=[ "res://.import/ChipUpgrade.png-97a4c3c71e27756c6329ad57455a24fe.stex" ]
+source_file="res://Sprites/Shop/UI/upgrade_coin_icon.png"
+dest_files=[ "res://.import/upgrade_coin_icon.png-aff142a9c9c489f7a9d10c8a608e6b96.stex" ]
 
 [params]
 

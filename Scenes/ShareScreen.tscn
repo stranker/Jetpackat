@@ -1,10 +1,17 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=15 format=2]
 
-[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=1]
-[ext_resource path="res://Fonts/test_font.tres" type="DynamicFont" id=2]
+[ext_resource path="res://Fonts/retron2000.regular.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Fonts/retron_52.tres" type="DynamicFont" id=2]
 [ext_resource path="res://Sprites/UI/share_screen.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/Enemies/PaperPlane.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/Cat/Eyes.png" type="Texture" id=5]
 [ext_resource path="res://Sprites/Shop/Cat/Skin/Normal.png" type="Texture" id=6]
+[ext_resource path="res://Sprites/Enemies/Bird.png" type="Texture" id=7]
+[ext_resource path="res://Sprites/Cinematic/CatsCanFlyTitle.png" type="Texture" id=8]
+[ext_resource path="res://Sprites/Enemies/Bulldog.png" type="Texture" id=9]
+[ext_resource path="res://Sprites/Enemies/Condor.png" type="Texture" id=10]
+[ext_resource path="res://Sprites/Enemies/Kite.png" type="Texture" id=11]
+[ext_resource path="res://Sprites/Enemies/Ovni.png" type="Texture" id=12]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Control
@@ -35,7 +42,9 @@ func set_player_menu_item(item):
 "
 
 [sub_resource type="DynamicFont" id=2]
-size = 22
+size = 28
+outline_size = 1
+outline_color = Color( 0, 0, 0, 0.490196 )
 use_filter = true
 font_data = ExtResource( 1 )
 
@@ -46,6 +55,7 @@ margin_right = -780.0
 margin_bottom = -1620.0
 script = SubResource( 1 )
 __meta__ = {
+"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
@@ -60,15 +70,85 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="PaperPlane" type="Sprite" parent="Background"]
+position = Vector2( 36.8668, 125.913 )
+rotation = -0.171427
+scale = Vector2( 1.24111, 1.24111 )
+texture = ExtResource( 4 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Kite" type="Sprite" parent="Background"]
+position = Vector2( 30.3862, 53.991 )
+rotation = 0.460097
+scale = Vector2( 2.26793, 2.26793 )
+texture = ExtResource( 11 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Ovni" type="Sprite" parent="Background"]
+position = Vector2( 279.625, 30.4152 )
+rotation = -0.425618
+scale = Vector2( 0.917553, 0.917553 )
+texture = ExtResource( 12 )
+hframes = 3
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Bird" type="Sprite" parent="Background"]
+position = Vector2( 274.577, 235.184 )
+rotation = 0.295135
+scale = Vector2( 2.61971, 2.61971 )
+texture = ExtResource( 7 )
+flip_h = true
+hframes = 5
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Condor" type="Sprite" parent="Background"]
+position = Vector2( 28.7018, 235.483 )
+rotation = -0.258201
+scale = Vector2( 2.63797, 2.63797 )
+texture = ExtResource( 10 )
+hframes = 5
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Bulldog" type="Sprite" parent="Background"]
+position = Vector2( 291.564, 138.758 )
+scale = Vector2( 1.73249, 1.73249 )
+texture = ExtResource( 9 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Title" type="TextureRect" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -65.0
+margin_right = 65.0
+margin_bottom = 130.0
+texture = ExtResource( 8 )
+expand = true
+stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="ScoreLabel" type="Label" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -37.5
-margin_top = -23.0
-margin_right = 37.5
-margin_bottom = 9.0
+margin_left = -52.5
+margin_top = -26.0
+margin_right = 52.5
+margin_bottom = 18.0
 custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 1, 0.819608, 0, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
@@ -77,12 +157,11 @@ custom_constants/shadow_offset_y = 2
 text = "SCORE"
 align = 1
 __meta__ = {
-"_edit_lock_": true,
 "_edit_use_anchors_": false
 }
 
 [node name="Cat" type="Node2D" parent="."]
-position = Vector2( 156.122, 286.918 )
+position = Vector2( 156.122, 289.762 )
 
 [node name="Skin" type="Sprite" parent="Cat"]
 position = Vector2( 13.8673, -16.7455 )
@@ -129,10 +208,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -96.5
-margin_top = -6.0
-margin_right = 96.5
-margin_bottom = 62.0
+margin_left = -87.5
+margin_top = -3.0
+margin_right = 87.5
+margin_bottom = 67.0
 custom_fonts/font = ExtResource( 2 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
@@ -141,6 +220,5 @@ custom_constants/shadow_offset_y = 4
 text = "99999"
 align = 1
 __meta__ = {
-"_edit_lock_": true,
 "_edit_use_anchors_": false
 }

@@ -1,6 +1,6 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Fonts/retron_80.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Sprites/UI/AdsIcon.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/UI/CloseIcon.png" type="Texture" id=3]
 [ext_resource path="res://Sounds/Sfx/ButtonClick.wav" type="AudioStream" id=4]
@@ -54,25 +54,19 @@ func _on_CancelButton_button_down():
 "
 
 [sub_resource type="StyleBoxFlat" id=2]
-bg_color = Color( 0.956863, 0.752941, 0.278431, 1 )
+bg_color = Color( 0.196078, 0.34902, 0.886275, 1 )
 border_width_left = 10
 border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
-border_color = Color( 0.972549, 0.6, 0.227451, 1 )
+border_color = Color( 0.156863, 0.137255, 0.482353, 1 )
 corner_radius_top_left = 40
 corner_radius_top_right = 40
 corner_radius_bottom_right = 40
 corner_radius_bottom_left = 40
 corner_detail = 2
 
-[sub_resource type="DynamicFont" id=3]
-size = 80
-use_mipmaps = true
-use_filter = true
-font_data = ExtResource( 1 )
-
-[sub_resource type="StyleBoxFlat" id=4]
+[sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.156863, 0.137255, 0.482353, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -87,13 +81,13 @@ corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.211765 )
 shadow_size = 5
 
-[sub_resource type="StyleBoxFlat" id=5]
-bg_color = Color( 0.196078, 0.34902, 0.886275, 1 )
+[sub_resource type="StyleBoxFlat" id=4]
+bg_color = Color( 0.447059, 0.796078, 0.145098, 1 )
 border_width_left = 10
 border_width_top = 10
 border_width_right = 10
 border_width_bottom = 20
-border_color = Color( 0.156863, 0.137255, 0.482353, 1 )
+border_color = Color( 0.137255, 0.521569, 0.192157, 1 )
 corner_radius_top_left = 30
 corner_radius_top_right = 30
 corner_radius_bottom_right = 30
@@ -102,7 +96,7 @@ corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.211765 )
 shadow_size = 5
 
-[sub_resource type="StyleBoxFlat" id=6]
+[sub_resource type="StyleBoxFlat" id=5]
 bg_color = Color( 0.623529, 0.117647, 0.192157, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -117,7 +111,7 @@ corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.211765 )
 shadow_size = 5
 
-[sub_resource type="StyleBoxFlat" id=7]
+[sub_resource type="StyleBoxFlat" id=6]
 bg_color = Color( 0.705882, 0.137255, 0.0745098, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -132,7 +126,7 @@ corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.211765 )
 shadow_size = 5
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=7]
 resource_name = "Enter"
 length = 0.6
 tracks/0/type = "value"
@@ -190,40 +184,45 @@ margin_left = 13.0
 margin_top = 6.0
 margin_right = -12.0
 margin_bottom = -249.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = ExtResource( 1 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
 custom_constants/shadow_offset_x = 6
 custom_constants/shadow_offset_y = 6
-text = "REVIVE A TU GATO!"
+text = "KEY_RECOVER"
 align = 1
 autowrap = true
 
-[node name="VBC" type="VBoxContainer" parent="Panel"]
+[node name="VBC" type="HBoxContainer" parent="Panel"]
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -226.0
+margin_left = -290.0
 margin_top = -320.0
-margin_right = 226.0
+margin_right = 291.0
 margin_bottom = -11.0
 
 [node name="ADS" type="Control" parent="Panel/VBC"]
-margin_right = 452.0
-margin_bottom = 168.0
+margin_right = 288.0
+margin_bottom = 309.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-size_flags_stretch_ratio = 1.23
 
 [node name="AdsButton" type="Button" parent="Panel/VBC/ADS"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_styles/hover = SubResource( 4 )
-custom_styles/pressed = SubResource( 4 )
-custom_styles/focus = SubResource( 4 )
-custom_styles/disabled = SubResource( 4 )
-custom_styles/normal = SubResource( 5 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -125.0
+margin_top = -100.0
+margin_right = 125.0
+margin_bottom = 100.0
+custom_styles/hover = SubResource( 3 )
+custom_styles/pressed = SubResource( 3 )
+custom_styles/focus = SubResource( 3 )
+custom_styles/disabled = SubResource( 3 )
+custom_styles/normal = SubResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -233,10 +232,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -151.0
-margin_top = -62.0
-margin_right = 150.0
-margin_bottom = 51.0
+margin_left = -110.0
+margin_top = -82.0
+margin_right = 109.0
+margin_bottom = 73.0
 texture = ExtResource( 2 )
 expand = true
 stretch_mode = 6
@@ -245,20 +244,26 @@ __meta__ = {
 }
 
 [node name="Cancel" type="Control" parent="Panel/VBC"]
-margin_top = 172.0
-margin_right = 452.0
+margin_left = 292.0
+margin_right = 581.0
 margin_bottom = 309.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="CancelButton" type="Button" parent="Panel/VBC/Cancel"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_styles/hover = SubResource( 6 )
-custom_styles/pressed = SubResource( 6 )
-custom_styles/focus = SubResource( 6 )
-custom_styles/disabled = SubResource( 6 )
-custom_styles/normal = SubResource( 7 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -125.0
+margin_top = -100.0
+margin_right = 125.0
+margin_bottom = 100.0
+custom_styles/hover = SubResource( 5 )
+custom_styles/pressed = SubResource( 5 )
+custom_styles/focus = SubResource( 5 )
+custom_styles/disabled = SubResource( 5 )
+custom_styles/normal = SubResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -268,16 +273,19 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -111.0
-margin_top = -49.5
-margin_right = 110.0
-margin_bottom = 37.5
+margin_left = -82.5
+margin_top = -82.5
+margin_right = 82.5
+margin_bottom = 72.5
 texture = ExtResource( 3 )
 expand = true
 stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Anim" type="AnimationPlayer" parent="."]
-anims/Enter = SubResource( 8 )
+anims/Enter = SubResource( 7 )
 
 [node name="ButtonClick" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )

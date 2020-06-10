@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/CurrencyUpgrade.png-ecba9a5e6f7080f348c1cc0e353991ef.stex"
+path="res://.import/upgrade_aegis_icon.png-e3ab38e5fde220f8ce3fd0d2d0b96d18.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Sprites/Shop/UI/CurrencyUpgrade.png"
-dest_files=[ "res://.import/CurrencyUpgrade.png-ecba9a5e6f7080f348c1cc0e353991ef.stex" ]
+source_file="res://Sprites/Shop/UI/upgrade_aegis_icon.png"
+dest_files=[ "res://.import/upgrade_aegis_icon.png-e3ab38e5fde220f8ce3fd0d2d0b96d18.stex" ]
 
 [params]
 

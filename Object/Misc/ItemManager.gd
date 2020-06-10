@@ -2,29 +2,34 @@ extends Node
 
 enum ItemType {HAT, SCARF, PATTERN, JETPACK, SKIN, LAST}
 enum Payment {COIN, FISH, LAST}
-enum UpgradeType {CURRENCY, CHIP, LAST}
+enum UpgradeType {CURRENCY, CHIP, ON_FUEL, AEGIS, LAST}
 
 var itemTypeToString = {0:"Hat", 1:"Scarf", 2:"Pattern", 3:"Jetpack", 4:"Skin", 5:"Last"}
 
 class UpgradeItem:
 	var item_type : int
-	var item_name : String
+	var item_desc : String
+	var item_image_location : String
 	var item_level : int
 	var item_max_level : int
-	var item_price_per_level : Dictionary
+	var item_info_per_level : Dictionary
 	
-	func create_upgrade_item(item_type, item_name, item_level, item_max_level, item_price_per_level):
+	func create_upgrade_item(item_type, item_desc,item_image_location, item_level, item_max_level, item_info_per_level):
 		self.item_type = int(item_type)
-		self.item_name = str(item_name)
+		self.item_desc = str(item_desc)
+		self.item_image_location = str(item_image_location)
 		self.item_level = int(item_level)
 		self.item_max_level = int(item_max_level)
-		self.item_price_per_level = item_price_per_level
+		self.item_info_per_level = item_info_per_level
 		pass
+	
+	func on_max_level():
+		return item_level == item_max_level
 	
 	func get_next_level_info():
 		var info = null
 		if item_level < item_max_level:
-			info = item_price_per_level[str(item_level + 1)]
+			info = item_info_per_level[str(item_level + 1)]
 		return info
 	
 	func upgrade_item():
@@ -126,7 +131,8 @@ func create_upgrade_item(dict : Dictionary):
 	for item_id in dict.keys():
 		var upgrade_item = UpgradeItem.new()
 		var item_info = dict[item_id]
-		upgrade_item.create_upgrade_item(item_id, item_info['name'], item_info['level'], item_info['max_level'], item_info['price_per_level'])
+		upgrade_item.create_upgrade_item(item_id, item_info['desc'],item_info['image_location'] , item_info['level'],
+										 item_info['max_level'], item_info['info_per_level'])
 		upgrade_items.append(upgrade_item)
 	pass
 
@@ -179,10 +185,11 @@ func upgrade_item_to_dictionary( data_list : Array):
 	var data : Dictionary = {}
 	for upgrade_item in data_list:
 		var upgrade_item_raw_data : Dictionary = {}
-		upgrade_item_raw_data['name'] = upgrade_item.item_name
+		upgrade_item_raw_data['desc'] = upgrade_item.item_desc
+		upgrade_item_raw_data['image_location'] = upgrade_item.item_image_location
 		upgrade_item_raw_data['level'] = upgrade_item.item_level
 		upgrade_item_raw_data['max_level'] = upgrade_item.item_max_level
-		upgrade_item_raw_data['price_per_level'] = upgrade_item.item_price_per_level
+		upgrade_item_raw_data['info_per_level'] = upgrade_item.item_info_per_level
 		data[upgrade_item.item_type] = upgrade_item_raw_data
 	return data
 

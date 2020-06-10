@@ -81,13 +81,14 @@ __meta__ = {
 }
 
 [node name="BackPanel" type="Panel" parent="."]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -530.0
+margin_left = 660.0
 margin_top = -743.0
-margin_right = 530.0
+margin_right = 1720.0
 margin_bottom = 887.0
 mouse_filter = 1
 custom_styles/panel = SubResource( 1 )

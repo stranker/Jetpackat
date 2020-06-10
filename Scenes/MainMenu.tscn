@@ -447,7 +447,7 @@ __meta__ = {
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -349.0
-margin_top = 6.0
+margin_top = 38.0
 margin_right = 350.0
 margin_bottom = 705.0
 texture = ExtResource( 19 )
@@ -928,11 +928,11 @@ __meta__ = {
 
 [node name="TransitionScene" parent="." instance=ExtResource( 30 )]
 
-[node name="InitialDarker" parent="." instance=ExtResource( 31 )]
-
 [node name="NicknamePanel" parent="." instance=ExtResource( 3 )]
 
 [node name="LanguageSelection" parent="." instance=ExtResource( 32 )]
+
+[node name="InitialDarker" parent="." instance=ExtResource( 31 )]
 
 [node name="Buttons" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 33 )
