@@ -7,11 +7,16 @@
 [sub_resource type="GDScript" id=1]
 script/source = "extends \"res://Object/Collectable/Collectable.gd\"
 
+onready var magnet_item : ItemManager.UpgradeItem = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.MAGNET)
+onready var magnet_time_modifier : int = magnet_item.get_current_modifier()
+
+func _ready():
+	pass
+
 func _process(delta):
 	if GameManager.player.invencible:
 		dispose_object()
 	pass
-
 
 func _on_Magnet_body_entered(body):
 	if body.is_in_group('Player') and !taked and activated:

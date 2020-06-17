@@ -1,28 +1,23 @@
 [gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://Sprites/Collectables/CoinAnimation.png" type="Texture" id=1]
-[ext_resource path="res://Sprites/Background/StarParticle.png" type="Texture" id=2]
-[ext_resource path="res://Sounds/Sfx/Coin.wav" type="AudioStream" id=3]
+[ext_resource path="res://Sprites/Shop/UI/upgrade_coin_icon.png" type="Texture" id=1]
+[ext_resource path="res://Sprites/Collectables/Coin.png" type="Texture" id=2]
+[ext_resource path="res://Sounds/Sfx/BuyItem.wav" type="AudioStream" id=3]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends 'res://Object/Collectable/Collectable.gd'
 
-var initial_pos : Vector2
+onready var coin_item : ItemManager.UpgradeItem = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.CURRENCY)
+onready var coin_time_modifier : int = coin_item.get_current_modifier()
 
 func _ready():
 	randomize()
-	connect('taken',game_scene,'add_coin')
+	connect('taken',game_scene,'on_coin_multiplier')
 	pass
 
 func _process(delta):
 	if GameManager.is_player_invencible():
-		player_magnet = GameManager.player
-	if value != GameManager.coin_value:
-		value = GameManager.coin_value
-	pass
-
-func initialize():
-	initial_pos = position
+		dispose_object()
 	pass
 
 func _on_Coin_body_entered(body):
@@ -34,7 +29,7 @@ func on_take():
 	if !can_be_taked():
 		return
 	taked = true
-	emit_signal('taken', value)
+	emit_signal('taken', coin_time_modifier)
 	$Particles.restart()
 	$Anim.play('Taken')
 	$Sample.play()
@@ -47,7 +42,6 @@ func _on_Coin_area_entered(area):
 	pass
 
 func reset():
-	position = initial_pos
 	$Anim.play_backwards('Taken')
 	$Particles.emitting = false
 	pass
@@ -92,52 +86,51 @@ void fragment() {
 	COLOR = mix(col, outline_color, maxa - mina);
 }"
 
-[sub_resource type="ShaderMaterial" id=3]
+[sub_resource type="ShaderMaterial" id=9]
 shader = SubResource( 2 )
-shader_param/outline_width = 0.7
-shader_param/outline_color = Color( 1, 1, 1, 1 )
+shader_param/outline_width = 1.4
+shader_param/outline_color = Color( 1, 1, 1, 0.319048 )
 
 [sub_resource type="CircleShape2D" id=4]
-radius = 40.0
+radius = 59.4166
 
 [sub_resource type="Curve" id=5]
-_data = [ Vector2( 0, 0 ), 0.0, 1.0, 0, 1, Vector2( 1, 1 ), 1.0, 0.0, 1, 0 ]
+_data = [ Vector2( 0, 0.0181818 ), 0.0, 2.32187, 0, 0, Vector2( 0.984127, 1 ), -0.176872, 0.0, 0, 0 ]
 
 [sub_resource type="Gradient" id=6]
-offsets = PoolRealArray( 0, 0.603352, 1 )
-colors = PoolColorArray( 1, 0.960784, 0, 1, 1, 0.960784, 0, 1, 1, 0.960784, 0, 0 )
+offsets = PoolRealArray( 0, 0.283133, 0.668675, 1 )
+colors = PoolColorArray( 0.956863, 0.752941, 0.278431, 0, 1, 0.960784, 0, 1, 1, 0.960784, 0, 1, 1, 0.960784, 0, 0 )
 
 [sub_resource type="Animation" id=7]
-length = 0.6
+length = 1.2
 loop = true
 step = 0.05
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:frame")
+tracks/0/path = NodePath("Sprite:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.35, 0.4, 0.5, 0.6 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
-"update": 1,
-"values": [ 0, 1, 2, 3, 7, 6, 5, 4 ]
+"times": PoolRealArray( 0, 0.6 ),
+"transitions": PoolRealArray( 0.5, 2 ),
+"update": 0,
+"values": [ Vector2( 0.7, 0.7 ), Vector2( 1, 1 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Sprite:self_modulate")
+tracks/1/path = NodePath("Sprite:material:shader_param/outline_color")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0.05, 0.55 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 1 ) ]
+"values": [ Color( 1, 1, 1, 0.266667 ), Color( 1, 1, 1, 1 ) ]
 }
 
 [sub_resource type="Animation" id=8]
-length = 2.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:self_modulate")
 tracks/0/interp = 1
@@ -145,22 +138,33 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.2 ),
+"times": PoolRealArray( 0, 0.5 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 0.5, 2, 1 ),
+"update": 0,
+"values": [ Vector2( 0.7, 0.7 ), Vector2( 1.13198, 1.13198 ), Vector2( 0.198898, 0.198898 ) ]
+}
 
-[node name="Coin" type="Area2D"]
+[node name="CoinMultiplier" type="Area2D"]
 z_index = 8
 script = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-material = SubResource( 3 )
-scale = Vector2( 2, 2 )
+self_modulate = Color( 1, 1, 1, 0 )
+material = SubResource( 9 )
+scale = Vector2( 0.198898, 0.198898 )
 texture = ExtResource( 1 )
-hframes = 8
-frame = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 4 )
@@ -169,14 +173,16 @@ shape = SubResource( 4 )
 z_index = 12
 emitting = false
 amount = 20
-lifetime = 1.5
+lifetime = 2.0
 one_shot = true
 speed_scale = 3.0
 explosiveness = 0.8
+randomness = 1.0
+lifetime_randomness = 0.5
 texture = ExtResource( 2 )
 spread = 180.0
 gravity = Vector2( 0, 0 )
-initial_velocity = 100.0
+initial_velocity = 200.0
 initial_velocity_random = 0.2
 damping = 80.0
 angle = 360.0

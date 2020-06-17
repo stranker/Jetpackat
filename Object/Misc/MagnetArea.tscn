@@ -6,9 +6,8 @@
 [sub_resource type="GDScript" id=1]
 script/source = "extends Area2D
 
-var magnet_chip_data = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.CHIP)
+var magnet_chip_data = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.MAGNET)
 export var magnet_increment : float = 2
-export var magnet_time_increment : float = 2
 export var magnet_base_time : float = 4
 onready var initial_magnet_scale = $Magnet.scale.x
 onready var initial_collision_radius = $Collision.shape.radius
@@ -52,8 +51,8 @@ func increase_size():
 	pass
 
 func set_magnet_timer():
-	var magnet_info = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.CHIP)
-	var new_time = magnet_base_time + (magnet_info.item_level * magnet_increment)
+	var magnet = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.MAGNET)
+	var new_time = magnet.get_current_modifier()
 	$MagnetTimer.wait_time = new_time
 	$MagnetTimer.start()
 	pass

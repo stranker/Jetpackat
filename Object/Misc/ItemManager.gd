@@ -2,7 +2,7 @@ extends Node
 
 enum ItemType {HAT, SCARF, PATTERN, JETPACK, SKIN, LAST}
 enum Payment {COIN, FISH, LAST}
-enum UpgradeType {CURRENCY, CHIP, ON_FUEL, AEGIS, LAST}
+enum UpgradeType {CURRENCY, MAGNET, ON_FUEL, AEGIS, LAST}
 
 var itemTypeToString = {0:"Hat", 1:"Scarf", 2:"Pattern", 3:"Jetpack", 4:"Skin", 5:"Last"}
 
@@ -22,6 +22,12 @@ class UpgradeItem:
 		self.item_max_level = int(item_max_level)
 		self.item_info_per_level = item_info_per_level
 		pass
+	
+	func get_current_info():
+		return item_info_per_level[str(item_level)]
+	
+	func get_current_modifier():
+		return get_current_info()['modifier']
 	
 	func on_max_level():
 		return item_level == item_max_level
@@ -260,7 +266,7 @@ func set_skin_color(color):
 	skin.set_color(color)
 	pass
 
-func get_upgrade_item_by_type(type : int):
+func get_upgrade_item_by_type(type : int) -> UpgradeItem:
 	var item = null
 	for upgrade_item in upgrade_items:
 		if upgrade_item.item_type == type:

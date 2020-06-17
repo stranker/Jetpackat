@@ -1,4 +1,4 @@
-[gd_scene load_steps=66 format=2]
+[gd_scene load_steps=68 format=2]
 
 [ext_resource path="res://Sprites/Background/HouseBroken.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Background/House.png" type="Texture" id=2]
@@ -42,7 +42,9 @@
 [ext_resource path="res://Object/Misc/CurrencySpawner.tscn" type="PackedScene" id=40]
 [ext_resource path="res://Object/Misc/PowerUpSpawner.tscn" type="PackedScene" id=41]
 [ext_resource path="res://Fonts/retron_90.tres" type="DynamicFont" id=42]
+[ext_resource path="res://Scenes/TimedBanner.tscn" type="PackedScene" id=43]
 [ext_resource path="res://Fonts/retron_80_outlined.tres" type="DynamicFont" id=44]
+[ext_resource path="res://Sprites/Shop/UI/upgrade_coin_icon.png" type="Texture" id=45]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node
@@ -53,14 +55,18 @@ var fuel : int = 0
 var end_play : bool = false
 var highscore_passed : bool = false
 
-export var fuel_master_time : float = 5
 var fuel_master_timer : Timer = Timer.new()
 
 onready var tutorial_done : bool = GameManager.tutorial_done
+onready var fuel_item : ItemManager.UpgradeItem = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.ON_FUEL)
+onready var fuel_master_time : float = fuel_item.get_current_modifier()
+
+onready var ui_game = $UIGame
 
 signal on_fuel_completed()
 signal on_fuel_depleted()
 signal on_fuel_time(time)
+signal on_coin_multiplier(time)
 
 func _ready():
 	AudioManager.create_soundtrack()
@@ -215,6 +221,11 @@ func on_interstitial_failed():
 	show_restart_anim()
 	pass
 
+func on_coin_multiplier(time):
+	GameManager.coin_value = 2
+	emit_signal(\"on_coin_multiplier\", time)
+	pass
+
 func show_restart_anim():
 	$UIGame/UI/RestartTransition.show()
 	$UIGame/UI/RestartTransition/RestAnim.play('Start')
@@ -325,6 +336,10 @@ onready var aegis_anim = $UI/UpperPanel/AegisPanel/Anim
 onready var aegis_label = $UI/UpperPanel/AegisPanel/Label
 
 onready var meter_label = $UI/UpperPanel/MeterPanel/MeterLabel
+
+onready var multiplier_banner = $UI/UpperPanel/TimedBanners/VBC/CoinBanner
+onready var magnet_banner = $UI/UpperPanel/TimedBanners/VBC/MagnetBanner
+onready var aegis_banner = $UI/UpperPanel/TimedBanners/VBC/AegisBanner
 
 
 func _ready():
@@ -474,7 +489,6 @@ func _on_GameScene_on_fuel_depleted():
 	pass # Replace with function body.
 
 func _on_GameScene_on_fuel_time(time):
-	invencible_list[\"fuel\"] = time
 	pass # Replace with function body.
 
 func on_player_invencible(value):
@@ -490,23 +504,8 @@ func on_player_invencible(value):
 			prev_player_invencible = false
 	pass
 	
-func on_invencible_time(time):
-	invencible_list[\"aegis\"] = time
-	pass
-
-func _process(delta):
-	process_invencible()
-	pass
-
-
-func process_invencible():
-	if invencible_list.empty():
-		return
-	if invencible_list.size() > 1:
-		get_major_time()
-	else:
-		major_timer = invencible_list.keys()[0]
-	aegis_label.text = str(floor(invencible_list[major_timer]))
+func on_aegis(time):
+	aegis_banner.initialize(time)
 	pass
 
 func get_major_time():
@@ -515,6 +514,10 @@ func get_major_time():
 		if invencible_list[type] > major:
 			major_timer = type
 	pass
+
+func _on_GameScene_on_coin_multiplier(time):
+	multiplier_banner.initialize(time)
+	pass # Replace with function body.
 "
 
 [sub_resource type="StyleBoxFlat" id=7]
@@ -1200,9 +1203,9 @@ __meta__ = {
 [node name="Label" type="Label" parent="UIGame/UI/UpperPanel/AegisPanel"]
 anchor_top = 0.5
 anchor_bottom = 0.5
-margin_left = 27.0
+margin_left = 216.0
 margin_top = -57.0
-margin_right = 80.0
+margin_right = 269.0
 margin_bottom = 50.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -1396,6 +1399,43 @@ custom_styles/panel = SubResource( 13 )
 
 [node name="Anim" type="AnimationPlayer" parent="UIGame/UI/UpperPanel"]
 anims/StartRound = SubResource( 15 )
+
+[node name="TimedBanners" type="Control" parent="UIGame/UI/UpperPanel"]
+margin_right = 200.0
+margin_bottom = 308.0
+rect_min_size = Vector2( 200, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBC" type="VBoxContainer" parent="UIGame/UI/UpperPanel/TimedBanners"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 157.0
+margin_bottom = 169.0
+
+[node name="CoinBanner" parent="UIGame/UI/UpperPanel/TimedBanners/VBC" instance=ExtResource( 43 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 200.0
+margin_bottom = 104.0
+icon_texture = ExtResource( 45 )
+
+[node name="MagnetBanner" parent="UIGame/UI/UpperPanel/TimedBanners/VBC" instance=ExtResource( 43 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 108.0
+margin_right = 200.0
+margin_bottom = 212.0
+icon_texture = ExtResource( 12 )
+
+[node name="AegisBanner" parent="UIGame/UI/UpperPanel/TimedBanners/VBC" instance=ExtResource( 43 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 216.0
+margin_right = 200.0
+margin_bottom = 320.0
+icon_texture = ExtResource( 19 )
 
 [node name="PauseButton" type="TextureButton" parent="UIGame/UI"]
 pause_mode = 2
@@ -1700,29 +1740,30 @@ items_max_height = [ 800, 1400, 1800, 2200, 3000, 9999999 ]
 
 [node name="AegisWings" parent="." instance=ExtResource( 34 )]
 position = Vector2( 711.298, -783.977 )
+[connection signal="on_coin_multiplier" from="." to="UIGame" method="_on_GameScene_on_coin_multiplier"]
 [connection signal="on_fuel_completed" from="." to="Player" method="_on_GameScene_on_fuel_completed"]
 [connection signal="on_fuel_completed" from="." to="UIGame" method="_on_GameScene_on_fuel_completed"]
 [connection signal="on_fuel_depleted" from="." to="Player" method="_on_GameScene_on_fuel_depleted"]
 [connection signal="on_fuel_depleted" from="." to="UIGame" method="_on_GameScene_on_fuel_depleted"]
 [connection signal="on_fuel_time" from="." to="UIGame" method="_on_GameScene_on_fuel_time"]
 [connection signal="screen_exited" from="House/VisibilityNotifier2D" to="House" method="_on_VisibilityNotifier2D_screen_exited"]
+[connection signal="current_height" from="Player" to="." method="_on_Player_current_height"]
 [connection signal="current_height" from="Player" to="ParallaxBackground" method="_on_Player_current_height"]
 [connection signal="current_height" from="Player" to="UIGame" method="_on_Player_current_height"]
-[connection signal="current_height" from="Player" to="." method="_on_Player_current_height"]
 [connection signal="dead" from="Player" to="." method="_on_Player_dead"]
 [connection signal="magnet_time" from="Player" to="UIGame" method="_on_Player_magnet_time"]
 [connection signal="on_magnet" from="Player" to="UIGame" method="_on_Player_on_magnet"]
 [connection signal="show_dead_ui" from="Player" to="UIGame" method="_on_Player_show_dead_ui"]
 [connection signal="start_playing" from="Player" to="." method="_on_Player_start_playing"]
-[connection signal="button_down" from="UIGame/UI/PauseButton" to="UIGame/UI/PausePanel" method="_on_PauseButton_button_down"]
 [connection signal="button_down" from="UIGame/UI/PauseButton" to="UIGame" method="_on_PauseButton_button_down"]
+[connection signal="button_down" from="UIGame/UI/PauseButton" to="UIGame/UI/PausePanel" method="_on_PauseButton_button_down"]
 [connection signal="on_config" from="UIGame/UI/PausePanel" to="UIGame" method="_on_PausePanel_on_config"]
 [connection signal="on_continue" from="UIGame/UI/PausePanel" to="UIGame" method="_on_PausePanel_on_continue"]
 [connection signal="on_home" from="UIGame/UI/PausePanel" to="UIGame" method="_on_PausePanel_on_home"]
 [connection signal="animation_finished" from="UIGame/UI/PauseTimer/Anim" to="." method="_on_Anim_animation_finished"]
 [connection signal="restart_game" from="UIGame/UI/DeadPanel" to="." method="_on_DeadPanel_restart_game"]
-[connection signal="accept_recover" from="UIGame/UI/RecoverPanel" to="UIGame" method="_on_RecoverPanel_accept_recover"]
 [connection signal="accept_recover" from="UIGame/UI/RecoverPanel" to="." method="_on_RecoverPanel_accept_recover"]
+[connection signal="accept_recover" from="UIGame/UI/RecoverPanel" to="UIGame" method="_on_RecoverPanel_accept_recover"]
 [connection signal="cancel_recover" from="UIGame/UI/RecoverPanel" to="UIGame" method="_on_RecoverPanel_cancel_recover"]
 [connection signal="button_down" from="UIGame/UI/ComboButton" to="." method="_on_ComboButton_button_down"]
 [connection signal="finished" from="UIGame/UI/TransitionScene" to="UIGame" method="_on_TransitionScene_finished"]

@@ -7,6 +7,8 @@ var coins : int = 0
 var fishes : int = 0
 var fuel : int = 0
 
+var coin_value : int = 1
+
 var playing : bool = false
 var player_height : int = 0
 var player_aegis : bool = false

@@ -1,0 +1,131 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Fonts/retron_80_outlined.tres" type="DynamicFont" id=1]
+[ext_resource path="res://Sprites/Collectables/Magnet.png" type="Texture" id=2]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends Control
+
+signal on_timed_banner_timeout()
+
+export var icon_texture : Texture
+
+onready var label = $Panel/Label
+onready var anim = $Anim
+onready var icon = $Panel/Icon
+var current_time : float = 0
+
+func _ready():
+	icon.texture = icon_texture
+	pass
+
+func initialize(time):
+	$Timer.wait_time = time
+	$Timer.start()
+	set_process(true)
+	anim.play(\"Enter\")
+	pass
+
+func _process(delta):
+	current_time = $Timer.time_left
+	label.text = str(floor(current_time))
+	pass
+
+func _on_Timer_timeout():
+	emit_signal(\"on_timed_banner_timeout\")
+	set_process(false)
+	anim.play_backwards(\"Enter\")
+	pass # Replace with function body.
+"
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.447059, 0.796078, 0.145098, 1 )
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color( 0.137255, 0.521569, 0.192157, 1 )
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_detail = 2
+expand_margin_left = 20.0
+expand_margin_right = 10.0
+shadow_color = Color( 0, 0, 0, 0.235294 )
+shadow_size = 6
+
+[sub_resource type="Animation" id=3]
+resource_name = "Enter"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Panel:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.4, 0.5 ),
+"transitions": PoolRealArray( 0.5, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -214, 0 ), Vector2( 18, 0 ), Vector2( 0, 0 ) ]
+}
+
+[node name="TimedBanner" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -880.0
+margin_bottom = -1816.0
+rect_min_size = Vector2( 200, 104 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="."]
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_top = -52.0
+margin_right = 198.0
+margin_bottom = 52.0
+custom_styles/panel = SubResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Panel"]
+margin_left = -1.0
+margin_top = -8.0
+margin_right = 105.0
+margin_bottom = 99.0
+custom_fonts/font = ExtResource( 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 6
+custom_constants/shadow_offset_y = 6
+text = "9"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Icon" type="TextureRect" parent="Panel"]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -91.0
+margin_top = -44.0
+margin_right = -2.0
+margin_bottom = 44.0
+texture = ExtResource( 2 )
+expand = true
+stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+anims/Enter = SubResource( 3 )
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
