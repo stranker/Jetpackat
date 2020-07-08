@@ -6,31 +6,27 @@
 [sub_resource type="GDScript" id=1]
 script/source = "extends Area2D
 
-var magnet_chip_data = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.MAGNET)
 export var magnet_increment : float = 2
 export var magnet_base_time : float = 4
 onready var initial_magnet_scale = $Magnet.scale.x
 onready var initial_collision_radius = $Collision.shape.radius
 export var activated : bool = false
-signal magnet_time(val)
-
-func _process(delta):
-	emit_signal('magnet_time',$MagnetTimer.time_left)
-	pass
 
 func deactivate():
+	activated = false
 	hide()
 	$Sample.stop()
 	pass
 
 func activate():
+	set_magnet_timer()
 	if !activated:
 		activated = true
 		show()
 		increase_size()
 		set_tween()
 		$Sample.play()
-	set_magnet_timer()
+		set_magnet_timer()
 	pass
 
 func set_tween():
@@ -59,10 +55,8 @@ func set_magnet_timer():
 
 func _on_MagnetTimer_timeout():
 	activated = false
+	deactivate()
 	decrease_size()
-	get_parent().get_parent().deactivate_magnet()
-	hide()
-	$Sample.stop()
 	pass # Replace with function body.
 
 func decrease_size():
@@ -75,6 +69,12 @@ func decrease_size():
 func _on_Sample_finished():
 	if activated:
 		$Sample.play()
+	pass # Replace with function body.
+
+func _on_Player_on_magnet(time):
+	$MagnetTimer.wait_time = time
+	$MagnetTimer.start()
+	activate()
 	pass # Replace with function body.
 "
 

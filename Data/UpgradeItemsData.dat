@@ -130,6 +130,39 @@
 			"modifier": 20
          }
       }
+   },
+   "4":{ 
+	  "desc":"KEY_YARNBALL_DESC",
+	  "image_location": "res://Sprites/Shop/UI/upgrade_yarnball_icon.png",
+      "level":1,
+	  "max_level":5,
+      "info_per_level":{ 
+         "1":{ 
+            "payment":0,
+            "price":0,
+			"modifier": 50
+         },
+         "2":{ 
+            "payment":0,
+            "price":1000,
+			"modifier": 100
+         },
+         "3":{ 
+            "payment":0,
+            "price":2000,
+			"modifier": 150
+         },
+         "4":{ 
+            "payment":1,
+            "price":50,
+			"modifier": 300
+         },
+         "5":{ 
+            "payment":1,
+            "price":100,
+			"modifier": 500
+         }
+      }
    }
 }
 

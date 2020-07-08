@@ -1,6 +1,6 @@
 extends Area2D
 
-var activated : bool = false
+export var activated : bool = false
 var taked : bool = false
 var player_magnet = null
 export var value : int = 1
@@ -29,7 +29,7 @@ func set_active(val):
 	pass
 
 func is_currency(area):
-	return area.name == 'Coin' or area.name == 'Fish'
+	return area.name.find('Coin') >= 0 or area.name.find('Fish') >= 0
 
 func can_be_taked():
 	return !taked and activated
@@ -41,6 +41,12 @@ func dispose_object():
 
 func move_up():
 	global_position += Vector2(0,-500)
+	pass
+
+func check_magnet_area(area):
+	if area.name == 'MagnetArea' and !on_magnet_area and activated:
+		player_magnet = area
+		on_magnet_area = !on_magnet_area
 	pass
 
 func on_take():

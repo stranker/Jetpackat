@@ -1,8 +1,8 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://addons/PickerOfColors/custom_color.gd" type="Script" id=1]
 [ext_resource path="res://Sprites/UI/PawCatIcon.png" type="Texture" id=2]
-[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://Fonts/retron_52.tres" type="DynamicFont" id=3]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.705882, 0.137255, 0.0745098, 1 )
@@ -68,6 +68,8 @@ corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 corner_detail = 2
+shadow_color = Color( 0, 0, 0, 0.25098 )
+shadow_size = 5
 
 [sub_resource type="StyleBoxFlat" id=5]
 bg_color = Color( 0.341176, 0.772549, 0.168627, 1 )
@@ -81,13 +83,8 @@ corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 corner_detail = 2
-
-[sub_resource type="DynamicFont" id=6]
-size = 52
-outline_size = 3
-outline_color = Color( 0, 0, 0, 1 )
-use_filter = true
-font_data = ExtResource( 3 )
+shadow_color = Color( 0, 0, 0, 0.25098 )
+shadow_size = 5
 
 [node name="CustomColor" type="Panel"]
 pause_mode = 2
@@ -135,7 +132,7 @@ custom_styles/pressed = SubResource( 4 )
 custom_styles/focus = SubResource( 4 )
 custom_styles/disabled = SubResource( 4 )
 custom_styles/normal = SubResource( 5 )
-custom_fonts/font = SubResource( 6 )
+custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "KEY_ACCEPT"
 clip_text = true

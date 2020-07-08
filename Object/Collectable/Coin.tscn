@@ -15,7 +15,9 @@ func _ready():
 	pass
 
 func _process(delta):
-	if GameManager.is_player_invencible():
+	if player_magnet:
+		return
+	if GameManager.player.invencible:
 		player_magnet = GameManager.player
 	if value != GameManager.coin_value:
 		value = GameManager.coin_value

@@ -11,6 +11,8 @@ onready var magnet_item : ItemManager.UpgradeItem = ItemManager.get_upgrade_item
 onready var magnet_time_modifier : int = magnet_item.get_current_modifier()
 
 func _ready():
+	set_active(activated)
+	connect(\"taken\", game_scene, \"on_magnet_taken\")
 	pass
 
 func _process(delta):
@@ -21,7 +23,6 @@ func _process(delta):
 func _on_Magnet_body_entered(body):
 	if body.is_in_group('Player') and !taked and activated:
 		on_take()
-		body.activate_magnet()
 	pass # Replace with function body.
 
 func on_take():
@@ -32,15 +33,19 @@ func on_take():
 	$BluePartiles.restart()
 	$RedParticles.restart()
 	$Sound.play()
+	emit_signal(\"taken\", magnet_time_modifier)
 	pass
 
 func _on_Magnet_area_entered(area):
 	if area.name == 'MagnetArea' and !on_magnet_area and activated:
 		player_magnet = area
 		on_magnet_area = !on_magnet_area
+	if is_currency(area):
+		move_up()
 	pass # Replace with function body.
 
 func _on_Magnet_active(val):
+	monitoring = val
 	if val:
 		$Anim.queue('Idle')
 	else:
@@ -151,11 +156,11 @@ tracks/1/keys = {
 
 [sub_resource type="Gradient" id=7]
 offsets = PoolRealArray( 0, 0.765432, 1 )
-colors = PoolColorArray( 0.196078, 0.34902, 0.886275, 1, 0.211765, 0.223529, 0.85098, 0.745098, 0.211765, 0.223529, 0.85098, 0 )
+colors = PoolColorArray( 0.196078, 0.34902, 0.886275, 0.784314, 0.211765, 0.223529, 0.85098, 0.627451, 0.211765, 0.223529, 0.85098, 0 )
 
 [sub_resource type="Gradient" id=8]
 offsets = PoolRealArray( 0, 0.753247, 1 )
-colors = PoolColorArray( 0.921569, 0.156863, 0.137255, 1, 0.921569, 0.156863, 0.137255, 0.768627, 0.921569, 0.156863, 0.137255, 0.14902 )
+colors = PoolColorArray( 0.921569, 0.156863, 0.137255, 0.784314, 0.921569, 0.156863, 0.137255, 0.627451, 0.921569, 0.156863, 0.137255, 0.14902 )
 
 [node name="Magnet" type="Area2D"]
 script = SubResource( 1 )

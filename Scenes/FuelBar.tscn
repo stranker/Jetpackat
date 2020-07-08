@@ -184,9 +184,9 @@ tracks/3/keys = {
 modulate = Color( 1, 1, 1, 0.670588 )
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 20.0
+margin_left = 18.0
 margin_top = 700.0
-margin_right = -960.0
+margin_right = -982.0
 margin_bottom = -720.0
 script = SubResource( 1 )
 __meta__ = {
@@ -205,7 +205,7 @@ custom_constants/vseparation = -70
 
 [node name="FuelCell" type="TextureRect" parent="GridContainer"]
 self_modulate = Color( 1, 1, 1, 0 )
-margin_right = 100.0
+margin_right = 80.0
 margin_bottom = 113.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -216,7 +216,7 @@ stretch_mode = 6
 [node name="FuelCell2" type="TextureRect" parent="GridContainer"]
 self_modulate = Color( 1, 1, 1, 0 )
 margin_top = 43.0
-margin_right = 100.0
+margin_right = 80.0
 margin_bottom = 156.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -227,7 +227,7 @@ stretch_mode = 6
 [node name="FuelCell3" type="TextureRect" parent="GridContainer"]
 self_modulate = Color( 1, 1, 1, 0 )
 margin_top = 86.0
-margin_right = 100.0
+margin_right = 80.0
 margin_bottom = 199.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -238,7 +238,7 @@ stretch_mode = 6
 [node name="FuelCell4" type="TextureRect" parent="GridContainer"]
 self_modulate = Color( 1, 1, 1, 0 )
 margin_top = 129.0
-margin_right = 100.0
+margin_right = 80.0
 margin_bottom = 242.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -249,7 +249,7 @@ stretch_mode = 6
 [node name="FuelCell5" type="TextureRect" parent="GridContainer"]
 self_modulate = Color( 1, 1, 1, 0 )
 margin_top = 172.0
-margin_right = 100.0
+margin_right = 80.0
 margin_bottom = 285.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -260,7 +260,7 @@ stretch_mode = 6
 [node name="FuelCell6" type="TextureRect" parent="GridContainer"]
 self_modulate = Color( 1, 1, 1, 0 )
 margin_top = 215.0
-margin_right = 100.0
+margin_right = 80.0
 margin_bottom = 328.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -271,7 +271,7 @@ stretch_mode = 6
 [node name="FuelCell7" type="TextureRect" parent="GridContainer"]
 self_modulate = Color( 1, 1, 1, 0 )
 margin_top = 258.0
-margin_right = 100.0
+margin_right = 80.0
 margin_bottom = 371.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -282,7 +282,7 @@ stretch_mode = 6
 [node name="FuelCell8" type="TextureRect" parent="GridContainer"]
 self_modulate = Color( 1, 1, 1, 0 )
 margin_top = 301.0
-margin_right = 100.0
+margin_right = 80.0
 margin_bottom = 414.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -293,7 +293,7 @@ stretch_mode = 6
 [node name="FuelCell9" type="TextureRect" parent="GridContainer"]
 self_modulate = Color( 1, 1, 1, 0 )
 margin_top = 344.0
-margin_right = 100.0
+margin_right = 80.0
 margin_bottom = 457.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -304,7 +304,7 @@ stretch_mode = 6
 [node name="FuelCell10" type="TextureRect" parent="GridContainer"]
 self_modulate = Color( 1, 1, 1, 0 )
 margin_top = 387.0
-margin_right = 100.0
+margin_right = 80.0
 margin_bottom = 500.0
 size_flags_horizontal = 3
 size_flags_vertical = 3

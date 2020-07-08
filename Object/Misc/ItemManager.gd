@@ -2,7 +2,7 @@ extends Node
 
 enum ItemType {HAT, SCARF, PATTERN, JETPACK, SKIN, LAST}
 enum Payment {COIN, FISH, LAST}
-enum UpgradeType {CURRENCY, MAGNET, ON_FUEL, AEGIS, LAST}
+enum UpgradeType {CURRENCY, MAGNET, ON_FUEL, AEGIS, YARN, LAST}
 
 var itemTypeToString = {0:"Hat", 1:"Scarf", 2:"Pattern", 3:"Jetpack", 4:"Skin", 5:"Last"}
 
@@ -46,9 +46,13 @@ class UpgradeItem:
 func can_buy_item(item):
 	match item.item_payment:
 		ItemManager.Payment.COIN:
-			return item.item_price >= GameManager.coins
+			Debug.debug_var("Coins price",item.item_price)
+			Debug.debug_var("Coins",GameManager.coins)
+			return GameManager.coins >= item.item_price 
 		ItemManager.Payment.FISH:
-			return item.item_price >= GameManager.fishes
+			Debug.debug_var("Fish price",item.item_price)
+			Debug.debug_var("Fish",GameManager.fishes)
+			return GameManager.fishes >= item.item_price 
 	pass
 
 class ShopItem:

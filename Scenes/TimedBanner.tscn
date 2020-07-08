@@ -39,11 +39,11 @@ func _on_Timer_timeout():
 "
 
 [sub_resource type="StyleBoxFlat" id=2]
-bg_color = Color( 0.447059, 0.796078, 0.145098, 1 )
+bg_color = Color( 0.705882, 0.137255, 0.0745098, 1 )
 border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
-border_color = Color( 0.137255, 0.521569, 0.192157, 1 )
+border_color = Color( 0.623529, 0.117647, 0.192157, 1 )
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_detail = 2
@@ -62,30 +62,44 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.4, 0.5 ),
+"times": PoolRealArray( 0.1, 0.4, 0.5 ),
 "transitions": PoolRealArray( 0.5, 1, 1 ),
 "update": 0,
 "values": [ Vector2( -214, 0 ), Vector2( 18, 0 ), Vector2( 0, 0 ) ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, true ]
+}
 
 [node name="TimedBanner" type="Control"]
+pause_mode = 1
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = -880.0
 margin_bottom = -1816.0
 rect_min_size = Vector2( 200, 104 )
-size_flags_horizontal = 3
-size_flags_vertical = 3
 script = SubResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Panel" type="Panel" parent="."]
+pause_mode = 1
 anchor_top = 0.5
 anchor_bottom = 0.5
+margin_left = -189.122
 margin_top = -52.0
-margin_right = 198.0
+margin_right = 8.87805
 margin_bottom = 52.0
 custom_styles/panel = SubResource( 2 )
 __meta__ = {
@@ -124,6 +138,7 @@ __meta__ = {
 }
 
 [node name="Timer" type="Timer" parent="."]
+pause_mode = 1
 one_shot = true
 
 [node name="Anim" type="AnimationPlayer" parent="."]

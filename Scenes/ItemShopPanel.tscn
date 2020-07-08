@@ -108,7 +108,7 @@ func check_button_color():
 	pass
 
 func check_buy_available():
-	return ItemManager.can_buy_item(item)
+	return !ItemManager.can_buy_item(item)
 
 func _on_BuyButton_button_down():
 	emit_signal('emit_confirmation', item, self)

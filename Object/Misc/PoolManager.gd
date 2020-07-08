@@ -23,7 +23,7 @@ func get_object_by_name(obj_name : String):
 	var children_list = get_children()
 	children_list.shuffle()
 	for obj in children_list:
-		if obj.name.find(obj_name) >= 0 and !obj.activated:
+		if obj.name.to_lower().find(obj_name.to_lower()) >= 0 and !obj.activated:
 			object = obj
 			break
 	return object

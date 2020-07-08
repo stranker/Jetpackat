@@ -13,14 +13,21 @@ onready var invencible_time : float = aegis_item.get_current_modifier()
 signal on_aegis(time)
 
 func _ready():
-	connect(\"on_aegis\", GameManager, \"set_aegis_time\")
-	set_active(true)
+	set_active(activated)
+	connect(\"on_aegis\", game_scene, \"on_aegis\")
+	pass
+
+func _process(delta):
+	if GameManager.player.invencible:
+		dispose_object()
 	pass
 
 func _on_AegisWings_area_entered(area):
 	if area.name == 'MagnetArea' and !on_magnet_area and activated:
 		player_magnet = area
 		on_magnet_area = !on_magnet_area
+	if is_currency(area):
+		move_up()
 	pass # Replace with function body.
 
 func _on_AegisWings_body_entered(body):
@@ -39,6 +46,7 @@ func on_take():
 	pass
 
 func _on_AegisWings_active(val):
+	monitoring = val
 	if val:
 		$Anim.queue('Idle')
 	else:
@@ -81,6 +89,18 @@ tracks/1/keys = {
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Color( 0.988235, 0.788235, 0.105882, 0.0470588 ), Color( 0.988235, 0.788235, 0.105882, 1 ), Color( 0.988235, 0.788235, 0.105882, 1 ), Color( 0.988235, 0.788235, 0.105882, 0.0392157 ), Color( 0.988235, 0.788235, 0.105882, 1 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Sprite:self_modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
 }
 
 [sub_resource type="Animation" id=4]
@@ -173,9 +193,9 @@ volume_db = -6.0
 bus = "Sounds"
 
 [node name="Sprite" type="Sprite" parent="."]
-self_modulate = Color( 1, 1, 1, 0 )
 material = SubResource( 7 )
 rotation = 0.261799
+scale = Vector2( 3, 3 )
 texture = ExtResource( 2 )
 [connection signal="active" from="." to="." method="_on_AegisWings_active"]
 [connection signal="area_entered" from="." to="." method="_on_AegisWings_area_entered"]

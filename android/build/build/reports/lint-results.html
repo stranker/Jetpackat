@@ -176,7 +176,7 @@ document.getElementById(id).style.display = 'none';
       <span class="mdl-layout-title">Lint Report: 3 warnings</span>
       <div class="mdl-layout-spacer"></div>
       <nav class="mdl-navigation mdl-layout--large-screen-only">
-Check performed at Tue Jun 09 07:02:40 ART 2020      </nav>
+Check performed at Wed Jul 08 03:52:48 ART 2020      </nav>
     </div>
   </header>
   <div class="mdl-layout__drawer">
@@ -211,7 +211,7 @@ Check performed at Tue Jun 09 07:02:40 ART 2020      </nav>
 <tr>
 <td class="countColumn">1</td><td class="issueColumn"><i class="material-icons warning-icon">warning</i>
 <a href="#HardwareIds">HardwareIds</a>: Hardware Id Usage</td></tr>
-<tr><td></td><td class="categoryColumn"><a href="#MissingIssues">Disabled Checks (34)</a>
+<tr><td></td><td class="categoryColumn"><a href="#MissingIssues">Disabled Checks (35)</a>
 </td></tr></table>
 <br/>              </div>
               <div class="mdl-card__actions mdl-card--border">
@@ -229,14 +229,14 @@ Dismiss</button>            </div>
               <div class="mdl-card__supporting-text">
 <div class="issue">
 <div class="warningslist">
-<span class="location"><a href="../../build.gradle">../../build.gradle</a>:47</span>: <span class="message">A newer version of com.google.android.gms:play-services-ads than 16.0.0 is available: 19.1.0</span><br /><pre class="errorlines">
-<span class="lineno">  44 </span>        releaseImplementation fileTree(dir: <span class="string">'libs/release'</span>, include: [<span class="string">'*.jar'</span>, <span class="string">'*.aar'</span>])
-<span class="lineno">  45 </span>    }
-<span class="lineno">  46 </span><span class="comment">//CHUNK_DEPENDENCIES_BEGIN</span>
-<span class="caretline"><span class="lineno">  47 </span><span class="warning">api (<span class="string">'com.google.android.gms:play-services-ads:16.0.0'</span>) { exclude group: <span class="string">'com.android.support'</span> }</span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
-<span class="lineno">  48 </span>api (<span class="string">'com.android.support:support-v4:28.+'</span>)
-<span class="lineno">  49 </span><span class="comment">//CHUNK_DEPENDENCIES_END</span>
-<span class="lineno">  50 </span>}
+<span class="location"><a href="../../build.gradle">../../build.gradle</a>:77</span>: <span class="message">A newer version of com.google.android.gms:play-services-ads than 16.0.0 is available: 19.2.0</span><br /><pre class="errorlines">
+<span class="lineno">  74 </span>    }
+<span class="lineno">  75 </span>
+<span class="lineno">  76 </span><span class="comment">//CHUNK_DEPENDENCIES_BEGIN</span>
+<span class="caretline"><span class="lineno">  77 </span><span class="warning">api (<span class="string">'com.google.android.gms:play-services-ads:16.0.0'</span>) { exclude group: <span class="string">'com.android.support'</span> }</span>&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno">  78 </span>api (<span class="string">'com.android.support:support-v4:28.+'</span>)
+<span class="lineno">  79 </span><span class="comment">//CHUNK_DEPENDENCIES_END</span>
+<span class="lineno">  80 </span>}
 </pre>
 
 </div>
@@ -275,13 +275,13 @@ Dismiss</button>            </div>
               <div class="mdl-card__supporting-text">
 <div class="issue">
 <div class="warningslist">
-<span class="location"><a href="../../build.gradle">../../build.gradle</a>:48</span>: <span class="message">Avoid using + in version numbers; can lead to unpredictable and unrepeatable builds (com.android.support:support-v4:28.+)</span><br /><pre class="errorlines">
-<span class="lineno">  45 </span>    }
-<span class="lineno">  46 </span><span class="comment">//CHUNK_DEPENDENCIES_BEGIN</span>
-<span class="lineno">  47 </span>api (<span class="string">'com.google.android.gms:play-services-ads:16.0.0'</span>) { exclude group: <span class="string">'com.android.support'</span> }
-<span class="caretline"><span class="lineno">  48 </span><span class="warning">api (<span class="string">'com.android.support:support-v4:28.+'</span>)</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-<span class="lineno">  49 </span><span class="comment">//CHUNK_DEPENDENCIES_END</span>
-<span class="lineno">  50 </span>}
+<span class="location"><a href="../../build.gradle">../../build.gradle</a>:78</span>: <span class="message">Avoid using + in version numbers; can lead to unpredictable and unrepeatable builds (com.android.support:support-v4:28.+)</span><br /><pre class="errorlines">
+<span class="lineno">  75 </span>
+<span class="lineno">  76 </span><span class="comment">//CHUNK_DEPENDENCIES_BEGIN</span>
+<span class="lineno">  77 </span>api (<span class="string">'com.google.android.gms:play-services-ads:16.0.0'</span>) { exclude group: <span class="string">'com.android.support'</span> }
+<span class="caretline"><span class="lineno">  78 </span><span class="warning">api (<span class="string">'com.android.support:support-v4:28.+'</span>)</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<span class="lineno">  79 </span><span class="comment">//CHUNK_DEPENDENCIES_END</span>
+<span class="lineno">  80 </span>}
 </pre>
 
 </div>
@@ -753,6 +753,15 @@ The unused resource check can ignore tests. If you want to include resources tha
 <br/>
 You can include test sources in the unused resource check by setting the system property lint.unused-resources.include-tests=true, and to exclude them (usually for performance reasons), use lint.unused-resources.exclude-tests=true.<br/>Note: This issue has an associated quickfix operation in Android Studio and IntelliJ IDEA.<br>
 To suppress this error, use the issue id "UnusedResources" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
+<br/></div>
+</div>
+</div>
+<div class="issue">
+<div class="id">ValidActionsXml<div class="issueSeparator"></div>
+</div>
+<div class="metadata">Disabled By: Default<br/>
+<div class="explanation">
+Ensures that an actions XML file is properly formed<br/>To suppress this error, use the issue id "ValidActionsXml" as explained in the <a href="#SuppressInfo">Suppressing Warnings and Errors</a> section.<br/>
 <br/></div>
 </div>
 </div>

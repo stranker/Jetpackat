@@ -12,8 +12,6 @@ var pos_player_last_spawn : int = 0
 enum SpawnType {COLLECTABLE, ENEMY, LAST}
 export (SpawnType) var spawn_type = SpawnType.LAST
 
-export var fix_collision_height : int = 100
-
 export var min_height_tutorial : int = 10
 
 # Called when the node enters the scene tree for the first time.
@@ -33,7 +31,7 @@ func spawn_item(item_name):
 	if !item:
 		return
 	var item_pos : Vector2 = get_item_pos()
-	item_pos.y = GameManager.camera.global_position.y - get_viewport().get_visible_rect().size.y + fix_collision_height
+	item_pos.y = GameManager.camera.global_position.y - get_viewport().get_visible_rect().size.y * 0.6
 	pos_player_last_spawn = GameManager.player_height
 	item.call_deferred('set_global_position',item_pos)
 	item.set_active(true)

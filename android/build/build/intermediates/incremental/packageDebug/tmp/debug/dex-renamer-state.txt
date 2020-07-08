@@ -1,4 +1,4 @@
-#Fri May 15 02:16:00 ART 2020
-base.0=C\:\\Users\\Daniel\\Documents\\Proyectos\\Godot\\Jetpackat\\android\\build\\build\\intermediates\\dex\\debug\\mergeDexDebug\\out
+#Wed Jul 08 03:17:53 ART 2020
+base.0=C\:\\Users\\Daniel\\Documents\\Proyectos\\Godot\\Jetpackat\\android\\build\\build\\intermediates\\dex\\debug\\mergeDexDebug\\out\\classes.dex
 path.0=classes.dex
 renamed.0=classes.dex

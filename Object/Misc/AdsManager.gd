@@ -75,11 +75,15 @@ func on_interstitial_loaded():
 	pass
 
 func load_interstitial():
+	if is_interstitial_loaded():
+		return
 	admob.load_interstitial()
 	Debug.debug("Loading inter")
 	pass
 
 func load_reward():
+	if is_reward_loaded():
+		return
 	admob.load_rewarded_video()
 	Debug.debug("Loading Reward")
 	pass
@@ -115,4 +119,9 @@ func on_ssl_failed():
 	if showing_interstitial:
 		emit_signal("interstitial_failed")
 		showing_interstitial = false
+	pass
+
+func load_ads():
+	load_interstitial()
+	load_reward()
 	pass

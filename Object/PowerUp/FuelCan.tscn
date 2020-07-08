@@ -9,6 +9,7 @@
 script/source = "extends \"res://Object/Collectable/Collectable.gd\"
 
 func _ready():
+	set_active(activated)
 	connect('taken',game_scene,'add_fuel')
 	pass
 
@@ -35,11 +36,15 @@ func _on_FuelCan_area_entered(area):
 	if area.name == 'MagnetArea' and !on_magnet_area and activated:
 		player_magnet = area
 		on_magnet_area = !on_magnet_area
+	if is_currency(area):
+		move_up()
 	pass # Replace with function body.
 
 func _on_FuelCan_active(val):
+	monitoring = val
 	if val:
 		$Anim.queue('Idle')
+		
 	else:
 		$Anim.play_backwards('Taken')
 	pass # Replace with function body.

@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=2]
+[gd_scene load_steps=43 format=2]
 
 [ext_resource path="res://Sprites/Background/HouseBroken.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Cinematic/Cloud2.png" type="Texture" id=2]
@@ -19,13 +19,13 @@
 [ext_resource path="res://Sprites/UI/CreditsIcon.png" type="Texture" id=17]
 [ext_resource path="res://Sprites/UI/CloseIcon.png" type="Texture" id=18]
 [ext_resource path="res://Sprites/Cinematic/CatsCanFlyTitle.png" type="Texture" id=19]
+[ext_resource path="res://Fonts/retron_32_outlined.tres" type="DynamicFont" id=20]
 [ext_resource path="res://Sprites/Cat/Skin/Skin.png" type="Texture" id=23]
 [ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=24]
 [ext_resource path="res://Sprites/Shop/Cat/Thruster/Smoke.png" type="Texture" id=25]
 [ext_resource path="res://Sprites/Cat/Eyes.png" type="Texture" id=26]
 [ext_resource path="res://Scenes/ConfigPanel.tscn" type="PackedScene" id=27]
 [ext_resource path="res://Scenes/Leaderboard.tscn" type="PackedScene" id=28]
-[ext_resource path="res://Fonts/overload.ttf" type="DynamicFontData" id=29]
 [ext_resource path="res://Scenes/TransitionScene.tscn" type="PackedScene" id=30]
 [ext_resource path="res://Scenes/InitialDarker.tscn" type="PackedScene" id=31]
 [ext_resource path="res://Scenes/LanguageSelection.tscn" type="PackedScene" id=32]
@@ -415,13 +415,6 @@ tracks/1/keys = {
 "values": [ -36.1838, -16.5552 ]
 }
 
-[sub_resource type="DynamicFont" id=13]
-size = 28
-outline_size = 3
-outline_color = Color( 0, 0, 0, 1 )
-use_filter = true
-font_data = ExtResource( 29 )
-
 [node name="MainMenu" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -610,7 +603,7 @@ __meta__ = {
 }
 
 [node name="StartButton" type="TextureButton" parent="PawCat"]
-self_modulate = Color( 0.462745, 1, 0, 1 )
+self_modulate = Color( 0.443137, 0.898039, 0.0470588, 1 )
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -676,7 +669,7 @@ __meta__ = {
 }
 
 [node name="LeaderboardButton" type="TextureButton" parent="PawCat"]
-self_modulate = Color( 0.952941, 0.501961, 0.137255, 1 )
+self_modulate = Color( 1, 0.654902, 0, 1 )
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -915,12 +908,15 @@ margin_bottom = 960.0
 [node name="VersionLabel" type="Label" parent="."]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_left = 5.0
 margin_top = -60.0
-margin_right = 395.0
-margin_bottom = -26.0
-custom_fonts/font = SubResource( 13 )
+margin_right = 390.0
+margin_bottom = -16.0
+custom_fonts/font = ExtResource( 20 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 3
+custom_constants/shadow_offset_y = 3
 text = "Version"
 __meta__ = {
 "_edit_use_anchors_": false

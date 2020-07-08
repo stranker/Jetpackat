@@ -53,7 +53,7 @@ corner_radius_bottom_right = 50
 corner_radius_bottom_left = 50
 corner_detail = 2
 
-[sub_resource type="StyleBoxFlat" id=6]
+[sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.156863, 0.137255, 0.482353, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -117,7 +117,6 @@ __meta__ = {
 }
 
 [node name="Panel" type="Panel" parent="."]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -134,10 +133,9 @@ __meta__ = {
 [node name="Title" type="Label" parent="Panel"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -398.0
-margin_top = 9.53491
-margin_right = 389.0
-margin_bottom = 226.535
+margin_left = -378.0
+margin_right = 375.0
+margin_bottom = 241.0
 custom_fonts/font = ExtResource( 3 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
@@ -145,6 +143,7 @@ custom_constants/shadow_offset_x = 8
 custom_constants/shadow_offset_y = 8
 text = "KEY_SELECT_LANGUAGE"
 align = 1
+valign = 1
 autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -182,10 +181,10 @@ margin_right = 166.5
 margin_bottom = 75.5
 grow_horizontal = 2
 grow_vertical = 2
-custom_styles/hover = SubResource( 6 )
-custom_styles/pressed = SubResource( 6 )
-custom_styles/focus = SubResource( 6 )
-custom_styles/disabled = SubResource( 6 )
+custom_styles/hover = SubResource( 3 )
+custom_styles/pressed = SubResource( 3 )
+custom_styles/focus = SubResource( 3 )
+custom_styles/disabled = SubResource( 3 )
 custom_styles/normal = SubResource( 4 )
 group = ExtResource( 2 )
 __meta__ = {
@@ -231,10 +230,10 @@ margin_right = 165.0
 margin_bottom = 75.0
 grow_horizontal = 2
 grow_vertical = 2
-custom_styles/hover = SubResource( 6 )
-custom_styles/pressed = SubResource( 6 )
-custom_styles/focus = SubResource( 6 )
-custom_styles/disabled = SubResource( 6 )
+custom_styles/hover = SubResource( 3 )
+custom_styles/pressed = SubResource( 3 )
+custom_styles/focus = SubResource( 3 )
+custom_styles/disabled = SubResource( 3 )
 custom_styles/normal = SubResource( 4 )
 group = ExtResource( 2 )
 __meta__ = {

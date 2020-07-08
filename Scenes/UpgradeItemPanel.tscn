@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Fonts/retron_52.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Sprites/Collectables/Fish.png" type="Texture" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Sprites/Shop/UI/UpgradebarUnder.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/Shop/UI/UpgradebarProgress.png" type="Texture" id=5]
 [ext_resource path="res://Fonts/retron2000.regular.ttf" type="DynamicFontData" id=6]
+[ext_resource path="res://Fonts/retron_36_outlined.tres" type="DynamicFont" id=7]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Control
@@ -16,6 +17,7 @@ onready var payment_texture = $Background/UpgradeButton/Payment
 onready var icon = $Background/IconPanel/Icon
 onready var level_bar = $Background/ItemLevel
 onready var stats_label = $Background/StatPanel/Label
+onready var subfix_label = $Background/StatPanel/Subfix
 onready var info_label = $Background/Info
 onready var upgrade_button = $Background/UpgradeButton
 
@@ -38,9 +40,11 @@ func update_ui():
 
 func update_values():
 	icon.texture = load(item_ref.item_image_location)
-	info_label.text = tr(item_ref.item_desc)
+	info_label.bbcode_text = \"[center]\" + tr(item_ref.item_desc) + \"[/center]\"
 	level_bar.value = item_ref.item_level
-	stats_label.text = str(item_ref.item_info_per_level[str(item_ref.item_level)]['modifier']) + \"s\"
+	var subfix = \"pts\" if item_ref.item_type == ItemManager.UpgradeType.YARN else \"s\"
+	subfix_label.text = subfix
+	stats_label.text = str(item_ref.item_info_per_level[str(item_ref.item_level)]['modifier'])
 	pass
 
 func set_max_upgrade():
@@ -175,9 +179,9 @@ __meta__ = {
 
 [node name="IconPanel" type="Panel" parent="Background"]
 margin_left = 40.0
-margin_top = 28.6
-margin_right = 210.0
-margin_bottom = 178.6
+margin_top = 29.0
+margin_right = 256.0
+margin_bottom = 179.0
 mouse_filter = 2
 custom_styles/panel = SubResource( 3 )
 __meta__ = {
@@ -203,13 +207,14 @@ anchor_top = 0.5
 anchor_bottom = 0.5
 margin_left = 40.0
 margin_top = 29.0
-margin_right = 210.0
+margin_right = 256.0
 margin_bottom = 50.0
 mouse_filter = 2
 max_value = 5.0
 value = 2.0
 texture_under = ExtResource( 4 )
 texture_progress = ExtResource( 5 )
+nine_patch_stretch = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -219,7 +224,7 @@ anchor_top = 1.0
 anchor_bottom = 1.0
 margin_left = 40.0
 margin_top = -100.0
-margin_right = 210.0
+margin_right = 256.0
 margin_bottom = -27.0
 mouse_filter = 2
 custom_styles/panel = SubResource( 4 )
@@ -228,21 +233,38 @@ __meta__ = {
 }
 
 [node name="Label" type="Label" parent="Background/StatPanel"]
-anchor_left = 0.5
 anchor_top = 0.5
-anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -85.0
-margin_top = -38.5
-margin_right = 85.0
-margin_bottom = 36.5
+margin_top = -36.5
+margin_right = 127.0
+margin_bottom = 33.5
 custom_fonts/font = ExtResource( 1 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
 custom_constants/shadow_offset_x = 4
 custom_constants/shadow_offset_y = 4
-text = "10s"
-align = 1
+text = "10"
+align = 2
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Subfix" type="Label" parent="Background/StatPanel"]
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_left = -84.4054
+margin_top = -23.1487
+margin_right = -6.4054
+margin_bottom = 38.8513
+custom_fonts/font = ExtResource( 7 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
+custom_constants/shadow_offset_x = 4
+custom_constants/shadow_offset_y = 4
+text = "s"
 autowrap = true
 clip_text = true
 __meta__ = {
@@ -254,17 +276,18 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -271.0
+margin_left = -235.0
 margin_top = -114.0
 margin_right = 436.0
 margin_bottom = 21.0
 mouse_filter = 2
 custom_fonts/normal_font = SubResource( 5 )
-custom_colors/default_color = Color( 1, 1, 1, 1 )
+custom_colors/default_color = Color( 0.964706, 0.972549, 1, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
 custom_constants/shadow_offset_x = 6
 custom_constants/shadow_offset_y = 6
-text = "Lorem Ipsum"
+bbcode_enabled = true
+scroll_active = false
 __meta__ = {
 "_edit_use_anchors_": false
 }

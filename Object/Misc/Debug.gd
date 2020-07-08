@@ -1,10 +1,7 @@
 extends Node
 
 var debug_control = preload("res://Object/Misc/Debug.tscn")
-
 var debug_panel = null
-
-
 
 func _ready():
 	debug_panel = debug_control.instance()

@@ -54,12 +54,12 @@ func _on_CancelButton_button_down():
 "
 
 [sub_resource type="StyleBoxFlat" id=2]
-bg_color = Color( 0.196078, 0.34902, 0.886275, 1 )
+bg_color = Color( 0.956863, 0.752941, 0.278431, 1 )
 border_width_left = 10
 border_width_top = 10
 border_width_right = 10
 border_width_bottom = 10
-border_color = Color( 0.156863, 0.137255, 0.482353, 1 )
+border_color = Color( 0.972549, 0.6, 0.227451, 1 )
 corner_radius_top_left = 40
 corner_radius_top_right = 40
 corner_radius_bottom_right = 40
@@ -172,6 +172,7 @@ margin_left = 660.0
 margin_top = -259.0
 margin_right = 1266.0
 margin_bottom = 259.0
+mouse_filter = 2
 custom_styles/panel = SubResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -206,6 +207,7 @@ margin_bottom = -11.0
 [node name="ADS" type="Control" parent="Panel/VBC"]
 margin_right = 288.0
 margin_bottom = 309.0
+mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -236,6 +238,7 @@ margin_left = -110.0
 margin_top = -82.0
 margin_right = 109.0
 margin_bottom = 73.0
+mouse_filter = 2
 texture = ExtResource( 2 )
 expand = true
 stretch_mode = 6
@@ -247,6 +250,7 @@ __meta__ = {
 margin_left = 292.0
 margin_right = 581.0
 margin_bottom = 309.0
+mouse_filter = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -277,6 +281,7 @@ margin_left = -82.5
 margin_top = -82.5
 margin_right = 82.5
 margin_bottom = 72.5
+mouse_filter = 2
 texture = ExtResource( 3 )
 expand = true
 stretch_mode = 6
