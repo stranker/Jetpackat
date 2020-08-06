@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Sprites/Enemies/Bird.png" type="Texture" id=1]
 
@@ -12,6 +12,7 @@ var speed : float
 var velocity : Vector2
 var time : float
 onready var size_sprite : Vector2 = $Sprite.texture.get_size() * $Sprite.scale / $Sprite.hframes
+onready var anim = $Anim
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -40,10 +41,12 @@ func check_boundaries():
 func _on_Bird_body_entered(body):
 	if body.is_in_group('Player') and activated:
 		body.take_damage()
+		anim.play(\"Hit\")
 	pass # Replace with function body.
 
 func _on_Bird_active(val):
 	set_process(val)
+	anim.play(\"Fly\")
 	pass # Replace with function body.
 "
 
@@ -67,6 +70,34 @@ tracks/0/keys = {
 "update": 1,
 "values": [ 0, 1, 2, 3, 4, 3, 2, 1 ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "Hit"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, -500.0 ]
+}
 
 [node name="Bird" type="Node2D"]
 script = SubResource( 1 )
@@ -77,7 +108,6 @@ min_speed = 400.0
 scale = Vector2( 5, 5 )
 texture = ExtResource( 1 )
 hframes = 5
-frame = 1
 
 [node name="Bird" type="Area2D" parent="."]
 
@@ -89,5 +119,6 @@ shape = SubResource( 2 )
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Fly"
 anims/Fly = SubResource( 3 )
+anims/Hit = SubResource( 4 )
 [connection signal="active" from="." to="." method="_on_Bird_active"]
 [connection signal="body_entered" from="Bird" to="." method="_on_Bird_body_entered"]

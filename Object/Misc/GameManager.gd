@@ -1,5 +1,7 @@
 extends Node
 
+var game_version = 1.01
+
 var nickname : String = ''
 var highscore : int = 0
 
@@ -74,16 +76,37 @@ func load_data():
 	# DIDN'T SAVE ANYTHING LATER
 	if !dir.dir_exists('user://Saves'):
 		dir.make_dir('user://Saves')
-		load_data_from('res://Data/')
-		ItemManager.load_data_from('res://Data/')
+		load_data_from_game()
 	else:
-		load_data_from('user://Saves/')
-		ItemManager.load_data_from('user://Saves/')
+		check_version()
+	pass
+
+func check_version():
+	game_info = try_load_file_data('user://Saves/GameInfo.dat')
+	if game_info.has('GameVersion'):
+		var file_game_version = game_info['GameVersion']
+		if game_version != file_game_version:
+			load_data_from_game()
+		else:
+			load_data_from_user()
+	else:
+		load_data_from_game()
+	pass
+
+func load_data_from_user():
+	load_data_from('user://Saves/')
+	ItemManager.load_data_from('user://Saves/')
+	pass
+
+func load_data_from_game():
+	load_data_from('res://Data/')
+	ItemManager.load_data_from('res://Data/')
 	pass
 
 func load_data_from(dir : String):
 	game_info = try_load_file_data(dir + 'GameInfo.dat')
 	if !game_info.empty():
+		game_version = game_info['GameVersion']
 		nickname = game_info['Nickname']
 		coins = game_info['Coins']
 		fishes = game_info['Fishes']
@@ -93,7 +116,6 @@ func load_data_from(dir : String):
 		sound_volume = game_info['SoundVolume']
 		tutorial_done = game_info['Tutorial']
 		language = game_info['Language']
-	save_game_data()
 	pass
 
 func save_game_data():
@@ -103,6 +125,7 @@ func save_game_data():
 func save_current_game_info():
 	var file = File.new()
 	file.open('user://Saves/GameInfo.dat',File.WRITE)
+	game_info['GameVersion'] = game_version
 	game_info['Nickname'] = nickname
 	game_info['Coins'] = coins
 	game_info['Fishes'] = fishes
@@ -139,7 +162,7 @@ func upload_highscore():
 		OS.delay_msec(500)
 		count += 1
 		if count >= 4:
-			return
+			break
 	var err = http_client.request(HTTPClient.METHOD_GET,'/lb/'+private_url+'/add-pipe/'+nickname+'/'+str(highscore),[])
 	return err
 

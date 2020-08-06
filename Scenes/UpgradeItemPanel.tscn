@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Fonts/retron_52.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Sprites/Collectables/Fish.png" type="Texture" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Sprites/Shop/UI/UpgradebarProgress.png" type="Texture" id=5]
 [ext_resource path="res://Fonts/retron2000.regular.ttf" type="DynamicFontData" id=6]
 [ext_resource path="res://Fonts/retron_36_outlined.tres" type="DynamicFont" id=7]
+[ext_resource path="res://Sounds/Sfx/BuyItem.wav" type="AudioStream" id=8]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Control
@@ -85,6 +86,7 @@ func upgrade_item(price, payment):
 	item_ref.upgrade_item()
 	emit_signal(\"update_ui\")
 	update_ui()
+	$BuySound.play()
 	pass
 "
 
@@ -344,4 +346,7 @@ stretch_mode = 6
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="BuySound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 8 )
 [connection signal="button_down" from="Background/UpgradeButton" to="." method="_on_UpgradeButton_button_down"]

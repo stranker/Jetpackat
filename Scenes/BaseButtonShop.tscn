@@ -1,6 +1,5 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://Groups/ShopButtonGroup.tres" type="ButtonGroup" id=1]
 [ext_resource path="res://Sprites/Shop/UI/ScarfButton.png" type="Texture" id=2]
 [ext_resource path="res://Scenes/BaseButtonShop.gd" type="Script" id=3]
 
@@ -65,7 +64,6 @@ mouse_filter = 1
 size_flags_horizontal = 3
 size_flags_vertical = 3
 toggle_mode = true
-group = ExtResource( 1 )
 texture_normal = ExtResource( 2 )
 texture_pressed = ExtResource( 2 )
 texture_hover = ExtResource( 2 )

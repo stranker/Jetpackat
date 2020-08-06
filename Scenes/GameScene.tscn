@@ -1,4 +1,4 @@
-[gd_scene load_steps=68 format=2]
+[gd_scene load_steps=66 format=2]
 
 [ext_resource path="res://Sprites/Background/HouseBroken.png" type="Texture" id=1]
 [ext_resource path="res://Sprites/Background/House.png" type="Texture" id=2]
@@ -10,7 +10,6 @@
 [ext_resource path="res://Sprites/Background/Bg3.png" type="Texture" id=8]
 [ext_resource path="res://Sprites/Background/Star3.png" type="Texture" id=9]
 [ext_resource path="res://Object/Player.tscn" type="PackedScene" id=10]
-[ext_resource path="res://Fonts/retron_32_outlined.tres" type="DynamicFont" id=11]
 [ext_resource path="res://Sprites/Collectables/Magnet.png" type="Texture" id=12]
 [ext_resource path="res://Sprites/Collectables/Coin.png" type="Texture" id=13]
 [ext_resource path="res://Sprites/Collectables/Fish.png" type="Texture" id=14]
@@ -49,7 +48,6 @@
 [ext_resource path="res://Object/PowerUp/YarnBall.tscn" type="PackedScene" id=47]
 [ext_resource path="res://Sprites/Collectables/YarnBall.png" type="Texture" id=48]
 [ext_resource path="res://Fonts/retron_150.tres" type="DynamicFont" id=49]
-[ext_resource path="res://Fonts/retron_32.tres" type="DynamicFont" id=50]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Node
@@ -58,6 +56,9 @@ var playing : bool = false
 var player_height : int = 0
 var fuel : int = 0
 var end_play : bool = false
+
+var coins : int = 0
+var fish : int = 0
 
 onready var tutorial_done : bool = GameManager.tutorial_done
 onready var fuel_item : ItemManager.UpgradeItem = ItemManager.get_upgrade_item_by_type(ItemManager.UpgradeType.ON_FUEL)
@@ -70,6 +71,8 @@ signal on_coin_multiplier(time)
 signal on_magnet(time)
 signal on_aegis(time)
 signal on_yarn_taken()
+
+var showing_ad : bool = false
 
 func _ready():
 	AudioManager.create_soundtrack()
@@ -108,11 +111,13 @@ func add_fuel():
 	pass
 
 func add_fish(val):
+	fish += val
 	GameManager.fishes += val
 	$UIGame.update_fishes_label()
 	pass
 
 func add_coin(val):
+	coins += val
 	GameManager.coins += val
 	$UIGame.update_coin_label()
 	pass
@@ -130,7 +135,6 @@ func update_height(val):
 func end_game():
 	GameManager.fuel = fuel
 	playing = false
-	GameManager.save_game_data()
 	pass
 
 func _on_Player_dead():
@@ -177,14 +181,6 @@ func _on_ToggleCollectables_toggled(button_pressed):
 	$ItemClusterSpawner.activated = button_pressed
 	pass # Replace with function body.
 
-func _on_Music_toggled(button_pressed):
-	if button_pressed:
-		$Music.stream = load('res://Sounds/Music/Game.ogg')
-	else:
-		$Music.stream = load('res://Sounds/Music/CCF Theme.ogg')
-	$Music.play()
-	pass # Replace with function body.
-
 func _on_ComboButton_button_down():
 	add_fuel()
 	pass # Replace with function body.
@@ -193,6 +189,7 @@ func _on_DeadPanel_restart_game():
 	GameManager.add_run()
 	if GameManager.can_show_interstitial():
 		AdsManager.show_interstitial()
+		showing_ad = true
 	else:
 		show_restart_anim()
 	pass # Replace with function body.
@@ -203,7 +200,8 @@ func _on_RestAnim_animation_finished(anim_name):
 	pass # Replace with function body.
 
 func on_interstitial_closed():
-	show_restart_anim()
+	if showing_ad:
+		show_restart_anim()
 	pass
 
 func on_interstitial_failed():
@@ -257,6 +255,11 @@ func _on_UIGame_on_multiplier_timeout():
 
 func _on_UIGame_on_magnet_timeout():
 	$Player.deactivate_magnet()
+	pass # Replace with function body.
+
+func _on_DeadPanel_duplicate_currency():
+	GameManager.coins += coins
+	GameManager.fishes += fish
 	pass # Replace with function body.
 "
 
@@ -1271,15 +1274,17 @@ icon_texture = ExtResource( 45 )
 [node name="MagnetBanner" parent="UIGame/UI/UpperPanel/TimedBanners/VBC" instance=ExtResource( 43 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
+margin_top = 108.0
 margin_right = 200.0
-margin_bottom = 104.0
+margin_bottom = 212.0
 icon_texture = ExtResource( 12 )
 
 [node name="AegisBanner" parent="UIGame/UI/UpperPanel/TimedBanners/VBC" instance=ExtResource( 43 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
+margin_top = 216.0
 margin_right = 200.0
-margin_bottom = 104.0
+margin_bottom = 320.0
 icon_texture = ExtResource( 19 )
 
 [node name="Anim" type="AnimationPlayer" parent="UIGame/UI/UpperPanel"]
@@ -1412,102 +1417,6 @@ rotation = -1.0472
 scale = Vector2( 3.81007, 3.81007 )
 texture = ExtResource( 29 )
 
-[node name="DebugPanel" type="Panel" parent="UIGame"]
-pause_mode = 2
-visible = false
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_top = -963.0
-margin_right = 442.0
-mouse_filter = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="UIGame/DebugPanel"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-
-[node name="Invencible" type="Button" parent="UIGame/DebugPanel/VBoxContainer"]
-margin_right = 442.0
-margin_bottom = 134.0
-rect_min_size = Vector2( 0, 64 )
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_fonts/font = ExtResource( 11 )
-toggle_mode = true
-text = "ON/OFF INVENCIBLE"
-
-[node name="Currency" type="Button" parent="UIGame/DebugPanel/VBoxContainer"]
-margin_top = 138.0
-margin_right = 442.0
-margin_bottom = 272.0
-rect_min_size = Vector2( 0, 64 )
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_fonts/font = ExtResource( 11 )
-text = "Currency"
-
-[node name="ResetGame" type="Button" parent="UIGame/DebugPanel/VBoxContainer"]
-margin_top = 276.0
-margin_right = 442.0
-margin_bottom = 410.0
-rect_min_size = Vector2( 0, 64 )
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_fonts/font = ExtResource( 11 )
-text = "RESET GAME STATE"
-
-[node name="ToggleCollectables" type="Button" parent="UIGame/DebugPanel/VBoxContainer"]
-margin_top = 414.0
-margin_right = 442.0
-margin_bottom = 548.0
-rect_min_size = Vector2( 0, 64 )
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_fonts/font = ExtResource( 11 )
-toggle_mode = true
-pressed = true
-text = "ON/OFF COLLECT"
-
-[node name="ToggleEnemies" type="Button" parent="UIGame/DebugPanel/VBoxContainer"]
-margin_top = 552.0
-margin_right = 442.0
-margin_bottom = 686.0
-rect_min_size = Vector2( 0, 64 )
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_fonts/font = ExtResource( 11 )
-toggle_mode = true
-pressed = true
-text = "ON/OFF ENEMIES"
-
-[node name="Music" type="Button" parent="UIGame/DebugPanel/VBoxContainer"]
-margin_top = 690.0
-margin_right = 442.0
-margin_bottom = 824.0
-rect_min_size = Vector2( 0, 64 )
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_fonts/font = ExtResource( 11 )
-toggle_mode = true
-text = "Music NEW/OLD"
-
-[node name="Height" type="LineEdit" parent="UIGame/DebugPanel/VBoxContainer"]
-margin_top = 828.0
-margin_right = 442.0
-margin_bottom = 963.0
-rect_min_size = Vector2( 0, 50 )
-size_flags_horizontal = 3
-size_flags_vertical = 3
-custom_fonts/font = ExtResource( 50 )
-
-[node name="Button" type="Button" parent="UIGame/DebugPanel"]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -99.9524
-margin_top = -31.5034
-margin_right = 20.0476
-margin_bottom = 36.4966
-text = "X"
-
 [node name="SpawnPoints" type="Node2D" parent="."]
 
 [node name="Enemies" type="Node2D" parent="SpawnPoints"]
@@ -1573,11 +1482,13 @@ min_height = 10.0
 max_height = 14.0
 min_height_tutorial = 0
 item_probability = [ 0.1, 0.25, 1.0 ]
+decrease_on_invencible = 6
 
 [node name="PowerUpSpawner" parent="." instance=ExtResource( 41 )]
 item_list = [ "AegisWings", "Magnet", "CoinMultiplier", "FuelCan" ]
 spawn_points_node = NodePath("../SpawnPoints/PowerUps")
 pool_manager = NodePath("../PowerUpPool")
+min_height = 18.0
 max_height = 20.0
 spawn_type = 0
 min_height_tutorial = 0
@@ -1597,8 +1508,8 @@ items_max_height = [ 800, 1400, 1800, 2200, 3000, 9999999 ]
 [connection signal="on_magnet" from="." to="Player" method="_on_GameScene_on_magnet"]
 [connection signal="on_yarn_taken" from="." to="UIGame" method="_on_GameScene_on_yarn_taken"]
 [connection signal="screen_exited" from="House/VisibilityNotifier2D" to="House" method="_on_VisibilityNotifier2D_screen_exited"]
-[connection signal="current_height" from="Player" to="UIGame" method="_on_Player_current_height"]
 [connection signal="current_height" from="Player" to="." method="_on_Player_current_height"]
+[connection signal="current_height" from="Player" to="UIGame" method="_on_Player_current_height"]
 [connection signal="current_height" from="Player" to="ParallaxBackground" method="_on_Player_current_height"]
 [connection signal="dead" from="Player" to="." method="_on_Player_dead"]
 [connection signal="show_dead_ui" from="Player" to="UIGame" method="_on_Player_show_dead_ui"]
@@ -1606,28 +1517,21 @@ items_max_height = [ 800, 1400, 1800, 2200, 3000, 9999999 ]
 [connection signal="on_aegis_timeout" from="UIGame" to="." method="_on_UIGame_on_aegis_timeout"]
 [connection signal="on_magnet_timeout" from="UIGame" to="." method="_on_UIGame_on_magnet_timeout"]
 [connection signal="on_multiplier_timeout" from="UIGame" to="." method="_on_UIGame_on_multiplier_timeout"]
-[connection signal="button_down" from="UIGame/UI/PauseButton" to="UIGame/UI/PausePanel" method="_on_PauseButton_button_down"]
 [connection signal="button_down" from="UIGame/UI/PauseButton" to="UIGame" method="_on_PauseButton_button_down"]
+[connection signal="button_down" from="UIGame/UI/PauseButton" to="UIGame/UI/PausePanel" method="_on_PauseButton_button_down"]
 [connection signal="on_config" from="UIGame/UI/PausePanel" to="UIGame" method="_on_PausePanel_on_config"]
 [connection signal="on_continue" from="UIGame/UI/PausePanel" to="UIGame" method="_on_PausePanel_on_continue"]
 [connection signal="on_home" from="UIGame/UI/PausePanel" to="UIGame" method="_on_PausePanel_on_home"]
 [connection signal="animation_finished" from="UIGame/UI/PauseTimer/Anim" to="." method="_on_Anim_animation_finished"]
+[connection signal="duplicate_currency" from="UIGame/UI/DeadPanel" to="." method="_on_DeadPanel_duplicate_currency"]
 [connection signal="restart_game" from="UIGame/UI/DeadPanel" to="." method="_on_DeadPanel_restart_game"]
-[connection signal="accept_recover" from="UIGame/UI/RecoverPanel" to="UIGame" method="_on_RecoverPanel_accept_recover"]
 [connection signal="accept_recover" from="UIGame/UI/RecoverPanel" to="." method="_on_RecoverPanel_accept_recover"]
+[connection signal="accept_recover" from="UIGame/UI/RecoverPanel" to="UIGame" method="_on_RecoverPanel_accept_recover"]
 [connection signal="cancel_recover" from="UIGame/UI/RecoverPanel" to="UIGame" method="_on_RecoverPanel_cancel_recover"]
 [connection signal="button_down" from="UIGame/UI/ComboButton" to="." method="_on_ComboButton_button_down"]
 [connection signal="finished" from="UIGame/UI/TransitionScene" to="UIGame" method="_on_TransitionScene_finished"]
 [connection signal="animation_finished" from="UIGame/UI/TransitionScene/Anim" to="UIGame" method="_on_Anim_animation_finished"]
 [connection signal="animation_finished" from="UIGame/UI/RestartTransition/RestAnim" to="." method="_on_RestAnim_animation_finished"]
-[connection signal="toggled" from="UIGame/DebugPanel/VBoxContainer/Invencible" to="Player" method="_on_Invencible_toggled"]
-[connection signal="button_down" from="UIGame/DebugPanel/VBoxContainer/Currency" to="." method="_on_Currency_button_down"]
-[connection signal="button_down" from="UIGame/DebugPanel/VBoxContainer/ResetGame" to="." method="_on_ResetGame_button_down"]
-[connection signal="toggled" from="UIGame/DebugPanel/VBoxContainer/ToggleCollectables" to="." method="_on_ToggleCollectables_toggled"]
-[connection signal="toggled" from="UIGame/DebugPanel/VBoxContainer/ToggleEnemies" to="." method="_on_ToggleEnemies_toggled"]
-[connection signal="toggled" from="UIGame/DebugPanel/VBoxContainer/Music" to="." method="_on_Music_toggled"]
-[connection signal="gui_input" from="UIGame/DebugPanel/VBoxContainer/Height" to="." method="_on_Height_gui_input"]
-[connection signal="button_down" from="UIGame/DebugPanel/Button" to="." method="_on_Button_button_down"]
 
 [editable path="UIGame/UI/ConfigPanel"]
 

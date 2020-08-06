@@ -12,7 +12,6 @@ func _ready():
 	output.clear()
 	panel.visible = false
 	pass
-	
 
 func set_text(text):
 	if !output:
@@ -45,6 +44,7 @@ __meta__ = {
 }
 
 [node name="Panel" type="Panel" parent="Control"]
+visible = false
 self_modulate = Color( 1, 1, 1, 0.262745 )
 anchor_left = 1.0
 anchor_right = 1.0
@@ -79,6 +79,7 @@ __meta__ = {
 }
 
 [node name="Console" type="Button" parent="."]
+visible = false
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -145.0

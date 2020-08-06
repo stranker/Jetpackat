@@ -17,6 +17,8 @@ func _ready():
 func _process(delta):
 	if player_magnet:
 		return
+	if !GameManager.player:
+		return
 	if GameManager.player.invencible:
 		player_magnet = GameManager.player
 	if value != GameManager.coin_value:
@@ -43,9 +45,7 @@ func on_take():
 	pass
 
 func _on_Coin_area_entered(area):
-	if area.name == 'MagnetArea' and !on_magnet_area and activated:
-		player_magnet = area
-		on_magnet_area = !on_magnet_area
+	check_magnet_area(area)
 	pass
 
 func reset():

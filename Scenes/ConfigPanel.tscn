@@ -93,7 +93,7 @@ expand_margin_bottom = 10.0
 shadow_color = Color( 0, 0, 0, 0.25098 )
 shadow_size = 10
 
-[sub_resource type="StyleBoxFlat" id=5]
+[sub_resource type="StyleBoxFlat" id=4]
 bg_color = Color( 0.956863, 0.752941, 0.278431, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -108,7 +108,7 @@ corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.184314 )
 shadow_size = 15
 
-[sub_resource type="StyleBoxFlat" id=6]
+[sub_resource type="StyleBoxFlat" id=5]
 bg_color = Color( 0.164706, 0.752941, 0.94902, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -123,7 +123,7 @@ corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.25098 )
 shadow_size = 10
 
-[sub_resource type="StyleBoxFlat" id=7]
+[sub_resource type="StyleBoxFlat" id=6]
 bg_color = Color( 0.956863, 0.752941, 0.278431, 1 )
 border_width_left = 5
 border_width_top = 5
@@ -141,7 +141,7 @@ expand_margin_bottom = 20.0
 shadow_color = Color( 0, 0, 0, 0.403922 )
 shadow_size = 8
 
-[sub_resource type="StyleBoxFlat" id=8]
+[sub_resource type="StyleBoxFlat" id=7]
 content_margin_left = 1.0
 content_margin_right = 1.0
 content_margin_top = 1.0
@@ -162,7 +162,7 @@ expand_margin_top = 10.0
 expand_margin_bottom = 10.0
 shadow_size = 2
 
-[sub_resource type="StyleBoxFlat" id=10]
+[sub_resource type="StyleBoxFlat" id=8]
 bg_color = Color( 0.156863, 0.137255, 0.482353, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -175,7 +175,7 @@ corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 corner_detail = 2
 
-[sub_resource type="StyleBoxFlat" id=11]
+[sub_resource type="StyleBoxFlat" id=9]
 bg_color = Color( 0.196078, 0.34902, 0.886275, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -188,14 +188,14 @@ corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 corner_detail = 2
 
-[sub_resource type="DynamicFont" id=14]
+[sub_resource type="DynamicFont" id=10]
 size = 80
 outline_size = 5
 outline_color = Color( 0, 0, 0, 0.784314 )
 use_filter = true
 font_data = ExtResource( 8 )
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=11]
 length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath("FrontPanel:rect_position")
@@ -324,7 +324,7 @@ margin_left = 660.0
 margin_top = -380.0
 margin_right = 1511.0
 margin_bottom = 647.0
-custom_styles/panel = SubResource( 5 )
+custom_styles/panel = SubResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -348,7 +348,7 @@ margin_left = -386.5
 margin_top = -95.5
 margin_right = 384.5
 margin_bottom = 36.5
-custom_styles/normal = SubResource( 6 )
+custom_styles/normal = SubResource( 5 )
 custom_fonts/font = ExtResource( 7 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.376471 )
 custom_constants/shadow_offset_x = 6
@@ -367,11 +367,13 @@ margin_left = -220.0
 margin_top = 62.5
 margin_right = 219.0
 margin_bottom = 117.5
+focus_mode = 0
 size_flags_horizontal = 15
 custom_icons/grabber_highlight = ExtResource( 2 )
 custom_icons/grabber = ExtResource( 2 )
-custom_styles/slider = SubResource( 7 )
-custom_styles/grabber_area = SubResource( 8 )
+custom_styles/slider = SubResource( 6 )
+custom_styles/grabber_area_highlight = SubResource( 7 )
+custom_styles/grabber_area = SubResource( 7 )
 max_value = 5.0
 value = 3.0
 tick_count = 5
@@ -393,7 +395,7 @@ margin_left = -386.5
 margin_top = -105.5
 margin_right = 384.5
 margin_bottom = 26.5
-custom_styles/normal = SubResource( 6 )
+custom_styles/normal = SubResource( 5 )
 custom_fonts/font = ExtResource( 7 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.376471 )
 custom_constants/shadow_offset_x = 8
@@ -415,10 +417,12 @@ margin_left = -219.5
 margin_top = 52.5
 margin_right = 219.5
 margin_bottom = 107.5
+focus_mode = 0
 custom_icons/grabber_highlight = ExtResource( 2 )
 custom_icons/grabber = ExtResource( 2 )
-custom_styles/slider = SubResource( 7 )
-custom_styles/grabber_area = SubResource( 8 )
+custom_styles/slider = SubResource( 6 )
+custom_styles/grabber_area_highlight = SubResource( 7 )
+custom_styles/grabber_area = SubResource( 7 )
 max_value = 5.0
 value = 3.0
 tick_count = 5
@@ -440,11 +444,11 @@ margin_left = -274.5
 margin_top = -127.5
 margin_right = 274.5
 margin_bottom = 79.5
-custom_styles/hover = SubResource( 10 )
-custom_styles/pressed = SubResource( 10 )
-custom_styles/focus = SubResource( 10 )
-custom_styles/disabled = SubResource( 10 )
-custom_styles/normal = SubResource( 11 )
+custom_styles/hover = SubResource( 8 )
+custom_styles/pressed = SubResource( 8 )
+custom_styles/focus = SubResource( 8 )
+custom_styles/disabled = SubResource( 8 )
+custom_styles/normal = SubResource( 9 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -453,7 +457,7 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_bottom = -14.0
-custom_fonts/font = SubResource( 14 )
+custom_fonts/font = SubResource( 10 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 0.25098 )
 custom_constants/shadow_offset_x = 6
 custom_constants/shadow_offset_y = 6
@@ -514,7 +518,7 @@ stretch_mode = 6
 [node name="LanguageSelection" parent="." instance=ExtResource( 9 )]
 
 [node name="Anim" type="AnimationPlayer" parent="."]
-anims/Enter = SubResource( 13 )
+anims/Enter = SubResource( 11 )
 
 [node name="CoinSample" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 10 )

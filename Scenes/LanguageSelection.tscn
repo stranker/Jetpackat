@@ -1,7 +1,6 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Fonts/retron_52.tres" type="DynamicFont" id=1]
-[ext_resource path="res://Groups/LanguageButtonGroup.tres" type="ButtonGroup" id=2]
 [ext_resource path="res://Fonts/retron_80.tres" type="DynamicFont" id=3]
 [ext_resource path="res://Sounds/Sfx/ButtonClick.wav" type="AudioStream" id=6]
 
@@ -186,7 +185,6 @@ custom_styles/pressed = SubResource( 3 )
 custom_styles/focus = SubResource( 3 )
 custom_styles/disabled = SubResource( 3 )
 custom_styles/normal = SubResource( 4 )
-group = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -235,7 +233,6 @@ custom_styles/pressed = SubResource( 3 )
 custom_styles/focus = SubResource( 3 )
 custom_styles/disabled = SubResource( 3 )
 custom_styles/normal = SubResource( 4 )
-group = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

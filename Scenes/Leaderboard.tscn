@@ -71,9 +71,13 @@ func _on_CloseLeaderButton_button_down():
 
 func _on_HTTPRequest_request_completed(result, response_code, headers, body):
 	if result == HTTPRequest.RESULT_SUCCESS and !$Timer.is_stopped():
-		var leaderboard_data = JSON.parse(body.get_string_from_utf8()).result
-		var leaderboard_list : Dictionary = leaderboard_data['dreamlo']['leaderboard']
-		create_panels(leaderboard_list['entry'])
+		var leaderboard_data : Dictionary = JSON.parse(body.get_string_from_utf8()).result
+		if leaderboard_data.empty():
+			failed_to_connect()
+			return
+		else:
+			var leaderboard_list : Dictionary = leaderboard_data['dreamlo']['leaderboard']
+			create_panels(leaderboard_list['entry'])
 		$Timer.stop()
 	else:
 		failed_to_connect()
@@ -85,7 +89,7 @@ func _on_Timer_timeout():
 	pass # Replace with function body.
 "
 
-[sub_resource type="StyleBoxFlat" id=4]
+[sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.956863, 0.752941, 0.278431, 1 )
 border_width_left = 10
 border_width_top = 10
@@ -99,7 +103,7 @@ corner_radius_bottom_left = 100
 corner_detail = 2
 expand_margin_bottom = 5.0
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=4]
 resource_name = "Enter"
 length = 0.6
 tracks/0/type = "value"
@@ -234,7 +238,7 @@ margin_top = 1140.0
 margin_right = 471.199
 margin_bottom = 2451.0
 mouse_filter = 1
-custom_styles/panel = SubResource( 4 )
+custom_styles/panel = SubResource( 3 )
 
 [node name="ItemPageGrid" parent="Leaders" instance=ExtResource( 4 )]
 margin_bottom = 0.0
@@ -347,7 +351,7 @@ expand = true
 stretch_mode = 6
 
 [node name="Anim" type="AnimationPlayer" parent="."]
-anims/Enter = SubResource( 6 )
+anims/Enter = SubResource( 4 )
 
 [node name="ButtonClick" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 8 )

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <metadata>
   <android.arch.core/>
   <android.arch.lifecycle/>
@@ -22,6 +22,11 @@
   <androidx.cardview/>
   <androidx.collection/>
   <androidx.compose/>
+  <androidx.compose.animation/>
+  <androidx.compose.foundation/>
+  <androidx.compose.material/>
+  <androidx.compose.runtime/>
+  <androidx.compose.ui/>
   <androidx.concurrent/>
   <androidx.constraintlayout/>
   <androidx.contentpager/>
@@ -132,6 +137,7 @@
   <com.google.android.play/>
   <com.google.android.support/>
   <com.google.android.things/>
+  <com.google.android.ump/>
   <com.google.android.wearable/>
   <com.google.androidbrowserhelper/>
   <com.google.ar/>
@@ -143,10 +149,10 @@
   <com.google.oboe/>
   <com.google.prefab/>
   <com.google.test.platform/>
+  <com.google.testing.platform/>
   <io.fabric.sdk.android/>
   <org.chromium.net/>
   <org.jetbrains.kotlin/>
   <tools.base.build-system.debug/>
   <zipflinger/>
-  <com.google.android.ump/>
 </metadata>

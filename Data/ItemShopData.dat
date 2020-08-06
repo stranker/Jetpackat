@@ -38,7 +38,7 @@
 			"name":"KEY_FEDORA",
 			"buyed":false,
 			"payment":0,
-			"price":500,
+			"price":350,
 			"type":0,
 			"image_location":"Sprites/Shop/Cat/Hat/Fedora.png"
 		},
@@ -46,7 +46,7 @@
 			"name":"KEY_MEDIEVAL",
 			"buyed":false,
 			"payment":1,
-			"price":100,
+			"price":30,
 			"type":0,
 			"image_location":"Sprites/Shop/Cat/Hat/Medieval.png"
 		},
@@ -55,7 +55,7 @@
 			"buyed":false,
 			"color":"ffffff",
 			"payment":1,
-			"price":100,
+			"price":20,
 			"type":0,
 			"image_location":"Sprites/Shop/Cat/Hat/TopHat.png"
 		},
@@ -63,7 +63,7 @@
 			"name":"KEY_UNICORN",
 			"buyed":false,
 			"payment":1,
-			"price":100,
+			"price":10,
 			"type":0,
 			"image_location":"Sprites/Shop/Cat/Hat/Unicorn.png"
 		},
@@ -71,15 +71,15 @@
 			"name":"KEY_WIZARD",
 			"buyed":false,
 			"payment":1,
-			"price":100,
+			"price":50,
 			"type":0,
 			"image_location":"Sprites/Shop/Cat/Hat/Wizard.png"
 		},
 		"9":{
 			"name":"KEY_WOOL",
 			"buyed":false,
-			"payment":1,
-			"price":100,
+			"payment":0,
+			"price":400,
 			"type":0,
 			"image_location":"Sprites/Shop/Cat/Hat/Wool.png"
 		},
@@ -87,23 +87,23 @@
 			"name":"KEY_VIKING",
 			"buyed":false,
 			"payment":1,
-			"price":100,
+			"price":50,
 			"type":0,
-			"image_location":"Sprites/Shop/Cat/Hat/Fez.png"
+			"image_location":"Sprites/Shop/Cat/Hat/Viking.png"
 		},
 		"11":{
 			"name":"KEY_FEZ",
 			"buyed":false,
-			"payment":1,
-			"price":100,
+			"payment":0,
+			"price":350,
 			"type":0,
-			"image_location":"Sprites/Shop/Cat/Hat/Viking.png"
+			"image_location":"Sprites/Shop/Cat/Hat/Fez.png"
 		},
 		"12":{
 			"name":"KEY_POLICE",
 			"buyed":false,
 			"payment":1,
-			"price":250,
+			"price":15,
 			"type":0,
 			"image_location":"Sprites/Shop/Cat/Hat/Police.png"
 		},
@@ -122,7 +122,7 @@
 			"buyed":false,
 			"color":"ffffff",
 			"payment":1,
-			"price":100,
+			"price":25,
 			"type":2,
 			"image_location":"Sprites/Shop/Cat/Pattern/Tigger.png"
 		},
@@ -130,8 +130,8 @@
 			"name":"KEY_PATTERN_2",
 			"buyed":false,
 			"color":"ffffff",
-			"payment":0,
-			"price":500,
+			"payment":1,
+			"price":25,
 			"type":2,
 			"image_location":"Sprites/Shop/Cat/Pattern/HalfHead.png"
 		},
@@ -139,8 +139,8 @@
 			"name":"KEY_PATTERN_3",
 			"buyed":false,
 			"color":"ffffff",
-			"payment":0,
-			"price":500,
+			"payment":1,
+			"price":25,
 			"type":2,
 			"image_location":"Sprites/Shop/Cat/Pattern/Patron1.png"
 		},
@@ -148,8 +148,8 @@
 			"name":"KEY_PATTERN_4",
 			"buyed":false,
 			"color":"ffffff",
-			"payment":0,
-			"price":500,
+			"payment":1,
+			"price":25,
 			"type":2,
 			"image_location":"Sprites/Shop/Cat/Pattern/Patron2.png"
 		},
@@ -157,8 +157,8 @@
 			"name":"KEY_PATTERN_5",
 			"buyed":false,
 			"color":"ffffff",
-			"payment":0,
-			"price":500,
+			"payment":1,
+			"price":25,
 			"type":2,
 			"image_location":"Sprites/Shop/Cat/Pattern/Patron3.png"
 		},
@@ -166,8 +166,8 @@
 			"name":"KEY_PATTERN_6",
 			"buyed":false,
 			"color":"ffffff",
-			"payment":0,
-			"price":500,
+			"payment":1,
+			"price":25,
 			"type":2,
 			"image_location":"Sprites/Shop/Cat/Pattern/Patron4.png"
 		},
@@ -175,15 +175,15 @@
 			"name":"KEY_PATTERN_7",
 			"buyed":false,
 			"color":"ffffff",
-			"payment":0,
-			"price":500,
+			"payment":1,
+			"price":25,
 			"type":2,
 			"image_location":"Sprites/Shop/Cat/Pattern/Patron5.png"
 		}
 	},
 	"Scarf":{
 		"0":{
-			"name":"Red White",
+			"name":"KEY_MILLIONARE",
 			"buyed":false,
 			"payment":0,
 			"price":500,
@@ -191,7 +191,7 @@
 			"image_location":"Sprites/Shop/Cat/Scarf/RedWhite.png"
 		},
 		"1":{
-			"name":"Gold Blue",
+			"name":"KEY_XENEIZE",
 			"buyed":false,
 			"payment":0,
 			"price":500,
@@ -199,7 +199,7 @@
 			"image_location":"Sprites/Shop/Cat/Scarf/GoldBlue.png"
 		},
 		"2":{
-			"name":"Froggy",
+			"name":"KEY_FROGGY",
 			"buyed":false,
 			"payment":1,
 			"price":50,
@@ -207,7 +207,7 @@
 			"image_location":"Sprites/Shop/Cat/Scarf/Froggy.png"
 		},
 		"3":{
-			"name":"Navy",
+			"name":"KEY_NAVAL",
 			"buyed":false,
 			"payment":1,
 			"price":50,
@@ -215,7 +215,7 @@
 			"image_location":"Sprites/Shop/Cat/Scarf/Navy.png"
 		},
 		"4":{
-			"name":"Old Fashioned",
+			"name":"KEY_OLDFASHIONED",
 			"buyed":false,
 			"payment":1,
 			"price":50,
@@ -223,7 +223,7 @@
 			"image_location":"Sprites/Shop/Cat/Scarf/OldFashioned.png"
 		},
 		"5":{
-			"name":"Pride",
+			"name":"KEY_PRIDE",
 			"buyed":false,
 			"payment":1,
 			"price":50,
@@ -231,7 +231,7 @@
 			"image_location":"Sprites/Shop/Cat/Scarf/Pride.png"
 		},
 		"6":{
-			"name":"Pompon",
+			"name":"KEY_POMPON",
 			"buyed":false,
 			"payment":1,
 			"price":50,
@@ -239,7 +239,7 @@
 			"image_location":"Sprites/Shop/Cat/Scarf/Pompon.png"
 		},
 		"7":{
-			"name":"Wizardy",
+			"name":"KEY_WIZARDY",
 			"buyed":false,
 			"payment":1,
 			"price":50,
@@ -247,7 +247,7 @@
 			"image_location":"Sprites/Shop/Cat/Scarf/Wizardy.png"
 		},
 		"8":{
-			"name":"Two Color",
+			"name":"KEY_TWOCOLOR",
 			"buyed":false,
 			"color":"ffffff",
 			"payment":1,

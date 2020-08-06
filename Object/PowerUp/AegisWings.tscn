@@ -27,7 +27,7 @@ func _on_AegisWings_area_entered(area):
 		player_magnet = area
 		on_magnet_area = !on_magnet_area
 	if is_currency(area):
-		move_up()
+		call_deferred(\"move_up\")
 	pass # Replace with function body.
 
 func _on_AegisWings_body_entered(body):

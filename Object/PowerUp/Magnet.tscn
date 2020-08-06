@@ -37,11 +37,9 @@ func on_take():
 	pass
 
 func _on_Magnet_area_entered(area):
-	if area.name == 'MagnetArea' and !on_magnet_area and activated:
-		player_magnet = area
-		on_magnet_area = !on_magnet_area
+	check_magnet_area(area)
 	if is_currency(area):
-		move_up()
+		call_deferred(\"move_up\")
 	pass # Replace with function body.
 
 func _on_Magnet_active(val):

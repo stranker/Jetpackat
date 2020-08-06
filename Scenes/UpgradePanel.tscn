@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Sprites/UI/NormalButton.png" type="Texture" id=1]
+[ext_resource path="res://Sounds/Sfx/ButtonClick.wav" type="AudioStream" id=2]
 [ext_resource path="res://Sprites/UI/CloseIcon.png" type="Texture" id=6]
 [ext_resource path="res://Sprites/UI/ButtonPressed.png" type="Texture" id=8]
 [ext_resource path="res://Scenes/UpgradeItemPanel.tscn" type="PackedScene" id=10]
@@ -43,10 +44,10 @@ func on_update_ui():
 	emit_signal(\"update_currency\")
 	pass
 
-
 func _on_CloseButton_button_down():
 	anim.play_backwards(\"Enter\")
 	emit_signal(\"closed\")
+	$CloseSound.play()
 	pass # Replace with function body.
 "
 
@@ -167,4 +168,7 @@ __meta__ = {
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 anims/Enter = SubResource( 3 )
+
+[node name="CloseSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 2 )
 [connection signal="button_down" from="BackPanel/CloseButton" to="." method="_on_CloseButton_button_down"]

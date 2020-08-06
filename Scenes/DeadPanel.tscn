@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://Fonts/retron_32.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Sprites/UI/ContinueIcon.png" type="Texture" id=2]
@@ -13,6 +13,9 @@
 [ext_resource path="res://Fonts/retron_36_outlined.tres" type="DynamicFont" id=11]
 [ext_resource path="res://Fonts/retron_80_outlined.tres" type="DynamicFont" id=12]
 [ext_resource path="res://Fonts/retron_72_outlined.tres" type="DynamicFont" id=13]
+[ext_resource path="res://Sprites/Collectables/Fish.png" type="Texture" id=14]
+[ext_resource path="res://Sprites/Collectables/Coin.png" type="Texture" id=15]
+[ext_resource path="res://Fonts/retron_52.tres" type="DynamicFont" id=16]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Control
@@ -35,12 +38,41 @@ var vport
 var vport_img
 var share_screen
 
+var showing_ad : bool = false
+
+signal duplicate_currency
+
 func _ready():
 	$Panel.visible = false
 	set_particles(false)
 	if Engine.has_singleton(\"GodotShare\"):
 		share = Engine.get_singleton(\"GodotShare\")
+	AdsManager.connect(\"interstitial_closed\",self, \"on_interstitial_closed\")
+	AdsManager.connect(\"interstitial_failed\",self, \"on_interstitial_failed\")
 	create_viewport_screenshare()
+	pass
+
+func on_interstitial_closed():
+	if showing_ad:
+		duplicate_session_currency()
+	pass
+
+func on_interstitial_failed():
+	restart_game()
+	pass
+
+func duplicate_session_currency():
+	$Panel/Multiplier/Coins.restart()
+	$Panel/Multiplier/Fish.restart()
+	$Panel/Multiplier/MultiplierAnim.play(\"Appear\")
+	var game_scene = get_tree().root.get_node(\"GameScene\")
+	$Panel/Multiplier/Fish2/Label2.text = str(game_scene.fish)
+	$Panel/Multiplier/Coin/Label3.text = str(game_scene.coins)
+	$Panel/Multiplier/Fish2.visible = game_scene.fish > 0
+	$Panel/Multiplier/Coin.visible = game_scene.coins > 0
+	yield(get_tree().create_timer(1.2), \"timeout\")
+	emit_signal(\"duplicate_currency\")
+	restart_game()
 	pass
 
 func create_viewport_screenshare():
@@ -74,12 +106,17 @@ func check_highscore():
 	pass
 
 func _on_RestartButton_button_down():
+	restart_game()
+	pass
+
+func restart_game():
 	if !restart_pressed:
 		restart_pressed = true
 		emit_signal('restart_game')
 		set_particles(false)
 		$Anim.play_backwards(\"Enter\")
 		$ButtonClick.play()
+		new_highscore = false
 	pass
 
 func _on_Anim_animation_finished(anim_name):
@@ -131,6 +168,11 @@ func take_screenshot():
 	$Panel/ScreenShot/Image.texture = image_texture
 	$Panel/ScreenShot.show()
 	pass
+
+func _on_Multiplier_button_down():
+	showing_ad = true
+	AdsManager.show_interstitial()
+	pass # Replace with function body.
 "
 
 [sub_resource type="StyleBoxFlat" id=2]
@@ -289,7 +331,92 @@ corner_detail = 2
 shadow_color = Color( 0, 0, 0, 0.266667 )
 shadow_size = 6
 
-[sub_resource type="Animation" id=19]
+[sub_resource type="StyleBoxFlat" id=19]
+bg_color = Color( 0.156863, 0.137255, 0.482353, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 20
+border_color = Color( 0.156863, 0.137255, 0.482353, 1 )
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+corner_detail = 2
+shadow_color = Color( 0, 0, 0, 0.25098 )
+shadow_size = 6
+
+[sub_resource type="StyleBoxFlat" id=20]
+bg_color = Color( 0.196078, 0.34902, 0.886275, 1 )
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 20
+border_color = Color( 0.156863, 0.137255, 0.482353, 1 )
+corner_radius_top_left = 30
+corner_radius_top_right = 30
+corner_radius_bottom_right = 30
+corner_radius_bottom_left = 30
+corner_detail = 2
+shadow_color = Color( 0, 0, 0, 0.266667 )
+shadow_size = 6
+
+[sub_resource type="Gradient" id=21]
+offsets = PoolRealArray( 0, 0.542169, 1 )
+colors = PoolColorArray( 1, 1, 1, 0.756863, 1, 1, 1, 0.772549, 1, 1, 1, 0 )
+
+[sub_resource type="Animation" id=22]
+resource_name = "Appear"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Fish2:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.8, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Coin:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2, 0.8, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Fish2:rect_position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 0.5, 1 ),
+"update": 0,
+"values": [ Vector2( 15.641, 0 ), Vector2( -104.831, 190.623 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Coin:rect_position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 0.5, 1 ),
+"update": 0,
+"values": [ Vector2( 95.4247, 11.4395 ), Vector2( 248.505, 199.623 ) ]
+}
+
+[sub_resource type="Animation" id=23]
 length = 0.8
 tracks/0/type = "value"
 tracks/0/path = NodePath("Panel:rect_position")
@@ -370,10 +497,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -353.0
-margin_top = 1008.0
-margin_right = 354.0
-margin_bottom = 1674.0
+margin_left = -332.0
+margin_top = 1040.0
+margin_right = 375.0
+margin_bottom = 1706.0
 mouse_filter = 2
 custom_styles/panel = SubResource( 2 )
 __meta__ = {
@@ -781,6 +908,7 @@ expand = true
 stretch_mode = 6
 
 [node name="ScreenShot" type="Panel" parent="Panel"]
+visible = false
 margin_left = 448.274
 margin_top = -182.102
 margin_right = 748.274
@@ -839,30 +967,15 @@ __meta__ = {
 autoplay = "ShareLabel"
 anims/ShareLabel = SubResource( 16 )
 
-[node name="Continue" type="Control" parent="Panel"]
-anchor_left = 0.5
+[node name="RestartButton" type="Button" parent="Panel"]
+anchor_left = 1.0
 anchor_top = 1.0
-anchor_right = 0.5
+anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -257.5
-margin_top = -168.0
-margin_right = 262.5
-margin_bottom = -23.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="RestartButton" type="Button" parent="Panel/Continue"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -141.0
-margin_top = -72.5
-margin_right = 141.0
-margin_bottom = 72.5
+margin_left = -343.449
+margin_top = -173.032
+margin_right = -61.4489
+margin_bottom = -28.032
 custom_styles/hover = SubResource( 17 )
 custom_styles/pressed = SubResource( 17 )
 custom_styles/focus = SubResource( 17 )
@@ -872,7 +985,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Icon" type="TextureRect" parent="Panel/Continue/RestartButton"]
+[node name="Icon" type="TextureRect" parent="Panel/RestartButton"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -884,10 +997,169 @@ margin_bottom = 36.2983
 texture = ExtResource( 2 )
 expand = true
 stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Multiplier" type="Button" parent="Panel"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 56.5753
+margin_top = -173.032
+margin_right = 338.575
+margin_bottom = -28.032
+custom_styles/hover = SubResource( 19 )
+custom_styles/pressed = SubResource( 19 )
+custom_styles/focus = SubResource( 19 )
+custom_styles/disabled = SubResource( 19 )
+custom_styles/normal = SubResource( 20 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Icon" type="TextureRect" parent="Panel/Multiplier"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -103.495
+margin_top = -72.5
+margin_right = 10.5051
+margin_bottom = 25.5
+texture = ExtResource( 14 )
+expand = true
+stretch_mode = 6
+
+[node name="Icon2" type="TextureRect" parent="Panel/Multiplier"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 10.5051
+margin_top = -61.0605
+margin_right = 107.505
+margin_bottom = 22.9395
+texture = ExtResource( 15 )
+expand = true
+stretch_mode = 6
+
+[node name="Coins" type="CPUParticles2D" parent="Panel/Multiplier"]
+position = Vector2( 151.505, 62.3293 )
+emitting = false
+amount = 30
+one_shot = true
+explosiveness = 1.0
+randomness = 0.5
+lifetime_randomness = 0.5
+texture = ExtResource( 15 )
+emission_shape = 1
+emission_sphere_radius = 3.0
+spread = 180.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 300.0
+initial_velocity_random = 1.0
+scale_amount = 2.0
+color_ramp = SubResource( 21 )
+
+[node name="Fish" type="CPUParticles2D" parent="Panel/Multiplier"]
+position = Vector2( 151.505, 62.3293 )
+emitting = false
+amount = 30
+one_shot = true
+explosiveness = 1.0
+randomness = 0.5
+lifetime_randomness = 0.5
+texture = ExtResource( 14 )
+emission_shape = 1
+emission_sphere_radius = 3.0
+spread = 180.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 300.0
+initial_velocity_random = 1.0
+angle = 360.0
+angle_random = 1.0
+scale_amount = 1.2
+color_ramp = SubResource( 21 )
+
+[node name="Fish2" type="TextureRect" parent="Panel/Multiplier"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -245.831
+margin_top = 118.123
+margin_right = -131.831
+margin_bottom = 216.122
+texture = ExtResource( 14 )
+expand = true
+stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="Panel/Multiplier/Fish2"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = 57.0001
+margin_top = -110.132
+margin_right = 153.0
+margin_bottom = -14.1323
+custom_fonts/font = ExtResource( 13 )
+text = "x2"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Coin" type="TextureRect" parent="Panel/Multiplier"]
+modulate = Color( 1, 1, 1, 0 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 107.505
+margin_top = 127.123
+margin_right = 204.505
+margin_bottom = 211.123
+texture = ExtResource( 15 )
+expand = true
+stretch_mode = 6
+
+[node name="Label3" type="Label" parent="Panel/Multiplier/Coin"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = 48.4949
+margin_top = -107.573
+margin_right = 144.495
+margin_bottom = -11.573
+custom_fonts/font = ExtResource( 13 )
+text = "x2"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Panel/Multiplier"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -27.942
+margin_top = -82.6706
+margin_right = 42.058
+margin_bottom = -12.6706
+custom_fonts/font = ExtResource( 16 )
+text = "x2"
+
+[node name="MultiplierAnim" type="AnimationPlayer" parent="Panel/Multiplier"]
+anims/Appear = SubResource( 22 )
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 pause_mode = 2
-anims/Enter = SubResource( 19 )
+anims/Enter = SubResource( 23 )
 
 [node name="Sound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 7 )
@@ -900,5 +1172,6 @@ bus = "UI"
 
 [node name="Tween" type="Tween" parent="."]
 [connection signal="button_down" from="Panel/ScreenShot/Image/ShareButton" to="." method="_on_ShareButton_button_down"]
-[connection signal="button_down" from="Panel/Continue/RestartButton" to="." method="_on_RestartButton_button_down"]
+[connection signal="button_down" from="Panel/RestartButton" to="." method="_on_RestartButton_button_down"]
+[connection signal="button_down" from="Panel/Multiplier" to="." method="_on_Multiplier_button_down"]
 [connection signal="animation_finished" from="Anim" to="." method="_on_Anim_animation_finished"]

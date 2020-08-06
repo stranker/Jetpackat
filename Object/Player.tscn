@@ -1,10 +1,10 @@
-[gd_scene load_steps=43 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://Sprites/Effect/WindEffect.png" type="Texture" id=1]
-[ext_resource path="res://Shaders/outline.shader" type="Shader" id=2]
+[ext_resource path="res://Sprites/Shop/Cat/Jetpack/Green.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/Cat/Skin/Skin.png" type="Texture" id=3]
 [ext_resource path="res://Sprites/Cat/Eyes.png" type="Texture" id=4]
-[ext_resource path="res://Sprites/Cat/Jetpack.png" type="Texture" id=5]
+[ext_resource path="res://Object/Player.gd" type="Script" id=5]
 [ext_resource path="res://Sprites/Shop/Cat/Thruster/Smoke.png" type="Texture" id=6]
 [ext_resource path="res://Object/Misc/MagnetArea.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Sprites/Tutorial/JumpArrow.png" type="Texture" id=8]
@@ -17,282 +17,11 @@
 [ext_resource path="res://Sounds/Sfx/Hit.wav" type="AudioStream" id=15]
 [ext_resource path="res://Sounds/Sfx/CatFalling.wav" type="AudioStream" id=16]
 
-[sub_resource type="GDScript" id=1]
-script/source = "extends KinematicBody2D
-
-export var jump_speed : float = 700
-export var horizontal_jump_speed : float = 300
-export var slide_speed : float = 400
-export var min_recover_height : int = 10
-var velocity : Vector2
-var jump_direction : int = 1
-var GRAVITY = 1600
-var activated : bool = false 
-var size_sprite : Vector2
-var invencible : bool = false
-var can_receive_damage : bool = true
-var dead : bool = false
-var has_aegis : bool = false
-var die_position : Vector2
-var can_recover : bool = false
-onready var initial_pos_x : float = position.x
-
-signal start_playing
-signal dead
-signal current_height(value)
-signal on_magnet(time)
-signal on_recover
-signal show_dead_ui
-
-func _ready():
-	initialize()
-	pass
-
-func _input(event):
-	if event.is_action_pressed(\"ui_up\") and !event.is_echo():
-		recover()
-
-func initialize():
-	$Visible.scale.x = -jump_direction
-	$Visible/Jetpack/Thruster.emitting = false
-	size_sprite = $Visible/Skin.texture.get_size() * $Visible/Skin.scale / $Visible/Skin.hframes
-	position = Vector2(get_viewport_rect().size.x, 0) * 0.5
-	GameManager.player = self
-	set_physics_process(activated)
-	#emit_signal('current_height', 0)
-	$Visible/Shield.hide()
-	$GameCamera.initialize()
-	pass
-
-func _physics_process(delta):
-	if activated:
-		if !invencible:
-			velocity.y += GRAVITY * delta
-		if is_on_floor():
-			velocity.x = 0
-		move_and_slide(velocity,Vector2.UP)
-	pass
-
-func _process(delta):
-	if activated:
-		check_boundaries()
-		process_animation()
-		if !is_on_floor():
-			var height = int(abs(position.y) * 0.01)
-			emit_signal('current_height', height)
-			if !can_recover:
-				if height > min_recover_height:
-					can_recover = true
-		$Visible/Jetpack/Thruster.emitting = velocity.y < 0
-	pass
-
-func process_animation():
-	if !is_on_floor():
-		if velocity.y < 450:
-			$Visible/Scarf/Anim.play('Flying')
-		else:
-			$Visible/Scarf/Anim.play('Falling')
-	else:
-		$Anim.play('Idle')
-		$Visible/Scarf/Anim.play('Idle')
-	pass
-
-func check_boundaries():
-	if position.x < size_sprite.x * 0.5:
-		position.x = size_sprite.x * 0.5
-	elif position.x > get_viewport_rect().size.x - size_sprite.x:
-		position.x = get_viewport_rect().size.x - size_sprite.x
-	pass
-
-func check_is_active():
-	if !activated:
-		activated = !activated
-		emit_signal('start_playing')
-		set_physics_process(activated)
-		$Visible/Scarf/Anim.play('Flying')
-	pass
-
-func take_damage():
-	if invencible or has_aegis:
-		return
-	if !dead and can_receive_damage:
-		on_dead()
-	pass
-
-func height_damage():
-	if !dead:
-		on_dead()
-	pass
-
-func on_dead():
-	$Hit.play()
-	dead = !dead
-	check_die_direction()
-	set_physics_process(false)
-	$Visible/MagnetArea.deactivate()
-	$Anim.stop()
-	$Anim.play('Dead')
-	$GameCamera.follow_player()
-	$Visible/Arrow.hide()
-	die_position = global_position
-	can_receive_damage = false
-	pass
-
-func recover():
-	dead = false
-	global_position = Vector2(initial_pos_x, die_position.y)
-	$Falling.volume_db = -80
-	$Anim.play_backwards(\"Dead\")
-	can_recover = false
-	pass
-
-func check_die_direction():
-	if global_position.x < get_viewport_rect().size.x * 0.5:
-		$Visible.scale.x = 1
-	else:
-		$Visible.scale.x = -1
-	pass
-
-func _on_VisibilityNotifier2D_screen_exited():
-	if !get_tree().paused:
-		height_damage()
-	pass
-
-func _on_Area_gui_input(event):
-	if !invencible:
-		jump_control(event)
-	else:
-		slide_control(event)
-	pass
-
-func jump_control(event : InputEvent):
-	if event is InputEventScreenTouch:
-		if !event.is_echo() and event.pressed and !dead and !invencible:
-			check_is_active()
-			jump(jump_speed)
-	pass
-
-func slide_control(event : InputEvent):
-	if event is InputEventScreenTouch:
-		if event.is_pressed():
-			check_scale_direction(jump_direction)
-			move_and_slide(Vector2.RIGHT * jump_direction * slide_speed, Vector2.UP)
-
-func jump(jforce : int):
-	check_scale_direction(jump_direction)
-	velocity.y = -jforce
-	$Sample.play()
-	$Visible/Jetpack/Anim.play('Propulsion')
-	pass
-
-func check_scale_direction(dir):
-	$Visible.scale.x = -dir
-	velocity.x = dir * horizontal_jump_speed
-	pass
-
-func _on_Anim_animation_finished(anim_name):
-	if anim_name == 'TimeOut':
-		get_tree().root.get_node('GameScene').end_game()
-	if anim_name == \"Dead\":
-		if dead:
-			emit_signal(\"show_dead_ui\")
-		if !dead:
-			emit_signal(\"on_recover\")
-			$Falling.volume_db = -16
-			yield(get_tree().create_timer(2.2),\"timeout\")
-			can_receive_damage = true
-			set_physics_process(true)
-	pass # Replace with function body.
-
-func impulse(force):
-	velocity.y = -force
-	pass
-
-func on_aegis(value : bool):
-	has_aegis = value
-	if has_aegis:
-		$Visible/AegisWings/Anim.play(\"Idle\")
-	else:
-		$Visible/AegisWings/Anim.play(\"Used\")
-	pass
-
-func on_fuel_master(time : int):
-	invencible = true
-	$Visible/Shield.visible = true
-	$GameCamera.set_wind_effect(time)
-	$Invencible.play()
-	$Anim.play('Invencible')
-	$Visible/Shield/Anim.play('ShieldOn')
-	impulse(1500)
-	pass
-
-func hide_tutorial_arrow():
-	$Visible/Arrow/Anim.play('Hide')
-	pass
-
-func _on_Invencible_toggled(button_pressed):
-	can_receive_damage = !button_pressed
-	pass # Replace with function body.
-
-func disable_tutorial():
-	$Visible/Arrow.hide()
-	pass
-
-func _on_VisibilityNotifier2D_viewport_exited(viewport):
-	_on_VisibilityNotifier2D_screen_exited()
-	pass # Replace with function body.
-
-func _on_Left_gui_input(event):
-	jump_direction = -1
-	check_movement_type(event)
-	pass # Replace with function body.
-
-func _on_Right_gui_input(event):
-	jump_direction = 1
-	check_movement_type(event)
-	pass # Replace with function body.
-
-func check_movement_type(event):
-	if !invencible:
-		jump_control(event)
-	else:
-		slide_control(event)
-
-func _on_GameScene_on_fuel_completed(time):
-	on_fuel_master(time)
-	pass # Replace with function body.
-
-func deactivate_magnet():
-	$Visible/MagnetArea.deactivate()
-	pass
-
-func on_invencible_timeout():
-	if invencible:
-		invencible = false
-		$Visible/Shield.visible = false
-		$GameCamera.stop_wind()
-		$Anim.play(\"Idle\")
-		$Visible/Shield/Anim.stop()
-	if has_aegis:
-		has_aegis = false
-		$Visible/AegisWings/Anim.play(\"Used\")
-	pass
-
-func _on_GameScene_on_magnet(time):
-	emit_signal('on_magnet', time)
-	pass # Replace with function body.
-
-func _on_GameScene_on_aegis(time):
-	$Visible/AegisWings/Anim.play(\"Idle\")
-	has_aegis = true
-	pass # Replace with function body.
-"
-
-[sub_resource type="CapsuleShape2D" id=2]
+[sub_resource type="CapsuleShape2D" id=1]
 radius = 53.0
 height = 80.0
 
-[sub_resource type="GDScript" id=3]
+[sub_resource type="GDScript" id=2]
 script/source = "extends Camera2D
 
 var shake_amount : float
@@ -373,7 +102,7 @@ func _on_Tween_tween_completed(object, key):
 	pass # Replace with function body.
 "
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=3]
 resource_name = "Wind"
 length = 0.3
 loop = true
@@ -390,7 +119,7 @@ tracks/0/keys = {
 "values": [ 0, 1, 2, 3 ]
 }
 
-[sub_resource type="GDScript" id=5]
+[sub_resource type="GDScript" id=4]
 script/source = "extends Node2D
 
 func _ready():
@@ -447,31 +176,21 @@ func set_jetpack(item):
 	pass
 "
 
-[sub_resource type="ShaderMaterial" id=6]
-shader = ExtResource( 2 )
-shader_param/outline_width = 0.5
-shader_param/outline_color = Color( 0, 0, 0, 1 )
-
-[sub_resource type="ShaderMaterial" id=7]
-shader = ExtResource( 2 )
-shader_param/outline_width = 0.5
-shader_param/outline_color = Color( 0, 0, 0, 1 )
-
-[sub_resource type="Curve" id=8]
+[sub_resource type="Curve" id=5]
 _data = [ Vector2( 0, 0.456 ), 0.0, 0.4158, 0, 1, Vector2( 0.592593, 0.7024 ), 0.6336, 0.6336, 0, 0, Vector2( 1, 1 ), 0.730473, 0.0, 1, 0 ]
 
-[sub_resource type="Gradient" id=9]
+[sub_resource type="Gradient" id=6]
 offsets = PoolRealArray( 0.358025, 0.530864, 0.679012, 0.82716, 1 )
 colors = PoolColorArray( 1, 1, 1, 1, 1, 0.984375, 0, 1, 1, 0.492188, 0, 1, 1, 0.00392157, 0.00392157, 0.345098, 0.423529, 0, 0, 0 )
 
-[sub_resource type="GDScript" id=10]
+[sub_resource type="GDScript" id=7]
 script/source = "extends CPUParticles2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body."
 
-[sub_resource type="Animation" id=11]
+[sub_resource type="Animation" id=8]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:position")
@@ -486,7 +205,7 @@ tracks/0/keys = {
 "values": [ Vector2( 3.84464, 39.7731 ), Vector2( 7.04977, 38.0137 ), Vector2( -0.644684, 41.9775 ), Vector2( 3.2222, 40.4274 ), Vector2( 5.22339, 44.976 ), Vector2( 3.84464, 39.7731 ) ]
 }
 
-[sub_resource type="Animation" id=12]
+[sub_resource type="Animation" id=9]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:self_modulate")
@@ -501,7 +220,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 0.34902 ), Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=10]
 length = 0.8
 loop = true
 tracks/0/type = "value"
@@ -517,7 +236,7 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 0.34902 ), Color( 1, 1, 1, 0.717647 ), Color( 1, 1, 1, 0.34902 ) ]
 }
 
-[sub_resource type="Animation" id=14]
+[sub_resource type="Animation" id=11]
 length = 1.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("Skeleton/Bone2D/Bone2D2/Bone2D3:rotation_degrees")
@@ -556,7 +275,7 @@ tracks/2/keys = {
 "values": [ 6.06401, -20.8268, 32.9491, 86.1725, -73.9872, 32.9491, 86.1725, -73.9872, 86.1725 ]
 }
 
-[sub_resource type="Animation" id=15]
+[sub_resource type="Animation" id=12]
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Skeleton/Bone2D/Bone2D2:rotation_degrees")
@@ -607,7 +326,7 @@ tracks/3/keys = {
 "values": [ 6.06401, -70.6719, 54.2652, 7.53509 ]
 }
 
-[sub_resource type="Animation" id=16]
+[sub_resource type="Animation" id=13]
 length = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("Skeleton/Bone2D/Bone2D2:rotation_degrees")
@@ -658,7 +377,7 @@ tracks/3/keys = {
 "values": [ 6.06401 ]
 }
 
-[sub_resource type="Animation" id=17]
+[sub_resource type="Animation" id=14]
 length = 0.6
 loop = true
 tracks/0/type = "value"
@@ -698,7 +417,7 @@ tracks/2/keys = {
 "values": [ Vector2( 2.71101, 2.90069 ), Vector2( 2.71101, 3.40434 ), Vector2( 2.71101, 2.90069 ), Vector2( 2.71101, 3.40434 ), Vector2( 2.71101, 2.90069 ), Vector2( 2.71101, 3.40434 ), Vector2( 2.71101, 2.90069 ) ]
 }
 
-[sub_resource type="Animation" id=18]
+[sub_resource type="Animation" id=15]
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Skeleton2D/M/LU:rotation_degrees")
@@ -809,7 +528,7 @@ tracks/8/keys = {
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
 
-[sub_resource type="Animation" id=19]
+[sub_resource type="Animation" id=16]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Feathers:emitting")
 tracks/0/interp = 1
@@ -847,11 +566,11 @@ tracks/2/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Gradient" id=20]
+[sub_resource type="Gradient" id=17]
 offsets = PoolRealArray( 0, 0.785276, 1 )
 colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0.635294, 1, 1, 1, 0 )
 
-[sub_resource type="Animation" id=21]
+[sub_resource type="Animation" id=18]
 length = 2.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Visible/Skin:position")
@@ -1010,7 +729,7 @@ tracks/12/keys = {
 "values": [ false, false, true ]
 }
 
-[sub_resource type="Animation" id=22]
+[sub_resource type="Animation" id=19]
 length = 5.0
 loop = true
 tracks/0/type = "value"
@@ -1086,7 +805,7 @@ tracks/5/keys = {
 "values": [ 117.38 ]
 }
 
-[sub_resource type="Animation" id=23]
+[sub_resource type="Animation" id=20]
 length = 1.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("Visible/Skin:frame")
@@ -1125,7 +844,7 @@ tracks/2/keys = {
 "values": [ 117.38 ]
 }
 
-[sub_resource type="Animation" id=24]
+[sub_resource type="Animation" id=21]
 length = 6.0
 loop = true
 tracks/0/type = "value"
@@ -1153,7 +872,7 @@ tracks/1/keys = {
 "values": [ 0, 1, 0, 1, 0 ]
 }
 
-[sub_resource type="Animation" id=25]
+[sub_resource type="Animation" id=22]
 length = 4.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Visible/Skin:frame")
@@ -1216,7 +935,7 @@ tracks/4/keys = {
 "values": [ true, false ]
 }
 
-[sub_resource type="Animation" id=26]
+[sub_resource type="Animation" id=23]
 length = 2.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("GameCamera:zoom")
@@ -1368,10 +1087,10 @@ tracks/11/keys = {
 ]]
 position = Vector2( 540, 1180 )
 z_index = 8
-script = SubResource( 1 )
+script = ExtResource( 5 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 2 )
+shape = SubResource( 1 )
 
 [node name="GameCamera" type="Camera2D" parent="."]
 pause_mode = 2
@@ -1384,7 +1103,7 @@ drag_margin_top = 0.3
 drag_margin_right = 1.0
 drag_margin_bottom = 1.0
 editor_draw_drag_margin = true
-script = SubResource( 3 )
+script = SubResource( 2 )
 
 [node name="CL" type="CanvasLayer" parent="GameCamera"]
 
@@ -1403,36 +1122,46 @@ hframes = 4
 one_shot = true
 
 [node name="Anim" type="AnimationPlayer" parent="GameCamera"]
-anims/Wind = SubResource( 4 )
+anims/Wind = SubResource( 3 )
 
 [node name="Visible" type="Node2D" parent="."]
-script = SubResource( 5 )
+script = SubResource( 4 )
 
 [node name="Skin" type="Sprite" parent="Visible"]
-material = SubResource( 6 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 3 )
 hframes = 2
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Pattern" type="Sprite" parent="Visible/Skin"]
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Eyes" type="Sprite" parent="Visible/Skin"]
-position = Vector2( 0, -15 )
+position = Vector2( 0, -15.5 )
 texture = ExtResource( 4 )
 hframes = 7
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Hat" type="Sprite" parent="Visible/Skin"]
 position = Vector2( 2.50847, -22.9723 )
 rotation = 0.0224156
 scale = Vector2( 0.6, 0.6 )
 offset = Vector2( -3.49275, -23.7578 )
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Jetpack" type="Sprite" parent="Visible"]
 show_behind_parent = true
-material = SubResource( 7 )
 position = Vector2( 3.84464, 39.7731 )
 scale = Vector2( 3, 3 )
-texture = ExtResource( 5 )
+texture = ExtResource( 2 )
 
 [node name="Thruster" type="CPUParticles2D" parent="Visible/Jetpack"]
 show_behind_parent = true
@@ -1458,12 +1187,12 @@ angle = 360.0
 angle_random = 1.0
 scale_amount = 2.5
 scale_amount_random = 1.0
-scale_amount_curve = SubResource( 8 )
-color_ramp = SubResource( 9 )
-script = SubResource( 10 )
+scale_amount_curve = SubResource( 5 )
+color_ramp = SubResource( 6 )
+script = SubResource( 7 )
 
 [node name="Anim" type="AnimationPlayer" parent="Visible/Jetpack"]
-anims/Propulsion = SubResource( 11 )
+anims/Propulsion = SubResource( 8 )
 
 [node name="MagnetArea" parent="Visible" instance=ExtResource( 7 )]
 
@@ -1476,8 +1205,8 @@ flip_h = true
 
 [node name="Anim" type="AnimationPlayer" parent="Visible/Arrow"]
 autoplay = "Idle"
-anims/Hide = SubResource( 12 )
-anims/Idle = SubResource( 13 )
+anims/Hide = SubResource( 9 )
+anims/Idle = SubResource( 10 )
 
 [node name="Scarf" type="Polygon2D" parent="Visible"]
 visible = false
@@ -1492,9 +1221,9 @@ bones = [ NodePath("Bone2D"), PoolRealArray( 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0,
 
 [node name="Anim" type="AnimationPlayer" parent="Visible/Scarf"]
 autoplay = "Idle"
-anims/Falling = SubResource( 14 )
-anims/Flying = SubResource( 15 )
-anims/Idle = SubResource( 16 )
+anims/Falling = SubResource( 11 )
+anims/Flying = SubResource( 12 )
+anims/Idle = SubResource( 13 )
 
 [node name="Skeleton" type="Skeleton2D" parent="Visible/Scarf"]
 position = Vector2( 3.53373, 2.46481 )
@@ -1541,7 +1270,7 @@ scale = Vector2( 2.71101, 2.90069 )
 texture = ExtResource( 9 )
 
 [node name="Anim" type="AnimationPlayer" parent="Visible/Shield"]
-anims/ShieldOn = SubResource( 17 )
+anims/ShieldOn = SubResource( 14 )
 
 [node name="AegisWings" type="Polygon2D" parent="Visible"]
 visible = false
@@ -1593,8 +1322,8 @@ rotation = 4.61884
 rest = Transform2D( -0.0400426, -0.999198, 0.999198, -0.0400426, 10.2345, -1.41992 )
 
 [node name="Anim" type="AnimationPlayer" parent="Visible/AegisWings"]
-anims/Idle = SubResource( 18 )
-anims/Used = SubResource( 19 )
+anims/Idle = SubResource( 15 )
+anims/Used = SubResource( 16 )
 
 [node name="Feathers" type="CPUParticles2D" parent="Visible/AegisWings"]
 position = Vector2( 27.4478, 13.603 )
@@ -1614,7 +1343,7 @@ angular_velocity = 200.0
 angular_velocity_random = 1.0
 angle = 360.0
 angle_random = 1.0
-color_ramp = SubResource( 20 )
+color_ramp = SubResource( 17 )
 
 [node name="Sample" type="AudioStreamPlayer2D" parent="Visible/AegisWings"]
 stream = ExtResource( 12 )
@@ -1622,12 +1351,12 @@ volume_db = -6.0
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 autoplay = "Idle"
-anims/Dead = SubResource( 21 )
-anims/Flying = SubResource( 22 )
-anims/FuelTaken = SubResource( 23 )
-anims/Idle = SubResource( 24 )
-anims/Invencible = SubResource( 25 )
-anims/TimeOut = SubResource( 26 )
+anims/Dead = SubResource( 18 )
+anims/Flying = SubResource( 19 )
+anims/FuelTaken = SubResource( 20 )
+anims/Idle = SubResource( 21 )
+anims/Invencible = SubResource( 22 )
+anims/TimeOut = SubResource( 23 )
 
 [node name="ClickArea" type="CanvasLayer" parent="."]
 

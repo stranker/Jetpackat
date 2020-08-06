@@ -30,6 +30,6 @@ func get_object_by_name(obj_name : String):
 
 func return_object(obj):
 	obj.get_parent().call_deferred('remove_child',obj)
-	obj.set_active(false)
-	obj.call_deferred('set_global_position',Vector2(-900,-900))
+	obj.call_deferred('set_active', false)
+	obj.call_deferred('set_global_position',Vector2.ONE * -999)
 	call_deferred('add_child',obj)

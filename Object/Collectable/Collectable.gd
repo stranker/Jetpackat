@@ -29,7 +29,8 @@ func set_active(val):
 	pass
 
 func is_currency(area):
-	return area.name.find('Coin') >= 0 or area.name.find('Fish') >= 0
+	var name_area : String = area.name.to_lower()
+	return name_area.find('coin') >= 0 or name_area.find('fish') >= 0 or name_area.find('yarnball') >= 0
 
 func can_be_taked():
 	return !taked and activated
@@ -40,7 +41,7 @@ func dispose_object():
 	pass
 
 func move_up():
-	global_position += Vector2(0,-500)
+	global_position += Vector2(0,400)
 	pass
 
 func check_magnet_area(area):

@@ -46,24 +46,17 @@ func play_animation():
 	pass
 
 func _on_Anim_animation_finished(anim_name):
-	change_direction()
+	if anim_name == \"Hit\":
+		dispose_object()
+	else:
+		change_direction()
 	pass # Replace with function body.
 
 func _on_PaperPlane_body_entered(body):
 	if is_player(body) and can_attack:
-		if !body.invencible:
-			body.take_damage()
-		else:
-			can_attack = false
-			move_away(body.global_position)
-			anim.play(\"Hit\")
+		body.take_damage()
+		anim.play(\"Hit\")
 	pass # Replace with function body.
-
-func move_away(player_pos):
-	var dir = ($Sprite.global_position - player_pos).normalized()
-	$Tween.interpolate_property(self, 'position', $Sprite.position, Vector2(dir.x + 50, 600),2,Tween.TRANS_LINEAR,Tween.EASE_OUT)
-	$Tween.start()
-	pass
 
 func _on_PaperPlane_active(val):
 	if val:
@@ -148,7 +141,6 @@ script = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 1182.57, 38.0697 )
-rotation = -12.7711
 scale = Vector2( 3, 3 )
 texture = ExtResource( 2 )
 

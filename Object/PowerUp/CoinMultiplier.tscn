@@ -36,9 +36,9 @@ func on_take():
 	pass
 
 func _on_Coin_area_entered(area):
-	if area.name == 'MagnetArea' and !on_magnet_area and activated:
-		player_magnet = area
-		on_magnet_area = !on_magnet_area
+	check_magnet_area(area)
+	if is_currency(area):
+		call_deferred(\"move_up\")
 	pass
 
 func reset():
@@ -192,7 +192,6 @@ color_ramp = SubResource( 6 )
 
 [node name="Sample" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 3 )
-volume_db = -16.0
 bus = "Sounds"
 
 [node name="Anim" type="AnimationPlayer" parent="."]

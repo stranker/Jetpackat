@@ -36,9 +36,7 @@ func on_take():
 	pass
 
 func _on_Fish_area_entered(area):
-	if area.name == 'MagnetArea' and !on_magnet_area and activated:
-		player_magnet = area
-		on_magnet_area = !on_magnet_area
+	check_magnet_area(area)
 	pass # Replace with function body.
 
 func _on_Fish_active(val):

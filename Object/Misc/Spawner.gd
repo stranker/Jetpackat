@@ -31,10 +31,10 @@ func spawn_item(item_name):
 	if !item:
 		return
 	var item_pos : Vector2 = get_item_pos()
-	item_pos.y = GameManager.camera.global_position.y - get_viewport().get_visible_rect().size.y * 0.6
+	item_pos.y = GameManager.camera.global_position.y - get_viewport().get_visible_rect().size.y * 0.5
 	pos_player_last_spawn = GameManager.player_height
-	item.call_deferred('set_global_position',item_pos)
-	item.set_active(true)
+	item.call_deferred('set_global_position', item_pos)
+	item.call_deferred('set_active', true)
 	get_new_height()
 	pass
 

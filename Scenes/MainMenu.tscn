@@ -43,7 +43,7 @@ export (Texture) var house_broken
 func _ready():
 	randomize()
 	AudioManager.create_soundtrack()
-	$VersionLabel.text = \"VERSION 0.98a\"
+	$VersionLabel.text = \"VERSION 1.01\"
 	get_tree().paused = false
 	set_items_equipped()
 	check_first_game()

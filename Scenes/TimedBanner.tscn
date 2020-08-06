@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Fonts/retron_80_outlined.tres" type="DynamicFont" id=1]
 [ext_resource path="res://Sprites/Collectables/Magnet.png" type="Texture" id=2]
@@ -21,9 +21,12 @@ func _ready():
 
 func initialize(time):
 	$Timer.wait_time = time
+	if $Timer.is_stopped():
+		anim.play(\"Enter\")
+	else:
+		anim.play(\"Refill\")
 	$Timer.start()
 	set_process(true)
-	anim.play(\"Enter\")
 	pass
 
 func _process(delta):
@@ -80,6 +83,22 @@ tracks/1/keys = {
 "values": [ false, true, true ]
 }
 
+[sub_resource type="Animation" id=4]
+resource_name = "Refill"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("Panel/Icon:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.3 ),
+"transitions": PoolRealArray( 0.5, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1.5, 1.5 ), Vector2( 1, 1 ) ]
+}
+
 [node name="TimedBanner" type="Control"]
 pause_mode = 1
 visible = false
@@ -97,9 +116,9 @@ __meta__ = {
 pause_mode = 1
 anchor_top = 0.5
 anchor_bottom = 0.5
-margin_left = -189.122
+margin_left = -214.0
 margin_top = -52.0
-margin_right = 8.87805
+margin_right = -16.0
 margin_bottom = 52.0
 custom_styles/panel = SubResource( 2 )
 __meta__ = {
@@ -130,6 +149,7 @@ margin_left = -91.0
 margin_top = -44.0
 margin_right = -2.0
 margin_bottom = 44.0
+rect_pivot_offset = Vector2( 44.5, 44 )
 texture = ExtResource( 2 )
 expand = true
 stretch_mode = 6
@@ -143,4 +163,5 @@ one_shot = true
 
 [node name="Anim" type="AnimationPlayer" parent="."]
 anims/Enter = SubResource( 3 )
+anims/Refill = SubResource( 4 )
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
